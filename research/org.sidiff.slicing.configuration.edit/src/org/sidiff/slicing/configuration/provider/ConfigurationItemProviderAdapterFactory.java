@@ -118,26 +118,26 @@ public class ConfigurationItemProviderAdapterFactory extends ConfigurationAdapte
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.sidiff.slicing.configuration.SlicedBoundaryEReference} instances.
+	 * This keeps track of the one adapter used for all {@link org.sidiff.slicing.configuration.Constraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SlicedBoundaryEReferenceItemProvider slicedBoundaryEReferenceItemProvider;
+	protected ConstraintItemProvider constraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.sidiff.slicing.configuration.SlicedBoundaryEReference}.
+	 * This creates an adapter for a {@link org.sidiff.slicing.configuration.Constraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSlicedBoundaryEReferenceAdapter() {
-		if (slicedBoundaryEReferenceItemProvider == null) {
-			slicedBoundaryEReferenceItemProvider = new SlicedBoundaryEReferenceItemProvider(this);
+	public Adapter createConstraintAdapter() {
+		if (constraintItemProvider == null) {
+			constraintItemProvider = new ConstraintItemProvider(this);
 		}
 
-		return slicedBoundaryEReferenceItemProvider;
+		return constraintItemProvider;
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class ConfigurationItemProviderAdapterFactory extends ConfigurationAdapte
 	public void dispose() {
 		if (slicingConfigurationItemProvider != null) slicingConfigurationItemProvider.dispose();
 		if (slicedEClassItemProvider != null) slicedEClassItemProvider.dispose();
-		if (slicedBoundaryEReferenceItemProvider != null) slicedBoundaryEReferenceItemProvider.dispose();
+		if (constraintItemProvider != null) constraintItemProvider.dispose();
 	}
 
 }

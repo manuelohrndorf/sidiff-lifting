@@ -1,6 +1,6 @@
 /**
  */
-package org.sidiff.slicing.configuration.util;
+package org.sidiff.slicing.slicingmodel.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -9,24 +9,24 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.sidiff.slicing.configuration.*;
+import org.sidiff.slicing.slicingmodel.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.sidiff.slicing.configuration.ConfigurationPackage
+ * @see org.sidiff.slicing.slicingmodel.SlicingmodelPackage
  * @generated
  */
-public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
+public class SlicingmodelAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ConfigurationPackage modelPackage;
+	protected static SlicingmodelPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -34,9 +34,9 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ConfigurationAdapterFactory() {
+	public SlicingmodelAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = ConfigurationPackage.eINSTANCE;
+			modelPackage = SlicingmodelPackage.eINSTANCE;
 		}
 	}
 
@@ -65,19 +65,11 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ConfigurationSwitch<Adapter> modelSwitch =
-		new ConfigurationSwitch<Adapter>() {
+	protected SlicingmodelSwitch<Adapter> modelSwitch =
+		new SlicingmodelSwitch<Adapter>() {
 			@Override
-			public Adapter caseSlicingConfiguration(SlicingConfiguration object) {
-				return createSlicingConfigurationAdapter();
-			}
-			@Override
-			public Adapter caseSlicedEClass(SlicedEClass object) {
-				return createSlicedEClassAdapter();
-			}
-			@Override
-			public Adapter caseConstraint(Constraint object) {
-				return createConstraintAdapter();
+			public Adapter caseSlicing(Slicing object) {
+				return createSlicingAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -100,44 +92,16 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.SlicingConfiguration <em>Slicing Configuration</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.slicingmodel.Slicing <em>Slicing</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.sidiff.slicing.configuration.SlicingConfiguration
+	 * @see org.sidiff.slicing.slicingmodel.Slicing
 	 * @generated
 	 */
-	public Adapter createSlicingConfigurationAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.SlicedEClass <em>Sliced EClass</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.sidiff.slicing.configuration.SlicedEClass
-	 * @generated
-	 */
-	public Adapter createSlicedEClassAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.Constraint <em>Constraint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.sidiff.slicing.configuration.Constraint
-	 * @generated
-	 */
-	public Adapter createConstraintAdapter() {
+	public Adapter createSlicingAdapter() {
 		return null;
 	}
 
@@ -153,4 +117,4 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //ConfigurationAdapterFactory
+} //SlicingmodelAdapterFactory

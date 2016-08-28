@@ -40,13 +40,13 @@ public interface ConfigurationFactory extends EFactory {
 	SlicedEClass createSlicedEClass();
 
 	/**
-	 * Returns a new object of class '<em>Sliced Boundary EReference</em>'.
+	 * Returns a new object of class '<em>Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Sliced Boundary EReference</em>'.
+	 * @return a new object of class '<em>Constraint</em>'.
 	 * @generated
 	 */
-	SlicedBoundaryEReference createSlicedBoundaryEReference();
+	Constraint createConstraint();
 
 	/**
 	 * Returns the package supported by this factory.

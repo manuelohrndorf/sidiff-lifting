@@ -59,7 +59,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 		switch (eClass.getClassifierID()) {
 			case ConfigurationPackage.SLICING_CONFIGURATION: return createSlicingConfiguration();
 			case ConfigurationPackage.SLICED_ECLASS: return createSlicedEClass();
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE: return createSlicedBoundaryEReference();
+			case ConfigurationPackage.CONSTRAINT: return createConstraint();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -120,9 +120,9 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SlicedBoundaryEReference createSlicedBoundaryEReference() {
-		SlicedBoundaryEReferenceImpl slicedBoundaryEReference = new SlicedBoundaryEReferenceImpl();
-		return slicedBoundaryEReference;
+	public Constraint createConstraint() {
+		ConstraintImpl constraint = new ConstraintImpl();
+		return constraint;
 	}
 
 	/**

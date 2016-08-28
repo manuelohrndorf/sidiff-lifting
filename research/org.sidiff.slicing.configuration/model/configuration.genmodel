@@ -21,22 +21,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/slicingMode"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicingConfiguration/slicedEClasses"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/oppositeSlicedEClassType"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicingConfiguration/constraints"/>
     </genClasses>
     <genClasses ecoreClass="configuration.ecore#//SlicedEClass">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicedEClass/boundary"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/slicingConfiguration"/>
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/outgoings"/>
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/incomings"/>
       <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/constraints"/>
     </genClasses>
-    <genClasses ecoreClass="configuration.ecore#//SlicedBoundaryEReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedBoundaryEReference/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedBoundaryEReference/target"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
-          ecoreFeature="ecore:EReference configuration.ecore#//SlicedBoundaryEReference/srcType"/>
-      <genFeatures property="Readonly" notify="false" createChild="false" propertySortChoices="true"
-          ecoreFeature="ecore:EReference configuration.ecore#//SlicedBoundaryEReference/tgtType"/>
-      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedBoundaryEReference/type"/>
+    <genClasses ecoreClass="configuration.ecore#//Constraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//Constraint/expression"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -18,20 +18,20 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.sidiff.slicing.configuration.ConfigurationPackage;
-import org.sidiff.slicing.configuration.SlicedEClass;
-import org.sidiff.slicing.configuration.provider.descriptor.SlicedEClassTypePropertyDescriptor;
+import org.sidiff.slicing.configuration.Constraint;
 
 /**
- * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicedEClass} object.
+ * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.Constraint} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class SlicedEClassItemProvider 
+public class ConstraintItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +45,7 @@ public class SlicedEClassItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SlicedEClassItemProvider(AdapterFactory adapterFactory) {
+	public ConstraintItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,104 +60,56 @@ public class SlicedEClassItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addSlicingConfigurationPropertyDescriptor(object);
-			addTypePropertyDescriptor(object);
-			addConstraintsPropertyDescriptor(object);
+			addExpressionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Slicing Configuration feature.
+	 * This adds a property descriptor for the Expression feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addSlicingConfigurationPropertyDescriptor(Object object) {
+	protected void addExpressionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_slicingConfiguration_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_slicingConfiguration_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__SLICING_CONFIGURATION,
+				 getString("_UI_Constraint_expression_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Constraint_expression_feature", "_UI_Constraint_type"),
+				 ConfigurationPackage.Literals.CONSTRAINT__EXPRESSION,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Type feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(new SlicedEClassTypePropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_type_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__TYPE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Constraints feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addConstraintsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_constraints_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_constraints_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__CONSTRAINTS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This returns SlicedEClass.gif.
+	 * This returns Constraint.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/SlicedEClass"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Constraint"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		SlicedEClass slicedEClass = (SlicedEClass) object;
-		String label = getString("_UI_SlicedEClass_type");
-		if (slicedEClass.getType() != null) {
-			label += ": " + slicedEClass.getType().getName();
-		}
-		return label;
+		String label = ((Constraint)object).getExpression();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Constraint_type") :
+			getString("_UI_Constraint_type") + " " + label;
 	}
 	
 
@@ -172,8 +124,8 @@ public class SlicedEClassItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(SlicedEClass.class)) {
-			case ConfigurationPackage.SLICED_ECLASS__TYPE:
+		switch (notification.getFeatureID(Constraint.class)) {
+			case ConfigurationPackage.CONSTRAINT__EXPRESSION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

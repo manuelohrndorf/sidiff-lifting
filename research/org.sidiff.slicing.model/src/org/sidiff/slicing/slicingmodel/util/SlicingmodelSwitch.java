@@ -1,13 +1,13 @@
 /**
  */
-package org.sidiff.slicing.configuration.util;
+package org.sidiff.slicing.slicingmodel.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
-import org.sidiff.slicing.configuration.*;
+import org.sidiff.slicing.slicingmodel.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,17 +19,17 @@ import org.sidiff.slicing.configuration.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.sidiff.slicing.configuration.ConfigurationPackage
+ * @see org.sidiff.slicing.slicingmodel.SlicingmodelPackage
  * @generated
  */
-public class ConfigurationSwitch<T> extends Switch<T> {
+public class SlicingmodelSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static ConfigurationPackage modelPackage;
+	protected static SlicingmodelPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -37,9 +37,9 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ConfigurationSwitch() {
+	public SlicingmodelSwitch() {
 		if (modelPackage == null) {
-			modelPackage = ConfigurationPackage.eINSTANCE;
+			modelPackage = SlicingmodelPackage.eINSTANCE;
 		}
 	}
 
@@ -66,21 +66,9 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ConfigurationPackage.SLICING_CONFIGURATION: {
-				SlicingConfiguration slicingConfiguration = (SlicingConfiguration)theEObject;
-				T result = caseSlicingConfiguration(slicingConfiguration);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ConfigurationPackage.SLICED_ECLASS: {
-				SlicedEClass slicedEClass = (SlicedEClass)theEObject;
-				T result = caseSlicedEClass(slicedEClass);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ConfigurationPackage.CONSTRAINT: {
-				Constraint constraint = (Constraint)theEObject;
-				T result = caseConstraint(constraint);
+			case SlicingmodelPackage.SLICING: {
+				Slicing slicing = (Slicing)theEObject;
+				T result = caseSlicing(slicing);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -89,47 +77,17 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Slicing Configuration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Slicing</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Slicing Configuration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Slicing</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSlicingConfiguration(SlicingConfiguration object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Sliced EClass</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Sliced EClass</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSlicedEClass(SlicedEClass object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseConstraint(Constraint object) {
+	public T caseSlicing(Slicing object) {
 		return null;
 	}
 
@@ -149,4 +107,4 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //ConfigurationSwitch
+} //SlicingmodelSwitch

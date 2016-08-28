@@ -16,11 +16,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#isBoundary <em>Boundary</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#getSlicingConfiguration <em>Slicing Configuration</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#getOutgoings <em>Outgoings</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#getIncomings <em>Incomings</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#getType <em>Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicedEClass#getConstraints <em>Constraints</em>}</li>
  * </ul>
  *
  * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass()
@@ -28,33 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface SlicedEClass extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Boundary</b></em>' attribute.
-	 * The default value is <code>"true"</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Boundary</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Boundary</em>' attribute.
-	 * @see #setBoundary(boolean)
-	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass_Boundary()
-	 * @model default="true" required="true"
-	 * @generated
-	 */
-	boolean isBoundary();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicedEClass#isBoundary <em>Boundary</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Boundary</em>' attribute.
-	 * @see #isBoundary()
-	 * @generated
-	 */
-	void setBoundary(boolean value);
-
 	/**
 	 * Returns the value of the '<em><b>Slicing Configuration</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}'.
@@ -84,42 +55,6 @@ public interface SlicedEClass extends EObject {
 	void setSlicingConfiguration(SlicingConfiguration value);
 
 	/**
-	 * Returns the value of the '<em><b>Outgoings</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.slicing.configuration.SlicedBoundaryEReference}.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Outgoings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Outgoings</em>' containment reference list.
-	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass_Outgoings()
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSource
-	 * @model opposite="source" containment="true"
-	 * @generated
-	 */
-	EList<SlicedBoundaryEReference> getOutgoings();
-
-	/**
-	 * Returns the value of the '<em><b>Incomings</b></em>' containment reference list.
-	 * The list contents are of type {@link org.sidiff.slicing.configuration.SlicedBoundaryEReference}.
-	 * It is bidirectional and its opposite is '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTarget <em>Target</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Incomings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Incomings</em>' containment reference list.
-	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass_Incomings()
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTarget
-	 * @model opposite="target" containment="true"
-	 * @generated
-	 */
-	EList<SlicedBoundaryEReference> getIncomings();
-
-	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -144,5 +79,21 @@ public interface SlicedEClass extends EObject {
 	 * @generated
 	 */
 	void setType(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Constraints</b></em>' reference list.
+	 * The list contents are of type {@link org.sidiff.slicing.configuration.Constraint}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Constraints</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Constraints</em>' reference list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicedEClass_Constraints()
+	 * @model
+	 * @generated
+	 */
+	EList<Constraint> getConstraints();
 
 } // SlicedEClass

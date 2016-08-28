@@ -131,13 +131,22 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Constraints</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICING_CONFIGURATION__CONSTRAINTS = 7;
+
+	/**
 	 * The number of structural features of the '<em>Slicing Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION_FEATURE_COUNT = 7;
+	int SLICING_CONFIGURATION_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Slicing Configuration</em>' class.
@@ -159,40 +168,13 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICED_ECLASS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Boundary</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_ECLASS__BOUNDARY = 0;
-
-	/**
 	 * The feature id for the '<em><b>Slicing Configuration</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_ECLASS__SLICING_CONFIGURATION = 1;
-
-	/**
-	 * The feature id for the '<em><b>Outgoings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_ECLASS__OUTGOINGS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Incomings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_ECLASS__INCOMINGS = 3;
+	int SLICED_ECLASS__SLICING_CONFIGURATION = 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -201,7 +183,16 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_ECLASS__TYPE = 4;
+	int SLICED_ECLASS__TYPE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Constraints</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICED_ECLASS__CONSTRAINTS = 2;
 
 	/**
 	 * The number of structural features of the '<em>Sliced EClass</em>' class.
@@ -210,7 +201,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_ECLASS_FEATURE_COUNT = 5;
+	int SLICED_ECLASS_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Sliced EClass</em>' class.
@@ -222,77 +213,41 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICED_ECLASS_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.sidiff.slicing.configuration.impl.SlicedBoundaryEReferenceImpl <em>Sliced Boundary EReference</em>}' class.
+	 * The meta object id for the '{@link org.sidiff.slicing.configuration.impl.ConstraintImpl <em>Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.sidiff.slicing.configuration.impl.SlicedBoundaryEReferenceImpl
-	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getSlicedBoundaryEReference()
+	 * @see org.sidiff.slicing.configuration.impl.ConstraintImpl
+	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getConstraint()
 	 * @generated
 	 */
-	int SLICED_BOUNDARY_EREFERENCE = 2;
+	int CONSTRAINT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' container reference.
+	 * The feature id for the '<em><b>Expression</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_BOUNDARY_EREFERENCE__SOURCE = 0;
+	int CONSTRAINT__EXPRESSION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * The number of structural features of the '<em>Constraint</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_BOUNDARY_EREFERENCE__TARGET = 1;
+	int CONSTRAINT_FEATURE_COUNT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Src Type</b></em>' reference.
+	 * The number of operations of the '<em>Constraint</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_BOUNDARY_EREFERENCE__SRC_TYPE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Tgt Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_BOUNDARY_EREFERENCE__TGT_TYPE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_BOUNDARY_EREFERENCE__TYPE = 4;
-
-	/**
-	 * The number of structural features of the '<em>Sliced Boundary EReference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_BOUNDARY_EREFERENCE_FEATURE_COUNT = 5;
-
-	/**
-	 * The number of operations of the '<em>Sliced Boundary EReference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SLICED_BOUNDARY_EREFERENCE_OPERATION_COUNT = 0;
+	int CONSTRAINT_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}' enum.
@@ -393,6 +348,17 @@ public interface ConfigurationPackage extends EPackage {
 	EAttribute getSlicingConfiguration_OppositeSlicedEClassType();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraints <em>Constraints</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Constraints</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#getConstraints()
+	 * @see #getSlicingConfiguration()
+	 * @generated
+	 */
+	EReference getSlicingConfiguration_Constraints();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.SlicedEClass <em>Sliced EClass</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -401,17 +367,6 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSlicedEClass();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.SlicedEClass#isBoundary <em>Boundary</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Boundary</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedEClass#isBoundary()
-	 * @see #getSlicedEClass()
-	 * @generated
-	 */
-	EAttribute getSlicedEClass_Boundary();
 
 	/**
 	 * Returns the meta object for the container reference '{@link org.sidiff.slicing.configuration.SlicedEClass#getSlicingConfiguration <em>Slicing Configuration</em>}'.
@@ -425,28 +380,6 @@ public interface ConfigurationPackage extends EPackage {
 	EReference getSlicedEClass_SlicingConfiguration();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.sidiff.slicing.configuration.SlicedEClass#getOutgoings <em>Outgoings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Outgoings</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedEClass#getOutgoings()
-	 * @see #getSlicedEClass()
-	 * @generated
-	 */
-	EReference getSlicedEClass_Outgoings();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.sidiff.slicing.configuration.SlicedEClass#getIncomings <em>Incomings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Incomings</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedEClass#getIncomings()
-	 * @see #getSlicedEClass()
-	 * @generated
-	 */
-	EReference getSlicedEClass_Incomings();
-
-	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.slicing.configuration.SlicedEClass#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -458,69 +391,36 @@ public interface ConfigurationPackage extends EPackage {
 	EReference getSlicedEClass_Type();
 
 	/**
-	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference <em>Sliced Boundary EReference</em>}'.
+	 * Returns the meta object for the reference list '{@link org.sidiff.slicing.configuration.SlicedEClass#getConstraints <em>Constraints</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Sliced Boundary EReference</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference
+	 * @return the meta object for the reference list '<em>Constraints</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicedEClass#getConstraints()
+	 * @see #getSlicedEClass()
 	 * @generated
 	 */
-	EClass getSlicedBoundaryEReference();
+	EReference getSlicedEClass_Constraints();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSource <em>Source</em>}'.
+	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.Constraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Source</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSource()
-	 * @see #getSlicedBoundaryEReference()
+	 * @return the meta object for class '<em>Constraint</em>'.
+	 * @see org.sidiff.slicing.configuration.Constraint
 	 * @generated
 	 */
-	EReference getSlicedBoundaryEReference_Source();
+	EClass getConstraint();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.Constraint#getExpression <em>Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Target</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTarget()
-	 * @see #getSlicedBoundaryEReference()
+	 * @return the meta object for the attribute '<em>Expression</em>'.
+	 * @see org.sidiff.slicing.configuration.Constraint#getExpression()
+	 * @see #getConstraint()
 	 * @generated
 	 */
-	EReference getSlicedBoundaryEReference_Target();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSrcType <em>Src Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Src Type</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getSrcType()
-	 * @see #getSlicedBoundaryEReference()
-	 * @generated
-	 */
-	EReference getSlicedBoundaryEReference_SrcType();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTgtType <em>Tgt Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Tgt Type</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getTgtType()
-	 * @see #getSlicedBoundaryEReference()
-	 * @generated
-	 */
-	EReference getSlicedBoundaryEReference_TgtType();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Type</em>'.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference#getType()
-	 * @see #getSlicedBoundaryEReference()
-	 * @generated
-	 */
-	EReference getSlicedBoundaryEReference_Type();
+	EAttribute getConstraint_Expression();
 
 	/**
 	 * Returns the meta object for enum '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}'.
@@ -622,6 +522,14 @@ public interface ConfigurationPackage extends EPackage {
 		EAttribute SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = eINSTANCE.getSlicingConfiguration_OppositeSlicedEClassType();
 
 		/**
+		 * The meta object literal for the '<em><b>Constraints</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SLICING_CONFIGURATION__CONSTRAINTS = eINSTANCE.getSlicingConfiguration_Constraints();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl <em>Sliced EClass</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -632,36 +540,12 @@ public interface ConfigurationPackage extends EPackage {
 		EClass SLICED_ECLASS = eINSTANCE.getSlicedEClass();
 
 		/**
-		 * The meta object literal for the '<em><b>Boundary</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SLICED_ECLASS__BOUNDARY = eINSTANCE.getSlicedEClass_Boundary();
-
-		/**
 		 * The meta object literal for the '<em><b>Slicing Configuration</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference SLICED_ECLASS__SLICING_CONFIGURATION = eINSTANCE.getSlicedEClass_SlicingConfiguration();
-
-		/**
-		 * The meta object literal for the '<em><b>Outgoings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SLICED_ECLASS__OUTGOINGS = eINSTANCE.getSlicedEClass_Outgoings();
-
-		/**
-		 * The meta object literal for the '<em><b>Incomings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SLICED_ECLASS__INCOMINGS = eINSTANCE.getSlicedEClass_Incomings();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
@@ -672,54 +556,30 @@ public interface ConfigurationPackage extends EPackage {
 		EReference SLICED_ECLASS__TYPE = eINSTANCE.getSlicedEClass_Type();
 
 		/**
-		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.SlicedBoundaryEReferenceImpl <em>Sliced Boundary EReference</em>}' class.
+		 * The meta object literal for the '<em><b>Constraints</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.sidiff.slicing.configuration.impl.SlicedBoundaryEReferenceImpl
-		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getSlicedBoundaryEReference()
 		 * @generated
 		 */
-		EClass SLICED_BOUNDARY_EREFERENCE = eINSTANCE.getSlicedBoundaryEReference();
+		EReference SLICED_ECLASS__CONSTRAINTS = eINSTANCE.getSlicedEClass_Constraints();
 
 		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' container reference feature.
+		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.ConstraintImpl <em>Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.sidiff.slicing.configuration.impl.ConstraintImpl
+		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getConstraint()
 		 * @generated
 		 */
-		EReference SLICED_BOUNDARY_EREFERENCE__SOURCE = eINSTANCE.getSlicedBoundaryEReference_Source();
+		EClass CONSTRAINT = eINSTANCE.getConstraint();
 
 		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Expression</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SLICED_BOUNDARY_EREFERENCE__TARGET = eINSTANCE.getSlicedBoundaryEReference_Target();
-
-		/**
-		 * The meta object literal for the '<em><b>Src Type</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SLICED_BOUNDARY_EREFERENCE__SRC_TYPE = eINSTANCE.getSlicedBoundaryEReference_SrcType();
-
-		/**
-		 * The meta object literal for the '<em><b>Tgt Type</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SLICED_BOUNDARY_EREFERENCE__TGT_TYPE = eINSTANCE.getSlicedBoundaryEReference_TgtType();
-
-		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SLICED_BOUNDARY_EREFERENCE__TYPE = eINSTANCE.getSlicedBoundaryEReference_Type();
+		EAttribute CONSTRAINT__EXPRESSION = eINSTANCE.getConstraint_Expression();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}' enum.

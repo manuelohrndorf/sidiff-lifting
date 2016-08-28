@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
-import org.sidiff.slicing.configuration.SlicedBoundaryEReference;
+import org.sidiff.slicing.configuration.Constraint;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.configuration.SlicingMode;
@@ -45,7 +45,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass slicedBoundaryEReferenceEClass = null;
+	private EClass constraintEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -195,6 +195,15 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSlicingConfiguration_Constraints() {
+		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSlicedEClass() {
 		return slicedEClassEClass;
 	}
@@ -204,35 +213,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSlicedEClass_Boundary() {
-		return (EAttribute)slicedEClassEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getSlicedEClass_SlicingConfiguration() {
-		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSlicedEClass_Outgoings() {
-		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSlicedEClass_Incomings() {
-		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(3);
+		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -241,7 +223,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * @generated
 	 */
 	public EReference getSlicedEClass_Type() {
-		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(4);
+		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -249,8 +231,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSlicedBoundaryEReference() {
-		return slicedBoundaryEReferenceEClass;
+	public EReference getSlicedEClass_Constraints() {
+		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -258,8 +240,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSlicedBoundaryEReference_Source() {
-		return (EReference)slicedBoundaryEReferenceEClass.getEStructuralFeatures().get(0);
+	public EClass getConstraint() {
+		return constraintEClass;
 	}
 
 	/**
@@ -267,35 +249,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSlicedBoundaryEReference_Target() {
-		return (EReference)slicedBoundaryEReferenceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSlicedBoundaryEReference_SrcType() {
-		return (EReference)slicedBoundaryEReferenceEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSlicedBoundaryEReference_TgtType() {
-		return (EReference)slicedBoundaryEReferenceEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSlicedBoundaryEReference_Type() {
-		return (EReference)slicedBoundaryEReferenceEClass.getEStructuralFeatures().get(4);
+	public EAttribute getConstraint_Expression() {
+		return (EAttribute)constraintEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -343,20 +298,15 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICING_MODE);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICED_ECLASSES);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE);
+		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__CONSTRAINTS);
 
 		slicedEClassEClass = createEClass(SLICED_ECLASS);
-		createEAttribute(slicedEClassEClass, SLICED_ECLASS__BOUNDARY);
 		createEReference(slicedEClassEClass, SLICED_ECLASS__SLICING_CONFIGURATION);
-		createEReference(slicedEClassEClass, SLICED_ECLASS__OUTGOINGS);
-		createEReference(slicedEClassEClass, SLICED_ECLASS__INCOMINGS);
 		createEReference(slicedEClassEClass, SLICED_ECLASS__TYPE);
+		createEReference(slicedEClassEClass, SLICED_ECLASS__CONSTRAINTS);
 
-		slicedBoundaryEReferenceEClass = createEClass(SLICED_BOUNDARY_EREFERENCE);
-		createEReference(slicedBoundaryEReferenceEClass, SLICED_BOUNDARY_EREFERENCE__SOURCE);
-		createEReference(slicedBoundaryEReferenceEClass, SLICED_BOUNDARY_EREFERENCE__TARGET);
-		createEReference(slicedBoundaryEReferenceEClass, SLICED_BOUNDARY_EREFERENCE__SRC_TYPE);
-		createEReference(slicedBoundaryEReferenceEClass, SLICED_BOUNDARY_EREFERENCE__TGT_TYPE);
-		createEReference(slicedBoundaryEReferenceEClass, SLICED_BOUNDARY_EREFERENCE__TYPE);
+		constraintEClass = createEClass(CONSTRAINT);
+		createEAttribute(constraintEClass, CONSTRAINT__EXPRESSION);
 
 		// Create enums
 		slicingModeEEnum = createEEnum(SLICING_MODE);
@@ -408,20 +358,15 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		g2 = createEGenericType();
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getSlicingConfiguration_OppositeSlicedEClassType(), g1, "oppositeSlicedEClassType", null, 0, 1, SlicingConfiguration.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicingConfiguration_Constraints(), this.getConstraint(), null, "constraints", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(slicedEClassEClass, SlicedEClass.class, "SlicedEClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSlicedEClass_Boundary(), theEcorePackage.getEBoolean(), "boundary", "true", 1, 1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicedEClass_SlicingConfiguration(), this.getSlicingConfiguration(), this.getSlicingConfiguration_SlicedEClasses(), "slicingConfiguration", null, 1, 1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedEClass_Outgoings(), this.getSlicedBoundaryEReference(), this.getSlicedBoundaryEReference_Source(), "outgoings", null, 0, -1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedEClass_Incomings(), this.getSlicedBoundaryEReference(), this.getSlicedBoundaryEReference_Target(), "incomings", null, 0, -1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicedEClass_Type(), theEcorePackage.getEClass(), null, "type", null, 1, 1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicedEClass_Constraints(), this.getConstraint(), null, "constraints", null, 0, -1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(slicedBoundaryEReferenceEClass, SlicedBoundaryEReference.class, "SlicedBoundaryEReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSlicedBoundaryEReference_Source(), this.getSlicedEClass(), this.getSlicedEClass_Outgoings(), "source", null, 0, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_Target(), this.getSlicedEClass(), this.getSlicedEClass_Incomings(), "target", null, 0, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_SrcType(), theEcorePackage.getEClass(), null, "srcType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_TgtType(), theEcorePackage.getEClass(), null, "tgtType", null, 1, 1, SlicedBoundaryEReference.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getSlicedBoundaryEReference_Type(), theEcorePackage.getEReference(), null, "type", null, 1, 1, SlicedBoundaryEReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConstraint_Expression(), theEcorePackage.getEString(), "expression", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(slicingModeEEnum, SlicingMode.class, "SlicingMode");

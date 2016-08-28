@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraints <em>Constraints</em>}</li>
  * </ul>
  *
  * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration()
@@ -176,5 +177,21 @@ public interface SlicingConfiguration extends EObject {
 	 * @generated
 	 */
 	Map<?, ?> getOppositeSlicedEClassType();
+
+	/**
+	 * Returns the value of the '<em><b>Constraints</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.slicing.configuration.Constraint}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Constraints</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Constraints</em>' containment reference list.
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Constraints()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Constraint> getConstraints();
 
 } // SlicingConfiguration
