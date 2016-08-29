@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.coevolution.example.swml.multiviews.webmodel/src"
+    modelPluginID="org.sidiff.coevolution.example.swml.multiviews.webmodel" modelName="SimpleWebModel"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>SimpleWebModel.ecore</foreignModel>
+  <genPackages prefix="SimpleWebModel" disposableProviderFactory="true" ecorePackage="SimpleWebModel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="SimpleWebModel.ecore#//SimpleType">
+      <genEnumLiterals ecoreEnumLiteral="SimpleWebModel.ecore#//SimpleType/BOOLEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="SimpleWebModel.ecore#//SimpleType/EMAIL"/>
+      <genEnumLiterals ecoreEnumLiteral="SimpleWebModel.ecore#//SimpleType/FLOAT"/>
+      <genEnumLiterals ecoreEnumLiteral="SimpleWebModel.ecore#//SimpleType/INTEGER"/>
+      <genEnumLiterals ecoreEnumLiteral="SimpleWebModel.ecore#//SimpleType/STRING"/>
+    </genEnums>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//WebModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//WebModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//WebModel/dataLayer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//WebModel/hypertextLayer"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//DataLayer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//DataLayer/entities"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//Entity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//Entity/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//Entity/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//Entity/references"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//Attribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//Attribute/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//Attribute/type"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//Reference/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//Reference/type"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//HypertextLayer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//HypertextLayer/pages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//HypertextLayer/startPage"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//HypertextLayer/dataLayer"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//Page">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SimpleWebModel.ecore#//Page/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//Page/links"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//StaticPage"/>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//Link">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//Link/target"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//DynamicPage">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference SimpleWebModel.ecore#//DynamicPage/shows"/>
+    </genClasses>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//IndexPage"/>
+    <genClasses ecoreClass="SimpleWebModel.ecore#//DataPage"/>
+  </genPackages>
+</genmodel:GenModel>
