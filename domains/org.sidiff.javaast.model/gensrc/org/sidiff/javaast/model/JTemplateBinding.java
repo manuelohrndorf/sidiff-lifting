@@ -14,11 +14,11 @@ package org.sidiff.javaast.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JTemplateBinding#getType <em>Type</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JTemplateBinding#getGenericType <em>Generic Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJTemplateBinding()
  * @model

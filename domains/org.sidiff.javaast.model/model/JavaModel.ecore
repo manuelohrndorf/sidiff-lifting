@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
-    nsURI="http://www.sidiff.org/org.sidiff.javaast.model" nsPrefix="JavaModel">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.sidiff.org/org.sidiff.javaast.model"
+    nsPrefix="JavaModel">
   <eAnnotations source="Genuine-SiDiff-Model"/>
   <eClassifiers xsi:type="ecore:EClass" name="JProject" eSuperTypes="#//JIdentifiableElement #//JNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="packages" ordered="false"
@@ -44,7 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="methods" ordered="false"
         upperBound="-1" eType="#//JMethod" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="superClass" ordered="false"
-        lowerBound="1" eType="#//JClass" eOpposite="#//JClass/subClasses"/>
+        eType="#//JClass" eOpposite="#//JClass/subClasses"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subClasses" ordered="false"
         upperBound="-1" eType="#//JClass" eOpposite="#//JClass/superClass">
       <eAnnotations source="IGNOREDIFF"/>
@@ -128,8 +127,8 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="raisedException" ordered="false"
         eType="#//JClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false" lowerBound="1"
-        eType="#//JCodeBlock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" ordered="false" eType="#//JCodeBlock"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="accesses" ordered="false"
         upperBound="-1" eType="#//JField" eOpposite="#//JField/accessedBy"/>
   </eClassifiers>

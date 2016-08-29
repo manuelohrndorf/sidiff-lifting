@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JClass#getFields <em>Fields</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JClass#isIsAbstract <em>Is Abstract</em>}</li>
@@ -25,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.sidiff.javaast.model.JClass#getImplementedInterfaces <em>Implemented Interfaces</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JClass#getStaticInitializationBlock <em>Static Initialization Block</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJClass()
  * @model
@@ -130,7 +130,7 @@ public interface JClass extends JClassifier, JIdentifiableElement, JDocumentable
 	 * @see #setSuperClass(JClass)
 	 * @see org.sidiff.javaast.model.JavaModelPackage#getJClass_SuperClass()
 	 * @see org.sidiff.javaast.model.JClass#getSubClasses
-	 * @model opposite="subClasses" required="true" ordered="false"
+	 * @model opposite="subClasses" ordered="false"
 	 * @generated
 	 */
   JClass getSuperClass();

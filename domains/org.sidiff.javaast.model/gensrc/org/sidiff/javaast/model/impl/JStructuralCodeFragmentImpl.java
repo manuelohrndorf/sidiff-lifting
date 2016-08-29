@@ -32,11 +32,11 @@ import org.sidiff.javaast.model.StructuralFragmentType;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JStructuralCodeFragmentImpl#getFragmentType <em>Fragment Type</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JStructuralCodeFragmentImpl#getCodeBlocks <em>Code Blocks</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

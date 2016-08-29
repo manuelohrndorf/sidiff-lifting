@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.silift.examples.wizard.category"
+            name="SiLift"
+            parentCategory="org.eclipse.ui.Examples">
+      </category>
+      <wizard
+            category="org.eclipse.ui.Examples/org.silift.examples.wizard.category"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            id="org.silift.examples.wizards.test"
+            name="SiLift Example"
+            project="true">
+         <description>
+            This is a test project
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.emf.common.ui.examples">
+      <example
+            id="org.silift.examples.project.test"
+            wizardID="org.silift.examples.wizards.test">
+         <projectDescriptor
+               contentURI="zips/ecore.zip"
+               description="This is a test project opener"
+               name="org.silift.examples.wizards.test">
+         </projectDescriptor>
+         <fileToOpen
+               editorID="org.eclipse.jdt.ui.CompilationUnitEditor"
+               location="org.silift.examples.project.testProject/readMe.txt">
+         </fileToOpen>
+      </example>
+   </extension>
+
+</plugin>

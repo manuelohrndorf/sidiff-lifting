@@ -15,11 +15,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JStructuralCodeFragment#getFragmentType <em>Fragment Type</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JStructuralCodeFragment#getCodeBlocks <em>Code Blocks</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJStructuralCodeFragment()
  * @model

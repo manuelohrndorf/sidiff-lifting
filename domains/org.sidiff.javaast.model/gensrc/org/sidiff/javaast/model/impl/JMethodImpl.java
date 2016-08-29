@@ -23,6 +23,21 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.sidiff.javaast.model.JClass;
+import org.sidiff.javaast.model.JCodeBlock;
+import org.sidiff.javaast.model.JDocumentableElement;
+import org.sidiff.javaast.model.JField;
+import org.sidiff.javaast.model.JGenericType;
+import org.sidiff.javaast.model.JMethod;
+import org.sidiff.javaast.model.JNamedElement;
+import org.sidiff.javaast.model.JParameter;
+import org.sidiff.javaast.model.JTemplate;
+import org.sidiff.javaast.model.JType;
+import org.sidiff.javaast.model.JTypedElement;
+import org.sidiff.javaast.model.JVisibilityKind;
+import org.sidiff.javaast.model.JVisibleElement;
+import org.sidiff.javaast.model.JavaDoc;
+import org.sidiff.javaast.model.JavaModelPackage;
 import org.sidiff.javaast.model.*;
 
 /**
@@ -31,6 +46,7 @@ import org.sidiff.javaast.model.*;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JMethodImpl#getJavaDoc <em>Java Doc</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JMethodImpl#getName <em>Name</em>}</li>
@@ -50,7 +66,6 @@ import org.sidiff.javaast.model.*;
  *   <li>{@link org.sidiff.javaast.model.impl.JMethodImpl#getBody <em>Body</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JMethodImpl#getAccesses <em>Accesses</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

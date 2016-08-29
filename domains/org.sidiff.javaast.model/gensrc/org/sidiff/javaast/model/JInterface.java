@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JInterface#getConstants <em>Constants</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JInterface#getMethodSignatures <em>Method Signatures</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.sidiff.javaast.model.JInterface#getSubInterfaces <em>Sub Interfaces</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JInterface#getImplementingClasses <em>Implementing Classes</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJInterface()
  * @model

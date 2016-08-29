@@ -212,8 +212,8 @@ public class PipelineUtils {
 	 * @return A file name MODELAxMODELB_MATCHINGENGINE_LIFTING_POSTPROCESSING.
 	 */
 	public static String generateDifferenceFileName(Resource modelA, Resource modelB, LiftingSettings settings) {
-		String fileName = extractModelName(EMFStorage.uriToPath(modelA.getURI())) + "_x_"
-				+ extractModelName(EMFStorage.uriToPath(modelB.getURI()));
+		String fileName = extractModelName(modelA.getURI().lastSegment()) + "_x_"
+				+ extractModelName(modelB.getURI().lastSegment());
 
 		if (settings.getMatcher() != null) {
 			fileName += "_" + settings.getMatcher().getKey();

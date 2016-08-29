@@ -14,10 +14,10 @@ package org.sidiff.javaast.model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JArrayType#getArrayDimensions <em>Array Dimensions</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJArrayType()
  * @model

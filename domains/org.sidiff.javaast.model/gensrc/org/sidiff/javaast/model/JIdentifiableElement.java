@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JIdentifiableElement#getId <em>Id</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JIdentifiableElement#isCompileable <em>Compileable</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJIdentifiableElement()
  * @model abstract="true"

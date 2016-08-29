@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.JNamedElement#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.JNamedElement#getQualifiedName <em>Qualified Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.javaast.model.JavaModelPackage#getJNamedElement()
  * @model abstract="true"

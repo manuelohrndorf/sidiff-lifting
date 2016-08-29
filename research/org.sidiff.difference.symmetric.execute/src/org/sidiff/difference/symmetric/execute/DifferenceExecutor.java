@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -23,7 +21,8 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.execute.util.EcoreMergeUtil;
-import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
+import org.sidiff.difference.symmetric.execute.util.SiLiftUtil;
+import org.sidiff.difference.symmetric.execute.util.SiLiftUtil.DifferenceCalculationException;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matcher.IMatcher;
@@ -59,13 +58,11 @@ public class DifferenceExecutor implements Runnable {
 	 * 
 	 * @param difference
 	 *            The difference to execute.
+	 *            
+	 * @throws DifferenceCalculationException 
 	 */
-	public DifferenceExecutor(Resource modelA, Resource modelB, DifferenceSettings settings) {
-		try {
-			this.difference = TechnicalDifferenceFacade.deriveTechnicalDifference(modelA, modelB, settings);
-		} catch (InvalidModelException | NoCorrespondencesException e) {
-			e.printStackTrace();
-		}
+	public DifferenceExecutor(Resource modelA, Resource modelB, DifferenceSettings settings) throws DifferenceCalculationException {
+		this.difference = SiLiftUtil.calculateDifference(modelA, modelB, settings);
 	}
 
 	/**
@@ -80,16 +77,11 @@ public class DifferenceExecutor implements Runnable {
 	 * 
 	 * @param difference
 	 *            The difference to execute.
+	 *            
+	 * @throws DifferenceCalculationException 
 	 */
-	public DifferenceExecutor(Resource modelA, Resource modelB, IMatcher matcher) {
-		DifferenceSettings settings = new DifferenceSettings();
-		settings.setMatcher(matcher);
-
-		try {
-			this.difference = TechnicalDifferenceFacade.deriveTechnicalDifference(modelA, modelB, settings);
-		} catch (InvalidModelException | NoCorrespondencesException e) {
-			e.printStackTrace();
-		}
+	public DifferenceExecutor(Resource modelA, Resource modelB, IMatcher matcher) throws DifferenceCalculationException {
+		this.difference = SiLiftUtil.calculateDifference(modelA, modelB, matcher);
 	}
 
 	/**
@@ -103,8 +95,10 @@ public class DifferenceExecutor implements Runnable {
 	 * 
 	 * @param difference
 	 *            The difference to execute.
+	 *            
+	 * @throws DifferenceCalculationException 
 	 */
-	public DifferenceExecutor(Resource modelA, Resource modelB) {
+	public DifferenceExecutor(Resource modelA, Resource modelB) throws DifferenceCalculationException {
 		this(modelA, modelB, TechnicalDifferenceUtils.getMatcherByKey(EMFCompareMatcherAdapter.class.getName()));
 	}
 
@@ -189,15 +183,17 @@ public class DifferenceExecutor implements Runnable {
 					// TODO: Support reference ordering!
 					// ((List) srcB.eGet(typeB)).indexOf(tgtB);
 					
-					// FIXME[WORKAROUND]: Wrong containment references on e.g. EDataType/EGenericType!?
+					// FIXedME[WORKAROUND]: Wrong containment references on e.g. EDataType/EGenericType!?
+					//
+					// => disabled merge imports
 					//
 					// e.g.: /org.sidiff.difference.ecore.testmodels/examples/extractClass
 					// getCorrespondingObjectInA(tgtB) => null
 					// getCorrespondingObjectInA((EObject) srcB.eGet(typeB)) => tgtA
 					//
-					if (!typeB.isMany() && (tgtA == null)) {
-						tgtA = getCorrespondingObjectInA((EObject) srcB.eGet(typeB));
-					}
+//					if (!typeB.isMany() && (tgtA == null)) {
+//						tgtA = getCorrespondingObjectInA((EObject) srcB.eGet(typeB));
+//					}
 					
 					if (typeB.isMany()) {
 						List referencesA = (List) srcA.eGet(typeB);

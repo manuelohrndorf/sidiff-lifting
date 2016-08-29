@@ -22,11 +22,11 @@ import org.sidiff.javaast.model.JavaModelPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.javaast.model.impl.JAdressableFragmentImpl#getStartByte <em>Start Byte</em>}</li>
  *   <li>{@link org.sidiff.javaast.model.impl.JAdressableFragmentImpl#getByteLength <em>Byte Length</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
