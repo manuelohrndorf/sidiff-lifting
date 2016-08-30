@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import simpleWebModel.DynamicPage;
 import simpleWebModel.SimpleWebModelPackage;
 
@@ -106,6 +107,12 @@ public class DynamicPageItemProvider extends PageItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(DynamicPage.class)) {
+			case SimpleWebModelPackage.DYNAMIC_PAGE__SHOWS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

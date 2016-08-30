@@ -125,14 +125,20 @@ public class ReferenceItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Reference)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Reference_type") :
-			getString("_UI_Reference_type") + " " + label;
+		Reference reference = (Reference) object;
+		
+		String label = getString("_UI_Reference_type");
+		if(reference.getName() != null && !reference.getName().isEmpty()){
+			label += " " + reference.getName();
+			if(reference.getType() != null){
+				label += ": " + reference.getType().getName();
+			}
+		}
+		return label;
 	}
 	
 
@@ -149,6 +155,7 @@ public class ReferenceItemProvider
 
 		switch (notification.getFeatureID(Reference.class)) {
 			case SimpleWebModelPackage.REFERENCE__NAME:
+			case SimpleWebModelPackage.REFERENCE__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

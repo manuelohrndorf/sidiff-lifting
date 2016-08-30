@@ -20,6 +20,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import simpleWebModel.Link;
 import simpleWebModel.SimpleWebModelPackage;
 
 /**
@@ -99,11 +101,12 @@ public class LinkItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Link_type");
+		Link link = (Link) object;
+		return getString("_UI_Link_type") + (link.getTarget()!=null ? " to " +  link.getTarget().getName(): "");
 	}
 	
 
@@ -117,6 +120,12 @@ public class LinkItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(Link.class)) {
+			case SimpleWebModelPackage.LINK__TARGET:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

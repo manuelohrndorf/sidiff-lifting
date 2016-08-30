@@ -60,14 +60,20 @@ public class DataPageItemProvider extends DynamicPageItemProvider {
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((DataPage)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_DataPage_type") :
-			getString("_UI_DataPage_type") + " " + label;
+		DataPage dataPage = (DataPage)object;
+		String label = getString("_UI_DataPage_type");
+		if(dataPage.getName() != null && !dataPage.getName().isEmpty()){
+			label += " " + dataPage.getName();
+		}
+		if(dataPage.getShows() != null){
+			label += " shows " + dataPage.getShows().getName();
+		}
+		
+		return label;
 	}
 	
 
