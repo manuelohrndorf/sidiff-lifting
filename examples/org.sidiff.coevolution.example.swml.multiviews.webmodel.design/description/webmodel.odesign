@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" name="webmodel" version="10.1.3.201511131800">
+  <ownedViewpoints name="Simple Web Model Viewpoint" modelFileExtension="swml">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Simple Web Model Diagram" domainClass="simpleWebModel.WebModel" enablePopupBars="true">
+      <defaultLayer name="Web Model">
+        <edgeMappings name="Reference" semanticCandidatesExpression="aql:self.dataLayer.entities.references" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetFinderExpression="feature:type" sourceFinderExpression="feature:eContainer" domainClass="simpleWebModel.Reference" useDomainElement="true">
+          <style centeredSourceMappings="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" centeredTargetMappings="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <centerLabelStyleDescription labelExpression="feature:name">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="HypertextLayer.dataLayer" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']" targetFinderExpression="feature:dataLayer">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="DynamicPage.shows2" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='DataPage']/@borderedNodeMappings[name='DataPage.shows']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetFinderExpression="feature:shows">
+          <style lineStyle="dash" sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <containerMappings name="Hypertext Layer" semanticCandidatesExpression="feature:hypertextLayer" domainClass="simpleWebModel.HypertextLayer">
+          <subNodeMappings name="StaticPage" semanticCandidatesExpression="feature:pages" domainClass="simpleWebModel.StaticPage">
+            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="IndexPage" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.IndexPage">
+            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+            </style>
+          </subNodeMappings>
+          <subNodeMappings name="DataPage" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.DataPage">
+            <borderedNodeMappings name="DataPage.shows" semanticCandidatesExpression="aql:self" domainClass="simpleWebModel.DataPage">
+              <style xsi:type="style:SquareDescription" labelExpression="aql:self.shows.name" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+            </style>
+          </subNodeMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>italic</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
+          </style>
+        </containerMappings>
+        <containerMappings name="Data Layer" semanticCandidatesExpression="feature:dataLayer" domainClass="simpleWebModel.DataLayer">
+          <subContainerMappings name="Entity" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.Entity" childrenPresentation="List">
+            <subNodeMappings name="Attribute" semanticCandidatesExpression="feature:attributes" domainClass="simpleWebModel.Attribute">
+              <style xsi:type="style:SquareDescription" labelExpression="aql:self.name + ': ' + self.type.toString()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+              </style>
+            </subNodeMappings>
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" roundedCorner="true" widthComputationExpression="10" heightComputationExpression="10" backgroundStyle="Liquid">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+              <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+              <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
+            </style>
+          </subContainerMappings>
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelFormat>italic</labelFormat>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
+            <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
+          </style>
+        </containerMappings>
+      </defaultLayer>
+    </ownedRepresentations>
+  </ownedViewpoints>
+</description:Group>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleWebModel:WebModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:simpleWebModel="http://simpleWebModel/1.0" name="PoetryContest">
+  <dataLayer>
+    <entities name="Contest">
+      <attributes name="name" type="STRING"/>
+      <attributes name="date" type="INTEGER"/>
+      <attributes name="place" type="STRING"/>
+      <references name="competitor" type="//@dataLayer/@entities.1"/>
+    </entities>
+    <entities name="Poet">
+      <attributes name="name" type="STRING"/>
+      <attributes name="town" type="STRING"/>
+      <attributes name="info" type="STRING"/>
+      <references name="declaims" type="//@dataLayer/@entities.2"/>
+    </entities>
+    <entities name="Poem">
+      <attributes name="title" type="STRING"/>
+      <references name="declaimed by" type="//@dataLayer/@entities.1"/>
+    </entities>
+  </dataLayer>
+  <hypertextLayer startPage="//@hypertextLayer/@pages.0" dataLayer="//@dataLayer">
+    <pages xsi:type="simpleWebModel:StaticPage" name="Start">
+      <links target="//@hypertextLayer/@pages.1"/>
+      <links target="//@hypertextLayer/@pages.3"/>
+      <links target="//@hypertextLayer/@pages.2"/>
+    </pages>
+    <pages xsi:type="simpleWebModel:IndexPage" name="ContestIndex">
+      <links target="//@hypertextLayer/@pages.4"/>
+    </pages>
+    <pages xsi:type="simpleWebModel:IndexPage" name="PoetIndex">
+      <links target="//@hypertextLayer/@pages.5"/>
+    </pages>
+    <pages xsi:type="simpleWebModel:IndexPage" name="PoemIndex">
+      <links target="//@hypertextLayer/@pages.6"/>
+    </pages>
+    <pages xsi:type="simpleWebModel:DataPage" name="ContestDetails" shows="//@dataLayer/@entities.0"/>
+    <pages xsi:type="simpleWebModel:DataPage" name="PoetDetails" shows="//@dataLayer/@entities.1"/>
+    <pages xsi:type="simpleWebModel:DataPage" name="PoemDetails" shows="//@dataLayer/@entities.2"/>
+  </hypertextLayer>
+</simpleWebModel:WebModel>
