@@ -1,19 +1,27 @@
 package org.sidiff.slicing.interpreter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
+import org.sidiff.slicing.configuration.SlicingMode;
 import org.sidiff.slicing.slicingmodel.Slicing;
 import org.sidiff.slicing.slicingmodel.SlicingmodelFactory;
 
@@ -51,6 +59,8 @@ public class SiDiffSlicingInterpreter {
 	 */
 	private Map<EClass, SlicedEClass> slicedEClasses;
 	
+	private ECrossReferenceAdapter adapter;
+	
 
 	/**
 	 * Initializes the {@link SiDiffSlicingInterpreter}
@@ -72,6 +82,7 @@ public class SiDiffSlicingInterpreter {
 		for(SlicedEClass slicedEClass : this.slicingConfiguration.getSlicedEClasses()){
 			this.slicedEClasses.put(slicedEClass.getType(), slicedEClass);
 		}
+		this.adapter = new ECrossReferenceAdapter();
 	}
 	
 	/**
@@ -88,7 +99,10 @@ public class SiDiffSlicingInterpreter {
 			
 			if(this.slicedEClasses.containsKey(in.eClass())){
 				this.slicedContextElements.put(in,clonedIn);
-				nextInput.addAll(getNeighbours(in));	
+				nextInput.addAll(getOutgoingNeighbours(in));	
+				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
+					nextInput.addAll(getIncomingNeighbours(in));
+				}
 			}else{
 				this.slicedBoundaryElements.put(in,clonedIn);
 				nextInput.addAll(getMandatoryNeighbours(in));
@@ -124,7 +138,19 @@ public class SiDiffSlicingInterpreter {
 		return EMFModelAccess.getMandatoryNodeNeighbors(eObject);
 	}
 	
-	private List<EObject> getNeighbours(EObject eObject){
+	private List<EObject> getIncomingNeighbours(EObject eObject){
+		List<EObject> incomingNeighbours = new ArrayList<EObject>();
+		if(!eObject.eResource().getResourceSet().eAdapters().contains(adapter)){
+			eObject.eResource().getResourceSet().eAdapters().add(adapter);
+		}
+		Collection<Setting> settings = adapter.getInverseReferences(eObject, true);
+		for(Setting setting : settings){
+			incomingNeighbours.add(setting.getEObject());
+		}
+		return incomingNeighbours;
+	}
+	
+	private List<EObject> getOutgoingNeighbours(EObject eObject){
 		return EMFModelAccess.getNodeNeighbors(eObject);
 	}
 	
