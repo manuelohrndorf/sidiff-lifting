@@ -1,5 +1,6 @@
 package org.sidiff.slicing.interpreter.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.slicingmodel.Slicing;
 
 public class StorageUtil {
@@ -29,9 +31,9 @@ public class StorageUtil {
 		resource.save(Collections.EMPTY_MAP);
 	}
 	
-	public static URI generateSaveURI(URI loadURI){
+	public static URI generateSaveURI(URI loadURI, SlicingConfiguration config){
 		String savePath = loadURI.path();
-		savePath = savePath.replace(loadURI.lastSegment(), "sliced" + loadURI.lastSegment());
+		savePath = savePath.replace(loadURI.lastSegment(), config.getName() + File.separator + loadURI.lastSegment());
 		
 		return EMFStorage.pathToUri(savePath);
 	}

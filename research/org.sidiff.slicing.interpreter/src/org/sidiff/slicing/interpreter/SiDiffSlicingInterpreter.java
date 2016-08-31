@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.slicing.configuration.SlicedEClass;
@@ -59,8 +55,14 @@ public class SiDiffSlicingInterpreter {
 	 */
 	private Map<EClass, SlicedEClass> slicedEClasses;
 	
+	/**
+	 * An {@link ECrossReferenceAdapter} for inversive navigation of {@link EReference}
+	 */
 	private ECrossReferenceAdapter adapter;
 	
+	/**
+	 * control variable determining the depth of a recursion
+	 */
 	private int recursionDepth;
 	/**
 	 * Initializes the {@link SiDiffSlicingInterpreter}
@@ -104,7 +106,7 @@ public class SiDiffSlicingInterpreter {
 			if(this.slicedEClasses.containsKey(in.eClass())){
 				this.slicedContextElements.put(in,clonedIn);
 				nextInput.addAll(getOutgoingNeighbours(in));	
-				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.OPTIMISTIC)){
+				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
 					nextInput.addAll(getIncomingNeighbours(in));
 				}
 			}else{

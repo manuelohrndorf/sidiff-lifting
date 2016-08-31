@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
+import org.sidiff.slicing.configuration.provider.descriptor.SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicingConfiguration} object.
@@ -215,7 +216,7 @@ public class SlicingConfigurationItemProvider
 	 */
 	protected void addOppositeSlicedEClassTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_SlicingConfiguration_oppositeSlicedEClassType_feature"),

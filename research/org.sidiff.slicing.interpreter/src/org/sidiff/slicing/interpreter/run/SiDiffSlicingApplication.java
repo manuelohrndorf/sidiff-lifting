@@ -21,31 +21,42 @@ import simpleWebModel.WebModel;
 public class SiDiffSlicingApplication implements IApplication{
 
 	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.swml.multiviews.webmodel.sample\\version0\\PoetryContest.swml";
-	private static final String CONFIG_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
+	private static final String CONFIG_HYPERTEXTLAYER_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
+	private static final String CONFIG_DATALAYER_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\DataLayer.scfg";
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("start");
 		URI loadModelURI = EMFStorage.pathToUri(MODEL_PATH);
-		URI loadSlicingConfigurationURI = EMFStorage.pathToUri(CONFIG_PATH);
+		URI loadSlicingConfigurationURI_hypertext = EMFStorage.pathToUri(CONFIG_HYPERTEXTLAYER_PATH);
+		URI loadSlicingConfigurationURI_data = EMFStorage.pathToUri(CONFIG_DATALAYER_PATH);
 		
 		EObject model = EMFStorage.eLoad(loadModelURI);
-		EObject config = EMFStorage.eLoad(loadSlicingConfigurationURI);
+		EObject config_hypertext = EMFStorage.eLoad(loadSlicingConfigurationURI_hypertext);
+		EObject config_data = EMFStorage.eLoad(loadSlicingConfigurationURI_data);
 		
-		Set<EObject> contextes = new HashSet<EObject>();
+		Set<EObject> contexts = new HashSet<EObject>();
 		for (Iterator<EObject> iterator = model.eResource().getAllContents(); iterator.hasNext();) {
 			EObject eObject = (EObject) iterator.next();
-			if (eObject instanceof WebModel || eObject instanceof HypertextLayer || eObject instanceof Page) {
-				contextes.add(eObject);
-				
+			if (eObject instanceof WebModel) {
+				contexts.add(eObject);
 			}			
 		}
 		
+	
+		
 		SiDiffSlicingInterpreter siDiffSlicingInterpreter = new SiDiffSlicingInterpreter();
-		siDiffSlicingInterpreter.init((SlicingConfiguration)config);
-		siDiffSlicingInterpreter.slice(contextes);
+		siDiffSlicingInterpreter.init((SlicingConfiguration)config_hypertext);
+		siDiffSlicingInterpreter.slice(contexts);
 		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
 		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
-		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI), false);
+		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_hypertext), false);
+		
+		siDiffSlicingInterpreter.init((SlicingConfiguration)config_data);
+		siDiffSlicingInterpreter.slice(contexts);
+		slicedModel = siDiffSlicingInterpreter.getSlicedModel();
+		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
+		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_data), false);
+		
 		return null;
 	}
 
