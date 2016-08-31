@@ -18,8 +18,8 @@ import simpleWebModel.WebModel;
 
 public class SiDiffSlicingApplication implements IApplication{
 
-	private static final String MODEL_PATH = "C:\\Users\\piets\\Workspace\\SiLift\\runtime\\research\\org.sidiff.slicing.configuration.webmodel\\examples\\My.simplewebmodel";
-	private static final String CONFIG_PATH = "C:\\Users\\piets\\Workspace\\SiLift\\runtime\\research\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
+	private static final String MODEL_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.swml.multiviews.webmodel.sample\\version0\\PoetryContest.swml";
+	private static final String CONFIG_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("start");
@@ -39,6 +39,7 @@ public class SiDiffSlicingApplication implements IApplication{
 		siDiffSlicingInterpreter.init((SlicingConfiguration)config);
 		siDiffSlicingInterpreter.slice(contextes);
 		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
+		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
 		return null;
 	}
 
