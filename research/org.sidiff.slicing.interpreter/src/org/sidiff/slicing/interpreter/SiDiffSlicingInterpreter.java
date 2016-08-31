@@ -61,7 +61,7 @@ public class SiDiffSlicingInterpreter {
 	
 	private ECrossReferenceAdapter adapter;
 	
-
+	private int recursionDepth;
 	/**
 	 * Initializes the {@link SiDiffSlicingInterpreter}
 	 * @param slicingConfiguration
@@ -83,6 +83,8 @@ public class SiDiffSlicingInterpreter {
 			this.slicedEClasses.put(slicedEClass.getType(), slicedEClass);
 		}
 		this.adapter = new ECrossReferenceAdapter();
+		
+		this.recursionDepth = 0;
 	}
 	
 	/**
@@ -90,6 +92,8 @@ public class SiDiffSlicingInterpreter {
 	 * @param contexts
 	 */
 	public void slice(Set<EObject> input) {
+		
+		recursionDepth++;
 		
 		for(EObject in : input){
 			
@@ -100,7 +104,7 @@ public class SiDiffSlicingInterpreter {
 			if(this.slicedEClasses.containsKey(in.eClass())){
 				this.slicedContextElements.put(in,clonedIn);
 				nextInput.addAll(getOutgoingNeighbours(in));	
-				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
+				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.OPTIMISTIC)){
 					nextInput.addAll(getIncomingNeighbours(in));
 				}
 			}else{
@@ -114,7 +118,13 @@ public class SiDiffSlicingInterpreter {
 			
 			slice(nextInput);
 			
-			relinkEReferences(in);
+			
+		}
+
+		if(--recursionDepth == 0){
+			for(EObject eObject : slicedElements.keySet()){
+				relinkEReferences(eObject);
+			}
 		}
 	}
 
@@ -174,7 +184,7 @@ public class SiDiffSlicingInterpreter {
 							slicedElements.get(src).eSet(eReference, null);
 						}
 					} else {
-						slicedElements.get(src).eSet(eReference, target);
+						slicedElements.get(src).eSet(eReference, slicedElements.get(target));
 					}
 				}
 			}
