@@ -11,8 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,11 +18,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.provider.descriptor.SlicedEClassTypePropertyDescriptor;
@@ -64,35 +60,11 @@ public class SlicedEClassItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addBoundaryPropertyDescriptor(object);
 			addSlicingConfigurationPropertyDescriptor(object);
-			addOutgoingsPropertyDescriptor(object);
-			addIncomingsPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			addConstraintsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Boundary feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addBoundaryPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_boundary_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_boundary_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__BOUNDARY,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -109,50 +81,6 @@ public class SlicedEClassItemProvider
 				 getString("_UI_SlicedEClass_slicingConfiguration_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_slicingConfiguration_feature", "_UI_SlicedEClass_type"),
 				 ConfigurationPackage.Literals.SLICED_ECLASS__SLICING_CONFIGURATION,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Outgoings feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addOutgoingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_outgoings_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_outgoings_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__OUTGOINGS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Incomings feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addIncomingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_SlicedEClass_incomings_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_incomings_feature", "_UI_SlicedEClass_type"),
-				 ConfigurationPackage.Literals.SLICED_ECLASS__INCOMINGS,
 				 true,
 				 false,
 				 true,
@@ -184,34 +112,25 @@ public class SlicedEClassItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * This adds a property descriptor for the Constraints feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(ConfigurationPackage.Literals.SLICED_ECLASS__OUTGOINGS);
-			childrenFeatures.add(ConfigurationPackage.Literals.SLICED_ECLASS__INCOMINGS);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
+	protected void addConstraintsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicedEClass_constraints_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicedEClass_constraints_feature", "_UI_SlicedEClass_type"),
+				 ConfigurationPackage.Literals.SLICED_ECLASS__CONSTRAINTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -229,12 +148,16 @@ public class SlicedEClassItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		SlicedEClass slicedEClass = (SlicedEClass)object;
-		return getString("_UI_SlicedEClass_type") + " " + slicedEClass.isBoundary();
+		SlicedEClass slicedEClass = (SlicedEClass) object;
+		String label = getString("_UI_SlicedEClass_type");
+		if (slicedEClass.getType() != null) {
+			label += ": " + slicedEClass.getType().getName();
+		}
+		return label;
 	}
 	
 
@@ -250,12 +173,8 @@ public class SlicedEClassItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(SlicedEClass.class)) {
-			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
+			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -271,39 +190,6 @@ public class SlicedEClassItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ConfigurationPackage.Literals.SLICED_ECLASS__OUTGOINGS,
-				 ConfigurationFactory.eINSTANCE.createSlicedBoundaryEReference()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ConfigurationPackage.Literals.SLICED_ECLASS__INCOMINGS,
-				 ConfigurationFactory.eINSTANCE.createSlicedBoundaryEReference()));
-	}
-
-	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify =
-			childFeature == ConfigurationPackage.Literals.SLICED_ECLASS__OUTGOINGS ||
-			childFeature == ConfigurationPackage.Literals.SLICED_ECLASS__INCOMINGS;
-
-		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 	/**

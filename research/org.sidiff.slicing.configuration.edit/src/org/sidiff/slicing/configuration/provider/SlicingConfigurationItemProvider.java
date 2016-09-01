@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
+import org.sidiff.slicing.configuration.provider.descriptor.SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicingConfiguration} object.
@@ -69,6 +70,8 @@ public class SlicingConfigurationItemProvider
 			addImportsPropertyDescriptor(object);
 			addSlicingModePropertyDescriptor(object);
 			addSlicedEClassesPropertyDescriptor(object);
+			addOppositeSlicedEClassTypePropertyDescriptor(object);
+			addConstraintsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -206,6 +209,50 @@ public class SlicingConfigurationItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Opposite Sliced EClass Type feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addOppositeSlicedEClassTypePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(new SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicingConfiguration_oppositeSlicedEClassType_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_oppositeSlicedEClassType_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Constraints feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addConstraintsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicingConfiguration_constraints_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_constraints_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -218,6 +265,7 @@ public class SlicingConfigurationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ConfigurationPackage.Literals.SLICING_CONFIGURATION__SLICED_ECLASSES);
+			childrenFeatures.add(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTS);
 		}
 		return childrenFeatures;
 	}
@@ -277,9 +325,11 @@ public class SlicingConfigurationItemProvider
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
+			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -301,6 +351,11 @@ public class SlicingConfigurationItemProvider
 			(createChildParameter
 				(ConfigurationPackage.Literals.SLICING_CONFIGURATION__SLICED_ECLASSES,
 				 ConfigurationFactory.eINSTANCE.createSlicedEClass()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTS,
+				 ConfigurationFactory.eINSTANCE.createConstraint()));
 	}
 
 	/**

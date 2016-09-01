@@ -76,8 +76,8 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 				return createSlicedEClassAdapter();
 			}
 			@Override
-			public Adapter caseSlicedBoundaryEReference(SlicedBoundaryEReference object) {
-				return createSlicedBoundaryEReferenceAdapter();
+			public Adapter caseConstraint(Constraint object) {
+				return createConstraintAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -128,16 +128,16 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.SlicedBoundaryEReference <em>Sliced Boundary EReference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.Constraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.sidiff.slicing.configuration.SlicedBoundaryEReference
+	 * @see org.sidiff.slicing.configuration.Constraint
 	 * @generated
 	 */
-	public Adapter createSlicedBoundaryEReferenceAdapter() {
+	public Adapter createConstraintAdapter() {
 		return null;
 	}
 

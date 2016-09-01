@@ -78,9 +78,9 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE: {
-				SlicedBoundaryEReference slicedBoundaryEReference = (SlicedBoundaryEReference)theEObject;
-				T result = caseSlicedBoundaryEReference(slicedBoundaryEReference);
+			case ConfigurationPackage.CONSTRAINT: {
+				Constraint constraint = (Constraint)theEObject;
+				T result = caseConstraint(constraint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,17 +119,17 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Sliced Boundary EReference</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Constraint</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Sliced Boundary EReference</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Constraint</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSlicedBoundaryEReference(SlicedBoundaryEReference object) {
+	public T caseConstraint(Constraint object) {
 		return null;
 	}
 

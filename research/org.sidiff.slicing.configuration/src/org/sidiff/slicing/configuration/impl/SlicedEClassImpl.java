@@ -14,13 +14,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.sidiff.slicing.configuration.ConfigurationPackage;
-import org.sidiff.slicing.configuration.SlicedBoundaryEReference;
+import org.sidiff.slicing.configuration.Constraint;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 
@@ -32,56 +29,14 @@ import org.sidiff.slicing.configuration.SlicingConfiguration;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#isBoundary <em>Boundary</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#getSlicingConfiguration <em>Slicing Configuration</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#getOutgoings <em>Outgoings</em>}</li>
- *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#getIncomings <em>Incomings</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl#getConstraints <em>Constraints</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements SlicedEClass {
-	/**
-	 * The default value of the '{@link #isBoundary() <em>Boundary</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isBoundary()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean BOUNDARY_EDEFAULT = true;
-
-	/**
-	 * The cached value of the '{@link #isBoundary() <em>Boundary</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isBoundary()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean boundary = BOUNDARY_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getOutgoings() <em>Outgoings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOutgoings()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<SlicedBoundaryEReference> outgoings;
-
-	/**
-	 * The cached value of the '{@link #getIncomings() <em>Incomings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIncomings()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<SlicedBoundaryEReference> incomings;
-
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -91,6 +46,16 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * @ordered
 	 */
 	protected EClass type;
+
+	/**
+	 * The cached value of the '{@link #getConstraints() <em>Constraints</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConstraints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Constraint> constraints;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,27 +74,6 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	@Override
 	protected EClass eStaticClass() {
 		return ConfigurationPackage.Literals.SLICED_ECLASS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isBoundary() {
-		return boundary;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBoundary(boolean newBoundary) {
-		boolean oldBoundary = boundary;
-		boundary = newBoundary;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.SLICED_ECLASS__BOUNDARY, oldBoundary, boundary));
 	}
 
 	/**
@@ -178,30 +122,6 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<SlicedBoundaryEReference> getOutgoings() {
-		if (outgoings == null) {
-			outgoings = new EObjectContainmentWithInverseEList<SlicedBoundaryEReference>(SlicedBoundaryEReference.class, this, ConfigurationPackage.SLICED_ECLASS__OUTGOINGS, ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__SOURCE);
-		}
-		return outgoings;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<SlicedBoundaryEReference> getIncomings() {
-		if (incomings == null) {
-			incomings = new EObjectContainmentWithInverseEList<SlicedBoundaryEReference>(SlicedBoundaryEReference.class, this, ConfigurationPackage.SLICED_ECLASS__INCOMINGS, ConfigurationPackage.SLICED_BOUNDARY_EREFERENCE__TARGET);
-		}
-		return incomings;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -240,7 +160,18 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
+	public EList<Constraint> getConstraints() {
+		if (constraints == null) {
+			constraints = new EObjectResolvingEList<Constraint>(Constraint.class, this, ConfigurationPackage.SLICED_ECLASS__CONSTRAINTS);
+		}
+		return constraints;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -248,10 +179,6 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetSlicingConfiguration((SlicingConfiguration)otherEnd, msgs);
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoings()).basicAdd(otherEnd, msgs);
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncomings()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -266,10 +193,6 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 		switch (featureID) {
 			case ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION:
 				return basicSetSlicingConfiguration(null, msgs);
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				return ((InternalEList<?>)getOutgoings()).basicRemove(otherEnd, msgs);
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				return ((InternalEList<?>)getIncomings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -296,17 +219,13 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
-				return isBoundary();
 			case ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION:
 				return getSlicingConfiguration();
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				return getOutgoings();
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				return getIncomings();
 			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
+			case ConfigurationPackage.SLICED_ECLASS__CONSTRAINTS:
+				return getConstraints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -320,22 +239,15 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
-				setBoundary((Boolean)newValue);
-				return;
 			case ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION:
 				setSlicingConfiguration((SlicingConfiguration)newValue);
 				return;
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				getOutgoings().clear();
-				getOutgoings().addAll((Collection<? extends SlicedBoundaryEReference>)newValue);
-				return;
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				getIncomings().clear();
-				getIncomings().addAll((Collection<? extends SlicedBoundaryEReference>)newValue);
-				return;
 			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				setType((EClass)newValue);
+				return;
+			case ConfigurationPackage.SLICED_ECLASS__CONSTRAINTS:
+				getConstraints().clear();
+				getConstraints().addAll((Collection<? extends Constraint>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -349,20 +261,14 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
-				setBoundary(BOUNDARY_EDEFAULT);
-				return;
 			case ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION:
 				setSlicingConfiguration((SlicingConfiguration)null);
 				return;
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				getOutgoings().clear();
-				return;
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				getIncomings().clear();
-				return;
 			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				setType((EClass)null);
+				return;
+			case ConfigurationPackage.SLICED_ECLASS__CONSTRAINTS:
+				getConstraints().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -376,34 +282,14 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ConfigurationPackage.SLICED_ECLASS__BOUNDARY:
-				return boundary != BOUNDARY_EDEFAULT;
 			case ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION:
 				return getSlicingConfiguration() != null;
-			case ConfigurationPackage.SLICED_ECLASS__OUTGOINGS:
-				return outgoings != null && !outgoings.isEmpty();
-			case ConfigurationPackage.SLICED_ECLASS__INCOMINGS:
-				return incomings != null && !incomings.isEmpty();
 			case ConfigurationPackage.SLICED_ECLASS__TYPE:
 				return type != null;
+			case ConfigurationPackage.SLICED_ECLASS__CONSTRAINTS:
+				return constraints != null && !constraints.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (boundary: ");
-		result.append(boundary);
-		result.append(')');
-		return result.toString();
 	}
 
 } //SlicedEClassImpl
