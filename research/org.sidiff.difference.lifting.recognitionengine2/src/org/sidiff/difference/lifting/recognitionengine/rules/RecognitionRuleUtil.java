@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.rules;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -97,6 +97,11 @@ public class RecognitionRuleUtil {
 		return false;
 	}
 	
+	/**
+	 * @param node
+	 *            A change node.
+	 * @return The type, i.e. an EClass, EReference or EAttribute.
+	 */
 	public static EObject getChangeType(Node node) {
 		
 		// AddObject:

@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.graph;
 
 import java.util.ArrayList;
 import java.util.Collection;

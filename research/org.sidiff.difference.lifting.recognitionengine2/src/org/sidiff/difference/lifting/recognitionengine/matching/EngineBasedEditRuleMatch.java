@@ -12,7 +12,7 @@ import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;

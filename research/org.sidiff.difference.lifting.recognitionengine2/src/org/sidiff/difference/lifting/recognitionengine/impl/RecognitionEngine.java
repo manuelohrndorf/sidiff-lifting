@@ -1,10 +1,10 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.impl;
 
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.EXECUTION;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.RULE_SET_REDUCTION;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.finishStatistic;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startTimer;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopTimer;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.EXECUTION;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.RULE_SET_REDUCTION;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.finishStatistic;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.startTimer;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.stopTimer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -28,8 +29,14 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphDomainMap;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphEngine;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphFactory;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphIndex;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleFilter;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -71,6 +78,11 @@ public class RecognitionEngine {
 	 * The corresponding difference index knowing the low-level changes per type.
 	 */
 	private LiftingGraphDomainMap liftingGraphDomainMap;
+	
+	/**
+	 * The corresponding difference index knowing the low-level changes per object.
+	 */
+	private LiftingGraphIndex liftingGraphIndex;
 	
 	/**
 	 * Factory that creates the Henshin graph for a corresponding recognition rule.
@@ -147,9 +159,10 @@ public class RecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "-------------- INITIALIZE RECOGNITION ENGINE ---------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		
-		// Create a domain map:
+		// Create a indices:
 		this.liftingGraphDomainMap = new LiftingGraphDomainMap(difference);
-
+		this.liftingGraphIndex = new LiftingGraphIndex(difference);
+		
 		// Create the graph factory:
 		this.graphFactory = new LiftingGraphFactory(liftingGraphDomainMap, imports, scope);
 		
@@ -511,6 +524,13 @@ public class RecognitionEngine {
 		}
 
 		return editRule2SCS;
+	}
+	
+	/**
+	 * @return A new graph matching engine.
+	 */
+	public Engine createGraphMatchingEngine() {
+		return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
 	}
 	
 	/**

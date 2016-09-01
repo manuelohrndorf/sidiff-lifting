@@ -1,6 +1,6 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.graph;
 
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionRuleUtil.isChangeType;
+import static org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleUtil.isChangeType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.matching.model.MatchingModelPackage;
 
@@ -55,13 +56,6 @@ public class LiftingGraphProxy implements EGraph {
 	 */
 	private LiftingGraphDomainMap liftingGraphDomainMap;
 	
-//	/**
-//	 * The common cross-reference adapter.
-//	 */
-//	private ECrossReferenceAdapter crossReferenceAdapter;
-	
-//	private Map<EClass, List<EObject>> domainMapCache;
-	
 	public LiftingGraphProxy(Rule recognitionRule, RecognitionRuleBlueprint recognitionRuleBlueprint,
 			EGraph modelAGraph, EGraph modelBGraph, LiftingGraphDomainMap liftingGraphDomainMap) {
 		super();
@@ -72,7 +66,7 @@ public class LiftingGraphProxy implements EGraph {
 		this.liftingGraphDomainMap = liftingGraphDomainMap;
 		
 		// Add multi-rules to the blueprint:
-		// TODO: Copy the blueprint for multi-rules!?
+		// TODO: Reuse or copy the blueprint for multi-rules!?
 		recognitionRuleBlueprint.appendMultiRules();
 	}
 	
@@ -82,7 +76,6 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Add-/Remove-Object, Add-/Remove-Reference, Attribute-Value-Change:
 		if (isChangeType(type)) {
-			// TODO: Can be optimized if the variable is known!
 			List<EObject> domain = new ArrayList<EObject>(getDomainSize(type, strict));
 			
 			for (EObject changeDomainType : getAggregatedChangeDomainTypes(type)) {
@@ -94,9 +87,6 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Correspondence:
 		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
-			// TODO: Record correspondence types in blueprint and create correspondence type map!?
-			// TODO: Can be optimized if the variable is known!
-			// TODO: We better optimize correspondences through cross-references!
 			return new ArrayList<EObject>(liftingGraphDomainMap.getDifference().getMatching().getCorrespondences());
 		}
 		
@@ -107,7 +97,6 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Model:
 		else {
-			// TODO: Can be optimized if the variable is known!
 			List<EObject> domainA = modelAGraph.getDomain(type, strict);
 			List<EObject> domainB = modelBGraph.getDomain(type, strict);
 			
@@ -121,8 +110,7 @@ public class LiftingGraphProxy implements EGraph {
 			}
 			
 			// Meta-model type node:
-			// FIXME: Separate Attributes / References
-			if (type == EcorePackage.eINSTANCE.getEReference()) {
+			if ((type == EcorePackage.eINSTANCE.getEReference()) || (type == EcorePackage.eINSTANCE.getEAttribute())) {
 				result.addAll(liftingGraphDomainMap.getTypeNodes());
 			}
 
@@ -147,12 +135,6 @@ public class LiftingGraphProxy implements EGraph {
 		
 		// Correspondence:
 		else if (type == MATCHING_PACKAGE.getCorrespondence()) {
-			// TODO: We better optimize correspondences through cross-references!
-			// NOTE: This is inconsistent with the optimized getDomain() but the
-			// size value is always bigger then the actual correspondence
-			// domain. Also the getDomain() method must always process all
-			// correspondences to create a typed list. So in the sense of
-			// optimization this value reflects the real work to do.
 			return liftingGraphDomainMap.getDifference().getMatching().getCorrespondences().size();
 		}
 		
@@ -167,7 +149,7 @@ public class LiftingGraphProxy implements EGraph {
 			int domainBSize = modelBGraph.getDomainSize(type, strict);
 			
 			// Meta-model type node:
-			if (type == EcorePackage.eINSTANCE.getEReference()) {
+			if ((type == EcorePackage.eINSTANCE.getEReference()) || (type == EcorePackage.eINSTANCE.getEAttribute())) {
 				return domainASize + domainBSize + liftingGraphDomainMap.getTypeNodes().size();
 			} else {
 				return domainASize + domainBSize;
@@ -228,29 +210,44 @@ public class LiftingGraphProxy implements EGraph {
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
+	// TODO: Calculate dynamic graph portion!
 	
 	@Override
 	public int size() {
-		// Dynamically...
-		throw new UnsupportedOperationException();
+		return modelAGraph.size() + modelBGraph.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// Dynamically...
-		throw new UnsupportedOperationException();
+		return modelAGraph.isEmpty() && modelBGraph.isEmpty();
 	}
 
 	@Override
 	public boolean contains(Object o) {
-		// Dynamically...
-		throw new UnsupportedOperationException();
+		return modelAGraph.contains(o) || modelBGraph.contains(o);
 	}
 
 	@Override
 	public Iterator<EObject> iterator() {
-		// Dynamically...
-		throw new UnsupportedOperationException();
+		return new Iterator<EObject>() {
+
+			Iterator<EObject> itA = modelAGraph.iterator();
+			Iterator<EObject> itB = modelBGraph.iterator();
+			
+			@Override
+			public boolean hasNext() {
+				return itA.hasNext() || itB.hasNext();
+			}
+
+			@Override
+			public EObject next() {
+				if (itA.hasNext()) {
+					return itA.next();
+				} else {
+					return itB.next();
+				}
+			}
+		};
 	}
 
 	@Override

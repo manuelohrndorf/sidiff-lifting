@@ -1,8 +1,10 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.rules;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -10,6 +12,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinMultiRuleAnalysis;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
 public class RecognitionRuleBlueprint {
@@ -24,8 +27,12 @@ public class RecognitionRuleBlueprint {
 	public Map<EReference, Integer> removeReference = new HashMap<EReference, Integer>();
 	public Map<EAttribute, Integer> attributeValueChange = new HashMap<EAttribute, Integer>();
 	
+	public Set<EClass> modelTypes = new HashSet<EClass>();
+	
 	public RecognitionRuleBlueprint(Rule rr) {
 		addToBlueprint(rr.getLhs().getNodes());
+		HenshinRuleAnalysisUtilEx.getForbidNodes(rr);
+		HenshinRuleAnalysisUtilEx.getRequireNodes(rr);
 		this.recognitionRule = rr; 
 	}
 	
@@ -33,11 +40,14 @@ public class RecognitionRuleBlueprint {
 		for (Rule rrMulti : recognitionRule.getMultiRules()) {
 			if (rrMulti instanceof Rule) {
 				addToBlueprint(HenshinMultiRuleAnalysis.getMultiRuleNodes(rrMulti.getLhs()));
+				HenshinRuleAnalysisUtilEx.getForbidNodes(rrMulti);
+				HenshinRuleAnalysisUtilEx.getRequireNodes(rrMulti);
 			}
 		}
 	}
 	
 	private void addToBlueprint(Collection<Node> rrNodes){
+		
 		for (Node node : rrNodes) {
 
 			// AddObject:
@@ -93,6 +103,11 @@ public class RecognitionRuleBlueprint {
 				} else {
 					attributeValueChange.put(type, 1);
 				}
+			}
+			
+			// Model element:
+			else {
+				modelTypes.add(node.getType());
 			}
 		}
 	}

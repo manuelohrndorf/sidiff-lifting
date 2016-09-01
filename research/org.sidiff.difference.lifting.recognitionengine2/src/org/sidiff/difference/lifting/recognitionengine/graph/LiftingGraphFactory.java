@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.graph;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +12,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ModelImports;
 

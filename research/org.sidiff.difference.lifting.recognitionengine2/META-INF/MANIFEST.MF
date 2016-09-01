@@ -1,17 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Recognition-Engine
-Bundle-SymbolicName: org.sidiff.difference.lifting.recognitionengine
-Bundle-Version: 0.0.1.qualifier
-Require-Bundle: org.eclipse.emf.henshin.interpreter;bundle-version="0.9.8",
- org.sidiff.common;bundle-version="1.0.0",
- org.sidiff.common.henshin;bundle-version="0.0.1",
- org.sidiff.difference.lifting.recognitionrulesorter,
- org.sidiff.difference.technical,
- org.sidiff.editrule.analysis,
- org.sidiff.symboliclink,
- org.sidiff.difference.rulebase.view,
- org.sidiff.difference.symmetric
+Bundle-Name: SiDiff Lifting - Recognition Engine
+Bundle-SymbolicName: org.sidiff.difference.lifting.recognitionengine;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.sidiff.common.henshin;visibility:=reexport,
+ org.sidiff.difference.lifting.recognitionrulesorter;visibility:=reexport,
+ org.sidiff.difference.rulebase.view;visibility:=reexport,
+ org.sidiff.difference.technical;visibility:=reexport,
+ org.sidiff.editrule.analysis;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.sidiff.difference.lifting.recognitionengine.matching,
- org.sidiff.difference.lifting.recognitionengine.ruleapplication
+Export-Package: org.sidiff.difference.lifting.recognitionengine.impl,
+ org.sidiff.difference.lifting.recognitionengine.matching
+Bundle-Vendor: Software Engineering Group, University of Siegen

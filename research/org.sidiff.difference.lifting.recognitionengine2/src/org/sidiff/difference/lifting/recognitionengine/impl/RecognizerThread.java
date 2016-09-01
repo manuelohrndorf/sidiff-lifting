@@ -1,10 +1,10 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.impl;
 
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.CREATE_GRAPH;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.MATCH_RR;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.STATISTICS;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startSplitTimer;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopSplitTimer;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.CREATE_GRAPH;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.MATCH_RR;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.STATISTICS;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.startSplitTimer;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.stopSplitTimer;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,7 +14,6 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.logging.LogEvent;
@@ -68,7 +67,7 @@ public class RecognizerThread extends Thread {
 	public void recognize() {
 		
 		// Important: Use our sorting of recognition rule nodes, not Henshin's sorting
-		Engine engine = new EngineImpl();
+		Engine engine = recognitionEngine.createGraphMatchingEngine();
 		engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
 		
 		try {

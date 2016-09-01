@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.rules;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphDomainMap;
 
 /**
  * Filters unmatchable recognition rules by counting the atomic changes per type

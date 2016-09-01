@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
+package org.sidiff.difference.lifting.recognitionengine.impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,6 +24,8 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.common.util.StatisticsUtil.StatisticType;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphFactory;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
@@ -816,8 +818,6 @@ public class RecognitionEngineStatistics {
 		int edgeCount = getModelReferenceCount(graph.iterator());
 		noteMinMax(GRAPH_EDGES, edgeCount, recognitionRule.getName());
 		noteAverage(GRAPH_EDGES, edgeCount);
-		
-		graph.clear();
 	}
 	
 	/**
