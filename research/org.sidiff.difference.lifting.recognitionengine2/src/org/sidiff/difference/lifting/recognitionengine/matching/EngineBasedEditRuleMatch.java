@@ -48,7 +48,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Node rrNode = iterator.next();
 			Set<EObject> diffObjects = recognitionRuleMatch.getNodeMapping().get(rrNode);
 
-			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getRuleBases());
+			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getSetup().getRulebases());
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -58,7 +58,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getRuleBases());			
+			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getSetup().getRulebases());			
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -78,7 +78,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesB.keySet().contains(erNode)) {
 				Set<EObject> diffObjectsB = new HashSet<EObject>();
 				for (EObject diffObjectA : getOccurenceA(erNode)) {
-					EObject diffObjectB = recognitionEngine.getDifference().getCorrespondingObjectInB(diffObjectA);
+					EObject diffObjectB = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInB(diffObjectA);
 					if (diffObjectB != null) {
 						diffObjectsB.add(diffObjectB);
 					}
@@ -95,7 +95,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesA.keySet().contains(erNode)) {
 				Set<EObject> diffObjectsA = new HashSet<EObject>();
 				for (EObject diffObjectB : getOccurenceB(erNode)) {
-					EObject diffObjectA = recognitionEngine.getDifference().getCorrespondingObjectInA(diffObjectB);
+					EObject diffObjectA = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInA(diffObjectB);
 					if (diffObjectA != null) {
 						diffObjectsA.add(diffObjectA);
 					}

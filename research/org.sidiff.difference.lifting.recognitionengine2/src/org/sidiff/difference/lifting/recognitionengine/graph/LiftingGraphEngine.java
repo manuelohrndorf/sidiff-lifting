@@ -94,7 +94,7 @@ public class LiftingGraphEngine extends EngineImpl {
 			return constraint;
 		}
 		
-		// We should flag this as optional -> normally the node sorting prevents this case -> indexing overhead!
+		// TODO: We should flag this as optional -> normally the node sorting prevents this case -> indexing overhead!
 		// ModelElement <-objX/src/tgt- AddObject/RemoveObject/RemoveReference/AddReference/AttributeValueChange:
 		if ((incoming.getType() == SYMMETRIC_PACKAGE.getAddObject_Obj()
 				|| (incoming.getType() == SYMMETRIC_PACKAGE.getRemoveObject_Obj())) 

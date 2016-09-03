@@ -11,6 +11,7 @@ import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 
 /**
  * Match of a recognition rule (either a simple Henshin Rule or an amalgamated
@@ -20,7 +21,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  * @author kehrer
  */
-public class RecognitionRuleMatch {
+public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 
 	// mapping of LHS or RHS nodes to diff objects
 	private Map<Node, Set<EObject>> nodeMapping;

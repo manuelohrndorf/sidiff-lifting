@@ -62,6 +62,7 @@ public class LiftingGraphFactory {
 	 *            The corresponding difference index knowing the low-level changes per type.
 	 * @param imports
 	 *            Imported objects that must be added to the Henshin graph.
+	 * @param scope The scope (single resource or complete resource set).
 	 */
 	public LiftingGraphFactory(LiftingGraphDomainMap liftingGraphDomainMap, ModelImports imports, Scope scope) {
 		this.difference = liftingGraphDomainMap.getDifference();
@@ -143,7 +144,9 @@ public class LiftingGraphFactory {
 		}
 		
 		// Add imports to graph:
-		imports.addImportsModelA(graph);
+		if (imports != null) {
+			imports.addImportsModelA(graph);
+		}
 
 		return graph;
 	}
@@ -191,7 +194,9 @@ public class LiftingGraphFactory {
 		}
 		
 		// Add imports to graph:
-		imports.addImportsModelB(graph);
+		if (imports != null) {
+			imports.addImportsModelB(graph);
+		}
 
 		return graph;
 	}

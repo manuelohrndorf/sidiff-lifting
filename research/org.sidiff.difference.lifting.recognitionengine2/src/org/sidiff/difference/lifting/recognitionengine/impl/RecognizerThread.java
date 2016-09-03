@@ -2,9 +2,6 @@ package org.sidiff.difference.lifting.recognitionengine.impl;
 
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.CREATE_GRAPH;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.MATCH_RR;
-import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.STATISTICS;
-import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.startSplitTimer;
-import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.stopSplitTimer;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,6 +29,16 @@ import org.sidiff.common.logging.LogUtil;
 public class RecognizerThread extends Thread {
 	
 	/**
+	 * Checks if the Recognition-Engine statistic output is enabled.
+	 */
+	private boolean STATISTICS = false;
+	
+	/**
+	 * Can be used to test the performance of the recognition engine.
+	 */
+	protected RecognitionEngineStatistics statistic;
+	
+	/**
 	 * The recognition rules to execute.
 	 */
 	private Set<Rule> recognitionRules;
@@ -57,6 +64,9 @@ public class RecognizerThread extends Thread {
 	public RecognizerThread(Set<Rule> recognitionRules, RecognitionEngine recognitionEngine) {
 		this.recognitionRules = recognitionRules;		
 		this.recognitionEngine = recognitionEngine;
+		
+		STATISTICS = recognitionEngine.getStatistic().isEnabled();
+		statistic = recognitionEngine.getStatistic();
 	}
 	
 	/**
@@ -75,19 +85,19 @@ public class RecognizerThread extends Thread {
 			// Collect unit applications
 			for (Rule rr : recognitionRules) {
 				// NOTE: Avoid synchronized statistic method calls: if (STATISTICS)
-				if (STATISTICS) startSplitTimer(CREATE_GRAPH, "" + rr.hashCode(), rr.getName());
+				if (STATISTICS) statistic.startSplitTimer(CREATE_GRAPH, "" + rr.hashCode(), rr.getName());
 				
 				// Get working graph
 				EGraph graph = recognitionEngine.getGraphFactory().createLiftingGraph(
 						rr, recognitionEngine.getRecognitionRuleBlueprint(rr));
 				
-				if (STATISTICS) stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
+				if (STATISTICS) statistic.stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
 
 				// Match Recognition-Rules:
 				LogUtil.log(LogEvent.NOTICE, "Matching: " + rr.getModule().getName() + "...");
 				LogUtil.log(LogEvent.DEBUG, "Matching: " + rr.getModule().eResource() + "...");
 				
-				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
+				if (STATISTICS) statistic.startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
 				
 				Iterator<Match> matchFinder = engine.findMatches(rr, graph, null).iterator();
 								
@@ -105,7 +115,7 @@ public class RecognizerThread extends Thread {
 					recognizerRuleApplications.add(ruleApp);
 				}
 				
-				if (STATISTICS) stopSplitTimer(MATCH_RR, "" + rr.hashCode());
+				if (STATISTICS) statistic.stopSplitTimer(MATCH_RR, "" + rr.hashCode());
 				
 				LogUtil.log(LogEvent.NOTICE, "Matches found: " + numberOfMatches);	
 			}
