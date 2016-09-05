@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9gebcGksEea9u8oqlLhYRg" name="UNSET_ATTRIBUTE_JavaDoc_Compileable" description="Sets JavaDoc Compileable">
+  <annotations xmi:id="_9gebcWksEea9u8oqlLhYRg" key="INVERSE" value="SET_ATTRIBUTE_JavaDoc_Compileable"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9gebcmksEea9u8oqlLhYRg" name="setJavaDocCompileable" description="Sets the EAttribute compileable">
+    <parameters xmi:id="_9gebc2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9gebdGksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9gebdWksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9gebdmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+        <attributes xmi:id="_9gebd2ksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9gebeGksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9gebeWksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9gebemksEea9u8oqlLhYRg" origin="_9gebdmksEea9u8oqlLhYRg" image="_9gebeWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9gebe2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9gebcmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9gebfGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9gebfWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9gfCgGksEea9u8oqlLhYRg" name="Compileable">
+      <annotations xmi:id="_9gfCgWksEea9u8oqlLhYRg" key="INVERSE" value="Compileable"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9gfCgmksEea9u8oqlLhYRg" source="_9gebfGksEea9u8oqlLhYRg" target="_9gebc2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9gfCg2ksEea9u8oqlLhYRg" source="_9gfCgGksEea9u8oqlLhYRg" target="_9gebdGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

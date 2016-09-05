@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9pt3AGksEea9u8oqlLhYRg" name="MOVE_REF_COMBI_JClass_FROM_JClassifier_(innerClassifiers)_TO_JProject_(simpleTypes)" description="MOVEs JClass from JClassifier(Reference:innerClassifiers) to JProject(Reference:simpleTypes">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9pt3AWksEea9u8oqlLhYRg" name="moveJClass_FROM_JClassifier_innerClassifiers_TO_JProject_JProject" description="Moves JClass from JClassifier(Reference:innerClassifiers) toJProject(Reference:JProject)">
+    <parameters xmi:id="_9pt3AmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9pt3A2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9pt3BGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <lhs xmi:id="_9pt3BWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9pt3BmksEea9u8oqlLhYRg" name="Selected" incoming="_9pt3CWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9pt3B2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9pt3CWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+      <nodes xmi:id="_9pt3CGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+      <edges xmi:id="_9pt3CWksEea9u8oqlLhYRg" source="_9pt3B2ksEea9u8oqlLhYRg" target="_9pt3BmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier/innerClassifiers"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9pt3CmksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9pt3C2ksEea9u8oqlLhYRg" name="Selected" incoming="_9pt3DmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9pt3DGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+      <nodes xmi:id="_9pt3DWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9pt3DmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+      <edges xmi:id="_9pt3DmksEea9u8oqlLhYRg" source="_9pt3DWksEea9u8oqlLhYRg" target="_9pt3C2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject/simpleTypes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9pt3D2ksEea9u8oqlLhYRg" origin="_9pt3BmksEea9u8oqlLhYRg" image="_9pt3C2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9pt3EGksEea9u8oqlLhYRg" origin="_9pt3B2ksEea9u8oqlLhYRg" image="_9pt3DGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9pt3EWksEea9u8oqlLhYRg" origin="_9pt3CGksEea9u8oqlLhYRg" image="_9pt3DWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9pt3EmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9pt3AWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9pt3E2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9pt3FGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9pt3FWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameterMappings xmi:id="_9pt3FmksEea9u8oqlLhYRg" source="_9pt3E2ksEea9u8oqlLhYRg" target="_9pt3AmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9pt3F2ksEea9u8oqlLhYRg" source="_9pt3FGksEea9u8oqlLhYRg" target="_9pt3A2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9pt3GGksEea9u8oqlLhYRg" source="_9pt3FWksEea9u8oqlLhYRg" target="_9pt3BGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

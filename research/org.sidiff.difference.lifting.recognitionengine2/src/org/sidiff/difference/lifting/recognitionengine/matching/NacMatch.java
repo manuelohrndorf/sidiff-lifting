@@ -30,7 +30,7 @@ import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
 import org.sidiff.editrule.analysis.conditions.EditRuleConditions;
 
 public class NacMatch {
@@ -232,7 +232,7 @@ public class NacMatch {
 	}
 	
 	private List<Match> getPreconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
-		// TODO: TEST
+
 		if (EditRuleConditions.isPrecondition(nac.getNestedCondition().getConclusion())) {
 			List<Match> matches = new ArrayList<Match>();		 
 			EGraph graph = recognitionEngine.getGraphFactory().getModelAGraph();
@@ -248,7 +248,7 @@ public class NacMatch {
 	}
 	
 	private List<Match> getPostconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
-		// TODO: TEST
+
 		if (EditRuleConditions.isPostcondition(nac.getNestedCondition().getConclusion())) {
 			List<Match> matches = new ArrayList<Match>();		 
 			EGraph graph = recognitionEngine.getGraphFactory().getModelBGraph();

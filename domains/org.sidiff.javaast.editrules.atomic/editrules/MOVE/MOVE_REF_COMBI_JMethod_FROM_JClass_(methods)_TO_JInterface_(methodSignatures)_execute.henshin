@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9lXigGksEea9u8oqlLhYRg" name="MOVE_REF_COMBI_JMethod_FROM_JClass_(methods)_TO_JInterface_(methodSignatures)" description="MOVEs JMethod from JClass(Reference:methods) to JInterface(Reference:methodSignatures">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9lXigWksEea9u8oqlLhYRg" name="moveJMethod_FROM_JClass_methods_TO_JInterface_JInterface" description="Moves JMethod from JClass(Reference:methods) toJInterface(Reference:JInterface)">
+    <parameters xmi:id="_9lXigmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9lXig2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9lXihGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <lhs xmi:id="_9lXihWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9lXihmksEea9u8oqlLhYRg" name="Selected" incoming="_9lXiiWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9lXih2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9lXiiWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9lXiiGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <edges xmi:id="_9lXiiWksEea9u8oqlLhYRg" source="_9lXih2ksEea9u8oqlLhYRg" target="_9lXihmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9lXiimksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9lXii2ksEea9u8oqlLhYRg" name="Selected" incoming="_9lXijmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9lXijGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9lXijWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9lXijmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <edges xmi:id="_9lXijmksEea9u8oqlLhYRg" source="_9lXijWksEea9u8oqlLhYRg" target="_9lXii2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/methodSignatures"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9lXij2ksEea9u8oqlLhYRg" origin="_9lXihmksEea9u8oqlLhYRg" image="_9lXii2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9lXikGksEea9u8oqlLhYRg" origin="_9lXih2ksEea9u8oqlLhYRg" image="_9lXijGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9lXikWksEea9u8oqlLhYRg" origin="_9lXiiGksEea9u8oqlLhYRg" image="_9lXijWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9lXikmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9lXigWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9lXik2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9lXilGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9lXilWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameterMappings xmi:id="_9lXilmksEea9u8oqlLhYRg" source="_9lXik2ksEea9u8oqlLhYRg" target="_9lXigmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9lXil2ksEea9u8oqlLhYRg" source="_9lXilGksEea9u8oqlLhYRg" target="_9lXig2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9lXimGksEea9u8oqlLhYRg" source="_9lXilWksEea9u8oqlLhYRg" target="_9lXihGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

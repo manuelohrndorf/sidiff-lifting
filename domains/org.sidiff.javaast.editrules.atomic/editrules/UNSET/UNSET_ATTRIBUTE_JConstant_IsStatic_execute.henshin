@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9pnJUGksEea9u8oqlLhYRg" name="UNSET_ATTRIBUTE_JConstant_IsStatic" description="Sets JConstant IsStatic">
+  <annotations xmi:id="_9pnJUWksEea9u8oqlLhYRg" key="INVERSE" value="SET_ATTRIBUTE_JConstant_IsStatic"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9pnJUmksEea9u8oqlLhYRg" name="setJConstantIsStatic" description="Sets the EAttribute isStatic">
+    <parameters xmi:id="_9pnJU2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+    </parameters>
+    <parameters xmi:id="_9pnJVGksEea9u8oqlLhYRg" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9pnJVWksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9pnJVmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+        <attributes xmi:id="_9pnJV2ksEea9u8oqlLhYRg" value="IsStatic">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isStatic"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9pnJWGksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9pnJWWksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9pnJWmksEea9u8oqlLhYRg" origin="_9pnJVmksEea9u8oqlLhYRg" image="_9pnJWWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9pnJW2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9pnJUmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9pnJXGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9pnJXWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JConstant"/>
+    </parameters>
+    <parameters xmi:id="_9pnJXmksEea9u8oqlLhYRg" name="IsStatic">
+      <annotations xmi:id="_9pnJX2ksEea9u8oqlLhYRg" key="INVERSE" value="IsStatic"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9pnJYGksEea9u8oqlLhYRg" source="_9pnJXGksEea9u8oqlLhYRg" target="_9pnJU2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9pnJYWksEea9u8oqlLhYRg" source="_9pnJXmksEea9u8oqlLhYRg" target="_9pnJVGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

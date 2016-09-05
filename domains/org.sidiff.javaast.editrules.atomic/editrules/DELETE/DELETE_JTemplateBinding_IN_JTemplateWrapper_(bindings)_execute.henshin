@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9fKz4GksEea9u8oqlLhYRg" name="DELETE_JTemplateBinding_IN_JTemplateWrapper_(bindings)" description="Deletes one JTemplateBinding in JTemplateWrapper">
+  <annotations xmi:id="_9fKz4WksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JTemplateBinding_IN_JTemplateWrapper_(bindings)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9fKz4mksEea9u8oqlLhYRg" name="deleteJTemplateBinding_IN_JTemplateWrapper" description="deletes one JTemplateBinding in the context: JTemplateWrapper">
+    <parameters xmi:id="_9fKz42ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+    </parameters>
+    <parameters xmi:id="_9fKz5GksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateBinding"/>
+    </parameters>
+    <parameters xmi:id="_9fKz5WksEea9u8oqlLhYRg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameters xmi:id="_9fKz5mksEea9u8oqlLhYRg" name="Existing1">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+    </parameters>
+    <lhs xmi:id="_9fKz52ksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9fKz6GksEea9u8oqlLhYRg" name="Selected" outgoing="_9fKz7mksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9fKz6WksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+      </nodes>
+      <nodes xmi:id="_9fKz6mksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9fKz7mksEea9u8oqlLhYRg" outgoing="_9fKz72ksEea9u8oqlLhYRg _9fKz8GksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9fKz62ksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateBinding"/>
+      </nodes>
+      <nodes xmi:id="_9fKz7GksEea9u8oqlLhYRg" name="Existing" incoming="_9fKz72ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <nodes xmi:id="_9fKz7WksEea9u8oqlLhYRg" name="Existing1" incoming="_9fKz8GksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+      </nodes>
+      <edges xmi:id="_9fKz7mksEea9u8oqlLhYRg" source="_9fKz6GksEea9u8oqlLhYRg" target="_9fKz6mksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper/bindings"/>
+      </edges>
+      <edges xmi:id="_9fKz72ksEea9u8oqlLhYRg" source="_9fKz6mksEea9u8oqlLhYRg" target="_9fKz7GksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateBinding/type"/>
+      </edges>
+      <edges xmi:id="_9fKz8GksEea9u8oqlLhYRg" source="_9fKz6mksEea9u8oqlLhYRg" target="_9fKz7WksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateBinding/genericType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9fKz8WksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9fKz8mksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9fKz82ksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+      </nodes>
+      <nodes xmi:id="_9fKz9GksEea9u8oqlLhYRg" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <nodes xmi:id="_9fKz9WksEea9u8oqlLhYRg" name="Existing1">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9fKz9mksEea9u8oqlLhYRg" origin="_9fKz6GksEea9u8oqlLhYRg" image="_9fKz8mksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9fKz92ksEea9u8oqlLhYRg" origin="_9fKz7GksEea9u8oqlLhYRg" image="_9fKz9GksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9fKz-GksEea9u8oqlLhYRg" origin="_9fKz7WksEea9u8oqlLhYRg" image="_9fKz9WksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9fKz-WksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9fKz4mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9fKz-mksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9fKz-2ksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateWrapper"/>
+    </parameters>
+    <parameters xmi:id="_9fKz_GksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9fKz_WksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTemplateBinding"/>
+    </parameters>
+    <parameters xmi:id="_9fKz_mksEea9u8oqlLhYRg" name="Existing">
+      <annotations xmi:id="_9fKz_2ksEea9u8oqlLhYRg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameters xmi:id="_9fK0AGksEea9u8oqlLhYRg" name="Existing1">
+      <annotations xmi:id="_9fK0AWksEea9u8oqlLhYRg" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JGenericType"/>
+    </parameters>
+    <parameterMappings xmi:id="_9fK0AmksEea9u8oqlLhYRg" source="_9fKz-mksEea9u8oqlLhYRg" target="_9fKz42ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fK0A2ksEea9u8oqlLhYRg" source="_9fKz_GksEea9u8oqlLhYRg" target="_9fKz5GksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fK0BGksEea9u8oqlLhYRg" source="_9fKz_mksEea9u8oqlLhYRg" target="_9fKz5WksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fK0BWksEea9u8oqlLhYRg" source="_9fK0AGksEea9u8oqlLhYRg" target="_9fKz5mksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

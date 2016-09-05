@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9hz4MGksEea9u8oqlLhYRg" name="CHANGE_LITERAL_JMethod_visibilityKind_FROM_public_TO_package" description="Changes the attribute value of visibilityKind_FROM_public_TO_package">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9hz4MWksEea9u8oqlLhYRg" name="changeJMethodVisibilityKind_FROM_Public_TO_package" description="Changes the attribute value of visibilityKind_FROM_public_TO_package">
+    <parameters xmi:id="_9hz4MmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+    </parameters>
+    <parameters xmi:id="_9hz4M2ksEea9u8oqlLhYRg" name="&quot;public&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_9hz4NGksEea9u8oqlLhYRg" name="&quot;package&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_9hz4NWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9hz4NmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+        <attributes xmi:id="_9hz4N2ksEea9u8oqlLhYRg" value="&quot;public&quot;">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9hz4OGksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9hz4OWksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+        <attributes xmi:id="_9hz4OmksEea9u8oqlLhYRg" value="&quot;package&quot;">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9hz4O2ksEea9u8oqlLhYRg" origin="_9hz4NmksEea9u8oqlLhYRg" image="_9hz4OWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9hz4PGksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9hz4MWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9hz4PWksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+    </parameters>
+    <parameters xmi:id="_9hz4PmksEea9u8oqlLhYRg" name="&quot;public&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_9hz4P2ksEea9u8oqlLhYRg" source="_9hz4PWksEea9u8oqlLhYRg" target="_9hz4MmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9hz4QGksEea9u8oqlLhYRg" source="_9hz4PmksEea9u8oqlLhYRg" target="_9hz4M2ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

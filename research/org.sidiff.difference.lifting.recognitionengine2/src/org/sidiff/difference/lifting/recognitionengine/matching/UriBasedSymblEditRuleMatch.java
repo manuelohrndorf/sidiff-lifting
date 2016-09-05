@@ -19,7 +19,6 @@ import org.silift.difference.symboliclink.SymbolicLinkReference;
  */
 public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {	
 	
-	
 	public UriBasedSymblEditRuleMatch(SemanticChangeSet scs) {
 		super(scs);
 	}
@@ -39,12 +38,6 @@ public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param attributeOccurrences
-	 * @param eObject
-	 * @param eAttribute
-	 */
 	@Override
 	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute){
 		
@@ -57,7 +50,4 @@ public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {
 		}
 		
 	}
-	
-
-
 }

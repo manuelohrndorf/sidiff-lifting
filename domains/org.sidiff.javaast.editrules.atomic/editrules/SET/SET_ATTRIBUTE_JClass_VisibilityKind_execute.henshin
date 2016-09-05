@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9n55IGksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JClass_VisibilityKind" description="Sets JClass VisibilityKind">
+  <annotations xmi:id="_9n55IWksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JClass_VisibilityKind"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9n55ImksEea9u8oqlLhYRg" name="setJClassVisibilityKind" description="Sets the EAttribute visibilityKind">
+    <parameters xmi:id="_9n55I2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9n55JGksEea9u8oqlLhYRg" name="VisibilityKind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_9n55JWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9n55JmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9n55J2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9n55KGksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+        <attributes xmi:id="_9n55KWksEea9u8oqlLhYRg" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9n55KmksEea9u8oqlLhYRg" origin="_9n55JmksEea9u8oqlLhYRg" image="_9n55KGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9n55K2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9n55ImksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9n55LGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9n55LWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9n55LmksEea9u8oqlLhYRg" name="VisibilityKind">
+      <annotations xmi:id="_9n55L2ksEea9u8oqlLhYRg" key="INVERSE" value="VisibilityKind"/>
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_9n55MGksEea9u8oqlLhYRg" source="_9n55LGksEea9u8oqlLhYRg" target="_9n55I2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9n55MWksEea9u8oqlLhYRg" source="_9n55LmksEea9u8oqlLhYRg" target="_9n55JGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

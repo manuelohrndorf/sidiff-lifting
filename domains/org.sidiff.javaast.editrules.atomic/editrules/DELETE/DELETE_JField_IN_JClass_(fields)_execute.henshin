@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9oK-4GksEea9u8oqlLhYRg" name="DELETE_JField_IN_JClass_(fields)" description="Deletes one JField in JClass">
+  <annotations xmi:id="_9oK-4WksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JField_IN_JClass_(fields)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9oK-4mksEea9u8oqlLhYRg" name="deleteJField_IN_JClass" description="deletes one JField in the context: JClass" injectiveMatching="false">
+    <parameters xmi:id="_9oK-42ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9oK-5GksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9oK-5WksEea9u8oqlLhYRg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <lhs xmi:id="_9oK-5mksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9oK-52ksEea9u8oqlLhYRg" name="Selected" outgoing="_9oK-7GksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9oK-6GksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9oK-6WksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9oK-7GksEea9u8oqlLhYRg" outgoing="_9oK-7WksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9oK-6mksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+      <nodes xmi:id="_9oK-62ksEea9u8oqlLhYRg" name="Existing" incoming="_9oK-7WksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_9oK-7GksEea9u8oqlLhYRg" source="_9oK-52ksEea9u8oqlLhYRg" target="_9oK-6WksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/fields"/>
+      </edges>
+      <edges xmi:id="_9oK-7WksEea9u8oqlLhYRg" source="_9oK-6WksEea9u8oqlLhYRg" target="_9oK-62ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9oK-7mksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9oK-72ksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9oK-8GksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9oK-8WksEea9u8oqlLhYRg" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9oK-8mksEea9u8oqlLhYRg" origin="_9oK-52ksEea9u8oqlLhYRg" image="_9oK-72ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9oK-82ksEea9u8oqlLhYRg" origin="_9oK-62ksEea9u8oqlLhYRg" image="_9oK-8WksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9oK-9GksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9oK-4mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9oK-9WksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9oK-9mksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9oK-92ksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9oK--GksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9oK--WksEea9u8oqlLhYRg" name="Existing">
+      <annotations xmi:id="_9oK--mksEea9u8oqlLhYRg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameterMappings xmi:id="_9oK--2ksEea9u8oqlLhYRg" source="_9oK-9WksEea9u8oqlLhYRg" target="_9oK-42ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oK-_GksEea9u8oqlLhYRg" source="_9oK-92ksEea9u8oqlLhYRg" target="_9oK-5GksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oK-_WksEea9u8oqlLhYRg" source="_9oK--WksEea9u8oqlLhYRg" target="_9oK-5WksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

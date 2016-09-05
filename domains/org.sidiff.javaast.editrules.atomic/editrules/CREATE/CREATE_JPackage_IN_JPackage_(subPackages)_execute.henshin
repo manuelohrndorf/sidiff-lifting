@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9i2aAGksEea9u8oqlLhYRg" name="CREATE_JPackage_IN_JPackage_(subPackages)" description="Creates one JPackage in JPackage">
+  <annotations xmi:id="_9i3BEGksEea9u8oqlLhYRg" key="INVERSE" value="DELETE_JPackage_IN_JPackage_(subPackages)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9i3BEWksEea9u8oqlLhYRg" name="createJPackage_IN_JPackage" description="creates one JPackage in the context: JPackage">
+    <parameters xmi:id="_9i3BEmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+    </parameters>
+    <parameters xmi:id="_9i3BE2ksEea9u8oqlLhYRg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+    </parameters>
+    <parameters xmi:id="_9i3BFGksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9i3BFWksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9i3BFmksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9i3BF2ksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9i3BGGksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9i3BGWksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9i3BGmksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9i3BG2ksEea9u8oqlLhYRg" name="Selected" outgoing="_9i3BImksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9i3BHGksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+      </nodes>
+      <nodes xmi:id="_9i3BHWksEea9u8oqlLhYRg" name="New" incoming="_9i3BImksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9i3BHmksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+        <attributes xmi:id="_9i3BH2ksEea9u8oqlLhYRg" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_9i3BIGksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_9i3BIWksEea9u8oqlLhYRg" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9i3BImksEea9u8oqlLhYRg" source="_9i3BG2ksEea9u8oqlLhYRg" target="_9i3BHWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage/subPackages"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9i3BI2ksEea9u8oqlLhYRg" origin="_9i3BGGksEea9u8oqlLhYRg" image="_9i3BG2ksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9i3BJGksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9i3BEWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9i3BJWksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9i3BJmksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+    </parameters>
+    <parameters xmi:id="_9i3BJ2ksEea9u8oqlLhYRg" name="New">
+      <annotations xmi:id="_9i3BKGksEea9u8oqlLhYRg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JPackage"/>
+    </parameters>
+    <parameters xmi:id="_9i3BKWksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9i3BKmksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9i3BK2ksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9i3BLGksEea9u8oqlLhYRg" source="_9i3BJWksEea9u8oqlLhYRg" target="_9i3BEmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9i3BLWksEea9u8oqlLhYRg" source="_9i3BE2ksEea9u8oqlLhYRg" target="_9i3BJ2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9i3BLmksEea9u8oqlLhYRg" source="_9i3BKWksEea9u8oqlLhYRg" target="_9i3BFGksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9i3BL2ksEea9u8oqlLhYRg" source="_9i3BKmksEea9u8oqlLhYRg" target="_9i3BFWksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9i3BMGksEea9u8oqlLhYRg" source="_9i3BK2ksEea9u8oqlLhYRg" target="_9i3BFmksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

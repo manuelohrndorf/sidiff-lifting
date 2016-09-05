@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9oLl8GksEea9u8oqlLhYRg" name="CREATE_JProject" description="Creates one JProject">
+  <annotations xmi:id="_9oLl8WksEea9u8oqlLhYRg" key="INVERSE" value="DELETE_JProject"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9oLl8mksEea9u8oqlLhYRg" name="createJProject" description="creates one JProject">
+    <parameters xmi:id="_9oLl82ksEea9u8oqlLhYRg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameters xmi:id="_9oLl9GksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9oLl9WksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9oLl9mksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9oLl92ksEea9u8oqlLhYRg" name="Lhs"/>
+    <rhs xmi:id="_9oLl-GksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9oLl-WksEea9u8oqlLhYRg" name="New">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+        <attributes xmi:id="_9oLl-mksEea9u8oqlLhYRg" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_9oLl-2ksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_9oLl_GksEea9u8oqlLhYRg" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9oLl_WksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9oLl8mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9oLl_mksEea9u8oqlLhYRg" name="New">
+      <annotations xmi:id="_9oLl_2ksEea9u8oqlLhYRg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameters xmi:id="_9oLmAGksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9oLmAWksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9oLmAmksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9oLmA2ksEea9u8oqlLhYRg" source="_9oLl82ksEea9u8oqlLhYRg" target="_9oLl_mksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oLmBGksEea9u8oqlLhYRg" source="_9oLmAGksEea9u8oqlLhYRg" target="_9oLl9GksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oLmBWksEea9u8oqlLhYRg" source="_9oLmAWksEea9u8oqlLhYRg" target="_9oLl9WksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oLmBmksEea9u8oqlLhYRg" source="_9oLmAmksEea9u8oqlLhYRg" target="_9oLl9mksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

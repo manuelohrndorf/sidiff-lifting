@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9jjkoGksEea9u8oqlLhYRg" name="MOVE_UP_JArrayType_FROM_JTypedElement_(type)_TO_JTypedElement_(type)" description="MOVE UPWARDs JArrayType from JTypedElement(Reference:type) to JTypedElement(Reference:type">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9jjkoWksEea9u8oqlLhYRg" name="moveUpJArrayType_FROM_JTypedElement_type_TO_JTypedElement_JTypedElement" description="Moves up JArrayType from JTypedElement(Reference:type) toJTypedElement(Reference:JTypedElement)">
+    <parameters xmi:id="_9jjkomksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+    </parameters>
+    <parameters xmi:id="_9jjko2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+    </parameters>
+    <parameters xmi:id="_9jjkpGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+    </parameters>
+    <lhs xmi:id="_9jjkpWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9jjkpmksEea9u8oqlLhYRg" name="Selected" incoming="_9jjkqWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_9jjkp2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9jjkqWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+      </nodes>
+      <nodes xmi:id="_9jjkqGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+      </nodes>
+      <edges xmi:id="_9jjkqWksEea9u8oqlLhYRg" source="_9jjkp2ksEea9u8oqlLhYRg" target="_9jjkpmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_9jjkqmksEea9u8oqlLhYRg">
+        <conclusion xmi:id="_9jjkq2ksEea9u8oqlLhYRg" name="cyclePath">
+          <nodes xmi:id="_9jjkrGksEea9u8oqlLhYRg" name="OldSource" incoming="_9jjksGksEea9u8oqlLhYRg">
+            <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+          </nodes>
+          <nodes xmi:id="_9jjkrWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9jjkr2ksEea9u8oqlLhYRg">
+            <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+          </nodes>
+          <nodes xmi:id="_9jjkrmksEea9u8oqlLhYRg" name="" incoming="_9jjkr2ksEea9u8oqlLhYRg" outgoing="_9jjksGksEea9u8oqlLhYRg">
+            <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+          </nodes>
+          <edges xmi:id="_9jjkr2ksEea9u8oqlLhYRg" source="_9jjkrWksEea9u8oqlLhYRg" target="_9jjkrmksEea9u8oqlLhYRg">
+            <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/staticInitializationBlock"/>
+          </edges>
+          <edges xmi:id="_9jjksGksEea9u8oqlLhYRg" source="_9jjkrmksEea9u8oqlLhYRg" target="_9jjkrGksEea9u8oqlLhYRg">
+            <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/definedVariables"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_9jjksWksEea9u8oqlLhYRg" origin="_9jjkqGksEea9u8oqlLhYRg" image="_9jjkrWksEea9u8oqlLhYRg"/>
+        <mappings xmi:id="_9jjksmksEea9u8oqlLhYRg" origin="_9jjkp2ksEea9u8oqlLhYRg" image="_9jjkrGksEea9u8oqlLhYRg"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_9jjks2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9jjktGksEea9u8oqlLhYRg" name="Selected" incoming="_9jjkt2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+      </nodes>
+      <nodes xmi:id="_9jjktWksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+      </nodes>
+      <nodes xmi:id="_9jjktmksEea9u8oqlLhYRg" name="NewSource" outgoing="_9jjkt2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+      </nodes>
+      <edges xmi:id="_9jjkt2ksEea9u8oqlLhYRg" source="_9jjktmksEea9u8oqlLhYRg" target="_9jjktGksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9jjkuGksEea9u8oqlLhYRg" origin="_9jjkpmksEea9u8oqlLhYRg" image="_9jjktGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9jjkuWksEea9u8oqlLhYRg" origin="_9jjkp2ksEea9u8oqlLhYRg" image="_9jjktWksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9jjkumksEea9u8oqlLhYRg" origin="_9jjkqGksEea9u8oqlLhYRg" image="_9jjktmksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9jjku2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9jjkoWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9jjkvGksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JArrayType"/>
+    </parameters>
+    <parameters xmi:id="_9jjkvWksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+    </parameters>
+    <parameters xmi:id="_9jjkvmksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement"/>
+    </parameters>
+    <parameterMappings xmi:id="_9jjkv2ksEea9u8oqlLhYRg" source="_9jjkvGksEea9u8oqlLhYRg" target="_9jjkomksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9jjkwGksEea9u8oqlLhYRg" source="_9jjkvWksEea9u8oqlLhYRg" target="_9jjko2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9jjkwWksEea9u8oqlLhYRg" source="_9jjkvmksEea9u8oqlLhYRg" target="_9jjkpGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>
