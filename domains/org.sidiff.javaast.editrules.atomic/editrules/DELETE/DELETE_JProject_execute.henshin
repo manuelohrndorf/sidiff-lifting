@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9kdjkGksEea9u8oqlLhYRg" name="DELETE_JProject" description="Deletes one JProject">
+  <annotations xmi:id="_9kdjkWksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JProject"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9kdjkmksEea9u8oqlLhYRg" name="deleteJProject" description="deletes one JProject">
+    <parameters xmi:id="_9kdjk2ksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <lhs xmi:id="_9kdjlGksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9kdjlWksEea9u8oqlLhYRg" name="ToBeDeleted">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9kdjlmksEea9u8oqlLhYRg" name="RHS"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9kdjl2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9kdjkmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9kdjmGksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9kdjmWksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameterMappings xmi:id="_9kdjmmksEea9u8oqlLhYRg" source="_9kdjmGksEea9u8oqlLhYRg" target="_9kdjk2ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

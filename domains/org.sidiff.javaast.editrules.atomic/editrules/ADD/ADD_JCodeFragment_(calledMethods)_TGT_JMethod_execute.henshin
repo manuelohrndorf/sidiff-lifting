@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9mgyAGksEea9u8oqlLhYRg" name="ADD_JCodeFragment_(calledMethods)_TGT_JMethod" description="Adds to JCodeFragment's reference calledMethods the target JMethod">
+  <annotations xmi:id="_9mgyAWksEea9u8oqlLhYRg" key="INVERSE" value="REMOVE_JCodeFragment_(calledMethods)_TGT_JMethod"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9mgyAmksEea9u8oqlLhYRg" name="addToJCodeFragment_calledMethods_JMethod" description="Adds to JCodeFragment's reference calledMethods the target JMethod">
+    <parameters xmi:id="_9mgyA2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_9mgyBGksEea9u8oqlLhYRg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <lhs xmi:id="_9mgyBWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9mgyBmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+      </nodes>
+      <nodes xmi:id="_9mgyB2ksEea9u8oqlLhYRg" name="NewTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9mgyCGksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9mgyCWksEea9u8oqlLhYRg" name="Selected" outgoing="_9mgyC2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+      </nodes>
+      <nodes xmi:id="_9mgyCmksEea9u8oqlLhYRg" name="NewTarget" incoming="_9mgyC2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_9mgyC2ksEea9u8oqlLhYRg" source="_9mgyCWksEea9u8oqlLhYRg" target="_9mgyCmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment/calledMethods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9mgyDGksEea9u8oqlLhYRg" origin="_9mgyBmksEea9u8oqlLhYRg" image="_9mgyCWksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9mgyDWksEea9u8oqlLhYRg" origin="_9mgyB2ksEea9u8oqlLhYRg" image="_9mgyCmksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9mgyDmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9mgyAmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9mgyD2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9mgyEGksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+    </parameters>
+    <parameters xmi:id="_9mgyEWksEea9u8oqlLhYRg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameterMappings xmi:id="_9mgyEmksEea9u8oqlLhYRg" source="_9mgyD2ksEea9u8oqlLhYRg" target="_9mgyA2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9mgyE2ksEea9u8oqlLhYRg" source="_9mgyEWksEea9u8oqlLhYRg" target="_9mgyBGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

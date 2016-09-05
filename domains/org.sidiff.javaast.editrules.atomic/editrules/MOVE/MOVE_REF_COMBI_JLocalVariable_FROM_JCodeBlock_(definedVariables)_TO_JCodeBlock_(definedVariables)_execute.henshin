@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9j6xAGksEea9u8oqlLhYRg" name="MOVE_REF_COMBI_JLocalVariable_FROM_JCodeBlock_(definedVariables)_TO_JCodeBlock_(definedVariables)" description="MOVEs JLocalVariable from JCodeBlock(Reference:definedVariables) to JCodeBlock(Reference:definedVariables">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9j6xAWksEea9u8oqlLhYRg" name="moveJLocalVariable_FROM_JCodeBlock_definedVariables_TO_JCodeBlock_JCodeBlock" description="Moves JLocalVariable from JCodeBlock(Reference:definedVariables) toJCodeBlock(Reference:JCodeBlock)">
+    <parameters xmi:id="_9j6xAmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+    </parameters>
+    <parameters xmi:id="_9j6xA2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9j6xBGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <lhs xmi:id="_9j6xBWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9j6xBmksEea9u8oqlLhYRg" name="Selected" incoming="_9j6xCWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+      </nodes>
+      <nodes xmi:id="_9j6xB2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9j6xCWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9j6xCGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <edges xmi:id="_9j6xCWksEea9u8oqlLhYRg" source="_9j6xB2ksEea9u8oqlLhYRg" target="_9j6xBmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/definedVariables"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9j6xCmksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9j6xC2ksEea9u8oqlLhYRg" name="Selected" incoming="_9j6xDmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+      </nodes>
+      <nodes xmi:id="_9j6xDGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9j6xDWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9j6xDmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <edges xmi:id="_9j6xDmksEea9u8oqlLhYRg" source="_9j6xDWksEea9u8oqlLhYRg" target="_9j6xC2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/definedVariables"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9j6xD2ksEea9u8oqlLhYRg" origin="_9j6xBmksEea9u8oqlLhYRg" image="_9j6xC2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9j6xEGksEea9u8oqlLhYRg" origin="_9j6xB2ksEea9u8oqlLhYRg" image="_9j6xDGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9j6xEWksEea9u8oqlLhYRg" origin="_9j6xCGksEea9u8oqlLhYRg" image="_9j6xDWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9j6xEmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9j6xAWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9j6xE2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+    </parameters>
+    <parameters xmi:id="_9j6xFGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9j6xFWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameterMappings xmi:id="_9j6xFmksEea9u8oqlLhYRg" source="_9j6xE2ksEea9u8oqlLhYRg" target="_9j6xAmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j6xF2ksEea9u8oqlLhYRg" source="_9j6xFGksEea9u8oqlLhYRg" target="_9j6xA2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j6xGGksEea9u8oqlLhYRg" source="_9j6xFWksEea9u8oqlLhYRg" target="_9j6xBGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

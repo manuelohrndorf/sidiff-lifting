@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9fvboGksEea9u8oqlLhYRg" name="MOVE_REF_COMBI_JMethod_FROM_JClass_(methods)_TO_JClass_(methods)" description="MOVEs JMethod from JClass(Reference:methods) to JClass(Reference:methods">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9fvboWksEea9u8oqlLhYRg" name="moveJMethod_FROM_JClass_methods_TO_JClass_JClass" description="Moves JMethod from JClass(Reference:methods) toJClass(Reference:JClass)">
+    <parameters xmi:id="_9fvbomksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9fvbo2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9fvbpGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <lhs xmi:id="_9fvbpWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9fvbpmksEea9u8oqlLhYRg" name="Selected" incoming="_9fvbqWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9fvbp2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9fvbqWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9fvbqGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_9fvbqWksEea9u8oqlLhYRg" source="_9fvbp2ksEea9u8oqlLhYRg" target="_9fvbpmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9fvbqmksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9fvbq2ksEea9u8oqlLhYRg" name="Selected" incoming="_9fvbrmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9fvbrGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <nodes xmi:id="_9fvbrWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9fvbrmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_9fvbrmksEea9u8oqlLhYRg" source="_9fvbrWksEea9u8oqlLhYRg" target="_9fvbq2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/methods"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9fvbr2ksEea9u8oqlLhYRg" origin="_9fvbpmksEea9u8oqlLhYRg" image="_9fvbq2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9fvbsGksEea9u8oqlLhYRg" origin="_9fvbp2ksEea9u8oqlLhYRg" image="_9fvbrGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9fvbsWksEea9u8oqlLhYRg" origin="_9fvbqGksEea9u8oqlLhYRg" image="_9fvbrWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9fvbsmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9fvboWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9fvbs2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9fvbtGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9fvbtWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameterMappings xmi:id="_9fvbtmksEea9u8oqlLhYRg" source="_9fvbs2ksEea9u8oqlLhYRg" target="_9fvbomksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fvbt2ksEea9u8oqlLhYRg" source="_9fvbtGksEea9u8oqlLhYRg" target="_9fvbo2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fvbuGksEea9u8oqlLhYRg" source="_9fvbtWksEea9u8oqlLhYRg" target="_9fvbpGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

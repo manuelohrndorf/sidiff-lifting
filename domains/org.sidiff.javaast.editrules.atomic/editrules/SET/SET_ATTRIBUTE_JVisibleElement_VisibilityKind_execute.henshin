@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9pRyIGksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JVisibleElement_VisibilityKind" description="Sets JVisibleElement VisibilityKind">
+  <annotations xmi:id="_9pRyIWksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JVisibleElement_VisibilityKind"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9pRyImksEea9u8oqlLhYRg" name="setJVisibleElementVisibilityKind" description="Sets the EAttribute visibilityKind">
+    <parameters xmi:id="_9pRyI2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+    </parameters>
+    <parameters xmi:id="_9pRyJGksEea9u8oqlLhYRg" name="VisibilityKind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_9pRyJWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9pRyJmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9pRyJ2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9pRyKGksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+        <attributes xmi:id="_9pRyKWksEea9u8oqlLhYRg" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9pRyKmksEea9u8oqlLhYRg" origin="_9pRyJmksEea9u8oqlLhYRg" image="_9pRyKGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9pRyK2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9pRyImksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9pRyLGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9pRyLWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement"/>
+    </parameters>
+    <parameters xmi:id="_9pRyLmksEea9u8oqlLhYRg" name="VisibilityKind">
+      <annotations xmi:id="_9pRyL2ksEea9u8oqlLhYRg" key="INVERSE" value="VisibilityKind"/>
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_9pRyMGksEea9u8oqlLhYRg" source="_9pRyLGksEea9u8oqlLhYRg" target="_9pRyI2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9pRyMWksEea9u8oqlLhYRg" source="_9pRyLmksEea9u8oqlLhYRg" target="_9pRyJGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

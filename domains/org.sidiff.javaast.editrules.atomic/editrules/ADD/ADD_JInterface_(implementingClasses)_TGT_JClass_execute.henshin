@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9j90UGksEea9u8oqlLhYRg" name="ADD_JInterface_(implementingClasses)_TGT_JClass" description="Adds to JInterface's reference implementingClasses the target JClass">
+  <annotations xmi:id="_9j90UWksEea9u8oqlLhYRg" key="INVERSE" value="REMOVE_JInterface_(implementingClasses)_TGT_JClass"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9j90UmksEea9u8oqlLhYRg" name="addToJInterface_implementingClasses_JClass" description="Adds to JInterface's reference implementingClasses the target JClass">
+    <parameters xmi:id="_9j90U2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9j90VGksEea9u8oqlLhYRg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <lhs xmi:id="_9j90VWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9j90VmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9j90V2ksEea9u8oqlLhYRg" name="NewTarget">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9j90WGksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9j90WWksEea9u8oqlLhYRg" name="Selected" incoming="_9j-bYGksEea9u8oqlLhYRg" outgoing="_9j90W2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9j90WmksEea9u8oqlLhYRg" name="NewTarget" incoming="_9j90W2ksEea9u8oqlLhYRg" outgoing="_9j-bYGksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+      <edges xmi:id="_9j90W2ksEea9u8oqlLhYRg" source="_9j90WWksEea9u8oqlLhYRg" target="_9j90WmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/implementingClasses"/>
+      </edges>
+      <edges xmi:id="_9j-bYGksEea9u8oqlLhYRg" source="_9j90WmksEea9u8oqlLhYRg" target="_9j90WWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/implementedInterfaces"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9j-bYWksEea9u8oqlLhYRg" origin="_9j90VmksEea9u8oqlLhYRg" image="_9j90WWksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9j-bYmksEea9u8oqlLhYRg" origin="_9j90V2ksEea9u8oqlLhYRg" image="_9j90WmksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9j-bY2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9j90UmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9j-bZGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9j-bZWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9j-bZmksEea9u8oqlLhYRg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameterMappings xmi:id="_9j-bZ2ksEea9u8oqlLhYRg" source="_9j-bZGksEea9u8oqlLhYRg" target="_9j90U2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j-baGksEea9u8oqlLhYRg" source="_9j-bZmksEea9u8oqlLhYRg" target="_9j90VGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

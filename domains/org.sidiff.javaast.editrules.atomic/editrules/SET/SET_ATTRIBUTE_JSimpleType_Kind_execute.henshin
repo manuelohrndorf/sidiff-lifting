@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9fjOYGksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JSimpleType_Kind" description="Sets JSimpleType Kind">
+  <annotations xmi:id="_9fjOYWksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JSimpleType_Kind"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9fjOYmksEea9u8oqlLhYRg" name="setJSimpleTypeKind" description="Sets the EAttribute kind">
+    <parameters xmi:id="_9fjOY2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleType"/>
+    </parameters>
+    <parameters xmi:id="_9fjOZGksEea9u8oqlLhYRg" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleTypeKind"/>
+    </parameters>
+    <lhs xmi:id="_9fjOZWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9fjOZmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9fjOZ2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9fjOaGksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleType"/>
+        <attributes xmi:id="_9fjOaWksEea9u8oqlLhYRg" value="Kind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleType/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9fjOamksEea9u8oqlLhYRg" origin="_9fjOZmksEea9u8oqlLhYRg" image="_9fjOaGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9fjOa2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9fjOYmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9fjObGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9fjObWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleType"/>
+    </parameters>
+    <parameters xmi:id="_9fjObmksEea9u8oqlLhYRg" name="Kind">
+      <annotations xmi:id="_9fjOb2ksEea9u8oqlLhYRg" key="INVERSE" value="Kind"/>
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JSimpleTypeKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_9fjOcGksEea9u8oqlLhYRg" source="_9fjObGksEea9u8oqlLhYRg" target="_9fjOY2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9fjOcWksEea9u8oqlLhYRg" source="_9fjObmksEea9u8oqlLhYRg" target="_9fjOZGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

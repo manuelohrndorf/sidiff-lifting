@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9oERMGksEea9u8oqlLhYRg" name="UNSET_ATTRIBUTE_JClass_IsExternal" description="Sets JClass IsExternal">
+  <annotations xmi:id="_9oERMWksEea9u8oqlLhYRg" key="INVERSE" value="SET_ATTRIBUTE_JClass_IsExternal"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9oERMmksEea9u8oqlLhYRg" name="setJClassIsExternal" description="Sets the EAttribute isExternal">
+    <parameters xmi:id="_9oERM2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9oERNGksEea9u8oqlLhYRg" name="IsExternal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9oERNWksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9oERNmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+        <attributes xmi:id="_9oERN2ksEea9u8oqlLhYRg" value="IsExternal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType/isExternal"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9oEROGksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9oEROWksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9oEROmksEea9u8oqlLhYRg" origin="_9oERNmksEea9u8oqlLhYRg" image="_9oEROWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9oERO2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9oERMmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9oERPGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9oERPWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9oERPmksEea9u8oqlLhYRg" name="IsExternal">
+      <annotations xmi:id="_9oERP2ksEea9u8oqlLhYRg" key="INVERSE" value="IsExternal"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9oERQGksEea9u8oqlLhYRg" source="_9oERPGksEea9u8oqlLhYRg" target="_9oERM2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oERQWksEea9u8oqlLhYRg" source="_9oERPmksEea9u8oqlLhYRg" target="_9oERNGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

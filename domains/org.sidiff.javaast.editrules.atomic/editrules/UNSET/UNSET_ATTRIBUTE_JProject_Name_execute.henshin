@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9p9HkGksEea9u8oqlLhYRg" name="UNSET_ATTRIBUTE_JProject_Name" description="Sets JProject Name">
+  <annotations xmi:id="_9p9HkWksEea9u8oqlLhYRg" key="INVERSE" value="SET_ATTRIBUTE_JProject_Name"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9p9HkmksEea9u8oqlLhYRg" name="setJProjectName" description="Sets the EAttribute name">
+    <parameters xmi:id="_9p9Hk2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameters xmi:id="_9p9HlGksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9p9HlWksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9p9HlmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+        <attributes xmi:id="_9p9Hl2ksEea9u8oqlLhYRg" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9p9HmGksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9p9HmWksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9p9HmmksEea9u8oqlLhYRg" origin="_9p9HlmksEea9u8oqlLhYRg" image="_9p9HmWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9p9Hm2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9p9HkmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9p9HnGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9p9HnWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JProject"/>
+    </parameters>
+    <parameters xmi:id="_9p9HnmksEea9u8oqlLhYRg" name="Name">
+      <annotations xmi:id="_9p9Hn2ksEea9u8oqlLhYRg" key="INVERSE" value="Name"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9p9HoGksEea9u8oqlLhYRg" source="_9p9HnGksEea9u8oqlLhYRg" target="_9p9Hk2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9p9HoWksEea9u8oqlLhYRg" source="_9p9HnmksEea9u8oqlLhYRg" target="_9p9HlGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

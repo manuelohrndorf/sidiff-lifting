@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9l340GksEea9u8oqlLhYRg" name="UNSET_ATTRIBUTE_JClass_IsAbstract" description="Sets JClass IsAbstract">
+  <annotations xmi:id="_9l340WksEea9u8oqlLhYRg" key="INVERSE" value="SET_ATTRIBUTE_JClass_IsAbstract"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9l340mksEea9u8oqlLhYRg" name="setJClassIsAbstract" description="Sets the EAttribute isAbstract">
+    <parameters xmi:id="_9l3402ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9l341GksEea9u8oqlLhYRg" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9l341WksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9l341mksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+        <attributes xmi:id="_9l3412ksEea9u8oqlLhYRg" value="IsAbstract">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/isAbstract"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9l342GksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9l342WksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9l342mksEea9u8oqlLhYRg" origin="_9l341mksEea9u8oqlLhYRg" image="_9l342WksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9l3422ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9l340mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9l343GksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9l343WksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9l343mksEea9u8oqlLhYRg" name="IsAbstract">
+      <annotations xmi:id="_9l3432ksEea9u8oqlLhYRg" key="INVERSE" value="IsAbstract"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9l344GksEea9u8oqlLhYRg" source="_9l343GksEea9u8oqlLhYRg" target="_9l3402ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9l344WksEea9u8oqlLhYRg" source="_9l343mksEea9u8oqlLhYRg" target="_9l341GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

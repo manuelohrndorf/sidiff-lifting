@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9nMHcGksEea9u8oqlLhYRg" name="CREATE_JavaDoc_IN_JDocumentableElement_(javaDoc)" description="Creates one JavaDoc in JDocumentableElement">
+  <annotations xmi:id="_9nMHcWksEea9u8oqlLhYRg" key="INVERSE" value="DELETE_JavaDoc_IN_JDocumentableElement_(javaDoc)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9nMHcmksEea9u8oqlLhYRg" name="createJavaDoc_IN_JDocumentableElement" description="creates one JavaDoc in the context: JDocumentableElement">
+    <parameters xmi:id="_9nMHc2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+    </parameters>
+    <parameters xmi:id="_9nMHdGksEea9u8oqlLhYRg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9nMHdWksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9nMHdmksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9nMHd2ksEea9u8oqlLhYRg" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9nMHeGksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9nMHeWksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9nMHemksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9nMHe2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9nMHfGksEea9u8oqlLhYRg" name="Selected" outgoing="_9nMHg2ksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9nMHfWksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+      </nodes>
+      <nodes xmi:id="_9nMHfmksEea9u8oqlLhYRg" name="New" incoming="_9nMHg2ksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9nMHf2ksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+        <attributes xmi:id="_9nMHgGksEea9u8oqlLhYRg" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_9nMHgWksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_9nMHgmksEea9u8oqlLhYRg" value="Text">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc/text"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9nMHg2ksEea9u8oqlLhYRg" source="_9nMHfGksEea9u8oqlLhYRg" target="_9nMHfmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement/javaDoc"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9nMHhGksEea9u8oqlLhYRg" origin="_9nMHeWksEea9u8oqlLhYRg" image="_9nMHfGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9nMHhWksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9nMHcmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9nMHhmksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9nMHh2ksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+    </parameters>
+    <parameters xmi:id="_9nMHiGksEea9u8oqlLhYRg" name="New">
+      <annotations xmi:id="_9nMHiWksEea9u8oqlLhYRg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9nMHimksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9nMHi2ksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9nMHjGksEea9u8oqlLhYRg" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9nMHjWksEea9u8oqlLhYRg" source="_9nMHhmksEea9u8oqlLhYRg" target="_9nMHc2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nMHjmksEea9u8oqlLhYRg" source="_9nMHdGksEea9u8oqlLhYRg" target="_9nMHiGksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nMHj2ksEea9u8oqlLhYRg" source="_9nMHimksEea9u8oqlLhYRg" target="_9nMHdWksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nMHkGksEea9u8oqlLhYRg" source="_9nMHi2ksEea9u8oqlLhYRg" target="_9nMHdmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nMHkWksEea9u8oqlLhYRg" source="_9nMHjGksEea9u8oqlLhYRg" target="_9nMHd2ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

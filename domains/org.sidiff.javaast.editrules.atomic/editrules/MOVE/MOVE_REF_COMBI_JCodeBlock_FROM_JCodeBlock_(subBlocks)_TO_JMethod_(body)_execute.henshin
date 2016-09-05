@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9nLgYGksEea9u8oqlLhYRg" name="MOVE_REF_COMBI_JCodeBlock_FROM_JCodeBlock_(subBlocks)_TO_JMethod_(body)" description="MOVEs JCodeBlock from JCodeBlock(Reference:subBlocks) to JMethod(Reference:body">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9nLgYWksEea9u8oqlLhYRg" name="moveJCodeBlock_FROM_JCodeBlock_subBlocks_TO_JMethod_JMethod" description="Moves JCodeBlock from JCodeBlock(Reference:subBlocks) toJMethod(Reference:JMethod)">
+    <parameters xmi:id="_9nLgYmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9nLgY2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9nLgZGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <lhs xmi:id="_9nLgZWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9nLgZmksEea9u8oqlLhYRg" name="Selected" incoming="_9nLgaWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9nLgZ2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9nLgaWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9nLgaGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_9nLgaWksEea9u8oqlLhYRg" source="_9nLgZ2ksEea9u8oqlLhYRg" target="_9nLgZmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/subBlocks"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9nLgamksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9nLga2ksEea9u8oqlLhYRg" name="Selected" incoming="_9nLgbmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9nLgbGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9nLgbWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9nLgbmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <edges xmi:id="_9nLgbmksEea9u8oqlLhYRg" source="_9nLgbWksEea9u8oqlLhYRg" target="_9nLga2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod/body"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9nLgb2ksEea9u8oqlLhYRg" origin="_9nLgZmksEea9u8oqlLhYRg" image="_9nLga2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9nLgcGksEea9u8oqlLhYRg" origin="_9nLgZ2ksEea9u8oqlLhYRg" image="_9nLgbGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9nLgcWksEea9u8oqlLhYRg" origin="_9nLgaGksEea9u8oqlLhYRg" image="_9nLgbWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9nLgcmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9nLgYWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9nLgc2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9nLgdGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9nLgdWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameterMappings xmi:id="_9nLgdmksEea9u8oqlLhYRg" source="_9nLgc2ksEea9u8oqlLhYRg" target="_9nLgYmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nLgd2ksEea9u8oqlLhYRg" source="_9nLgdGksEea9u8oqlLhYRg" target="_9nLgY2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9nLgeGksEea9u8oqlLhYRg" source="_9nLgdWksEea9u8oqlLhYRg" target="_9nLgZGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

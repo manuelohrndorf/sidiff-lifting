@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9f-FIGksEea9u8oqlLhYRg" name="MOVE_JMethod_FROM_JInterface_(methodSignatures)_TO_JInterface_(methodSignatures)" description="MOVEs JMethod from JInterface(Reference:methodSignatures) to JInterface(Reference:methodSignatures">
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9f-FIWksEea9u8oqlLhYRg" name="moveJMethod_FROM_JInterface_methodSignatures_TO_JInterface_JInterface" description="Moves JMethod from JInterface(Reference:methodSignatures) toJInterface(Reference:JInterface)">
+    <parameters xmi:id="_9f-FImksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9f-FI2ksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9f-FJGksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <lhs xmi:id="_9f-FJWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9f-FJmksEea9u8oqlLhYRg" name="Selected" incoming="_9f-FKWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9f-FJ2ksEea9u8oqlLhYRg" name="OldSource" outgoing="_9f-FKWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9f-FKGksEea9u8oqlLhYRg" name="NewSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <edges xmi:id="_9f-FKWksEea9u8oqlLhYRg" source="_9f-FJ2ksEea9u8oqlLhYRg" target="_9f-FJmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/methodSignatures"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9f-FKmksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9f-FK2ksEea9u8oqlLhYRg" name="Selected" incoming="_9f-FLmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9f-FLGksEea9u8oqlLhYRg" name="OldSource">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9f-FLWksEea9u8oqlLhYRg" name="NewSource" outgoing="_9f-FLmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <edges xmi:id="_9f-FLmksEea9u8oqlLhYRg" source="_9f-FLWksEea9u8oqlLhYRg" target="_9f-FK2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/methodSignatures"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9f-FL2ksEea9u8oqlLhYRg" origin="_9f-FJmksEea9u8oqlLhYRg" image="_9f-FK2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9f-FMGksEea9u8oqlLhYRg" origin="_9f-FJ2ksEea9u8oqlLhYRg" image="_9f-FLGksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9f-FMWksEea9u8oqlLhYRg" origin="_9f-FKGksEea9u8oqlLhYRg" image="_9f-FLWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9f-FMmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9f-FIWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9f-FM2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9f-FNGksEea9u8oqlLhYRg" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9f-FNWksEea9u8oqlLhYRg" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameterMappings xmi:id="_9f-FNmksEea9u8oqlLhYRg" source="_9f-FM2ksEea9u8oqlLhYRg" target="_9f-FImksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9f-FN2ksEea9u8oqlLhYRg" source="_9f-FNGksEea9u8oqlLhYRg" target="_9f-FI2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9f-FOGksEea9u8oqlLhYRg" source="_9f-FNWksEea9u8oqlLhYRg" target="_9f-FJGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

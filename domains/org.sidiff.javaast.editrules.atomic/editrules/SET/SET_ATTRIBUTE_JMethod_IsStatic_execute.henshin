@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9mgK8GksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JMethod_IsStatic" description="Sets JMethod IsStatic">
+  <annotations xmi:id="_9mgK8WksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JMethod_IsStatic"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9mgK8mksEea9u8oqlLhYRg" name="setJMethodIsStatic" description="Sets the EAttribute isStatic">
+    <parameters xmi:id="_9mgK82ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9mgK9GksEea9u8oqlLhYRg" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9mgK9WksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9mgK9mksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9mgK92ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9mgK-GksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_9mgK-WksEea9u8oqlLhYRg" value="IsStatic">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod/isStatic"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9mgK-mksEea9u8oqlLhYRg" origin="_9mgK9mksEea9u8oqlLhYRg" image="_9mgK-GksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9mgK-2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9mgK8mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9mgK_GksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9mgK_WksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9mgK_mksEea9u8oqlLhYRg" name="IsStatic">
+      <annotations xmi:id="_9mgK_2ksEea9u8oqlLhYRg" key="INVERSE" value="IsStatic"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9mgLAGksEea9u8oqlLhYRg" source="_9mgK_GksEea9u8oqlLhYRg" target="_9mgK82ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9mgLAWksEea9u8oqlLhYRg" source="_9mgK_mksEea9u8oqlLhYRg" target="_9mgK9GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>
