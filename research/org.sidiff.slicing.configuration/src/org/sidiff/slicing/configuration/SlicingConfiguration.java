@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraints <em>Constraints</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraintinterpreter <em>Constraintinterpreter</em>}</li>
  * </ul>
  *
  * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration()
@@ -193,5 +194,31 @@ public interface SlicingConfiguration extends EObject {
 	 * @generated
 	 */
 	EList<Constraint> getConstraints();
+
+	/**
+	 * Returns the value of the '<em><b>Constraintinterpreter</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Constraintinterpreter</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Constraintinterpreter</em>' containment reference.
+	 * @see #setConstraintinterpreter(IConstraintInterpreter)
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_Constraintinterpreter()
+	 * @model containment="true"
+	 * @generated
+	 */
+	IConstraintInterpreter getConstraintinterpreter();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraintinterpreter <em>Constraintinterpreter</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Constraintinterpreter</em>' containment reference.
+	 * @see #getConstraintinterpreter()
+	 * @generated
+	 */
+	void setConstraintinterpreter(IConstraintInterpreter value);
 
 } // SlicingConfiguration

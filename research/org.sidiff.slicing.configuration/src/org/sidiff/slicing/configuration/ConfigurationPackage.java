@@ -4,7 +4,9 @@ package org.sidiff.slicing.configuration;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -140,13 +142,22 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICING_CONFIGURATION__CONSTRAINTS = 7;
 
 	/**
+	 * The feature id for the '<em><b>Constraintinterpreter</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICING_CONFIGURATION__CONSTRAINTINTERPRETER = 8;
+
+	/**
 	 * The number of structural features of the '<em>Slicing Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION_FEATURE_COUNT = 8;
+	int SLICING_CONFIGURATION_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Slicing Configuration</em>' class.
@@ -250,6 +261,134 @@ public interface ConfigurationPackage extends EPackage {
 	int CONSTRAINT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.sidiff.slicing.configuration.IConstraintInterpreter <em>IConstraint Interpreter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter
+	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getIConstraintInterpreter()
+	 * @generated
+	 */
+	int ICONSTRAINT_INTERPRETER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONSTRAINT_INTERPRETER__KEY = 0;
+
+	/**
+	 * The number of structural features of the '<em>IConstraint Interpreter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONSTRAINT_INTERPRETER_FEATURE_COUNT = 1;
+
+	/**
+	 * The operation id for the '<em>Evaluate</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONSTRAINT_INTERPRETER___EVALUATE__CONSTRAINT_EOBJECT = 0;
+
+	/**
+	 * The operation id for the '<em>Evaluate</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONSTRAINT_INTERPRETER___EVALUATE__ELIST_EOBJECT = 1;
+
+	/**
+	 * The number of operations of the '<em>IConstraint Interpreter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ICONSTRAINT_INTERPRETER_OPERATION_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.sidiff.slicing.configuration.impl.OCLConstraintInterpreterImpl <em>OCL Constraint Interpreter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.slicing.configuration.impl.OCLConstraintInterpreterImpl
+	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getOCLConstraintInterpreter()
+	 * @generated
+	 */
+	int OCL_CONSTRAINT_INTERPRETER = 4;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER__KEY = ICONSTRAINT_INTERPRETER__KEY;
+
+	/**
+	 * The feature id for the '<em><b>Ocl</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER__OCL = ICONSTRAINT_INTERPRETER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ocl Helper</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER__OCL_HELPER = ICONSTRAINT_INTERPRETER_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>OCL Constraint Interpreter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER_FEATURE_COUNT = ICONSTRAINT_INTERPRETER_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Evaluate</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER___EVALUATE__CONSTRAINT_EOBJECT = ICONSTRAINT_INTERPRETER___EVALUATE__CONSTRAINT_EOBJECT;
+
+	/**
+	 * The operation id for the '<em>Evaluate</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER___EVALUATE__ELIST_EOBJECT = ICONSTRAINT_INTERPRETER___EVALUATE__ELIST_EOBJECT;
+
+	/**
+	 * The number of operations of the '<em>OCL Constraint Interpreter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONSTRAINT_INTERPRETER_OPERATION_COUNT = ICONSTRAINT_INTERPRETER_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -257,7 +396,28 @@ public interface ConfigurationPackage extends EPackage {
 	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getSlicingMode()
 	 * @generated
 	 */
-	int SLICING_MODE = 3;
+	int SLICING_MODE = 5;
+
+
+	/**
+	 * The meta object id for the '<em>EOCL</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.ocl.ecore.OCL
+	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getEOCL()
+	 * @generated
+	 */
+	int EOCL = 6;
+
+	/**
+	 * The meta object id for the '<em>EOCL Helper</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.ocl.helper.OCLHelper
+	 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getEOCLHelper()
+	 * @generated
+	 */
+	int EOCL_HELPER = 7;
 
 
 	/**
@@ -359,6 +519,17 @@ public interface ConfigurationPackage extends EPackage {
 	EReference getSlicingConfiguration_Constraints();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraintinterpreter <em>Constraintinterpreter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Constraintinterpreter</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#getConstraintinterpreter()
+	 * @see #getSlicingConfiguration()
+	 * @generated
+	 */
+	EReference getSlicingConfiguration_Constraintinterpreter();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.SlicedEClass <em>Sliced EClass</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -423,6 +594,79 @@ public interface ConfigurationPackage extends EPackage {
 	EAttribute getConstraint_Expression();
 
 	/**
+	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.IConstraintInterpreter <em>IConstraint Interpreter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IConstraint Interpreter</em>'.
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter
+	 * @generated
+	 */
+	EClass getIConstraintInterpreter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.IConstraintInterpreter#getKey <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter#getKey()
+	 * @see #getIConstraintInterpreter()
+	 * @generated
+	 */
+	EAttribute getIConstraintInterpreter_Key();
+
+	/**
+	 * Returns the meta object for the '{@link org.sidiff.slicing.configuration.IConstraintInterpreter#evaluate(org.sidiff.slicing.configuration.Constraint, org.eclipse.emf.ecore.EObject) <em>Evaluate</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Evaluate</em>' operation.
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter#evaluate(org.sidiff.slicing.configuration.Constraint, org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
+	EOperation getIConstraintInterpreter__Evaluate__Constraint_EObject();
+
+	/**
+	 * Returns the meta object for the '{@link org.sidiff.slicing.configuration.IConstraintInterpreter#evaluate(org.eclipse.emf.common.util.EList, org.eclipse.emf.ecore.EObject) <em>Evaluate</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Evaluate</em>' operation.
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter#evaluate(org.eclipse.emf.common.util.EList, org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
+	EOperation getIConstraintInterpreter__Evaluate__EList_EObject();
+
+	/**
+	 * Returns the meta object for class '{@link org.sidiff.slicing.configuration.OCLConstraintInterpreter <em>OCL Constraint Interpreter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>OCL Constraint Interpreter</em>'.
+	 * @see org.sidiff.slicing.configuration.OCLConstraintInterpreter
+	 * @generated
+	 */
+	EClass getOCLConstraintInterpreter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.OCLConstraintInterpreter#getOcl <em>Ocl</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ocl</em>'.
+	 * @see org.sidiff.slicing.configuration.OCLConstraintInterpreter#getOcl()
+	 * @see #getOCLConstraintInterpreter()
+	 * @generated
+	 */
+	EAttribute getOCLConstraintInterpreter_Ocl();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.OCLConstraintInterpreter#getOclHelper <em>Ocl Helper</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ocl Helper</em>'.
+	 * @see org.sidiff.slicing.configuration.OCLConstraintInterpreter#getOclHelper()
+	 * @see #getOCLConstraintInterpreter()
+	 * @generated
+	 */
+	EAttribute getOCLConstraintInterpreter_OclHelper();
+
+	/**
 	 * Returns the meta object for enum '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -431,6 +675,28 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getSlicingMode();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.ocl.ecore.OCL <em>EOCL</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EOCL</em>'.
+	 * @see org.eclipse.ocl.ecore.OCL
+	 * @model instanceClass="org.eclipse.ocl.ecore.OCL"
+	 * @generated
+	 */
+	EDataType getEOCL();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.ocl.helper.OCLHelper <em>EOCL Helper</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EOCL Helper</em>'.
+	 * @see org.eclipse.ocl.helper.OCLHelper
+	 * @model instanceClass="org.eclipse.ocl.helper.OCLHelper"
+	 * @generated
+	 */
+	EDataType getEOCLHelper();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -530,6 +796,14 @@ public interface ConfigurationPackage extends EPackage {
 		EReference SLICING_CONFIGURATION__CONSTRAINTS = eINSTANCE.getSlicingConfiguration_Constraints();
 
 		/**
+		 * The meta object literal for the '<em><b>Constraintinterpreter</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SLICING_CONFIGURATION__CONSTRAINTINTERPRETER = eINSTANCE.getSlicingConfiguration_Constraintinterpreter();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.SlicedEClassImpl <em>Sliced EClass</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -582,6 +856,66 @@ public interface ConfigurationPackage extends EPackage {
 		EAttribute CONSTRAINT__EXPRESSION = eINSTANCE.getConstraint_Expression();
 
 		/**
+		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.IConstraintInterpreter <em>IConstraint Interpreter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.slicing.configuration.IConstraintInterpreter
+		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getIConstraintInterpreter()
+		 * @generated
+		 */
+		EClass ICONSTRAINT_INTERPRETER = eINSTANCE.getIConstraintInterpreter();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ICONSTRAINT_INTERPRETER__KEY = eINSTANCE.getIConstraintInterpreter_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Evaluate</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ICONSTRAINT_INTERPRETER___EVALUATE__CONSTRAINT_EOBJECT = eINSTANCE.getIConstraintInterpreter__Evaluate__Constraint_EObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Evaluate</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ICONSTRAINT_INTERPRETER___EVALUATE__ELIST_EOBJECT = eINSTANCE.getIConstraintInterpreter__Evaluate__EList_EObject();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.impl.OCLConstraintInterpreterImpl <em>OCL Constraint Interpreter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.slicing.configuration.impl.OCLConstraintInterpreterImpl
+		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getOCLConstraintInterpreter()
+		 * @generated
+		 */
+		EClass OCL_CONSTRAINT_INTERPRETER = eINSTANCE.getOCLConstraintInterpreter();
+
+		/**
+		 * The meta object literal for the '<em><b>Ocl</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OCL_CONSTRAINT_INTERPRETER__OCL = eINSTANCE.getOCLConstraintInterpreter_Ocl();
+
+		/**
+		 * The meta object literal for the '<em><b>Ocl Helper</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OCL_CONSTRAINT_INTERPRETER__OCL_HELPER = eINSTANCE.getOCLConstraintInterpreter_OclHelper();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.slicing.configuration.SlicingMode <em>Slicing Mode</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -590,6 +924,26 @@ public interface ConfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SLICING_MODE = eINSTANCE.getSlicingMode();
+
+		/**
+		 * The meta object literal for the '<em>EOCL</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.ocl.ecore.OCL
+		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getEOCL()
+		 * @generated
+		 */
+		EDataType EOCL = eINSTANCE.getEOCL();
+
+		/**
+		 * The meta object literal for the '<em>EOCL Helper</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.ocl.helper.OCLHelper
+		 * @see org.sidiff.slicing.configuration.impl.ConfigurationPackageImpl#getEOCLHelper()
+		 * @generated
+		 */
+		EDataType EOCL_HELPER = eINSTANCE.getEOCLHelper();
 
 	}
 

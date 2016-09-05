@@ -3,14 +3,18 @@
 package org.sidiff.slicing.configuration.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
-
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.helper.OCLHelper;
 import org.sidiff.slicing.configuration.*;
 
 /**
@@ -60,6 +64,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 			case ConfigurationPackage.SLICING_CONFIGURATION: return createSlicingConfiguration();
 			case ConfigurationPackage.SLICED_ECLASS: return createSlicedEClass();
 			case ConfigurationPackage.CONSTRAINT: return createConstraint();
+			case ConfigurationPackage.OCL_CONSTRAINT_INTERPRETER: return createOCLConstraintInterpreter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -75,6 +80,10 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 		switch (eDataType.getClassifierID()) {
 			case ConfigurationPackage.SLICING_MODE:
 				return createSlicingModeFromString(eDataType, initialValue);
+			case ConfigurationPackage.EOCL:
+				return createEOCLFromString(eDataType, initialValue);
+			case ConfigurationPackage.EOCL_HELPER:
+				return createEOCLHelperFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -90,6 +99,10 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 		switch (eDataType.getClassifierID()) {
 			case ConfigurationPackage.SLICING_MODE:
 				return convertSlicingModeToString(eDataType, instanceValue);
+			case ConfigurationPackage.EOCL:
+				return convertEOCLToString(eDataType, instanceValue);
+			case ConfigurationPackage.EOCL_HELPER:
+				return convertEOCLHelperToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -130,6 +143,16 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public OCLConstraintInterpreter createOCLConstraintInterpreter() {
+		OCLConstraintInterpreterImpl oclConstraintInterpreter = new OCLConstraintInterpreterImpl();
+		return oclConstraintInterpreter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SlicingMode createSlicingModeFromString(EDataType eDataType, String initialValue) {
 		SlicingMode result = SlicingMode.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -143,6 +166,43 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 */
 	public String convertSlicingModeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OCL createEOCLFromString(EDataType eDataType, String initialValue) {
+		return (OCL)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEOCLToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@SuppressWarnings("unchecked")
+	public OCLHelper<EClassifier, EOperation, EStructuralFeature, org.eclipse.ocl.ecore.Constraint> createEOCLHelperFromString(EDataType eDataType, String initialValue) {
+		return (OCLHelper<EClassifier, EOperation, EStructuralFeature, org.eclipse.ocl.ecore.Constraint>)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEOCLHelperToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

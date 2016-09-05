@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.Constraint;
+import org.sidiff.slicing.configuration.IConstraintInterpreter;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.configuration.SlicingMode;
@@ -45,6 +46,7 @@ import org.sidiff.slicing.configuration.SlicingMode;
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicedEClasses <em>Sliced EClasses</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getConstraints <em>Constraints</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getConstraintinterpreter <em>Constraintinterpreter</em>}</li>
  * </ul>
  *
  * @generated
@@ -139,6 +141,16 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * @ordered
 	 */
 	protected EList<Constraint> constraints;
+
+	/**
+	 * The cached value of the '{@link #getConstraintinterpreter() <em>Constraintinterpreter</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConstraintinterpreter()
+	 * @generated
+	 * @ordered
+	 */
+	protected IConstraintInterpreter constraintinterpreter;
 
 	/**
 	 * @generated NOT
@@ -303,6 +315,49 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public IConstraintInterpreter getConstraintinterpreter() {
+		return constraintinterpreter;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetConstraintinterpreter(IConstraintInterpreter newConstraintinterpreter, NotificationChain msgs) {
+		IConstraintInterpreter oldConstraintinterpreter = constraintinterpreter;
+		constraintinterpreter = newConstraintinterpreter;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER, oldConstraintinterpreter, newConstraintinterpreter);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConstraintinterpreter(IConstraintInterpreter newConstraintinterpreter) {
+		if (newConstraintinterpreter != constraintinterpreter) {
+			NotificationChain msgs = null;
+			if (constraintinterpreter != null)
+				msgs = ((InternalEObject)constraintinterpreter).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER, null, msgs);
+			if (newConstraintinterpreter != null)
+				msgs = ((InternalEObject)newConstraintinterpreter).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER, null, msgs);
+			msgs = basicSetConstraintinterpreter(newConstraintinterpreter, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER, newConstraintinterpreter, newConstraintinterpreter));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -325,6 +380,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return ((InternalEList<?>)getSlicedEClasses()).basicRemove(otherEnd, msgs);
 			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
 				return ((InternalEList<?>)getConstraints()).basicRemove(otherEnd, msgs);
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
+				return basicSetConstraintinterpreter(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -353,6 +410,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return getOppositeSlicedEClassType();
 			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
 				return getConstraints();
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
+				return getConstraintinterpreter();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -391,6 +450,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				getConstraints().clear();
 				getConstraints().addAll((Collection<? extends Constraint>)newValue);
 				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
+				setConstraintinterpreter((IConstraintInterpreter)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -424,6 +486,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
 				getConstraints().clear();
 				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
+				setConstraintinterpreter((IConstraintInterpreter)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -452,6 +517,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return getOppositeSlicedEClassType() != null;
 			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
 				return constraints != null && !constraints.isEmpty();
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
+				return constraintinterpreter != null;
 		}
 		return super.eIsSet(featureID);
 	}

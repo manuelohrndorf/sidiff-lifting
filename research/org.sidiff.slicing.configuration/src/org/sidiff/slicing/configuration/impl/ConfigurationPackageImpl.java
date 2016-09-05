@@ -4,17 +4,23 @@ package org.sidiff.slicing.configuration.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.ocl.ecore.OCL;
+import org.eclipse.ocl.helper.OCLHelper;
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.Constraint;
+import org.sidiff.slicing.configuration.IConstraintInterpreter;
+import org.sidiff.slicing.configuration.OCLConstraintInterpreter;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.configuration.SlicingMode;
@@ -52,7 +58,35 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass iConstraintInterpreterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass oclConstraintInterpreterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum slicingModeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType eoclEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType eoclHelperEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -204,6 +238,15 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSlicingConfiguration_Constraintinterpreter() {
+		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSlicedEClass() {
 		return slicedEClassEClass;
 	}
@@ -258,8 +301,89 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIConstraintInterpreter() {
+		return iConstraintInterpreterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIConstraintInterpreter_Key() {
+		return (EAttribute)iConstraintInterpreterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIConstraintInterpreter__Evaluate__Constraint_EObject() {
+		return iConstraintInterpreterEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIConstraintInterpreter__Evaluate__EList_EObject() {
+		return iConstraintInterpreterEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOCLConstraintInterpreter() {
+		return oclConstraintInterpreterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOCLConstraintInterpreter_Ocl() {
+		return (EAttribute)oclConstraintInterpreterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOCLConstraintInterpreter_OclHelper() {
+		return (EAttribute)oclConstraintInterpreterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSlicingMode() {
 		return slicingModeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEOCL() {
+		return eoclEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEOCLHelper() {
+		return eoclHelperEDataType;
 	}
 
 	/**
@@ -299,6 +423,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICED_ECLASSES);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__CONSTRAINTS);
+		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__CONSTRAINTINTERPRETER);
 
 		slicedEClassEClass = createEClass(SLICED_ECLASS);
 		createEReference(slicedEClassEClass, SLICED_ECLASS__SLICING_CONFIGURATION);
@@ -308,8 +433,21 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		constraintEClass = createEClass(CONSTRAINT);
 		createEAttribute(constraintEClass, CONSTRAINT__EXPRESSION);
 
+		iConstraintInterpreterEClass = createEClass(ICONSTRAINT_INTERPRETER);
+		createEAttribute(iConstraintInterpreterEClass, ICONSTRAINT_INTERPRETER__KEY);
+		createEOperation(iConstraintInterpreterEClass, ICONSTRAINT_INTERPRETER___EVALUATE__CONSTRAINT_EOBJECT);
+		createEOperation(iConstraintInterpreterEClass, ICONSTRAINT_INTERPRETER___EVALUATE__ELIST_EOBJECT);
+
+		oclConstraintInterpreterEClass = createEClass(OCL_CONSTRAINT_INTERPRETER);
+		createEAttribute(oclConstraintInterpreterEClass, OCL_CONSTRAINT_INTERPRETER__OCL);
+		createEAttribute(oclConstraintInterpreterEClass, OCL_CONSTRAINT_INTERPRETER__OCL_HELPER);
+
 		// Create enums
 		slicingModeEEnum = createEEnum(SLICING_MODE);
+
+		// Create data types
+		eoclEDataType = createEDataType(EOCL);
+		eoclHelperEDataType = createEDataType(EOCL_HELPER);
 	}
 
 	/**
@@ -343,6 +481,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		oclConstraintInterpreterEClass.getESuperTypes().add(this.getIConstraintInterpreter());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(slicingConfigurationEClass, SlicingConfiguration.class, "SlicingConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -359,6 +498,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getSlicingConfiguration_OppositeSlicedEClassType(), g1, "oppositeSlicedEClassType", null, 0, 1, SlicingConfiguration.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicingConfiguration_Constraints(), this.getConstraint(), null, "constraints", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSlicingConfiguration_Constraintinterpreter(), this.getIConstraintInterpreter(), null, "constraintinterpreter", null, 0, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(slicedEClassEClass, SlicedEClass.class, "SlicedEClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSlicedEClass_SlicingConfiguration(), this.getSlicingConfiguration(), this.getSlicingConfiguration_SlicedEClasses(), "slicingConfiguration", null, 1, 1, SlicedEClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -368,10 +508,32 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		initEClass(constraintEClass, Constraint.class, "Constraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConstraint_Expression(), theEcorePackage.getEString(), "expression", null, 0, 1, Constraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(iConstraintInterpreterEClass, IConstraintInterpreter.class, "IConstraintInterpreter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIConstraintInterpreter_Key(), theEcorePackage.getEString(), "key", null, 0, 1, IConstraintInterpreter.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		EOperation op = initEOperation(getIConstraintInterpreter__Evaluate__Constraint_EObject(), theEcorePackage.getEBoolean(), "evaluate", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getConstraint(), "constraint", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "context", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getIConstraintInterpreter__Evaluate__EList_EObject(), theEcorePackage.getEBoolean(), "evaluate", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(theEcorePackage.getEEList());
+		g2 = createEGenericType(this.getConstraint());
+		g1.getETypeArguments().add(g2);
+		addEParameter(op, g1, "constraints", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEObject(), "context", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(oclConstraintInterpreterEClass, OCLConstraintInterpreter.class, "OCLConstraintInterpreter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOCLConstraintInterpreter_Ocl(), this.getEOCL(), "ocl", null, 1, 1, OCLConstraintInterpreter.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOCLConstraintInterpreter_OclHelper(), this.getEOCLHelper(), "oclHelper", null, 1, 1, OCLConstraintInterpreter.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(slicingModeEEnum, SlicingMode.class, "SlicingMode");
 		addEEnumLiteral(slicingModeEEnum, SlicingMode.OPTIMISTIC);
 		addEEnumLiteral(slicingModeEEnum, SlicingMode.PESSIMISTIC);
+
+		// Initialize data types
+		initEDataType(eoclEDataType, OCL.class, "EOCL", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(eoclHelperEDataType, OCLHelper.class, "EOCLHelper", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

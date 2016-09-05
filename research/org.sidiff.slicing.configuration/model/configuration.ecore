@@ -23,6 +23,8 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
         eType="#//Constraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraintinterpreter"
+        eType="#//IConstraintInterpreter" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SlicingMode">
     <eLiterals name="OPTIMISTIC"/>
@@ -38,4 +40,29 @@
   <eClassifiers xsi:type="ecore:EClass" name="Constraint">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IConstraintInterpreter" abstract="true"
+      interface="true">
+    <eOperations name="evaluate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eParameters name="constraint" eType="#//Constraint"/>
+      <eParameters name="context" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eOperations name="evaluate" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean">
+      <eParameters name="constraints">
+        <eGenericType eClassifier="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EEList">
+          <eTypeArguments eClassifier="#//Constraint"/>
+        </eGenericType>
+      </eParameters>
+      <eParameters name="context" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+        changeable="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OCLConstraintInterpreter" eSuperTypes="#//IConstraintInterpreter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ocl" lowerBound="1" eType="#//EOCL"
+        changeable="false" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oclHelper" lowerBound="1"
+        eType="#//EOCLHelper" changeable="false" transient="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="EOCL" instanceClassName="org.eclipse.ocl.ecore.OCL"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EOCLHelper" instanceClassName="org.eclipse.ocl.helper.OCLHelper"/>
 </ecore:EPackage>

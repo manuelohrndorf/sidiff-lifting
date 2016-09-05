@@ -27,7 +27,6 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.slicing.configuration.ConfigurationFactory;
 import org.sidiff.slicing.configuration.ConfigurationPackage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
-import org.sidiff.slicing.configuration.provider.descriptor.SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.slicing.configuration.SlicingConfiguration} object.
@@ -72,6 +71,7 @@ public class SlicingConfigurationItemProvider
 			addSlicedEClassesPropertyDescriptor(object);
 			addOppositeSlicedEClassTypePropertyDescriptor(object);
 			addConstraintsPropertyDescriptor(object);
+			addConstraintinterpreterPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -216,7 +216,7 @@ public class SlicingConfigurationItemProvider
 	 */
 	protected void addOppositeSlicedEClassTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(new SlicingConfigurationOppositeSlicedEClassTypePropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_SlicingConfiguration_oppositeSlicedEClassType_feature"),
@@ -253,6 +253,28 @@ public class SlicingConfigurationItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Constraintinterpreter feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addConstraintinterpreterPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicingConfiguration_constraintinterpreter_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_constraintinterpreter_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -266,6 +288,7 @@ public class SlicingConfigurationItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(ConfigurationPackage.Literals.SLICING_CONFIGURATION__SLICED_ECLASSES);
 			childrenFeatures.add(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTS);
+			childrenFeatures.add(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER);
 		}
 		return childrenFeatures;
 	}
@@ -330,6 +353,7 @@ public class SlicingConfigurationItemProvider
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTS:
+			case ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -356,6 +380,11 @@ public class SlicingConfigurationItemProvider
 			(createChildParameter
 				(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTS,
 				 ConfigurationFactory.eINSTANCE.createConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConfigurationPackage.Literals.SLICING_CONFIGURATION__CONSTRAINTINTERPRETER,
+				 ConfigurationFactory.eINSTANCE.createOCLConstraintInterpreter()));
 	}
 
 	/**
