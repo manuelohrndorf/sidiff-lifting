@@ -152,12 +152,15 @@ public class JTemplateWrapperImpl extends JIdentifiableElementImpl implements JT
   /**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getQualifiedName() {
-		// TODO: implement this method to return the 'Qualified Name' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		// HACK Blind kopiert
+		if ((eContainer() != null) && (eContainer() instanceof JNamedElement)){
+			return ((JNamedElement)eContainer()).getQualifiedName() + "/" + this.getName();
+		} else{
+			return getName();
+		}
 	}
 
 		/**
