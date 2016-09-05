@@ -33,7 +33,7 @@ public class StorageUtil {
 	
 	public static URI generateSaveURI(URI loadURI, SlicingConfiguration config){
 		String savePath = loadURI.path();
-		savePath = savePath.replace(loadURI.lastSegment(), config.getName() + File.separator + loadURI.lastSegment());
+		savePath = savePath.replace(loadURI.lastSegment(), config.getName() + "_" + config.getSlicingMode() + File.separator + loadURI.lastSegment());
 		
 		return EMFStorage.pathToUri(savePath);
 	}

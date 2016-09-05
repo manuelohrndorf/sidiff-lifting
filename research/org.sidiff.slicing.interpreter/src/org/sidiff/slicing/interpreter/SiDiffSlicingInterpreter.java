@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.slicing.configuration.Constraint;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.configuration.SlicingMode;
@@ -64,8 +65,10 @@ public class SiDiffSlicingInterpreter {
 	 * control variable determining the depth of a recursion
 	 */
 	private int recursionDepth;
+	
 	/**
 	 * Initializes the {@link SiDiffSlicingInterpreter}
+	 * 
 	 * @param slicingConfiguration
 	 * @param input
 	 */
@@ -90,10 +93,13 @@ public class SiDiffSlicingInterpreter {
 	}
 	
 	/**
+	 * The slicing method configured by the {@link #slicingConfiguration}
 	 * 
 	 * @param contexts
+	 *            starting points of the slicing algorithm.
+	 * @throws Exception
 	 */
-	public void slice(Set<EObject> input) {
+	public void slice(Set<EObject> input) throws Exception {
 		
 		recursionDepth++;
 		
@@ -103,10 +109,10 @@ public class SiDiffSlicingInterpreter {
 			
 			EObject clonedIn = cloneEObject(in);
 			
-			if(this.slicedEClasses.containsKey(in.eClass())){
+			if(checkSlicingConditions(in)){
 				this.slicedContextElements.put(in,clonedIn);
 				nextInput.addAll(getOutgoingNeighbours(in));	
-				if(slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
+				if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
 					nextInput.addAll(getIncomingNeighbours(in));
 				}
 			}else{
@@ -130,6 +136,12 @@ public class SiDiffSlicingInterpreter {
 		}
 	}
 
+	/**
+	 * Getter of the slicing result.
+	 * 
+	 * @return
+	 * 		new {@link Slicing} model
+	 */
 	public Slicing getSlicedModel() {
 		Slicing slicing = SlicingmodelFactory.eINSTANCE.createSlicing();
 		for(EObject eObject : slicedContextElements.values()){
@@ -166,6 +178,7 @@ public class SiDiffSlicingInterpreter {
 		return EMFModelAccess.getNodeNeighbors(eObject);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void relinkEReferences(EObject src){
 		for (EReference eReference : src.eClass().getEAllReferences()) {
 			if (!eReference.isDerived()) {
@@ -191,5 +204,21 @@ public class SiDiffSlicingInterpreter {
 				}
 			}
 		}
+	}
+	
+	private boolean checkSlicingConditions(EObject eObject) throws Exception{
+		
+		boolean isValid = true;
+		
+		if(this.slicedEClasses.containsKey(eObject.eClass())){
+			for(Constraint constraint : this.slicedEClasses.get(eObject.eClass()).getConstraints()){
+				if(!this.slicingConfiguration.getConstraintinterpreter().evaluate(constraint, eObject)){
+					isValid = false;
+					break;
+				}
+			}
+		}
+		
+		return isValid;
 	}
 }

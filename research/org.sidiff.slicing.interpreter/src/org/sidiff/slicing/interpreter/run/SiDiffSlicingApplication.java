@@ -10,12 +10,11 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
+import org.sidiff.slicing.configuration.SlicingMode;
 import org.sidiff.slicing.interpreter.SiDiffSlicingInterpreter;
 import org.sidiff.slicing.interpreter.util.StorageUtil;
 import org.sidiff.slicing.slicingmodel.Slicing;
 
-import simpleWebModel.HypertextLayer;
-import simpleWebModel.Page;
 import simpleWebModel.WebModel;
 
 public class SiDiffSlicingApplication implements IApplication{
@@ -57,6 +56,12 @@ public class SiDiffSlicingApplication implements IApplication{
 		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
 		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_data), false);
 		
+		((SlicingConfiguration)config_data).setSlicingMode(SlicingMode.PESSIMISTIC);
+		siDiffSlicingInterpreter.init((SlicingConfiguration)config_data);
+		siDiffSlicingInterpreter.slice(contexts);
+		slicedModel = siDiffSlicingInterpreter.getSlicedModel();
+		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
+		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_data), false);
 		return null;
 	}
 
