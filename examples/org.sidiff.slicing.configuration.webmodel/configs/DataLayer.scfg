@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration:SlicingConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:configuration="http://www.sidiff.org/slicing/configuration/0.1" name="DataLayer">
+<configuration:SlicingConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:configuration="http://www.sidiff.org/slicing/configuration/0.1" name="DataLayer">
   <documentTypes>http://simpleWebModel/1.0</documentTypes>
   <slicedEClasses>
     <type href="http://simpleWebModel/1.0#//WebModel"/>
@@ -7,7 +7,7 @@
   <slicedEClasses>
     <type href="http://simpleWebModel/1.0#//DataLayer"/>
   </slicedEClasses>
-  <slicedEClasses>
+  <slicedEClasses constraints="//@constraints.0">
     <type href="http://simpleWebModel/1.0#//Entity"/>
   </slicedEClasses>
   <slicedEClasses>
@@ -16,4 +16,6 @@
   <slicedEClasses>
     <type href="http://simpleWebModel/1.0#//Reference"/>
   </slicedEClasses>
+  <constraints expression="self.annotation='Contest'"/>
+  <constraintinterpreter xsi:type="configuration:OCLConstraintInterpreter"/>
 </configuration:SlicingConfiguration>

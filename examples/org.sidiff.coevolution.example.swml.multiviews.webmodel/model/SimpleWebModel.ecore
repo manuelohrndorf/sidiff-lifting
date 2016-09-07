@@ -12,7 +12,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
         eType="#//Entity" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Entity">
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//AnnotatableElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attribute" containment="true"/>
@@ -40,7 +40,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="startPage" eType="#//StaticPage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataLayer" eType="#//DataLayer"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Page" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Page" abstract="true" eSuperTypes="#//AnnotatableElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
         eType="#//Link" containment="true"/>
@@ -54,4 +54,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndexPage" eSuperTypes="#//DynamicPage"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataPage" eSuperTypes="#//DynamicPage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotatableElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="annotation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

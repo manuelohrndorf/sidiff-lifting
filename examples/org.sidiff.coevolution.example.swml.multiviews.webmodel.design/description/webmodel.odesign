@@ -4,9 +4,9 @@
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Simple Web Model Diagram" domainClass="simpleWebModel.WebModel" enablePopupBars="true">
       <defaultLayer name="Web Model">
         <edgeMappings name="Reference" semanticCandidatesExpression="aql:self.dataLayer.entities.references" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetFinderExpression="feature:type" sourceFinderExpression="feature:eContainer" domainClass="simpleWebModel.Reference" useDomainElement="true">
-          <style centeredSourceMappings="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" centeredTargetMappings="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']">
+          <style routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-            <centerLabelStyleDescription labelExpression="feature:name">
+            <centerLabelStyleDescription showIcon="false" labelExpression="feature:name">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
@@ -20,15 +20,15 @@
           </style>
         </edgeMappings>
         <edgeMappings name="DynamicPage.shows" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='DataPage'] //@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='IndexPage']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Data%20Layer']/@subContainerMappings[name='Entity']" targetFinderExpression="feature:shows">
-          <style lineStyle="dash" sizeComputationExpression="2">
+          <style lineStyle="dash" sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-            <centerLabelStyleDescription>
+            <centerLabelStyleDescription showIcon="false" labelExpression="shows">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
         <edgeMappings name="Link" semanticCandidatesExpression="aql:self.hypertextLayer.pages.links" sourceMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='DataPage'] //@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='StaticPage'] //@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='IndexPage']" targetMapping="//@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='DataPage'] //@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='IndexPage'] //@ownedViewpoints[name='Simple%20Web%20Model%20Viewpoint']/@ownedRepresentations[name='Simple%20Web%20Model%20Diagram']/@defaultLayer/@containerMappings[name='Hypertext%20Layer']/@subNodeMappings[name='StaticPage']" targetFinderExpression="feature:target" sourceFinderExpression="feature:eContainer" domainClass="simpleWebModel.Link" useDomainElement="true">
-          <style sizeComputationExpression="2">
+          <style sizeComputationExpression="2" routingStyle="manhattan">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -37,27 +37,27 @@
         </edgeMappings>
         <containerMappings name="Hypertext Layer" semanticCandidatesExpression="feature:hypertextLayer" domainClass="simpleWebModel.HypertextLayer">
           <subNodeMappings name="StaticPage" semanticCandidatesExpression="feature:pages" domainClass="simpleWebModel.StaticPage">
-            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql:'Static Page: ' + self.name" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/org.sidiff.coevolution.example.swml.multiviews.webmodel.design/icons/page.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_orange']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='orange']"/>
             </style>
           </subNodeMappings>
           <subNodeMappings name="IndexPage" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.IndexPage">
-            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql:'Index Page: ' + self.name" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/org.sidiff.coevolution.example.swml.multiviews.webmodel.design/icons/page.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='green']"/>
             </style>
           </subNodeMappings>
           <subNodeMappings name="DataPage" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.DataPage">
-            <style xsi:type="style:SquareDescription" sizeComputationExpression="10" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:WorkspaceImageDescription" showIcon="false" labelExpression="aql:'Data Page: ' + self.name" sizeComputationExpression="-1" workspacePath="/org.sidiff.coevolution.example.swml.multiviews.webmodel.design/icons/page.png">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
+              <labelFormat>bold</labelFormat>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='blue']"/>
             </style>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name" iconPath="/org.sidiff.coevolution.example.swml.multiviews.webmodel.design/icons/hypertextlayer.png">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelFormat>italic</labelFormat>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -69,13 +69,13 @@
         <containerMappings name="Data Layer" semanticCandidatesExpression="feature:dataLayer" domainClass="simpleWebModel.DataLayer">
           <subContainerMappings name="Entity" semanticCandidatesExpression="feature:eAllContents" domainClass="simpleWebModel.Entity" childrenPresentation="List">
             <subNodeMappings name="Attribute" semanticCandidatesExpression="feature:attributes" domainClass="simpleWebModel.Attribute">
-              <style xsi:type="style:SquareDescription" labelExpression="aql:self.name + ': ' + self.type.toString()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
+              <style xsi:type="style:SquareDescription" showIcon="false" labelExpression="aql:self.name + ': ' + self.type.toString()" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW">
                 <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
                 <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
               </style>
             </subNodeMappings>
-            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" roundedCorner="true" widthComputationExpression="10" heightComputationExpression="10" backgroundStyle="Liquid">
+            <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" showIcon="false" roundedCorner="true" widthComputationExpression="10" heightComputationExpression="10" backgroundStyle="Liquid">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -83,7 +83,7 @@
               <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
             </style>
           </subContainerMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name">
+          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" borderLineStyle="dash" labelExpression="aql:self.eContainer().name + ':' +self.eClass().name" iconPath="/org.sidiff.coevolution.example.swml.multiviews.webmodel.design/icons/datalayer.png">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelFormat>italic</labelFormat>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
