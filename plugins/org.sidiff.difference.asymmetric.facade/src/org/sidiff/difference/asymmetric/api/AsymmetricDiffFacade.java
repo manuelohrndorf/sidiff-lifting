@@ -52,22 +52,14 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	public static Difference deriveLiftedAsymmetricDifference(SymmetricDifference symmetricDifference, LiftingSettings settings){
 		
 		// Create empty asymmetric difference
-		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE
-				.createAsymmetricDifference();
+		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
-		
-		if(importMerger == null){
-			importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
-		}
-		
-		if(settings.isEnabled_MergeImports()){
-			// Merge Imports
-			LogUtil.log(LogEvent.NOTICE, "Merge imports");
-			importMerger.setAsymmetricDifference(asymmetricDifference);
-			importMerger.merge();
-		}
-		
-		liftMeUp(symmetricDifference, settings);
+
+		// Merge imports:
+		MergeImports importMerger = mergeImports(symmetricDifference, settings);
+
+		// Lifting:
+		liftMeUp(symmetricDifference, settings, importMerger);
 		
 		// Derive Asymmetric-Difference from Symmetric-Difference
 		LogUtil.log(LogEvent.NOTICE, "Derive asymmetric difference");
@@ -76,14 +68,14 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Retrieve dependencies of operation invocations
 		StatisticsUtil.getInstance().start("DependencyAnalysis");
 		LogUtil.log(LogEvent.NOTICE, "Analyze dependencies");
-		DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(recognitionEngine, asymmetricDifference);
+		DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(settings.getRecognitionEngine(), asymmetricDifference);
 		dependencyAnalyzer.analyze();
 		StatisticsUtil.getInstance().stop("DependencyAnalysis");
 		
 		// Retrieve actual parameter values of operation invocations
 		StatisticsUtil.getInstance().start("ParameterRetriever");
 		LogUtil.log(LogEvent.NOTICE, "Retrieve parameter values");
-		ParameterRetriever paramRetriever = new ParameterRetriever(recognitionEngine, asymmetricDifference);
+		ParameterRetriever paramRetriever = new ParameterRetriever(settings.getRecognitionEngine(), asymmetricDifference);
 		paramRetriever.retrieveParameters();
 		StatisticsUtil.getInstance().stop("ParameterRetriever");
 
@@ -97,11 +89,8 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Create new difference container
 		Difference fullDiff = new Difference(symmetricDifference, asymmetricDifference);
 		
-		if(settings.isEnabled_MergeImports()){
-			// Unmerge Imports
-			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
-			importMerger.unmerge();
-		}
+		// Unmerge Imports
+		unmergeImports(importMerger);
 		
 		return fullDiff;
 	}

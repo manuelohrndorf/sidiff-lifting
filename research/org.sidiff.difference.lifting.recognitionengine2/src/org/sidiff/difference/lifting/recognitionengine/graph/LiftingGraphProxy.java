@@ -110,6 +110,7 @@ public class LiftingGraphProxy implements EGraph {
 			}
 			
 			// Meta-model type node:
+			// TODO: Set types as partial match!
 			if ((type == EcorePackage.eINSTANCE.getEReference()) || (type == EcorePackage.eINSTANCE.getEAttribute())) {
 				result.addAll(liftingGraphDomainMap.getTypeNodes());
 			}

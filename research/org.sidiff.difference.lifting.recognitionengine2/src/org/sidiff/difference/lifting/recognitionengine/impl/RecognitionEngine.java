@@ -42,6 +42,7 @@ import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -478,6 +479,13 @@ public class RecognitionEngine implements IRecognitionEngine {
 	
 	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {
 		return recognitionRules.get(rr);
+	}
+	
+	/**
+	 * @return The difference this RecognitionEngine is working on.
+	 */
+	public SymmetricDifference getDifference() {
+		return setup.getDifference();
 	}
 	
 	@Override

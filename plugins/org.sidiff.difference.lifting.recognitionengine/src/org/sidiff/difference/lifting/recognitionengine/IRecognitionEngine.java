@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
 
 /**
@@ -24,11 +23,6 @@ public interface IRecognitionEngine {
 	 * Execution of all recognition rules.
 	 */
 	public void execute();
-	
-	/**
-	 * @return The difference this RecognitionEngine is working on.
-	 */
-	public SymmetricDifference getDifference();
 	
 	/**
 	 * @return All applied recognition rule applications.

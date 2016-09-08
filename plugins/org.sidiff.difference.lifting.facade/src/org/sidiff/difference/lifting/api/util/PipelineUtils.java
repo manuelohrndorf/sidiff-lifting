@@ -11,10 +11,12 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -106,6 +108,30 @@ public class PipelineUtils {
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(String documentType) {
 		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentType);
 	}
+	
+	/**
+	 * 
+	 * Returns the default technical difference builder for the given
+	 * documentTypes: <br/>
+	 * In case of Ecore: take first non-generics diff builder. <br/>
+	 * Otherwise: take first technical difference builder
+	 * 
+	 * @param documentTypes
+	 * @return
+	 */
+	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
+		
+		if ((documentTypes != null) && !documentTypes.isEmpty()) {
+			String docType = EMFModelAccess.selectDocumentType(documentTypes);
+			
+			if (docType != null) {
+				return PipelineUtils.getDefaultTechnicalDifferenceBuilder(docType);
+			}
+		}
+		
+		return null;
+	}
+
 
 	/**
 	 * Find all available recognition rule sorter matching the given document
@@ -349,5 +375,21 @@ public class PipelineUtils {
 		for (SemanticChangeSet changeSet : difference.getUnusedChangeSets()) {
 			ECollections.sort(changeSet.getChanges(), changeSorter);
 		}
+	}
+	
+	/**
+	 * Converts the lifting settings to the recognition engine setup.
+	 * 
+	 * @param settings
+	 *            The lifting settings.
+	 * @return The recognition engine setup
+	 */
+	public static RecognitionEngineSetup createRecognitionEngineSetup(LiftingSettings settings) {
+		return new RecognitionEngineSetup(
+				settings.getScope(), settings.getRuleBases(), 
+				settings.isRuleSetReduction(), settings.isBuildGraphPerRule(), 
+				settings.getRrSorter(), settings.isUseThreadPool(),
+				settings.getNumberOfThreads(), settings.getRulesPerThread(), 
+				settings.isCalculateEditRuleMatch(), settings.isSerializeEditRuleMatch());
 	}
 }
