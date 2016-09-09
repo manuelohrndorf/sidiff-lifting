@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.common.util.StringUtil;
 import org.sidiff.slicing.configuration.Constraint;
 import org.sidiff.slicing.configuration.SlicedEClass;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
@@ -104,33 +107,34 @@ public class SiDiffSlicingInterpreter {
 		recursionDepth++;
 		
 		for(EObject in : input){
-			
-			Set<EObject> nextInput = new HashSet<EObject>();
-			
-			EObject clonedIn = cloneEObject(in);
-			
-			if(checkSlicingConditions(in)){
-				this.slicedContextElements.put(in,clonedIn);
-				nextInput.addAll(getOutgoingNeighbours(in));	
-				if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
-					nextInput.addAll(getIncomingNeighbours(in));
+			if(!this.slicedElements.containsKey(in)){
+				Set<EObject> nextInput = new HashSet<EObject>();
+				
+				EObject clonedIn = cloneEObject(in);
+				
+				if(checkSlicingConditions(in)){
+					this.slicedContextElements.put(in,clonedIn);
+					nextInput.addAll(getOutgoingNeighbours(in));	
+					if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
+						nextInput.addAll(getIncomingNeighbours(in));
+					}
+				}else{
+					this.slicedBoundaryElements.put(in,clonedIn);
+					nextInput.addAll(getMandatoryNeighbours(in));
 				}
-			}else{
-				this.slicedBoundaryElements.put(in,clonedIn);
-				nextInput.addAll(getMandatoryNeighbours(in));
+				
+				this.slicedElements.put(in, clonedIn);
+				LogUtil.log(LogEvent.MESSAGE, "Sliced EClass: " + StringUtil.resolve(in));
+				
+				nextInput.removeAll(this.slicedElements.keySet());
+				
+				slice(nextInput);
 			}
-			
-			this.slicedElements.put(in, clonedIn);
-			
-			nextInput.removeAll(this.slicedElements.keySet());
-			
-			slice(nextInput);
-			
 			
 		}
 
 		if(--recursionDepth == 0){
-			for(EObject eObject : slicedElements.keySet()){
+			for(EObject eObject : this.slicedElements.keySet()){
 				relinkEReferences(eObject);
 			}
 		}
@@ -181,25 +185,25 @@ public class SiDiffSlicingInterpreter {
 	@SuppressWarnings("unchecked")
 	private void relinkEReferences(EObject src){
 		for (EReference eReference : src.eClass().getEAllReferences()) {
-			if (!eReference.isDerived()) {
+			if (eReference.isChangeable() && !eReference.isDerived()) {
 				if (eReference.isMany()) {
-					List<EObject> targets = new ArrayList<EObject>();
 					for (EObject target : (List<EObject>) src.eGet(eReference)) {
 						if (slicedElements.containsKey(target)) {
-							targets.add(slicedElements.get(target));
+							((List<EObject>)slicedElements.get(src).eGet(eReference)).add(slicedElements.get(target));
 						}
 					}
-					slicedElements.get(src).eSet(eReference, targets);
 				} else {
 					EObject target = (EObject) src.eGet(eReference);
-					if (!slicedElements.containsKey(target)) {
-						if (eReference.isUnsettable()) {
-							slicedElements.get(src).eUnset(eReference);
+					if (target != null){
+						if(!slicedElements.containsKey(target)) {
+							if (eReference.isUnsettable()) {
+								slicedElements.get(src).eUnset(eReference);
+							} else {
+								slicedElements.get(src).eSet(eReference, null);
+							}
 						} else {
-							slicedElements.get(src).eSet(eReference, null);
+							slicedElements.get(src).eSet(eReference, slicedElements.get(target));
 						}
-					} else {
-						slicedElements.get(src).eSet(eReference, slicedElements.get(target));
 					}
 				}
 			}
@@ -217,6 +221,8 @@ public class SiDiffSlicingInterpreter {
 					break;
 				}
 			}
+		}else{
+			isValid = false;
 		}
 		
 		return isValid;
