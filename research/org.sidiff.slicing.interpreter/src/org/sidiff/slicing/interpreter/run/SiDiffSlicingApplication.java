@@ -21,13 +21,13 @@ import simpleWebModel.WebModel;
 
 public class SiDiffSlicingApplication implements IApplication{
 
-//	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.swml.multiviews.webmodel.sample\\version0\\PoetryContest.swml";
-	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\core_model_v2\\bCMS.uml";
+	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.swml.multiviews.webmodel.sample\\version0\\PoetryContest.swml";
+//	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\core_model_v2\\bCMS.uml";
 //	private static final String MODEL_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\reduced\\model.uml";
 
-//	private static final String CONFIG_HYPERTEXTLAYER_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
+	private static final String CONFIG_HYPERTEXTLAYER_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
 //	private static final String CONFIG_DATALAYER_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\DataLayer.scfg";
-	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.uml\\configs\\class_diagrams.scfg";
+//	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "D:\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.uml\\configs\\class_diagrams.scfg";
 	
 
 	
@@ -35,34 +35,34 @@ public class SiDiffSlicingApplication implements IApplication{
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("start");
 		URI loadModelURI = EMFStorage.pathToUri(MODEL_PATH);
-//		URI loadSlicingConfigurationURI_hypertext = EMFStorage.pathToUri(CONFIG_HYPERTEXTLAYER_PATH);
+		URI loadSlicingConfigurationURI_hypertext = EMFStorage.pathToUri(CONFIG_HYPERTEXTLAYER_PATH);
 //		URI loadSlicingConfigurationURI_data = EMFStorage.pathToUri(CONFIG_DATALAYER_PATH);
-		URI loadSlicingConfigurationURI_class_diagrams = EMFStorage.pathToUri(CONFIG_CLASS_DIAGRAMS_PATH);
+//		URI loadSlicingConfigurationURI_class_diagrams = EMFStorage.pathToUri(CONFIG_CLASS_DIAGRAMS_PATH);
 		
 		EObject model = EMFStorage.eLoad(loadModelURI);
-//		EObject config_hypertext = EMFStorage.eLoad(loadSlicingConfigurationURI_hypertext);
+		EObject config_hypertext = EMFStorage.eLoad(loadSlicingConfigurationURI_hypertext);
 //		EObject config_data = EMFStorage.eLoad(loadSlicingConfigurationURI_data);
-		EObject config_class_diagrams = EMFStorage.eLoad(loadSlicingConfigurationURI_class_diagrams);
+//		EObject config_class_diagrams = EMFStorage.eLoad(loadSlicingConfigurationURI_class_diagrams);
 		
 		Set<EObject> contexts = new HashSet<EObject>();
 		for (Iterator<EObject> iterator = model.eResource().getAllContents(); iterator.hasNext();) {
 			EObject eObject = (EObject) iterator.next();
-//			if (eObject instanceof WebModel) {
-//				contexts.add(eObject);
-//			}			
-			if(eObject instanceof Package){
+			if (eObject instanceof WebModel) {
 				contexts.add(eObject);
-			}
+			}			
+//			if(eObject instanceof Package){
+//				contexts.add(eObject);
+//			}
 		}
 		
 	
 		
-//		SiDiffSlicingInterpreter siDiffSlicingInterpreter = new SiDiffSlicingInterpreter();
-//		siDiffSlicingInterpreter.init((SlicingConfiguration)config_hypertext);
-//		siDiffSlicingInterpreter.slice(contexts);
-//		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
-//		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
-//		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_hypertext), false);
+		SiDiffSlicingInterpreter siDiffSlicingInterpreter = new SiDiffSlicingInterpreter();
+		siDiffSlicingInterpreter.init((SlicingConfiguration)config_hypertext);
+		siDiffSlicingInterpreter.slice(contexts);
+		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
+		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
+		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_hypertext), false);
 		
 //		siDiffSlicingInterpreter.init((SlicingConfiguration)config_data);
 //		siDiffSlicingInterpreter.slice(contexts);
@@ -77,12 +77,12 @@ public class SiDiffSlicingApplication implements IApplication{
 //		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
 //		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_data), false);
 		
-		SiDiffSlicingInterpreter siDiffSlicingInterpreter = new SiDiffSlicingInterpreter();
-		siDiffSlicingInterpreter.init((SlicingConfiguration)config_class_diagrams);
-		siDiffSlicingInterpreter.slice(contexts);
-		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
-		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
-		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_class_diagrams), false);
+//		SiDiffSlicingInterpreter siDiffSlicingInterpreter = new SiDiffSlicingInterpreter();
+//		siDiffSlicingInterpreter.init((SlicingConfiguration)config_class_diagrams);
+//		siDiffSlicingInterpreter.slice(contexts);
+//		Slicing slicedModel = siDiffSlicingInterpreter.getSlicedModel();
+//		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
+//		StorageUtil.serializeSlicedModel(slicedModel, StorageUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) config_class_diagrams), false);
 		return null;
 	}
 

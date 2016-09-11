@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getDocumentTypes <em>Document Types</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicingMode <em>Slicing Mode</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#isSliceBoundaryContainments <em>Slice Boundary Containments</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.SlicingConfiguration#getConstraints <em>Constraints</em>}</li>
@@ -145,6 +146,33 @@ public interface SlicingConfiguration extends EObject {
 	 * @generated
 	 */
 	void setSlicingMode(SlicingMode value);
+
+	/**
+	 * Returns the value of the '<em><b>Slice Boundary Containments</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Slice Boundary Containments</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Slice Boundary Containments</em>' attribute.
+	 * @see #setSliceBoundaryContainments(boolean)
+	 * @see org.sidiff.slicing.configuration.ConfigurationPackage#getSlicingConfiguration_SliceBoundaryContainments()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	boolean isSliceBoundaryContainments();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.slicing.configuration.SlicingConfiguration#isSliceBoundaryContainments <em>Slice Boundary Containments</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Slice Boundary Containments</em>' attribute.
+	 * @see #isSliceBoundaryContainments()
+	 * @generated
+	 */
+	void setSliceBoundaryContainments(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Sliced EClasses</b></em>' containment reference list.

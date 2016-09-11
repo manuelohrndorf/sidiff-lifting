@@ -211,8 +211,17 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSlicingConfiguration_SliceBoundaryContainments() {
+		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getSlicingConfiguration_SlicedEClasses() {
-		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(5);
+		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -221,7 +230,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * @generated
 	 */
 	public EAttribute getSlicingConfiguration_OppositeSlicedEClassType() {
-		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -230,7 +239,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * @generated
 	 */
 	public EReference getSlicingConfiguration_Constraints() {
-		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(7);
+		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -239,7 +248,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * @generated
 	 */
 	public EReference getSlicingConfiguration_Constraintinterpreter() {
-		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(8);
+		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -420,6 +429,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__DOCUMENT_TYPES);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__IMPORTS);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICING_MODE);
+		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__SLICED_ECLASSES);
 		createEAttribute(slicingConfigurationEClass, SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE);
 		createEReference(slicingConfigurationEClass, SLICING_CONFIGURATION__CONSTRAINTS);
@@ -490,6 +500,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		initEAttribute(getSlicingConfiguration_DocumentTypes(), ecorePackage.getEString(), "documentTypes", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicingConfiguration_Imports(), theEcorePackage.getEPackage(), null, "imports", null, 0, -1, SlicingConfiguration.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSlicingConfiguration_SlicingMode(), this.getSlicingMode(), "slicingMode", "OPTIMISTIC", 1, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSlicingConfiguration_SliceBoundaryContainments(), theEcorePackage.getEBoolean(), "sliceBoundaryContainments", "false", 1, 1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicingConfiguration_SlicedEClasses(), this.getSlicedEClass(), this.getSlicedEClass_SlicingConfiguration(), "slicedEClasses", null, 0, -1, SlicingConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		EGenericType g1 = createEGenericType(ecorePackage.getEMap());
 		EGenericType g2 = createEGenericType();

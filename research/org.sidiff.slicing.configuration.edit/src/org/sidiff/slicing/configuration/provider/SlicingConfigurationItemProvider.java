@@ -68,6 +68,7 @@ public class SlicingConfigurationItemProvider
 			addDocumentTypesPropertyDescriptor(object);
 			addImportsPropertyDescriptor(object);
 			addSlicingModePropertyDescriptor(object);
+			addSliceBoundaryContainmentsPropertyDescriptor(object);
 			addSlicedEClassesPropertyDescriptor(object);
 			addOppositeSlicedEClassTypePropertyDescriptor(object);
 			addConstraintsPropertyDescriptor(object);
@@ -182,6 +183,28 @@ public class SlicingConfigurationItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Slice Boundary Containments feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSliceBoundaryContainmentsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SlicingConfiguration_sliceBoundaryContainments_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SlicingConfiguration_sliceBoundaryContainments_feature", "_UI_SlicingConfiguration_type"),
+				 ConfigurationPackage.Literals.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -348,6 +371,7 @@ public class SlicingConfigurationItemProvider
 			case ConfigurationPackage.SLICING_CONFIGURATION__DESCRIPTION:
 			case ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES:
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
+			case ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS:
 			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

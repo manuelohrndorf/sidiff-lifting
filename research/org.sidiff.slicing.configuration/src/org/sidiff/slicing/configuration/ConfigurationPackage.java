@@ -115,13 +115,22 @@ public interface ConfigurationPackage extends EPackage {
 	int SLICING_CONFIGURATION__SLICING_MODE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Slice Boundary Containments</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS = 5;
+
+	/**
 	 * The feature id for the '<em><b>Sliced EClasses</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION__SLICED_ECLASSES = 5;
+	int SLICING_CONFIGURATION__SLICED_ECLASSES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Opposite Sliced EClass Type</b></em>' attribute.
@@ -130,7 +139,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = 6;
+	int SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Constraints</b></em>' containment reference list.
@@ -139,7 +148,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION__CONSTRAINTS = 7;
+	int SLICING_CONFIGURATION__CONSTRAINTS = 8;
 
 	/**
 	 * The feature id for the '<em><b>Constraintinterpreter</b></em>' containment reference.
@@ -148,7 +157,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION__CONSTRAINTINTERPRETER = 8;
+	int SLICING_CONFIGURATION__CONSTRAINTINTERPRETER = 9;
 
 	/**
 	 * The number of structural features of the '<em>Slicing Configuration</em>' class.
@@ -157,7 +166,7 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SLICING_CONFIGURATION_FEATURE_COUNT = 9;
+	int SLICING_CONFIGURATION_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Slicing Configuration</em>' class.
@@ -486,6 +495,17 @@ public interface ConfigurationPackage extends EPackage {
 	EAttribute getSlicingConfiguration_SlicingMode();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.slicing.configuration.SlicingConfiguration#isSliceBoundaryContainments <em>Slice Boundary Containments</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Slice Boundary Containments</em>'.
+	 * @see org.sidiff.slicing.configuration.SlicingConfiguration#isSliceBoundaryContainments()
+	 * @see #getSlicingConfiguration()
+	 * @generated
+	 */
+	EAttribute getSlicingConfiguration_SliceBoundaryContainments();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link org.sidiff.slicing.configuration.SlicingConfiguration#getSlicedEClasses <em>Sliced EClasses</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -770,6 +790,14 @@ public interface ConfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SLICING_CONFIGURATION__SLICING_MODE = eINSTANCE.getSlicingConfiguration_SlicingMode();
+
+		/**
+		 * The meta object literal for the '<em><b>Slice Boundary Containments</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS = eINSTANCE.getSlicingConfiguration_SliceBoundaryContainments();
 
 		/**
 		 * The meta object literal for the '<em><b>Sliced EClasses</b></em>' containment reference list feature.

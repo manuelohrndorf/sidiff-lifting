@@ -43,6 +43,7 @@ import org.sidiff.slicing.configuration.SlicingMode;
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getDocumentTypes <em>Document Types</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicingMode <em>Slicing Mode</em>}</li>
+ *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#isSliceBoundaryContainments <em>Slice Boundary Containments</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getSlicedEClasses <em>Sliced EClasses</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getOppositeSlicedEClassType <em>Opposite Sliced EClass Type</em>}</li>
  *   <li>{@link org.sidiff.slicing.configuration.impl.SlicingConfigurationImpl#getConstraints <em>Constraints</em>}</li>
@@ -121,6 +122,26 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * @ordered
 	 */
 	protected SlicingMode slicingMode = SLICING_MODE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isSliceBoundaryContainments() <em>Slice Boundary Containments</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSliceBoundaryContainments()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SLICE_BOUNDARY_CONTAINMENTS_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSliceBoundaryContainments() <em>Slice Boundary Containments</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSliceBoundaryContainments()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sliceBoundaryContainments = SLICE_BOUNDARY_CONTAINMENTS_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getSlicedEClasses() <em>Sliced EClasses</em>}' containment reference list.
@@ -275,6 +296,27 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSliceBoundaryContainments() {
+		return sliceBoundaryContainments;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSliceBoundaryContainments(boolean newSliceBoundaryContainments) {
+		boolean oldSliceBoundaryContainments = sliceBoundaryContainments;
+		sliceBoundaryContainments = newSliceBoundaryContainments;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS, oldSliceBoundaryContainments, sliceBoundaryContainments));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<SlicedEClass> getSlicedEClasses() {
 		if (slicedEClasses == null) {
 			slicedEClasses = new EObjectContainmentWithInverseEList<SlicedEClass>(SlicedEClass.class, this, ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES, ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION);
@@ -404,6 +446,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return getImports();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				return getSlicingMode();
+			case ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS:
+				return isSliceBoundaryContainments();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				return getSlicedEClasses();
 			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
@@ -441,6 +485,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode((SlicingMode)newValue);
+				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS:
+				setSliceBoundaryContainments((Boolean)newValue);
 				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				getSlicedEClasses().clear();
@@ -480,6 +527,9 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				setSlicingMode(SLICING_MODE_EDEFAULT);
 				return;
+			case ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS:
+				setSliceBoundaryContainments(SLICE_BOUNDARY_CONTAINMENTS_EDEFAULT);
+				return;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				getSlicedEClasses().clear();
 				return;
@@ -511,6 +561,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 				return !getImports().isEmpty();
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICING_MODE:
 				return slicingMode != SLICING_MODE_EDEFAULT;
+			case ConfigurationPackage.SLICING_CONFIGURATION__SLICE_BOUNDARY_CONTAINMENTS:
+				return sliceBoundaryContainments != SLICE_BOUNDARY_CONTAINMENTS_EDEFAULT;
 			case ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES:
 				return slicedEClasses != null && !slicedEClasses.isEmpty();
 			case ConfigurationPackage.SLICING_CONFIGURATION__OPPOSITE_SLICED_ECLASS_TYPE:
@@ -541,6 +593,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 		result.append(documentTypes);
 		result.append(", slicingMode: ");
 		result.append(slicingMode);
+		result.append(", sliceBoundaryContainments: ");
+		result.append(sliceBoundaryContainments);
 		result.append(')');
 		return result.toString();
 	}

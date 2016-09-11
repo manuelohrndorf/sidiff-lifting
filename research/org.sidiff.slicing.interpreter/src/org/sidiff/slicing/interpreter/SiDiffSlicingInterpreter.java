@@ -33,7 +33,8 @@ import org.sidiff.slicing.slicingmodel.SlicingmodelFactory;
 public class SiDiffSlicingInterpreter {
 
 	/**
-	 * The {@link SlicingConfiguration}
+	 * The {@link SlicingConfiguration} determining the type and further
+	 * constraints for the elements to be sliced
 	 */
 	private SlicingConfiguration slicingConfiguration;
 	
@@ -45,22 +46,26 @@ public class SiDiffSlicingInterpreter {
 	private Map<EObject,EObject> slicedElements;
 	
 	/**
-	 * A {@link Map} containing the copies of all sliced context elements
+	 * A {@link Map} containing the copies of all sliced context elements with
+	 * the origin object as key and the copy as value
 	 */
 	private Map<EObject,EObject> slicedContextElements;
 	
 	/**
-	 * A {@link Map} containing the copies of all sliced boundary elements
+	 * A {@link Map} containing the copies of all sliced boundary elements with
+	 * the origin object as key and the copy as value
 	 */
 	private Map<EObject,EObject> slicedBoundaryElements;
 	
 	/**
-	 * A {@link Map} for an efficient access to a given {@link SlicedEClass} referring to the respective {@link EClass}
+	 * A {@link Map} for an efficient access to a given a {@link SlicedEClass}
+	 * referring to the respective {@link EClass}
 	 */
 	private Map<EClass, SlicedEClass> slicedEClasses;
 	
 	/**
-	 * An {@link ECrossReferenceAdapter} for inversive navigation of {@link EReference}
+	 * An {@link ECrossReferenceAdapter} for inversive navigation of
+	 * {@link EReference}
 	 */
 	private ECrossReferenceAdapter adapter;
 	
@@ -104,27 +109,36 @@ public class SiDiffSlicingInterpreter {
 	 */
 	public void slice(Set<EObject> input) throws Exception {
 		
+		if(recursionDepth == 0){
+			LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
+		}
+		
 		recursionDepth++;
 		
 		for(EObject in : input){
 			if(!this.slicedElements.containsKey(in)){
+				
 				Set<EObject> nextInput = new HashSet<EObject>();
 				
 				EObject clonedIn = cloneEObject(in);
 				
 				if(checkSlicingConditions(in)){
 					this.slicedContextElements.put(in,clonedIn);
+					LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0","*") + " " + "Sliced Context EClass: " + StringUtil.resolve(in));
 					nextInput.addAll(getOutgoingNeighbours(in));	
 					if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
 						nextInput.addAll(getIncomingNeighbours(in));
 					}
 				}else{
 					this.slicedBoundaryElements.put(in,clonedIn);
+					LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0","*") + " " + "Sliced Boundary EClass: " + StringUtil.resolve(in));
 					nextInput.addAll(getMandatoryNeighbours(in));
+					if(this.slicingConfiguration.isSliceBoundaryContainments()){
+						nextInput.addAll(in.eContents());
+					}
 				}
 				
 				this.slicedElements.put(in, clonedIn);
-				LogUtil.log(LogEvent.MESSAGE, "Sliced EClass: " + StringUtil.resolve(in));
 				
 				nextInput.removeAll(this.slicedElements.keySet());
 				
@@ -137,6 +151,7 @@ public class SiDiffSlicingInterpreter {
 			for(EObject eObject : this.slicedElements.keySet()){
 				relinkEReferences(eObject);
 			}
+			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 		}
 	}
 
@@ -214,7 +229,8 @@ public class SiDiffSlicingInterpreter {
 		
 		boolean isValid = true;
 		
-		if(this.slicedEClasses.containsKey(eObject.eClass())){
+		if (this.slicedEClasses.containsKey(eObject.eClass())
+				&& (eObject.eContainer() == null || !slicedBoundaryElements.containsKey(eObject.eContainer()))) {
 			for(Constraint constraint : this.slicedEClasses.get(eObject.eClass()).getConstraints()){
 				if(!this.slicingConfiguration.getConstraintinterpreter().evaluate(constraint, eObject)){
 					isValid = false;

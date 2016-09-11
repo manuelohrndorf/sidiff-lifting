@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <simpleWebModel:WebModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:simpleWebModel="http://simpleWebModel/1.0" name="PoetryContest">
   <dataLayer>
-    <entities annotation="Contest" name="Contest"/>
-    <entities annotation="Poet" name="Poet"/>
-    <entities annotation="Poem" name="Poem"/>
+    <entities annotation="Contest" name="Contest">
+      <attributes name="name" type="STRING"/>
+      <attributes name="date" type="INTEGER"/>
+      <attributes name="place" type="STRING"/>
+      <references name="competitor" type="//@dataLayer/@entities.1"/>
+    </entities>
+    <entities annotation="Poet" name="Poet">
+      <attributes name="name" type="STRING"/>
+      <attributes name="town" type="STRING"/>
+      <attributes name="info" type="STRING"/>
+      <references name="declaims" type="//@dataLayer/@entities.2"/>
+    </entities>
+    <entities annotation="Poem" name="Poem">
+      <attributes name="title" type="STRING"/>
+      <references name="declaimed by" type="//@dataLayer/@entities.1"/>
+    </entities>
   </dataLayer>
   <hypertextLayer startPage="//@hypertextLayer/@pages.0" dataLayer="//@dataLayer">
     <pages xsi:type="simpleWebModel:StaticPage" name="Start">
