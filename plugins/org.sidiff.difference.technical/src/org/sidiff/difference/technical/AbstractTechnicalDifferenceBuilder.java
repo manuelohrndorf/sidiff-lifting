@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -38,8 +39,8 @@ import org.sidiff.matching.model.Correspondence;
  */
 public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
 
-	private SymmetricDifference diff;
-	private Scope scope;
+	protected SymmetricDifference difference;
+	protected Scope scope;
 
 	private final SymmetricFactory factory = SymmetricFactory.eINSTANCE;
 
@@ -62,18 +63,18 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		LogUtil.log(LogEvent.NOTICE, "Difference builder: " + getClass().getSimpleName());
 		LogUtil.log(LogEvent.NOTICE, "Scope: " + scope);
 
-		this.diff = difference;
+		this.difference = difference;
 		this.scope = scope;
 
 		processUnmatchedA();
 		processUnmatchedB();
 		processCorrespondences();
 
-		return diff;
+		return difference;
 	}
 
 	private void processCorrespondences() {
-		for (Iterator<Correspondence> iterator = diff.getMatching().getCorrespondences().iterator(); iterator.hasNext();) {
+		for (Iterator<Correspondence> iterator = difference.getMatching().getCorrespondences().iterator(); iterator.hasNext();) {
 			Correspondence c = iterator.next();
 			EObject nodeA = c.getMatchedA();
 			EObject nodeB = c.getMatchedB();
@@ -94,8 +95,8 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 				continue;
 			}
 
-			EObjectLocation objectALocation = EMFResourceUtil.locate(diff.getModelA(), nodeA);
-			EObjectLocation objectBLocation = EMFResourceUtil.locate(diff.getModelB(), nodeB);
+			EObjectLocation objectALocation = EMFResourceUtil.locate(difference.getModelA(), nodeA);
+			EObjectLocation objectBLocation = EMFResourceUtil.locate(difference.getModelB(), nodeB);
 			assert (objectALocation == objectBLocation) : "different object locations not yet supported!";
 
 			if (objectALocation == EObjectLocation.PACKAGE_REGISTRY) {
@@ -114,18 +115,14 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 			// EReferences
 			for (EReference edgeType : nodeType.getEAllReferences()) {
-				Set<EObject> nodesetA = new HashSet<EObject>();
-				addReferencedObjects(edgeType, nodeA, nodesetA);
-				Set<EObject> nodesetB = new HashSet<EObject>();
-				addReferencedObjects(edgeType, nodeB, nodesetB);
-
+				Set<EObject> nodesetA = getReferencedObjects(edgeType, nodeA);
+				Set<EObject> nodesetB = getReferencedObjects(edgeType, nodeB);
+				
 				// Diff A
-				@SuppressWarnings("unchecked")
 				Set<EObject> diffA = differenceA(nodesetA, nodesetB);
 				deriveDiffA(edgeType, nodeA, diffA);
 
 				// Diff B
-				@SuppressWarnings("unchecked")
 				Set<EObject> diffB = differenceB(nodesetA, nodesetB);
 				deriveDiffB(edgeType, nodeB, diffB);
 			}
@@ -141,7 +138,7 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 	private void processUnmatchedA() {
 
-		for(EObject elementA : diff.getMatching().getUnmatchedA()){
+		for(EObject elementA : difference.getMatching().getUnmatchedA()){
 			if (!doProcess(elementA)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
 				continue;
@@ -158,18 +155,15 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 			// Outgoing edges
 			EClass nodeType = elementA.eClass();
 			for (EReference edgeType : nodeType.getEAllReferences()) {
-				Set<EObject> diffA = new HashSet<EObject>();
-				addReferencedObjects(edgeType, elementA, diffA);
+				Set<EObject> diffA = getReferencedObjects(edgeType, elementA);
 				deriveDiffA(edgeType, elementA, diffA);
 			}
 		}
-
-
 	}
 
 	private void processUnmatchedB() {
 
-		for(EObject elementB : diff.getMatching().getUnmatchedB()){
+		for(EObject elementB : difference.getMatching().getUnmatchedB()){
 			if (!doProcess(elementB)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
 				continue;
@@ -186,13 +180,10 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 			// Outgoing edges
 			EClass nodeType = elementB.eClass();
 			for (EReference edgeType : nodeType.getEAllReferences()) {
-				Set<EObject> diffB = new HashSet<EObject>();
-				addReferencedObjects(edgeType, elementB, diffB);
+				Set<EObject> diffB = getReferencedObjects(edgeType, elementB);
 				deriveDiffB(edgeType, elementB, diffB);
 			}
 		}
-
-
 	}
 
 	private void deriveDiffA(EReference edgeType, EObject nodeA, Set<EObject> diffA) {
@@ -225,34 +216,70 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	private Set differenceA(Set a, Set b) {
-		@SuppressWarnings("unchecked")
-		HashSet res = new HashSet(a);
-		for (Iterator iterator = a.iterator(); iterator.hasNext();) {
-			EObject ea = (EObject) iterator.next();
-
-			if (b.contains(diff.getCorrespondingObjectInB(ea))) {
-				res.remove(ea);
+	private Set<EObject> differenceA(Set<EObject> objectsInA, Set<EObject> objectsInB) {
+		Set<EObject> difference = new HashSet<EObject>();
+		
+		for (EObject objectInA : objectsInA) {
+			if (!hasCorrespondingObjectInB(objectInA, objectsInB)) {
+				difference.add(objectInA);
 			}
 		}
 
-		return res;
+		return difference;
+	}
+	
+	/**
+	 * Checks if the given object has at least one corresponding object in the
+	 * set of given objects.
+	 * 
+	 * @param objectInA
+	 *            The object to test.
+	 * @param objectsInB
+	 *            The set of objects to test against.
+	 * @return <code>true</code> if the object has corresponding object in the
+	 *         set; <code>false</code> otherwise.
+	 */
+	protected boolean hasCorrespondingObjectInB(EObject objectInA, Set<EObject> objectsInB) {
+		EObject objectInB = difference.getCorrespondingObjectInB(objectInA);
+		
+		// 1. Check if models A and B point to the same object
+		//    => interpret this as correspondence
+		// 2. Check if model B has a correspondence.
+		// 3. Check if the corresponding object in model A is contained in the given set.
+		return objectsInB.contains(objectInA) || ((objectInB != null) && objectsInB.contains(objectInB));
 	}
 
-	@SuppressWarnings("rawtypes")
-	private Set differenceB(Set a, Set b) {
-		@SuppressWarnings("unchecked")
-		HashSet res = new HashSet(b);
-		for (Iterator iterator = b.iterator(); iterator.hasNext();) {
-			EObject eb = (EObject) iterator.next();
-
-			if (a.contains(diff.getCorrespondingObjectInA(eb))) {
-				res.remove(eb);
+	private Set<EObject> differenceB(Set<EObject> objectsInA, Set<EObject> objectsInB) {
+		Set<EObject> difference = new HashSet<EObject>();
+		
+		for (EObject objectInB : objectsInB) {
+			if (!hasCorrespondingObjectInA(objectInB, objectsInA)) {
+				difference.add(objectInB);
 			}
 		}
 
-		return res;
+		return difference;
+	}
+	
+	/**
+	 * Checks if the given object has at least one corresponding object in the
+	 * set of given objects.
+	 * 
+	 * @param objectInB
+	 *            The object to test.
+	 * @param objectsInA
+	 *            The set of objects to test against.
+	 * @return <code>true</code> if the object has corresponding object in the
+	 *         set; <code>false</code> otherwise.
+	 */
+	protected boolean hasCorrespondingObjectInA(EObject objectInB, Set<EObject> objectsInA) {
+		EObject objectInA = difference.getCorrespondingObjectInA(objectInB);
+		
+		// 1. Check if models A and B point to the same object
+		//    => interpret this as correspondence
+		// 2. Check if model B has a correspondence.
+		// 3. Check if the corresponding object in model A is contained in the given set.
+		return objectsInA.contains(objectInB) || ((objectInA != null) && objectsInA.contains(objectInA));
 	}
 
 	private void deriveAttributeValueChange(EObject nodeA, EObject nodeB, EAttribute attributeType) {
@@ -318,20 +345,20 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		change.setObjA(nodeA);
 		change.setObjB(nodeB);
 		change.setType(attributeType);
-		diff.getChanges().add(change);
+		difference.getChanges().add(change);
 
 	}
 
 	private void removeNode(EObject obj) {
 		RemoveObject r = factory.createRemoveObject();
 		r.setObj(obj);
-		diff.getChanges().add(r);
+		difference.getChanges().add(r);
 	}
 
 	private void addNode(EObject obj) {
 		AddObject a = factory.createAddObject();
 		a.setObj(obj);
-		diff.getChanges().add(a);
+		difference.getChanges().add(a);
 	}
 
 	private void removeEdge(EObject src, EObject tgt, EReference type) {
@@ -339,7 +366,7 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		c.setSrc(src);
 		c.setTgt(tgt);
 		c.setType(type);
-		diff.getChanges().add(c);
+		difference.getChanges().add(c);
 	}
 
 	private void addEdge(EObject src, EObject tgt, EReference type) {
@@ -347,19 +374,20 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		c.setSrc(src);
 		c.setTgt(tgt);
 		c.setType(type);
-		diff.getChanges().add(c);
+		difference.getChanges().add(c);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addReferencedObjects(EReference refType, EObject src, Collection<EObject> referencedObjects) {
+	private Set<EObject> getReferencedObjects(EReference refType, EObject src) {
 		if (refType.isMany()) {
-			referencedObjects.addAll((Collection<EObject>) src.eGet(refType));
+			return new HashSet<EObject>((Collection<EObject>) src.eGet(refType));
 		} else {
 			EObject obj = (EObject) src.eGet(refType);
 			if (obj != null) {
-				referencedObjects.add(obj);
+				return Collections.singleton(obj);
 			}
 		}
+		return Collections.emptySet();
 	}
 
 	@Override

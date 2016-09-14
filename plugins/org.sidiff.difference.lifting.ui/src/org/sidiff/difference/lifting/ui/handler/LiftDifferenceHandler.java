@@ -54,16 +54,20 @@ public class LiftDifferenceHandler extends AbstractHandler {
 					public void run() {
 						IFile fileA = (IFile) selection.toArray()[0];
 						IFile fileB = (IFile) selection.toArray()[1];
-						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						
+						// FIXME: Read document type from the header without loading the full model.
+						Resource[] resources = LiftingFacade.loadModels(
+								fileA.getLocation().toOSString(), 
+								fileB.getLocation().toOSString());
+						
 						//TODO Workaround: bisher keine einheitliche Regelung f�r Ressourcen mit mehreren Dokumenttypen
 						// Annahme: Sofern nicht alle Dokumenttypen der Profile gleich sind, sollte zumindest der eigentliche Dokumenttyp gleich sein.
 						boolean canHandle = false;
-						if(EMFModelAccess.isProfiled(resourceA) || EMFModelAccess.isProfiled(resourceB)){
-								canHandle = EMFModelAccess.getCharacteristicDocumentType(resourceA).equals(EMFModelAccess.getCharacteristicDocumentType(resourceB));
-						}else {
-							Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resourceA, Scope.RESOURCE_SET);
-							Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resourceB, Scope.RESOURCE_SET);
+						if(EMFModelAccess.isProfiled(resources[0]) || EMFModelAccess.isProfiled(resources[1])){
+								canHandle = EMFModelAccess.getCharacteristicDocumentType(resources[0]).equals(EMFModelAccess.getCharacteristicDocumentType(resources[1]));
+						} else {
+							Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resources[0], Scope.RESOURCE_SET);
+							Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resources[1], Scope.RESOURCE_SET);
 							docTypeA.retainAll(docTypeB);
 							canHandle = docTypeA.size() > 0;
 						}

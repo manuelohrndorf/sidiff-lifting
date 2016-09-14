@@ -34,8 +34,11 @@ public class CreatePatchHandler extends AbstractHandler {
 						// Create a new difference
 						IFile fileA = (IFile) selection.toArray()[0];
 						IFile fileB = (IFile) selection.toArray()[1];
-						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						Resource[] resources = LiftingFacade.loadModels(
+								fileA.getLocation().toOSString(), 
+								fileB.getLocation().toOSString());
+						Resource resourceA = resources[0];
+						Resource resourceB = resources[1];
 						String docTypeA = EMFModelAccess.getCharacteristicDocumentType(resourceA);
 						String docTypeB = EMFModelAccess.getCharacteristicDocumentType(resourceB);
 						if(docTypeA.equals(docTypeB)){

@@ -10,6 +10,7 @@ import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
@@ -59,7 +60,9 @@ public class LiftingPropertyTester extends PropertyTester {
 
 			if(receiver instanceof IFile){
 				IFile file = (IFile) receiver;
-				Resource resource = LiftingFacade.loadModel(file.getLocation().toOSString());
+				
+				// FIXME: Read document type from the header without loading the full model.
+				Resource resource = EMFStorage.eLoad(EMFStorage.pathToUri(file.getLocation().toOSString())).eResource();
 				String documentType = EMFModelAccess.getCharacteristicDocumentType(resource);
 				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType).size()>0)
 					return true;				

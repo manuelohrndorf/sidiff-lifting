@@ -9,14 +9,19 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 
 public class WSUModels {
+	
 	private IFile fileMine;
 	private IFile fileTheirs;
 	private IFile fileBase;
 
+	private ResourceSet resourceSet = new ResourceSetImpl();
+	
 	private Resource resourceMine;
 	private Resource resourceTheirs;
 	private Resource resourceBase;
@@ -67,7 +72,7 @@ public class WSUModels {
 	
 	public Resource getResourceMine() {
 		if (resourceMine == null) {
-			resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
+			resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString(), resourceSet);
 		}
 
 		return resourceMine;
@@ -75,7 +80,7 @@ public class WSUModels {
 
 	public Resource getResourceTheirs() {
 		if (resourceTheirs == null) {
-			resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
+			resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString(), resourceSet);
 		}
 
 		return resourceTheirs;
@@ -83,7 +88,7 @@ public class WSUModels {
 
 	public Resource getResourceBase() {
 		if (resourceBase == null) {
-			resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
+			resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString(), resourceSet);
 		}
 
 		return resourceBase;
@@ -103,17 +108,17 @@ public class WSUModels {
 
 	public void setModelMine(IFile fileMine) {
 		this.fileMine = fileMine;
-		this.resourceMine = LiftingFacade.loadModel(this.fileMine.getLocation().toOSString());
+		this.resourceMine = LiftingFacade.loadModel(this.fileMine.getLocation().toOSString(), resourceSet);
 	}
 
 	public void setModelTheirs(IFile fileTheirs) {
 		this.fileTheirs = fileTheirs;
-		this.resourceTheirs = LiftingFacade.loadModel(this.fileTheirs.getLocation().toOSString());
+		this.resourceTheirs = LiftingFacade.loadModel(this.fileTheirs.getLocation().toOSString(), resourceSet);
 	}
 
 	public void setModelBase(IFile fileBase) {
 		this.fileBase = fileBase;
-		this.resourceBase = LiftingFacade.loadModel(this.fileBase.getLocation().toOSString());
+		this.resourceBase = LiftingFacade.loadModel(this.fileBase.getLocation().toOSString(), resourceSet);
 	}
 
 }

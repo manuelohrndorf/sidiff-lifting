@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -232,16 +233,45 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	public static SymmetricDifference loadLiftedDifference(String path) {
 		return loadTechnicalDifference(path);
 	}
-
+	
 	/**
-	 * Loads an EMF resource.
+	 * Loads the EMF resources into the same resource set.
 	 * 
 	 * @param path
 	 *            The EMF-file path.
-	 * @return The loaded EMF-object.
+	 * @param resourceSet
+	 *            The (common) resource set to use.
+	 * @return The loaded resource.
 	 */
-	public static Resource loadModel(String path) {
-		return EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource();
+	public static Resource loadModel(String path, ResourceSet resourceSet) {
+		return EMFStorage.eLoad(EMFStorage.pathToUri(path), resourceSet).eResource();
+	}
+
+	/**
+	 * Loads the EMF resources into the same resource set.
+	 * 
+	 * @param path
+	 *            The EMF-file path.
+	 * @return The loaded resources {A,B}.
+	 */
+	public static Resource[] loadModels(String... paths) {
+		
+		if (paths.length > 0) {
+			Resource[] resources = new Resource[paths.length];
+			
+			Resource resourceA = EMFStorage.eLoad(EMFStorage.pathToUri(paths[0])).eResource();
+			resources[0] = resourceA;
+			
+			for (int i = 0; i < paths.length; i++) {
+				Resource resourceB = EMFStorage.eLoad(
+						EMFStorage.pathToUri(paths[i]), resourceA.getResourceSet()).eResource();
+				resources[i] = resourceB;
+			}
+
+			return resources;
+		}
+
+		return  new Resource[0];
 	}
 	
 	protected static MergeImports mergeImports(SymmetricDifference symmetricDifference, LiftingSettings settings) {

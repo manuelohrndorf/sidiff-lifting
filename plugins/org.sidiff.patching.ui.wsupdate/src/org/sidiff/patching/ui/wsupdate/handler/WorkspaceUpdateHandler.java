@@ -35,9 +35,13 @@ public class WorkspaceUpdateHandler extends AbstractHandler {
 						IFile fileMine = (IFile) selection.toArray()[0];
 						IFile fileTheirs = (IFile) selection.toArray()[1];
 						IFile fileBase = (IFile) selection.toArray()[2];
-						Resource resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
-						Resource resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
-						Resource resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
+						Resource[] resources = LiftingFacade.loadModels(
+								fileMine.getLocation().toOSString(),
+								fileTheirs.getLocation().toOSString(),
+								fileBase.getLocation().toOSString());
+						Resource resourceMine = resources[0];
+						Resource resourceTheirs = resources[1];
+						Resource resourceBase = resources[2];
 						String docTypeMine = EMFModelAccess.getCharacteristicDocumentType(resourceMine);
 						String docTypeTheirs = EMFModelAccess.getCharacteristicDocumentType(resourceTheirs);
 						String docTypeBase = EMFModelAccess.getCharacteristicDocumentType(resourceBase);
