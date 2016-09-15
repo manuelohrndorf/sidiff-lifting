@@ -24,6 +24,7 @@ import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.configuration.SlicingMode;
 import org.sidiff.slicing.slicingmodel.Slicing;
 import org.sidiff.slicing.slicingmodel.SlicingmodelFactory;
+import org.sidiff.slicing.util.visualization.GraphUtil;
 
 /**
  * 
@@ -124,14 +125,20 @@ public class SiDiffSlicingInterpreter {
 				
 				if(checkSlicingConditions(in)){
 					this.slicedContextElements.put(in,clonedIn);
+					
+					GraphUtil.addContextNode(clonedIn, recursionDepth);
 					LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0","*") + " " + "Sliced Context EClass: " + StringUtil.resolve(in));
+					
 					nextInput.addAll(getOutgoingNeighbours(in));	
 					if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.PESSIMISTIC)){
 						nextInput.addAll(getIncomingNeighbours(in));
 					}
 				}else{
 					this.slicedBoundaryElements.put(in,clonedIn);
+					
+					GraphUtil.addBoundaryNode(clonedIn, recursionDepth);
 					LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0","*") + " " + "Sliced Boundary EClass: " + StringUtil.resolve(in));
+					
 					nextInput.addAll(getMandatoryNeighbours(in));
 					if(this.slicingConfiguration.isSliceBoundaryContainments()){
 						nextInput.addAll(in.eContents());

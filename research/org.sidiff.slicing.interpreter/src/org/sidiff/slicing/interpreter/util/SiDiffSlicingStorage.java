@@ -13,7 +13,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.slicing.configuration.SlicingConfiguration;
 import org.sidiff.slicing.slicingmodel.Slicing;
 
-public class StorageUtil {
+public class SiDiffSlicingStorage {
 
 	public static void serializeSlicedModel(Slicing slicing, URI uri, boolean multiResources) throws IOException{
 		ResourceSet resourceSet = new ResourceSetImpl();
