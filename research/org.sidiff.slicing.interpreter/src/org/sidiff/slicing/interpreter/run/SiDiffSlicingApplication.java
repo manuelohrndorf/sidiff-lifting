@@ -22,13 +22,25 @@ import simpleWebModel.WebModel;
 
 public class SiDiffSlicingApplication implements IApplication{
 
+	//####
+	// pathes from Christopher
 //	private static final String MODEL_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.swml.multiviews.webmodel.sample\\version0\\PoetryContest.swml";
-	private static final String MODEL_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\core_model_v2\\bCMS.uml";
+//	private static final String MODEL_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\core_model_v2\\bCMS.uml";
 //	private static final String MODEL_PATH = "C:\\Users\\piets\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\reduced\\model.uml";
-
+			
 //	private static final String CONFIG_HYPERTEXTLAYER_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\HypertextLayer.scfg";
 //	private static final String CONFIG_DATALAYER_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\DataLayer.scfg";
-	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\classdiagram.scfg";
+//	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "C:\\Users\\piets\\Git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.webmodel\\configs\\classdiagram.scfg";
+
+	//####
+	//pathes from Matthias
+	private static final String MODEL_PATH = "C:\\Users\\M\\git\\sidiff-lifting\\examples\\org.sidiff.coevolution.example.uml.multiviews.example.bcms\\core_model_v2\\bCMS.uml";
+//	private static final String MODEL_PATH = "C:\\eclipseWorkspace\\STP\\org.eclipse.uml2.uml\\model\\UML.uml";
+
+	// Class
+//	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "C:\\Users\\M\\git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.uml\\configs\\Class.scfg";
+	// StateMachine
+	private static final String CONFIG_CLASS_DIAGRAMS_PATH = "C:\\Users\\M\\git\\sidiff-lifting\\examples\\org.sidiff.slicing.configuration.uml\\configs\\StateMachine.scfg";
 	
 
 	
@@ -36,6 +48,7 @@ public class SiDiffSlicingApplication implements IApplication{
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("start");
 		URI loadModelURI = EMFStorage.pathToUri(MODEL_PATH);
+
 //		URI loadSlicingConfigurationURI_hypertext = EMFStorage.pathToUri(CONFIG_HYPERTEXTLAYER_PATH);
 //		URI loadSlicingConfigurationURI_data = EMFStorage.pathToUri(CONFIG_DATALAYER_PATH);
 		URI loadSlicingConfigurationURI_class_diagrams = EMFStorage.pathToUri(CONFIG_CLASS_DIAGRAMS_PATH);
@@ -88,13 +101,13 @@ public class SiDiffSlicingApplication implements IApplication{
 		System.out.println(slicedModel.getSlicedContextElements() + ", " + slicedModel.getSlicedBoundaryElements());
 		SiDiffSlicingStorage.serializeSlicedModel(slicedModel, SiDiffSlicingStorage.generateSaveURI(loadModelURI, (SlicingConfiguration) config_class_diagrams), false);
 	
-		String gv_path = MODEL_PATH.replace(loadModelURI.lastSegment(), "graph.dot");
-		FileOperations.writeFile(gv_path, GraphUtil.getOutput());
+		//String gv_path = MODEL_PATH.replace(loadModelURI.lastSegment(), "graph.dot");
+		//FileOperations.writeFile(gv_path, GraphUtil.getOutput());
 
-		String command = "cmd /c start C:\\\"Program Files (x86)\"\\Graphviz2.38\\bin\\gvedit.exe " + gv_path;
-		Runtime runtime = Runtime.getRuntime();
-		Process process = runtime.exec(command);
-		process.waitFor();
+		// String command = "cmd /c start C:\\\"Program Files (x86)\"\\Graphviz2.38\\bin\\gvedit.exe " + gv_path;
+		// Runtime runtime = Runtime.getRuntime();
+		// Process process = runtime.exec(command);
+		//process.waitFor();
 		return null;
 	}
 
