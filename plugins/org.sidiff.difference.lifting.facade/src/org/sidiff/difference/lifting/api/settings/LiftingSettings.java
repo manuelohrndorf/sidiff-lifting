@@ -232,7 +232,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 *            The list of all active Rulebases.
 	 */
 	public void setRuleBases(Set<ILiftingRuleBase> ruleBases) {
-		if (this.ruleBases == null || this.ruleBases.size() != ruleBases.size()) {
+		if (this.ruleBases == null || !this.ruleBases.equals(ruleBases)) {
 			this.ruleBases = ruleBases;
 			this.notifyListeners(LiftingSettingsItem.RULEBASES);
 		}
