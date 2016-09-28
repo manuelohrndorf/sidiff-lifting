@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9hvmwGksEea9u8oqlLhYRg" name="DELETE_JCodeFragment_IN_JCodeBlock_(codeFragments)" description="Deletes one JCodeFragment in JCodeBlock">
+  <annotations xmi:id="_9hwN0GksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JCodeFragment_IN_JCodeBlock_(codeFragments)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9hwN0WksEea9u8oqlLhYRg" name="deleteJCodeFragment_IN_JCodeBlock" description="deletes one JCodeFragment in the context: JCodeBlock">
+    <parameters xmi:id="_9hwN0mksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9hwN02ksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+    </parameters>
+    <lhs xmi:id="_9hwN1GksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9hwN1WksEea9u8oqlLhYRg" name="Selected" outgoing="_9hwN2WksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9hwN1mksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9hwN12ksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9hwN2WksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9hwN2GksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+      </nodes>
+      <edges xmi:id="_9hwN2WksEea9u8oqlLhYRg" source="_9hwN1WksEea9u8oqlLhYRg" target="_9hwN12ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/codeFragments"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9hwN2mksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9hwN22ksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9hwN3GksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9hwN3WksEea9u8oqlLhYRg" origin="_9hwN1WksEea9u8oqlLhYRg" image="_9hwN22ksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9hwN3mksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9hwN0WksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9hwN32ksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9hwN4GksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9hwN4WksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9hwN4mksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeFragment"/>
+    </parameters>
+    <parameterMappings xmi:id="_9hwN42ksEea9u8oqlLhYRg" source="_9hwN32ksEea9u8oqlLhYRg" target="_9hwN0mksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9hwN5GksEea9u8oqlLhYRg" source="_9hwN4WksEea9u8oqlLhYRg" target="_9hwN02ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

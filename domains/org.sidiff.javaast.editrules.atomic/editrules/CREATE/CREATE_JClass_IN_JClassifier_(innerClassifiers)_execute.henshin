@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9j14gGksEea9u8oqlLhYRg" name="CREATE_JClass_IN_JClassifier_(innerClassifiers)" description="Creates one JClass in JClassifier">
+  <annotations xmi:id="_9j14gWksEea9u8oqlLhYRg" key="INVERSE" value="DELETE_JClass_IN_JClassifier_(innerClassifiers)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9j14gmksEea9u8oqlLhYRg" name="createJClass_IN_JClassifier" description="creates one JClass in the context: JClassifier">
+    <parameters xmi:id="_9j14g2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9j2fkGksEea9u8oqlLhYRg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9j2fkWksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9j2fkmksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9j2fk2ksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2flGksEea9u8oqlLhYRg" name="IsExternal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2flWksEea9u8oqlLhYRg" name="VisibilityKind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_9j2flmksEea9u8oqlLhYRg" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2fl2ksEea9u8oqlLhYRg" name="IsFinal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9j2fmGksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9j2fmWksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9j2fmmksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9j2fm2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9j2fnGksEea9u8oqlLhYRg" name="Selected" outgoing="_9j2fp2ksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9j2fnWksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+      <nodes xmi:id="_9j2fnmksEea9u8oqlLhYRg" name="New" incoming="_9j2fp2ksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9j2fn2ksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+        <attributes xmi:id="_9j2foGksEea9u8oqlLhYRg" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_9j2foWksEea9u8oqlLhYRg" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_9j2fomksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_9j2fo2ksEea9u8oqlLhYRg" value="IsExternal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType/isExternal"/>
+        </attributes>
+        <attributes xmi:id="_9j2fpGksEea9u8oqlLhYRg" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+        <attributes xmi:id="_9j2fpWksEea9u8oqlLhYRg" value="IsAbstract">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_9j2fpmksEea9u8oqlLhYRg" value="IsFinal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass/isFinal"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_9j2fp2ksEea9u8oqlLhYRg" source="_9j2fnGksEea9u8oqlLhYRg" target="_9j2fnmksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier/innerClassifiers"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9j2fqGksEea9u8oqlLhYRg" origin="_9j2fmWksEea9u8oqlLhYRg" image="_9j2fnGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9j2fqWksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9j14gmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9j2fqmksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9j2fq2ksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9j2frGksEea9u8oqlLhYRg" name="New">
+      <annotations xmi:id="_9j2frWksEea9u8oqlLhYRg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClass"/>
+    </parameters>
+    <parameters xmi:id="_9j2frmksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9j2fr2ksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9j2fsGksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2fsWksEea9u8oqlLhYRg" name="IsExternal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2fsmksEea9u8oqlLhYRg" name="VisibilityKind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_9j2fs2ksEea9u8oqlLhYRg" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9j2ftGksEea9u8oqlLhYRg" name="IsFinal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9j2ftWksEea9u8oqlLhYRg" source="_9j2fqmksEea9u8oqlLhYRg" target="_9j14g2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2ftmksEea9u8oqlLhYRg" source="_9j2fkGksEea9u8oqlLhYRg" target="_9j2frGksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2ft2ksEea9u8oqlLhYRg" source="_9j2frmksEea9u8oqlLhYRg" target="_9j2fkWksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fuGksEea9u8oqlLhYRg" source="_9j2fr2ksEea9u8oqlLhYRg" target="_9j2fkmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fuWksEea9u8oqlLhYRg" source="_9j2fsGksEea9u8oqlLhYRg" target="_9j2fk2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fumksEea9u8oqlLhYRg" source="_9j2fsWksEea9u8oqlLhYRg" target="_9j2flGksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fu2ksEea9u8oqlLhYRg" source="_9j2fsmksEea9u8oqlLhYRg" target="_9j2flWksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fvGksEea9u8oqlLhYRg" source="_9j2fs2ksEea9u8oqlLhYRg" target="_9j2flmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9j2fvWksEea9u8oqlLhYRg" source="_9j2ftGksEea9u8oqlLhYRg" target="_9j2fl2ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

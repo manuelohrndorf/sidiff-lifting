@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import simpleWebModel.AnnotatableElement;
 import simpleWebModel.Attribute;
 import simpleWebModel.DataLayer;
 import simpleWebModel.DataPage;
@@ -116,6 +117,13 @@ public class SimpleWebModelPackageImpl extends EPackageImpl implements SimpleWeb
 	 * @generated
 	 */
 	private EClass dataPageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass annotatableElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -460,6 +468,24 @@ public class SimpleWebModelPackageImpl extends EPackageImpl implements SimpleWeb
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAnnotatableElement() {
+		return annotatableElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAnnotatableElement_Annotation() {
+		return (EAttribute)annotatableElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getSimpleType() {
 		return simpleTypeEEnum;
 	}
@@ -534,6 +560,9 @@ public class SimpleWebModelPackageImpl extends EPackageImpl implements SimpleWeb
 
 		dataPageEClass = createEClass(DATA_PAGE);
 
+		annotatableElementEClass = createEClass(ANNOTATABLE_ELEMENT);
+		createEAttribute(annotatableElementEClass, ANNOTATABLE_ELEMENT__ANNOTATION);
+
 		// Create enums
 		simpleTypeEEnum = createEEnum(SIMPLE_TYPE);
 	}
@@ -566,6 +595,8 @@ public class SimpleWebModelPackageImpl extends EPackageImpl implements SimpleWeb
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		entityEClass.getESuperTypes().add(this.getAnnotatableElement());
+		pageEClass.getESuperTypes().add(this.getAnnotatableElement());
 		staticPageEClass.getESuperTypes().add(this.getPage());
 		dynamicPageEClass.getESuperTypes().add(this.getPage());
 		indexPageEClass.getESuperTypes().add(this.getDynamicPage());
@@ -613,6 +644,9 @@ public class SimpleWebModelPackageImpl extends EPackageImpl implements SimpleWeb
 		initEClass(indexPageEClass, IndexPage.class, "IndexPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(dataPageEClass, DataPage.class, "DataPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(annotatableElementEClass, AnnotatableElement.class, "AnnotatableElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAnnotatableElement_Annotation(), ecorePackage.getEString(), "annotation", null, 0, 1, AnnotatableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(simpleTypeEEnum, SimpleType.class, "SimpleType");

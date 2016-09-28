@@ -150,6 +150,43 @@ public interface SimpleWebModelPackage extends EPackage {
 	int DATA_LAYER_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link simpleWebModel.impl.AnnotatableElementImpl <em>Annotatable Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see simpleWebModel.impl.AnnotatableElementImpl
+	 * @see simpleWebModel.impl.SimpleWebModelPackageImpl#getAnnotatableElement()
+	 * @generated
+	 */
+	int ANNOTATABLE_ELEMENT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATABLE_ELEMENT__ANNOTATION = 0;
+
+	/**
+	 * The number of structural features of the '<em>Annotatable Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATABLE_ELEMENT_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Annotatable Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATABLE_ELEMENT_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link simpleWebModel.impl.EntityImpl <em>Entity</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,13 +197,22 @@ public interface SimpleWebModelPackage extends EPackage {
 	int ENTITY = 2;
 
 	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY__ANNOTATION = ANNOTATABLE_ELEMENT__ANNOTATION;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY__NAME = 0;
+	int ENTITY__NAME = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -175,7 +221,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY__ATTRIBUTES = 1;
+	int ENTITY__ATTRIBUTES = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>References</b></em>' containment reference list.
@@ -184,7 +230,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY__REFERENCES = 2;
+	int ENTITY__REFERENCES = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Entity</em>' class.
@@ -193,7 +239,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_FEATURE_COUNT = 3;
+	int ENTITY_FEATURE_COUNT = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Entity</em>' class.
@@ -202,7 +248,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_OPERATION_COUNT = 0;
+	int ENTITY_OPERATION_COUNT = ANNOTATABLE_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link simpleWebModel.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -362,13 +408,22 @@ public interface SimpleWebModelPackage extends EPackage {
 	int PAGE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE__ANNOTATION = ANNOTATABLE_ELEMENT__ANNOTATION;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE__NAME = 0;
+	int PAGE__NAME = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Links</b></em>' containment reference list.
@@ -377,7 +432,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE__LINKS = 1;
+	int PAGE__LINKS = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Page</em>' class.
@@ -386,7 +441,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_FEATURE_COUNT = 2;
+	int PAGE_FEATURE_COUNT = ANNOTATABLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Page</em>' class.
@@ -395,7 +450,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PAGE_OPERATION_COUNT = 0;
+	int PAGE_OPERATION_COUNT = ANNOTATABLE_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link simpleWebModel.impl.StaticPageImpl <em>Static Page</em>}' class.
@@ -406,6 +461,15 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 */
 	int STATIC_PAGE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_PAGE__ANNOTATION = PAGE__ANNOTATION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -491,6 +555,15 @@ public interface SimpleWebModelPackage extends EPackage {
 	int DYNAMIC_PAGE = 9;
 
 	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DYNAMIC_PAGE__ANNOTATION = PAGE__ANNOTATION;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -544,6 +617,15 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @generated
 	 */
 	int INDEX_PAGE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDEX_PAGE__ANNOTATION = DYNAMIC_PAGE__ANNOTATION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -601,6 +683,15 @@ public interface SimpleWebModelPackage extends EPackage {
 	int DATA_PAGE = 11;
 
 	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATA_PAGE__ANNOTATION = DYNAMIC_PAGE__ANNOTATION;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -653,7 +744,7 @@ public interface SimpleWebModelPackage extends EPackage {
 	 * @see simpleWebModel.impl.SimpleWebModelPackageImpl#getSimpleType()
 	 * @generated
 	 */
-	int SIMPLE_TYPE = 12;
+	int SIMPLE_TYPE = 13;
 
 
 	/**
@@ -975,6 +1066,27 @@ public interface SimpleWebModelPackage extends EPackage {
 	EClass getDataPage();
 
 	/**
+	 * Returns the meta object for class '{@link simpleWebModel.AnnotatableElement <em>Annotatable Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Annotatable Element</em>'.
+	 * @see simpleWebModel.AnnotatableElement
+	 * @generated
+	 */
+	EClass getAnnotatableElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link simpleWebModel.AnnotatableElement#getAnnotation <em>Annotation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Annotation</em>'.
+	 * @see simpleWebModel.AnnotatableElement#getAnnotation()
+	 * @see #getAnnotatableElement()
+	 * @generated
+	 */
+	EAttribute getAnnotatableElement_Annotation();
+
+	/**
 	 * Returns the meta object for enum '{@link simpleWebModel.SimpleType <em>Simple Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1270,6 +1382,24 @@ public interface SimpleWebModelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass DATA_PAGE = eINSTANCE.getDataPage();
+
+		/**
+		 * The meta object literal for the '{@link simpleWebModel.impl.AnnotatableElementImpl <em>Annotatable Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see simpleWebModel.impl.AnnotatableElementImpl
+		 * @see simpleWebModel.impl.SimpleWebModelPackageImpl#getAnnotatableElement()
+		 * @generated
+		 */
+		EClass ANNOTATABLE_ELEMENT = eINSTANCE.getAnnotatableElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Annotation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANNOTATABLE_ELEMENT__ANNOTATION = eINSTANCE.getAnnotatableElement_Annotation();
 
 		/**
 		 * The meta object literal for the '{@link simpleWebModel.SimpleType <em>Simple Type</em>}' enum.

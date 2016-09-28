@@ -49,6 +49,15 @@ public interface ConfigurationFactory extends EFactory {
 	Constraint createConstraint();
 
 	/**
+	 * Returns a new object of class '<em>OCL Constraint Interpreter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>OCL Constraint Interpreter</em>'.
+	 * @generated
+	 */
+	OCLConstraintInterpreter createOCLConstraintInterpreter();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

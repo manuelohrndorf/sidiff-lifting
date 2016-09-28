@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9naJ4GksEea9u8oqlLhYRg" name="CREATE_JLocalVariable_IN_JCodeBlock_(definedVariables)" description="Creates one JLocalVariable in JCodeBlock">
+  <annotations xmi:id="_9naJ4WksEea9u8oqlLhYRg" key="INVERSE" value="DELETE_JLocalVariable_IN_JCodeBlock_(definedVariables)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9naJ4mksEea9u8oqlLhYRg" name="createJLocalVariable_IN_JCodeBlock" description="creates one JLocalVariable in the context: JCodeBlock">
+    <parameters xmi:id="_9naJ42ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9naJ5GksEea9u8oqlLhYRg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameters xmi:id="_9naJ5WksEea9u8oqlLhYRg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+    </parameters>
+    <parameters xmi:id="_9naJ5mksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9naJ52ksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9naJ6GksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9naJ6WksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9naJ6mksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9naJ62ksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9naJ7GksEea9u8oqlLhYRg" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9naJ7WksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9naJ7mksEea9u8oqlLhYRg" name="Selected" outgoing="_9naJ9mksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9naJ72ksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+      </nodes>
+      <nodes xmi:id="_9naJ8GksEea9u8oqlLhYRg" name="New" incoming="_9naJ9mksEea9u8oqlLhYRg" outgoing="_9naJ92ksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9naJ8WksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+        <attributes xmi:id="_9naJ8mksEea9u8oqlLhYRg" value="Id">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/id"/>
+        </attributes>
+        <attributes xmi:id="_9naJ82ksEea9u8oqlLhYRg" value="Compileable">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JIdentifiableElement/compileable"/>
+        </attributes>
+        <attributes xmi:id="_9naJ9GksEea9u8oqlLhYRg" value="Name">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JNamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9naJ9WksEea9u8oqlLhYRg" name="Existing" incoming="_9naJ92ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_9naJ9mksEea9u8oqlLhYRg" source="_9naJ7mksEea9u8oqlLhYRg" target="_9naJ8GksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock/definedVariables"/>
+      </edges>
+      <edges xmi:id="_9naJ92ksEea9u8oqlLhYRg" source="_9naJ8GksEea9u8oqlLhYRg" target="_9naJ9WksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9naJ-GksEea9u8oqlLhYRg" origin="_9naJ6mksEea9u8oqlLhYRg" image="_9naJ7mksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9naJ-WksEea9u8oqlLhYRg" origin="_9naJ7GksEea9u8oqlLhYRg" image="_9naJ9WksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9naJ-mksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9naJ4mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9naJ-2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9naJ_GksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JCodeBlock"/>
+    </parameters>
+    <parameters xmi:id="_9naJ_WksEea9u8oqlLhYRg" name="Existing">
+      <annotations xmi:id="_9naJ_mksEea9u8oqlLhYRg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameters xmi:id="_9naJ_2ksEea9u8oqlLhYRg" name="New">
+      <annotations xmi:id="_9naKAGksEea9u8oqlLhYRg" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JLocalVariable"/>
+    </parameters>
+    <parameters xmi:id="_9naKAWksEea9u8oqlLhYRg" name="Id">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_9naKAmksEea9u8oqlLhYRg" name="Compileable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="_9naKA2ksEea9u8oqlLhYRg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9naKBGksEea9u8oqlLhYRg" source="_9naJ-2ksEea9u8oqlLhYRg" target="_9naJ42ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9naKBWksEea9u8oqlLhYRg" source="_9naJ_WksEea9u8oqlLhYRg" target="_9naJ5GksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9naKBmksEea9u8oqlLhYRg" source="_9naJ5WksEea9u8oqlLhYRg" target="_9naJ_2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9naKB2ksEea9u8oqlLhYRg" source="_9naKAWksEea9u8oqlLhYRg" target="_9naJ5mksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9naKCGksEea9u8oqlLhYRg" source="_9naKAmksEea9u8oqlLhYRg" target="_9naJ52ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9naKCWksEea9u8oqlLhYRg" source="_9naKA2ksEea9u8oqlLhYRg" target="_9naJ6GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

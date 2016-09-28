@@ -81,6 +81,7 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 			case SimpleWebModelPackage.ENTITY: {
 				Entity entity = (Entity)theEObject;
 				T result = caseEntity(entity);
+				if (result == null) result = caseAnnotatableElement(entity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -105,6 +106,7 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 			case SimpleWebModelPackage.PAGE: {
 				Page page = (Page)theEObject;
 				T result = casePage(page);
+				if (result == null) result = caseAnnotatableElement(page);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -112,6 +114,7 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 				StaticPage staticPage = (StaticPage)theEObject;
 				T result = caseStaticPage(staticPage);
 				if (result == null) result = casePage(staticPage);
+				if (result == null) result = caseAnnotatableElement(staticPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -125,6 +128,7 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 				DynamicPage dynamicPage = (DynamicPage)theEObject;
 				T result = caseDynamicPage(dynamicPage);
 				if (result == null) result = casePage(dynamicPage);
+				if (result == null) result = caseAnnotatableElement(dynamicPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,6 +137,7 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 				T result = caseIndexPage(indexPage);
 				if (result == null) result = caseDynamicPage(indexPage);
 				if (result == null) result = casePage(indexPage);
+				if (result == null) result = caseAnnotatableElement(indexPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -141,6 +146,13 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 				T result = caseDataPage(dataPage);
 				if (result == null) result = caseDynamicPage(dataPage);
 				if (result == null) result = casePage(dataPage);
+				if (result == null) result = caseAnnotatableElement(dataPage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimpleWebModelPackage.ANNOTATABLE_ELEMENT: {
+				AnnotatableElement annotatableElement = (AnnotatableElement)theEObject;
+				T result = caseAnnotatableElement(annotatableElement);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -325,6 +337,21 @@ public class SimpleWebModelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDataPage(DataPage object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Annotatable Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Annotatable Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnnotatableElement(AnnotatableElement object) {
 		return null;
 	}
 

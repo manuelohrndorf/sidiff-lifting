@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -38,7 +36,7 @@ import simpleWebModel.SimpleWebModelPackage;
  *
  * @generated
  */
-public class EntityImpl extends MinimalEObjectImpl.Container implements Entity {
+public class EntityImpl extends AnnotatableElementImpl implements Entity {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->

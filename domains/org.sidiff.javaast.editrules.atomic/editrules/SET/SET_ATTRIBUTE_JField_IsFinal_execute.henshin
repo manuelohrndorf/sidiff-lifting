@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9i75kGksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JField_IsFinal" description="Sets JField IsFinal">
+  <annotations xmi:id="_9i75kWksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JField_IsFinal"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9i75kmksEea9u8oqlLhYRg" name="setJFieldIsFinal" description="Sets the EAttribute isFinal">
+    <parameters xmi:id="_9i75k2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9i75lGksEea9u8oqlLhYRg" name="IsFinal">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9i75lWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9i75lmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9i75l2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9i75mGksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+        <attributes xmi:id="_9i75mWksEea9u8oqlLhYRg" value="IsFinal">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isFinal"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9i75mmksEea9u8oqlLhYRg" origin="_9i75lmksEea9u8oqlLhYRg" image="_9i75mGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9i75m2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9i75kmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9i75nGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9i75nWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9i75nmksEea9u8oqlLhYRg" name="IsFinal">
+      <annotations xmi:id="_9i75n2ksEea9u8oqlLhYRg" key="INVERSE" value="IsFinal"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9i75oGksEea9u8oqlLhYRg" source="_9i75nGksEea9u8oqlLhYRg" target="_9i75k2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9i75oWksEea9u8oqlLhYRg" source="_9i75nmksEea9u8oqlLhYRg" target="_9i75lGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

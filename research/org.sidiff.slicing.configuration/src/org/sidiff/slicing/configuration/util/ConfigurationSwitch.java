@@ -84,6 +84,19 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ConfigurationPackage.ICONSTRAINT_INTERPRETER: {
+				IConstraintInterpreter iConstraintInterpreter = (IConstraintInterpreter)theEObject;
+				T result = caseIConstraintInterpreter(iConstraintInterpreter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ConfigurationPackage.OCL_CONSTRAINT_INTERPRETER: {
+				OCLConstraintInterpreter oclConstraintInterpreter = (OCLConstraintInterpreter)theEObject;
+				T result = caseOCLConstraintInterpreter(oclConstraintInterpreter);
+				if (result == null) result = caseIConstraintInterpreter(oclConstraintInterpreter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -130,6 +143,36 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConstraint(Constraint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IConstraint Interpreter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IConstraint Interpreter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIConstraintInterpreter(IConstraintInterpreter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>OCL Constraint Interpreter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>OCL Constraint Interpreter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOCLConstraintInterpreter(OCLConstraintInterpreter object) {
 		return null;
 	}
 

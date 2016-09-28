@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simpleWebModel:WebModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:simpleWebModel="http://simpleWebModel/1.0" name="PoetryContest">
   <dataLayer>
-    <entities name="Contest">
+    <entities annotation="Contest" name="Contest">
       <attributes name="name" type="STRING"/>
       <attributes name="date" type="INTEGER"/>
       <attributes name="place" type="STRING"/>
       <references name="competitor" type="//@dataLayer/@entities.1"/>
     </entities>
-    <entities name="Poet">
+    <entities annotation="Poet" name="Poet">
       <attributes name="name" type="STRING"/>
       <attributes name="town" type="STRING"/>
       <attributes name="info" type="STRING"/>
       <references name="declaims" type="//@dataLayer/@entities.2"/>
     </entities>
-    <entities name="Poem">
+    <entities annotation="Poem" name="Poem">
       <attributes name="title" type="STRING"/>
       <references name="declaimed by" type="//@dataLayer/@entities.1"/>
     </entities>
@@ -24,20 +24,20 @@
       <links target="//@hypertextLayer/@pages.3"/>
       <links target="//@hypertextLayer/@pages.2"/>
     </pages>
-    <pages xsi:type="simpleWebModel:IndexPage" name="ContestIndex" shows="//@dataLayer/@entities.0">
+    <pages xsi:type="simpleWebModel:IndexPage" annotation="Contest" name="ContestIndex" shows="//@dataLayer/@entities.0">
       <links target="//@hypertextLayer/@pages.4"/>
     </pages>
-    <pages xsi:type="simpleWebModel:IndexPage" name="PoetIndex" shows="//@dataLayer/@entities.1">
+    <pages xsi:type="simpleWebModel:IndexPage" annotation="Poet" name="PoetIndex" shows="//@dataLayer/@entities.1">
       <links target="//@hypertextLayer/@pages.5"/>
     </pages>
-    <pages xsi:type="simpleWebModel:IndexPage" name="PoemIndex" shows="//@dataLayer/@entities.2">
+    <pages xsi:type="simpleWebModel:IndexPage" annotation="Poem" name="PoemIndex" shows="//@dataLayer/@entities.2">
       <links target="//@hypertextLayer/@pages.6"/>
     </pages>
-    <pages xsi:type="simpleWebModel:DataPage" name="ContestDetails" shows="//@dataLayer/@entities.0">
+    <pages xsi:type="simpleWebModel:DataPage" annotation="Contest" name="ContestDetails" shows="//@dataLayer/@entities.0">
       <links target="//@hypertextLayer/@pages.5"/>
     </pages>
-    <pages xsi:type="simpleWebModel:DataPage" name="PoetDetails" shows="//@dataLayer/@entities.1"/>
-    <pages xsi:type="simpleWebModel:DataPage" name="PoemDetails" shows="//@dataLayer/@entities.2">
+    <pages xsi:type="simpleWebModel:DataPage" annotation="Poet" name="PoetDetails" shows="//@dataLayer/@entities.1"/>
+    <pages xsi:type="simpleWebModel:DataPage" annotation="Poem" name="PoemDetails" shows="//@dataLayer/@entities.2">
       <links target="//@hypertextLayer/@pages.5"/>
     </pages>
   </hypertextLayer>

@@ -141,6 +141,29 @@ public class ConfigurationItemProviderAdapterFactory extends ConfigurationAdapte
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.slicing.configuration.OCLConstraintInterpreter} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected OCLConstraintInterpreterItemProvider oclConstraintInterpreterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.slicing.configuration.OCLConstraintInterpreter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createOCLConstraintInterpreterAdapter() {
+		if (oclConstraintInterpreterItemProvider == null) {
+			oclConstraintInterpreterItemProvider = new OCLConstraintInterpreterItemProvider(this);
+		}
+
+		return oclConstraintInterpreterItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -242,6 +265,7 @@ public class ConfigurationItemProviderAdapterFactory extends ConfigurationAdapte
 		if (slicingConfigurationItemProvider != null) slicingConfigurationItemProvider.dispose();
 		if (slicedEClassItemProvider != null) slicedEClassItemProvider.dispose();
 		if (constraintItemProvider != null) constraintItemProvider.dispose();
+		if (oclConstraintInterpreterItemProvider != null) oclConstraintInterpreterItemProvider.dispose();
 	}
 
 }

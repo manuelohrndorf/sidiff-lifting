@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9osjUGksEea9u8oqlLhYRg" name="DELETE_JInterface_IN_JClassifier_(innerClassifiers)" description="Deletes one JInterface in JClassifier">
+  <annotations xmi:id="_9otKYGksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JInterface_IN_JClassifier_(innerClassifiers)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9otKYWksEea9u8oqlLhYRg" name="deleteJInterface_IN_JClassifier" description="deletes one JInterface in the context: JClassifier">
+    <parameters xmi:id="_9otKYmksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9otKY2ksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <lhs xmi:id="_9otKZGksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9otKZWksEea9u8oqlLhYRg" name="Selected" outgoing="_9otKaWksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9otKZmksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+      <nodes xmi:id="_9otKZ2ksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9otKaWksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9otKaGksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <edges xmi:id="_9otKaWksEea9u8oqlLhYRg" source="_9otKZWksEea9u8oqlLhYRg" target="_9otKZ2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier/innerClassifiers"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9otKamksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9otKa2ksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9otKbGksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9otKbWksEea9u8oqlLhYRg" origin="_9otKZWksEea9u8oqlLhYRg" image="_9otKa2ksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9otKbmksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9otKYWksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9otKb2ksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9otKcGksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JClassifier"/>
+    </parameters>
+    <parameters xmi:id="_9otKcWksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9otKcmksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameterMappings xmi:id="_9otKc2ksEea9u8oqlLhYRg" source="_9otKb2ksEea9u8oqlLhYRg" target="_9otKYmksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9otKdGksEea9u8oqlLhYRg" source="_9otKcWksEea9u8oqlLhYRg" target="_9otKY2ksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

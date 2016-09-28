@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9k1-EGksEea9u8oqlLhYRg" name="DELETE_JMethod_IN_JInterface_(methodSignatures)" description="Deletes one JMethod in JInterface">
+  <annotations xmi:id="_9k1-EWksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JMethod_IN_JInterface_(methodSignatures)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9k1-EmksEea9u8oqlLhYRg" name="deleteJMethod_IN_JInterface" description="deletes one JMethod in the context: JInterface" injectiveMatching="false">
+    <parameters xmi:id="_9k1-E2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9k1-FGksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9k1-FWksEea9u8oqlLhYRg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <lhs xmi:id="_9k1-FmksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9k1-F2ksEea9u8oqlLhYRg" name="Selected" outgoing="_9k1-HGksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9k1-GGksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9k1-GWksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9k1-HGksEea9u8oqlLhYRg" outgoing="_9k1-HWksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9k1-GmksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+      <nodes xmi:id="_9k1-G2ksEea9u8oqlLhYRg" name="Existing" incoming="_9k1-HWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+      <edges xmi:id="_9k1-HGksEea9u8oqlLhYRg" source="_9k1-F2ksEea9u8oqlLhYRg" target="_9k1-GWksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface/methodSignatures"/>
+      </edges>
+      <edges xmi:id="_9k1-HWksEea9u8oqlLhYRg" source="_9k1-GWksEea9u8oqlLhYRg" target="_9k1-G2ksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JTypedElement/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9k1-HmksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9k1-H2ksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9k1-IGksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+      </nodes>
+      <nodes xmi:id="_9k1-IWksEea9u8oqlLhYRg" name="Existing">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9k1-ImksEea9u8oqlLhYRg" origin="_9k1-F2ksEea9u8oqlLhYRg" image="_9k1-H2ksEea9u8oqlLhYRg"/>
+    <mappings xmi:id="_9k1-I2ksEea9u8oqlLhYRg" origin="_9k1-G2ksEea9u8oqlLhYRg" image="_9k1-IWksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9k1-JGksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9k1-EmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9k1-JWksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9k1-JmksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JInterface"/>
+    </parameters>
+    <parameters xmi:id="_9k1-J2ksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9k1-KGksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9k1-KWksEea9u8oqlLhYRg" name="Existing">
+      <annotations xmi:id="_9k1-KmksEea9u8oqlLhYRg" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JType"/>
+    </parameters>
+    <parameterMappings xmi:id="_9k1-K2ksEea9u8oqlLhYRg" source="_9k1-JWksEea9u8oqlLhYRg" target="_9k1-E2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9k1-LGksEea9u8oqlLhYRg" source="_9k1-J2ksEea9u8oqlLhYRg" target="_9k1-FGksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9k1-LWksEea9u8oqlLhYRg" source="_9k1-KWksEea9u8oqlLhYRg" target="_9k1-FWksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

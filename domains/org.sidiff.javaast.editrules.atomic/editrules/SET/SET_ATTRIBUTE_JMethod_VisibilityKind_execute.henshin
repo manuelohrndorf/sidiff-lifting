@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9gis4GksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JMethod_VisibilityKind" description="Sets JMethod VisibilityKind">
+  <annotations xmi:id="_9gis4WksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JMethod_VisibilityKind"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9gis4mksEea9u8oqlLhYRg" name="setJMethodVisibilityKind" description="Sets the EAttribute visibilityKind">
+    <parameters xmi:id="_9gis42ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9gis5GksEea9u8oqlLhYRg" name="VisibilityKind">
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_9gis5WksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9gis5mksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9gis52ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9gis6GksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+        <attributes xmi:id="_9gis6WksEea9u8oqlLhYRg" value="VisibilityKind">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibleElement/visibilityKind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9gis6mksEea9u8oqlLhYRg" origin="_9gis5mksEea9u8oqlLhYRg" image="_9gis6GksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9gis62ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9gis4mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9gis7GksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9gis7WksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JMethod"/>
+    </parameters>
+    <parameters xmi:id="_9gis7mksEea9u8oqlLhYRg" name="VisibilityKind">
+      <annotations xmi:id="_9gis72ksEea9u8oqlLhYRg" key="INVERSE" value="VisibilityKind"/>
+      <type xsi:type="ecore:EEnum" href="http://www.sidiff.org/org.sidiff.javaast.model#//JVisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_9gis8GksEea9u8oqlLhYRg" source="_9gis7GksEea9u8oqlLhYRg" target="_9gis42ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9gis8WksEea9u8oqlLhYRg" source="_9gis7mksEea9u8oqlLhYRg" target="_9gis5GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

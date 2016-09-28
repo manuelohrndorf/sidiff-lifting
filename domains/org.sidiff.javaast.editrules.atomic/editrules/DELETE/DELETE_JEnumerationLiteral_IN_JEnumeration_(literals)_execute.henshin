@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9jSe4GksEea9u8oqlLhYRg" name="DELETE_JEnumerationLiteral_IN_JEnumeration_(literals)" description="Deletes one JEnumerationLiteral in JEnumeration">
+  <annotations xmi:id="_9jSe4WksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JEnumerationLiteral_IN_JEnumeration_(literals)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9jSe4mksEea9u8oqlLhYRg" name="deleteJEnumerationLiteral_IN_JEnumeration" description="deletes one JEnumerationLiteral in the context: JEnumeration">
+    <parameters xmi:id="_9jSe42ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+    </parameters>
+    <parameters xmi:id="_9jSe5GksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumerationLiteral"/>
+    </parameters>
+    <lhs xmi:id="_9jSe5WksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9jSe5mksEea9u8oqlLhYRg" name="Selected" outgoing="_9jSe6mksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9jSe52ksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+      </nodes>
+      <nodes xmi:id="_9jSe6GksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9jSe6mksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9jSe6WksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumerationLiteral"/>
+      </nodes>
+      <edges xmi:id="_9jSe6mksEea9u8oqlLhYRg" source="_9jSe5mksEea9u8oqlLhYRg" target="_9jSe6GksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration/literals"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9jSe62ksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9jSe7GksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9jSe7WksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9jSe7mksEea9u8oqlLhYRg" origin="_9jSe5mksEea9u8oqlLhYRg" image="_9jSe7GksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9jSe72ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9jSe4mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9jSe8GksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9jSe8WksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumeration"/>
+    </parameters>
+    <parameters xmi:id="_9jSe8mksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9jSe82ksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JEnumerationLiteral"/>
+    </parameters>
+    <parameterMappings xmi:id="_9jSe9GksEea9u8oqlLhYRg" source="_9jSe8GksEea9u8oqlLhYRg" target="_9jSe42ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9jSe9WksEea9u8oqlLhYRg" source="_9jSe8mksEea9u8oqlLhYRg" target="_9jSe5GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

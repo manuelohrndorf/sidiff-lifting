@@ -80,6 +80,14 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 				return createConstraintAdapter();
 			}
 			@Override
+			public Adapter caseIConstraintInterpreter(IConstraintInterpreter object) {
+				return createIConstraintInterpreterAdapter();
+			}
+			@Override
+			public Adapter caseOCLConstraintInterpreter(OCLConstraintInterpreter object) {
+				return createOCLConstraintInterpreterAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -138,6 +146,34 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConstraintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.IConstraintInterpreter <em>IConstraint Interpreter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.slicing.configuration.IConstraintInterpreter
+	 * @generated
+	 */
+	public Adapter createIConstraintInterpreterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.slicing.configuration.OCLConstraintInterpreter <em>OCL Constraint Interpreter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.slicing.configuration.OCLConstraintInterpreter
+	 * @generated
+	 */
+	public Adapter createOCLConstraintInterpreterAdapter() {
 		return null;
 	}
 

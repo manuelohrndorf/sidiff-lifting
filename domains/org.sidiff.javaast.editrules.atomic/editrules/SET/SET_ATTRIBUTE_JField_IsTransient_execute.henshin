@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9oAm0GksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JField_IsTransient" description="Sets JField IsTransient">
+  <annotations xmi:id="_9oAm0WksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JField_IsTransient"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9oAm0mksEea9u8oqlLhYRg" name="setJFieldIsTransient" description="Sets the EAttribute isTransient">
+    <parameters xmi:id="_9oAm02ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9oAm1GksEea9u8oqlLhYRg" name="IsTransient">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_9oAm1WksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9oAm1mksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9oAm12ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9oAm2GksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+        <attributes xmi:id="_9oAm2WksEea9u8oqlLhYRg" value="IsTransient">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JField/isTransient"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9oAm2mksEea9u8oqlLhYRg" origin="_9oAm1mksEea9u8oqlLhYRg" image="_9oAm2GksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9oAm22ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9oAm0mksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9oAm3GksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9oAm3WksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JField"/>
+    </parameters>
+    <parameters xmi:id="_9oAm3mksEea9u8oqlLhYRg" name="IsTransient">
+      <annotations xmi:id="_9oAm32ksEea9u8oqlLhYRg" key="INVERSE" value="IsTransient"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_9oAm4GksEea9u8oqlLhYRg" source="_9oAm3GksEea9u8oqlLhYRg" target="_9oAm02ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9oAm4WksEea9u8oqlLhYRg" source="_9oAm3mksEea9u8oqlLhYRg" target="_9oAm1GksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

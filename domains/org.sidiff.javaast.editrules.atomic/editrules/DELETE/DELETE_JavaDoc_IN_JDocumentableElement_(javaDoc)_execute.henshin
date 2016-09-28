@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9iplsGksEea9u8oqlLhYRg" name="DELETE_JavaDoc_IN_JDocumentableElement_(javaDoc)" description="Deletes one JavaDoc in JDocumentableElement">
+  <annotations xmi:id="_9iplsWksEea9u8oqlLhYRg" key="INVERSE" value="CREATE_JavaDoc_IN_JDocumentableElement_(javaDoc)"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9iplsmksEea9u8oqlLhYRg" name="deleteJavaDoc_IN_JDocumentableElement" description="deletes one JavaDoc in the context: JDocumentableElement">
+    <parameters xmi:id="_9ipls2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+    </parameters>
+    <parameters xmi:id="_9ipltGksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <lhs xmi:id="_9ipltWksEea9u8oqlLhYRg" name="LHS">
+      <nodes xmi:id="_9ipltmksEea9u8oqlLhYRg" name="Selected" outgoing="_9iplumksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9iplt2ksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+      </nodes>
+      <nodes xmi:id="_9ipluGksEea9u8oqlLhYRg" name="ToBeDeleted" incoming="_9iplumksEea9u8oqlLhYRg">
+        <annotations xmi:id="_9ipluWksEea9u8oqlLhYRg" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+      </nodes>
+      <edges xmi:id="_9iplumksEea9u8oqlLhYRg" source="_9ipltmksEea9u8oqlLhYRg" target="_9ipluGksEea9u8oqlLhYRg">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement/javaDoc"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9iplu2ksEea9u8oqlLhYRg" name="RHS">
+      <nodes xmi:id="_9iplvGksEea9u8oqlLhYRg" name="Selected">
+        <annotations xmi:id="_9iplvWksEea9u8oqlLhYRg" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9iplvmksEea9u8oqlLhYRg" origin="_9ipltmksEea9u8oqlLhYRg" image="_9iplvGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9iplv2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9iplsmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9iplwGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9iplwWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JDocumentableElement"/>
+    </parameters>
+    <parameters xmi:id="_9iplwmksEea9u8oqlLhYRg" name="ToBeDeleted">
+      <annotations xmi:id="_9iplw2ksEea9u8oqlLhYRg" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameterMappings xmi:id="_9iplxGksEea9u8oqlLhYRg" source="_9iplwGksEea9u8oqlLhYRg" target="_9ipls2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9iplxWksEea9u8oqlLhYRg" source="_9iplwmksEea9u8oqlLhYRg" target="_9ipltGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>

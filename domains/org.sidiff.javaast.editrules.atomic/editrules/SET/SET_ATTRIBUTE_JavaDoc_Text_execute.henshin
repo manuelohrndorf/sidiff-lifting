@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9mQ6YGksEea9u8oqlLhYRg" name="SET_ATTRIBUTE_JavaDoc_Text" description="Sets JavaDoc Text">
+  <annotations xmi:id="_9mQ6YWksEea9u8oqlLhYRg" key="INVERSE" value="UNSET_ATTRIBUTE_JavaDoc_Text"/>
+  <imports href="http://www.sidiff.org/org.sidiff.javaast.model#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9mQ6YmksEea9u8oqlLhYRg" name="setJavaDocText" description="Sets the EAttribute text">
+    <parameters xmi:id="_9mQ6Y2ksEea9u8oqlLhYRg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9mQ6ZGksEea9u8oqlLhYRg" name="Text">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_9mQ6ZWksEea9u8oqlLhYRg" name="Lhs">
+      <nodes xmi:id="_9mQ6ZmksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_9mQ6Z2ksEea9u8oqlLhYRg" name="Rhs">
+      <nodes xmi:id="_9mQ6aGksEea9u8oqlLhYRg" name="Selected">
+        <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+        <attributes xmi:id="_9mQ6aWksEea9u8oqlLhYRg" value="Text">
+          <type href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc/text"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_9mQ6amksEea9u8oqlLhYRg" origin="_9mQ6ZmksEea9u8oqlLhYRg" image="_9mQ6aGksEea9u8oqlLhYRg"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_9mQ6a2ksEea9u8oqlLhYRg" name="mainUnit" subUnits="_9mQ6YmksEea9u8oqlLhYRg">
+    <parameters xmi:id="_9mQ6bGksEea9u8oqlLhYRg" name="selectedEObject">
+      <annotations xmi:id="_9mQ6bWksEea9u8oqlLhYRg" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/org.sidiff.javaast.model#//JavaDoc"/>
+    </parameters>
+    <parameters xmi:id="_9mQ6bmksEea9u8oqlLhYRg" name="Text">
+      <annotations xmi:id="_9mQ6b2ksEea9u8oqlLhYRg" key="INVERSE" value="Text"/>
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="_9mQ6cGksEea9u8oqlLhYRg" source="_9mQ6bGksEea9u8oqlLhYRg" target="_9mQ6Y2ksEea9u8oqlLhYRg"/>
+    <parameterMappings xmi:id="_9mQ6cWksEea9u8oqlLhYRg" source="_9mQ6bmksEea9u8oqlLhYRg" target="_9mQ6ZGksEea9u8oqlLhYRg"/>
+  </units>
+</henshin:Module>
