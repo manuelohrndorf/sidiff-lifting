@@ -202,6 +202,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		sortRecognitionRuleNodes();
 		
 		getStatistic().startTimer(EXECUTION);
+		Long startTime = System.currentTimeMillis();
 
 		// Start execution:
 		if (setup.isUseThreadPool()) {
@@ -213,6 +214,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
 		clearGraphs();
 
+		LogUtil.log(LogEvent.NOTICE, "Lifting Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
 		getStatistic().stopTimer(EXECUTION);
 
 		// Finish Statistic:

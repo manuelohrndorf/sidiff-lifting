@@ -154,13 +154,15 @@ public class RecognitionEngine implements IRecognitionEngine {
 		
 		// Start execution:
 		getStatistic().startTimer(EXECUTION);
+		Long startTime = System.currentTimeMillis();
 
 		if (setup.isUseThreadPool()) {
 			executeParallel();
 		} else {
 			executeSequential();
 		}
-
+		
+		LogUtil.log(LogEvent.NOTICE, "Lifting Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
 		getStatistic().stopTimer(EXECUTION);
 
 		// Finish Statistic:
