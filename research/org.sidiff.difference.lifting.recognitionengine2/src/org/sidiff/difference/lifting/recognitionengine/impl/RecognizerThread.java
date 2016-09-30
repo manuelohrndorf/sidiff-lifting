@@ -22,7 +22,7 @@ import org.sidiff.common.logging.LogUtil;
  * Note that there maybe overlapping semantic change sets.<br/>
  * 
  * Please note that the recognizerThread can also be used to apply the
- * recognition rules in the usual caller thread withoud starting new threads. In
+ * recognition rules in the usual caller thread without starting new threads. In
  * this case, clients should not call the Method this{@link #run()} but this
  * {@link #recognize()} directly.
  */

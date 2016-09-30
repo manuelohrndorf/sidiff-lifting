@@ -14,30 +14,43 @@ public class RecognitionEngineSetup {
 	
 	private ModelImports imports;
 	
-	private Scope scope;
+	private Scope scope = Scope.RESOURCE;;
 	
-	private Set<ILiftingRuleBase> usedRulebases;
+	private Set<ILiftingRuleBase> rulebases;
 	
-	private boolean ruleSetReduction;
+	private boolean ruleSetReduction = true;
 	
-	private boolean buildGraphPerRule;
+	private boolean buildGraphPerRule = true;
+	
+	private boolean optimizeMatchingEngine = true;
 	
 	private IRecognitionRuleSorter ruleSorter;
 	
-	private boolean useThreadPool;
+	private boolean useThreadPool = true;
 	
-	private int numberOfThreads;
+	private int numberOfThreads = 10;
 	
-	private int rulesPerThread;
+	private int rulesPerThread = 10;
 	
-	private boolean calculateEditRuleMatch;
+	private boolean calculateEditRuleMatch = false;
 	
-	private boolean serializeEditRuleMatch;
+	private boolean serializeEditRuleMatch = false;
+	
+	public RecognitionEngineSetup(
+			SymmetricDifference difference, ModelImports imports, 
+			Set<ILiftingRuleBase> rulebases) {
+		
+		super();
+		this.difference = difference;
+		this.imports = imports;
+		this.rulebases = rulebases;
+	}
 
 	public RecognitionEngineSetup(
 			SymmetricDifference difference, ModelImports imports, Scope scope, 
-			Set<ILiftingRuleBase> usedRulebases, boolean ruleSetReduction, 
-			boolean buildGraphPerRule, IRecognitionRuleSorter ruleSorter, 
+			Set<ILiftingRuleBase> rulebases, boolean ruleSetReduction, 
+			boolean buildGraphPerRule, boolean optimizeMatchingEngine,
+			IRecognitionRuleSorter ruleSorter, 
 			boolean useThreadPool, int numberOfThreads, int rulesPerThread,
 			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 		
@@ -45,9 +58,10 @@ public class RecognitionEngineSetup {
 		this.difference = difference;
 		this.imports = imports;
 		this.scope = scope;
-		this.usedRulebases = usedRulebases;
+		this.rulebases = rulebases;
 		this.ruleSetReduction = ruleSetReduction;
 		this.buildGraphPerRule = buildGraphPerRule;
+		this.optimizeMatchingEngine = optimizeMatchingEngine;
 		this.ruleSorter = ruleSorter;
 		this.useThreadPool = useThreadPool;
 		this.numberOfThreads = numberOfThreads;
@@ -57,16 +71,18 @@ public class RecognitionEngineSetup {
 	}
 	
 	public RecognitionEngineSetup(Scope scope, 
-			Set<ILiftingRuleBase> usedRulebases, boolean ruleSetReduction, 
-			boolean buildGraphPerRule, IRecognitionRuleSorter ruleSorter, 
+			Set<ILiftingRuleBase> rulebases, boolean ruleSetReduction, 
+			boolean buildGraphPerRule, boolean optimizeMatchingEngine,
+			IRecognitionRuleSorter ruleSorter, 
 			boolean useThreadPool, int numberOfThreads, int rulesPerThread,
 			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
 		
 		super();
 		this.scope = scope;
-		this.usedRulebases = usedRulebases;
+		this.rulebases = rulebases;
 		this.ruleSetReduction = ruleSetReduction;
 		this.buildGraphPerRule = buildGraphPerRule;
+		this.optimizeMatchingEngine = optimizeMatchingEngine;
 		this.ruleSorter = ruleSorter;
 		this.useThreadPool = useThreadPool;
 		this.numberOfThreads = numberOfThreads;
@@ -100,11 +116,11 @@ public class RecognitionEngineSetup {
 	}
 
 	public Set<ILiftingRuleBase> getRulebases() {
-		return usedRulebases;
+		return rulebases;
 	}
 
-	public void setUsedRulebases(Set<ILiftingRuleBase> usedRulebases) {
-		this.usedRulebases = usedRulebases;
+	public void setRulebases(Set<ILiftingRuleBase> usedRulebases) {
+		this.rulebases = usedRulebases;
 	}
 
 	public boolean isRuleSetReduction() {
@@ -121,6 +137,14 @@ public class RecognitionEngineSetup {
 
 	public void setBuildGraphPerRule(boolean buildGraphPerRule) {
 		this.buildGraphPerRule = buildGraphPerRule;
+	}
+
+	public boolean isOptimizeMatchingEngine() {
+		return optimizeMatchingEngine;
+	}
+
+	public void setOptimizeMatchingEngine(boolean optimizeMatchingEngine) {
+		this.optimizeMatchingEngine = optimizeMatchingEngine;
 	}
 
 	public IRecognitionRuleSorter getRuleSorter() {

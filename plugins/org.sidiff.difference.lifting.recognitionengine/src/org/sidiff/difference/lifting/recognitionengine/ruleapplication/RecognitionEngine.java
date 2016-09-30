@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
@@ -30,7 +29,7 @@ import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionRuleApplicationAnalysis;
-import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
@@ -131,12 +130,17 @@ public class RecognitionEngine implements IRecognitionEngine {
 	private void sortRecognitionRuleNodes() {
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		DifferenceAnalysis analysis = new DifferenceAnalysis(setup.getDifference());
+		DifferenceAnalysis analysis = RecognitionRuleSorterUtil.sort(
+				setup.getRuleSorter(), recognitionRules, filtered, setup.getDifference()) ;
 
-		// Print report
+
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		
 		LogUtil.log(LogEvent.NOTICE, "Difference:");
 		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
 		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
@@ -144,28 +148,6 @@ public class RecognitionEngine implements IRecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, " Total RemoveReferences: " + analysis.getRemoveReferenceCount());
 		LogUtil.log(LogEvent.NOTICE, " Total AttributeValueChanges: " + analysis.getAttributeValueChangeCount());
 		LogUtil.log(LogEvent.NOTICE, " Total Correspondences: " + analysis.getCorrespondenceCount());
-
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
-		// Domain-Size sorting:
-		setup.getRuleSorter().setDifferenceAnalysis(analysis);
-
-		for (Rule recognitionRule : this.recognitionRules) {
-			if (!filtered.contains(recognitionRule)) {
-				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), setup.getRuleSorter());
-
-				// Sort all multi-rules (if there are any)
-				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), setup.getRuleSorter());
-				}
-			}
-		}
-		
-		// Structural sorting:
-		RecognitionRuleStructureSorting.sort(recognitionRules);
 	}
 
 	/**
