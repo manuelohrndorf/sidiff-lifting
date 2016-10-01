@@ -59,18 +59,13 @@ public class LiftDifferenceHandler extends AbstractHandler {
 						Resource[] resources = LiftingFacade.loadModels(
 								fileA.getLocation().toOSString(), 
 								fileB.getLocation().toOSString());
-						
-						//TODO Workaround: bisher keine einheitliche Regelung f�r Ressourcen mit mehreren Dokumenttypen
-						// Annahme: Sofern nicht alle Dokumenttypen der Profile gleich sind, sollte zumindest der eigentliche Dokumenttyp gleich sein.
-						boolean canHandle = false;
-						if(EMFModelAccess.isProfiled(resources[0]) || EMFModelAccess.isProfiled(resources[1])){
-								canHandle = EMFModelAccess.getCharacteristicDocumentType(resources[0]).equals(EMFModelAccess.getCharacteristicDocumentType(resources[1]));
-						} else {
-							Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resources[0], Scope.RESOURCE_SET);
-							Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resources[1], Scope.RESOURCE_SET);
-							docTypeA.retainAll(docTypeB);
-							canHandle = docTypeA.size() > 0;
-						}
+	
+						// Check for an intersection of at least one document type:
+						Set<String> docTypeA = EMFModelAccess.getDocumentTypes(resources[0], Scope.RESOURCE_SET);
+						Set<String> docTypeB = EMFModelAccess.getDocumentTypes(resources[1], Scope.RESOURCE_SET);
+						docTypeA.retainAll(docTypeB);
+						boolean canHandle = docTypeA.size() > 0;
+							
 						if (canHandle){
 
 							// Create a new difference:
