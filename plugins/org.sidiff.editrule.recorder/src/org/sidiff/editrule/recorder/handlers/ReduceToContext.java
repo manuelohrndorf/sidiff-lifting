@@ -58,6 +58,12 @@ public class ReduceToContext extends AbstractHandler implements IHandler {
 				}
 			});
 			
+			// TODO:
+			// Teil-Graphen berechnen (Closures)
+			// Verbindungen zwischen den Teil-Graphen berechnen
+			// Nutzer Pfade auswählen lassen, die behalten werden sollen
+			
+			// Delete << preserve >> nodes:
 			for (Node nonContextNode : nonContextNodes) {
 				deleteNodeWithEdges(nonContextNode);
 			}
@@ -93,6 +99,15 @@ public class ReduceToContext extends AbstractHandler implements IHandler {
 	 *            The node which will be deleted from its graph.
 	 */
 	public static void deleteNode(Node node) {
+		
+		// TODO: Clean-up parameters:
+		
+		// Clean-up mappings:
+		node.getGraph().getRule().getMappings().stream()
+				.filter(m -> ((m.getOrigin() == node) || (m.getImage() == node))).findFirst()
+				.ifPresent(m -> EcoreUtil.remove(m));
+
+		// Remove node from graph:
 		EcoreUtil.remove(node);
 	}
 
