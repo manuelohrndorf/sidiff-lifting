@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.And;
@@ -940,8 +939,6 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		for (Edge edge : getLHSMinusRHSEdges(editRule)) {
 			NodePair removeReference = createPreservedNode(recognitionRule, "",
 					SymmetricPackage.eINSTANCE.getRemoveReference());
-			
-			Registry.INSTANCE.get("http://www.sidiff.org/difference/symmetric/1.0");
 			
 			// Add EReference type node if necessary
 			NodePair typeNode = eReferenceTypeNodes.get(edge.getType());
