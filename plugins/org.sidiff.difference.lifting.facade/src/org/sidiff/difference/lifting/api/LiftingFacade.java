@@ -52,18 +52,20 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 			LiftingSettings settings, MergeImports importMerger) {
 		
 		// Start recognition engine
-		LogUtil.log(LogEvent.NOTICE, "Recognize operations");
+		if (settings.getRecognitionEngineMode() != RecognitionEngineMode.NO_LIFTING) {
+			LogUtil.log(LogEvent.NOTICE, "Recognize operations");
 
-		if (settings.getRecognitionEngine() == null) {
-			settings.setRecognitionEngine(RecognitionEngineUtil.getDefaultRecognitionEngine(
-					PipelineUtils.createRecognitionEngineSetup(settings)));
+			if (settings.getRecognitionEngine() == null) {
+				settings.setRecognitionEngine(RecognitionEngineUtil.getDefaultRecognitionEngine(
+						PipelineUtils.createRecognitionEngineSetup(settings)));
+			}
+			
+			settings.getRecognitionEngine().getSetup().setDifference(symmetricDifference);
+			settings.getRecognitionEngine().getSetup().setImports(
+					(importMerger != null) ? importMerger.getImports() : null);
+
+			settings.getRecognitionEngine().execute();
 		}
-		
-		settings.getRecognitionEngine().getSetup().setDifference(symmetricDifference);
-		settings.getRecognitionEngine().getSetup().setImports(
-				(importMerger != null) ? importMerger.getImports() : null);
-
-		settings.getRecognitionEngine().execute();
 
 		// Postprocess
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
