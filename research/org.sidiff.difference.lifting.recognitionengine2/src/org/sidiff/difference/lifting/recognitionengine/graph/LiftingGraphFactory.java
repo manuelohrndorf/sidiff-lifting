@@ -3,6 +3,7 @@ package org.sidiff.difference.lifting.recognitionengine.graph;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -91,7 +92,8 @@ public class LiftingGraphFactory {
 	 *            The scope (single resource or complete resource set).
 	 */
 	public LiftingGraphFactory(boolean buildGraphPerRule, 
-			LiftingGraphDomainMap liftingGraphDomainMap, ModelImports imports, Scope scope) {
+			LiftingGraphDomainMap liftingGraphDomainMap, 
+			ModelImports imports, Scope scope) {
 		
 		this.buildGraphPerRule = buildGraphPerRule;
 		this.difference = liftingGraphDomainMap.getDifference();
@@ -99,11 +101,37 @@ public class LiftingGraphFactory {
 		this.imports = imports;
 		this.scope = scope;
 		
-		modelAGraph = createModelAGraph();
-		modelBGraph = createModelBGraph();
+		// Model graphs:
+		final CountDownLatch barrier = new CountDownLatch(2);
 		
+		// Model A:
+		Thread buildModelA = new Thread(new Runnable() {
+			public void run() {
+				modelAGraph = createModelAGraph();
+				barrier.countDown();
+			}
+		});
+		buildModelA.start();
+		
+		// Model B:
+		Thread buildModelB = new Thread(new Runnable() {
+			public void run() {
+				modelBGraph = createModelBGraph();
+				barrier.countDown();
+			}
+		});
+		buildModelB.start();
+
+		// Full lifting graph:
 		if (!buildGraphPerRule) {
 			fullEGraph = createSingleEGraph();
+		}
+		
+		// Join threads:
+		try {
+			barrier.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
