@@ -40,7 +40,6 @@ public class CompareViewToolbar implements IToolbarContribution {
 		tool_compareViewLayout.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// FIXME[MO@29.11.13]: This is yet only a quick and dirty solution!
 				LayoutCompareViewHandler handler = new LayoutCompareViewHandler();
 				try {
 					handler.execute(getExecutionEvent(CMD_LAYOUT_COMPARE_VIEW, null));
@@ -58,7 +57,6 @@ public class CompareViewToolbar implements IToolbarContribution {
 		tool_compareViewCollapse.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// FIXME[MO@29.11.13]: This is yet only a quick and dirty solution!
 				CollapseCompareViewHandler handler = new CollapseCompareViewHandler();
 				try {
 					handler.execute(getExecutionEvent(CMD_COLLAPSE_COMPARE_VIEW, null));
