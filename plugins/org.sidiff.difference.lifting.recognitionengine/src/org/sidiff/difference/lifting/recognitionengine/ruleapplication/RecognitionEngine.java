@@ -332,6 +332,24 @@ public class RecognitionEngine implements IRecognitionEngine {
 		return this.graphFactory;
 	}
 	
+	@Override
+	public EGraph getGraphModelA() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelAGraph();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public EGraph getGraphModelB() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelBGraph();
+		} else {
+			return null;
+		}
+	}
+	
 	/**
 	 * @return All applied (recognition) rule applications.
 	 */

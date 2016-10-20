@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
@@ -470,6 +471,24 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 */
 	public LiftingGraphFactory getGraphFactory() {
 		return graphFactory;
+	}
+	
+	@Override
+	public EGraph getGraphModelA() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelAGraph();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public EGraph getGraphModelB() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelBGraph();
+		} else {
+			return null;
+		}
 	}
 	
 	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {

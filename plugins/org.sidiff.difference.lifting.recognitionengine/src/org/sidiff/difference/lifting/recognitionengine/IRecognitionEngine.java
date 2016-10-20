@@ -3,8 +3,10 @@ package org.sidiff.difference.lifting.recognitionengine;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
 
 /**
@@ -23,6 +25,21 @@ public interface IRecognitionEngine {
 	 * Execution of all recognition rules.
 	 */
 	public void execute();
+	
+	/**
+	 * @return The difference this RecognitionEngine is working on.
+	 */
+	public SymmetricDifference getDifference();
+	
+	/**
+	 * @return The working graph of model A.
+	 */
+	public EGraph getGraphModelA();
+	
+	/**
+	 * @return The working graph of model B.
+	 */
+	public EGraph getGraphModelB();
 	
 	/**
 	 * @return All applied recognition rule applications.
