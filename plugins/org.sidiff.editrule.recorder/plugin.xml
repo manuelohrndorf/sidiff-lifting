@@ -51,6 +51,12 @@
             id="org.sidiff.editrule.recorder.command.renamerule"
             name="Rename Edit-Rule">
       </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Removes all non context (preserve) nodes from an edit rule."
+            id="org.sidiff.editrule.recorder.command.reducetocontext"
+            name="Reduce To Context">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -63,6 +69,29 @@
             </reference>
          </activeWhen>
       </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.ReduceToContext"
+               commandId="org.sidiff.editrule.recorder.command.reducetocontext">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
          <handler
                class="org.sidiff.editrule.recorder.handlers.MakeRuleAbstractHandler"
                commandId="org.sidiff.editrule.recorder.command.makeabstract">
@@ -238,6 +267,10 @@
                label="Edit-Rules">
             <command
                   commandId="org.sidiff.editrule.recorder.command.createeditrule"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.reducetocontext"
                   style="push">
             </command>
             <command

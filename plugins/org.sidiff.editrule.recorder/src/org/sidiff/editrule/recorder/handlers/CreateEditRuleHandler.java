@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -38,6 +39,7 @@ import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
+import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
@@ -186,6 +188,19 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 						createCreateEdge(srcNode, tgtNode, addReference.getType());
 					}
 				}
+			}
+			
+			// Attribute value changes:
+			if (change instanceof AttributeValueChange) {
+				AttributeValueChange avc = (AttributeValueChange) change;
+				Node rhsNode = traceB2RHS.get(avc.getObjB());
+				
+				// Create attribute with parameter:
+				Parameter param = HenshinFactory.eINSTANCE.createParameter(
+						"in_" + rhsNode.getName() + "_" + avc.getType().getName());
+				Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
+						rhsNode, avc.getType(), param.getName());
+				rhsNode.getAttributes().add(attr);
 			}
 		}
 		

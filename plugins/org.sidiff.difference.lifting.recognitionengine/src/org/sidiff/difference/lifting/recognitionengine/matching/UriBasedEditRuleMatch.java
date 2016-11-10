@@ -9,9 +9,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.access.Field;
+import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -196,5 +199,29 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 			}
 		}
 		return attributes;
+	}
+	
+	@Override
+	public Set<NacMatch> getNacOccurrences() {
+		// TODO Implement this method!?
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<EObject> getForbidNodeOccurenceA(Node forbidNode) {
+		// TODO Implement this method!?
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<Link> getForbidEdgeOccurenceA(Edge forbidEdge) {
+		// TODO Implement this method!?
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public IRecognitionRuleMatch getRecognitionRuleMatch() {
+		// TODO Implement this method!?
+		throw new UnsupportedOperationException();
 	}
 }

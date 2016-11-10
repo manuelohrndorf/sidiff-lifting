@@ -41,6 +41,21 @@ import org.sidiff.matching.model.MatchingModelPackage;
 public class RecognitionEngineStatistics implements IRecognitionEngineStatistics {
 
 	/**
+	 * The CSV-Output-File.
+	 */
+	private File csvFile; 
+	
+	/**
+	 * An instance of the statistic database.
+	 */
+	private StatisticsUtil statisticsUtil = StatisticsUtil.createStatisticsUtil();
+	
+	/**
+	 * Map: Marker -> List of IDs.
+	 */
+	private Map<String, Set<String>> splitTimers = new HashMap<String, Set<String>>();
+	
+	/**
 	 * Global statistic trigger.
 	 */
 	private boolean STATISTICS = false;
@@ -51,11 +66,6 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	 * would lead to an execution time overhead in the real calculation.
 	 */
 	private boolean MEASURE_GRAPH_SIZE = true;
-	
-	/**
-	 * An instance of the statistic database.
-	 */
-	private StatisticsUtil statisticsUtil = StatisticsUtil.createStatisticsUtil();
 	
 	/**
 	 * Print an unavailable value.
@@ -240,16 +250,6 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	 * Row separator.
 	 */
 	private static final String ROW = "\n";
-	
-	/**
-	 * The CSV-Output-File.
-	 */
-	private static File csvFile; 
-	
-	/**
-	 * Map: Marker -> List of IDs.
-	 */
-	private static Map<String, Set<String>> splitTimers = new HashMap<String, Set<String>>();
 	
 	/**
 	 * New statistic types: 

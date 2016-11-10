@@ -2,9 +2,6 @@ package org.sidiff.difference.lifting.recognitionengine.ruleapplication;
 
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.CREATE_GRAPH;
 import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.MATCH_RR;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.STATISTICS;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.startSplitTimer;
-import static org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngineStatistics.stopSplitTimer;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -32,6 +29,16 @@ import org.sidiff.common.logging.LogUtil;
 public class RecognizerThread extends Thread {
 	
 	/**
+	 * Checks if the Recognition-Engine statistic output is enabled.
+	 */
+	private boolean STATISTICS = false;
+	
+	/**
+	 * Can be used to test the performance of the recognition engine.
+	 */
+	protected RecognitionEngineStatistics statistic;
+	
+	/**
 	 * The recognition rules to execute.
 	 */
 	private Set<Rule> recognitionRules;
@@ -52,6 +59,9 @@ public class RecognizerThread extends Thread {
 	public RecognizerThread(Set<Rule> recognitionRules, RecognitionEngine recognitionEngine) {
 		this.recognitionRules = recognitionRules;		
 		this.recognitionEngine = recognitionEngine;
+		
+		STATISTICS = recognitionEngine.getStatistic().isEnabled();
+		statistic = recognitionEngine.getStatistic();
 	}
 	
 	/**
@@ -70,19 +80,19 @@ public class RecognizerThread extends Thread {
 			// Collect unit applications
 			for (Rule rr : recognitionRules) {
 				// NOTE: Avoid synchronized statistic method calls: if (STATISTICS)
-				if (STATISTICS) startSplitTimer(CREATE_GRAPH, "" + rr.hashCode(), rr.getName());
+				if (STATISTICS) statistic.startSplitTimer(CREATE_GRAPH, "" + rr.hashCode(), rr.getName());
 				
 				// Get working graph
 				// FIXME: Avoid synchronized call
 				EGraph graph = recognitionEngine.getGraphFactory().getEGraph(rr);
 				
-				if (STATISTICS) stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
+				if (STATISTICS) statistic.stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());
 
 				// Match Recognition-Rules:
 				LogUtil.log(LogEvent.NOTICE, "Matching: " + rr.getModule().getName() + "...");
 				LogUtil.log(LogEvent.DEBUG, "Matching: " + rr.getModule().eResource() + "...");
 				
-				if (STATISTICS) startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
+				if (STATISTICS) statistic.startSplitTimer(MATCH_RR, "" + rr.hashCode(), rr.getName());
 				
 //				if (rr.getName().equals("rr:deleteOppositeReference")) {
 //					System.out.println("Breakpoint");
@@ -106,7 +116,7 @@ public class RecognizerThread extends Thread {
 					recognitionEngine.addRecognitionRuleApplication(ruleApp);
 				}
 				
-				if (STATISTICS) stopSplitTimer(MATCH_RR, "" + rr.hashCode());
+				if (STATISTICS) statistic.stopSplitTimer(MATCH_RR, "" + rr.hashCode());
 				
 				// FIXME: WORKAROUND: Remove ECrossReferenceAdapter
 				recognitionEngine.addGraph(graph);

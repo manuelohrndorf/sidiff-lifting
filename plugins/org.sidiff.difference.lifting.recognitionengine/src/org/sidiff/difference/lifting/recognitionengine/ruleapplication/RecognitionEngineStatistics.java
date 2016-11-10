@@ -24,6 +24,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
 import org.sidiff.common.util.StatisticsUtil.StatisticType;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngineStatistics;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
@@ -35,19 +36,35 @@ import org.sidiff.matching.model.MatchingModelPackage;
  * 
  * @author Manuel Ohrndorf
  */
-public class RecognitionEngineStatistics {
+public class RecognitionEngineStatistics implements IRecognitionEngineStatistics {
 
+	/**
+	 * The CSV-Output-File.
+	 */
+	private static File csvFile; 
+	
+	/**
+	 * An instance of the statistic database.
+	 */
+	private StatisticsUtil statisticsUtil = StatisticsUtil.createStatisticsUtil();
+	
+	/**
+	 * Map: Marker -> List of IDs.
+	 */
+	private static Map<String, Set<String>> splitTimers = new HashMap<String, Set<String>>();
+	
+	
 	/**
 	 * Global statistic trigger.
 	 */
-	public static boolean STATISTICS = false;
+	public boolean STATISTICS = false;
 	
 	/**
 	 * The count of nodes/edges in the working graph will be post calculated in
 	 * a simulation. Counting the working graph edges is time consuming and
 	 * would lead to an execution time overhead in the real calculation.
 	 */
-	public static boolean MEASURE_GRAPH_SIZE = true;
+	public boolean MEASURE_GRAPH_SIZE = true;
 	
 	/**
 	 * Print an unavailable value.
@@ -230,16 +247,6 @@ public class RecognitionEngineStatistics {
 	private static final String ROW = "\n";
 	
 	/**
-	 * The CSV-Output-File.
-	 */
-	private static File csvFile; 
-	
-	/**
-	 * Map: Marker -> List of IDs.
-	 */
-	private static Map<String, Set<String>> splitTimers = new HashMap<String, Set<String>>();
-	
-	/**
 	 * New statistic types: 
 	 */
 	public enum StatisticTypeExtensions {
@@ -331,7 +338,7 @@ public class RecognitionEngineStatistics {
 	 * @param CSVpath
 	 *            The path to write the CSV-Output-File.
 	 */
-	public static void enable(String CSVpath) {
+	public void enable(String CSVpath) {
 		STATISTICS = true;
 		
 		// Enable StatisticsUtil
@@ -349,7 +356,7 @@ public class RecognitionEngineStatistics {
 	 *            <code>true</code> also disables the {@link StatisticsUtil};
 	 *            <code>false</code> to leave it active.
 	 */
-	public static void disable(boolean disableStatisticsUtil) {
+	public void disable() {
 		// Reset statistics:
 		reset();
 		
@@ -357,18 +364,16 @@ public class RecognitionEngineStatistics {
 		STATISTICS = false;
 		
 		// Disable StatisticsUtil:
-		if (disableStatisticsUtil) {
-			StatisticsUtil.disable();
-		}
+		StatisticsUtil.disable();
 	}
 	
 	/**
 	 * Resets all measured statistics.
 	 */
-	public static void reset() {
+	public void reset() {
 		if (STATISTICS) {
 			// Reset statistics:
-			StatisticsUtil.getInstance().reset();
+			statisticsUtil.reset();
 			splitTimers.clear();
 		}
 	}
@@ -379,7 +384,7 @@ public class RecognitionEngineStatistics {
 	 * @return <code>true</code> if the Recognition-Engine statistic output is
 	 *         enabled; <code>false</code> otherwise.
 	 */
-	public static boolean isEnabled() {
+	public boolean isEnabled() {
 		return STATISTICS;
 	}
 	
@@ -389,9 +394,9 @@ public class RecognitionEngineStatistics {
 	 * @param marker
 	 *            The marker name.
 	 */
-	protected synchronized static void startTimer(String marker) {
+	protected synchronized void startTimer(String marker) {
 		if (STATISTICS) {
-			StatisticsUtil.getInstance().start(marker);
+			statisticsUtil.start(marker);
 		}
 	}
 	
@@ -401,9 +406,9 @@ public class RecognitionEngineStatistics {
 	 * @param marker
 	 *            The marker name.
 	 */
-	protected synchronized static void stopTimer(String marker) {
+	protected synchronized void stopTimer(String marker) {
 		if (STATISTICS) {
-			StatisticsUtil.getInstance().stop(marker);
+			statisticsUtil.stop(marker);
 		}
 	}
 	
@@ -414,11 +419,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The measured time.
 	 */
-	protected static float getTimer(String marker) {
+	protected float getTimer(String marker) {
 		float time = -1;
 		
-		if (StatisticsUtil.getInstance().getTimeStatistic().containsKey(marker)) {
-			return StatisticsUtil.getInstance().getTime(marker);
+		if (statisticsUtil.getTimeStatistic().containsKey(marker)) {
+			return statisticsUtil.getTime(marker);
 		}
 		
 		return time;
@@ -433,7 +438,7 @@ public class RecognitionEngineStatistics {
 	 * @param id
 	 *            The ID of the Split-Timer.
 	 */
-	protected synchronized static void startSplitTimer(String marker, String id) {
+	protected synchronized void startSplitTimer(String marker, String id) {
 		startSplitTimer(marker, id, null);
 	}
 	
@@ -448,7 +453,7 @@ public class RecognitionEngineStatistics {
 	 * @param info
 	 *            A comment which will be assoziated with the actual split timer.
 	 */
-	protected synchronized static void startSplitTimer(String marker, String id, String info) {
+	protected synchronized void startSplitTimer(String marker, String id, String info) {
 		if (STATISTICS)  {
 			
 			// Timer:
@@ -466,11 +471,11 @@ public class RecognitionEngineStatistics {
 				
 				// Info:
 				if (info != null) {
-					StatisticsUtil.getInstance().put(marker + "@" + id + "@info", info);
+					statisticsUtil.put(marker + "@" + id + "@info", info);
 				}
 			}
 			
-			StatisticsUtil.getInstance().start(marker + "@" + id);
+			statisticsUtil.start(marker + "@" + id);
 		}
 	}
 	
@@ -482,9 +487,9 @@ public class RecognitionEngineStatistics {
 	 * @param id
 	 *            The ID of the Split-Timer.
 	 */
-	protected synchronized static void stopSplitTimer(String marker, String id) {
+	protected synchronized void stopSplitTimer(String marker, String id) {
 		if (STATISTICS)  {
-			StatisticsUtil.getInstance().stop(marker + "@" + id);
+			statisticsUtil.stop(marker + "@" + id);
 		}
 	}
 	
@@ -494,12 +499,12 @@ public class RecognitionEngineStatistics {
 	 * @param marker
 	 *            The marker name.
 	 */
-	protected static double joinSplitTimer(String marker) {
+	protected double joinSplitTimer(String marker) {
 		if (splitTimers.containsKey(marker)) {
 			double time = 0;
 			
 			for (String id : splitTimers.get(marker)) {
-				time += StatisticsUtil.getInstance().getTime(marker + "@" + id);
+				time += statisticsUtil.getTime(marker + "@" + id);
 			}
 			
 			return time;	
@@ -514,13 +519,13 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The ID of the minimum Split-Timer.
 	 */
-	protected static String getMinimumSplitTimer(String marker) {
+	protected String getMinimumSplitTimer(String marker) {
 		if (splitTimers.containsKey(marker)) {
 			double time = Double.MAX_VALUE;
 			String minID = "";
 			
 			for (String id : splitTimers.get(marker)) {
-				double nextTime = StatisticsUtil.getInstance().getTime(marker + "@" + id);
+				double nextTime = statisticsUtil.getTime(marker + "@" + id);
 				
 				if (nextTime < time) {
 					time = nextTime;
@@ -541,13 +546,13 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The ID of the maximum Split-Timer.
 	 */
-	protected static String getMaximumSplitTimer(String marker) {
+	protected String getMaximumSplitTimer(String marker) {
 		if (splitTimers.containsKey(marker)) {
 			double time = -1;
 			String maxID = "";
 			
 			for (String id : splitTimers.get(marker)) {
-				double nextTime = StatisticsUtil.getInstance().getTime(marker + "@" + id);
+				double nextTime = statisticsUtil.getTime(marker + "@" + id);
 				
 				if (nextTime > time) {
 					time = nextTime;
@@ -567,13 +572,13 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The calculated average.
 	 */
-	protected static double getAverageSplitTimer(String marker) {
+	protected double getAverageSplitTimer(String marker) {
 		if (splitTimers.containsKey(marker)) {
 			double time = 0;
 			int count = 0;
 			
 			for (String id : splitTimers.get(marker)) {
-				time += StatisticsUtil.getInstance().getTime(marker + "@" + id);
+				time += statisticsUtil.getTime(marker + "@" + id);
 				count++;
 			}
 			
@@ -592,34 +597,34 @@ public class RecognitionEngineStatistics {
 	 * @param info
 	 *            An info string which describes the measured size.
 	 */
-	protected synchronized static void noteMinMax(String marker, double size, String info) {
+	protected synchronized void noteMinMax(String marker, double size, String info) {
 		if (STATISTICS) {
 			
 			// Min-Max:
 			double min = Double.MAX_VALUE;
 			double max = -1;
 			
-			if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@min")) {
-				min = (Double) StatisticsUtil.getInstance().getObject(marker + "@min");
+			if (statisticsUtil.getOtherStatistic().containsKey(marker + "@min")) {
+				min = (Double) statisticsUtil.getObject(marker + "@min");
 			}
 			
-			if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@max")) {
-				max = (Double) StatisticsUtil.getInstance().getObject(marker + "@max");
+			if (statisticsUtil.getOtherStatistic().containsKey(marker + "@max")) {
+				max = (Double) statisticsUtil.getObject(marker + "@max");
 			}
 			
 			if (size < min) {
-				StatisticsUtil.getInstance().put(marker + "@min", size);
+				statisticsUtil.put(marker + "@min", size);
 				
 				if (info != null) {
-					StatisticsUtil.getInstance().put(marker + "@minInfo", info);
+					statisticsUtil.put(marker + "@minInfo", info);
 				}
 			}
 			
 			if (size > max) {
-				StatisticsUtil.getInstance().put(marker + "@max", size);
+				statisticsUtil.put(marker + "@max", size);
 				
 				if (info != null) {
-					StatisticsUtil.getInstance().put(marker + "@maxInfo", info);
+					statisticsUtil.put(marker + "@maxInfo", info);
 				}
 			}
 		}
@@ -632,11 +637,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The measured minimum.
 	 */
-	protected static double getMinimum(String marker) {
+	protected double getMinimum(String marker) {
 		double min = -1;
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@min")) {
-			min = (Double) StatisticsUtil.getInstance().getObject(marker + "@min");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@min")) {
+			min = (Double) statisticsUtil.getObject(marker + "@min");
 		}
 		
 		return min;
@@ -649,11 +654,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The info string of the measured minimum.
 	 */
-	protected static String getMinimumInfo(String marker) {
+	protected String getMinimumInfo(String marker) {
 		String info = UNAVAILABLE_VALUE;
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@minInfo")) {
-			info = (String) StatisticsUtil.getInstance().getObject(marker + "@minInfo");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@minInfo")) {
+			info = (String) statisticsUtil.getObject(marker + "@minInfo");
 		}
 		
 		return info;
@@ -666,11 +671,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The measured maximum.
 	 */
-	protected static double getMaximum(String marker) {
+	protected double getMaximum(String marker) {
 		double max = -1;
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@max")) {
-			max = (Double) StatisticsUtil.getInstance().getObject(marker + "@max");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@max")) {
+			max = (Double) statisticsUtil.getObject(marker + "@max");
 		}
 		
 		return max;	
@@ -683,11 +688,11 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The info string of the measured maximum.
 	 */
-	protected static String getMaximumInfo(String marker) {
+	protected String getMaximumInfo(String marker) {
 		String info = UNAVAILABLE_VALUE;
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@maxInfo")) {
-			info = (String) StatisticsUtil.getInstance().getObject(marker + "@maxInfo");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@maxInfo")) {
+			info = (String) statisticsUtil.getObject(marker + "@maxInfo");
 		}
 		
 		return info;
@@ -701,26 +706,26 @@ public class RecognitionEngineStatistics {
 	 * @param size
 	 *            The new measured size.
 	 */
-	protected synchronized static void noteAverage(String marker, double size) {
+	protected synchronized void noteAverage(String marker, double size) {
 		if (STATISTICS) {
 			
 			// Average:
 			double fullSize = 0;
 			double counter = 0;
 			
-			if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@average:size")) {
-				fullSize = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:size");
+			if (statisticsUtil.getOtherStatistic().containsKey(marker + "@average:size")) {
+				fullSize = (Double) statisticsUtil.getObject(marker + "@average:size");
 			}
 			
-			if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@average:count")) {
-				counter = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:count");
+			if (statisticsUtil.getOtherStatistic().containsKey(marker + "@average:count")) {
+				counter = (Double) statisticsUtil.getObject(marker + "@average:count");
 			}
 			
 			fullSize += size;
 			counter++;
 			
-			StatisticsUtil.getInstance().put(marker + "@average:size", fullSize);
-			StatisticsUtil.getInstance().put(marker + "@average:count", counter);
+			statisticsUtil.put(marker + "@average:size", fullSize);
+			statisticsUtil.put(marker + "@average:count", counter);
 		}
 	}
 	
@@ -731,16 +736,16 @@ public class RecognitionEngineStatistics {
 	 *            The marker name.
 	 * @return The calculated average.
 	 */
-	protected static double getAverage(String marker) {
+	protected double getAverage(String marker) {
 		double fullSize = -1;
 		double counter = -1;
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@average:size")) {
-			fullSize = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:size");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@average:size")) {
+			fullSize = (Double) statisticsUtil.getObject(marker + "@average:size");
 		}
 		
-		if (StatisticsUtil.getInstance().getOtherStatistic().containsKey(marker + "@average:count")) {
-			counter = (Double) StatisticsUtil.getInstance().getObject(marker + "@average:count");
+		if (statisticsUtil.getOtherStatistic().containsKey(marker + "@average:count")) {
+			counter = (Double) statisticsUtil.getObject(marker + "@average:count");
 		}
 		
 		if ((fullSize != -1) && (counter != -1)) {
@@ -756,9 +761,9 @@ public class RecognitionEngineStatistics {
 	 * @param marker
 	 *            The marker name.
 	 */
-	protected synchronized static void noteSize(String marker, int size) {
+	protected synchronized void noteSize(String marker, int size) {
 		if (STATISTICS) {
-			StatisticsUtil.getInstance().putSize(marker, size);
+			statisticsUtil.putSize(marker, size);
 		}
 	}
 	
@@ -772,7 +777,7 @@ public class RecognitionEngineStatistics {
 	 * 
 	 * @see RecognitionEngineStatistics#MEASURE_GRAPH_SIZE
 	 */
-	private static void analyseEGraphs(LiftingGraphFactory liftingGraphFactory, Collection<Rule> recognitionRules) {
+	private void analyseEGraphs(LiftingGraphFactory liftingGraphFactory, Collection<Rule> recognitionRules) {
 		if (!MEASURE_GRAPH_SIZE) {
 			return;
 		}
@@ -796,7 +801,7 @@ public class RecognitionEngineStatistics {
 	 * @param recognitionRule
 	 *            The corresponding Recognition-Rule.
 	 */
-	private static void analyseEGraph(LiftingGraphFactory liftingGraphFactory, Rule recognitionRule) {
+	private void analyseEGraph(LiftingGraphFactory liftingGraphFactory, Rule recognitionRule) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -821,7 +826,7 @@ public class RecognitionEngineStatistics {
 	 * @param liftingGraphFactory
 	 *            The factory that creates a Henshin graph.
 	 */
-	private static void analyseFullEGraph(LiftingGraphFactory liftingGraphFactory) {
+	private void analyseFullEGraph(LiftingGraphFactory liftingGraphFactory) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -840,7 +845,7 @@ public class RecognitionEngineStatistics {
 	 * @param difference
 	 *            The Symmetric-Difference.
 	 */
-	private static void analyseDifference(SymmetricDifference difference) {
+	private void analyseDifference(SymmetricDifference difference) {
 		if (!STATISTICS) {
 			return;
 		}
@@ -865,8 +870,8 @@ public class RecognitionEngineStatistics {
 		noteSize(DIFFERENCE_LL_CHANGES_IN, coveredChanges);
 		
 		// Analyze models:
-		StatisticsUtil.getInstance().put(MODEL_A, difference.getModelA().getURI().lastSegment());
-		StatisticsUtil.getInstance().put(MODEL_B, difference.getModelB().getURI().lastSegment());
+		statisticsUtil.put(MODEL_A, difference.getModelA().getURI().lastSegment());
+		statisticsUtil.put(MODEL_B, difference.getModelB().getURI().lastSegment());
 		
 		noteSize(MODEL_A_OBJECTS, getModelObjectCount(difference.getModelA().getAllContents()));
 		noteSize(MODEL_A_REFERENCES, getModelReferenceCount(difference.getModelA().getAllContents()));
@@ -884,20 +889,20 @@ public class RecognitionEngineStatistics {
 	 * @param filtered
 	 *            Recognition-Rules that were not needed.
 	 */
-	private static void analyseRuleSet(Collection<Rule> recognitionRules, Collection<Rule> filtered) {
+	private void analyseRuleSet(Collection<Rule> recognitionRules, Collection<Rule> filtered) {
 		if (!STATISTICS) {
 			return;
 		}
 		
-		StatisticsUtil.getInstance().putSize(RR_APPLIED, recognitionRules.size() - filtered.size());
-		StatisticsUtil.getInstance().putSize(RR_FILTERED, filtered.size());
+		statisticsUtil.putSize(RR_APPLIED, recognitionRules.size() - filtered.size());
+		statisticsUtil.putSize(RR_FILTERED, filtered.size());
 		
-		StatisticsUtil.getInstance().resetCounter(RR_ADD_OBJECTS);
-		StatisticsUtil.getInstance().resetCounter(RR_REMOVE_OBJECTS);
-		StatisticsUtil.getInstance().resetCounter(RR_ADD_REFERENCES);
-		StatisticsUtil.getInstance().resetCounter(RR_REMOVE_REFERENCES);
-		StatisticsUtil.getInstance().resetCounter(RR_ATTRIBUTE_VALUE_CHANGES);
-		StatisticsUtil.getInstance().resetCounter(RR_CORRESPONDENCES);
+		statisticsUtil.resetCounter(RR_ADD_OBJECTS);
+		statisticsUtil.resetCounter(RR_REMOVE_OBJECTS);
+		statisticsUtil.resetCounter(RR_ADD_REFERENCES);
+		statisticsUtil.resetCounter(RR_REMOVE_REFERENCES);
+		statisticsUtil.resetCounter(RR_ATTRIBUTE_VALUE_CHANGES);
+		statisticsUtil.resetCounter(RR_CORRESPONDENCES);
 		
 		SymmetricPackage SYM = SymmetricPackage.eINSTANCE;
 		MatchingModelPackage MMP = MatchingModelPackage.eINSTANCE;
@@ -909,32 +914,32 @@ public class RecognitionEngineStatistics {
 					
 					// Add-Object:
 					if (node.getType() == SYM.getAddObject()) {
-						StatisticsUtil.getInstance().count(RR_ADD_OBJECTS);
+						statisticsUtil.count(RR_ADD_OBJECTS);
 					}
 					
 					// Remove-Object:
 					else if (node.getType() == SYM.getRemoveObject()) {
-						StatisticsUtil.getInstance().count(RR_REMOVE_OBJECTS);
+						statisticsUtil.count(RR_REMOVE_OBJECTS);
 					}
 					
 					// Add-Reference:
 					else if (node.getType() == SYM.getAddReference()) {
-						StatisticsUtil.getInstance().count(RR_ADD_REFERENCES);
+						statisticsUtil.count(RR_ADD_REFERENCES);
 					}
 					
 					// Remove-Reference:
 					else if (node.getType() == SYM.getRemoveReference()) {
-						StatisticsUtil.getInstance().count(RR_REMOVE_REFERENCES);
+						statisticsUtil.count(RR_REMOVE_REFERENCES);
 					}
 					
 					// Attribute-Value-Change:
 					else if (node.getType() == SYM.getAttributeValueChange()) {
-						StatisticsUtil.getInstance().count(RR_ATTRIBUTE_VALUE_CHANGES);
+						statisticsUtil.count(RR_ATTRIBUTE_VALUE_CHANGES);
 					}
 					
 					// Correspondence:
 					else if (node.getType() == MMP.getCorrespondence()) {
-						StatisticsUtil.getInstance().count(RR_CORRESPONDENCES);
+						statisticsUtil.count(RR_CORRESPONDENCES);
 					}
 				}
 			}
@@ -952,7 +957,7 @@ public class RecognitionEngineStatistics {
 	 *            All filtered Recognition-Rules.
 	 * 
 	 */
-	protected static void finishStatistic(
+	protected void finishStatistic(
 			SymmetricDifference difference, 
 			Collection<Rule> recognitionRules,
 			Collection<Rule> filtered,
@@ -976,7 +981,7 @@ public class RecognitionEngineStatistics {
 	/**
 	 * Write CSV Header (names of columns) if necessary.
 	 */
-	private static void writeHeader() {
+	private void writeHeader() {
 		
 		// Check for existing header:
 		if (csvFile.exists()) {
@@ -1064,7 +1069,7 @@ public class RecognitionEngineStatistics {
 	 *            The marker to parse
 	 * @return The header field entry.
 	 */
-	private static String parseHeaderField(String marker, Enum<?> typeA, Enum<?> typeB) {
+	private String parseHeaderField(String marker, Enum<?> typeA, Enum<?> typeB) {
 		String header = marker.substring(COMMON_PREFIX.length(), marker.length());
 		
 		// Remove camel-case
@@ -1090,7 +1095,7 @@ public class RecognitionEngineStatistics {
 	 * Flushes the statistic. This is done by writing any statistic entity to a
 	 * CSV-File and then reset all statistic entities.
 	 */
-	protected static void flushStatisticToCSV() {
+	protected void flushStatisticToCSV() {
 		if (!STATISTICS || (csvFile == null)) {
 			return;
 		}
@@ -1214,25 +1219,25 @@ public class RecognitionEngineStatistics {
 		}
 	}
 	
-	private static String getStatisticObject(String marker) {
-		Object obj = StatisticsUtil.getInstance().getObject(marker);
+	private String getStatisticObject(String marker) {
+		Object obj = statisticsUtil.getObject(marker);
 		
 		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
 	}
 	
-	private static String getStatisticCounter(String marker) {
-		Object obj = StatisticsUtil.getInstance().getCounter(marker);
+	private String getStatisticCounter(String marker) {
+		Object obj = statisticsUtil.getCounter(marker);
 		
 		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
 	}
 	
-	private static String getStatisticSize(String marker) {
-		Object obj = StatisticsUtil.getInstance().getSize(marker);
+	private String getStatisticSize(String marker) {
+		Object obj = statisticsUtil.getSize(marker);
 		
 		return (obj == null) ? UNAVAILABLE_VALUE : obj.toString();
 	}
 	
-	private static String format(double number) {
+	private String format(double number) {
 		
 		if (number < 0) {
 			return UNAVAILABLE_VALUE;
@@ -1249,7 +1254,7 @@ public class RecognitionEngineStatistics {
 		}
 	}
 	
-	private static String format(float number) {
+	private String format(float number) {
 		
 		if (number < 0) {
 			return UNAVAILABLE_VALUE;
@@ -1273,7 +1278,7 @@ public class RecognitionEngineStatistics {
 	 *            An iterator to iterate over all elements of the model.
 	 * @return The counted object of the model.
 	 */
-	public static int getModelObjectCount(Iterator<EObject> it) {
+	public int getModelObjectCount(Iterator<EObject> it) {
 		int counter = 0;
 		
 		while (it.hasNext()) {
@@ -1290,7 +1295,7 @@ public class RecognitionEngineStatistics {
 	 *            An iterator to iterate over all elements of the model.
 	 * @return The counted references of the model.
 	 */
-	public static int getModelReferenceCount(Iterator<EObject> it) {
+	public int getModelReferenceCount(Iterator<EObject> it) {
 		int counter = 0;
 		
 		while(it.hasNext()) {

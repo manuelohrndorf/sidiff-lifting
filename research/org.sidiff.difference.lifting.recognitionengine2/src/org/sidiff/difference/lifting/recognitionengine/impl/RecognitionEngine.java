@@ -15,10 +15,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
@@ -38,10 +39,12 @@ import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleM
 import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleApplicationAnalysis;
 import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
 import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleFilter;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.EObjectSet;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -122,7 +125,8 @@ public class RecognitionEngine implements IRecognitionEngine {
 		this.liftingGraphIndex = new LiftingGraphIndex(setup.getDifference());
 		
 		// Create the graph factory:
-		this.graphFactory = new LiftingGraphFactory(liftingGraphDomainMap, setup.getImports(), setup.getScope());
+		this.graphFactory = new LiftingGraphFactory(
+				setup.isBuildGraphPerRule(), liftingGraphDomainMap, setup.getImports(), setup.getScope());
 		
 		// Get all recognition rules to be used:
 		this.recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
@@ -153,13 +157,15 @@ public class RecognitionEngine implements IRecognitionEngine {
 		
 		// Start execution:
 		getStatistic().startTimer(EXECUTION);
+		Long startTime = System.currentTimeMillis();
 
 		if (setup.isUseThreadPool()) {
 			executeParallel();
 		} else {
 			executeSequential();
 		}
-
+		
+		LogUtil.log(LogEvent.NOTICE, "Lifting Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
 		getStatistic().stopTimer(EXECUTION);
 
 		// Finish Statistic:
@@ -276,12 +282,17 @@ public class RecognitionEngine implements IRecognitionEngine {
 	private void sortRecognitionRuleNodes() {
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-		DifferenceAnalysis analysis = new DifferenceAnalysis(setup.getDifference());
+		DifferenceAnalysis analysis = RecognitionRuleSorterUtil.sort(
+				setup.getRuleSorter(), recognitionRules.keySet(), filtered, setup.getDifference()) ;
 
-		// Print report
+
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		
 		LogUtil.log(LogEvent.NOTICE, "Difference:");
 		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
 		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
@@ -289,24 +300,6 @@ public class RecognitionEngine implements IRecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, " Total RemoveReferences: " + analysis.getRemoveReferenceCount());
 		LogUtil.log(LogEvent.NOTICE, " Total AttributeValueChanges: " + analysis.getAttributeValueChangeCount());
 		LogUtil.log(LogEvent.NOTICE, " Total Correspondences: " + analysis.getCorrespondenceCount());
-
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
-		setup.getRuleSorter().setDifferenceAnalysis(analysis);
-
-		for (Rule recognitionRule : recognitionRules.keySet()) {
-			if (!filtered.contains(recognitionRule)) {
-				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), setup.getRuleSorter());
-
-				// Sort all multi-rules (if there are any)
-				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), setup.getRuleSorter());
-				}
-			}
-		}
 	}
 
 	private void applyRecognitionRules() {
@@ -463,7 +456,11 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * @return A new graph matching engine.
 	 */
 	public Engine createGraphMatchingEngine() {
-		return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
+		if (setup.isOptimizeMatchingEngine()) {
+			return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
+		} else {
+			return new EngineImpl();
+		}
 	}
 	
 	/**
@@ -476,8 +473,33 @@ public class RecognitionEngine implements IRecognitionEngine {
 		return graphFactory;
 	}
 	
+	@Override
+	public EGraph getGraphModelA() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelAGraph();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public EGraph getGraphModelB() {
+		if (getGraphFactory() != null) {
+			return getGraphFactory().getModelBGraph();
+		} else {
+			return null;
+		}
+	}
+	
 	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {
 		return recognitionRules.get(rr);
+	}
+	
+	/**
+	 * @return The difference this RecognitionEngine is working on.
+	 */
+	public SymmetricDifference getDifference() {
+		return setup.getDifference();
 	}
 	
 	@Override

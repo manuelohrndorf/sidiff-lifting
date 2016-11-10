@@ -12,6 +12,7 @@ import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
@@ -48,7 +49,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			Node rrNode = iterator.next();
 			Set<EObject> diffObjects = recognitionRuleMatch.getNodeMapping().get(rrNode);
 
-			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getRuleBases());
+			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getSetup().getRulebases());
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -58,7 +59,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getRuleBases());			
+			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getSetup().getRulebases());			
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
@@ -220,7 +221,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		return res;
 	}
 
-	public RecognitionRuleMatch getRecognitionRuleMatch() {
+	public IRecognitionRuleMatch getRecognitionRuleMatch() {
 		return recognitionRuleMatch;
 	}
 

@@ -20,9 +20,9 @@ import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
 
@@ -31,7 +31,7 @@ public class ParameterRetriever {
 	/**
 	 * RecognitionEngine that has been used to lift difference
 	 */
-	private RecognitionEngine recognitionEngine;
+	private IRecognitionEngine recognitionEngine;
 
 	/**
 	 * The asymmetric difference
@@ -49,10 +49,10 @@ public class ParameterRetriever {
 	 * @param engine
 	 *            RecognitionEngine that has been used to lift difference
 	 */
-	public ParameterRetriever(RecognitionEngine engine, AsymmetricDifference asymmetricDiff) {
+	public ParameterRetriever(IRecognitionEngine engine, AsymmetricDifference asymmetricDiff) {
 		this.recognitionEngine = engine;
 		this.asymmetricDiff = asymmetricDiff;
-		this.difference = engine.getDifference();
+		this.difference = engine.getSetup().getDifference();
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class ParameterRetriever {
 	 * @param operationInvocation
 	 */
 	private void retrieveParameters(OperationInvocation operationInvocation) {
-		EngineBasedEditRuleMatch erMatch = recognitionEngine.getEditRuleMatch(operationInvocation.getChangeSet());
+		IEditRuleMatch erMatch = recognitionEngine.getEditRuleMatch(operationInvocation.getChangeSet());
 		EditRule editRule = erMatch.getEditRule();
 		Unit erMainUnit = editRule.getExecuteMainUnit();
 
-		RecognitionRuleMatch rrMatch = recognitionEngine.getRecognitionRuleMatch(operationInvocation.getChangeSet());
+		IRecognitionRuleMatch rrMatch = recognitionEngine.getRecognitionRuleMatch(operationInvocation.getChangeSet());
 
 		for (Parameter formal : erMainUnit.getParameters()) {
 			if (ParameterInfo.getParameterKind(formal).equals(ParameterKind.OBJECT)) {
