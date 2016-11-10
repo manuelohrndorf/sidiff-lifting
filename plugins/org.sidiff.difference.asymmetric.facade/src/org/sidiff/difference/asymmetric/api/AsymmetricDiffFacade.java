@@ -18,7 +18,6 @@ import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.matching.input.InputModels;
 
 /**
@@ -49,18 +48,17 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 *         {@link SymmetricDifference} and executable
 	 *         {@link AsymmetricDifference}.
 	 */
-	public static Difference deriveLiftedAsymmetricDifference(SymmetricDifference symmetricDifference, LiftingSettings settings){
+	public static Difference deriveLiftedAsymmetricDifference(SymmetricDifference symmetricDifference, LiftingSettings settings) {
 		
 		// Create empty asymmetric difference
-		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE
-				.createAsymmetricDifference();
+		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
 		
 		// Merge imports:
-		MergeImports importMerger = mergeImports(symmetricDifference, settings);
+		mergeImports(symmetricDifference, settings);
 		
 		// Lifting:
-		liftMeUp(symmetricDifference, settings, importMerger);
+		liftMeUp(symmetricDifference, settings);
 		
 		// Derive Asymmetric-Difference from Symmetric-Difference
 		LogUtil.log(LogEvent.NOTICE, "Derive asymmetric difference");
@@ -91,14 +89,13 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		Difference fullDiff = new Difference(symmetricDifference, asymmetricDifference);
 		
 		// Unmerge imports:
-		unmergeImports(importMerger);
+		unmergeImports(settings);
 		
 		return fullDiff;
 	}
 	
 	/**
-	 * Computes an lifted executable {@link AsymmetricDifference} between two
-	 * models.
+	 * Computes an lifted executable {@link AsymmetricDifference} between two models.
 	 * 
 	 * @param modelA
 	 *            The origin model.
@@ -115,13 +112,16 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 * @throws NoCorrespondencesException
 	 */
 	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		
+		settings.setUnmergeImports(false);
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
+		settings.setUnmergeImports(true);
+		
 		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
 	}
 	
 	/**
-	 * Computes an lifted executable {@link AsymmetricDifference} between two
-	 * models.
+	 * Computes an lifted executable {@link AsymmetricDifference} between two models.
 	 * 
 	 * @param models
 	 *            The origin and modified model.
@@ -136,7 +136,11 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 * @throws NoCorrespondencesException
 	 */
 	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+		
+		settings.setUnmergeImports(false);
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(models, settings);
+		settings.setUnmergeImports(true);
+		
 		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
 	}
 

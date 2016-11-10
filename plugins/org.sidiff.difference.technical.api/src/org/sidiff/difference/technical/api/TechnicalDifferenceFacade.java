@@ -54,13 +54,8 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		SymmetricDifference symmetricDifference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
 		symmetricDifference.setMatching(matching);
 		
-		MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
-			
-		if(settings.isEnabled_MergeImports()){
-			// Merge Imports
-			LogUtil.log(LogEvent.NOTICE, "Merge imports ...");
-			importMerger.merge();		
-		}
+		// Merge external references:
+		mergeImports(symmetricDifference, settings);
 		
 		// Derive technical difference
 		LogUtil.log(LogEvent.NOTICE, "Derive technical difference ...");
@@ -68,11 +63,8 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		ITechnicalDifferenceBuilder tdBuilder = settings.getTechBuilder();
 		tdBuilder.deriveTechDiff(symmetricDifference, settings.getScope());
 		
-		if(settings.isEnabled_MergeImports()){
-			// Unmerge Imports
-			LogUtil.log(LogEvent.NOTICE, "Unmerge imports ...");
-			importMerger.unmerge();
-		}
+		// Unmerge Imports
+		unmergeImports(settings);	
 		
 		// Report
 		Map<Class<? extends Change>, Integer> counts = countChanges(symmetricDifference);
@@ -154,6 +146,29 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	 */
 	public static SymmetricDifference loadTechnicalDifference(String path) {
 		return (SymmetricDifference) EMFStorage.eLoad(EMFStorage.pathToUri(path));
+	}
+	
+	protected static MergeImports mergeImports(SymmetricDifference symmetricDifference, DifferenceSettings settings) {
+		
+		if ((settings.getImports() == null) && settings.isEnabled_MergeImports()){
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
+			MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
+			importMerger.merge();
+			
+			settings.setImports(importMerger);
+			return importMerger;
+		}
+		
+		return null;
+	}
+	
+	protected static void unmergeImports(DifferenceSettings settings) {
+		
+		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			settings.getImports().unmerge();
+			settings.setImports(null);
+		}
 	}
 	
 	private static Map<Class<? extends Change>, Integer> countChanges(SymmetricDifference diff){

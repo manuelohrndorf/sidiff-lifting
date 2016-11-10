@@ -22,7 +22,6 @@ import org.sidiff.difference.lifting.recognitionengine.util.SubtreeAggregator;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.debug.ModelReducer;
-import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
@@ -47,8 +46,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 */
 	private static final boolean TEST_SUB_TREE_AGGREGATION = false;
 	
-	protected static void liftMeUp(SymmetricDifference symmetricDifference, 
-			LiftingSettings settings, MergeImports importMerger) {
+	protected static void liftMeUp(SymmetricDifference symmetricDifference, LiftingSettings settings) {
 		
 		// Start recognition engine
 		if (settings.getRecognitionEngineMode() != RecognitionEngineMode.NO_LIFTING) {
@@ -61,7 +59,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 			
 			settings.getRecognitionEngine().getSetup().setDifference(symmetricDifference);
 			settings.getRecognitionEngine().getSetup().setImports(
-					(importMerger != null) ? importMerger.getImports() : null);
+					(settings.getImports() != null) ? settings.getImports().getImports() : null);
 
 			settings.getRecognitionEngine().execute();
 		}
@@ -112,13 +110,13 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		LogUtil.log(LogEvent.NOTICE, settings.toString());
 		
 		// Merge Imports
-		MergeImports importMerger = mergeImports(symmetricDifference, settings);
+		mergeImports(symmetricDifference, settings);
 		
 		// Lifting
-		liftMeUp(symmetricDifference, settings, importMerger);
+		liftMeUp(symmetricDifference, settings);
 		
 		// Unmerge imports
-		unmergeImports(importMerger);
+		unmergeImports(settings);
 		
 		return symmetricDifference;
 	}
@@ -144,7 +142,12 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 * @throws NoCorrespondencesException 
 	 */
 	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-		return liftTechnicalDifference(deriveTechnicalDifference(modelA, modelB, settings), settings);
+		
+		settings.setUnmergeImports(false);
+		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
+		settings.setUnmergeImports(true);
+		
+		return liftTechnicalDifference(symmetricDifference, settings);
 	}
 	
 	/**
@@ -244,27 +247,6 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 */
 	public static Resource loadModel(String path) {
 		return EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource();
-	}
-	
-	protected static MergeImports mergeImports(SymmetricDifference symmetricDifference, LiftingSettings settings) {
-		
-		if (settings.isEnabled_MergeImports()){
-			LogUtil.log(LogEvent.NOTICE, "Merge imports");
-			MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
-			importMerger.merge();
-			
-			return importMerger;
-		}
-		
-		return null;
-	}
-	
-	protected static void unmergeImports(MergeImports importMerger) {
-		
-		if (importMerger != null) {
-			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
-			importMerger.unmerge();
-		}
 	}
 	
 	protected static void report(SymmetricDifference symmetricDiff) {
