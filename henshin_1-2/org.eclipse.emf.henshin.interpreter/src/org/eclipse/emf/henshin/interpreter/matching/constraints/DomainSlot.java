@@ -292,12 +292,28 @@ public class DomainSlot {
 	public boolean unlock(Variable sender) {
 		
 		// Revert the changes to the temporary domain:
+		
+		// NOTE: The temporary domain is a chain of the previous values.
+		//       => The values ​​must always be reset in reverse order.
+		//       => reference constraints before containment constraints (see instantiate())
+		
+		// reference constraints:
 		int refCount = sender.referenceConstraints.size();
+		
+		for (int i=refCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.referenceConstraints.get(i);
+			DomainChange change = remoteChangeMap.get(constraint);
+			if (change != null) {
+				change.slot.temporaryDomain = change.originalValues;
+				remoteChangeMap.remove(constraint);
+			}
+		}	
+		
+		// containment constraints:
 		int conCount = sender.containmentConstraints.size();
-		for (int i=refCount+conCount-1; i>=0; i--) {
-			BinaryConstraint constraint = (i>=refCount) ?
-					sender.containmentConstraints.get(i-refCount) :
-					sender.referenceConstraints.get(i);
+		
+		for (int i=conCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.containmentConstraints.get(i);
 			DomainChange change = remoteChangeMap.get(constraint);
 			if (change != null) {
 				change.slot.temporaryDomain = change.originalValues;
