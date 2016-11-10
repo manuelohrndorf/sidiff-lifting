@@ -12,7 +12,8 @@ import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -78,7 +79,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesB.keySet().contains(erNode)) {
 				Set<EObject> diffObjectsB = new HashSet<EObject>();
 				for (EObject diffObjectA : getOccurenceA(erNode)) {
-					EObject diffObjectB = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInB(diffObjectA);
+					EObject diffObjectB = recognitionEngine.getDifference().getCorrespondingObjectInB(diffObjectA);
 					if (diffObjectB != null) {
 						diffObjectsB.add(diffObjectB);
 					}
@@ -95,7 +96,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesA.keySet().contains(erNode)) {
 				Set<EObject> diffObjectsA = new HashSet<EObject>();
 				for (EObject diffObjectB : getOccurenceB(erNode)) {
-					EObject diffObjectA = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInA(diffObjectB);
+					EObject diffObjectA = recognitionEngine.getDifference().getCorrespondingObjectInA(diffObjectB);
 					if (diffObjectA != null) {
 						diffObjectsA.add(diffObjectA);
 					}
@@ -220,7 +221,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		return res;
 	}
 
-	public RecognitionRuleMatch getRecognitionRuleMatch() {
+	public IRecognitionRuleMatch getRecognitionRuleMatch() {
 		return recognitionRuleMatch;
 	}
 

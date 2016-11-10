@@ -2,7 +2,7 @@ package org.sidiff.difference.lifting.recognitionengine.util;
 
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
-import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 
 public class RecognitionEngineUtil {
 

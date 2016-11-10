@@ -1,7 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -30,8 +29,7 @@ import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
-import org.sidiff.editrule.analysis.conditions.EditRuleConditions;
+import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
 
 public class NacMatch {
 
@@ -136,7 +134,6 @@ public class NacMatch {
 	}
 
 	private void createAndApplySearchRule() {
-		
 		// Copy NAC graph 
 		Copier lhsCopier = new Copier();
 		Graph lhsSearchGraph = (Graph) lhsCopier.copy(nac.getNestedCondition().getConclusion());
@@ -163,13 +160,13 @@ public class NacMatch {
 		Graph rhsSearchGraph = (Graph) rhsCopier.copy(lhsSearchGraph);
 		rhsCopier.copyReferences();
 
-		// create a search Rule (of which the LHS will be isomorph to the inverted NAC)
+		// create a search Rule (of which the LHS will be isomorph to the
+		// inverted NAC)
 		Rule searchRule = HenshinFactory.eINSTANCE.createRule();
 		searchRule.setName("searchNacOccurrenceInA_" + "_" + editRuleMatch.getEditRule().getExecuteModule().getName());
 		searchRule.setActivated(true);
 		searchRule.setLhs(lhsSearchGraph); // LHS
 		searchRule.setRhs(rhsSearchGraph); // RHS
-		
 		// LHS - RHS Mappings:
 		for (Node lhsNode : lhsSearchGraph.getNodes()) {
 			Node rhsNode = (Node) rhsCopier.get(lhsNode);
@@ -207,9 +204,11 @@ public class NacMatch {
 		
 		// Try to find matches
 		Engine emfEngine = new EngineImpl();
-		List<Match> matches = new ArrayList<Match>();
-		matches.addAll(getPostconditionMatches(emfEngine, searchRule, preMatch));
-		matches.addAll(getPreconditionMatches(emfEngine, searchRule, preMatch));	
+		List<Match> matches = new ArrayList<Match>();		 
+		EGraph graph = recognitionEngine.getGraphFactory().getEGraph(null);
+		for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
+			matches.add(m);
+		}		
 
 		// Now we can capture the forbidNode occurrences
 		if (!matches.isEmpty()) {
@@ -229,38 +228,6 @@ public class NacMatch {
 				}
 			}
 		}
-	}
-	
-	private List<Match> getPreconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
-
-		if (EditRuleConditions.isPrecondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<Match>();		 
-			EGraph graph = recognitionEngine.getGraphFactory().getModelAGraph();
-			
-			for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
-				matches.add(m);
-			}
-			
-			return matches;
-		}
-		
-		return Collections.emptyList();
-	}
-	
-	private List<Match> getPostconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
-
-		if (EditRuleConditions.isPostcondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<Match>();		 
-			EGraph graph = recognitionEngine.getGraphFactory().getModelBGraph();
-			
-			for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
-				matches.add(m);
-			}
-			
-			return matches;
-		}
-		
-		return Collections.emptyList();
 	}
 
 	private void deriveEdgeOccurrences() {

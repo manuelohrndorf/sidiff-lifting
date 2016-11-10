@@ -21,6 +21,7 @@ import org.sidiff.editrule.rulebase.EditRule;
 
 public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 
+
 	/**
 	 * Mapping: EditRuleAttribute -> EObject A
 	 */
@@ -199,7 +200,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		}
 		return attributes;
 	}
-
+	
 	@Override
 	public Set<NacMatch> getNacOccurrences() {
 		// TODO Implement this method!?
