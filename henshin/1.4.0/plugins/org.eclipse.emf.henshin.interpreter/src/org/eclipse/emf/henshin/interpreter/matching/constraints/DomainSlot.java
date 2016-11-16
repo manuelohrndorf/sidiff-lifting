@@ -20,6 +20,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.RestrictedEGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
 
 public class DomainSlot {
@@ -151,6 +152,18 @@ public class DomainSlot {
 			// If temporaryDomain is not null, there are BinaryConstraints restricting this slot's domain.
 			if (temporaryDomain != null) {
 				domain = new ArrayList<EObject>(temporaryDomain);
+				
+				// RestrictedEGraphImpl: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+				// FIXME: We should check if this isn't an general Henshin bug because otherwise 
+				// Henshin could return matches with nodes outside of the working graph!
+				if (graph instanceof RestrictedEGraphImpl) {
+					List<EObject> restrictedDomain = ((RestrictedEGraphImpl) graph).getDomain(
+							variable.typeConstraint.type, 
+							variable.typeConstraint.strictTyping,
+							variable);
+					domain.retainAll(restrictedDomain);
+				}
+				// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			}
 			
 			// Set the domain:
@@ -279,12 +292,28 @@ public class DomainSlot {
 	public boolean unlock(Variable sender) {
 		
 		// Revert the changes to the temporary domain:
+		
+		// NOTE: The temporary domain is a chain of the previous values.
+		//       => The values ​​must always be reset in reverse order.
+		//       => reference constraints before containment constraints (see instantiate())
+		
+		// reference constraints:
 		int refCount = sender.referenceConstraints.size();
+		
+		for (int i=refCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.referenceConstraints.get(i);
+			DomainChange change = remoteChangeMap.get(constraint);
+			if (change != null) {
+				change.slot.temporaryDomain = change.originalValues;
+				remoteChangeMap.remove(constraint);
+			}
+		}	
+		
+		// containment constraints:
 		int conCount = sender.containmentConstraints.size();
-		for (int i=refCount+conCount-1; i>=0; i--) {
-			BinaryConstraint constraint = (i>=refCount) ?
-					sender.containmentConstraints.get(i-refCount) :
-					sender.referenceConstraints.get(i);
+		
+		for (int i=conCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.containmentConstraints.get(i);
 			DomainChange change = remoteChangeMap.get(constraint);
 			if (change != null) {
 				change.slot.temporaryDomain = change.originalValues;
