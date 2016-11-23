@@ -2,7 +2,6 @@ package org.sidiff.profileapplicator.batch;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.sidiff.common.services.ServiceHelper;
 
 public class Activator implements BundleActivator {
 
@@ -19,7 +18,6 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		
-		ServiceHelper.registerService(context, Runner.class, new Runner(), null, ServiceHelper.DEFAULT);
 	}
 
 	/*
