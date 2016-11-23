@@ -14,6 +14,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
 import org.sidiff.editrule.rulebase.EditRule;
 
 /**
@@ -32,7 +33,7 @@ import org.sidiff.editrule.rulebase.EditRule;
  * 
  * @author kehrer
  */
-public abstract class BasicEditRuleMatch {
+public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 	/**
 	 * Mapping: EditRuleNode -> EObject A (via trace A)

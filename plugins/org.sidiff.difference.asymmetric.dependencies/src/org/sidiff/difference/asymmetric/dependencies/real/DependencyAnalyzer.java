@@ -22,8 +22,8 @@ import org.sidiff.difference.asymmetric.EdgeDependency;
 import org.sidiff.difference.asymmetric.NodeDependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
-import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
@@ -42,7 +42,7 @@ public class DependencyAnalyzer {
 	 * The RecognitionEngine instance that was used to semantically lift a
 	 * difference
 	 */
-	private RecognitionEngine recognitionEngine;
+	private IRecognitionEngine recognitionEngine;
 
 	/**
 	 * The asymmetric difference
@@ -61,7 +61,7 @@ public class DependencyAnalyzer {
 	 *            The RecognitionEngine instance that was used to semantically
 	 *            lift a difference
 	 */
-	public DependencyAnalyzer(RecognitionEngine recognitionEngine, AsymmetricDifference asymmetricDiff) {
+	public DependencyAnalyzer(IRecognitionEngine recognitionEngine, AsymmetricDifference asymmetricDiff) {
 		this.recognitionEngine = recognitionEngine;
 		this.asymmetricDiff = asymmetricDiff;
 	}
@@ -72,16 +72,13 @@ public class DependencyAnalyzer {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Initialize RuleBase cross-over potential dependency analyzer
-		if (recognitionEngine.getRuleBases().size() > 1) {
-			
-			
-			
+		if (recognitionEngine.getSetup().getRulebases().size() > 1) {
 			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(
-					recognitionEngine.getRuleBases());
+					recognitionEngine.getSetup().getRulebases());
 		}
 
 		// Map edit rule types to occurring SCS.
-		Map<EditRule, Set<SemanticChangeSet>> editRule2SCS = recognitionEngine.getEditRule2SCS();
+		Map<EditRule, Set<SemanticChangeSet>> editRule2SCS = recognitionEngine.getChangeSets();
 
 		// Run through all types of edit rules contained in the lifted
 		// difference:
@@ -110,8 +107,8 @@ public class DependencyAnalyzer {
 					for (SemanticChangeSet scsTgt : scsTgts) {
 
 						// Get matches of potentially depending edit rules:
-						EngineBasedEditRuleMatch erSrcMatch = recognitionEngine.getEditRuleMatch(scsSrc);
-						EngineBasedEditRuleMatch erTgtMatch = recognitionEngine.getEditRuleMatch(scsTgt);
+						IEditRuleMatch erSrcMatch = recognitionEngine.getEditRuleMatch(scsSrc);
+						IEditRuleMatch erTgtMatch = recognitionEngine.getEditRuleMatch(scsTgt);
 						int kind = 0;
 						Object intersection = null;
 						if (potDep instanceof PotentialNodeDependency) {
@@ -194,7 +191,7 @@ public class DependencyAnalyzer {
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
 		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
-		for (ILiftingRuleBase rb : recognitionEngine.getRuleBases()) {
+		for (ILiftingRuleBase rb : recognitionEngine.getSetup().getRulebases()) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
 
@@ -247,7 +244,7 @@ public class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link EObject}. 
 	 * If the intersection is empty, null will be returned.
 	 */
-	private Object intersects(EngineBasedEditRuleMatch erSrcMatch, EngineBasedEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
+	private Object intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
 		if (pnd.getKind() == PotentialDependencyKind.USE_DELETE) {
 			// check A intersection
 			Set<EObject> srcOccurence = erSrcMatch.getOccurenceA(pnd.getSourceNode());
@@ -295,7 +292,7 @@ public class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link Link}. 
 	 * If the intersection is empty, null will be returned.
 	 */
-	private Object intersects(EngineBasedEditRuleMatch erSrcMatch, EngineBasedEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
+	private Object intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
 		if (ped.getKind() == PotentialDependencyKind.USE_DELETE) {
 			// // check A intersection
 			// Set<Link> srcOccurence =
@@ -351,7 +348,7 @@ public class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link EObject}.
 	 * If the intersection is empty, null will be returned.
 	 */
-	private Object intersects(EngineBasedEditRuleMatch erSrcMatch, EngineBasedEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
+	private Object intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
 			SemanticChangeSet scsTgt) {
 
 		assert(pad.getSourceAttribute().getType() == pad.getTargetAttribute().getType());

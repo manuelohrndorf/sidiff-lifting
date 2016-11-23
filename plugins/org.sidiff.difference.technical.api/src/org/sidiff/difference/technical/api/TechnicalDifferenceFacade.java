@@ -2,6 +2,8 @@ package org.sidiff.difference.technical.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -9,14 +11,14 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.symmetric.AddObject;
-import org.sidiff.difference.symmetric.AddReference;
-import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.RemoveObject;
-import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.difference.symmetric.impl.AddObjectImpl;
+import org.sidiff.difference.symmetric.impl.AddReferenceImpl;
+import org.sidiff.difference.symmetric.impl.AttributeValueChangeImpl;
+import org.sidiff.difference.symmetric.impl.RemoveObjectImpl;
+import org.sidiff.difference.symmetric.impl.RemoveReferenceImpl;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -31,14 +33,6 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 
 	public static String SYMMETRIC_DIFF_EXT = "symmetric";
 	
-	protected static MergeImports importMerger = null;
-	
-	private static int addedObjects = 0;
-	private static int addedReferences = 0;
-	private static int removedObjects = 0;
-	private static int removedReferences = 0;
-	private static int attributeValueChanges = 0;
-	
 	/**
 	 * Derives a technical {@link SymmetricDifference} based on a given
 	 * {@link Matching} between two models.
@@ -51,47 +45,37 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	 * 
 	 * @see MatchingFacade#match(java.util.Collection, org.sidiff.matching.api.settings.MatchingSettings)
 	 */
-	public static SymmetricDifference deriveTechnicalDifference(Matching matching, DifferenceSettings settings){
+	public static SymmetricDifference deriveTechnicalDifference(Matching matching, DifferenceSettings settings) {
 		
 		if(!settings.getClass().equals(DifferenceSettings.class)){
 			LogUtil.log(LogEvent.NOTICE, "Settings:\n" + settings);
 		}
 		
-		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-
-		symmetricDiff.setMatching(matching);
+		SymmetricDifference symmetricDifference = SymmetricFactory.eINSTANCE.createSymmetricDifference();
+		symmetricDifference.setMatching(matching);
 		
-		importMerger = new MergeImports(symmetricDiff, settings.getScope(), true);
+		// Merge external references:
+		mergeImports(symmetricDifference, settings);
 		
-		
-		if(settings.isEnabled_MergeImports()){
-			// Merge Imports
-			LogUtil.log(LogEvent.NOTICE, "Merge imports ...");
-			importMerger.merge();		
-		}
-
+		// Derive technical difference
 		LogUtil.log(LogEvent.NOTICE, "Derive technical difference ...");
 
-		// Derive technical difference
 		ITechnicalDifferenceBuilder tdBuilder = settings.getTechBuilder();
-		tdBuilder.deriveTechDiff(symmetricDiff, settings.getScope());
+		tdBuilder.deriveTechDiff(symmetricDifference, settings.getScope());
 		
-		if(settings.isEnabled_MergeImports()){
-			// Unmerge Imports
-			LogUtil.log(LogEvent.NOTICE, "Unmerge imports ...");
-			importMerger.unmerge();
-		}
+		// Unmerge Imports
+		unmergeImports(settings);	
 		
-		countChanges(symmetricDiff);
+		// Report
+		Map<Class<? extends Change>, Integer> counts = countChanges(symmetricDifference);
 		
-		LogUtil.log(LogEvent.NOTICE, "Add Object: " + addedObjects);
-		LogUtil.log(LogEvent.NOTICE, "Add Object: " + addedObjects);
-		LogUtil.log(LogEvent.NOTICE, "Add Reference: " + addedReferences);
-		LogUtil.log(LogEvent.NOTICE, "Remove Object: " + removedObjects);
-		LogUtil.log(LogEvent.NOTICE, "Remove Reference: " + removedReferences);
-		LogUtil.log(LogEvent.NOTICE, "Attribute Value Change: " + attributeValueChanges);
+		LogUtil.log(LogEvent.NOTICE, "Add Object: " + counts.getOrDefault(AddObjectImpl.class, 0));
+		LogUtil.log(LogEvent.NOTICE, "Add Reference: " + counts.getOrDefault(AddReferenceImpl.class, 0));
+		LogUtil.log(LogEvent.NOTICE, "Remove Object: " + counts.getOrDefault(RemoveObjectImpl.class, 0));
+		LogUtil.log(LogEvent.NOTICE, "Remove Reference: " + counts.getOrDefault(RemoveReferenceImpl.class, 0));
+		LogUtil.log(LogEvent.NOTICE, "Attribute Value Change: " + counts.getOrDefault(AttributeValueChangeImpl.class, 0));
 		
-		return symmetricDiff;
+		return symmetricDifference;
 	}
 	
 	/**
@@ -110,7 +94,6 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	 * @throws NoCorrespondencesException 
 	 */
 	public static SymmetricDifference deriveTechnicalDifference(Resource modelA, Resource modelB, DifferenceSettings settings) throws InvalidModelException, NoCorrespondencesException{
-
 		return deriveTechnicalDifference(match(Arrays.asList(modelA, modelB), settings), settings);
 	}
 	
@@ -165,19 +148,37 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		return (SymmetricDifference) EMFStorage.eLoad(EMFStorage.pathToUri(path));
 	}
 	
-	private static void countChanges(SymmetricDifference diff){
-		for(Change c : diff.getChanges()){
-			if(c instanceof AddObject){
-				addedObjects++;
-			}else if(c instanceof AddReference){
-				addedReferences++;
-			}else if(c instanceof RemoveObject){
-				removedObjects++;
-			}else if(c instanceof RemoveReference){
-				removedReferences++;
-			}else if(c instanceof AttributeValueChange){
-				attributeValueChanges++;
-			}
+	protected static MergeImports mergeImports(SymmetricDifference symmetricDifference, DifferenceSettings settings) {
+		
+		if ((settings.getImports() == null) && settings.isEnabled_MergeImports()){
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
+			MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
+			importMerger.merge();
+			
+			settings.setImports(importMerger);
+			return importMerger;
 		}
+		
+		return null;
+	}
+	
+	protected static void unmergeImports(DifferenceSettings settings) {
+		
+		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			settings.getImports().unmerge();
+			settings.setImports(null);
+		}
+	}
+	
+	private static Map<Class<? extends Change>, Integer> countChanges(SymmetricDifference diff){
+		Map<Class<? extends Change>, Integer> counts = new HashMap<Class<? extends Change>, Integer>();
+		
+		for(Change change : diff.getChanges()){
+			Integer count = counts.getOrDefault(change.getClass(), 0);
+			counts.put(change.getClass(), ++count);
+		}
+		
+		return counts;
 	}
 }

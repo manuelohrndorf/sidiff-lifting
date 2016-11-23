@@ -7,6 +7,7 @@ import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -18,18 +19,22 @@ import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public class LiftingSettings extends DifferenceSettings {
-	
+
 	/**
 	 * List of active Rulebases.
 	 */
 	private Set<ILiftingRuleBase> ruleBases;
-	
+
 	/**
-	 * The Recognition Rule Sorter to use. (
-	 * {@link IRecognitionRuleSorter})
+	 * The Recognition Rule Sorter to use. ( {@link IRecognitionRuleSorter})
 	 */
 	private IRecognitionRuleSorter rrSorter;
-	
+
+	/**
+	 * The engine which executes the recognition rules.
+	 */
+	private IRecognitionEngine recognitionEngine;
+
 	/**
 	 * Triggering of the Recognition-Engine pipeline.
 	 * 
@@ -37,7 +42,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 *      operation detection)
 	 */
 	private RecognitionEngineMode recognitionEngineMode = RecognitionEngineMode.LIFTING_AND_POST_PROCESSING;
-	
+
 	/**
 	 * Creates a thread pool that reuses a fixed number of threads for the
 	 * operation detection (Lifting). (Default: <code>true</code>)
@@ -45,12 +50,12 @@ public class LiftingSettings extends DifferenceSettings {
 	private boolean useThreadPool = true;
 
 	/**
-	 * Number of recognizer threads in the tread pool. (Default: 16)
+	 * Number of recognizer threads in the tread pool.
 	 */
-	private int numberOfThreads = 32;
-	
+	private int numberOfThreads = 10;
+
 	/**
-	 * Recognition-Rules per recognizer thread. (Default: 10)
+	 * Recognition-Rules per recognizer thread.
 	 */
 	private int rulesPerThread = 10;
 
@@ -83,12 +88,12 @@ public class LiftingSettings extends DifferenceSettings {
 	 * Whether to calculate the EditRuleMatch or not.
 	 */
 	private boolean calculateEditRuleMatch = true;
-	
+
 	/**
 	 * Whether to serialize the EditRuleMatch or not.
 	 */
 	private boolean serializeEditRuleMatch = true;
-	
+
 	/**
 	 * Whether to detect Split/Joins or not
 	 */
@@ -99,30 +104,35 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public LiftingSettings() {
 		super();
-		
+
 		// Default: Use the default RecognitionRuleSorter
 		Set<String> genericDocumentTypes = new HashSet<String>();
 		genericDocumentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
-		
+
 		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(genericDocumentTypes);
 	}
 
 	/**
 	 * default {@link LiftingSettings}
-	 * @param Set of documentTypes
-	 * 			the document types of the models which are compared
+	 * 
+	 * @param Set
+	 *            of documentTypes the document types of the models which are
+	 *            compared
 	 */
-	public LiftingSettings(Set<String> documentTypes){
+	public LiftingSettings(Set<String> documentTypes) {
 		super();
 		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+		
+		// Search proper recognition rule sorter:
 		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
-		if(rrSorter == null){
+		
+		if (rrSorter == null) {
 			Set<String> genericDocumentTypes = new HashSet<String>();
-			documentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);			
+			documentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
 			RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(genericDocumentTypes);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param scope
@@ -137,13 +147,14 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
-			ISymbolicLinkHandler symbolicLinkHandler, Set<ILiftingRuleBase> ruleBases, IRecognitionRuleSorter rrsorter) {
-		
+			ISymbolicLinkHandler symbolicLinkHandler, Set<ILiftingRuleBase> ruleBases,
+			IRecognitionRuleSorter rrsorter) {
+
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
 		this.ruleBases = ruleBases;
 		this.rrSorter = rrsorter;
 	}
-	
+
 	/**
 	 * 
 	 * @param scope
@@ -162,12 +173,13 @@ public class LiftingSettings extends DifferenceSettings {
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
 			ISymbolicLinkHandler symbolicLinkHandler, Set<ILiftingRuleBase> ruleBases, IRecognitionRuleSorter rrsorter,
 			boolean calculateEditRuleMatch, boolean serializeEditRuleMatch) {
-		
-		this(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler, ruleBases, rrsorter);
+
+		this(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler,
+				ruleBases, rrsorter);
 		this.calculateEditRuleMatch = calculateEditRuleMatch;
 		this.serializeEditRuleMatch = serializeEditRuleMatch;
 	}
-	
+
 	@Override
 	public boolean validateSettings() {
 		// TODO CPietsch (2016-02-08)
@@ -189,14 +201,14 @@ public class LiftingSettings extends DifferenceSettings {
 			for (IBasicRuleBase rb : ruleBases) {
 				result.append(rb.getName() + ", ");
 			}
-			if (result.toString().endsWith(",")){
+			if (result.toString().endsWith(",")) {
 				result.deleteCharAt(result.toString().lastIndexOf(','));
 			}
 			result.append("\n");
 		}
-		
+
 		result.append("Recognition-Rule-Sorter: " + rrSorter.getName() + "\n");
-		
+
 		result.append("Recognition-Engine mode: " + recognitionEngineMode + "\n");
 
 		result.append("Use thread pool: " + useThreadPool + "\n");
@@ -208,14 +220,14 @@ public class LiftingSettings extends DifferenceSettings {
 
 		result.append("Calculate edit rule match: " + calculateEditRuleMatch + "\n");
 		result.append("Serialize edit rule match: " + serializeEditRuleMatch + "\n");
-		
+
 		result.append("Split and Join Detection: " + detectSplitJoins + "\n");
-		
+
 		return result.toString();
 	}
-	
+
 	// ---------- Getter and Setter Methods----------
-	
+
 	/**
 	 * List of active Rulebases.
 	 * 
@@ -237,10 +249,9 @@ public class LiftingSettings extends DifferenceSettings {
 			this.notifyListeners(LiftingSettingsItem.RULEBASES);
 		}
 	}
-	
+
 	/**
-	 * @return The Recognition Rule Sorter. (
-	 * 			{@link IRecognitionRuleSorter})
+	 * @return The Recognition Rule Sorter. ( {@link IRecognitionRuleSorter})
 	 */
 	public IRecognitionRuleSorter getRrSorter() {
 		return rrSorter;
@@ -249,16 +260,30 @@ public class LiftingSettings extends DifferenceSettings {
 	/**
 	 * 
 	 * @param rrSorter
-	 * 			The Recognition Rule Sorter. (
-	 * 			{@link IRecognitionRuleSorter})
+	 *            The Recognition Rule Sorter. ( {@link IRecognitionRuleSorter})
 	 */
 	public void setRrSorter(IRecognitionRuleSorter rrSorter) {
-		if(this.rrSorter == null || !this.rrSorter.getName().equals(rrSorter.getName())){
+		if (this.rrSorter == null || !this.rrSorter.getName().equals(rrSorter.getName())) {
 			this.rrSorter = rrSorter;
 			this.notifyListeners(LiftingSettingsItem.RECOGNITION_RULE_SORTER);
 		}
 	}
-	
+
+	/**
+	 * @return The engine which executes the recognition rules.
+	 */
+	public IRecognitionEngine getRecognitionEngine() {
+		return recognitionEngine;
+	}
+
+	/**
+	 * @param recognitionEngine
+	 *            The engine which executes the recognition rules.
+	 */
+	public void setRecognitionEngine(IRecognitionEngine recognitionEngine) {
+		this.recognitionEngine = recognitionEngine;
+	}
+
 	/**
 	 * Triggering of the Recognition-Engine pipeline.
 	 * 
@@ -362,7 +387,7 @@ public class LiftingSettings extends DifferenceSettings {
 	}
 
 	public void setSortRecognitionRuleNodes(boolean sortRecognitionRuleNodes) {
-		if(sortRecognitionRuleNodes != this.sortRecognitionRuleNodes){
+		if (sortRecognitionRuleNodes != this.sortRecognitionRuleNodes) {
 			this.sortRecognitionRuleNodes = sortRecognitionRuleNodes;
 			this.notifyListeners(LiftingSettingsItem.SORT_RECOGNITIONRULE_NODES);
 		}
@@ -433,7 +458,7 @@ public class LiftingSettings extends DifferenceSettings {
 			this.notifyListeners(LiftingSettingsItem.BUILD_GRAPH_PER_RULE);
 		}
 	}
-	
+
 	public boolean isCalculateEditRuleMatch() {
 		return calculateEditRuleMatch;
 	}
@@ -442,9 +467,9 @@ public class LiftingSettings extends DifferenceSettings {
 		if (calculateEditRuleMatch != this.calculateEditRuleMatch) {
 			this.calculateEditRuleMatch = calculateEditRuleMatch;
 			this.notifyListeners(LiftingSettingsItem.CALCULATE_EDIT_RULE_MATCH);
-		}		
+		}
 	}
-	
+
 	public boolean isSerializeEditRuleMatch() {
 		return serializeEditRuleMatch;
 	}
@@ -453,37 +478,35 @@ public class LiftingSettings extends DifferenceSettings {
 		if (serializeEditRuleMatch != this.serializeEditRuleMatch) {
 			this.serializeEditRuleMatch = serializeEditRuleMatch;
 			this.notifyListeners(LiftingSettingsItem.SERIALIZE_EDIT_RULE_MATCH);
-		}		
+		}
 	}
-	
+
 	/**
 	 * Checks if Split/Join Detection is enabled
 	 * 
-	 * @return <code>true</code> if enabled;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if enabled; <code>false</code> otherwise.
 	 */
 	public boolean isDetectSplitJoins() {
 		return detectSplitJoins;
 	}
-	
+
 	/**
 	 * Enables or disables Split/Join Detection.
 	 * 
 	 * @param detectSplitJoins
-	 * 			<code>true</code> if enabled
-	 *          <code>false</code> otherwise.
+	 *            <code>true</code> if enabled <code>false</code> otherwise.
 	 */
 	public void setDetectSplitJoins(boolean detectSplitJoins) {
 		this.detectSplitJoins = detectSplitJoins;
 	}
-	
-	
+
 	/**
 	 * <p>
 	 * Triggering of the Recognition-Engine pipeline.
 	 * </p>
 	 * <ul>
-	 * <li><code>NO_LIFTING</code>: Disable the operation detection (Lifting).</li>
+	 * <li><code>NO_LIFTING</code>: Disable the operation detection (Lifting).
+	 * </li>
 	 * <li><code>LIFTING</code>: Enable the operation detection (Lifting).</li>
 	 * <li><code>LIFTING_AND_POST_PROCESSING:</code> Post processed (remove
 	 * overlapping Semantic-Change-Sets) operation detection (Lifting).</li>

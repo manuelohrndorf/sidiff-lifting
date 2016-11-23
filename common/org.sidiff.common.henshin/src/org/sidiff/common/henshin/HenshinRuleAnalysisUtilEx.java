@@ -695,23 +695,65 @@ public class HenshinRuleAnalysisUtilEx {
 	public static List<GraphElement> getChanges(Rule rule) {
 		List<GraphElement> changes = new ArrayList<GraphElement>();
 
+		// << delete >> nodes:
 		for (Node deleteNode : getLHSMinusRHSNodes(rule)) {
 			changes.add(deleteNode);
 		}
 
+		// << delete >> edges:
 		for (Edge deleteEdge : getLHSMinusRHSEdges(rule)) {
 			changes.add(deleteEdge);
 		}
 
+		// << create >> nodes:
 		for (Node createNode : getRHSMinusLHSNodes(rule)) {
 			changes.add(createNode);
 		}
 
+		// << create >> edges:
 		for (Edge createEdge : getRHSMinusLHSEdges(rule)) {
 			changes.add(createEdge);
 		}
+		
+		// << create >> attributes (attribute value changes):
+		for (NodePair preserveNode : getPreservedNodes(rule)) {
+			changes.addAll(getChangingAttributes(preserveNode.getLhsNode(), preserveNode.getRhsNode()));
+		}
 
 		return changes;
+	}
+	
+	/**
+	 * @param lhs
+	 *            The LHS node of the << preserve >> node.
+	 * @param rhs
+	 *            The RHS node of the << preserve >> node.
+	 * @return All << create >> attributes of the << preserve >> node.
+	 */
+	public static List<Attribute> getChangingAttributes(Node lhs, Node rhs) {
+		
+		if (!rhs.getAttributes().isEmpty()) {
+			List<Attribute> changingAttributes = new ArrayList<Attribute>(rhs.getAttributes().size());
+			
+			for (Attribute rhsAttribute : rhs.getAttributes()) {
+				boolean hasRemote = false;
+				
+				for (Attribute lhsAttribute : lhs.getAttributes()) {
+					if (lhsAttribute.getType() == rhsAttribute.getType()) {
+						hasRemote = true;
+						break;
+					}
+				}
+				
+				if (!hasRemote) {
+					changingAttributes.add(rhsAttribute);
+				}
+			}
+			
+			return changingAttributes;
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	/**

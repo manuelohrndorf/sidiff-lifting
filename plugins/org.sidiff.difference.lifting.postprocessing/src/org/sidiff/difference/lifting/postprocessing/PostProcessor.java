@@ -18,7 +18,7 @@ import java.util.Set;
 
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.ruleapplication.RecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.ChangeSetPriorityComparator;
@@ -35,7 +35,7 @@ public class PostProcessor {
 	/**
 	 * The RecognitionEngine instance that was used to semantically lift a difference
 	 */
-	private RecognitionEngine recognitionEngine;
+	private IRecognitionEngine recognitionEngine;
 
 	/**
 	 * The difference
@@ -82,9 +82,9 @@ public class PostProcessor {
 	 * @param recognitionEngine
 	 *            The RecognitionEngine instance that was used to semantically lift a difference
 	 */
-	public PostProcessor(RecognitionEngine recognitionEngine) {
+	public PostProcessor(IRecognitionEngine recognitionEngine) {
 		this.recognitionEngine = recognitionEngine;
-		this.difference = recognitionEngine.getDifference();
+		this.difference = recognitionEngine.getSetup().getDifference();
 	}
 
 	/**

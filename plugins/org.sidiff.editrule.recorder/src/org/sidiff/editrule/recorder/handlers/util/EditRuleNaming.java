@@ -49,7 +49,7 @@ public class EditRuleNaming {
 	}
 	
 	public static String removeCamelCase(String name) {
-		String regex = "([a-z])([A-Z]+)";
+		String regex = "([a-z \\)])([A-Z \\(]+)";
 		String replacement = "$1 $2";
 		return  name.replaceAll(regex, replacement);
 	}

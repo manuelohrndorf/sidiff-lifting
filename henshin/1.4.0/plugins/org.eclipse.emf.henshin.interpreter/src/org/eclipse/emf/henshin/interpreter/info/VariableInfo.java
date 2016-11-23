@@ -176,6 +176,13 @@ public class VariableInfo {
 				ReferenceConstraint constraint = new ReferenceConstraint(target, edge.getType().getEOpposite(), null,
 						true);
 				var.referenceConstraints.add(constraint);
+			} else {
+				Variable target = node2variable.get(edge.getSource());
+				ReferenceConstraint constraint = engine.createCrossReferenceConstraint(target, edge);
+				
+				if (constraint != null) {
+					var.referenceConstraints.add(constraint);
+				}
 			}
 		}
 

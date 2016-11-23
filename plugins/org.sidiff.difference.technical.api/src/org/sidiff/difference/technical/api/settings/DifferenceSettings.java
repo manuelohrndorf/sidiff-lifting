@@ -4,6 +4,7 @@ import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
@@ -12,13 +13,22 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 public class DifferenceSettings extends MatchingSettings{
 
 	/**
-	 * Enables/disables the internal mergeImports function
-	 * (more specifically the EObject location lookup)
-	 * This lookup is quite costly when comparing big models
-	 * and can be disabled here for performance gain
-	 * however at the expense of some matching correctness.
+	 * Enables/disables the internal mergeImports function (more specifically
+	 * the EObject location lookup) This lookup is quite costly when comparing
+	 * big models and can be disabled here for performance gain however at the
+	 * expense of some matching correctness.
 	 */
 	private boolean mergeImports = true;
+	
+	/**
+	 * Finally clean up merge imports.
+	 */
+	private boolean unmergeImports = true;
+	
+	/**
+	 * The imported external references.
+	 */
+	private MergeImports imports = null;
 	
 	/**
 	 * The Technical Difference Builder to use. (
@@ -94,8 +104,7 @@ public class DifferenceSettings extends MatchingSettings{
 	// ---------- Getter and Setter Methods----------
 	
 	/**
-	 * Returns whether mergeImports (esp. EObject Localization Lookup)
-	 * is enabled. (Default: true)
+	 * Returns whether mergeImports (esp. EObject Localization Lookup) is enabled. (Default: true)
 	 * 
 	 * @return <code>true</code> if enabled;
 	 *         <code>false</code> otherwise.
@@ -105,6 +114,7 @@ public class DifferenceSettings extends MatchingSettings{
 	}
 
 	/**
+	 * Returns whether mergeImports (esp. EObject Localization Lookup) is enabled. (Default: true)
 	 * 
 	 * @param mergeImports
 	 */
@@ -112,6 +122,42 @@ public class DifferenceSettings extends MatchingSettings{
 		this.mergeImports = mergeImports;
 	}
 	
+	/**
+	 * Finally clean up merge imports.
+	 * 
+	 * @return <code>true</code> if enabled; 
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean isEnabled_UnmergeImports() {
+		return unmergeImports;
+	}
+
+	/**
+	 * Finally clean up merge imports.
+	 * 
+	 * @param unmergeImports
+	 *            <code>true</code> if enabled; 
+	 *            <code>false</code> otherwise.
+	 */
+	public void setUnmergeImports(boolean unmergeImports) {
+		this.unmergeImports = unmergeImports;
+	}
+
+	/**
+	 * @return The imported external references.
+	 */
+	public MergeImports getImports() {
+		return imports;
+	}
+
+	/**
+	 * @param imports
+	 *            The imported external references.
+	 */
+	public void setImports(MergeImports imports) {
+		this.imports = imports;
+	}
+
 	/**
 	 * @return The Technical Difference Builder. (
 	 *         {@link ITechnicalDifferenceBuilder})
