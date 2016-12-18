@@ -18,23 +18,12 @@ public class RecognitionRuleSorterLibrary {
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes){
 		Set<IRecognitionRuleSorter> rrSorters = new HashSet<IRecognitionRuleSorter>();
 		
-		IRecognitionRuleSorter generalRecognitionRuleSorter = new GenericRecognitionRuleSorter();
-		
 		if(documentTypes.size()==1) {
-			for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(IRecognitionRuleSorter.extensionPointID)) {
-				try {
-					IRecognitionRuleSorter rrsExtension = (IRecognitionRuleSorter) configurationElement.createExecutableExtension("recognition_rule_sorter");
-					if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())) {
-						rrSorters.add(rrsExtension);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+			for(IRecognitionRuleSorter rrsExtension: getAllAvailableRecognitionRuleSorters()){
+				if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())) {
+					rrSorters.add(rrsExtension);
 				}
 			}
-		}
-		
-		if(rrSorters.isEmpty()){
-			rrSorters.add(generalRecognitionRuleSorter);
 		}
 		
 		return rrSorters;
@@ -61,5 +50,35 @@ public class RecognitionRuleSorterLibrary {
 			rrSorter = rrSorters.iterator().next();
 		}
 		return rrSorter;
+	}
+	
+	public static IRecognitionRuleSorter getRecognitionRuleSorter(String key){
+		IRecognitionRuleSorter recognitionRuleSorter = null;
+		for(IRecognitionRuleSorter rrSorter : getAllAvailableRecognitionRuleSorters()){
+			if(rrSorter.getKey().equals(key)){
+				recognitionRuleSorter = rrSorter;
+				break;
+			}
+		}
+		return recognitionRuleSorter;
+	}
+	
+	public static Set<IRecognitionRuleSorter> getAllAvailableRecognitionRuleSorters(){
+		Set<IRecognitionRuleSorter> rrSorters = new HashSet<IRecognitionRuleSorter>();
+		 
+		rrSorters.add(new GenericRecognitionRuleSorter());
+		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(IRecognitionRuleSorter.extensionPointID)) {
+			try {
+				IRecognitionRuleSorter rrsExtension = (IRecognitionRuleSorter) configurationElement
+						.createExecutableExtension("recognition_rule_sorter");
+				rrSorters.add(rrsExtension);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return rrSorters;
 	}
 }
