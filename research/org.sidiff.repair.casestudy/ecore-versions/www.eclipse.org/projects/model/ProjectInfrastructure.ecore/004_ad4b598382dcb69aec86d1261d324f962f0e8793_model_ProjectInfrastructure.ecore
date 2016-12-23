@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="projectinfrastructure"
+    nsURI="http://projectinfrastructure/1.0" nsPrefix="projectinfrastructure">
+  <eSubpackages name="core">
+    <eClassifiers xsi:type="ecore:EClass" name="Project">
+      <eOperations name="getCommitters" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getProjectLeads" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getMentors" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getPMCLeads" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getPMCMembers" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getCommittersEmeritus" upperBound="-1" eType="#//people/ProjectRole"/>
+      <eOperations name="getPeopleInRole" upperBound="-1" eType="#//people/ProjectRole">
+        <eParameters name="type" upperBound="-1" eType="#//people/ProjectRoleType"/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="scope" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="websiteUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wikiUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="gettingStartedUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentationUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="downloadUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bugzillaProduct" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bugzillaComponent" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isIncubating" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//core/Project"
+          eOpposite="#//core/Project/subprojects"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subprojects" ordered="false"
+          upperBound="-1" eType="#//core/Project" eOpposite="#//core/Project/parent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="releases" upperBound="-1"
+          eType="#//releases/Release" containment="true" eOpposite="#//releases/Release/project"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="retentionPolicy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="people" eType="#//people/ProjectRole"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="releases">
+    <eClassifiers xsi:type="ecore:EClass" name="Release">
+      <eOperations name="getReleaseDate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate">
+        <eAnnotations/>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="reviewDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="previous" eType="#//releases/Release"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetEnvironments" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="compatibility" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="themes" upperBound="-1"
+          eType="#//releases/Theme"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="deliverables" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="community" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="project" upperBound="-1"
+          eType="#//core/Project" eOpposite="#//core/Project/releases"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="simultaneousRelease"
+          upperBound="-1" eType="#//releases/CoordinatedRelease"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="includedSubprojects"
+          upperBound="-1" eType="#//releases/IncludedSubproject" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="milestones" upperBound="-1"
+          eType="#//releases/Milestone" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Theme">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bugzillaUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IncludedSubproject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="project" eType="#//core/Project"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CoordinatedRelease">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wikiUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="milestones" upperBound="-1"
+          eType="#//releases/Milestone" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Milestone">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="artefacts" upperBound="-1"
+          eType="#//releases/DownloadArtefact" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="noteworthyUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DownloadArtefact">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="url"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="people">
+    <eClassifiers xsi:type="ecore:EClass" name="Person">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName" unique="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastName" unique="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="altEmails" ordered="false"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProjectRole">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+          eType="#//core/Project"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="person" lowerBound="1"
+          eType="#//people/Person"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="role" lowerBound="1"
+          eType="#//people/ProjectRoleType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="endDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="election" eType="#//people/Election"
+          containment="true" eOpposite="#//people/Election/role"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProjectRoleType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Election">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="role" eType="#//people/ProjectRole"
+          eOpposite="#//people/ProjectRole/election"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nomination" lowerBound="1"
+          eType="#//people/Ballot" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="votes" upperBound="-1"
+          eType="#//people/Ballot" containment="true" eOpposite="#//people/Ballot/election"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Ballot">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="voter" eType="#//people/Person"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vote" eType="#//people/VoteType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="comments" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="election" eType="#//people/Election"
+          eOpposite="#//people/Election/votes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VoteType">
+      <eLiterals name="positive" value="1"/>
+      <eLiterals name="neutral"/>
+      <eLiterals name="negative" value="-1"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="build"
+    nsURI="http://b3build/1.0" nsPrefix="build">
+  <eClassifiers xsi:type="ecore:EClass" name="BuildUnit" eSuperTypes="#//VersionedCapability">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unitProvidedCapabilities"
+        eType="#//VersionedCapability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="builders" upperBound="-1"
+        eType="#//Builder"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Builder" eSuperTypes="../../org.eclipse.b3.backend/model/B3Backend.ecore#//B3Function">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="precondExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providedCapabilities" upperBound="-1"
+        eType="#//Capability" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//BuilderInput"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//PathGroup"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultProperties" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BPropertySet"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="VersionRange" instanceClassName="org.eclipse.equinox.internal.provisional.p2.core.VersionRange"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Version" instanceClassName="org.eclipse.equinox.internal.provisional.p2.core.Version"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="java.net.URI"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VersionedCapability" eSuperTypes="#//Capability">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="#//Version"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuilderInput">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="precondExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postcondExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+        eType="#//Prerequisite" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathGroup">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BPropertySet"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pathVectors" upperBound="-1"
+        eType="#//PathVector" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Prerequisite">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="withExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BWithExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buildResult" eType="#//BuildResultReference"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BuildResultReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundBuildResultReference" eSuperTypes="#//BuildResultReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="prerequisites" upperBound="-1"
+        eType="#//Prerequisite" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DirectBuildResultReference" eSuperTypes="#//UnitBuildResultReference"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnitBuildResultReference" eSuperTypes="#//BuildResultReference">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BParameterList"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="builderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameSpace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndirectBuildResultReference" eSuperTypes="#//UnitBuildResultReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionRange" eType="#//VersionRange"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Capability">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameSpace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequiredCapability" eSuperTypes="#//Capability">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="versionRange" eType="#//VersionRange"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathVector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condExpr" eType="ecore:EClass ../../org.eclipse.b3.backend/model/B3Backend.ecore#//BExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="basePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paths" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompoundPathVector" eSuperTypes="#//PathVector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pathVectors" upperBound="-1"
+        eType="#//PathVector" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PathVectorElement" eSuperTypes="#//PathVector"/>
+</ecore:EPackage>
