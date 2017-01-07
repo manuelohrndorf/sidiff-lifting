@@ -1,5 +1,7 @@
 package org.sidiff.difference.technical;
 
+import java.util.Set;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -34,6 +36,12 @@ public interface ITechnicalDifferenceBuilder {
 	public String getKey();
 
 	/**
+	 * @return the document types the technical difference builder is primarily
+	 *         implemented for.
+	 */
+	public Set<String> getDocumentTypes();
+	
+	/**
 	 * Derives the technical difference. A default implementation is given by
 	 * the abstract class {@link AbstractTechnicalDifferenceBuilder}
 	 * 
@@ -43,28 +51,21 @@ public interface ITechnicalDifferenceBuilder {
 	public SymmetricDifference deriveTechDiff(SymmetricDifference difference, Scope scope);
 
 	/**
-	 * @return the document type the technical difference builder is primarily
-	 *         implemented for.
+	 * Returns whether this technical difference builder can handle models with
+	 * the given documentTypes.
+	 * 
+	 * @param documentTypes
+	 * @return
 	 */
-	public String getDocumentType();
-
+	public boolean canHandleDocTypes(Set<String> documentTypes);
+	
 	/**
-	 * Returns whether this technical difference builder can handle models of
-	 * the given documentType.
+	 * Returns whether this technical difference builder can handle the given models
 	 * 
 	 * @param modelA
 	 * @param modelB
 	 * @return
 	 */
-	public boolean canHandle(Resource modelA, Resource modelB);
-	
-	/**
-	 * Returns whether this technical difference builder can handle models of
-	 * the given documentType.
-	 * 
-	 * @param docType
-	 * @return
-	 */
-	public boolean canHandle(String docType);
+	public boolean canHandleModels(Resource modelA, Resource modelB);
 
 }

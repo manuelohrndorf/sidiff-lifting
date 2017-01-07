@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
@@ -60,7 +63,7 @@ public class LiftingPropertyTester extends PropertyTester {
 			if(receiver instanceof IFile){
 				IFile file = (IFile) receiver;
 				Resource resource = LiftingFacade.loadModel(file.getLocation().toOSString());
-				String documentType = EMFModelAccess.getCharacteristicDocumentType(resource);
+				Set<String> documentType =EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE_SET);
 				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType).size()>0)
 					return true;				
 			}

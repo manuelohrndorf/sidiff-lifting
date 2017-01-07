@@ -1,17 +1,13 @@
 package org.sidiff.difference.lifting.api.util;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -34,11 +30,8 @@ import org.sidiff.difference.symmetric.provider.AttributeValueChangeItemProvider
 import org.sidiff.difference.symmetric.provider.RemoveObjectItemProvider;
 import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
-import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
 
@@ -50,87 +43,7 @@ import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
  * 
  * @author kehrer, mohrndorf
  */
-public class PipelineUtils {
-
-	/**
-	 * Load EMF resource.
-	 * 
-	 * @param path
-	 *            The EMF-file path.
-	 * @return The loaded EMF-object.
-	 */
-	public static Resource loadModel(String path) {
-		return EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource();
-	}
-
-	/**
-	 * Find all available technical difference builders matching the given
-	 * document type.
-	 * 
-	 * @param documentType
-	 *            The document type, i.e. the package namespace URI of a model.
-	 * @return All available technical difference builders matching the given
-	 *         document type.
-	 * @see LiftingFacade#getDocumentType(Resource)
-	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType) {
-		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType);
-	}
-	
-	/**
-	 * Find all available technical difference builders matching the given
-	 * document types.
-	 * 
-	 * @param documentTypes
-	 *            The document types, i.e. the package namespace URI of a model. There can be more than one.
-	 * @return All available technical difference builders matching the given
-	 *         document types.
-	 * @see #getAvailableTechnicalDifferenceBuilders(String)
-	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
-		Set<ITechnicalDifferenceBuilder> builders = new HashSet<ITechnicalDifferenceBuilder>();
-		for(String documentType : documentTypes){
-			builders.addAll(getAvailableTechnicalDifferenceBuilders(documentType));
-		}
-		return builders;
-	}
-
-	/**
-	 * 
-	 * Returns the default technical difference builder for the given
-	 * documentType: <br/>
-	 * In case of Ecore: take first non-generics diff builder. <br/>
-	 * Otherwise: take first technical difference builder
-	 * 
-	 * @param documentType
-	 * @return
-	 */
-	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(String documentType) {
-		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentType);
-	}
-	
-	/**
-	 * 
-	 * Returns the default technical difference builder for the given
-	 * documentTypes: <br/>
-	 * In case of Ecore: take first non-generics diff builder. <br/>
-	 * Otherwise: take first technical difference builder
-	 * 
-	 * @param documentTypes
-	 * @return
-	 */
-	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
-		
-		if ((documentTypes != null) && !documentTypes.isEmpty()) {
-			String docType = EMFModelAccess.selectDocumentType(documentTypes);
-			
-			if (docType != null) {
-				return PipelineUtils.getDefaultTechnicalDifferenceBuilder(docType);
-			}
-		}
-		
-		return null;
-	}
+public class PipelineUtils extends TechnicalDifferenceUtils{
 
 
 	/**
@@ -181,50 +94,6 @@ public class PipelineUtils {
 		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
 
-	/**
-	 * Find all available matchers matching the given document type.
-	 * 
-	 * @param modelA
-	 *            Model A of the comparison.
-	 * @param modelB
-	 *            Model B of the comparison.
-	 * @return All available rulebases matching the given document type.
-	 * @see LiftingFacade#getDocumentType(Resource)
-	 */
-	public static Set<IMatcher> getAvailableMatchers(Resource modelA, Resource modelB) {
-		return MatcherUtil.getAvailableMatchers(Arrays.asList(modelA,modelB));
-	}
-
-	/**
-	 * Get matcher by its key name.
-	 * 
-	 * @param key
-	 *            The key name of the matcher.
-	 * @param modelA
-	 *            Model A of the comparison.
-	 * @param modelB
-	 *            Model B of the comparison.
-	 * @return The matcher with the key name; null otherwise.
-	 * @see IMatcher#getKey()
-	 */
-	public static IMatcher getMatcherByKey(String key) {
-		return MatcherUtil.getMatcher(key);
-	}
-
-	public static String extractCommonPath(String... paths) {
-		String result = null;
-		for (String path : paths) {
-			File file = new File(path);
-			assert (file.isFile()) : "Not a File!" + path;
-
-			if (result == null) {
-				result = file.getParent();
-			}
-
-			assert (result.equals(file.getParent())) : "Different Paths! " + result + " vs. " + file.getParent();
-		}
-		return result + "/";
-	}
 
 	/**
 	 * Generates a file name for a new difference between model A and model B.
@@ -238,12 +107,7 @@ public class PipelineUtils {
 	 * @return A file name MODELAxMODELB_MATCHINGENGINE_LIFTING_POSTPROCESSING.
 	 */
 	public static String generateDifferenceFileName(Resource modelA, Resource modelB, LiftingSettings settings) {
-		String fileName = extractModelName(modelA.getURI().lastSegment()) + "_x_"
-				+ extractModelName(modelB.getURI().lastSegment());
-
-		if (settings.getMatcher() != null) {
-			fileName += "_" + settings.getMatcher().getKey();
-		}
+		String fileName = TechnicalDifferenceUtils.generateDifferenceFileName(modelA, modelB, settings);
 
 		if (settings.getRecognitionEngineMode() != RecognitionEngineMode.NO_LIFTING) {
 			fileName += "_lifted";
@@ -277,18 +141,6 @@ public class PipelineUtils {
 		}
 
 		return fileName;
-	}
-
-	/**
-	 * Cut of the file extension.
-	 * 
-	 * @param filename
-	 *            The file name with extension.
-	 * @return The file name without extension.
-	 */
-	private static String extractModelName(String filename) {
-		String fName = new File(filename).getName();
-		return fName.substring(0, fName.lastIndexOf('.'));
 	}
 
 	/**

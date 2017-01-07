@@ -369,32 +369,24 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 	private boolean doProcess(EObject object) {
 		// generic td builders can process every eObject
-		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
-			return true;
-		}
-
-		return EMFModelAccess.getDocumentType(object).equals(getDocumentType());
+		return getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)
+				|| getDocumentTypes().contains(EMFModelAccess.getDocumentType(object));
 	}
 
 	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
+	public boolean canHandleDocTypes(Set<String> documentTypes) {
 		// generic td builders can handle every model
-		if (getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE)){
-			return true;
-		}
-
-		Set<String> docTypesA = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
-		Set<String> docTypesB = EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET);
-
-		return docTypesA.contains(getDocumentType()) && docTypesB.contains(getDocumentType());
+		return getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)
+				|| getDocumentTypes().containsAll(documentTypes);
 	}
-
+	
 	@Override
-	public boolean canHandle(String docType){
-		if(getDocumentType().equals(EMFModelAccess.GENERIC_DOCUMENT_TYPE) || docType.equals(getDocumentType()))
-			return true;
-		else
-			return false;
+	public boolean canHandleModels(Resource modelA, Resource modelB) {
+
+		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
+		docTypes.addAll(EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET));
+
+		return canHandleDocTypes(docTypes);
 	}
 
 	protected abstract String getObjectName(EObject obj);

@@ -27,15 +27,15 @@ public class TechnicalDifferenceBuilderUtil {
 	 * Returns the available technical difference builders for the given documentType.
 	 * If no convenient builder is found, a generic technical difference builder will be returned.
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType){
+	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes){
 		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
 		
 		ITechnicalDifferenceBuilder genericTechnicalDifferenceBuilder = new GenericTechnicalDifferenceBuilder();
 		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
-			if (techBuilder.canHandle(documentType)) {
+			if (techBuilder.canHandleDocTypes(documentTypes)) {
 				tdbSet.add(techBuilder);
 			}
 		}
@@ -50,19 +50,19 @@ public class TechnicalDifferenceBuilderUtil {
 	/**
 	 * 
 	 * Returns the default technical difference builder for the given
-	 * documentType: <br/>
+	 * documentTypes: <br/>
 	 * In case of Ecore: take first non-generics diff builder. <br/>
 	 * Otherwise: take first technical difference builder.
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(String documentType){
-		Set<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentType);
-		assert (!tdBuilders.isEmpty()) : "No technical difference builder found for document type " + documentType;
+	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes){
+		Set<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentTypes);
+		assert (!tdBuilders.isEmpty()) : "No technical difference builder found for document type " + documentTypes;
 		
 		ITechnicalDifferenceBuilder tdBuilder = null;
-		if (documentType.equals(EcorePackage.eINSTANCE.getNsURI())){
+		if (documentTypes.equals(EcorePackage.eINSTANCE.getNsURI())){
 			for (ITechnicalDifferenceBuilder iTechnicalDifferenceBuilder : tdBuilders) {
 				if (!iTechnicalDifferenceBuilder.getClass().getName().contains("Generics")){
 					tdBuilder = iTechnicalDifferenceBuilder;

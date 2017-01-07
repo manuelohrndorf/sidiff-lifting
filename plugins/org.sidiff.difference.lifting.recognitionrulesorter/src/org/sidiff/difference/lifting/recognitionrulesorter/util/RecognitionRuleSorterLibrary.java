@@ -20,7 +20,8 @@ public class RecognitionRuleSorterLibrary {
 		
 		if(documentTypes.size()==1) {
 			for(IRecognitionRuleSorter rrsExtension: getAllAvailableRecognitionRuleSorters()){
-				if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())) {
+				if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())
+						|| rrsExtension instanceof GenericRecognitionRuleSorter) {
 					rrSorters.add(rrsExtension);
 				}
 			}
@@ -41,7 +42,7 @@ public class RecognitionRuleSorterLibrary {
 		IRecognitionRuleSorter rrSorter = null;
 		if(rrSorters.size() > 1){
 			for (IRecognitionRuleSorter iRecognitionRuleSorter : rrSorters) {
-				if(!iRecognitionRuleSorter.getDocumentType().equals("general")){
+				if(!(iRecognitionRuleSorter instanceof GenericRecognitionRuleSorter)){
 					rrSorter = iRecognitionRuleSorter;
 					break;
 				}

@@ -1,10 +1,8 @@
 package org.sidiff.difference.technical.api.util;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +28,7 @@ import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
+import org.sidiff.matching.api.util.MatchingUtils;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
 
@@ -41,32 +40,7 @@ import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
  * 
  * @author kehrer, mohrndorf, cpietsch
  */
-public class TechnicalDifferenceUtils {
-
-	/**
-	 * Load EMF resource.
-	 * 
-	 * @param path
-	 *            The EMF-file path.
-	 * @return The loaded EMF-object.
-	 */
-	public static Resource loadModel(String path) {
-		return EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource();
-	}
-
-	/**
-	 * Find all available technical difference builders matching the given
-	 * document type.
-	 * 
-	 * @param documentType
-	 *            The document type, i.e. the package namespace URI of a model.
-	 * @return All available technical difference builders matching the given
-	 *         document type.
-	 * @see LiftingFacade#getDocumentType(Resource)
-	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(String documentType) {
-		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType);
-	}
+public class TechnicalDifferenceUtils extends MatchingUtils{
 	
 	/**
 	 * Find all available technical difference builders matching the given
@@ -79,39 +53,21 @@ public class TechnicalDifferenceUtils {
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
 	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
-		Set<ITechnicalDifferenceBuilder> builders = new HashSet<ITechnicalDifferenceBuilder>();
-		for(String documentType : documentTypes){
-			builders.addAll(getAvailableTechnicalDifferenceBuilders(documentType));
-		}
-		return builders;
+		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentTypes);
 	}
 
 	/**
 	 * 
 	 * Returns the default technical difference builder for the given
-	 * documentType: <br/>
+	 * documentTypes: <br/>
 	 * In case of Ecore: take first non-generics diff builder. <br/>
 	 * Otherwise: take first technical difference builder
 	 * 
-	 * @param documentType
+	 * @param documentTypes
 	 * @return
 	 */
-	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(String documentType) {
-		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentType);
-	}
-
-	/**
-	 * Find all available matchers matching the given document type.
-	 * 
-	 * @param modelA
-	 *            Model A of the comparison.
-	 * @param modelB
-	 *            Model B of the comparison.
-	 * @return All available rulebases matching the given document type.
-	 * @see LiftingFacade#getDocumentType(Resource)
-	 */
-	public static Set<IMatcher> getAvailableMatchers(Resource modelA, Resource modelB) {
-		return MatcherUtil.getAvailableMatchers(Arrays.asList(modelA,modelB));
+	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
+		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentTypes);
 	}
 
 	/**
@@ -177,7 +133,7 @@ public class TechnicalDifferenceUtils {
 	 *            The file name with extension.
 	 * @return The file name without extension.
 	 */
-	private static String extractModelName(String filename) {
+	protected static String extractModelName(String filename) {
 		String fName = new File(filename).getName();
 		return fName.substring(0, fName.lastIndexOf('.'));
 	}

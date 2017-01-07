@@ -1,6 +1,8 @@
 package org.sidiff.difference.technical;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
@@ -63,7 +65,7 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 		for (int i = 0; i < tdBuilders.size(); i++) {
 			ITechnicalDifferenceBuilder nextBuilder = tdBuilders.get(i);
 
-			if (nextBuilder.canHandle(modelA, modelB)) {
+			if (nextBuilder.canHandleModels(modelA, modelB)) {
 				LogUtil.log(LogEvent.NOTICE, "Next tdBuilder (" + i + "): " + nextBuilder.getName());
 				nextBuilder.deriveTechDiff(difference, scope);
 			} else {
@@ -78,37 +80,29 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 	}
 
 	@Override
-	public String getDocumentType() {
-		// depends on the sub td builders
-		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
-	}
-
-	@Override
-	public boolean canHandle(Resource modelA, Resource modelB) {
-		// true if at least one of the tdBuilders can handle modelA/modelB
-		for (ITechnicalDifferenceBuilder builder : tdBuilders) {
-			if (builder.canHandle(modelA, modelB)) {
-				return true;
-			}
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		for(ITechnicalDifferenceBuilder builder : tdBuilders){
+			docTypes.addAll(builder.getDocumentTypes());
 		}
-
-		return false;
-	}
-	
-	@Override
-	public boolean canHandle(String docType){
-		// true if at least one of the tdBuilders can handle the doc type
-		for (ITechnicalDifferenceBuilder builder : tdBuilders) {
-			if (builder.canHandle(docType)) {
-				return true;
-			}
-		}
-
-		return false;
+		return docTypes;
 	}
 
 	@Override
 	public String getKey() {
 		return getClass().getName();
+	}
+
+	@Override
+	public boolean canHandleDocTypes(Set<String> documentTypes) {
+		return getDocumentTypes().containsAll(documentTypes);
+	}
+
+	@Override
+	public boolean canHandleModels(Resource modelA, Resource modelB) {
+		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
+		docTypes.addAll(EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET));
+
+		return canHandleDocTypes(docTypes);
 	}
 }

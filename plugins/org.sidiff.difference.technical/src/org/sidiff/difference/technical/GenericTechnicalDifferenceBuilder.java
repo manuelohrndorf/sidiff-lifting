@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -38,8 +39,10 @@ public class GenericTechnicalDifferenceBuilder extends AbstractTechnicalDifferen
 	}
 
 	@Override
-	public String getDocumentType() {
-		return EMFModelAccess.GENERIC_DOCUMENT_TYPE;
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		docTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+		return docTypes;
 	}
 
 	@Override
