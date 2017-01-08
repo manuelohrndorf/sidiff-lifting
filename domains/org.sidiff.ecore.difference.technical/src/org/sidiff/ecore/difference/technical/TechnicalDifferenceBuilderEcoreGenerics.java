@@ -54,13 +54,16 @@ public class TechnicalDifferenceBuilderEcoreGenerics extends AbstractTechnicalDi
 		return obj.toString();
 	}
 
-	@Override
-	public String getDocumentType() {
-		return EcorePackage.eNS_URI;
-	}
 
 	@Override
 	public String getName() {
 		return "Ecore Technical Difference Builder (with Generics)";
+	}
+
+	@Override
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		docTypes.add(EcorePackage.eNS_URI);
+		return docTypes;
 	}
 }

@@ -71,6 +71,10 @@ public class PipelineUtils extends TechnicalDifferenceUtils{
 		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
 	}
 
+	public static IRecognitionRuleSorter getRecognitionRuleSorter(String key) {
+		return RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
+	}
+
 	/**
 	 * Find all available rulebases matching the given document type.
 	 * 
