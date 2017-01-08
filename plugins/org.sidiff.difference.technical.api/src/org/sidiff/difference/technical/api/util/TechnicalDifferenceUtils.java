@@ -26,8 +26,6 @@ import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFact
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
-import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.util.MatchingUtils;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
@@ -55,6 +53,23 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
 		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentTypes);
 	}
+	
+	/**
+	 * Find all available technical difference builders matching the document types of the given models.
+	 * 
+	 * @param documentTypes
+	 *            The document types, i.e. the package namespace URI of a model. There can be more than one.
+	 * @return All available technical difference builders matching the given
+	 *         document types.
+	 * @see #getAvailableTechnicalDifferenceBuilders(String)
+	 */
+	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB) {
+		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(modelA, modelB);
+	}
+	
+	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
+		return TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
+	}
 
 	/**
 	 * 
@@ -71,21 +86,15 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	}
 
 	/**
-	 * Get matcher by its key name.
+	 * Returns the technical difference builder with the given key.
 	 * 
-	 * @param key
-	 *            The key name of the matcher.
-	 * @param modelA
-	 *            Model A of the comparison.
-	 * @param modelB
-	 *            Model B of the comparison.
-	 * @return The matcher with the key name; null otherwise.
-	 * @see IMatcher#getKey()
+	 * @param name
+	 * @return
 	 */
-	public static IMatcher getMatcherByKey(String key) {
-		return MatcherUtil.getMatcher(key);
+	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilder(String key){
+		return TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(key);
 	}
-
+	
 	public static String extractCommonPath(String... paths) {
 		String result = null;
 		for (String path : paths) {

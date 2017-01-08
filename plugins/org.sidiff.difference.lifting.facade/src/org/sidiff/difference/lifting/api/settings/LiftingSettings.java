@@ -120,7 +120,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 *            compared
 	 */
 	public LiftingSettings(Set<String> documentTypes) {
-		super();
+		super(documentTypes);
 		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 		
 		// Search proper recognition rule sorter:

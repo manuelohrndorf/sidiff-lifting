@@ -1,30 +1,22 @@
 package org.sidiff.difference.technical.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.sidiff.difference.symmetric.AddObject;
-import org.sidiff.difference.symmetric.AddReference;
-import org.sidiff.difference.symmetric.AttributeValueChange;
-import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.RemoveObject;
-import org.sidiff.difference.symmetric.RemoveReference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 
 public class TechnicalDifferenceBuilderUtil {
+	
+	private final static ITechnicalDifferenceBuilder GENERIC_TECHNICAL_DIFFERENCE_BUILDER = new GenericTechnicalDifferenceBuilder();
 
 	/**
-	 * Returns the available technical difference builders for the given documentType.
+	 * Returns the available technical difference builders for the given documentTypes.
 	 * If no convenient builder is found, a generic technical difference builder will be returned.
 	 * 
 	 * @param documentTypes
@@ -33,7 +25,6 @@ public class TechnicalDifferenceBuilderUtil {
 	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes){
 		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
 		
-		ITechnicalDifferenceBuilder genericTechnicalDifferenceBuilder = new GenericTechnicalDifferenceBuilder();
 		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
 			if (techBuilder.canHandleDocTypes(documentTypes)) {
 				tdbSet.add(techBuilder);
@@ -41,7 +32,30 @@ public class TechnicalDifferenceBuilderUtil {
 		}
 		
 		if(tdbSet.size()==0){
-			tdbSet.add(genericTechnicalDifferenceBuilder);
+			tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
+		}
+		
+		return tdbSet;
+	}
+	
+	/**
+	 * Returns the available technical difference builders for the documentTypes of the given models.
+	 * If no convenient builder is found, a generic technical difference builder will be returned.
+	 * 
+	 * @param documentTypes
+	 * @return
+	 */
+	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB){
+		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
+		
+		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
+			if (techBuilder.canHandleModels(modelA, modelB)) {
+				tdbSet.add(techBuilder);
+			}
+		}
+		
+		if(tdbSet.size()==0){
+			tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
 		}
 		
 		return tdbSet;
@@ -59,10 +73,9 @@ public class TechnicalDifferenceBuilderUtil {
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes){
 		Set<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentTypes);
-		assert (!tdBuilders.isEmpty()) : "No technical difference builder found for document type " + documentTypes;
-		
+
 		ITechnicalDifferenceBuilder tdBuilder = null;
-		if (documentTypes.equals(EcorePackage.eINSTANCE.getNsURI())){
+		if (documentTypes.contains(EcorePackage.eINSTANCE.getNsURI())){
 			for (ITechnicalDifferenceBuilder iTechnicalDifferenceBuilder : tdBuilders) {
 				if (!iTechnicalDifferenceBuilder.getClass().getName().contains("Generics")){
 					tdBuilder = iTechnicalDifferenceBuilder;
@@ -82,7 +95,7 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @return
 	 */
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder(){
-		return new GenericTechnicalDifferenceBuilder();
+		return GENERIC_TECHNICAL_DIFFERENCE_BUILDER;
 	}
 	
 	/**
@@ -120,52 +133,4 @@ public class TechnicalDifferenceBuilderUtil {
 		return availableTechBuilders;
 	}
 
-	/**
-	 * Just sorts the low-level changes for better readability in the difference
-	 * viewer. Of course, the order of the low-level changes has no semantics.
-	 * 
-	 * @param difference
-	 *            The difference which contains the low-level changes.
-	 */
-	public static void sortLowLevelChanges(SymmetricDifference difference) {
-		
-		// Note: In order to prevent the IllegalArgumentException "The 'no
-		// duplicates' constraint is violated" on the changes EList, we
-		// do sort on a copy of diff.getChanges().
-		List<Change> changes = new ArrayList<Change>(difference.getChanges());
-
-		Collections.sort(changes, new Comparator<Change>() {
-			@Override
-			public boolean equals(Object obj) {
-				return super.equals(obj);
-			}
-
-			public int compare(Change c1, Change c2) {
-				return changeToString(c1).compareTo(changeToString(c2));
-			}
-
-			private String changeToString(Change c) {
-				String res = c.eClass().getName();
-				if (c instanceof AddReference) {
-					res += ((AddReference) c).getType().getName();
-				}
-				if (c instanceof RemoveReference) {
-					res += ((RemoveReference) c).getType().getName();
-				}
-				if (c instanceof AddObject) {
-					res += ((AddObject) c).getObj().eClass().getName();
-				}
-				if (c instanceof RemoveObject) {
-					res += ((RemoveObject) c).getObj().eClass().getName();
-				}
-				if (c instanceof AttributeValueChange) {
-					res += ((AttributeValueChange) c).getType().getName();
-				}
-				return res;
-			}
-		});
-
-		difference.getChanges().clear();
-		difference.getChanges().addAll(changes);
-	}
 }

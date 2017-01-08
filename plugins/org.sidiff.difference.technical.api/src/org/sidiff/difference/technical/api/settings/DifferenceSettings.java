@@ -1,11 +1,13 @@
 package org.sidiff.difference.technical.api.settings;
 
+import java.util.Set;
+
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.MergeImports;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -47,7 +49,12 @@ public class DifferenceSettings extends MatchingSettings{
 	 */
 	public DifferenceSettings(){
 		super();
-		techBuilder = TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
+		techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
+	}
+	
+	public DifferenceSettings(Set<String> documentTypes) {
+		super(documentTypes);
+		techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
 	}
 	
 	/**
