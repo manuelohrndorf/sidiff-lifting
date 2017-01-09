@@ -17,7 +17,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.wizard.CreateDifferenceWizard;
 import org.sidiff.difference.lifting.ui.wizard.CreateLiftingWizard;
 
@@ -54,8 +54,8 @@ public class LiftDifferenceHandler extends AbstractHandler {
 					public void run() {
 						IFile fileA = (IFile) selection.toArray()[0];
 						IFile fileB = (IFile) selection.toArray()[1];
-						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						Resource resourceA = PipelineUtils.loadModel(fileA.getLocation().toOSString());
+						Resource resourceB = PipelineUtils.loadModel(fileB.getLocation().toOSString());
 						//TODO Workaround: bisher keine einheitliche Regelung f�r Ressourcen mit mehreren Dokumenttypen
 						// Annahme: Sofern nicht alle Dokumenttypen der Profile gleich sind, sollte zumindest der eigentliche Dokumenttyp gleich sein.
 						boolean canHandle = false;

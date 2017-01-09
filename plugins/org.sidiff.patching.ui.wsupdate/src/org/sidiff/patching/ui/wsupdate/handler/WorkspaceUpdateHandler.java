@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.patching.ui.wsupdate.wizard.WorkspaceUpdateWizard;
 
 public class WorkspaceUpdateHandler extends AbstractHandler {
@@ -35,9 +35,9 @@ public class WorkspaceUpdateHandler extends AbstractHandler {
 						IFile fileMine = (IFile) selection.toArray()[0];
 						IFile fileTheirs = (IFile) selection.toArray()[1];
 						IFile fileBase = (IFile) selection.toArray()[2];
-						Resource resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
-						Resource resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
-						Resource resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
+						Resource resourceMine = PipelineUtils.loadModel(fileMine.getLocation().toOSString());
+						Resource resourceTheirs = PipelineUtils.loadModel(fileTheirs.getLocation().toOSString());
+						Resource resourceBase = PipelineUtils.loadModel(fileBase.getLocation().toOSString());
 						String docTypeMine = EMFModelAccess.getCharacteristicDocumentType(resourceMine);
 						String docTypeTheirs = EMFModelAccess.getCharacteristicDocumentType(resourceTheirs);
 						String docTypeBase = EMFModelAccess.getCharacteristicDocumentType(resourceBase);

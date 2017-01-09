@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -236,17 +235,6 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 */
 	public static SymmetricDifference loadLiftedDifference(String path) {
 		return loadTechnicalDifference(path);
-	}
-
-	/**
-	 * Loads an EMF resource.
-	 * 
-	 * @param path
-	 *            The EMF-file path.
-	 * @return The loaded EMF-object.
-	 */
-	public static Resource loadModel(String path) {
-		return EMFStorage.eLoad(EMFStorage.pathToUri(path)).eResource();
 	}
 	
 	protected static void report(SymmetricDifference symmetricDiff) {

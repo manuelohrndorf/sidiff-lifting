@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.patching.patch.ui.wizard.CreatePatchWizard;
 
 public class CreatePatchHandler extends AbstractHandler {
@@ -34,8 +34,8 @@ public class CreatePatchHandler extends AbstractHandler {
 						// Create a new difference
 						IFile fileA = (IFile) selection.toArray()[0];
 						IFile fileB = (IFile) selection.toArray()[1];
-						Resource resourceA = LiftingFacade.loadModel(fileA.getLocation().toOSString());
-						Resource resourceB = LiftingFacade.loadModel(fileB.getLocation().toOSString());
+						Resource resourceA = PipelineUtils.loadModel(fileA.getLocation().toOSString());
+						Resource resourceB = PipelineUtils.loadModel(fileB.getLocation().toOSString());
 						String docTypeA = EMFModelAccess.getCharacteristicDocumentType(resourceA);
 						String docTypeB = EMFModelAccess.getCharacteristicDocumentType(resourceB);
 						if(docTypeA.equals(docTypeB)){

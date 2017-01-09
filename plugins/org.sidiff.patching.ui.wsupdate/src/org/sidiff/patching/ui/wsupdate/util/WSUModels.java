@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
 
 public class WSUModels {
 	private IFile fileMine;
@@ -67,7 +67,7 @@ public class WSUModels {
 	
 	public Resource getResourceMine() {
 		if (resourceMine == null) {
-			resourceMine = LiftingFacade.loadModel(fileMine.getLocation().toOSString());
+			resourceMine = PipelineUtils.loadModel(fileMine.getLocation().toOSString());
 		}
 
 		return resourceMine;
@@ -75,7 +75,7 @@ public class WSUModels {
 
 	public Resource getResourceTheirs() {
 		if (resourceTheirs == null) {
-			resourceTheirs = LiftingFacade.loadModel(fileTheirs.getLocation().toOSString());
+			resourceTheirs = PipelineUtils.loadModel(fileTheirs.getLocation().toOSString());
 		}
 
 		return resourceTheirs;
@@ -83,7 +83,7 @@ public class WSUModels {
 
 	public Resource getResourceBase() {
 		if (resourceBase == null) {
-			resourceBase = LiftingFacade.loadModel(fileBase.getLocation().toOSString());
+			resourceBase = PipelineUtils.loadModel(fileBase.getLocation().toOSString());
 		}
 
 		return resourceBase;
@@ -103,17 +103,17 @@ public class WSUModels {
 
 	public void setModelMine(IFile fileMine) {
 		this.fileMine = fileMine;
-		this.resourceMine = LiftingFacade.loadModel(this.fileMine.getLocation().toOSString());
+		this.resourceMine = PipelineUtils.loadModel(this.fileMine.getLocation().toOSString());
 	}
 
 	public void setModelTheirs(IFile fileTheirs) {
 		this.fileTheirs = fileTheirs;
-		this.resourceTheirs = LiftingFacade.loadModel(this.fileTheirs.getLocation().toOSString());
+		this.resourceTheirs = PipelineUtils.loadModel(this.fileTheirs.getLocation().toOSString());
 	}
 
 	public void setModelBase(IFile fileBase) {
 		this.fileBase = fileBase;
-		this.resourceBase = LiftingFacade.loadModel(this.fileBase.getLocation().toOSString());
+		this.resourceBase = PipelineUtils.loadModel(this.fileBase.getLocation().toOSString());
 	}
 
 }
