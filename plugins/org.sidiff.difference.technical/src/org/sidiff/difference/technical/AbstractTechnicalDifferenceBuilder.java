@@ -90,7 +90,8 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 			if (unconsideredNodeTypes.contains(nodeType)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip correspondence (unconsideredNodeType): " + nodeA + " <-> " + nodeB);
 				// skip and also delete correspondence
-				c.getContainerCorrespondence().getContainmentCorrespondences().remove(c);
+				if(c.getContainerCorrespondence() != null)
+					c.getContainerCorrespondence().getContainmentCorrespondences().remove(c);
 				iterator.remove();
 				continue;
 			}

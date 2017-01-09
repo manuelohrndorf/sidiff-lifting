@@ -11,6 +11,7 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLValidator;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.repair.casestudy.util.UMLUtil;
 
 public class ReportGeneratorUML extends ReportGenerator {
@@ -50,5 +51,11 @@ public class ReportGeneratorUML extends ReportGenerator {
 		}
 
 		return false;
+	}
+
+	@Override
+	protected LiftingSettings getLiftingSettings() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

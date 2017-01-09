@@ -3,6 +3,7 @@ package org.sidiff.repair.casestudy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,6 +22,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.repair.casestudy.validation.EMFDiagnosticAdapter;
 import org.sidiff.repair.casestudy.validation.EMFValidator;
 import org.sidiff.repair.casestudy.validation.IValidationError;
@@ -39,11 +46,15 @@ public abstract class ReportGenerator implements IApplication {
 	private static final String REPORT = "/home/kehrer/git/sidiff-lifting/research/org.sidiff.repair.casestudy.gmf/report";
 
 	private static final int MAX_CASES_PER_TYPE = 1000;
+	
+	private static boolean liftDifferences = false;
 
 	private Collection<IValidationError> uniqueErrorKinds;
 	private Collection<IValidationError> currentErrors;
 	private Map<IValidationError, Resource> introducedErrors;
 	private Map<IValidationError, Resource> resolvedErrors;
+	
+	private List<SymmetricDifference> symDiffs = new ArrayList<SymmetricDifference>();
 
 	private Map<String, Integer> introducedAndResolvedErrorsCount;
 
@@ -55,6 +66,11 @@ public abstract class ReportGenerator implements IApplication {
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
+		
+		String[] argument = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+		String input_folder = argument.length > 0 && !argument[0].isEmpty() ? argument[0] : ROOT;
+		liftDifferences = Boolean.valueOf(argument[1]);
+		
 		System.out.println(" ======================================== Start =================================");
 
 		uniqueErrorKinds = new LinkedList<IValidationError>();
@@ -63,26 +79,18 @@ public abstract class ReportGenerator implements IApplication {
 		bufUnique = new StringBuffer("");
 
 		// Do the analysis
-		generate(ROOT);
+		generate(input_folder);
 
 		// Serialize results
-		FileWriter writer = new FileWriter(new File(REPORT).getAbsolutePath() + "/report-overview.txt");
-		writer.write(bufOverview.toString());
-		writer.close();
-
-		writer = new FileWriter(new File(REPORT).getAbsolutePath() + "/report-introducedAndResolved.txt");
-		writer.write(bufIntroducedAndResolvedErrors.toString());
-		writer.close();
-
-		writer = new FileWriter(new File(REPORT).getAbsolutePath() + "/report-unique.txt");
-		writer.write(bufUnique.toString());
-		writer.close();
+		serializeResults(input_folder);
 
 		System.out.println(" ======================================== Finished =================================");
 
 		return IApplication.EXIT_OK;
 	}
 
+	
+	
 	private void generate(String folder) {
 
 		// scan for model files within that folder
@@ -222,6 +230,7 @@ public abstract class ReportGenerator implements IApplication {
 			}
 		}
 
+		if(introducedErrors != null){
 		for (IValidationError introduced : introducedErrors.keySet()) {
 			if (resolvedErrors.keySet().contains(introduced)) {
 				EObject invalidElement = (EObject) ((EMFDiagnosticAdapter) introduced).getAdaptee().getData().get(0);
@@ -231,17 +240,18 @@ public abstract class ReportGenerator implements IApplication {
 					String characterizing = introduced.getCharacterizingMessageFragment();
 					int count = introducedAndResolvedErrorsCount.get(characterizing).intValue();
 					if (count < MAX_CASES_PER_TYPE) {
-						bufIntroducedAndResolvedErrors.append("INTRODUCED: "
-								+ introducedErrors.get(introduced).getURI() + "\n");
-						bufIntroducedAndResolvedErrors.append("RESOLVED: " + resolvedErrors.get(introduced).getURI()
-								+ "\n");
+						bufIntroducedAndResolvedErrors
+								.append("INTRODUCED: " + introducedErrors.get(introduced).getURI() + "\n");
+						bufIntroducedAndResolvedErrors
+								.append("RESOLVED: " + resolvedErrors.get(introduced).getURI() + "\n");
 						printValidationError(introduced, bufIntroducedAndResolvedErrors);
-
-						count++;
+							count++;
 						introducedAndResolvedErrorsCount.put(characterizing, new Integer(count));
 					}
 				}
+			
 			}
+		}
 		}
 	}
 
@@ -298,11 +308,55 @@ public abstract class ReportGenerator implements IApplication {
 		System.out.println("Stop");
 	}
 
-	protected abstract boolean exists(EObject element, Resource model);
+	protected boolean exists(EObject element, Resource model){
+		Resource modelIntroduced = element.eResource();
+		Resource modelResolved = model;
+		try{
+			LiftingSettings settings = getLiftingSettings();
+			SymmetricDifference symDiff = LiftingFacade.deriveTechnicalDifference(modelIntroduced, modelResolved, getLiftingSettings());
+			if(!symDiff.getMatching().getUnmatchedA().contains(element)){
+				symDiffs.add(symDiff);
+				if(liftDifferences){
+					LiftingFacade.liftTechnicalDifference(symDiff, settings);
+				}
+				return true;
+			}
+		}catch (Exception e){
+			System.err.println(modelIntroduced.getURI().lastSegment() + "__" + modelResolved.getURI().lastSegment() + ": " + e.getMessage());
+			
+		}
+		
+		return false;
+	}
+
+	
+	protected abstract LiftingSettings getLiftingSettings();
 
 	protected abstract String[] getFileFilters();
 
 	protected abstract long maxModelFileLength();
 
 	protected abstract List<String> getCharacterizingMessageFragments();
+	
+	private void serializeResults(String folder) throws IOException{
+		File report_folder = new File(folder + File.separator + "report") ;
+		report_folder.mkdir();
+		FileWriter writer = new FileWriter(report_folder.getAbsolutePath()  + File.separator + "report-overview.txt");
+		writer.write(bufOverview.toString());
+		writer.close();
+
+		writer = new FileWriter(report_folder.getAbsolutePath() + File.separator + "report-introducedAndResolved.txt");
+		writer.write(bufIntroducedAndResolvedErrors.toString());
+		writer.close();
+
+		writer = new FileWriter(report_folder.getAbsolutePath() + File.separator + "report-unique.txt");
+		writer.write(bufUnique.toString());
+		writer.close();
+		
+		for(SymmetricDifference symDiff : symDiffs){
+			String filename = symDiff.getModelA().getURI().lastSegment().substring(0,  symDiff.getModelA().getURI().lastSegment().indexOf("_"))
+					+ "__"  + symDiff.getModelB().getURI().lastSegment().substring(0,  symDiff.getModelA().getURI().lastSegment().indexOf("_"));
+			LiftingFacade.serializeLiftedDifference(symDiff, report_folder.getAbsolutePath(), filename );
+		}
+	}
 }
