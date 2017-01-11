@@ -1,7 +1,6 @@
 package org.sidiff.profileapplicator.ui;
 
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -14,6 +13,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.profileapplicator.settings.ProfileApplicatorSettings;
@@ -25,7 +25,7 @@ public class ApplyProfilesWidget implements IWidget, IWidgetValidation,
 	private final ProfileApplicatorSettings settings;
 
 	/* Fields */
-	private String errorMessage = null;
+	private ValidationMessage errorMessage = null;
 
 	/* Components */
 	private Composite container;
@@ -70,7 +70,7 @@ public class ApplyProfilesWidget implements IWidget, IWidgetValidation,
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
 		return errorMessage;
 	}
 

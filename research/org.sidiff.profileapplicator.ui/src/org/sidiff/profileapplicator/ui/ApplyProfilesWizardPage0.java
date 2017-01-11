@@ -41,7 +41,7 @@ public class ApplyProfilesWizardPage0 extends WizardPage {
 
 	private void updatePageState() {
 		boolean valid=applyProfilesWidget.validate();
-		setErrorMessage(applyProfilesWidget.getValidationMessage());
+		setErrorMessage(applyProfilesWidget.getValidationMessage().getMessage());
 		setPageComplete(valid);
 	}
 	

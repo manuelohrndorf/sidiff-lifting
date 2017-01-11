@@ -14,6 +14,8 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage;
+import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
 public class FileSelectionWidget implements IWidget, IWidgetValidation,
 		IWidgetInformation {
@@ -67,12 +69,12 @@ public class FileSelectionWidget implements IWidget, IWidgetValidation,
 	}
 
 	@Override
-	public String getValidationMessage() {
+	public ValidationMessage getValidationMessage() {
 		switch (state) {
 		case MESSAGE_EMPTY:
-			return name+" must not be empty";
+			return new ValidationMessage(ValidationType.ERROR, name + " must not be empty");
 		case MESSAGE_NONEXISTANT:
-			return name+" does not exist";
+			return new ValidationMessage(ValidationType.ERROR, name + " does not exist");
 		default:
 			return null;
 		}
