@@ -56,12 +56,14 @@ public class TechnicalDifferenceBuilderSysML extends AbstractTechnicalDifference
 	}
 
 	@Override
-	public String getDocumentType() {
-		return SysmlPackage.eNS_URI;
+	public String getName() {
+		return "Technical Difference Bulder for SysML";
 	}
 
 	@Override
-	public String getName() {
-		return "Technical Difference Bulder for SysML";
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		docTypes.add(SysmlPackage.eNS_URI);
+		return docTypes;
 	}
 }
