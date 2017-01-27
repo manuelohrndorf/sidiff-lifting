@@ -2067,7 +2067,12 @@ public abstract class PotentialDependencyAnalyzer {
 			subTypes = getSubtypeIndex(getImports());
 		}
 		
-		return subTypes.get(referenceType);
+		Set<EClass> res = subTypes.get(referenceType);
+		if (res == null){
+			return new HashSet<EClass>();
+		} else {
+			return res;
+		}		
 	}
 	
 	/**
