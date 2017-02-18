@@ -1,6 +1,8 @@
 package org.sidiff.integration.editor.xtext;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,9 +31,8 @@ public class XtextEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public EObject getHighlightableElement(EObject element) {
-
-		return null;
+	public Collection<EObject> getHighlightableElements(EObject element) {
+		return new ArrayList<EObject>();
 	}
 
 	@Override

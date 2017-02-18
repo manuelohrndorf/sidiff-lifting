@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,8 +245,11 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public EObject getHighlightableElement(EObject element) {
-		return element;
+	public Collection<EObject> getHighlightableElements(EObject element) {
+		ArrayList<EObject> res = new ArrayList<EObject>();
+		res.add(element);
+		
+		return res;
 	}
 
 }

@@ -1,6 +1,8 @@
 package org.sidiff.integration.editor.access;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -147,8 +149,11 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public EObject getHighlightableElement(EObject element) {
-		return element;
+	public Collection<EObject> getHighlightableElements(EObject element) {
+		ArrayList<EObject> res = new ArrayList<EObject>();
+		res.add(element);
+		
+		return res;
 	}
 	
 }

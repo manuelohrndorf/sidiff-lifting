@@ -1,5 +1,6 @@
 package org.sidiff.difference.symmetric.compareview.internal;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,7 +82,7 @@ public class DifferenceSelectionDecorator extends AbstractDecorator {
 		
 		View view = (View) getDecoratorTarget().getAdapter(View.class);
 
-		if(controller.getPrefferedDecoratorTarget(view.getElement()) == getDecoratorTarget()){
+		if(controller.getPrefferedDecoratorTarget(view.getElement()) == getDecoratorTarget()){			
 			if(selectionContains(view.getElement())){
 				IExtensionRegistry registry = Platform.getExtensionRegistry();
 				IConfigurationElement[] config = registry.getConfigurationElementsFor(HOOK_ID);
@@ -94,7 +95,7 @@ public class DifferenceSelectionDecorator extends AbstractDecorator {
 						}
 					}
 				} catch(CoreException ex) {
-					System.out.println(ex.getMessage());
+					ex.printStackTrace();
 				}
 
 				int x = editPart.getFigure().getBounds().x;
@@ -128,17 +129,23 @@ public class DifferenceSelectionDecorator extends AbstractDecorator {
 		decorate();
 	}
 	
-	private boolean selectionContains(EObject element){
-		element=IntegrationEditorAccess.getInstance().getHighlightableElement(element);
-		boolean contained = false;
-		if(element != null){
+	private boolean selectionContains(EObject viewDataElement){
+		Collection<EObject> viewDataElements = IntegrationEditorAccess.getInstance().getHighlightableElements(viewDataElement);
+		
+		if(viewDataElements != null && !viewDataElements.isEmpty()){
 			for(EObject selected : controller.getSelected()){
-				String fragmentA = EcoreUtil.getURI(selected).fragment();
-				String fragmentB = EcoreUtil.getURI(element).fragment();
-				contained |= fragmentA.equals(fragmentB);
+				for (EObject element : viewDataElements){
+					String fragmentA = EcoreUtil.getURI(selected).fragment();
+					String fragmentB = EcoreUtil.getURI(element).fragment();
+					
+					if (fragmentA.equals(fragmentB)){
+						return true;
+					}					
+				}			
 			}
 		}
-		return contained;
+			
+		return false;
 	}
 
 	public void test(){
