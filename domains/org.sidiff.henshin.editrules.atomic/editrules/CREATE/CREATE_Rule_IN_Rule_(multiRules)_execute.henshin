@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Rule_IN_Rule_(multiRules)" description="Creates one Rule in Rule">
+  <annotations key="INVERSE" value="DELETE_Rule_IN_Rule_(multiRules)"/>
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <units xsi:type="henshin:Rule" name="createRule_IN_Rule" description="creates one Rule in the context: Rule">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+    </parameters>
+    <parameters name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+    </parameters>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Activated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="CheckDangling">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="InjectiveMatching">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="JavaImports">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+    </parameters>
+    <parameters name="Name1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Child1">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+    </parameters>
+    <parameters name="Name2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+      </nodes>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+      </nodes>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1 //@units.0/@rhs/@edges.2">
+        <annotations key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Description">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
+        <attributes value="Activated">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit/activated"/>
+        </attributes>
+        <attributes value="CheckDangling">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/checkDangling"/>
+        </attributes>
+        <attributes value="InjectiveMatching">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/injectiveMatching"/>
+        </attributes>
+        <attributes value="JavaImports">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/javaImports"/>
+        </attributes>
+      </nodes>
+      <nodes name="Child" incoming="//@units.0/@rhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+        <attributes value="Name1">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Description1">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
+      </nodes>
+      <nodes name="Child1" incoming="//@units.0/@rhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+        <attributes value="Name2">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Description2">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/multiRules"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/lhs"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.3">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/rhs"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+    </parameters>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+    </parameters>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Activated">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="CheckDangling">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="InjectiveMatching">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters name="JavaImports">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Child">
+      <annotations key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+    </parameters>
+    <parameters name="Name1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Child1">
+      <annotations key="INVERSE" value="Child1"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+    </parameters>
+    <parameters name="Name2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Description2">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings source="//@units.1/@parameters.5" target="//@units.0/@parameters.5"/>
+    <parameterMappings source="//@units.1/@parameters.6" target="//@units.0/@parameters.6"/>
+    <parameterMappings source="//@units.1/@parameters.7" target="//@units.0/@parameters.7"/>
+    <parameterMappings source="//@units.0/@parameters.8" target="//@units.1/@parameters.8"/>
+    <parameterMappings source="//@units.1/@parameters.9" target="//@units.0/@parameters.9"/>
+    <parameterMappings source="//@units.1/@parameters.10" target="//@units.0/@parameters.10"/>
+    <parameterMappings source="//@units.0/@parameters.11" target="//@units.1/@parameters.11"/>
+    <parameterMappings source="//@units.1/@parameters.12" target="//@units.0/@parameters.12"/>
+    <parameterMappings source="//@units.1/@parameters.13" target="//@units.0/@parameters.13"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Annotation_IN_Parameter_(annotations)" description="Creates one Annotation in Parameter">
+  <annotations key="INVERSE" value="DELETE_Annotation_IN_Parameter_(annotations)"/>
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <units xsi:type="henshin:Rule" name="createAnnotation_IN_Parameter" description="creates one Annotation in the context: Parameter">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
+    </parameters>
+    <parameters name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
+    </parameters>
+    <parameters name="Key">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
+      </nodes>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
+      </nodes>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
+        <attributes value="Key">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation/key"/>
+        </attributes>
+        <attributes value="Value">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation/value"/>
+        </attributes>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//ModelElement/annotations"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
+    </parameters>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
+    </parameters>
+    <parameters name="Key">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+  </units>
+</henshin:Module>

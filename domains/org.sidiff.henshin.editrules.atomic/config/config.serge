@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+			
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.eclipse.org/emf/2011/Henshin" isProfile="false" />						
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<RootModelElement name="Module" canBeNested="false" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="false" allowReferenceCombinations="false" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="false" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="true" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+		</AbstractReplacements>
+		
+		<SupertypeReplacements>
+		</SupertypeReplacements>
+		
+		<ModuleInternalOptions>
+	    	<CreateOptionalAttributes enable="true" />
+	     	<DanglingNodeSettings defaultTypeInclusion="always" />
+	    </ModuleInternalOptions>
+	
+		<ModuleSetOptions>
+			<ModuleGenerationSettings defaultGenerationCase="always">
+				<GenerateModulesFor type="Annotation" case="always" />
+				<GenerateModulesFor type="Module" case="always" />
+				<GenerateModulesFor type="Rule" case="always" />
+				<GenerateModulesFor type="Graph" case="always" />
+				<GenerateModulesFor type="Node" case="always" />
+				<GenerateModulesFor type="Attribute" case="always" />		
+				<GenerateModulesFor type="Edge" case="always" />
+				<GenerateModulesFor type="Parameter" case="always" />
+				<GenerateModulesFor type="Mapping" case="always" />
+				<GenerateModulesFor type="ParameterMapping" case="always" />
+				<GenerateModulesFor type="AttributeCondition" case="always" />
+				<GenerateModulesFor type="NestedCondition" case="always" />
+				<GenerateModulesFor type="And" case="always" />
+				<GenerateModulesFor type="Or" case="always" />
+				<GenerateModulesFor type="Xor" case="always" />
+				<GenerateModulesFor type="Not" case="always" />				
+				<GenerateModulesFor type="Unit" case="always" />
+				<GenerateModulesFor type="UnaryUnit" case="always" />
+				<GenerateModulesFor type="MultiUnit" case="always" />
+				<GenerateModulesFor type="IndependentUnit" case="always" />
+				<GenerateModulesFor type="SequentialUnit" case="always" />
+				<GenerateModulesFor type="ConditionalUnit" case="always" />
+				<GenerateModulesFor type="PriorityUnit" case="always" />
+				<GenerateModulesFor type="IteratedUnit" case="always" />
+				<GenerateModulesFor type="LoopUnit" case="always" />
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

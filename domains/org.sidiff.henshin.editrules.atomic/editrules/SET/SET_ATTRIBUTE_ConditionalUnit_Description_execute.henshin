@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_ConditionalUnit_Description" description="Sets ConditionalUnit Description">
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <units xsi:type="henshin:Rule" name="setConditionalUnitDescription" description="Sets the EAttribute description">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
+    </parameters>
+    <parameters name="Description">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
+      </nodes>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes name="Selected">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
+        <attributes value="Description">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
+    </parameters>
+    <parameters name="Description">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+  </units>
+</henshin:Module>
