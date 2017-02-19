@@ -110,17 +110,15 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 	}
 
 	private Module createEditRule(Resource modelA, Resource modelB) {
-		// String eoName =
-		// diff.eResource().getURI().segments()[diff.eResource().getURI().segmentCount()
-		// - 2];
-		String eoName = "NEW-RULE";
-
-		// Create rule container:
+		String name = modelA.getURI().segments()[modelA.getURI().segmentCount() - 1] + "-"
+				+ modelB.getURI().segments()[modelB.getURI().segmentCount() - 1];
+	
+		// Create Module serving rule container:
 		Module module = HenshinFactory.eINSTANCE.createModule();
-		module.setName(eoName);
+		module.setName(name);
 
 		ExampleBasedRuleGenerator generator = new ExampleBasedRuleGenerator();
-		Rule rule = generator.generateRule(eoName, modelA, modelB);
+		Rule rule = generator.generateRule(name, modelA, modelB);
 
 		module.getUnits().add(rule);
 
