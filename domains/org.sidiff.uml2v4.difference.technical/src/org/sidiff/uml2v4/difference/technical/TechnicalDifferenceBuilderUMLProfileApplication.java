@@ -7,10 +7,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.sidiff.difference.technical.AbstractTechnicalDifferenceBuilder;
 
 public class TechnicalDifferenceBuilderUMLProfileApplication extends TechnicalDifferenceBuilderUML {
 
@@ -50,11 +48,6 @@ public class TechnicalDifferenceBuilderUMLProfileApplication extends TechnicalDi
 			return ((NamedElement) obj).getQualifiedName();
 		}
 		return obj.toString();
-	}
-
-	@Override
-	public String getDocumentType() {
-		return UMLPackage.eNS_URI;
 	}
 	
 	@Override
