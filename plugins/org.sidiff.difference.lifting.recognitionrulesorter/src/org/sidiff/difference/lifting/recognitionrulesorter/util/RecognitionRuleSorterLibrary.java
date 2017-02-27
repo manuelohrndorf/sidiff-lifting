@@ -18,14 +18,14 @@ public class RecognitionRuleSorterLibrary {
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes){
 		Set<IRecognitionRuleSorter> rrSorters = new HashSet<IRecognitionRuleSorter>();
 		
-		if(documentTypes.size()==1) {
+//		if(documentTypes.size()==1) {
 			for(IRecognitionRuleSorter rrsExtension: getAllAvailableRecognitionRuleSorters()){
-				if (documentTypes.iterator().next().equals(rrsExtension.getDocumentType())
+				if (documentTypes.contains(rrsExtension.getDocumentType())
 						|| rrsExtension instanceof GenericRecognitionRuleSorter) {
 					rrSorters.add(rrsExtension);
 				}
 			}
-		}
+//		}
 		
 		return rrSorters;
 	}
