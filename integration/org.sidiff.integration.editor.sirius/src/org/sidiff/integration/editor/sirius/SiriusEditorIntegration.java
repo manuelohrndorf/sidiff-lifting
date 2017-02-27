@@ -2,6 +2,7 @@ package org.sidiff.integration.editor.sirius;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -184,12 +185,13 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public EObject getHighlightableElement(EObject element) {
+	public Collection<EObject> getHighlightableElements(EObject element) {
+		ArrayList<EObject> res = new ArrayList<EObject>();
 		if (element instanceof DRepresentationElement) {
-			return ((DRepresentationElement) element).getTarget();
-		} else {
-			return null;
-		}
+			res.add(((DRepresentationElement) element).getTarget());
+		} 
+		
+		return res;
 	}
 
 	@Override

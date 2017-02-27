@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="createPreserveNode" description="">
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" name="createPreserveNode" description="">
+    <parameters name="New_Node"/>
+    <parameters name="New_Mapping"/>
+    <parameters name="New_Node_1"/>
+    <lhs name="Lhs">
+      <nodes incoming="//@units.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes outgoing="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+      </nodes>
+      <nodes incoming="//@units.0/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/rhs"/>
+      </edges>
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/lhs"/>
+      </edges>
+    </lhs>
+    <rhs name="Rhs">
+      <nodes incoming="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.9" outgoing="//@units.0/@rhs/@edges.8">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes outgoing="//@units.0/@rhs/@edges.0 //@units.0/@rhs/@edges.1 //@units.0/@rhs/@edges.4">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+      </nodes>
+      <nodes incoming="//@units.0/@rhs/@edges.1 //@units.0/@rhs/@edges.6" outgoing="//@units.0/@rhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
+      </nodes>
+      <nodes name="New_Node" incoming="//@units.0/@rhs/@edges.2 //@units.0/@rhs/@edges.3" outgoing="//@units.0/@rhs/@edges.5 //@units.0/@rhs/@edges.6">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
+      </nodes>
+      <nodes name="New_Mapping" incoming="//@units.0/@rhs/@edges.4" outgoing="//@units.0/@rhs/@edges.3 //@units.0/@rhs/@edges.7">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Mapping"/>
+      </nodes>
+      <nodes incoming="//@units.0/@rhs/@edges.5 //@units.0/@rhs/@edges.10">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes name="New_Node_1" incoming="//@units.0/@rhs/@edges.8 //@units.0/@rhs/@edges.7" outgoing="//@units.0/@rhs/@edges.9 //@units.0/@rhs/@edges.10">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
+      </nodes>
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/rhs"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/lhs"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.2" target="//@units.0/@rhs/@nodes.3">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/nodes"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.4" target="//@units.0/@rhs/@nodes.3">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Mapping/origin"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.4">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/mappings"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.3" target="//@units.0/@rhs/@nodes.5">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/type"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.3" target="//@units.0/@rhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/graph"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.4" target="//@units.0/@rhs/@nodes.6">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Mapping/image"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.6">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/nodes"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.6" target="//@units.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/graph"/>
+      </edges>
+      <edges source="//@units.0/@rhs/@nodes.6" target="//@units.0/@rhs/@nodes.5">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/type"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings origin="//@units.0/@lhs/@nodes.3" image="//@units.0/@rhs/@nodes.5"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="New_Node"/>
+    <parameters name="New_Mapping"/>
+    <parameters name="New_Node_1"/>
+    <parameterMappings source="//@units.0/@parameters.0" target="//@units.1/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.0/@parameters.2" target="//@units.1/@parameters.2"/>
+  </units>
+</henshin:Module>

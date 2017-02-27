@@ -1,6 +1,7 @@
 package org.sidiff.integration.editor.access;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -114,16 +115,19 @@ public class IntegrationEditorAccess {
 	 * @param element
 	 * @return 
 	 */
-	public EObject getHighlightableElement(EObject element){
-		EObject candidate=null;
+	public Collection<EObject> getHighlightableElements(EObject element){
+		Collection<EObject> candidates = new ArrayList<EObject>();
 		for (IEditorIntegration de : integrationEditors) {
-			EObject he=de.getHighlightableElement(element);
-			if (he != null){
-				if (he != element) return he;
-				candidate=he;
+			for (EObject he : de.getHighlightableElements(element)) {
+				if (!candidates.contains(he)){
+					candidates.add(he);
+				}					
 			}
 		}
-		if (candidate != null) return candidate;
-		return DefaultEditorIntegration.getInstance(element.eResource().getURI()).getHighlightableElement(element);
+		if (!candidates.isEmpty()){
+			return candidates;
+		}
+		
+		return DefaultEditorIntegration.getInstance(element.eResource().getURI()).getHighlightableElements(element);
 	}
 }

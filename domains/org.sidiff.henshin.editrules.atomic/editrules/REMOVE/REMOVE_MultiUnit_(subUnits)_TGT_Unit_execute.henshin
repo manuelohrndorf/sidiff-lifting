@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="REMOVE_MultiUnit_(subUnits)_TGT_Unit" description="Removes MultiUnit's reference subUnits the target Unit">
+  <annotations key="INVERSE" value="ADD_MultiUnit_(subUnits)_TGT_Unit"/>
+  <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
+  <units xsi:type="henshin:Rule" name="removeFromMultiUnit_subUnits_Unit" description="Removes from MultiUnit's reference subUnits the target Unit">
+    <parameters name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
+    </parameters>
+    <parameters name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
+    </parameters>
+    <lhs name="LHS">
+      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
+      </nodes>
+      <nodes name="OldTarget" incoming="//@units.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
+      </nodes>
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit/subUnits"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
+      </nodes>
+      <nodes name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
+    </parameters>
+    <parameters name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+  </units>
+</henshin:Module>
