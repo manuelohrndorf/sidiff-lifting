@@ -7,11 +7,14 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -26,6 +29,7 @@ import org.eclipse.epsilon.emc.emf.EmfModel;
 import org.eclipse.epsilon.eol.exceptions.EolRuntimeException;
 import org.eclipse.epsilon.eol.exceptions.models.EolModelLoadingException;
 import org.eclipse.epsilon.eol.models.IModel;
+import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
@@ -54,6 +58,10 @@ public class SWMLMatcher implements IMatcher {
 	private Resource modelB;
 	
 	private ICorrespondences correspondences;
+	
+	private ICandidates candidates;
+	
+	private MatcherMode mode = MatcherMode.SINGLE;
 
 	/**
 	 * Initialize matcher and start matching.
@@ -90,6 +98,8 @@ public class SWMLMatcher implements IMatcher {
 		
 		correspondences = CorrespondencesUtil.getDefaultCorrespondencesService();
 		
+		candidates = CandidatesUtil.getCandidatesServiceInstance();
+		
 	}
 
 
@@ -103,27 +113,19 @@ public class SWMLMatcher implements IMatcher {
 		return KEY;
 	}
 
-
-	@Override
-	public String getDocumentType() {
-		return SimpleWebModelingLanguagePackage.eNS_URI;
-	}
-
-
 	@Override
 	public boolean isResourceSetCapable() {
 		return false;
 	}
+	
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Basically a NamedElement Matcher, special handling of Links, DataLayer and HypertextLayer (see Epsilon configuration file Comparison.ecl).";
 	}
 
 	@Override
 	public String getServiceID() {
-		// TODO Auto-generated method stub
-		return null;
+		return SERVICE_ID+"."+getKey();
 	}
 
 	@Override
@@ -190,30 +192,50 @@ public class SWMLMatcher implements IMatcher {
 
 	@Override
 	public MatcherMode getMode() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.mode;
 	}
 
 	@Override
 	public void setMode(MatcherMode mode) {
-		// TODO Auto-generated method stub
-		
+		this.mode = mode;		
+	}
+	
+	@Override
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		docTypes.add(SimpleWebModelingLanguagePackage.eNS_URI);
+		return docTypes;
 	}
 
-	@Override
-	public boolean canHandle(Collection<Resource> models) {
-		Iterator<Resource> modelIt = models.iterator();
-		
-		String docTypeA = EMFModelAccess.getCharacteristicDocumentType(modelIt.next());
-		String docTypeB = EMFModelAccess.getCharacteristicDocumentType(modelIt.next());
 
-		return docTypeA.equals(SimpleWebModelingLanguagePackage.eNS_URI)
-				&& docTypeB.equals(SimpleWebModelingLanguagePackage.eNS_URI);
+	@Override
+	public boolean canHandleDocTypes(Set<String> documentTypes) {
+		return getDocumentTypes().containsAll(documentTypes);
+	}
+
+
+	@Override
+	public boolean canHandleModels(Collection<Resource> models) {
+		Set<String> docTypes = new HashSet<String>();
+		for(Resource model : models){
+			if(isResourceSetCapable()){
+				docTypes.addAll(EMFModelAccess.getDocumentTypes(model,
+						Scope.RESOURCE_SET));
+			}else{
+				docTypes.addAll(EMFModelAccess.getDocumentTypes(model, Scope.RESOURCE));
+			}
+		}
+		
+		return canHandleDocTypes(docTypes);
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		this.modelA = null;
+		this.modelB = null;
+		if(correspondences != null){
+			this.correspondences.reset();
+		}
 		
 	}
 
@@ -230,20 +252,17 @@ public class SWMLMatcher implements IMatcher {
 
 	@Override
 	public void setCandidatesService(ICandidates candidatesService) {
-		// TODO Auto-generated method stub
-		
+		this.candidates = candidatesService;
 	}
 
 	@Override
 	public ICandidates getCandidatesService() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.candidates;
 	}
 
 	@Override
 	public Collection<Resource> getModels() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(modelA, modelB);
 	}
 	
 
@@ -277,7 +296,4 @@ public class SWMLMatcher implements IMatcher {
 		
 		return emfModel;
 	}
-
-	
-
 }
