@@ -20,6 +20,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorDescriptor;
@@ -168,7 +169,9 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		Collection<DView> views = session.getOwnedViews();
 		EList<DRepresentation> representations = new BasicEList<DRepresentation>();
 		for (DView view : views) {
-			representations.addAll(view.getOwnedRepresentations());
+			for(DRepresentationDescriptor descriptor : view.getOwnedRepresentationDescriptors()){
+				representations.add(descriptor.getRepresentation());
+			}
 		}
 
 		// FIXME: Generic way of choosing the right representation
