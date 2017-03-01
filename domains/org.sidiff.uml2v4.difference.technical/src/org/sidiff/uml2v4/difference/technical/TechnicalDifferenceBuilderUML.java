@@ -56,12 +56,14 @@ public class TechnicalDifferenceBuilderUML extends AbstractTechnicalDifferenceBu
 	}
 
 	@Override
-	public String getDocumentType() {
-		return UMLPackage.eNS_URI;
-	}
-	
-	@Override
 	public String getName(){	
 		return "TechnicalDifference Builder for UML";
+	}
+
+	@Override
+	public Set<String> getDocumentTypes() {
+		Set<String> docTypes = new HashSet<String>();
+		docTypes.add(UMLPackage.eNS_URI);
+		return docTypes;
 	}
 }
