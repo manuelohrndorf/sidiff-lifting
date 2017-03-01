@@ -1,9 +1,5 @@
 package org.eclipse.emf.henshin.editing.utils.handlers;
 
-import static org.eclipse.emf.henshin.editing.utils.util.HenshinModelHelper.getRemoteNode;
-import static org.eclipse.emf.henshin.editing.utils.util.HenshinModelHelper.isDeletionNode;
-import static org.eclipse.emf.henshin.editing.utils.util.HenshinModelHelper.isPreservedNode;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,11 +10,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.editing.utils.util.EMFHandlerUtil;
-import org.eclipse.emf.henshin.editing.utils.util.UIUtil;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Module;
@@ -29,47 +27,53 @@ import org.eclipse.emf.henshin.model.Node;
  * 
  * @author Manuel Ohrndorf, Timo Kehrer
  */
-public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler  {
+public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
-		
-		if (editRule != null) {
-			editRule.eAllContents().forEachRemaining(element -> {
-				if (element instanceof Node) {
-					Node node = (Node) element;
-					
-					if (isDeletionNode(node)) {
-						node.setType(selectMostSpecificType(getRequiredTypes(node)));
-					}
-					
-					else if (isPreservedNode(node)) {
-						Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
-						Set<EClass> requieredTypes = getRequiredTypes(node);
-						requieredTypes.addAll(getRequiredTypes(remoteNode));
-						
-						EClass mostAnstractType = selectMostSpecificType(requieredTypes);
-						
-						node.setType(mostAnstractType);
-						remoteNode.setType(mostAnstractType);
-					}
-				}
-			});
-			
+		Module module = EMFHandlerUtil.getSelection(event, Module.class);
+
+		if (module != null) {
+			module.eAllContents().forEachRemaining(
+					element -> {
+						if (element instanceof Node) {
+							Node node = (Node) element;
+
+							if (node.getActionNode().getAction().getType().equals(Type.DELETE)) {
+								node.setType(selectMostSpecificType(getRequiredTypes(node)));
+							}
+
+							else if ((node != node.getActionNode())
+									&& (node.getActionNode().getAction().getType().equals(Type.PRESERVE))) {
+								Node lhsNode = node.getActionNode();
+								Set<EClass> requiredTypes = getRequiredTypes(node);
+								requiredTypes.addAll(getRequiredTypes(lhsNode));
+
+								EClass mostAbstractType = selectMostSpecificType(requiredTypes);
+
+								node.setType(mostAbstractType);
+								lhsNode.setType(mostAbstractType);
+							}
+						}
+					});
+
 			try {
-				editRule.eResource().save(Collections.emptyMap());
+				String fileName = module.eResource().getURI().lastSegment().replace(".henshin", "") + "_reduced";
+				URI uri = module.eResource().getURI().trimSegments(1).appendSegment(fileName)
+						.appendFileExtension("henshin");
+				Resource res = new ResourceSetImpl().createResource(uri);
+				res.getContents().add(module);
+				res.save(Collections.EMPTY_MAP);
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			UIUtil.showMessage("Edit-Rule saved:\n\n" + EcoreUtil.getURI(editRule).toPlatformString(true));
 		}
-		
+
 		return null;
 	}
-	
-	public static Set<EClass> getRequiredTypes(Node node) {
+
+	private Set<EClass> getRequiredTypes(Node node) {
 		Set<EClass> types = new HashSet<>();
 
 		for (Edge ougoing : node.getOutgoing()) {
@@ -87,7 +91,7 @@ public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler
 		return types;
 	}
 
-	public static EClass selectMostSpecificType(Collection<EClass> types) {
+	private EClass selectMostSpecificType(Collection<EClass> types) {
 
 		if (!types.isEmpty()) {
 			EClass mostSpecific = types.iterator().next();

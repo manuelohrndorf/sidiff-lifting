@@ -55,7 +55,8 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 
 			if (structuredSelection.size() == 2) {
-				for (Iterator iterator = structuredSelection.iterator(); iterator.hasNext();) {
+				for (@SuppressWarnings("rawtypes")
+				Iterator iterator = structuredSelection.iterator(); iterator.hasNext();) {
 					Object oA = iterator.next();
 					Object oB = iterator.next();
 
@@ -67,14 +68,6 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 						ResourceSet rssB = new ResourceSetImpl();
 						URI uriB = EMFHandlerUtil.getURI((IResource) oB);
 						resourceB = rssB.getResource(uriB, true);
-
-						// if ((resource != null) &&
-						// !resource.getContents().isEmpty()
-						// && (type.isInstance(resource.getContents().get(0))))
-						// {
-						//
-						// return (E) resource.getContents().get(0);
-						// }
 					}
 				}
 			}
@@ -96,8 +89,7 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				UIUtil.showMessage("Edit-Rule saved:\n\n" + eoURI.toPlatformString(true));
+				
 				return null;
 			} else {
 				UIUtil.showError("Could not transform this difference to an edit-rule.");
@@ -112,8 +104,8 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 	private Module createEditRule(Resource modelA, Resource modelB) {
 		String name = modelA.getURI().segments()[modelA.getURI().segmentCount() - 1] + "-"
 				+ modelB.getURI().segments()[modelB.getURI().segmentCount() - 1];
-	
-		// Create Module serving rule container:
+
+		// Create Module serving as rule container:
 		Module module = HenshinFactory.eINSTANCE.createModule();
 		module.setName(name);
 

@@ -89,12 +89,14 @@ public class ExampleBasedRuleGenerator {
 			Node lhsNode = eObject2Node(gLHS, c.getObjA());
 			Node rhsNode = eObject2Node(gRHS, c.getObjB());
 
-			// Store the traces
-			modelA2lhs.put(c.getObjA(), lhsNode);
-			modelB2rhs.put(c.getObjB(), rhsNode);
+			if (lhsNode != null && rhsNode != null) {
+				// Store the traces
+				modelA2lhs.put(c.getObjA(), lhsNode);
+				modelB2rhs.put(c.getObjB(), rhsNode);
 
-			// Add mapping from lhsNode to rhsNode
-			rule.getMappings().add(HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode));
+				// Add mapping from lhsNode to rhsNode
+				rule.getMappings().add(HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode));
+			}
 		}
 	}
 
@@ -118,8 +120,10 @@ public class ExampleBasedRuleGenerator {
 			// Convert to node
 			Node node = eObject2Node(graph, eObject);
 
-			// Store the trace
-			model2graph.put(eObject, node);
+			if (node != null) {
+				// Store the trace
+				model2graph.put(eObject, node);
+			}
 		}
 	}
 
@@ -174,6 +178,7 @@ public class ExampleBasedRuleGenerator {
 	 * @return
 	 */
 	private Node eObject2Node(Graph graph, EObject obj) {
+
 		// node
 		Node node = HenshinFactory.eINSTANCE.createNode(graph, obj.eClass(), "");
 

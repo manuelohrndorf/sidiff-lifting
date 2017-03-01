@@ -10,10 +10,12 @@ import java.util.Set;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.editing.utils.util.EMFHandlerUtil;
-import org.eclipse.emf.henshin.editing.utils.util.UIUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
@@ -29,18 +31,21 @@ public class CleanUpParametersHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
+		Module module = EMFHandlerUtil.getSelection(event, Module.class);
 		
-		if (editRule != null) {
-			cleanUpParamters(editRule);
+		if (module != null) {
+			cleanUpParamters(module);
 			
 			try {
-				editRule.eResource().save(Collections.emptyMap());
+				String fileName = module.eResource().getURI().lastSegment().replace(".henshin", "") + "_reduced";
+				URI uri = module.eResource().getURI().trimSegments(1).appendSegment(fileName)
+						.appendFileExtension("henshin");
+				Resource res = new ResourceSetImpl().createResource(uri);
+				res.getContents().add(module);
+				res.save(Collections.EMPTY_MAP);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			
-			UIUtil.showMessage("Edit-Rule saved:\n\n" + EcoreUtil.getURI(editRule).toPlatformString(true));
+			}			
 		}
 		
 		return null;
