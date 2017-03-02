@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="org.sidiff.difference.ui.category.silift"
+            name="SiLift">
+      </category>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates an edit-rule based on a model difference."
+            id="org.eclipse.emf.henshin.editing.utils.command.createeditrule"
+            name="Create Example based Edit-Rule">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Makes all preserve and delete nodes as abstract as possible."
+            id="org.eclipse.emf.henshin.editing.utils.command.makeabstract"
+            name="Make Edit-Rule Abstract">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Cleans up the henshin rule meta-model imports."
+            id="org.eclipse.emf.henshin.editing.utils.command.cleanupimports"
+            name="Clean Up Meta-Model Imports">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Cleans up unused Henshin rule parameters."
+            id="org.eclipse.emf.henshin.editing.utils.command.cleanupparameters"
+            name="Clean Up Edit-Rule Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates input-parameters for a henshin rule."
+            id="org.eclipse.emf.henshin.editing.utils.command.createinputparameters"
+            name="Create Edit-Rule Input-Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Creates a parameter for each attribute variable."
+            id="org.eclipse.emf.henshin.editing.utils.command.createattributeparameters"
+            name="Attribute Variables/Values To Parameters">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Renames node names and attribute variables."
+            id="org.eclipse.emf.henshin.editing.utils.command.renameidentifier"
+            name="Rename Edit-Rule Identifiers">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description=" Renames an edit-rule: file, module, rule, diagram"
+            id="org.eclipse.emf.henshin.editing.utils.command.renamerule"
+            name="Rename Edit-Rule">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Removes all non context (preserve) nodes from an edit rule."
+            id="org.eclipse.emf.henshin.editing.utils.command.reducetocontext"
+            name="Reduce To Context">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+         <handler
+            class="org.eclipse.emf.henshin.editing.utils.handlers.CreateRuleByExampleHandler"
+            commandId="org.eclipse.emf.henshin.editing.utils.command.createeditrule">
+      	 </handler>
+         <handler
+               class="org.eclipse.emf.henshin.editing.utils.handlers.ReduceToContextHandler"
+               commandId="org.eclipse.emf.henshin.editing.utils.command.reducetocontext">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.eclipse.emf.henshin.editing.utils.handlers.MakeRuleAbstractHandler"
+               commandId="org.eclipse.emf.henshin.editing.utils.command.makeabstract">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.eclipse.emf.henshin.editing.utils.handlers.CleanUpImportsHandler"
+               commandId="org.eclipse.emf.henshin.editing.utils.command.cleanupimports">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+         <handler
+               class="org.eclipse.emf.henshin.editing.utils.handlers.CleanUpParametersHandler"
+               commandId="org.eclipse.emf.henshin.editing.utils.command.cleanupparameters">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+    <menuContribution
+        locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+     <menu
+           id="org.silift.menu"
+           label="SiLift">
+        <separator
+              name="header"
+              visible="false">
+        </separator>
+     </menu>
+  </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.silift.menu?after=header">
+         <separator
+               name="org.eclipse.emf.henshin.editing.utils.separatorTop"
+               visible="true">
+         </separator>
+         <menu
+               label="Edit-Rules">
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.createeditrule"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.reducetocontext"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.makeabstract"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.cleanupimports"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.cleanupparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.createinputparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.createattributeparameters"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.renameidentifier"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.emf.henshin.editing.utils.command.renamerule"
+                  style="push">
+            </command>
+         </menu>
+         <separator
+               name="org.eclipse.emf.henshin.editing.utils.separatorBottom"
+               visible="true">
+         </separator>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.emf.henshin.fileextension">
+         <adapt type="org.eclipse.core.resources.IResource">
+            <or>
+                <test property="org.eclipse.core.resources.extension"
+                      value="henshin">
+                </test>
+            </or>
+         </adapt>
+      </definition>
+   </extension>
+</plugin>
