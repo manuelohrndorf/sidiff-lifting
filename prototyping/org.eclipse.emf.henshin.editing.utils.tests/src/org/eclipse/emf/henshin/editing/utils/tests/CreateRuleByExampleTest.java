@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.editing.utils.HenshinEditingUtils;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Rule;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,13 @@ public class CreateRuleByExampleTest {
 		
 		if (module != null) {
 			Assert.assertEquals(module.getUnits().size(), 1);
+			
+			Rule rule = (Rule) module.getUnits().get(0);
+			Assert.assertNotEquals(0, rule.getLhs().getNodes().size());
+			Assert.assertNotEquals(0, rule.getRhs().getNodes().size());
+			Assert.assertNotEquals(0, rule.getLhs().getEdges().size());
+			Assert.assertNotEquals(0, rule.getRhs().getEdges().size());
+			
 			// TODO: More tests...
 		} else {
 			Assert.fail("No module was generated!");
