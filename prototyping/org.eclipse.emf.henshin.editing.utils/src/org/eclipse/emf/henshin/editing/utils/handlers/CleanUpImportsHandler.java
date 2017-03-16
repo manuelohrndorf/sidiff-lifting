@@ -9,8 +9,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.henshin.editing.utils.HenshinEditingUtils;
 import org.eclipse.emf.henshin.editing.utils.util.EMFHandlerUtil;
-import org.eclipse.emf.henshin.editing.utils.util.HenshinModelHelper;
 import org.eclipse.emf.henshin.model.Module;
 
 /**
@@ -25,8 +25,7 @@ public class CleanUpImportsHandler extends AbstractHandler{
 		Module module = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (module != null) {
-			module.getImports().clear();
-			module.getImports().addAll(HenshinModelHelper.calculateImports(module));
+			HenshinEditingUtils.cleanUpImports(module);
 			
 			try {
 				String fileName = module.eResource().getURI().lastSegment().replace(".henshin", "") + "_reduced";
