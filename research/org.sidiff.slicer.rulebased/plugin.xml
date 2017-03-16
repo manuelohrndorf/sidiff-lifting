@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.slicer.extensionpoint">
+      <client
+            class="org.sidiff.slicer.rulebased.RuleBasedSlicer">
+      </client>
+   </extension>
+   <extension
+         id="org.sidiff.slicer.rulebased.run.SiDiffSlicingApplication"
+         name="SiDiffSlicingApplication"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.sidiff.slicer.rulebased.run.SiDiffSlicingApplication">
+         </run>
+      </application>
+   </extension>
+
+</plugin>
