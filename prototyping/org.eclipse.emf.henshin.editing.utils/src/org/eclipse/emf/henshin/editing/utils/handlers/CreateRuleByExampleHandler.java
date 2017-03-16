@@ -94,7 +94,7 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 				return null;
 			}
 		} else {
-			UIUtil.showError("The selected resource does not contain a model difference.");
+			UIUtil.showError("Please select two models.");
 			return null;
 		}
 	}

@@ -4,59 +4,35 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            id="org.sidiff.difference.ui.category.silift"
-            name="SiLift">
+            id="org.eclipse.emf.henshin.editing.utils.category"
+            name="Henshin Editing">
       </category>
       <command
-            categoryId="org.sidiff.difference.ui.category.silift"
+            categoryId="org.eclipse.emf.henshin.editing.utils.category"
             description="Creates an edit-rule based on a model difference."
             id="org.eclipse.emf.henshin.editing.utils.command.createeditrule"
             name="Create Example based Edit-Rule">
       </command>
       <command
-            categoryId="org.sidiff.difference.ui.category.silift"
+            categoryId="org.eclipse.emf.henshin.editing.utils.category"
             description="Makes all preserve and delete nodes as abstract as possible."
             id="org.eclipse.emf.henshin.editing.utils.command.makeabstract"
             name="Make Edit-Rule Abstract">
       </command>
       <command
-            categoryId="org.sidiff.difference.ui.category.silift"
+            categoryId="org.eclipse.emf.henshin.editing.utils.category"
             description="Cleans up the henshin rule meta-model imports."
             id="org.eclipse.emf.henshin.editing.utils.command.cleanupimports"
             name="Clean Up Meta-Model Imports">
       </command>
       <command
-            categoryId="org.sidiff.difference.ui.category.silift"
+            categoryId="org.eclipse.emf.henshin.editing.utils.category"
             description="Cleans up unused Henshin rule parameters."
             id="org.eclipse.emf.henshin.editing.utils.command.cleanupparameters"
             name="Clean Up Edit-Rule Parameters">
       </command>
       <command
-            categoryId="org.sidiff.difference.ui.category.silift"
-            description="Creates input-parameters for a henshin rule."
-            id="org.eclipse.emf.henshin.editing.utils.command.createinputparameters"
-            name="Create Edit-Rule Input-Parameters">
-      </command>
-      <command
-            categoryId="org.sidiff.difference.ui.category.silift"
-            description="Creates a parameter for each attribute variable."
-            id="org.eclipse.emf.henshin.editing.utils.command.createattributeparameters"
-            name="Attribute Variables/Values To Parameters">
-      </command>
-      <command
-            categoryId="org.sidiff.difference.ui.category.silift"
-            description="Renames node names and attribute variables."
-            id="org.eclipse.emf.henshin.editing.utils.command.renameidentifier"
-            name="Rename Edit-Rule Identifiers">
-      </command>
-      <command
-            categoryId="org.sidiff.difference.ui.category.silift"
-            description=" Renames an edit-rule: file, module, rule, diagram"
-            id="org.eclipse.emf.henshin.editing.utils.command.renamerule"
-            name="Rename Edit-Rule">
-      </command>
-      <command
-            categoryId="org.sidiff.difference.ui.category.silift"
+            categoryId="org.eclipse.emf.henshin.editing.utils.category"
             description="Removes all non context (preserve) nodes from an edit rule."
             id="org.eclipse.emf.henshin.editing.utils.command.reducetocontext"
             name="Reduce To Context">
@@ -67,6 +43,11 @@
          <handler
             class="org.eclipse.emf.henshin.editing.utils.handlers.CreateRuleByExampleHandler"
             commandId="org.eclipse.emf.henshin.editing.utils.command.createeditrule">
+            <activeWhen>
+               <count
+                     value="2">
+               </count>
+            </activeWhen>
       	 </handler>
          <handler
                class="org.eclipse.emf.henshin.editing.utils.handlers.ReduceToMinimalRuleHandler"
@@ -163,26 +144,15 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
-    <menuContribution
-        locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-     <menu
-           id="org.silift.menu"
-           label="SiLift">
-        <separator
-              name="header"
-              visible="false">
-        </separator>
-     </menu>
-  </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="popup:org.silift.menu?after=header">
+            locationURI="popup:org.eclipse.emf.henshin.menu">
          <separator
                name="org.eclipse.emf.henshin.editing.utils.separatorTop"
                visible="true">
          </separator>
          <menu
-               label="Edit-Rules">
+               label="Advanced Editing">
             <command
                   commandId="org.eclipse.emf.henshin.editing.utils.command.createeditrule"
                   style="push">
@@ -201,22 +171,6 @@
             </command>
             <command
                   commandId="org.eclipse.emf.henshin.editing.utils.command.cleanupparameters"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.eclipse.emf.henshin.editing.utils.command.createinputparameters"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.eclipse.emf.henshin.editing.utils.command.createattributeparameters"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.eclipse.emf.henshin.editing.utils.command.renameidentifier"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.eclipse.emf.henshin.editing.utils.command.renamerule"
                   style="push">
             </command>
          </menu>
