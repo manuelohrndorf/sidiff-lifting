@@ -1,4 +1,4 @@
-package org.sidiff.slicer;
+package org.sidiff.slicer.model;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;

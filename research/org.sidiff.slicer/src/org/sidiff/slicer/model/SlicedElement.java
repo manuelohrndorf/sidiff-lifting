@@ -1,4 +1,4 @@
-package org.sidiff.slicer;
+package org.sidiff.slicer.model;
 
 import java.util.HashSet;
 import java.util.Set;

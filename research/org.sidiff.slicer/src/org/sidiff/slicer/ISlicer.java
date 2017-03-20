@@ -19,7 +19,7 @@ public interface ISlicer {
 	
 	public boolean canHandleModels(Collection<Resource> models);
 	
-	public void init(ISlicingConfiguration config);
+	public void init(ISlicingConfiguration config) throws Exception;
 	
 	public void slice(Collection<EObject> input);
 	

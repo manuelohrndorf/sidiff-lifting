@@ -1,4 +1,4 @@
-package org.sidiff.slicer;
+package org.sidiff.slicer.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.slicer.ISlicer;
 
 /**
  * 
@@ -46,11 +47,12 @@ public class SlicerUtil {
 		Resource resource = resourceSet.createResource(uri);
 		
 		for(EObject slicedElement : modelSlice){
-			while(slicedElement.eContainer() != null){
-				slicedElement = slicedElement.eContainer();
+			EObject element = slicedElement;
+			while(element.eContainer() != null){
+				element = element.eContainer();
 			}
-			if(!resource.getContents().contains(slicedElement)){
-				resource.getContents().add(slicedElement);
+			if(!resource.getContents().contains(element)){
+				resource.getContents().add(element);
 			}
 		}
 		
