@@ -13,10 +13,11 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.slicer.ISlicer;
-import org.sidiff.slicer.SlicerUtil;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.util.SlicerUtil;
 
 public class SiDiffSlicingApplication implements IApplication{
 	
@@ -37,8 +38,8 @@ public class SiDiffSlicingApplication implements IApplication{
 		EObject model = EMFStorage.eLoad(loadModelURI);
 
 		LiftingSettings settings = new LiftingSettings(EMFModelAccess.getDocumentTypes(model.eResource(), Scope.RESOURCE));
-		
-		SlicingConfiguration slicing_config = new SlicingConfiguration(model.eResource(), settings);
+		settings.setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.signature.name.NamedElementMatcher"));
+		SlicingConfiguration slicing_config = new SlicingConfiguration(settings);
 		
 		Set<EObject> contexts = new HashSet<EObject>();
 		for (Iterator<EObject> iterator = model.eResource().getAllContents(); iterator.hasNext();) {
@@ -65,7 +66,7 @@ public class SiDiffSlicingApplication implements IApplication{
 		Collection<EObject> modelSlice = slicer.getModelSlice();
 		System.out.println(modelSlice);
 
-		SlicerUtil.serializeSlicedModel(modelSlice, EMFStorage.pathToUri(loadModelURI.toString().replace(loadModelURI.lastSegment(), "sliced_" + loadModelURI.lastSegment())), false);
+		SlicerUtil.serializeSlicedModel(modelSlice, URI.createURI(loadModelURI.toString().replace(loadModelURI.lastSegment(), "sliced_" + loadModelURI.lastSegment())), false);
 		//String gv_path = MODEL_PATH.replace(loadModelURI.lastSegment(), "graph.dot");
 		//FileOperations.writeFile(gv_path, GraphUtil.getOutput());
 

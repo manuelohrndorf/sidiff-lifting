@@ -160,7 +160,7 @@ public class OperationManager {
 	 * @param invocation
 	 */
 	private void addIncomingOperations(List<OperationInvocation> operationInvocations, OperationInvocation invocation) {
-		if (!operationInvocations.contains(invocation)) {
+		if (!operationInvocations.contains(invocation) && invocation.isApply()) {
 			stage++;
 			for (OperationInvocation operationInvocation : invocation.getSuccessors()) {
 				addIncomingOperations(operationInvocations, operationInvocation);

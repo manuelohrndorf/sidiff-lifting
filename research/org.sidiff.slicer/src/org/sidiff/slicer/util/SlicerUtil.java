@@ -46,15 +46,15 @@ public class SlicerUtil {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
 		
+		Set<EObject> containers = new HashSet<EObject>();
 		for(EObject slicedElement : modelSlice){
-			EObject element = slicedElement;
-			while(element.eContainer() != null){
-				element = element.eContainer();
+			while(slicedElement.eContainer() != null){
+				slicedElement = slicedElement.eContainer();
 			}
-			if(!resource.getContents().contains(element)){
-				resource.getContents().add(element);
-			}
+			containers.add(slicedElement);
 		}
+		
+		resource.getContents().addAll(containers);
 		
 		resource.save(Collections.EMPTY_MAP);
 	}
