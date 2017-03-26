@@ -1,6 +1,7 @@
 package org.sidiff.slicer.model;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,36 +16,61 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class ModelSlice {
 
-	private Set<SlicedElement> slicedElements;
 	
-	private Map<EObject,SlicedElement> eObject2SliceElement;
+	private Map<EObject,SlicedElement> slicedElements;
 	
 	
 	public ModelSlice(){
-		this.slicedElements = new HashSet<SlicedElement>();
-		this.eObject2SliceElement = new HashMap<EObject, SlicedElement>();
+		this.slicedElements = new HashMap<EObject,SlicedElement>();
 	}
 	
 	public void addSlicedElement(SlicedElement slicedElement){
-		slicedElements.add(slicedElement);
-		this.eObject2SliceElement.put(slicedElement.getOrigin(), slicedElement);
+		this.slicedElements.put(slicedElement.getOrigin(), slicedElement);
 	}
 	
-	public boolean contains(EObject origin){
-		return eObject2SliceElement.containsKey(origin);
+	public void removeSlicedElement(SlicedElement slicedElement){
+		this.slicedElements.remove(slicedElement.getOrigin());
 	}
 	
-	public SlicedElement getSlicedElement(EObject origin){
-		return eObject2SliceElement.get(origin);
+	public boolean contains(EObject obj){
+		return slicedElements.containsKey(obj);
+	}
+	
+	public SlicedElement getSlicedElement(EObject obj){
+		return slicedElements.get(obj);
 	}
 
-	public Set<SlicedElement> getSlicedElements() {
-		return slicedElements;
+	public final Set<SlicedElement> getSlicedElements() {
+		return Collections.unmodifiableSet(new HashSet<SlicedElement>(slicedElements.values()));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Collection<EObject> export(){
+		for(SlicedElement slicedElement : slicedElements.values()){
+			for(SlicedReference slicedReference : slicedElement.getSlicedReferences()){
+				if (slicedReference.getType().isMany()) {
+					for(EObject tgt : slicedReference.getTgts()){
+						if (slicedReference.isInverse()) {
+							((Collection<EObject>) getSlicedElement(tgt).getCopy()
+								.eGet(slicedReference.getType())).add(slicedElement.getCopy());
+						} else {
+							((Collection<EObject>) slicedElement.getCopy().eGet(slicedReference.getType()))
+								.add(slicedElements.get(tgt).getCopy());
+						}
+					}
+				} else {
+					if (slicedReference.isInverse()) {
+						slicedElements.get(slicedReference.getTgts().get(0)).getCopy().eSet(slicedReference.getType(),
+								slicedElement.getCopy());
+					} else {
+						slicedElement.getCopy().eSet(slicedReference.getType(),
+								slicedElements.get(slicedReference.getTgts().get(0)).getCopy());
+					}
+				}
+			}
+		}			
 		Set<EObject> set = new HashSet<EObject>();
-		for(SlicedElement slicedElement : slicedElements){
+		for(SlicedElement slicedElement : slicedElements.values()){
 			set.add(slicedElement.getCopy());
 		}
 		return set;

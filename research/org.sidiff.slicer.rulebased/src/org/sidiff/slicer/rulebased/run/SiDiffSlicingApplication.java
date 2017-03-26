@@ -63,7 +63,7 @@ public class SiDiffSlicingApplication implements IApplication{
 		ISlicer slicer = new RuleBasedSlicer();
 		slicer.init(slicing_config);
 		slicer.slice(contexts);
-		Collection<EObject> modelSlice = slicer.getModelSlice();
+		Collection<EObject> modelSlice = slicer.getModelSlice().export();
 		System.out.println(modelSlice);
 
 		SlicerUtil.serializeSlicedModel(modelSlice, URI.createURI(loadModelURI.toString().replace(loadModelURI.lastSegment(), "sliced_" + loadModelURI.lastSegment())), false);

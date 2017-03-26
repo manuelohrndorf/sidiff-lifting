@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.slicer.model.ModelSlice;
 public interface ISlicer {
 
 	String EXTENSION_POINT_ID = "org.sidiff.slicer.extensionpoint";
@@ -21,7 +22,9 @@ public interface ISlicer {
 	
 	public void init(ISlicingConfiguration config) throws Exception;
 	
-	public void slice(Collection<EObject> input);
+	public void slice(Collection<EObject> input) throws Exception;
 	
-	public Collection<EObject> getModelSlice();
+	public void setModelSlice(ModelSlice modelSlice);
+	
+	public ModelSlice getModelSlice();
 }

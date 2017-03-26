@@ -1,7 +1,9 @@
 package org.sidiff.slicer.rulebased;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +21,11 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.matching.api.MatchingFacade;
+import org.sidiff.matching.api.settings.MatchingSettings;
+import org.sidiff.matching.api.util.MatchingUtils;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.Matching;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
@@ -31,6 +38,8 @@ import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.exception.WrongConfigurationException;
+import org.sidiff.slicer.model.ModelSlice;
+import org.sidiff.slicer.model.SlicedElement;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
 
 /**
@@ -45,14 +54,30 @@ public class RuleBasedSlicer implements ISlicer {
 	 */
 	private SlicingConfiguration slicingConfiguration;
 	
+	/**
+	 * The {@link ModelSlice} containing all sliced elements
+	 * and their sliced references
+	 */
+	private ModelSlice modelSlice;
 	
 	// ############### inner accessed fields ###############
 	
 	/**
-	 * 
+	 * The {@link Resource} of the origin model
+	 */
+	private Resource modelA;
+	
+	/**
+	 * The {@link Resource} of the origin model
+	 */
+	private Resource modelB;
+	
+	/**
+	 * The {@link Resource} of the target/sliced model
 	 */
 	private Resource targetModel;
 
+	// ############### ISlicer ###############
 	
 	@Override
 	public String getKey() {
@@ -86,6 +111,7 @@ public class RuleBasedSlicer implements ISlicer {
 	public void init(ISlicingConfiguration config) throws Exception{
 		if(config instanceof SlicingConfiguration){
 			this.slicingConfiguration = (SlicingConfiguration) config;
+			this.modelSlice = new ModelSlice();
 		}else{
 			throw new WrongConfigurationException();
 		}
@@ -98,18 +124,32 @@ public class RuleBasedSlicer implements ISlicer {
 	 *  3. ES_O = ES_S cup {es in (ES_G \ ES_S) | exists es' in ES_G : es < es'}
 	 *  4. Delta_O = (ES_O. DEP_O) with DEP_O = {(es_1, es_2) in DEP_G | es_1 in ES_O and es_2 in ES_O}
 	 *  5. O = applyEditScript(Delta_O, e)
+	 * @throws NoCorrespondencesException 
+	 * @throws InvalidModelException 
 	 */
 	@Override
-	public void slice(Collection<EObject> input) {
+	public void slice(Collection<EObject> input) throws InvalidModelException, NoCorrespondencesException {
 		
 		Map<EObject, OperationInvocation> opInvs = new HashMap<EObject, OperationInvocation>();
 		
-		Resource originModel = input.iterator().next().eResource();
-		Resource emptyModel = new ResourceSetImpl().createResource(URI.createURI("emptyModel/"+originModel.getURI().lastSegment()));
-		emptyModel.getContents().addAll(EMFUtil.copySubModel(new HashSet<EObject>(originModel.getContents())));
+		this.modelB = input.iterator().next().eResource();
+		generateIDs(this.modelB);
+		modelA = new ResourceSetImpl().createResource(URI.createURI("modelA/"+modelB.getURI().lastSegment()));
+		if(modelSlice.getSlicedElements().isEmpty()){
+			modelA.getContents().addAll(EMFUtil.copySubModel(new HashSet<EObject>(modelB.getContents())));
+		}else{
+			Set<EObject> containers = new HashSet<EObject>();
+			for(EObject slicedElement : modelSlice.export()){
+				while(slicedElement.eContainer() != null){
+					slicedElement = slicedElement.eContainer();
+				}
+				containers.add(slicedElement);
+			}
+			modelA.getContents().addAll(containers);
+		}
 		
 		// (1)
-		AsymmetricDifference asymmetricDifference = this.generateEditScript(emptyModel, originModel);
+		AsymmetricDifference asymmetricDifference = this.generateEditScript(modelA, modelB);
 		for (OperationInvocation opInv : asymmetricDifference.getOperationInvocations()) {
 			Set<EObject> outs = new HashSet<EObject>();
 			for (ParameterBinding pb : opInv.getOutParameterBindings()) {
@@ -137,30 +177,33 @@ public class RuleBasedSlicer implements ISlicer {
 			}
 		}
 			
-		this.targetModel =  new ResourceSetImpl().createResource(URI.createURI("targetModel/"+originModel.getURI().lastSegment()));
+		this.targetModel =  new ResourceSetImpl().createResource(URI.createURI("targetModel/"+modelB.getURI().lastSegment()));
 		this.targetModel.getContents().addAll(EMFUtil.copySubModel(new HashSet<EObject>(asymmetricDifference.getOriginModel().getContents())));
 		
 		// 5
 		this.applyEditScript(asymmetricDifference, targetModel);
+		this.generateModelSlice();
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 
 	}
 
+	public void setModelSlice(ModelSlice modelSlice){
+		this.modelSlice = modelSlice;
 
+	}
 	
-	private AsymmetricDifference generateEditScript(Resource emptyModel, Resource originModel){
+	@Override
+	public ModelSlice getModelSlice() {
+		return modelSlice;
+	}
+	
+	// ############### inner accessed methods ###############
+	
+	private AsymmetricDifference generateEditScript(Resource emptyModel, Resource originModel) throws InvalidModelException, NoCorrespondencesException{
 		AsymmetricDifference asymDiff = null;
-		
-		try {
-			asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(emptyModel, originModel,
+		asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(emptyModel, originModel,
 					this.slicingConfiguration.getLiftingSettings()).getAsymmetric();
-		} catch (InvalidModelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoCorrespondencesException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		return asymDiff;
 	}
 	
@@ -180,8 +223,28 @@ public class RuleBasedSlicer implements ISlicer {
 		patchEngine.applyPatch(true);
 	}
 	
-	@Override
-	public Collection<EObject> getModelSlice() {
-		return targetModel.getContents();
+	private void generateModelSlice() throws NoCorrespondencesException, InvalidModelException{
+		MatchingSettings settings = new MatchingSettings();
+		settings.setMatcher(MatchingUtils.getMatcherByKey("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
+
+		Matching matching = MatchingFacade.match(Arrays.asList(modelB, targetModel), settings);
+		for(Correspondence correspondence : matching.getCorrespondences()){
+			if(modelSlice.contains(correspondence.getMatchedA())){
+				modelSlice.addSlicedElement(new SlicedElement(correspondence.getMatchedA(), correspondence.getMatchedB(), false));
+			}else{
+				modelSlice.addSlicedElement(new SlicedElement(correspondence.getMatchedA(), correspondence.getMatchedB(), true));
+			}
+		}
+	}
+	
+	
+	private void generateIDs(Resource model){
+		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			String id = EMFUtil.getXmiId(eObject);
+			if(id == null){
+				EMFUtil.setXmiId(eObject, java.util.UUID.randomUUID().toString());
+			}
+		}
 	}
 }
