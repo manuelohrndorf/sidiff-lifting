@@ -33,20 +33,20 @@ public class ModelSlice {
 	}
 	
 	public boolean contains(EObject obj){
-		return slicedElements.containsKey(obj);
+		return this.slicedElements.containsKey(obj);
 	}
 	
 	public SlicedElement getSlicedElement(EObject obj){
-		return slicedElements.get(obj);
+		return this.slicedElements.get(obj);
 	}
 
-	public final Set<SlicedElement> getSlicedElements() {
-		return Collections.unmodifiableSet(new HashSet<SlicedElement>(slicedElements.values()));
+	public Set<SlicedElement> getSlicedElements() throws UnsupportedOperationException {
+		return Collections.unmodifiableSet(new HashSet<SlicedElement>(this.slicedElements.values()));
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Collection<EObject> export(){
-		for(SlicedElement slicedElement : slicedElements.values()){
+		for(SlicedElement slicedElement : this.slicedElements.values()){
 			for(SlicedReference slicedReference : slicedElement.getSlicedReferences()){
 				if (slicedReference.getType().isMany()) {
 					for(EObject tgt : slicedReference.getTgts()){
@@ -55,22 +55,22 @@ public class ModelSlice {
 								.eGet(slicedReference.getType())).add(slicedElement.getCopy());
 						} else {
 							((Collection<EObject>) slicedElement.getCopy().eGet(slicedReference.getType()))
-								.add(slicedElements.get(tgt).getCopy());
+								.add(this.slicedElements.get(tgt).getCopy());
 						}
 					}
 				} else {
 					if (slicedReference.isInverse()) {
-						slicedElements.get(slicedReference.getTgts().get(0)).getCopy().eSet(slicedReference.getType(),
+						this.slicedElements.get(slicedReference.getTgts().iterator().next()).getCopy().eSet(slicedReference.getType(),
 								slicedElement.getCopy());
 					} else {
 						slicedElement.getCopy().eSet(slicedReference.getType(),
-								slicedElements.get(slicedReference.getTgts().get(0)).getCopy());
+								this.slicedElements.get(slicedReference.getTgts().iterator().next()).getCopy());
 					}
 				}
 			}
 		}			
 		Set<EObject> set = new HashSet<EObject>();
-		for(SlicedElement slicedElement : slicedElements.values()){
+		for(SlicedElement slicedElement : this.slicedElements.values()){
 			set.add(slicedElement.getCopy());
 		}
 		return set;
