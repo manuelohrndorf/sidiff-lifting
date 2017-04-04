@@ -17,6 +17,7 @@ import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.SlicingMode;
 import org.sidiff.slicer.util.SlicerUtil;
 
 public class SiDiffSlicingApplication implements IApplication{
@@ -39,7 +40,7 @@ public class SiDiffSlicingApplication implements IApplication{
 
 		LiftingSettings settings = new LiftingSettings(EMFModelAccess.getDocumentTypes(model.eResource(), Scope.RESOURCE));
 		settings.setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.signature.name.NamedElementMatcher"));
-		SlicingConfiguration slicing_config = new SlicingConfiguration(settings);
+		SlicingConfiguration slicing_config = new SlicingConfiguration(SlicingMode.MINIMAL_BATCH, settings);
 		
 		Set<EObject> contexts = new HashSet<EObject>();
 		for (Iterator<EObject> iterator = model.eResource().getAllContents(); iterator.hasNext();) {
