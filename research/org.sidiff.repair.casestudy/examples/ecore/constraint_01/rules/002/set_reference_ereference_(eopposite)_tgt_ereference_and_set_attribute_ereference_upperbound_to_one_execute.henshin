@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_dj6Y4CaBEeepFbklRoBR3A" name="SetEReferenceEReference_eOppositeAndSetEAttributeEReference_upperBound_to_one" description="Sets the eOpposite reference of an EReference and its upperBound attribute to one">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_dj6Y4CaBEeepFbklRoBR3A" name="SetReferenceEReference(eOpposite)TgtEReferenceAndSetAttributeEReferenceUpperBoundToOne" description="Sets EReference's reference eOpposite the target EReference and sets EReference's attribute UpperBound to one">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_dj6Y4SaBEeepFbklRoBR3A" name="mainUnit" subUnits="_dj6Y4iaBEeepFbklRoBR3A">
-    <parameters xmi:id="_HfrawSaDEeepFbklRoBR3A" name="EReference0"/>
-    <parameters xmi:id="_JsTqYSaDEeepFbklRoBR3A" name="EReference1"/>
+    <parameters xmi:id="_HfrawSaDEeepFbklRoBR3A" name="refEClassA" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_JsTqYSaDEeepFbklRoBR3A" name="refEClassB" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
     <parameterMappings xmi:id="_HfrawiaDEeepFbklRoBR3A" source="_HfrawSaDEeepFbklRoBR3A" target="_HfrawCaDEeepFbklRoBR3A"/>
     <parameterMappings xmi:id="_JsTqYiaDEeepFbklRoBR3A" source="_JsTqYSaDEeepFbklRoBR3A" target="_JsTqYCaDEeepFbklRoBR3A"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_dj6Y4iaBEeepFbklRoBR3A" name="setEReferenceEReference_eOppositeAndSetEAttributeEReference_upperBound_to_one">
-    <parameters xmi:id="_HfrawCaDEeepFbklRoBR3A" name="EReference0"/>
-    <parameters xmi:id="_JsTqYCaDEeepFbklRoBR3A" name="EReference1"/>
+  <units xsi:type="henshin:Rule" xmi:id="_dj6Y4iaBEeepFbklRoBR3A" name="setReferenceEReference(eOpposite)TgtEReferenceAndSetAttributeEReferenceUpperBoundToOne">
+    <parameters xmi:id="_HfrawCaDEeepFbklRoBR3A" name="refEClassA" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="_JsTqYCaDEeepFbklRoBR3A" name="refEClassB" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
     <lhs xmi:id="_dj6Y4yaBEeepFbklRoBR3A" name="Lhs">
       <nodes xmi:id="_dj6Y5CaBEeepFbklRoBR3A" name="EClassA" incoming="_dj6Y7SaBEeepFbklRoBR3A _dj6Y8CaBEeepFbklRoBR3A" outgoing="_dj6Y6iaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -17,10 +25,10 @@
       <nodes xmi:id="_dj6Y5SaBEeepFbklRoBR3A" name="EClassB" incoming="_dj6Y7iaBEeepFbklRoBR3A _dj6Y7yaBEeepFbklRoBR3A" outgoing="_dj6Y7CaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_dj6Y5iaBEeepFbklRoBR3A" name="EReference0" incoming="_dj6Y7CaBEeepFbklRoBR3A" outgoing="_dj6Y7SaBEeepFbklRoBR3A _dj6Y7iaBEeepFbklRoBR3A">
+      <nodes xmi:id="_dj6Y5iaBEeepFbklRoBR3A" name="refEClassA" incoming="_dj6Y7CaBEeepFbklRoBR3A" outgoing="_dj6Y7SaBEeepFbklRoBR3A _dj6Y7iaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_dj6Y5yaBEeepFbklRoBR3A" name="EReference1" incoming="_dj6Y6iaBEeepFbklRoBR3A" outgoing="_dj6Y7yaBEeepFbklRoBR3A _dj6Y8CaBEeepFbklRoBR3A">
+      <nodes xmi:id="_dj6Y5yaBEeepFbklRoBR3A" name="refEClassB" incoming="_dj6Y6iaBEeepFbklRoBR3A" outgoing="_dj6Y7yaBEeepFbklRoBR3A _dj6Y8CaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
       <edges xmi:id="_dj6Y6iaBEeepFbklRoBR3A" source="_dj6Y5CaBEeepFbklRoBR3A" target="_dj6Y5yaBEeepFbklRoBR3A">
@@ -107,10 +115,10 @@
       <nodes xmi:id="_dj6Y9SaBEeepFbklRoBR3A" name="EClassB" incoming="_dj6ZASaBEeepFbklRoBR3A _dj6ZAiaBEeepFbklRoBR3A" outgoing="_dj6Y_yaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_dj6Y9iaBEeepFbklRoBR3A" name="EReference0" incoming="_dj6Y-yaBEeepFbklRoBR3A _dj6Y_yaBEeepFbklRoBR3A" outgoing="_dj6Y-iaBEeepFbklRoBR3A _dj6ZACaBEeepFbklRoBR3A _dj6ZASaBEeepFbklRoBR3A">
+      <nodes xmi:id="_dj6Y9iaBEeepFbklRoBR3A" name="refEClassA" incoming="_dj6Y-yaBEeepFbklRoBR3A _dj6Y_yaBEeepFbklRoBR3A" outgoing="_dj6Y-iaBEeepFbklRoBR3A _dj6ZACaBEeepFbklRoBR3A _dj6ZASaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_dj6Y9yaBEeepFbklRoBR3A" name="EReference1" incoming="_dj6Y-iaBEeepFbklRoBR3A _dj6Y_SaBEeepFbklRoBR3A" outgoing="_dj6Y-yaBEeepFbklRoBR3A _dj6ZAiaBEeepFbklRoBR3A _dj6ZAyaBEeepFbklRoBR3A">
+      <nodes xmi:id="_dj6Y9yaBEeepFbklRoBR3A" name="refEClassB" incoming="_dj6Y-iaBEeepFbklRoBR3A _dj6Y_SaBEeepFbklRoBR3A" outgoing="_dj6Y-yaBEeepFbklRoBR3A _dj6ZAiaBEeepFbklRoBR3A _dj6ZAyaBEeepFbklRoBR3A">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
         <attributes xmi:id="_BjZCgCaDEeepFbklRoBR3A" value="&quot;1&quot;">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>

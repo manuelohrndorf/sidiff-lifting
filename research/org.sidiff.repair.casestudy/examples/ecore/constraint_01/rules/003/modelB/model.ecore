@@ -2,11 +2,11 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://model/1.0" nsPrefix="model">
   <eClassifiers xsi:type="ecore:EClass" name="EClassA">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference1" unique="false"
-        eType="#//EClassB" eOpposite="#//EClassB/EReference0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eClassB" unique="false"
+        eType="#//EClassB" eOpposite="#//EClassB/eClassA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EClassB">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//EClassA"
-        eOpposite="#//EClassA/EReference1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eClassA" eType="#//EClassA"
+        eOpposite="#//EClassA/eClassB"/>
   </eClassifiers>
 </ecore:EPackage>

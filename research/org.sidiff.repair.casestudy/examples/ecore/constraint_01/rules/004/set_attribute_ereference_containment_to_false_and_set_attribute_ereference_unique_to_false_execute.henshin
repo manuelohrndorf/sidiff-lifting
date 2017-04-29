@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wtVJ4Ca6EeepFbklRoBR3A" name="SetEAttributeEReference_containment_and_unique_to_false" description="Sets the unique and containment attribute of an EReference to false">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wtVJ4Ca6EeepFbklRoBR3A" name="SetAttributeEReferenceContainmentToFalseAndSetAttributeEReferenceUniqueToFalse" description="Sets EReference's attribute Containment to false and sets Ereference's attribute Unique to false">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <units xsi:type="henshin:SequentialUnit" xmi:id="_wtVJ4Sa6EeepFbklRoBR3A" name="mainUnit" subUnits="_wtVJ4ia6EeepFbklRoBR3A">
-    <parameters xmi:id="_B_UPESa7EeepFbklRoBR3A" name="EReference0"/>
+    <parameters xmi:id="_B_UPESa7EeepFbklRoBR3A" name="ref" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
     <parameterMappings xmi:id="_B_UPEia7EeepFbklRoBR3A" source="_B_UPESa7EeepFbklRoBR3A" target="_B_UPECa7EeepFbklRoBR3A"/>
   </units>
-  <units xsi:type="henshin:Rule" xmi:id="_wtVJ4ia6EeepFbklRoBR3A" name="setEAttributeEReference_containment_and_unique_to_false">
-    <parameters xmi:id="_B_UPECa7EeepFbklRoBR3A" name="EReference0"/>
+  <units xsi:type="henshin:Rule" xmi:id="_wtVJ4ia6EeepFbklRoBR3A" name="setAttributeEReferenceContainmentToFalseAndSetAttributeEReferenceUniqueToFalse">
+    <parameters xmi:id="_B_UPECa7EeepFbklRoBR3A" name="ref" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
     <lhs xmi:id="_wtVJ4ya6EeepFbklRoBR3A" name="Lhs">
-      <nodes xmi:id="_wtVJ5ia6EeepFbklRoBR3A" name="EReference0">
+      <nodes xmi:id="_wtVJ5ia6EeepFbklRoBR3A" name="ref">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
     </lhs>
     <rhs xmi:id="_wtVJ7ya6EeepFbklRoBR3A" name="Rhs">
-      <nodes xmi:id="_wtVJ8ia6EeepFbklRoBR3A" name="EReference0">
+      <nodes xmi:id="_wtVJ8ia6EeepFbklRoBR3A" name="ref">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
         <attributes xmi:id="_wtVJ8ya6EeepFbklRoBR3A" value="&quot;false&quot;">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/unique"/>
