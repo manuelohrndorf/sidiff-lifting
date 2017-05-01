@@ -4,3 +4,21 @@ RESOLVED: file:/home/kehrer/Downloads/GitExtractedModels/versions/mmt/org.eclips
 	severity: ERROR
 	message: There may not be two features named 'attribute'
 		[org.eclipse.emf.ecore.impl.EClassImpl@307652c3 (name: OclType) (instanceClassName: null) (abstract: true, interface: false), org.eclipse.emf.ecore.impl.EReferenceImpl@69f772ae (name: attribute) (ordered: false, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (containment: false, resolveProxies: true), org.eclipse.emf.ecore.impl.EReferenceImpl@1e8fb54f (name: attribute) (ordered: false, unique: true, lowerBound: 1, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (containment: false, resolveProxies: true), org.eclipse.emf.ecore.impl.EReferenceImpl@740d2e78 (name: eAllStructuralFeatures) (ordered: true, unique: true, lowerBound: 0, upperBound: -1) (changeable: false, volatile: true, transient: true, defaultValueLiteral: null, unsettable: false, derived: true) (containment: false, resolveProxies: true)]
+
+Rules:
+*001
+MoveEAttributeFromSuperEClassToSubEClass: "Deletes EAttribute in SupperEClass(Reference:eStructuralFeatures) and (re-) creates EAttribute in SubEClass(Reference:eStructuralFeatures)"
+MoveEAttributeFromSuubEClassToSuperEClass: "Deletes EAttribute in SubEClass(Reference:eStructuralFeatures) and (re-) creates EAttribute in SuperEClass(Reference:eStructuralFeatures)"
+
+*002
+AddEClass(eSuperTypes)TgtEClass And DeleteEAttributeInSuperEClass: "Adds to EClass's reference eSuperTypes the target EClass and deletes EAttribute in SupperEClass(Reference:eStructuralFeatures)"
+RemoveEClass(eSuperTypes)TgtEClass And CreateEAttributeInEClass: "Removes from EClass's reference eSuperTypes the target EClass and creates EAttribute in EClass(Reference:eStructuralFeatures)"
+
+*003
+AddEClass(eSuperTypes)TgtEClass And DeleteEAttributeInSuperEClass: "Adds to EClass's reference eSuperTypes the target EClass and deletes EAttribute in SubEClass(Reference:eStructuralFeatures)"
+CreateEAttributeInEClass And RemoveEClass(eSuperTypes)TgtEClass: "Creates EAttribute in EClass(Reference:eStructuralFeatures) and removes from EClass's reference eSuperTypes the target EClass"
+
+
+
+
+
