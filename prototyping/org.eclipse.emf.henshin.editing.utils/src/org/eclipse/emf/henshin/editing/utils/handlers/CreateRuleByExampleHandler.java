@@ -13,13 +13,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.editing.utils.rulegen.ExampleBasedRuleGenerator;
+import org.eclipse.emf.henshin.editing.utils.HenshinEditingUtils;
 import org.eclipse.emf.henshin.editing.utils.util.EMFHandlerUtil;
 import org.eclipse.emf.henshin.editing.utils.util.HenshinModelHelper;
 import org.eclipse.emf.henshin.editing.utils.util.UIUtil;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -74,7 +72,7 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 		}
 
 		if ((resourceA != null) && (resourceB != null)) {
-			Module module = createEditRule(resourceA, resourceB);
+			Module module = HenshinEditingUtils.createRuleByExample(resourceA, resourceB);
 
 			if (module != null) {
 				module.getImports().addAll(HenshinModelHelper.calculateImports(module));
@@ -96,25 +94,8 @@ public class CreateRuleByExampleHandler extends AbstractHandler implements IHand
 				return null;
 			}
 		} else {
-			UIUtil.showError("The selected resource does not contain a model difference.");
+			UIUtil.showError("Please select two models.");
 			return null;
 		}
 	}
-
-	private Module createEditRule(Resource modelA, Resource modelB) {
-		String name = modelA.getURI().segments()[modelA.getURI().segmentCount() - 1] + "-"
-				+ modelB.getURI().segments()[modelB.getURI().segmentCount() - 1];
-
-		// Create Module serving as rule container:
-		Module module = HenshinFactory.eINSTANCE.createModule();
-		module.setName(name);
-
-		ExampleBasedRuleGenerator generator = new ExampleBasedRuleGenerator();
-		Rule rule = generator.generateRule(name, modelA, modelB);
-
-		module.getUnits().add(rule);
-
-		return module;
-	}
-
 }
