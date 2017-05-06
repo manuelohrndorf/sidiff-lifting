@@ -3,10 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://model/1.0" nsPrefix="model">
   <eClassifiers xsi:type="ecore:EClass" name="EClassA">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eClassB" unique="false"
-        eType="#//EClassB" eOpposite="#//EClassB/eClassA"/>
+        eType="#//EClassB" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EClassB">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="eClassA" unique="false"
-        upperBound="-1" eType="#//EClassA" eOpposite="#//EClassA/eClassB"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EClassB"/>
 </ecore:EPackage>
