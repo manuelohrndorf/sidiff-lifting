@@ -179,7 +179,7 @@ public class HistoryModelGenerator {
 		
 		Version version = HistoryModelFactory.eINSTANCE.createVersion();
 		version.setName(model.getURI().lastSegment());
-		version.setModelURI(URI.createPlatformResourceURI(model.getURI().toPlatformString(false), true).toString());
+		version.setModel(model);
 		version.getValidationErrors().addAll(validationErrors);
 		version.setStatus(modelStatus);
 		
@@ -223,6 +223,7 @@ public class HistoryModelGenerator {
 		}
 		try {
 			diff.getModelB().save(null);
+			diff.eResource().save(null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

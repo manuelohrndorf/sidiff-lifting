@@ -514,7 +514,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getVersion_Id2Element(), g1, "id2Element", null, 0, 1, Version.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_ModelURI(), theEcorePackage.getEString(), "modelURI", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVersion_Model(), this.getResource(), "model", null, 0, 1, Version.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersion_Model(), this.getResource(), "model", null, 0, 1, Version.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_Status(), this.getModelStatus(), "status", "UNKNOWN", 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getVersion__GetElement__String(), ecorePackage.getEObject(), "getElement", 0, 1, IS_UNIQUE, IS_ORDERED);

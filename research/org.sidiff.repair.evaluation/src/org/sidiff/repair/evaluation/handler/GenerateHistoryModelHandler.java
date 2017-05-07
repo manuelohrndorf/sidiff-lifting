@@ -1,0 +1,58 @@
+package org.sidiff.repair.evaluation.handler;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.internal.resources.Folder;
+import org.eclipse.core.internal.resources.Project;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.configuration.IConfigurable;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.api.util.MatchingUtils;
+import org.sidiff.repair.evaluation.HistoryModelGenerator;
+import org.sidiff.repair.evaluation.settings.EvaluationSettings;
+
+public class GenerateHistoryModelHandler extends AbstractHandler implements IHandler {
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection selection = HandlerUtil.getCurrentSelection(event);
+		
+		if (selection instanceof IStructuredSelection){
+			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+			if(structuredSelection.getFirstElement() instanceof IFolder){
+				IFolder folder = (IFolder) structuredSelection.getFirstElement();
+				DifferenceSettings differenceSettings = new DifferenceSettings();
+				
+				
+				IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.signature.name.NamedElementMatcher");
+				ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.ecore.difference.technical.TechnicalDifferenceBuilderEcore");
+				
+				IConfigurable configurable = (IConfigurable) matcher;
+				configurable.getConfigurationOptions();
+				configurable.setConfigurationOption("Use Qualified Names", false);
+				
+				differenceSettings.setMatcher(matcher);
+				differenceSettings.setTechBuilder(builder);
+				
+				EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"ecore"}, differenceSettings);
+				try {
+					HistoryModelGenerator.generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+
+}

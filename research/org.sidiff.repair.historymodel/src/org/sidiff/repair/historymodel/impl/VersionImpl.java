@@ -116,6 +116,16 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	protected static final Resource MODEL_EDEFAULT = null;
 
 	/**
+	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected Resource model = MODEL_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getStatus() <em>Status</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -235,7 +245,23 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * @generated NOT
 	 */
 	public Resource getModel() {
-		return EMFStorage.eLoad(URI.createURI(modelURI)).eResource();
+		if(model == null){
+			model = EMFStorage.eLoad(URI.createURI(modelURI)).eResource();
+		}
+		return model;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setModel(Resource newModel) {
+		Resource oldModel = model;
+		model = newModel;
+		setModelURI(URI.createPlatformResourceURI(model.getURI().toPlatformString(false), true).toString());
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VERSION__MODEL, oldModel, model));
 	}
 
 	/**
@@ -334,6 +360,9 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 			case HistoryModelPackage.VERSION__MODEL_URI:
 				setModelURI((String)newValue);
 				return;
+			case HistoryModelPackage.VERSION__MODEL:
+				setModel((Resource)newValue);
+				return;
 			case HistoryModelPackage.VERSION__STATUS:
 				setStatus((ModelStatus)newValue);
 				return;
@@ -361,6 +390,9 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 			case HistoryModelPackage.VERSION__MODEL_URI:
 				setModelURI(MODEL_URI_EDEFAULT);
 				return;
+			case HistoryModelPackage.VERSION__MODEL:
+				setModel(MODEL_EDEFAULT);
+				return;
 			case HistoryModelPackage.VERSION__STATUS:
 				setStatus(STATUS_EDEFAULT);
 				return;
@@ -385,7 +417,7 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 			case HistoryModelPackage.VERSION__MODEL_URI:
 				return MODEL_URI_EDEFAULT == null ? modelURI != null : !MODEL_URI_EDEFAULT.equals(modelURI);
 			case HistoryModelPackage.VERSION__MODEL:
-				return MODEL_EDEFAULT == null ? getModel() != null : !MODEL_EDEFAULT.equals(getModel());
+				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
 			case HistoryModelPackage.VERSION__STATUS:
 				return status != STATUS_EDEFAULT;
 		}
@@ -422,6 +454,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 		result.append(id2Element);
 		result.append(", modelURI: ");
 		result.append(modelURI);
+		result.append(", model: ");
+		result.append(model);
 		result.append(", status: ");
 		result.append(status);
 		result.append(')');

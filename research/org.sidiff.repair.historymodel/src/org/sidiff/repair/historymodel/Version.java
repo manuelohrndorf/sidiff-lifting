@@ -131,11 +131,22 @@ public interface Version extends EObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Model</em>' attribute.
+	 * @see #setModel(Resource)
 	 * @see org.sidiff.repair.historymodel.HistoryModelPackage#getVersion_Model()
-	 * @model dataType="org.sidiff.repair.historymodel.Resource" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model dataType="org.sidiff.repair.historymodel.Resource" transient="true" derived="true"
 	 * @generated
 	 */
 	Resource getModel();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.repair.historymodel.Version#getModel <em>Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model</em>' attribute.
+	 * @see #getModel()
+	 * @generated
+	 */
+	void setModel(Resource value);
 
 	/**
 	 * Returns the value of the '<em><b>Status</b></em>' attribute.
