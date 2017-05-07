@@ -109,7 +109,7 @@ public class HistoryModelGenerator {
 		List<Resource> resources = new LinkedList<Resource>();
 		for(File modelFile : files){
 			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
-			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER + File.separator + modelFile.getName());
+			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER + File.separator + modelFile.getName().substring(0,3) + modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
 			EMFStorage.eSaveAs(targetURI, model.getContents().get(0));
 			resources.add(EMFStorage.eLoad(targetURI).eResource());
 		}
@@ -179,7 +179,7 @@ public class HistoryModelGenerator {
 		
 		Version version = HistoryModelFactory.eINSTANCE.createVersion();
 		version.setName(model.getURI().lastSegment());
-		version.setModel(model);
+		version.setModelURI(URI.createPlatformResourceURI(model.getURI().toPlatformString(false), true).toString());
 		version.getValidationErrors().addAll(validationErrors);
 		version.setStatus(modelStatus);
 		

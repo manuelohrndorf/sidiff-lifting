@@ -243,7 +243,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVersion_Model() {
+	public EAttribute getVersion_ModelURI() {
 		return (EAttribute)versionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -252,8 +252,17 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVersion_Status() {
+	public EAttribute getVersion_Model() {
 		return (EAttribute)versionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVersion_Status() {
+		return (EAttribute)versionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -422,6 +431,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		createEReference(versionEClass, VERSION__VALIDATION_ERRORS);
 		createEAttribute(versionEClass, VERSION__NAME);
 		createEAttribute(versionEClass, VERSION__ID2_ELEMENT);
+		createEAttribute(versionEClass, VERSION__MODEL_URI);
 		createEAttribute(versionEClass, VERSION__MODEL);
 		createEAttribute(versionEClass, VERSION__STATUS);
 		createEOperation(versionEClass, VERSION___GET_ELEMENT__STRING);
@@ -498,12 +508,13 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		initEReference(getVersion_ValidationErrors(), this.getValidationError(), null, "validationErrors", null, 0, -1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_Name(), ecorePackage.getEString(), "name", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		EGenericType g1 = createEGenericType(ecorePackage.getEMap());
-		EGenericType g2 = createEGenericType();
+		EGenericType g2 = createEGenericType(ecorePackage.getEString());
 		g1.getETypeArguments().add(g2);
-		g2 = createEGenericType();
+		g2 = createEGenericType(theEcorePackage.getEObject());
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getVersion_Id2Element(), g1, "id2Element", null, 0, 1, Version.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVersion_Model(), this.getResource(), "model", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersion_ModelURI(), theEcorePackage.getEString(), "modelURI", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVersion_Model(), this.getResource(), "model", null, 0, 1, Version.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_Status(), this.getModelStatus(), "status", "UNKNOWN", 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getVersion__GetElement__String(), ecorePackage.getEObject(), "getElement", 0, 1, IS_UNIQUE, IS_ORDERED);

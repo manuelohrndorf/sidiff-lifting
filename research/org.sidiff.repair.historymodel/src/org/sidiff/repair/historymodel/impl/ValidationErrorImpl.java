@@ -662,8 +662,10 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 */
 	@Override
 	public int hashCode() {
+		if(message == null)
+			return super.hashCode();
 		Set<String> invalidElementAIDs = new HashSet<String>();
-		for(EObject invalidElementA : invalidElement){
+		for(EObject invalidElementA : getInvalidElement()){
 			invalidElementAIDs.add(EMFUtil.getXmiId(invalidElementA));
 		}
 		//FIXME

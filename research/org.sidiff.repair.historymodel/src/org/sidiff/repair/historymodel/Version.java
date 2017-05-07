@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  *   <li>{@link org.sidiff.repair.historymodel.Version#getValidationErrors <em>Validation Errors</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.Version#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.Version#getId2Element <em>Id2 Element</em>}</li>
+ *   <li>{@link org.sidiff.repair.historymodel.Version#getModelURI <em>Model URI</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.Version#getModel <em>Model</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.Version#getStatus <em>Status</em>}</li>
  * </ul>
@@ -87,7 +88,7 @@ public interface Version extends EObject {
 	 * @model transient="true"
 	 * @generated
 	 */
-	Map<?, ?> getId2Element();
+	Map<String, EObject> getId2Element();
 
 	/**
 	 * Sets the value of the '{@link org.sidiff.repair.historymodel.Version#getId2Element <em>Id2 Element</em>}' attribute.
@@ -97,29 +98,44 @@ public interface Version extends EObject {
 	 * @see #getId2Element()
 	 * @generated
 	 */
-	void setId2Element(Map<?, ?> value);
+	void setId2Element(Map<String, EObject> value);
+
+	/**
+	 * Returns the value of the '<em><b>Model URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Model URI</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Model URI</em>' attribute.
+	 * @see #setModelURI(String)
+	 * @see org.sidiff.repair.historymodel.HistoryModelPackage#getVersion_ModelURI()
+	 * @model
+	 * @generated
+	 */
+	String getModelURI();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.repair.historymodel.Version#getModelURI <em>Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model URI</em>' attribute.
+	 * @see #getModelURI()
+	 * @generated
+	 */
+	void setModelURI(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Model</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Model</em>' attribute.
-	 * @see #setModel(Resource)
 	 * @see org.sidiff.repair.historymodel.HistoryModelPackage#getVersion_Model()
-	 * @model dataType="org.sidiff.repair.historymodel.Resource"
+	 * @model dataType="org.sidiff.repair.historymodel.Resource" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	Resource getModel();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.repair.historymodel.Version#getModel <em>Model</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Model</em>' attribute.
-	 * @see #getModel()
-	 * @generated
-	 */
-	void setModel(Resource value);
 
 	/**
 	 * Returns the value of the '<em><b>Status</b></em>' attribute.

@@ -14,5 +14,35 @@
          </run>
       </application>
    </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.sidiff.repair.evaluation.handler.GenerateHistoryModelHandler"
+            commandId="org.sidiff.repair.evaluation.command.generatehistorymodel">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.silift.menu?after=header">
+         <menu
+               label="Model History">
+            <command
+                  commandId="org.sidiff.repair.evaluation.command.generatehistorymodel"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Generates an History Model for a list of model versions"
+            id="org.sidiff.repair.evaluation.command.generatehistorymodel"
+            name="Generate History Model">
+      </command>
+   </extension>
 
 </plugin>

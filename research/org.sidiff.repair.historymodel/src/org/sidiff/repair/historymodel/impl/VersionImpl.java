@@ -10,6 +10,7 @@ import java.util.Map;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.repair.historymodel.HistoryModelPackage;
 import org.sidiff.repair.historymodel.ModelStatus;
 import org.sidiff.repair.historymodel.ValidationError;
@@ -35,6 +37,7 @@ import org.sidiff.repair.historymodel.Version;
  *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getValidationErrors <em>Validation Errors</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getId2Element <em>Id2 Element</em>}</li>
+ *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getModelURI <em>Model URI</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getModel <em>Model</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.VersionImpl#getStatus <em>Status</em>}</li>
  * </ul>
@@ -80,7 +83,27 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * @generated
 	 * @ordered
 	 */
-	protected Map<?, ?> id2Element;
+	protected Map<String, EObject> id2Element;
+
+	/**
+	 * The default value of the '{@link #getModelURI() <em>Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelURI()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String MODEL_URI_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModelURI() <em>Model URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelURI()
+	 * @generated
+	 * @ordered
+	 */
+	protected String modelURI = MODEL_URI_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getModel() <em>Model</em>}' attribute.
@@ -91,16 +114,6 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * @ordered
 	 */
 	protected static final Resource MODEL_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getModel()
-	 * @generated
-	 * @ordered
-	 */
-	protected Resource model = MODEL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getStatus() <em>Status</em>}' attribute.
@@ -179,7 +192,7 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map<?, ?> getId2Element() {
+	public Map<String, EObject> getId2Element() {
 		return id2Element;
 	}
 
@@ -188,8 +201,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setId2Element(Map<?, ?> newId2Element) {
-		Map<?, ?> oldId2Element = id2Element;
+	public void setId2Element(Map<String, EObject> newId2Element) {
+		Map<String, EObject> oldId2Element = id2Element;
 		id2Element = newId2Element;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VERSION__ID2_ELEMENT, oldId2Element, id2Element));
@@ -200,8 +213,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Resource getModel() {
-		return model;
+	public String getModelURI() {
+		return modelURI;
 	}
 
 	/**
@@ -209,11 +222,20 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModel(Resource newModel) {
-		Resource oldModel = model;
-		model = newModel;
+	public void setModelURI(String newModelURI) {
+		String oldModelURI = modelURI;
+		modelURI = newModelURI;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VERSION__MODEL, oldModel, model));
+			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VERSION__MODEL_URI, oldModelURI, modelURI));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Resource getModel() {
+		return EMFStorage.eLoad(URI.createURI(modelURI)).eResource();
 	}
 
 	/**
@@ -243,7 +265,7 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 * @generated NOT
 	 */
 	public EObject getElement(String id) {
-		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
+		for (Iterator<EObject> iterator = getModel().getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
 			if (id.equals(EMFUtil.getXmiId(eObject))){
 				return eObject;
@@ -280,6 +302,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 				return getName();
 			case HistoryModelPackage.VERSION__ID2_ELEMENT:
 				return getId2Element();
+			case HistoryModelPackage.VERSION__MODEL_URI:
+				return getModelURI();
 			case HistoryModelPackage.VERSION__MODEL:
 				return getModel();
 			case HistoryModelPackage.VERSION__STATUS:
@@ -305,10 +329,10 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 				setName((String)newValue);
 				return;
 			case HistoryModelPackage.VERSION__ID2_ELEMENT:
-				setId2Element((Map<?, ?>)newValue);
+				setId2Element((Map<String, EObject>)newValue);
 				return;
-			case HistoryModelPackage.VERSION__MODEL:
-				setModel((Resource)newValue);
+			case HistoryModelPackage.VERSION__MODEL_URI:
+				setModelURI((String)newValue);
 				return;
 			case HistoryModelPackage.VERSION__STATUS:
 				setStatus((ModelStatus)newValue);
@@ -332,10 +356,10 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 				setName(NAME_EDEFAULT);
 				return;
 			case HistoryModelPackage.VERSION__ID2_ELEMENT:
-				setId2Element((Map<?, ?>)null);
+				setId2Element((Map<String, EObject>)null);
 				return;
-			case HistoryModelPackage.VERSION__MODEL:
-				setModel(MODEL_EDEFAULT);
+			case HistoryModelPackage.VERSION__MODEL_URI:
+				setModelURI(MODEL_URI_EDEFAULT);
 				return;
 			case HistoryModelPackage.VERSION__STATUS:
 				setStatus(STATUS_EDEFAULT);
@@ -358,8 +382,10 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HistoryModelPackage.VERSION__ID2_ELEMENT:
 				return id2Element != null;
+			case HistoryModelPackage.VERSION__MODEL_URI:
+				return MODEL_URI_EDEFAULT == null ? modelURI != null : !MODEL_URI_EDEFAULT.equals(modelURI);
 			case HistoryModelPackage.VERSION__MODEL:
-				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
+				return MODEL_EDEFAULT == null ? getModel() != null : !MODEL_EDEFAULT.equals(getModel());
 			case HistoryModelPackage.VERSION__STATUS:
 				return status != STATUS_EDEFAULT;
 		}
@@ -394,8 +420,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 		result.append(name);
 		result.append(", id2Element: ");
 		result.append(id2Element);
-		result.append(", model: ");
-		result.append(model);
+		result.append(", modelURI: ");
+		result.append(modelURI);
 		result.append(", status: ");
 		result.append(status);
 		result.append(')');

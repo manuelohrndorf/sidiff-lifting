@@ -179,13 +179,22 @@ public interface HistoryModelPackage extends EPackage {
 	int VERSION__ID2_ELEMENT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Model URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERSION__MODEL_URI = 3;
+
+	/**
 	 * The feature id for the '<em><b>Model</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION__MODEL = 3;
+	int VERSION__MODEL = 4;
 
 	/**
 	 * The feature id for the '<em><b>Status</b></em>' attribute.
@@ -194,7 +203,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION__STATUS = 4;
+	int VERSION__STATUS = 5;
 
 	/**
 	 * The number of structural features of the '<em>Version</em>' class.
@@ -203,7 +212,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VERSION_FEATURE_COUNT = 5;
+	int VERSION_FEATURE_COUNT = 6;
 
 	/**
 	 * The operation id for the '<em>Get Element</em>' operation.
@@ -477,6 +486,17 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getVersion_Id2Element();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.repair.historymodel.Version#getModelURI <em>Model URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model URI</em>'.
+	 * @see org.sidiff.repair.historymodel.Version#getModelURI()
+	 * @see #getVersion()
+	 * @generated
+	 */
+	EAttribute getVersion_ModelURI();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.repair.historymodel.Version#getModel <em>Model</em>}'.
@@ -764,6 +784,14 @@ public interface HistoryModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VERSION__ID2_ELEMENT = eINSTANCE.getVersion_Id2Element();
+
+		/**
+		 * The meta object literal for the '<em><b>Model URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VERSION__MODEL_URI = eINSTANCE.getVersion_ModelURI();
 
 		/**
 		 * The meta object literal for the '<em><b>Model</b></em>' attribute feature.
