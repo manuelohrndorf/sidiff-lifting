@@ -62,6 +62,7 @@ public class ValidationErrorItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 			addIntroducedInPropertyDescriptor(object);
 			addResolvedInPropertyDescriptor(object);
 			addMessagePropertyDescriptor(object);
@@ -73,6 +74,28 @@ public class ValidationErrorItemProvider
 			addInvalidElementPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationError_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationError_name_feature", "_UI_ValidationError_type"),
+				 HistoryModelPackage.Literals.VALIDATION_ERROR__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -304,6 +327,17 @@ public class ValidationErrorItemProvider
 	}
 
 	/**
+	 * This returns ValidationError.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object getImage(Object object) {
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ValidationError"));
+	}
+
+	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -311,7 +345,7 @@ public class ValidationErrorItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ValidationError)object).getMessage();
+		String label = ((ValidationError)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ValidationError_type") :
 			getString("_UI_ValidationError_type") + " " + label;
@@ -330,6 +364,7 @@ public class ValidationErrorItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ValidationError.class)) {
+			case HistoryModelPackage.VALIDATION_ERROR__NAME:
 			case HistoryModelPackage.VALIDATION_ERROR__MESSAGE:
 			case HistoryModelPackage.VALIDATION_ERROR__SOURCE:
 			case HistoryModelPackage.VALIDATION_ERROR__SEVERITY:

@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getIntroducedIn <em>Introduced In</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getResolvedIn <em>Resolved In</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getMessage <em>Message</em>}</li>
@@ -31,6 +32,32 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ValidationError extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.sidiff.repair.historymodel.HistoryModelPackage#getValidationError_Name()
+	 * @model
+	 * @generated
+	 */
+	String getName();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.repair.historymodel.ValidationError#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Introduced In</b></em>' reference.
 	 * <!-- begin-user-doc -->

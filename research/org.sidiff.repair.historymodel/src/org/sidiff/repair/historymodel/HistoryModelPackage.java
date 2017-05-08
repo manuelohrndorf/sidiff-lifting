@@ -243,13 +243,22 @@ public interface HistoryModelPackage extends EPackage {
 	int VALIDATION_ERROR = 2;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_ERROR__NAME = 0;
+
+	/**
 	 * The feature id for the '<em><b>Introduced In</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__INTRODUCED_IN = 0;
+	int VALIDATION_ERROR__INTRODUCED_IN = 1;
 
 	/**
 	 * The feature id for the '<em><b>Resolved In</b></em>' reference.
@@ -258,7 +267,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__RESOLVED_IN = 1;
+	int VALIDATION_ERROR__RESOLVED_IN = 2;
 
 	/**
 	 * The feature id for the '<em><b>Message</b></em>' attribute.
@@ -267,7 +276,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__MESSAGE = 2;
+	int VALIDATION_ERROR__MESSAGE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' attribute.
@@ -276,7 +285,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__SOURCE = 3;
+	int VALIDATION_ERROR__SOURCE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -285,7 +294,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__SEVERITY = 4;
+	int VALIDATION_ERROR__SEVERITY = 5;
 
 	/**
 	 * The feature id for the '<em><b>Resolved</b></em>' attribute.
@@ -294,7 +303,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__RESOLVED = 5;
+	int VALIDATION_ERROR__RESOLVED = 6;
 
 	/**
 	 * The feature id for the '<em><b>Prec</b></em>' reference.
@@ -303,7 +312,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__PREC = 6;
+	int VALIDATION_ERROR__PREC = 7;
 
 	/**
 	 * The feature id for the '<em><b>Succ</b></em>' reference.
@@ -312,7 +321,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__SUCC = 7;
+	int VALIDATION_ERROR__SUCC = 8;
 
 	/**
 	 * The feature id for the '<em><b>Invalid Element</b></em>' reference list.
@@ -321,7 +330,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__INVALID_ELEMENT = 8;
+	int VALIDATION_ERROR__INVALID_ELEMENT = 9;
 
 	/**
 	 * The number of structural features of the '<em>Validation Error</em>' class.
@@ -330,7 +339,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR_FEATURE_COUNT = 9;
+	int VALIDATION_ERROR_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Validation Error</em>' class.
@@ -539,6 +548,17 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getValidationError();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.repair.historymodel.ValidationError#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.sidiff.repair.historymodel.ValidationError#getName()
+	 * @see #getValidationError()
+	 * @generated
+	 */
+	EAttribute getValidationError_Name();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.repair.historymodel.ValidationError#getIntroducedIn <em>Introduced In</em>}'.
@@ -826,6 +846,14 @@ public interface HistoryModelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass VALIDATION_ERROR = eINSTANCE.getValidationError();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALIDATION_ERROR__NAME = eINSTANCE.getValidationError_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Introduced In</b></em>' reference feature.

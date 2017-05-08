@@ -288,8 +288,8 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_IntroducedIn() {
-		return (EReference)validationErrorEClass.getEStructuralFeatures().get(0);
+	public EAttribute getValidationError_Name() {
+		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_ResolvedIn() {
+	public EReference getValidationError_IntroducedIn() {
 		return (EReference)validationErrorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -306,8 +306,8 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getValidationError_Message() {
-		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(2);
+	public EReference getValidationError_ResolvedIn() {
+		return (EReference)validationErrorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getValidationError_Source() {
+	public EAttribute getValidationError_Message() {
 		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -324,7 +324,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getValidationError_Severity() {
+	public EAttribute getValidationError_Source() {
 		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -333,7 +333,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getValidationError_Resolved() {
+	public EAttribute getValidationError_Severity() {
 		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -342,8 +342,8 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_Prec() {
-		return (EReference)validationErrorEClass.getEStructuralFeatures().get(6);
+	public EAttribute getValidationError_Resolved() {
+		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -351,7 +351,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_Succ() {
+	public EReference getValidationError_Prec() {
 		return (EReference)validationErrorEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -360,8 +360,17 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_InvalidElement() {
+	public EReference getValidationError_Succ() {
 		return (EReference)validationErrorEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getValidationError_InvalidElement() {
+		return (EReference)validationErrorEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -437,6 +446,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		createEOperation(versionEClass, VERSION___GET_ELEMENT__STRING);
 
 		validationErrorEClass = createEClass(VALIDATION_ERROR);
+		createEAttribute(validationErrorEClass, VALIDATION_ERROR__NAME);
 		createEReference(validationErrorEClass, VALIDATION_ERROR__INTRODUCED_IN);
 		createEReference(validationErrorEClass, VALIDATION_ERROR__RESOLVED_IN);
 		createEAttribute(validationErrorEClass, VALIDATION_ERROR__MESSAGE);
@@ -521,6 +531,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		addEParameter(op, ecorePackage.getEString(), "id", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(validationErrorEClass, ValidationError.class, "ValidationError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getValidationError_Name(), theEcorePackage.getEString(), "name", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getValidationError_IntroducedIn(), this.getVersion(), null, "introducedIn", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getValidationError_ResolvedIn(), this.getVersion(), null, "resolvedIn", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationError_Message(), ecorePackage.getEString(), "message", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -28,6 +28,7 @@ import org.sidiff.repair.historymodel.Version;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getIntroducedIn <em>Introduced In</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getResolvedIn <em>Resolved In</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getMessage <em>Message</em>}</li>
@@ -42,6 +43,26 @@ import org.sidiff.repair.historymodel.Version;
  * @generated
  */
 public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements ValidationError {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getIntroducedIn() <em>Introduced In</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -186,6 +207,27 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VALIDATION_ERROR__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Version getIntroducedIn() {
 		if (introducedIn != null && introducedIn.eIsProxy()) {
 			InternalEObject oldIntroducedIn = (InternalEObject)introducedIn;
@@ -323,12 +365,10 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean isResolved() {
-		// TODO: implement this method to return the 'Resolved' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return getResolvedIn() != null;
 	}
 
 	/**
@@ -507,6 +547,8 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case HistoryModelPackage.VALIDATION_ERROR__NAME:
+				return getName();
 			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED_IN:
 				if (resolve) return getIntroducedIn();
 				return basicGetIntroducedIn();
@@ -541,6 +583,9 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case HistoryModelPackage.VALIDATION_ERROR__NAME:
+				setName((String)newValue);
+				return;
 			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED_IN:
 				setIntroducedIn((Version)newValue);
 				return;
@@ -574,6 +619,9 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case HistoryModelPackage.VALIDATION_ERROR__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED_IN:
 				setIntroducedIn((Version)null);
 				return;
@@ -607,6 +655,8 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case HistoryModelPackage.VALIDATION_ERROR__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED_IN:
 				return introducedIn != null;
 			case HistoryModelPackage.VALIDATION_ERROR__RESOLVED_IN:
@@ -682,7 +732,9 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (message: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", message: ");
 		result.append(message);
 		result.append(", source: ");
 		result.append(source);
