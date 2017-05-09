@@ -327,6 +327,10 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 		return result.toString();
 	}
 
+	/**
+	 * @generated NOT
+	 * @return
+	 */
 	private Set<String> getUniqueValdiationMessages(){
 		Set<String> messages = new HashSet<String>();
 		for(Version version : getVersions()){
