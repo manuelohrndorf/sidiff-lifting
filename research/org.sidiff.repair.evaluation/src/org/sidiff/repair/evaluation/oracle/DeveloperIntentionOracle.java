@@ -40,6 +40,9 @@ public class DeveloperIntentionOracle {
 	 * @return
 	 */
 	public boolean isHistoricallyObservable(Match preMatch, SymmetricDifference evolutionStep, boolean strict) {
+		this.preMatch = preMatch;
+		this.evolutionStep = evolutionStep;
+		
 		this.complementRule = preMatch.getRule();
 		this.changeSignatures = new HashSet<String>();
 		this.xmiIDs = new HashSet<String>();
