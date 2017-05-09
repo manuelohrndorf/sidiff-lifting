@@ -47,12 +47,12 @@ public class EMFValidator implements IValidator {
 				validationError.setMessage(childDiagnostic.getMessage());
 				validationError.setSource(childDiagnostic.getSource());
 				validationError.setSeverity(childDiagnostic.getSeverity() == Diagnostic.ERROR? ValidationSeverity.ERROR : ValidationSeverity.WARNING);
-				String name = childDiagnostic.getMessage().replaceAll("\\'.*\\'", "");
+				String name = childDiagnostic.getMessage().replaceAll("'.*?'", "").trim();
+				name = name.replaceAll("\\s.[^\\s]*@.*?\\s", "");
 				while(name.contains(" ")){
 					int index = name.indexOf(" ");
 					name = name.replace(name.substring(index, index+2), name.substring(index+1, index+2).toUpperCase());
 				}
-				name = name.replaceAll("\\'.*\\'", "");
 				validationError.setName(name);
 				
 				for(Object obj : childDiagnostic.getData()){

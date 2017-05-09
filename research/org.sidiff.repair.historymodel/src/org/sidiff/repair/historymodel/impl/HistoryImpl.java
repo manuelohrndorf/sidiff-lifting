@@ -5,6 +5,8 @@ package org.sidiff.repair.historymodel.impl;
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -25,6 +27,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 
 import org.sidiff.repair.historymodel.History;
 import org.sidiff.repair.historymodel.HistoryModelPackage;
+import org.sidiff.repair.historymodel.ValidationError;
 import org.sidiff.repair.historymodel.Version;
 
 /**
@@ -316,7 +319,21 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');
+		result.append("unique messages:"+"\n");
+		for(String s : getUniqueValdiationMessages()){
+			result.append(s + "\n");
+		}
+		
 		return result.toString();
 	}
 
+	private Set<String> getUniqueValdiationMessages(){
+		Set<String> messages = new HashSet<String>();
+		for(Version version : getVersions()){
+			for(ValidationError error : version.getValidationErrors()){
+				messages.add(error.getName());
+			}
+		}
+		return messages;
+	}
 } //HistoryImpl

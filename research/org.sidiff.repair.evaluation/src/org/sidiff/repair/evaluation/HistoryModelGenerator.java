@@ -72,6 +72,7 @@ public class HistoryModelGenerator {
 			List<Resource> resources = copyModels(files);
 			
 			History history = generateHistory(resources, settings);
+			System.out.println(history.toString());
 			EMFStorage.eSaveAs(EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + history.getName() + ".history"), history);
 		}
 	}

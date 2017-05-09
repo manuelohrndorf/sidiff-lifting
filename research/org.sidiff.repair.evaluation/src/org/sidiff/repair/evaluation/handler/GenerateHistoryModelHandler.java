@@ -8,8 +8,14 @@ import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -24,34 +30,47 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		
-		if (selection instanceof IStructuredSelection){
-			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			if(structuredSelection.getFirstElement() instanceof IFolder){
-				IFolder folder = (IFolder) structuredSelection.getFirstElement();
-				DifferenceSettings differenceSettings = new DifferenceSettings();
+		Job job = new Job("Generate History Model"){
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				// TODO Auto-generated method stub
+		
+				ISelection selection = HandlerUtil.getCurrentSelection(event);
 				
-				
-				IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.signature.name.NamedElementMatcher");
-				ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.ecore.difference.technical.TechnicalDifferenceBuilderEcore");
-				
-				IConfigurable configurable = (IConfigurable) matcher;
-				configurable.getConfigurationOptions();
-				configurable.setConfigurationOption("Use Qualified Names", false);
-				
-				differenceSettings.setMatcher(matcher);
-				differenceSettings.setTechBuilder(builder);
-				
-				EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"ecore"}, differenceSettings);
-				try {
-					HistoryModelGenerator.generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (selection instanceof IStructuredSelection){
+					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+					if(structuredSelection.getFirstElement() instanceof IFolder){
+						IFolder folder = (IFolder) structuredSelection.getFirstElement();
+						DifferenceSettings differenceSettings = new DifferenceSettings();
+						differenceSettings.setMergeImports(false);
+						
+						IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.signature.name.NamedElementMatcher");
+						ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.ecore.difference.technical.TechnicalDifferenceBuilderEcoreNoAnnotations");
+						
+						IConfigurable configurable = (IConfigurable) matcher;
+						configurable.getConfigurationOptions();
+						configurable.setConfigurationOption("Use Qualified Names", false);
+						
+						differenceSettings.setMatcher(matcher);
+						differenceSettings.setTechBuilder(builder);
+						
+						EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"ecore"}, differenceSettings);
+						try {
+							HistoryModelGenerator.generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
+						} catch (CoreException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}				
+				return Status.OK_STATUS;
 			}
-		}
+			
+		};
+		
+		job.schedule();
 		return null;
 	}
 

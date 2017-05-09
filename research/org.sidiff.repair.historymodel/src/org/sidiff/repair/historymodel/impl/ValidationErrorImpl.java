@@ -688,7 +688,7 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 		if(obj instanceof ValidationError){
 			ValidationError validationError = (ValidationError) obj;
 			// replace all object runtime representation in the message
-			boolean equalMessage = message.replaceAll("\\'.*\\'", "").equals(validationError.getMessage().replaceAll("\\'.*\\'", ""));
+			boolean equalName = name.equals(validationError.getName());
 			
 			
 			Set<String> invalidElementAIDs = new HashSet<String>();
@@ -701,7 +701,7 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 				invalidElementBIDs.add(EMFUtil.getXmiId(invalidElementB));
 			}
 			
-			return equalMessage && invalidElementAIDs.equals(invalidElementBIDs);
+			return equalName && invalidElementAIDs.equals(invalidElementBIDs);
 		}
 		return super.equals(obj);
 	}
@@ -712,14 +712,14 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 */
 	@Override
 	public int hashCode() {
-		if(message == null)
+		if(name == null)
 			return super.hashCode();
 		Set<String> invalidElementAIDs = new HashSet<String>();
 		for(EObject invalidElementA : getInvalidElement()){
 			invalidElementAIDs.add(EMFUtil.getXmiId(invalidElementA));
 		}
 		//FIXME
-		return (message.replaceAll("\\'.*\\'", "")+invalidElementAIDs).hashCode();
+		return (name+invalidElementAIDs).hashCode();
 	}
 
 	/**
