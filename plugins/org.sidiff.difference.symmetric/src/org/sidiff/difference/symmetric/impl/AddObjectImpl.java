@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.util.StringUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -157,7 +158,28 @@ public class AddObjectImpl extends ChangeImpl implements AddObject {
 	
 	@Override
 	public String toString() {
-		return super.toString() + " (type: " + obj.eClass().getName() + ")";
+	    StringBuilder result = new StringBuilder(eClass().getName());
+	    result.append('@');
+	    result.append(Integer.toHexString(hashCode()));
+
+		if (eIsProxy()) {
+			result.append(" (eProxyURI: ");
+			result.append(eProxyURI());
+			
+			if (eDynamicClass() != null) {
+				result.append(" eClass: ");
+				result.append(eDynamicClass());
+			}
+			result.append(')');
+		} else if (eDynamicClass() != null) {
+			result.append(" (eClass: ");
+			result.append(eDynamicClass());
+			result.append(')');
+		}
+
+	    return result.toString() 
+	    		+ " (type: " + obj.eClass().getName() 
+	    		+ " obj: " + StringUtil.eObjectToString(getObj()) + ")";
 	}
 
 } //AddObjectImpl
