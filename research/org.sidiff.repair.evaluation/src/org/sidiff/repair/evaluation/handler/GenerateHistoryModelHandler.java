@@ -47,7 +47,8 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 						
 						IConfigurable configurable = (IConfigurable) matcher;
 						configurable.getConfigurationOptions();
-						configurable.setConfigurationOption("Use Qualified Names", false);
+						configurable.setConfigurationOption("Use Qualified Names", true);
+						configurable.setConfigurationOption("Allow Ambiguous Names", true);
 						
 						differenceSettings.setMatcher(matcher);
 						differenceSettings.setTechBuilder(builder);
@@ -59,6 +60,8 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+//						HistoryModelGenerator.subfoldering(folder.getLocation().toOSString(), evaluationSettings);					
+						
 					}
 				}				
 				return Status.OK_STATUS;

@@ -683,44 +683,47 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 * @generated NOT
 	 */
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof ValidationError){
-			ValidationError validationError = (ValidationError) obj;
-			// replace all object runtime representation in the message
-			boolean equalName = name.equals(validationError.getName());
-			
-			
-			Set<String> invalidElementAIDs = new HashSet<String>();
-			for(EObject invalidElementA : invalidElement){
-				invalidElementAIDs.add(EMFUtil.getXmiId(invalidElementA));
-			}
-			
-			Set<String> invalidElementBIDs = new HashSet<String>();
-			for(EObject invalidElementB : validationError.getInvalidElement()){
-				invalidElementBIDs.add(EMFUtil.getXmiId(invalidElementB));
-			}
-			
-			return equalName && invalidElementAIDs.equals(invalidElementBIDs);
-		}
-		return super.equals(obj);
-	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		if(obj instanceof ValidationError){
+//			ValidationError validationError = (ValidationError) obj;
+//			// replace all object runtime representation in the message
+//			boolean equalName = name.equals(validationError.getName());
+//			
+//			
+//			Set<String> invalidElementAIDs = new HashSet<String>();
+//			for(EObject invalidElementA : invalidElement){
+//				String id = EMFUtil.getXmiId(invalidElementA);
+//				if(id!=null)
+//					invalidElementAIDs.add(id);
+//			}
+//			
+//			Set<String> invalidElementBIDs = new HashSet<String>();
+//			for(EObject invalidElementB : validationError.getInvalidElement()){
+//				String id = EMFUtil.getXmiId(invalidElementB);
+//				if(id!=null)
+//					invalidElementBIDs.add(id);
+//			}
+//			return equalName && invalidElementAIDs.equals(invalidElementBIDs);
+//		}
+//		return super.equals(obj);
+//	}
 
 	/** (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 * @generated NOT
 	 */
-	@Override
-	public int hashCode() {
-		if(name == null)
-			return super.hashCode();
-		Set<String> invalidElementAIDs = new HashSet<String>();
-		for(EObject invalidElementA : getInvalidElement()){
-			invalidElementAIDs.add(EMFUtil.getXmiId(invalidElementA));
-		}
-		//FIXME
-		return (name+invalidElementAIDs).hashCode();
-	}
+//	@Override
+//	public int hashCode() {
+//		if(name == null)
+//			return super.hashCode();
+//		Set<String> invalidElementAIDs = new HashSet<String>();
+//		for(EObject invalidElementA : getInvalidElement()){
+//			invalidElementAIDs.add(EMFUtil.getXmiId(invalidElementA));
+//		}
+//		//FIXME
+//		return (name+invalidElementAIDs).hashCode();
+//	}
 
 	/**
 	 * <!-- begin-user-doc -->

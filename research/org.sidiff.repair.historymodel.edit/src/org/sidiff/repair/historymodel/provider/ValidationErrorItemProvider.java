@@ -26,6 +26,8 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.sidiff.repair.historymodel.HistoryModelPackage;
 import org.sidiff.repair.historymodel.ValidationError;
+import org.sidiff.repair.historymodel.ValidationSeverity;
+import org.sidiff.repair.historymodel.Version;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.repair.historymodel.ValidationError} object.
@@ -330,10 +332,20 @@ public class ValidationErrorItemProvider
 	 * This returns ValidationError.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
+		ValidationError validationError = (ValidationError) object;
+		if(validationError.isResolved()){
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/resolved"));
+		}
+		if(validationError.getSeverity().equals(ValidationSeverity.ERROR)){
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/error"));
+		}
+		if(validationError.getSeverity().equals(ValidationSeverity.WARNING)){
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/warning"));
+		}
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/ValidationError"));
 	}
 
@@ -341,11 +353,12 @@ public class ValidationErrorItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ValidationError)object).getName();
+		ValidationError validationError = (ValidationError)object;
+		String label = ((Version)validationError.eContainer()).getName() + "." + validationError.getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ValidationError_type") :
 			getString("_UI_ValidationError_type") + " " + label;

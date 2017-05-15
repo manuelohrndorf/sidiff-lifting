@@ -5,7 +5,9 @@ package org.sidiff.repair.historymodel.impl;
 import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -320,8 +322,9 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 		result.append(name);
 		result.append(')');
 		result.append("unique messages:"+"\n");
-		for(String s : getUniqueValdiationMessages()){
-			result.append(s + "\n");
+		Map<String,Integer> map = getUniqueValdiationMessages();
+		for(String s : map.keySet()){
+			result.append(s + " (" + map.get(s) + ")\n");
 		}
 		
 		return result.toString();
@@ -331,11 +334,16 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 	 * @generated NOT
 	 * @return
 	 */
-	private Set<String> getUniqueValdiationMessages(){
-		Set<String> messages = new HashSet<String>();
+	private Map<String, Integer> getUniqueValdiationMessages(){
+		Map<String, Integer> messages = new HashMap<String, Integer>();
 		for(Version version : getVersions()){
 			for(ValidationError error : version.getValidationErrors()){
-				messages.add(error.getName());
+				if(error.getIntroducedIn() != null && error.isResolved()){
+					if(messages.get(error.getName()) == null){
+						messages.put(error.getName(), 0);
+					}
+					messages.put(error.getName(), messages.get(error.getName()) +1);
+				}
 			}
 		}
 		return messages;

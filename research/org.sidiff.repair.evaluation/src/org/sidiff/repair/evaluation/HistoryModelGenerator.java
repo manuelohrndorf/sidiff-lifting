@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -18,6 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
@@ -111,11 +114,30 @@ public class HistoryModelGenerator {
 		for(File modelFile : files){
 			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
 			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER + File.separator + modelFile.getName().substring(0,3) + modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
-			EMFStorage.eSaveAs(targetURI, model.getContents().get(0));
-			resources.add(EMFStorage.eLoad(targetURI).eResource());
+			model.setURI(targetURI);
+			try {
+				model.save(null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+			resources.add(model);
+			
 		}
 		return resources;
 	}
+	
+	public static void subfoldering(String path, EvaluationSettings settings){
+		File modelFolder = new File(path);
+		for(File modelFile : searchModelFiles(modelFolder, settings)){
+			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
+//			URI targetURI = EMFStorage.pathToUri(modelFile.getAbsolutePath() + File.separator + ((EPackage)model.getContents().get(0)).getName() + File.separator + modelFile.getName() + modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
+			URI targetURI = URI.createURI(model.getURI().toString().replace(model.getURI().lastSegment(),  ((EPackage)model.getContents().get(0)).getName() + File.separator + model.getURI().lastSegment()));
+			EMFStorage.eSaveAs(targetURI, model.getContents().get(0));
+			
+		}
+	}
+	
 	
 	private static History generateHistory(List<Resource> resources, EvaluationSettings settings) {		
 		
@@ -238,7 +260,7 @@ public class HistoryModelGenerator {
 				for(ValidationError errorB : versionB.getValidationErrors()){
 					boolean hasCorresponding = false;
 					for(ValidationError errorA : versionA.getValidationErrors()){
-						if(errorA.equals(errorB)){
+						if(isEqualValidationError(errorA, errorB)){
 							errorB.setPrec(errorA);
 							hasCorresponding = true;
 							errorB.setIntroducedIn(errorA.getIntroducedIn());
@@ -260,7 +282,7 @@ public class HistoryModelGenerator {
 				for(ValidationError errorA : versionA.getValidationErrors()){
 					boolean hasCorresponding = false;
 					for(ValidationError errorB : versionB.getValidationErrors()){
-						if(errorA.equals(errorB)){
+						if(isEqualValidationError(errorA, errorB)){
 							errorA.setSucc(errorB);
 							hasCorresponding = true;
 							errorA.setResolvedIn(errorB.getResolvedIn());
@@ -273,5 +295,27 @@ public class HistoryModelGenerator {
 				}
 			}
 		}
+	}
+	
+	private static boolean isEqualValidationError(ValidationError validationErrorA, ValidationError validationErrorB){
+	
+		// replace all object runtime representation in the message
+		boolean equalName = validationErrorA.getName().equals(validationErrorB.getName());
+
+		Set<String> invalidElementAIDs = new HashSet<String>();
+		for (EObject invalidElementA : validationErrorA.getInvalidElement()) {
+			String id = EMFUtil.getXmiId(invalidElementA);
+			if (id != null)
+				invalidElementAIDs.add(id);
+		}
+
+		Set<String> invalidElementBIDs = new HashSet<String>();
+		for (EObject invalidElementB : validationErrorB.getInvalidElement()) {
+			String id = EMFUtil.getXmiId(invalidElementB);
+			if (id != null)
+				invalidElementBIDs.add(id);
+		}
+		return equalName && invalidElementAIDs.equals(invalidElementBIDs);
+		
 	}
 }
