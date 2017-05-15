@@ -41,6 +41,7 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
+import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 
 /**
@@ -86,6 +87,16 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			} else {
 				incrementalBuild(delta, monitor, ruleBaseWrapper, attachmentBuilders);
 			}
+		}
+		
+		try {
+			// Compile the rulebase project class:
+			getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			
+			// Unload runtime rulebases:
+			unloadRulebase();
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 		
 		// Run the garbage collector: 
@@ -619,6 +630,12 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			if (monitor.isCanceled()) {
 				throw new OperationCanceledException();
 			}
+		}
+	}
+	
+	private void unloadRulebase() {
+		for (IRuleBaseProject rulebaseProject : RuleBaseProjectLibrary.getRuleBaseProjects()) {
+			rulebaseProject.unloadRuleBaseData();
 		}
 	}
 }

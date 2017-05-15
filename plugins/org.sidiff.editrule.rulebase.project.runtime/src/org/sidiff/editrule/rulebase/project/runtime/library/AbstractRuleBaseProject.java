@@ -51,6 +51,11 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 		return rulebase;
 	}
 	
+	@Override
+	public void unloadRuleBaseData() {
+		rulebase = null;
+	}
+	
 	protected String getRuleBasePluginID() {
 		return FrameworkUtil.getBundle(getClass()).getSymbolicName();
 	}
