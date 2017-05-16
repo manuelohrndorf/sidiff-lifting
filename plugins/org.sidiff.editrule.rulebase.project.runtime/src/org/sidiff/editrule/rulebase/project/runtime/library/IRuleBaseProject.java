@@ -70,6 +70,11 @@ public interface IRuleBaseProject {
 	 * @return The rulebase instance.
 	 */
 	public RuleBase getRuleBaseData();
+	
+	/**
+	 * Unloads the rulebase model.
+	 */
+	public void unloadRuleBaseData();
 
 	/**
 	 * @return The plug-in relative path to the rulebase file.
