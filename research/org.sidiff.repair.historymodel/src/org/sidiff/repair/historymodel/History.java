@@ -109,4 +109,12 @@ public interface History extends EObject {
 	 */
 	SymmetricDifference getTechnicalDifference(Version old, Version new_);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<ValidationError> getValidationErrors(boolean introduced, boolean resolved);
+
 } // History

@@ -2,9 +2,6 @@
  */
 package org.sidiff.repair.historymodel.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -14,7 +11,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.repair.historymodel.HistoryModelPackage;
 import org.sidiff.repair.historymodel.ValidationError;
 import org.sidiff.repair.historymodel.ValidationSeverity;
@@ -34,6 +30,7 @@ import org.sidiff.repair.historymodel.Version;
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getMessage <em>Message</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getSeverity <em>Severity</em>}</li>
+ *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#isIntroduced <em>Introduced</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#isResolved <em>Resolved</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getPrec <em>Prec</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.impl.ValidationErrorImpl#getSucc <em>Succ</em>}</li>
@@ -142,6 +139,16 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 * @ordered
 	 */
 	protected ValidationSeverity severity = SEVERITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIntroduced() <em>Introduced</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIntroduced()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INTRODUCED_EDEFAULT = false;
 
 	/**
 	 * The default value of the '{@link #isResolved() <em>Resolved</em>}' attribute.
@@ -367,6 +374,15 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public boolean isIntroduced() {
+		return getIntroducedIn() != null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public boolean isResolved() {
 		return getResolvedIn() != null;
 	}
@@ -561,6 +577,8 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 				return getSource();
 			case HistoryModelPackage.VALIDATION_ERROR__SEVERITY:
 				return getSeverity();
+			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED:
+				return isIntroduced();
 			case HistoryModelPackage.VALIDATION_ERROR__RESOLVED:
 				return isResolved();
 			case HistoryModelPackage.VALIDATION_ERROR__PREC:
@@ -667,6 +685,8 @@ public class ValidationErrorImpl extends MinimalEObjectImpl.Container implements
 				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
 			case HistoryModelPackage.VALIDATION_ERROR__SEVERITY:
 				return severity != SEVERITY_EDEFAULT;
+			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED:
+				return isIntroduced() != INTRODUCED_EDEFAULT;
 			case HistoryModelPackage.VALIDATION_ERROR__RESOLVED:
 				return isResolved() != RESOLVED_EDEFAULT;
 			case HistoryModelPackage.VALIDATION_ERROR__PREC:

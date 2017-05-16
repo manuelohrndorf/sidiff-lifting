@@ -70,6 +70,7 @@ public class ValidationErrorItemProvider
 			addMessagePropertyDescriptor(object);
 			addSourcePropertyDescriptor(object);
 			addSeverityPropertyDescriptor(object);
+			addIntroducedPropertyDescriptor(object);
 			addResolvedPropertyDescriptor(object);
 			addPrecPropertyDescriptor(object);
 			addSuccPropertyDescriptor(object);
@@ -211,6 +212,28 @@ public class ValidationErrorItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Introduced feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIntroducedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationError_introduced_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationError_introduced_feature", "_UI_ValidationError_type"),
+				 HistoryModelPackage.Literals.VALIDATION_ERROR__INTRODUCED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Resolved feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -337,7 +360,7 @@ public class ValidationErrorItemProvider
 	@Override
 	public Object getImage(Object object) {
 		ValidationError validationError = (ValidationError) object;
-		if(validationError.isResolved()){
+		if(validationError.isIntroduced() && validationError.isResolved()){
 			return overlayImage(object, getResourceLocator().getImage("full/obj16/resolved"));
 		}
 		if(validationError.getSeverity().equals(ValidationSeverity.ERROR)){
@@ -381,6 +404,7 @@ public class ValidationErrorItemProvider
 			case HistoryModelPackage.VALIDATION_ERROR__MESSAGE:
 			case HistoryModelPackage.VALIDATION_ERROR__SOURCE:
 			case HistoryModelPackage.VALIDATION_ERROR__SEVERITY:
+			case HistoryModelPackage.VALIDATION_ERROR__INTRODUCED:
 			case HistoryModelPackage.VALIDATION_ERROR__RESOLVED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

@@ -34,6 +34,10 @@
         <genParameters ecoreParameter="model.ecore#//History/getTechnicalDifference/old"/>
         <genParameters ecoreParameter="model.ecore#//History/getTechnicalDifference/new"/>
       </genOperations>
+      <genOperations ecoreOperation="model.ecore#//History/getValidationErrors">
+        <genParameters ecoreParameter="model.ecore#//History/getValidationErrors/introduced"/>
+        <genParameters ecoreParameter="model.ecore#//History/getValidationErrors/resolved"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Version">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Version/validationErrors"/>
@@ -47,17 +51,18 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//ValidationError">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ValidationError/introducedIn"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ValidationError/resolvedIn"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/message"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/source"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/introduced"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/resolved"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ValidationError/prec"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ValidationError/succ"/>
       <genFeatures property="Readonly" notify="false" children="true" createChild="false"
           propertyCategory="" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ValidationError/invalidElement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ValidationError/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

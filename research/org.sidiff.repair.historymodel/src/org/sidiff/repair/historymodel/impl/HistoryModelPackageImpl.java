@@ -207,6 +207,15 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getHistory__GetValidationErrors__boolean_boolean() {
+		return historyEClass.getEOperations().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getVersion() {
 		return versionEClass;
 	}
@@ -342,7 +351,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getValidationError_Resolved() {
+	public EAttribute getValidationError_Introduced() {
 		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -351,8 +360,8 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_Prec() {
-		return (EReference)validationErrorEClass.getEStructuralFeatures().get(7);
+	public EAttribute getValidationError_Resolved() {
+		return (EAttribute)validationErrorEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -360,7 +369,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_Succ() {
+	public EReference getValidationError_Prec() {
 		return (EReference)validationErrorEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -369,8 +378,17 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getValidationError_InvalidElement() {
+	public EReference getValidationError_Succ() {
 		return (EReference)validationErrorEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getValidationError_InvalidElement() {
+		return (EReference)validationErrorEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -435,6 +453,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		createEOperation(historyEClass, HISTORY___GET_PRECESSOR_REVISIONS__VERSION);
 		createEOperation(historyEClass, HISTORY___GET_SUCCESSOR_REVISIONS__VERSION);
 		createEOperation(historyEClass, HISTORY___GET_TECHNICAL_DIFFERENCE__VERSION_VERSION);
+		createEOperation(historyEClass, HISTORY___GET_VALIDATION_ERRORS__BOOLEAN_BOOLEAN);
 
 		versionEClass = createEClass(VERSION);
 		createEReference(versionEClass, VERSION__VALIDATION_ERRORS);
@@ -452,6 +471,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		createEAttribute(validationErrorEClass, VALIDATION_ERROR__MESSAGE);
 		createEAttribute(validationErrorEClass, VALIDATION_ERROR__SOURCE);
 		createEAttribute(validationErrorEClass, VALIDATION_ERROR__SEVERITY);
+		createEAttribute(validationErrorEClass, VALIDATION_ERROR__INTRODUCED);
 		createEAttribute(validationErrorEClass, VALIDATION_ERROR__RESOLVED);
 		createEReference(validationErrorEClass, VALIDATION_ERROR__PREC);
 		createEReference(validationErrorEClass, VALIDATION_ERROR__SUCC);
@@ -514,6 +534,10 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		addEParameter(op, this.getVersion(), "old", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getVersion(), "new_", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = initEOperation(getHistory__GetValidationErrors__boolean_boolean(), this.getValidationError(), "getValidationErrors", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEBoolean(), "introduced", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEBoolean(), "resolved", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(versionEClass, Version.class, "Version", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVersion_ValidationErrors(), this.getValidationError(), null, "validationErrors", null, 0, -1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVersion_Name(), ecorePackage.getEString(), "name", null, 0, 1, Version.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -537,6 +561,7 @@ public class HistoryModelPackageImpl extends EPackageImpl implements HistoryMode
 		initEAttribute(getValidationError_Message(), ecorePackage.getEString(), "message", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationError_Source(), ecorePackage.getEString(), "source", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationError_Severity(), this.getValidationSeverity(), "severity", "UNKNOWN", 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValidationError_Introduced(), theEcorePackage.getEBoolean(), "introduced", null, 0, 1, ValidationError.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationError_Resolved(), ecorePackage.getEBoolean(), "resolved", null, 0, 1, ValidationError.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getValidationError_Prec(), this.getValidationError(), this.getValidationError_Succ(), "prec", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getValidationError_Succ(), this.getValidationError(), this.getValidationError_Prec(), "succ", null, 0, 1, ValidationError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

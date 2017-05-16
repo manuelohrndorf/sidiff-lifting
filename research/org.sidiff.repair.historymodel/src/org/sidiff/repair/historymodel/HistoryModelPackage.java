@@ -133,13 +133,22 @@ public interface HistoryModelPackage extends EPackage {
 	int HISTORY___GET_TECHNICAL_DIFFERENCE__VERSION_VERSION = 2;
 
 	/**
+	 * The operation id for the '<em>Get Validation Errors</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HISTORY___GET_VALIDATION_ERRORS__BOOLEAN_BOOLEAN = 3;
+
+	/**
 	 * The number of operations of the '<em>History</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HISTORY_OPERATION_COUNT = 3;
+	int HISTORY_OPERATION_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.repair.historymodel.impl.VersionImpl <em>Version</em>}' class.
@@ -297,13 +306,22 @@ public interface HistoryModelPackage extends EPackage {
 	int VALIDATION_ERROR__SEVERITY = 5;
 
 	/**
+	 * The feature id for the '<em><b>Introduced</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_ERROR__INTRODUCED = 6;
+
+	/**
 	 * The feature id for the '<em><b>Resolved</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__RESOLVED = 6;
+	int VALIDATION_ERROR__RESOLVED = 7;
 
 	/**
 	 * The feature id for the '<em><b>Prec</b></em>' reference.
@@ -312,7 +330,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__PREC = 7;
+	int VALIDATION_ERROR__PREC = 8;
 
 	/**
 	 * The feature id for the '<em><b>Succ</b></em>' reference.
@@ -321,7 +339,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__SUCC = 8;
+	int VALIDATION_ERROR__SUCC = 9;
 
 	/**
 	 * The feature id for the '<em><b>Invalid Element</b></em>' reference list.
@@ -330,7 +348,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR__INVALID_ELEMENT = 9;
+	int VALIDATION_ERROR__INVALID_ELEMENT = 10;
 
 	/**
 	 * The number of structural features of the '<em>Validation Error</em>' class.
@@ -339,7 +357,7 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_ERROR_FEATURE_COUNT = 10;
+	int VALIDATION_ERROR_FEATURE_COUNT = 11;
 
 	/**
 	 * The number of operations of the '<em>Validation Error</em>' class.
@@ -452,6 +470,16 @@ public interface HistoryModelPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getHistory__GetTechnicalDifference__Version_Version();
+
+	/**
+	 * Returns the meta object for the '{@link org.sidiff.repair.historymodel.History#getValidationErrors(boolean, boolean) <em>Get Validation Errors</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Validation Errors</em>' operation.
+	 * @see org.sidiff.repair.historymodel.History#getValidationErrors(boolean, boolean)
+	 * @generated
+	 */
+	EOperation getHistory__GetValidationErrors__boolean_boolean();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.repair.historymodel.Version <em>Version</em>}'.
@@ -616,6 +644,17 @@ public interface HistoryModelPackage extends EPackage {
 	EAttribute getValidationError_Severity();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.repair.historymodel.ValidationError#isIntroduced <em>Introduced</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Introduced</em>'.
+	 * @see org.sidiff.repair.historymodel.ValidationError#isIntroduced()
+	 * @see #getValidationError()
+	 * @generated
+	 */
+	EAttribute getValidationError_Introduced();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.repair.historymodel.ValidationError#isResolved <em>Resolved</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -772,6 +811,14 @@ public interface HistoryModelPackage extends EPackage {
 		EOperation HISTORY___GET_TECHNICAL_DIFFERENCE__VERSION_VERSION = eINSTANCE.getHistory__GetTechnicalDifference__Version_Version();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Validation Errors</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation HISTORY___GET_VALIDATION_ERRORS__BOOLEAN_BOOLEAN = eINSTANCE.getHistory__GetValidationErrors__boolean_boolean();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.repair.historymodel.impl.VersionImpl <em>Version</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -894,6 +941,14 @@ public interface HistoryModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VALIDATION_ERROR__SEVERITY = eINSTANCE.getValidationError_Severity();
+
+		/**
+		 * The meta object literal for the '<em><b>Introduced</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALIDATION_ERROR__INTRODUCED = eINSTANCE.getValidationError_Introduced();
 
 		/**
 		 * The meta object literal for the '<em><b>Resolved</b></em>' attribute feature.

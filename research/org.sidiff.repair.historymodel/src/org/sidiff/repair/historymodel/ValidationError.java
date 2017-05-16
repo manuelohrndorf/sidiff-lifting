@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getMessage <em>Message</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getSeverity <em>Severity</em>}</li>
+ *   <li>{@link org.sidiff.repair.historymodel.ValidationError#isIntroduced <em>Introduced</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#isResolved <em>Resolved</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getPrec <em>Prec</em>}</li>
  *   <li>{@link org.sidiff.repair.historymodel.ValidationError#getSucc <em>Succ</em>}</li>
@@ -191,6 +192,21 @@ public interface ValidationError extends EObject {
 	 * @generated
 	 */
 	void setSeverity(ValidationSeverity value);
+
+	/**
+	 * Returns the value of the '<em><b>Introduced</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Introduced</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Introduced</em>' attribute.
+	 * @see org.sidiff.repair.historymodel.HistoryModelPackage#getValidationError_Introduced()
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	boolean isIntroduced();
 
 	/**
 	 * Returns the value of the '<em><b>Resolved</b></em>' attribute.

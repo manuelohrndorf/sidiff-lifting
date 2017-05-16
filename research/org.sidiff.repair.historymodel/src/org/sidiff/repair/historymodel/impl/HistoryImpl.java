@@ -6,13 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
@@ -198,6 +195,31 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<ValidationError> getValidationErrors(boolean introduced, boolean resolved) {
+		EList<ValidationError> validationErrors = new BasicEList<ValidationError>();
+		for(Version version : getVersions()){
+			for(ValidationError error : version.getValidationErrors()){
+				boolean toAdd = true;
+				if(introduced){
+					toAdd = error.isIntroduced();
+				}
+				if(toAdd && resolved){
+					toAdd = error.isResolved();
+				}
+				
+				if(toAdd){
+					validationErrors.add(error);
+				}
+			}
+		}
+		return validationErrors;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -304,6 +326,8 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 				return getSuccessorRevisions((Version)arguments.get(0));
 			case HistoryModelPackage.HISTORY___GET_TECHNICAL_DIFFERENCE__VERSION_VERSION:
 				return getTechnicalDifference((Version)arguments.get(0), (Version)arguments.get(1));
+			case HistoryModelPackage.HISTORY___GET_VALIDATION_ERRORS__BOOLEAN_BOOLEAN:
+				return getValidationErrors((Boolean)arguments.get(0), (Boolean)arguments.get(1));
 		}
 		return super.eInvoke(operationID, arguments);
 	}
@@ -311,7 +335,7 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
@@ -320,13 +344,13 @@ public class HistoryImpl extends MinimalEObjectImpl.Container implements History
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
-		result.append(')');
-		result.append("unique messages:"+"\n");
-		Map<String,Integer> map = getUniqueValdiationMessages();
-		for(String s : map.keySet()){
-			result.append(s + " (" + map.get(s) + ")\n");
+		result.append("\n");
+		result.append("Unique Validation Error Names:\n");
+		Map<String, Integer> uniqueValidationMessages = getUniqueValdiationMessages();
+		for(String key : uniqueValidationMessages.keySet()){
+			result.append("\t-" + key + " (" + uniqueValidationMessages.get(key) + ")\n");
 		}
-		
+		result.append(')');
 		return result.toString();
 	}
 
