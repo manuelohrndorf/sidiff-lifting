@@ -9,9 +9,12 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.henshin.ChangePatternUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
+import org.sidiff.common.henshin.view.AttributePair;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
+import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
@@ -74,6 +77,7 @@ public class DeveloperIntentionOracle {
 	private void gatherChangeSignatures() {
 		for (Change change : evolutionStep.getChanges()) {
 			String signature = null;
+			
 			if (change instanceof AddObject) {
 				AddObject c = (AddObject) change;
 				signature = "AddObject_" + c.getObj().eClass().getName();
@@ -90,9 +94,13 @@ public class DeveloperIntentionOracle {
 				RemoveReference c = (RemoveReference) change;
 				signature = "RemoveReference_" + c.getType().getName();
 			}
-
+			if (change instanceof AttributeValueChange) {
+				AttributeValueChange c = (AttributeValueChange) change;
+				signature = "AttributeValueChange_" + c.getType().getName();
+			}
+			
 			if (signature != null) {
-
+				changeSignatures.add(signature);
 			}
 		}
 	}
@@ -107,6 +115,7 @@ public class DeveloperIntentionOracle {
 	}
 
 	private boolean checkChangeSignatures() {
+		
 		// Create nodes
 		for (Node node : HenshinRuleAnalysisUtilEx.getRHSMinusLHSNodes(complementRule)) {
 			String signature = "AddObject_" + node.getType().getName();
@@ -136,6 +145,16 @@ public class DeveloperIntentionOracle {
 			String signature = "RemoveReference_" + edge.getType().getName();
 			if (!changeSignatures.contains(signature)) {
 				return false;
+			}
+		}
+		
+		// Set attributes:
+		for (Node node : HenshinRuleAnalysisUtilEx.getLHSIntersectRHSNodes(complementRule)) {
+			for (AttributePair attribute : ChangePatternUtil.getChangingAttributes(node)) {
+				String signature = "AttributeValueChange_" + attribute.getType().getName();
+				if (!changeSignatures.contains(signature)) {
+					return false;
+				}
 			}
 		}
 
