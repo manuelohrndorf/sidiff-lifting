@@ -47,20 +47,7 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 			selectDialog.setMultipleSelection(true);
 			
 			// Collect preserve nodes:
-			List<GraphElement> graphElements = new ArrayList<>();
-			Set<String> identifiers = new HashSet<>();
-			
-			getRules(editRule).forEach(rule -> {
-				rule.eAllContents().forEachRemaining(element -> {
-					String identifier = getIdentifier(element);
-
-					if ((identifier != null) && (!identifiers.contains(identifier))) {
-						graphElements.add((GraphElement) element);
-						identifiers.add(identifier);
-					}
-				});
-			});
-			
+			List<GraphElement> graphElements = getEditRuleIdentifier(editRule);
 			selectDialog.setElements(graphElements.toArray());
 			
 			// Open dialog:
@@ -77,7 +64,7 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 					setIdentifierDialog.open();
 					
 					if (setIdentifierDialog.getValue() != null) {
-						EditRuleUtil.renameIdentifier((GraphElement) selection, setIdentifierDialog.getValue());
+						renameEditRuleIdentifier((GraphElement) selection, setIdentifierDialog.getValue());
 					}
 				}
 				
@@ -95,7 +82,29 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 		return null;
 	}
 	
-	private String getIdentifier(Object element) {
+	public static List<GraphElement> getEditRuleIdentifier(Module editRule) {
+		List<GraphElement> graphElements = new ArrayList<>();
+		Set<String> identifiers = new HashSet<>();
+		
+		getRules(editRule).forEach(rule -> {
+			rule.eAllContents().forEachRemaining(element -> {
+				String identifier = getIdentifier(element);
+
+				if ((identifier != null) && (!identifiers.contains(identifier))) {
+					graphElements.add((GraphElement) element);
+					identifiers.add(identifier);
+				}
+			});
+		});
+		
+		return graphElements;
+	}
+	
+	public static void renameEditRuleIdentifier(GraphElement graphElement, String identifier) {
+		EditRuleUtil.renameIdentifier(graphElement, identifier);
+	}
+	
+	private static String getIdentifier(Object element) {
 		if (element instanceof GraphElement) {
 			String identifier = null;
 			

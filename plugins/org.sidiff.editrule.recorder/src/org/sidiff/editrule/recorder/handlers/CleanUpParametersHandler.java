@@ -49,7 +49,7 @@ public class CleanUpParametersHandler extends AbstractHandler {
 		return null;
 	}
 	
-	private void cleanUpParamters(Module editRule) {
+	public static void cleanUpParamters(Module editRule) {
 		Set<String> names = new HashSet<>();
 		
 		// Collect parameter names:
