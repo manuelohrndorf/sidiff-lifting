@@ -34,39 +34,7 @@ public class ReduceToContext extends AbstractHandler implements IHandler {
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			List<Node> nonContextNodes = new ArrayList<>();
-			
-			editRule.eAllContents().forEachRemaining(element -> {
-				if (element instanceof Node) {
-					Node lhsNode = (Node) element;
-					
-					if (isLHSNode(lhsNode)) {
-						Node rhsNode = getRHS(lhsNode);
-						
-						// Is preserve node?
-						if (rhsNode != null) {
-							if (!isNodeWithCreationEdges(rhsNode)
-									&& !isNodeWithDeletionEdges(lhsNode)
-									&& !isNodeWithChangingAttributes(lhsNode)
-									&& !isNodeWithChangingAttributes(rhsNode)) {
-								
-								nonContextNodes.add(lhsNode);
-								nonContextNodes.add(rhsNode);
-							}
-						}
-					}
-				}
-			});
-			
-			// TODO:
-			// Teil-Graphen berechnen (Closures)
-			// Verbindungen zwischen den Teil-Graphen berechnen
-			// Nutzer Pfade auswählen lassen, die behalten werden sollen
-			
-			// Delete << preserve >> nodes:
-			for (Node nonContextNode : nonContextNodes) {
-				deleteNodeWithEdges(nonContextNode);
-			}
+			reduceToContext(editRule);
 			
 			try {
 				editRule.eResource().save(Collections.emptyMap());
@@ -78,6 +46,42 @@ public class ReduceToContext extends AbstractHandler implements IHandler {
 		}
 		
 		return null;
+	}
+	
+	public static void reduceToContext(Module editRule) {
+		List<Node> nonContextNodes = new ArrayList<>();
+		
+		editRule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Node) {
+				Node lhsNode = (Node) element;
+				
+				if (isLHSNode(lhsNode)) {
+					Node rhsNode = getRHS(lhsNode);
+					
+					// Is preserve node?
+					if (rhsNode != null) {
+						if (!isNodeWithCreationEdges(rhsNode)
+								&& !isNodeWithDeletionEdges(lhsNode)
+								&& !isNodeWithChangingAttributes(lhsNode)
+								&& !isNodeWithChangingAttributes(rhsNode)) {
+							
+							nonContextNodes.add(lhsNode);
+							nonContextNodes.add(rhsNode);
+						}
+					}
+				}
+			}
+		});
+		
+		// TODO:
+		// Teil-Graphen berechnen (Closures)
+		// Verbindungen zwischen den Teil-Graphen berechnen
+		// Nutzer Pfade auswählen lassen, die behalten werden sollen
+		
+		// Delete << preserve >> nodes:
+		for (Node nonContextNode : nonContextNodes) {
+			deleteNodeWithEdges(nonContextNode);
+		}
 	}
 	
 	/**

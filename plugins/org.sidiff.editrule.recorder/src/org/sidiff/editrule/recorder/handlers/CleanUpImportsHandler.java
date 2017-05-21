@@ -19,8 +19,7 @@ public class CleanUpImportsHandler extends AbstractHandler{
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			editRule.getImports().clear();
-			editRule.getImports().addAll(EditRuleUtil.getImports(editRule));
+			cleanUpImports(editRule);
 			
 			try {
 				editRule.eResource().save(Collections.emptyMap());
@@ -33,5 +32,9 @@ public class CleanUpImportsHandler extends AbstractHandler{
 		
 		return null;
 	}
-
+	
+	public static void cleanUpImports(Module editRule) {
+		editRule.getImports().clear();
+		editRule.getImports().addAll(EditRuleUtil.getImports(editRule));
+	}
 }

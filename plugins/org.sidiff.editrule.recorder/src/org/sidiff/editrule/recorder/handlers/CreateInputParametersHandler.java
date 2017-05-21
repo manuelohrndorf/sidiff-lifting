@@ -82,7 +82,7 @@ public class CreateInputParametersHandler extends AbstractHandler {
 			if (selectDialog.getResult() != null) {
 				for(Object selection : selectDialog.getResult()) {
 					if (selection instanceof GraphElement) {
-						EditRuleUtil.createInputParameter(editRule, getIdentifier(selection));
+						createInputParameter(editRule, getIdentifier(selection));
 					}
 				}
 				
@@ -98,6 +98,10 @@ public class CreateInputParametersHandler extends AbstractHandler {
 		}
 		
 		return null;
+	}
+	
+	public static void createInputParameter(Module editRule, String name) {
+		EditRuleUtil.createInputParameter(editRule, name);
 	}
 	
 	private String getIdentifier(Object element) {

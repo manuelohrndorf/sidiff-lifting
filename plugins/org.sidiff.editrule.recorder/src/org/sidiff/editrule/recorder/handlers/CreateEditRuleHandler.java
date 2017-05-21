@@ -63,7 +63,8 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		SymmetricDifference difference = EMFHandlerUtil.getSelection(event, SymmetricDifference.class);
 		
 		if (difference != null) {
-			Module module = createEditRule(difference);
+			String eoName = difference.eResource().getURI().segments()[difference.eResource().getURI().segmentCount() - 2];
+			Module module = createEditRule(eoName, difference.getMatching().getCorrespondences(), difference.getChanges());
 
 			if (module != null) {
 				module.getImports().addAll(EditRuleUtil.getImports(module));
@@ -93,8 +94,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 	}
 	
 	@SuppressWarnings({ "unchecked" })
-	private Module createEditRule(SymmetricDifference diff) {
-		String eoName = diff.eResource().getURI().segments()[diff.eResource().getURI().segmentCount() - 2];
+	public static Module createEditRule(String eoName, Collection<Correspondence> correspondences, Collection<Change> changes) {
 		
 		// Create rule container:
 		Module module = HenshinFactory.eINSTANCE.createModule();
@@ -116,7 +116,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		names.add(UNKNOWN_NAMES);
 		
 		// Preserve nodes:
-		for (Correspondence correspondence : diff.getMatching().getCorrespondences()) {
+		for (Correspondence correspondence : correspondences) {
 			NodePair preserveNode = createPreservedNode(
 					editrule, getName(correspondence, names), correspondence.getMatchedA().eClass());
 			traceA2LHS.put(correspondence.getMatchedA(), preserveNode.getLhsNode());
@@ -124,7 +124,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 
 		// Change nodes:
-		for (Change change : diff.getChanges()) {
+		for (Change change : changes) {
 
 			// Delete nodes:
 			if (change instanceof RemoveObject) {
@@ -160,7 +160,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 		
 		// Change edges:
-		for (Change change : diff.getChanges()) {
+		for (Change change : changes) {
 			
 			// Delete edges:
 			if (change instanceof RemoveReference) {
@@ -205,7 +205,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 		
 		// Preserve edges:
-		for (Correspondence correspondence : diff.getMatching().getCorrespondences()) {
+		for (Correspondence correspondence : correspondences) {
 			EObject modelB = correspondence.getMatchedB();
 			
 			Node srcNodeB = traceB2RHS.get(modelB);
@@ -259,7 +259,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		return module;
 	}
 	
-	private String getName(EObject obj, Set<String> names) {
+	private static String getName(EObject obj, Set<String> names) {
 		String name = getName(obj);
 		
 //		// Qualified:
@@ -290,7 +290,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		return name;
 	}
 	
-	private String getName(EObject obj) {
+	private static String getName(EObject obj) {
 		EClass eClass = (obj != null) ? obj.eClass() : null;
 		EStructuralFeature nameFeature = (eClass != null) ? eClass.getEStructuralFeature("name") : null;
 		
@@ -305,7 +305,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		return UNKNOWN_NAMES;
 	}
 	
-	private String getName(Correspondence correspondence, Set<String> names) {
+	private static String getName(Correspondence correspondence, Set<String> names) {
 		String name = getName(correspondence.getMatchedA(), names);
 		
 		if (name == null) {
@@ -315,7 +315,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		return name;
 	}
 	
-	private boolean isEdgeContained(Node src, Node tgt, EReference type) {
+	private static boolean isEdgeContained(Node src, Node tgt, EReference type) {
 		
 		for (Edge outgoing : src.getOutgoing()) {
 			if ((outgoing.getType() == type) && (outgoing.getTarget() == tgt)) {
