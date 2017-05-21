@@ -246,7 +246,7 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 */
 	public Resource getModel() {
 		if(model == null){
-			model = EMFStorage.eLoad(URI.createURI(modelURI)).eResource();
+			model = EMFStorage.eLoad(URI.createURI(modelURI), eResource().getResourceSet()).eResource();
 		}
 		return model;
 	}
