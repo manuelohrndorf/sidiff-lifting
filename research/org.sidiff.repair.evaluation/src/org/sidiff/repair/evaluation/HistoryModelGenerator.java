@@ -31,8 +31,6 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.repair.evaluation.settings.EvaluationSettings;
-import org.sidiff.repair.evaluation.validation.EMFValidator;
-import org.sidiff.repair.evaluation.validation.IValidator;
 import org.sidiff.repair.historymodel.History;
 import org.sidiff.repair.historymodel.HistoryModelFactory;
 import org.sidiff.repair.historymodel.ModelStatus;
@@ -143,13 +141,14 @@ public class HistoryModelGenerator {
 		
 		History history = HistoryModelFactory.eINSTANCE.createHistory();
 		history.setName(settings.getHistory_name());
+		
 		for (Resource resource : resources) {
-			Version version = generateVersion(resource);
+			Version version = generateVersion(resource, settings);
+			
 			if(version != null){
 				history.getVersions().add(version);
 			}
 		}	
-		
 		
 		for(int i = 0 ; i < history.getVersions().size()-1; i++){
 			Version versionA = history.getVersions().get(i);
@@ -183,12 +182,11 @@ public class HistoryModelGenerator {
 	
 	
 	
-	private static Version generateVersion(Resource resource){
+	private static Version generateVersion(Resource resource, EvaluationSettings settings){
 
 		Resource model = resource;
 		EcoreUtil.resolveAll(model);
-		IValidator validator = new EMFValidator();
-		Collection<ValidationError> validationErrors = validator.validate(model);
+		Collection<ValidationError> validationErrors = settings.getValidator().validate(model);
 		
 		ModelStatus modelStatus = validationErrors.isEmpty()? ModelStatus.VALID : ModelStatus.INVALID;
 		// Do not handle defect models

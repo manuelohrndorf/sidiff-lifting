@@ -12,8 +12,9 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.util.MatchingUtils;
 import org.sidiff.repair.evaluation.HistoryModelGenerator;
 import org.sidiff.repair.evaluation.settings.EvaluationSettings;
+import org.sidiff.repair.evaluation.validation.EMFValidator;
 
-public class RunHistoryModelGenerator implements IApplication {
+public class RunHistoryModelGeneratorEcoreAndEMF implements IApplication {
 
 	private static final String ROOT = "D:\\Git\\sidiff-lifting\\research\\org.sidiff.repair.casestudy\\ecore-versions\\www.eclipse.org\\epsilon";
 	
@@ -42,8 +43,7 @@ public class RunHistoryModelGenerator implements IApplication {
 		differenceSettings.setMatcher(matcher);
 		differenceSettings.setTechBuilder(builder);
 		
-		EvaluationSettings evaluationSettings = new EvaluationSettings(file.getName(), new String[]{"ecore"}, differenceSettings);
-		
+		EvaluationSettings evaluationSettings = new EvaluationSettings(file.getName(), new String[]{"ecore"}, differenceSettings, new EMFValidator());
 		
 		
 		HistoryModelGenerator.generateHistoryProject(ROOT, evaluationSettings);

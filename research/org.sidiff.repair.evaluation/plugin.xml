@@ -10,15 +10,19 @@
             thread="main"
             visible="true">
          <run
-               class="org.sidiff.repair.evaluation.run.RunHistoryModelGenerator">
+               class="org.sidiff.repair.evaluation.run.RunHistoryModelGeneratorEcoreAndEMF">
          </run>
       </application>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.sidiff.repair.evaluation.handler.GenerateHistoryModelHandler"
-            commandId="org.sidiff.repair.evaluation.command.generatehistorymodel">
+            class="org.sidiff.repair.evaluation.handler.GenerateHistoryModelEcoreAndEMFHandler"
+            commandId="org.sidiff.repair.evaluation.command.generatehistorymodel.ecore.emf">
+      </handler>
+      <handler
+            class="org.sidiff.repair.evaluation.handler.GenerateHistoryModelUMLandFOLHandler"
+            commandId="org.sidiff.repair.evaluation.command.generatehistorymodel.uml.fol">
       </handler>
    </extension>
    <extension
@@ -29,7 +33,11 @@
          <menu
                label="Model History">
             <command
-                  commandId="org.sidiff.repair.evaluation.command.generatehistorymodel"
+                  commandId="org.sidiff.repair.evaluation.command.generatehistorymodel.ecore.emf"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.repair.evaluation.command.generatehistorymodel.uml.fol"
                   style="push">
             </command>
          </menu>
@@ -40,8 +48,14 @@
       <command
             categoryId="org.sidiff.difference.ui.category.silift"
             description="Generates an History Model for a list of model versions"
-            id="org.sidiff.repair.evaluation.command.generatehistorymodel"
-            name="Generate History Model">
+            id="org.sidiff.repair.evaluation.command.generatehistorymodel.ecore.emf"
+            name="Generate History Model (Ecore, EMF)">
+      </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Generates an History Model for a list of model versions"
+            id="org.sidiff.repair.evaluation.command.generatehistorymodel.uml.fol"
+            name="Generate History Model (UML, FOL)">
       </command>
    </extension>
 

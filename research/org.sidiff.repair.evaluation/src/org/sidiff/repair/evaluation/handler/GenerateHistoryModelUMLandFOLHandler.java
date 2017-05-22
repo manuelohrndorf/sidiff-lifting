@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.configuration.IConfigurable;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
@@ -21,8 +20,9 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.util.MatchingUtils;
 import org.sidiff.repair.evaluation.HistoryModelGenerator;
 import org.sidiff.repair.evaluation.settings.EvaluationSettings;
+import org.sidiff.repair.evaluation.validation.FOLValidator;
 
-public class GenerateHistoryModelHandler extends AbstractHandler implements IHandler {
+public class GenerateHistoryModelUMLandFOLHandler extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -31,8 +31,6 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				// TODO Auto-generated method stub
-		
 				ISelection selection = HandlerUtil.getCurrentSelection(event);
 				
 				if (selection instanceof IStructuredSelection){
@@ -42,22 +40,17 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 						DifferenceSettings differenceSettings = new DifferenceSettings();
 						differenceSettings.setMergeImports(false);
 						
-						IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.signature.name.NamedElementMatcher");
-						ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.ecore.difference.technical.TechnicalDifferenceBuilderEcoreNoAnnotations");
-						
-						IConfigurable configurable = (IConfigurable) matcher;
-						configurable.getConfigurationOptions();
-						configurable.setConfigurationOption("Use Qualified Names", true);
-						configurable.setConfigurationOption("Allow Ambiguous Names", true);
+						IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.adapter.emfcompare.EMFCompareMatcherAdapter");
+						ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.uml2v4.difference.technical.TechnicalDifferenceBuilderUML");
 						
 						differenceSettings.setMatcher(matcher);
 						differenceSettings.setTechBuilder(builder);
 						
-						EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"ecore"}, differenceSettings);
+						EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"uml"}, differenceSettings, new FOLValidator());
+						
 						try {
 							HistoryModelGenerator.generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
 						} catch (CoreException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 //						HistoryModelGenerator.subfoldering(folder.getLocation().toOSString(), evaluationSettings);					
@@ -66,7 +59,6 @@ public class GenerateHistoryModelHandler extends AbstractHandler implements IHan
 				}				
 				return Status.OK_STATUS;
 			}
-			
 		};
 		
 		job.schedule();

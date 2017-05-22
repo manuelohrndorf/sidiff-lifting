@@ -13,8 +13,7 @@ import org.sidiff.repair.historymodel.ValidationError;
 import org.sidiff.repair.historymodel.ValidationSeverity;
 
 /**
- * Delegates the validation to the EMF validation framework. Currently the only
- * implementation of an IValidator.
+ * Delegates the validation to the EMF validation framework.
  * 
  * @author kehrer, cpietsch
  */
