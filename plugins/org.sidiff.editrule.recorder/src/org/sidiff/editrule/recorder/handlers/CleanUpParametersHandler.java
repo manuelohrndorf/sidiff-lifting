@@ -19,9 +19,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.editrule.consistency.fixing.EditRuleFixer;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 
 /**
  * Cleans up unused Henshin rule parameters.

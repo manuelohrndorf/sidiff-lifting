@@ -13,8 +13,8 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 
 /**
  * Creates a parameter for each attribute variable.

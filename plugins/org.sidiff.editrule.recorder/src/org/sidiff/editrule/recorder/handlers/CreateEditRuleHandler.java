@@ -35,8 +35,10 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.view.NodePair;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -44,9 +46,7 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 import org.sidiff.matching.model.Correspondence;
 
 /**
