@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EcorePackage;
  * 
  * @author cpietsch
  */
-public class TechnicalDifferenceBuilderEcoreNoAnnotations extends TechnicalDifferenceBuilderEcore {
+public class TechnicalDifferenceBuilderEcoreNoAnnotations extends TechnicalDifferenceBuilderEcoreGenerics {
 
 	@Override
 	protected Set<EClass> getUnconsideredNodeTypes() {
@@ -39,6 +39,6 @@ public class TechnicalDifferenceBuilderEcoreNoAnnotations extends TechnicalDiffe
 
 	@Override
 	public String getName() {
-		return "Ecore Technical Difference Builder (without Generics and Annotations)";
+		return "Ecore Technical Difference Builder (with Generics and without Annotations)";
 	}
 }
