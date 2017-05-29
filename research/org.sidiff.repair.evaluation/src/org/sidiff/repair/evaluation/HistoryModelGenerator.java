@@ -39,18 +39,21 @@ import org.sidiff.repair.historymodel.Version;
 
 public class HistoryModelGenerator {
 	
+	private static final boolean PRINT_IDS = false;
+	
 	private static final String VERSIONS_FOLDER = "versions";
+	
 	private static final String DIFF_FOLDER = "differences";
 	
 	private static IProject project = null;
 	
-	public static void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException{
+	public static void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException {
+		
 		// scan for model files within that folder
 		File modelFolder = new File(folderpath);
 		List<File> files = searchModelFiles(modelFolder, settings);
-
 		
-		if(!files.isEmpty()){
+		if (!files.isEmpty()) {
 			
 			// get the root of the workspace
 			//
@@ -58,7 +61,7 @@ public class HistoryModelGenerator {
 			
 			// get the project the history shall be stored in
 			//
-			project = root.getProject("org.sidiff.repair.history."+modelFolder.getName().toLowerCase());
+			project = root.getProject("org.sidiff.repair.history." + modelFolder.getName().toLowerCase());
 			
 			project.create(null);
 			project.open(null);
@@ -74,18 +77,20 @@ public class HistoryModelGenerator {
 			
 			History history = generateHistory(resources, settings);
 			System.out.println(history.toString());
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + history.getName() + ".history"), history);
+			EMFStorage.eSaveAs(
+					EMFStorage.pathToUri(project.getLocation().toOSString() 
+							+ File.separator + history.getName() + ".history"), history);
 		}
 	}
 	
-	private static List<File> searchModelFiles(File root, EvaluationSettings settings){
-		List<File> files = new ArrayList<File>();
+	private static List<File> searchModelFiles(File root, EvaluationSettings settings) {
+		List<File> files = new ArrayList<>();
 		
 		FileFilter filter = new FileFilter() {
 			
 			@Override
 			public boolean accept(File pathname) {
-				if(!pathname.isDirectory()){
+				if (!pathname.isDirectory()) {
 					for (String filter : settings.getFileFilters()) {
 						if (pathname.getName().toLowerCase().endsWith(filter)) {
 							return true;
@@ -95,9 +100,10 @@ public class HistoryModelGenerator {
 				return false;
 			}
 		};
-
+		
 		files.addAll(Arrays.asList(root.listFiles(filter)));
 		Collections.sort(files);
+		
 		// scan for sub-directories recursively
 		for (File file : root.listFiles()) {
 			if (file.isDirectory()) {
@@ -107,37 +113,39 @@ public class HistoryModelGenerator {
 		return files;
 	}
 	
-	private static List<Resource> copyModels(List<File> files){
-		List<Resource> resources = new LinkedList<Resource>();
-		for(File modelFile : files){
+	private static List<Resource> copyModels(List<File> files) {
+		List<Resource> resources = new LinkedList<>();
+		
+		for (File modelFile : files) {
 			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
-			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER + File.separator + modelFile.getName().substring(0,3) + modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
+			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER
+					+ File.separator + modelFile.getName().substring(0, 3)
+					+ modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
 			model.setURI(targetURI);
+			
 			try {
 				model.save(null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			};
+			}
 			resources.add(model);
-			
 		}
 		return resources;
 	}
 	
-	public static void subfoldering(String path, EvaluationSettings settings){
+	public static void subfoldering(String path, EvaluationSettings settings) {
 		File modelFolder = new File(path);
-		for(File modelFile : searchModelFiles(modelFolder, settings)){
+		
+		for (File modelFile : searchModelFiles(modelFolder, settings)) {
 			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
-//			URI targetURI = EMFStorage.pathToUri(modelFile.getAbsolutePath() + File.separator + ((EPackage)model.getContents().get(0)).getName() + File.separator + modelFile.getName() + modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
-			URI targetURI = URI.createURI(model.getURI().toString().replace(model.getURI().lastSegment(),  ((EPackage)model.getContents().get(0)).getName() + File.separator + model.getURI().lastSegment()));
+			URI targetURI = URI.createURI(model.getURI().toString().replace(model.getURI().lastSegment(),
+					((EPackage) model.getContents().get(0)).getName() + File.separator + model.getURI().lastSegment()));
 			EMFStorage.eSaveAs(targetURI, model.getContents().get(0));
 			
 		}
 	}
 	
-	
-	private static History generateHistory(List<Resource> resources, EvaluationSettings settings) {		
+	private static History generateHistory(List<Resource> resources, EvaluationSettings settings) {
 		
 		History history = HistoryModelFactory.eINSTANCE.createHistory();
 		history.setName(settings.getHistory_name());
@@ -145,50 +153,51 @@ public class HistoryModelGenerator {
 		for (Resource resource : resources) {
 			Version version = generateVersion(resource, settings);
 			
-			if(version != null){
+			if (version != null) {
 				history.getVersions().add(version);
 			}
-		}	
+		}
 		
-		for(int i = 0 ; i < history.getVersions().size()-1; i++){
+		for (int i = 0; i < (history.getVersions().size() - 1); i++) {
 			Version versionA = history.getVersions().get(i);
-			if(i == 0){
+			
+			if (i == 0) {
 				generateUUIDs(versionA);
 			}
-			int j = i+1;
+			int j = i + 1;
 			Version versionB = history.getVersions().get(j);
-			while(versionB.getStatus().equals(ModelStatus.DEFECT) && j < history.getVersions().size()-1){
+			
+			while (versionB.getStatus().equals(ModelStatus.DEFECT) && (j < (history.getVersions().size() - 1))) {
 				versionB = history.getVersions().get(++j);
 			}
 			try {
-				if(versionA.getStatus().equals(ModelStatus.DEFECT) || versionB.getStatus().equals(ModelStatus.DEFECT)) continue;				
+				if (versionA.getStatus().equals(ModelStatus.DEFECT)
+						|| versionB.getStatus().equals(ModelStatus.DEFECT)) {
+					continue;
+				}
 				SymmetricDifference diff = generateTechnicalDifference(versionA, versionB, settings);
 				generateUUIDs(diff);
 				history.getTechnicalDifferences().add(diff);
 			} catch (InvalidModelException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NoCorrespondencesException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
 		
 		generateIntroducedAndResolved(history);
 		
 		return history;
 	}
 	
-	
-	
-	private static Version generateVersion(Resource resource, EvaluationSettings settings){
-
+	private static Version generateVersion(Resource resource, EvaluationSettings settings) {
+		
 		Resource model = resource;
 		EcoreUtil.resolveAll(model);
 		Collection<ValidationError> validationErrors = settings.getValidator().validate(model);
 		
-		ModelStatus modelStatus = validationErrors.isEmpty()? ModelStatus.VALID : ModelStatus.INVALID;
+		ModelStatus modelStatus = validationErrors.isEmpty() ? ModelStatus.VALID : ModelStatus.INVALID;
+		
 		// Do not handle defect models
 		for (ValidationError validationError : validationErrors) {
 			if (validationError.getMessage().contains("contains an unresolved proxy")
@@ -207,87 +216,106 @@ public class HistoryModelGenerator {
 		return version;
 	}
 	
-	private static SymmetricDifference generateTechnicalDifference(Version versionA, Version versionB, EvaluationSettings settings) throws InvalidModelException, NoCorrespondencesException{
+	private static SymmetricDifference generateTechnicalDifference(Version versionA, Version versionB,
+			EvaluationSettings settings) throws InvalidModelException, NoCorrespondencesException {
 		Resource resourceA = versionA.getModel();
 		Resource resourceB = versionB.getModel();
-		SymmetricDifference diff= TechnicalDifferenceFacade.deriveTechnicalDifference(resourceA, resourceB, settings.getDifferenceSettings());
+		SymmetricDifference diff = TechnicalDifferenceFacade.deriveTechnicalDifference(resourceA, resourceB,
+				settings.getDifferenceSettings());
 		
-		TechnicalDifferenceFacade.serializeTechnicalDifference(diff, project.getLocation().toOSString() + File.separator + DIFF_FOLDER, versionA.getName() + "_x_" + versionB.getName());
+		TechnicalDifferenceFacade.serializeTechnicalDifference(diff,
+				project.getLocation().toOSString() + File.separator + DIFF_FOLDER,
+				versionA.getName() + "_x_" + versionB.getName());
 		return diff;
 	}
 	
-	private static void generateUUIDs(Version version){
+	private static void generateUUIDs(Version version) {
+		if (PRINT_IDS) System.out.println("HistoryModelGenerator.generateUUIDs()");
+		
 		for (Iterator<EObject> iterator = version.getModel().getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
 			String uuid = EMFUtil.getXmiId(eObject);
-			if(uuid == null || uuid.trim().isEmpty()){
+			
+			if ((uuid == null) || uuid.trim().isEmpty()) {
 				uuid = EcoreUtil.generateUUID();
 				EMFUtil.setXmiId(eObject, uuid);
 			}
+			
+			if (PRINT_IDS) System.out.println(uuid + " :: " + eObject);
 		}
 		try {
 			version.getModel().save(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	private static void generateUUIDs(SymmetricDifference diff){
-		for(Correspondence correspondence : diff.getMatching().getCorrespondences()){
+	
+	private static void generateUUIDs(SymmetricDifference diff) {
+		if (PRINT_IDS) System.out.println("HistoryModelGenerator.generateUUIDs()");
+		
+		for (Correspondence correspondence : diff.getMatching().getCorrespondences()) {
 			String uuid = EMFUtil.getXmiId(correspondence.getMatchedA());
-			assert uuid!=null : "UUID for element" + correspondence.getMatchedA() + "not set!";
+			assert uuid != null : "UUID for element" + correspondence.getMatchedA() + "not set!";
 			EMFUtil.setXmiId(correspondence.getMatchedB(), uuid);
+			
+			if (PRINT_IDS) System.out.println("Corresponding: " + uuid + " :: " + correspondence.getMatchedB());
 		}
-		for(EObject eObject : diff.getMatching().getUnmatchedB()){
+		for (EObject eObject : diff.getMatching().getUnmatchedB()) {
 			String uuid = EcoreUtil.generateUUID();
 			EMFUtil.setXmiId(eObject, uuid);
+			
+			if (PRINT_IDS) System.out.println("Unmatched B: " + uuid + " :: " + eObject);
 		}
 		try {
 			diff.getModelB().save(null);
 			diff.eResource().save(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private static void generateIntroducedAndResolved(History history) {
-		for(Version versionA : history.getVersions()){
-			if(!history.getSuccessorRevisions(versionA).isEmpty()){
+		for (Version versionA : history.getVersions()) {
+			if (!history.getSuccessorRevisions(versionA).isEmpty()) {
 				Version versionB = history.getSuccessorRevisions(versionA).get(0);
-				for(ValidationError errorB : versionB.getValidationErrors()){
+				
+				for (ValidationError errorB : versionB.getValidationErrors()) {
 					boolean hasCorresponding = false;
-					for(ValidationError errorA : versionA.getValidationErrors()){
-						if(isEqualValidationError(errorA, errorB)){
+					
+					for (ValidationError errorA : versionA.getValidationErrors()) {
+						if (isEqualValidationError(errorA, errorB)) {
 							errorB.setPrec(errorA);
 							hasCorresponding = true;
 							errorB.setIntroducedIn(errorA.getIntroducedIn());
 							break;
 						}
 					}
-					if(!hasCorresponding){
+					if (!hasCorresponding) {
 						errorB.setIntroducedIn(versionB);
 					}
 				}
 			}
 		}
-		List<Version> reverseOrder = new ArrayList<Version>();
+		List<Version> reverseOrder = new ArrayList<>();
 		reverseOrder.addAll(history.getVersions());
 		Collections.reverse(reverseOrder);
-		for(Version versionB : reverseOrder){
-			if(!history.getPrecessorRevisions(versionB).isEmpty()){
+		
+		for (Version versionB : reverseOrder) {
+			if (!history.getPrecessorRevisions(versionB).isEmpty()) {
 				Version versionA = history.getPrecessorRevisions(versionB).get(0);
-				for(ValidationError errorA : versionA.getValidationErrors()){
+				
+				for (ValidationError errorA : versionA.getValidationErrors()) {
 					boolean hasCorresponding = false;
-					for(ValidationError errorB : versionB.getValidationErrors()){
-						if(isEqualValidationError(errorA, errorB)){
+					
+					for (ValidationError errorB : versionB.getValidationErrors()) {
+						if (isEqualValidationError(errorA, errorB)) {
 							errorA.setSucc(errorB);
 							hasCorresponding = true;
 							errorA.setResolvedIn(errorB.getResolvedIn());
 							break;
 						}
 					}
-					if(!hasCorresponding){
+					if (!hasCorresponding) {
 						errorA.setResolvedIn(versionB);
 					}
 				}
@@ -295,25 +323,29 @@ public class HistoryModelGenerator {
 		}
 	}
 	
-	private static boolean isEqualValidationError(ValidationError validationErrorA, ValidationError validationErrorB){
-	
+	private static boolean isEqualValidationError(ValidationError validationErrorA, ValidationError validationErrorB) {
+		
 		// replace all object runtime representation in the message
 		boolean equalName = validationErrorA.getName().equals(validationErrorB.getName());
-
-		Set<String> invalidElementAIDs = new HashSet<String>();
+		Set<String> invalidElementAIDs = new HashSet<>();
+		
 		for (EObject invalidElementA : validationErrorA.getInvalidElement()) {
 			String id = EMFUtil.getXmiId(invalidElementA);
-			if (id != null)
+			
+			if (id != null) {
 				invalidElementAIDs.add(id);
+			}
 		}
-
-		Set<String> invalidElementBIDs = new HashSet<String>();
+		
+		Set<String> invalidElementBIDs = new HashSet<>();
+		
 		for (EObject invalidElementB : validationErrorB.getInvalidElement()) {
 			String id = EMFUtil.getXmiId(invalidElementB);
-			if (id != null)
+			
+			if (id != null) {
 				invalidElementBIDs.add(id);
+			}
 		}
 		return equalName && invalidElementAIDs.equals(invalidElementBIDs);
-		
 	}
 }
