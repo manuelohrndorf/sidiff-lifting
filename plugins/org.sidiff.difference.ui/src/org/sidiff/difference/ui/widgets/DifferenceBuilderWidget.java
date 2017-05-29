@@ -120,7 +120,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		builders = new TreeMap<String, ITechnicalDifferenceBuilder>();
 
 		// Search registered matcher extension points
-		Set<ITechnicalDifferenceBuilder> builderSet = TechnicalDifferenceUtils
+		java.util.List<ITechnicalDifferenceBuilder> builderSet = TechnicalDifferenceUtils
 				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentTypes());
 
 		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {

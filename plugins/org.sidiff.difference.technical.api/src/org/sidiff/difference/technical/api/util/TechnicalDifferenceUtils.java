@@ -3,6 +3,7 @@ package org.sidiff.difference.technical.api.util;
 import java.io.File;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 *         document types.
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
+	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
 		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentTypes);
 	}
 	
@@ -63,7 +64,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 *         document types.
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB) {
+	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB) {
 		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(modelA, modelB);
 	}
 	
