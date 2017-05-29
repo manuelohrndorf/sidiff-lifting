@@ -21,10 +21,10 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
+import org.sidiff.common.ui.util.UIUtil.NotEmptyValidator;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil.NotEmptyValidator;
 
 /**
  * Renames node names and attribute variables.
