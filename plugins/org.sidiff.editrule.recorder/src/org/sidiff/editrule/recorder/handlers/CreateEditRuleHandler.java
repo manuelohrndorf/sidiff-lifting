@@ -20,10 +20,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -93,7 +95,6 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	public static Module createEditRule(String eoName, Collection<Correspondence> correspondences, Collection<Change> changes) {
 		
 		// Create rule container:
@@ -115,6 +116,18 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		Set<String> names = new HashSet<>();
 		names.add(UNKNOWN_NAMES);
 		
+		convertCorrespondences(correspondences, editrule, traceA2LHS, traceB2RHS, names);
+		convertAttribteValueChange(changes, traceB2RHS);
+		convertObjectChanges(changes, mainUnit, editrule, traceA2LHS, traceB2RHS, names);
+		convertReferenceChanges(changes, editrule, traceA2LHS, traceB2RHS);
+		convertContextEdges(correspondences, editrule, traceA2LHS, traceB2RHS);
+		
+		return module;
+	}
+
+	private static void convertCorrespondences(Collection<Correspondence> correspondences, Rule editrule,
+			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS, Set<String> names) {
+		
 		// Preserve nodes:
 		for (Correspondence correspondence : correspondences) {
 			NodePair preserveNode = createPreservedNode(
@@ -122,42 +135,108 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 			traceA2LHS.put(correspondence.getMatchedA(), preserveNode.getLhsNode());
 			traceB2RHS.put(correspondence.getMatchedB(), preserveNode.getRhsNode());
 		}
+	}
+	
+	private static void convertAttribteValueChange(Collection<Change> changes, Map<EObject, Node> traceB2RHS) {
+		
+		// Attribute value changes:
+		for (Change change : changes) {
+			if (change instanceof AttributeValueChange) {
+				AttributeValueChange avc = (AttributeValueChange) change;
+				Node rhsNode = traceB2RHS.get(avc.getObjB());
+				
+				// Create attribute with parameter:
+				Parameter param = HenshinFactory.eINSTANCE.createParameter(
+						"in_" + rhsNode.getName() + "_" + avc.getType().getName());
+				Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
+						rhsNode, avc.getType(), param.getName());
+				rhsNode.getAttributes().add(attr);
+			}
+		}
+	}
 
+	private static void convertObjectChanges(
+			Collection<Change> changes, SequentialUnit mainUnit, Rule editrule,
+			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS, Set<String> names) {
+		
 		// Change nodes:
 		for (Change change : changes) {
 
 			// Delete nodes:
 			if (change instanceof RemoveObject) {
-				RemoveObject removeObject = (RemoveObject) change;
-				Node removeNode = createDeleteNode(
-						getName(removeObject.getObj(), names), 
-						removeObject.getObj().eClass(), 
-						editrule);
-				traceA2LHS.put(removeObject.getObj(), removeNode);
+				convertRemoveObject(change, editrule, traceA2LHS, names);
 			}
 			
 			// Create nodes:
 			else if (change instanceof AddObject) {
-				AddObject addObject = (AddObject) change;
-				Node addNode = createCreateNode(
-						getName(addObject.getObj(), names), 
-						addObject.getObj().eClass(), 
-						editrule);
-				traceB2RHS.put(addObject.getObj(), addNode);
-				
-				// Map node to out-parameter:
-				Parameter ruleAddNodeParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
-				editrule.getParameters().add(ruleAddNodeParameter);
-				
-				Parameter mainUnitAddOutParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
-				mainUnit.getParameters().add(mainUnitAddOutParameter);
-				
-				ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-				parameterMapping.setSource(ruleAddNodeParameter);
-				parameterMapping.setTarget(mainUnitAddOutParameter);
-				mainUnit.getParameterMappings().add(parameterMapping);
+				convertCreateObject(change, mainUnit, editrule, traceB2RHS, names);
 			}
 		}
+	}
+
+	private static void convertRemoveObject(Change change, Rule editrule, 
+			Map<EObject, Node> traceA2LHS, Set<String> names) {
+		
+		RemoveObject removeObject = (RemoveObject) change;
+		Node removeNode = createDeleteNode(
+				getName(removeObject.getObj(), names), 
+				removeObject.getObj().eClass(), 
+				editrule);
+		traceA2LHS.put(removeObject.getObj(), removeNode);
+	}
+	
+	private static void convertCreateObject(Change change, SequentialUnit mainUnit, 
+			Rule editrule,Map<EObject, Node> traceB2RHS, Set<String> names) {
+		
+		AddObject addObject = (AddObject) change;
+		Node addNode = createCreateNode(
+				getName(addObject.getObj(), names), 
+				addObject.getObj().eClass(), 
+				editrule);
+		traceB2RHS.put(addObject.getObj(), addNode);
+		
+		// Map node to out-parameter:
+		Parameter ruleAddNodeParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
+		editrule.getParameters().add(ruleAddNodeParameter);
+		
+		Parameter mainUnitAddOutParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
+		mainUnit.getParameters().add(mainUnitAddOutParameter);
+		
+		ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+		parameterMapping.setSource(ruleAddNodeParameter);
+		parameterMapping.setTarget(mainUnitAddOutParameter);
+		mainUnit.getParameterMappings().add(parameterMapping);
+		
+		// Create initial attributes:
+		convertAttributes(addObject.getObj(), addNode);
+	}
+
+	private static void convertAttributes(EObject object, Node node) {
+		
+		for (EAttribute eAttribute : object.eClass().getEAllAttributes()) {
+			if (isUnconsideredStructualFeature(eAttribute)) {
+				continue;
+			}
+
+			Object attValue = object.eGet(eAttribute);
+			
+			if (attValue == null) {
+				continue;
+			}
+
+			attValue = attValue.toString();
+
+			// Quote String values
+			if (eAttribute.getEAttributeType() == EcorePackage.eINSTANCE.getEString()) {
+				attValue = "\"" + attValue + "\"";
+			}
+
+			HenshinFactory.eINSTANCE.createAttribute(node, eAttribute, attValue.toString());
+		}
+	}
+	
+	private static void convertReferenceChanges(Collection<Change> changes, Rule editrule, 
+			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS) {
 		
 		// Change edges:
 		for (Change change : changes) {
@@ -189,20 +268,13 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 					}
 				}
 			}
-			
-			// Attribute value changes:
-			if (change instanceof AttributeValueChange) {
-				AttributeValueChange avc = (AttributeValueChange) change;
-				Node rhsNode = traceB2RHS.get(avc.getObjB());
-				
-				// Create attribute with parameter:
-				Parameter param = HenshinFactory.eINSTANCE.createParameter(
-						"in_" + rhsNode.getName() + "_" + avc.getType().getName());
-				Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
-						rhsNode, avc.getType(), param.getName());
-				rhsNode.getAttributes().add(attr);
-			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void convertContextEdges(
+			Collection<Correspondence> correspondences, Rule editrule,
+			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS) {
 		
 		// Preserve edges:
 		for (Correspondence correspondence : correspondences) {
@@ -250,13 +322,11 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 									createPreservedEdge(editrule, srcNode, tgtNode, (EReference) feature);
 								}
 							}
-							}
+						}
 					}
 				}
 			}
 		}
-		
-		return module;
 	}
 	
 	private static String getName(EObject obj, Set<String> names) {
@@ -324,5 +394,14 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * We do not consider unchangeable, derived and transient features.
+	 */
+	private static boolean isUnconsideredStructualFeature(EStructuralFeature structualFeatureType) {
+		return  ((structualFeatureType.isChangeable() == false) 
+				|| (structualFeatureType.isDerived() == true)
+				|| (structualFeatureType.isTransient() == true));
 	}
 }
