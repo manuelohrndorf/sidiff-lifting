@@ -49,6 +49,7 @@ import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
+import org.sidiff.editrule.recorder.handlers.util.HenshinDiagramUtil;
 import org.sidiff.matching.model.Correspondence;
 
 /**
@@ -58,7 +59,7 @@ import org.sidiff.matching.model.Correspondence;
  */
 public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 
-	private static final String UNKNOWN_NAMES = "#";
+	private static final String UNKNOWN_NAMES = "N";
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -79,6 +80,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 
 				try {
 					eoRes.save(Collections.emptyMap());
+					HenshinDiagramUtil.createDiagram(module);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
