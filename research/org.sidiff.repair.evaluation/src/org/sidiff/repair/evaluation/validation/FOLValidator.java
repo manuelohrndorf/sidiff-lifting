@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.henshin.emf.DocumentType;
+import org.sidiff.consistency.common.emf.DocumentType;
 import org.sidiff.repair.historymodel.HistoryModelFactory;
 import org.sidiff.repair.historymodel.ValidationError;
 import org.sidiff.repair.historymodel.ValidationSeverity;
