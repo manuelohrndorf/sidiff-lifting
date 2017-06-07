@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,13 +18,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.consistency.common.storage.UUIDResource;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matching.model.Correspondence;
@@ -39,50 +39,84 @@ import org.sidiff.repair.historymodel.Version;
 
 public class HistoryModelGenerator {
 	
-	private static final boolean PRINT_IDS = false;
+	private boolean PRINT_IDS = true;
 	
-	private static final String VERSIONS_FOLDER = "versions";
+	private String VERSIONS_FOLDER = "versions";
 	
-	private static final String DIFF_FOLDER = "differences";
+	private String DIFF_FOLDER = "differences";
 	
-	private static IProject project = null;
+	private String PROJECT_NAME_PREFIX = "org.sidiff.repair.history.";
 	
-	public static void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException {
+	private String HISTORY_FILE_EXTENSION = "history";
+	
+	private IProject project = null;
+	
+	private ResourceSet resourceSet = new ResourceSetImpl();
+	
+	public void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException {
 		
-		// scan for model files within that folder
+		// Scan for model files within that folder:
 		File modelFolder = new File(folderpath);
 		List<File> files = searchModelFiles(modelFolder, settings);
 		
 		if (!files.isEmpty()) {
 			
-			// get the root of the workspace
-			//
+			// Get the root of the workspace:
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			
-			// get the project the history shall be stored in
-			//
-			project = root.getProject("org.sidiff.repair.history." + modelFolder.getName().toLowerCase());
+			// Get the project the history shall be stored in:
+			project = root.getProject(PROJECT_NAME_PREFIX + modelFolder.getName().toLowerCase());
 			
 			project.create(null);
 			project.open(null);
 			
-			// create the respective folders
+			// Create the respective folders:
 			IFolder versionF = project.getFolder(VERSIONS_FOLDER);
 			versionF.create(false, true, null);
 			IFolder diffF = project.getFolder(DIFF_FOLDER);
 			diffF.create(false, true, null);
 			
-			// copy the model files
-			List<Resource> resources = copyModels(files);
+			// Create a history:
+			History history = generateHistory(files, settings);
+			saveHistory(history);
 			
-			History history = generateHistory(resources, settings);
 			System.out.println(history.toString());
-			EMFStorage.eSaveAs(
-					EMFStorage.pathToUri(project.getLocation().toOSString() 
-							+ File.separator + history.getName() + ".history"), history);
 		}
 	}
 	
+	private void saveHistory(History history) {
+		
+		// Save versions:
+		String versionFolder = project.getName() + "/" + VERSIONS_FOLDER + "/";
+		
+		for (Version version : history.getVersions()) {
+			String fileName = version.getModel().getURI().trimFileExtension().lastSegment();
+			String fileExtension = version.getModel().getURI().fileExtension();
+			
+			URI targetURI = URI.createPlatformResourceURI(versionFolder + fileName + "." + fileExtension, true);
+			version.getModel().setURI(targetURI);
+			version.setModelURI(targetURI.toString());
+			
+			try {
+				version.getModel().save(Collections.EMPTY_MAP);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Save history:
+		URI historyURI = EMFStorage.pathToUri(project.getLocation().toOSString() 
+				+ File.separator + history.getName() + "." + HISTORY_FILE_EXTENSION);
+		
+		try {
+			Resource historyResource = resourceSet.createResource(historyURI);
+			historyResource.getContents().add(history);
+			historyResource.save(Collections.EMPTY_MAP);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static List<File> searchModelFiles(File root, EvaluationSettings settings) {
 		List<File> files = new ArrayList<>();
 		
@@ -113,44 +147,15 @@ public class HistoryModelGenerator {
 		return files;
 	}
 	
-	private static List<Resource> copyModels(List<File> files) {
-		List<Resource> resources = new LinkedList<>();
-		
-		for (File modelFile : files) {
-			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
-			URI targetURI = EMFStorage.pathToUri(project.getLocation().toOSString() + File.separator + VERSIONS_FOLDER
-					+ File.separator + modelFile.getName().substring(0, 3)
-					+ modelFile.getName().substring(modelFile.getName().lastIndexOf(".")));
-			model.setURI(targetURI);
-			
-			try {
-				model.save(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			resources.add(model);
-		}
-		return resources;
-	}
-	
-	public static void subfoldering(String path, EvaluationSettings settings) {
-		File modelFolder = new File(path);
-		
-		for (File modelFile : searchModelFiles(modelFolder, settings)) {
-			Resource model = EMFStorage.eLoad(EMFStorage.fileToFileUri(modelFile)).eResource();
-			URI targetURI = URI.createURI(model.getURI().toString().replace(model.getURI().lastSegment(),
-					((EPackage) model.getContents().get(0)).getName() + File.separator + model.getURI().lastSegment()));
-			EMFStorage.eSaveAs(targetURI, model.getContents().get(0));
-			
-		}
-	}
-	
-	private static History generateHistory(List<Resource> resources, EvaluationSettings settings) {
+	private History generateHistory(List<File> files, EvaluationSettings settings) {
 		
 		History history = HistoryModelFactory.eINSTANCE.createHistory();
 		history.setName(settings.getHistory_name());
 		
-		for (Resource resource : resources) {
+		// Load history:
+		for (File modelFile : files) {
+			URI uri = EMFStorage.fileToUri(modelFile);
+			Resource resource = new UUIDResource(uri, resourceSet);
 			Version version = generateVersion(resource, settings);
 			
 			if (version != null) {
@@ -158,13 +163,11 @@ public class HistoryModelGenerator {
 			}
 		}
 		
+		// Calculate matchings:
 		for (int i = 0; i < (history.getVersions().size() - 1); i++) {
-			Version versionA = history.getVersions().get(i);
-			
-			if (i == 0) {
-				generateUUIDs(versionA);
-			}
 			int j = i + 1;
+			
+			Version versionA = history.getVersions().get(i);
 			Version versionB = history.getVersions().get(j);
 			
 			while (versionB.getStatus().equals(ModelStatus.DEFECT) && (j < (history.getVersions().size() - 1))) {
@@ -190,9 +193,7 @@ public class HistoryModelGenerator {
 		return history;
 	}
 	
-	private static Version generateVersion(Resource resource, EvaluationSettings settings) {
-		
-		Resource model = resource;
+	private Version generateVersion(Resource model, EvaluationSettings settings) {
 		EcoreUtil.resolveAll(model);
 		Collection<ValidationError> validationErrors = settings.getValidator().validate(model);
 		
@@ -216,7 +217,7 @@ public class HistoryModelGenerator {
 		return version;
 	}
 	
-	private static SymmetricDifference generateTechnicalDifference(Version versionA, Version versionB,
+	private SymmetricDifference generateTechnicalDifference(Version versionA, Version versionB,
 			EvaluationSettings settings) throws InvalidModelException, NoCorrespondencesException {
 		Resource resourceA = versionA.getModel();
 		Resource resourceB = versionB.getModel();
@@ -229,52 +230,21 @@ public class HistoryModelGenerator {
 		return diff;
 	}
 	
-	private static void generateUUIDs(Version version) {
-		if (PRINT_IDS) System.out.println("HistoryModelGenerator.generateUUIDs()");
-		
-		for (Iterator<EObject> iterator = version.getModel().getAllContents(); iterator.hasNext();) {
-			EObject eObject = iterator.next();
-			String uuid = EMFUtil.getXmiId(eObject);
-			
-			if ((uuid == null) || uuid.trim().isEmpty()) {
-				uuid = EcoreUtil.generateUUID();
-				EMFUtil.setXmiId(eObject, uuid);
-			}
-			
-			if (PRINT_IDS) System.out.println(uuid + " :: " + eObject);
-		}
-		try {
-			version.getModel().save(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static void generateUUIDs(SymmetricDifference diff) {
+	private void generateUUIDs(SymmetricDifference diff) {
 		if (PRINT_IDS) System.out.println("HistoryModelGenerator.generateUUIDs()");
 		
 		for (Correspondence correspondence : diff.getMatching().getCorrespondences()) {
-			String uuid = EMFUtil.getXmiId(correspondence.getMatchedA());
-			assert uuid != null : "UUID for element" + correspondence.getMatchedA() + "not set!";
-			EMFUtil.setXmiId(correspondence.getMatchedB(), uuid);
-			
-			if (PRINT_IDS) System.out.println("Corresponding: " + uuid + " :: " + correspondence.getMatchedB());
-		}
-		for (EObject eObject : diff.getMatching().getUnmatchedB()) {
-			String uuid = EcoreUtil.generateUUID();
-			EMFUtil.setXmiId(eObject, uuid);
-			
-			if (PRINT_IDS) System.out.println("Unmatched B: " + uuid + " :: " + eObject);
-		}
-		try {
-			diff.getModelB().save(null);
-			diff.eResource().save(null);
-		} catch (IOException e) {
-			e.printStackTrace();
+			if (!UUIDResource.isDynamic(correspondence.getMatchedA()) && !UUIDResource.isDynamic(correspondence.getMatchedB())) {
+				String uuid = EMFUtil.getXmiId(correspondence.getMatchedA());
+				assert uuid != null : "UUID for element" + correspondence.getMatchedA() + "not set!";
+				EMFUtil.setXmiId(correspondence.getMatchedB(), uuid);
+				
+				if (PRINT_IDS) System.out.println("Corresponding: " + uuid + " :: " + correspondence.getMatchedB());
+			}
 		}
 	}
 	
-	private static void generateIntroducedAndResolved(History history) {
+	private void generateIntroducedAndResolved(History history) {
 		for (Version versionA : history.getVersions()) {
 			if (!history.getSuccessorRevisions(versionA).isEmpty()) {
 				Version versionB = history.getSuccessorRevisions(versionA).get(0);
@@ -323,7 +293,7 @@ public class HistoryModelGenerator {
 		}
 	}
 	
-	private static boolean isEqualValidationError(ValidationError validationErrorA, ValidationError validationErrorB) {
+	private boolean isEqualValidationError(ValidationError validationErrorA, ValidationError validationErrorB) {
 		
 		// replace all object runtime representation in the message
 		boolean equalName = validationErrorA.getName().equals(validationErrorB.getName());

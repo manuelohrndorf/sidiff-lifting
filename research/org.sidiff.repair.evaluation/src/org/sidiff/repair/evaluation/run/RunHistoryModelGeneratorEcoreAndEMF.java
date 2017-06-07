@@ -18,7 +18,6 @@ public class RunHistoryModelGeneratorEcoreAndEMF implements IApplication {
 
 	private static final String ROOT = "D:\\Git\\sidiff-lifting\\research\\org.sidiff.repair.casestudy\\ecore-versions\\www.eclipse.org\\epsilon";
 	
-	
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		System.out.println("########## Start History Model Generator ##########");
@@ -46,7 +45,7 @@ public class RunHistoryModelGeneratorEcoreAndEMF implements IApplication {
 		EvaluationSettings evaluationSettings = new EvaluationSettings(file.getName(), new String[]{"ecore"}, differenceSettings, new EMFValidator());
 		
 		
-		HistoryModelGenerator.generateHistoryProject(ROOT, evaluationSettings);
+		new HistoryModelGenerator().generateHistoryProject(ROOT, evaluationSettings);
 		
 		System.out.println("########## Finished History Model Generator ##########");
 		return null;
@@ -54,8 +53,5 @@ public class RunHistoryModelGeneratorEcoreAndEMF implements IApplication {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

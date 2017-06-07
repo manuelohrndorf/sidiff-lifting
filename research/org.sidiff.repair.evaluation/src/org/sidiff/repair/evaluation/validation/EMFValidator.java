@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Diagnostician;
@@ -70,14 +69,14 @@ public class EMFValidator implements IValidator {
 				for (Object obj : childDiagnostic.getData()) {
 					if (obj instanceof EObject) {
 						
-						// FIXME[WORKAROUND]: Wrapping of raw types in ecore generics.
-						if (obj instanceof EGenericType) {
-							EGenericType eGenericType = (EGenericType) obj;
-							
-							if (eGenericType.getETypeParameter() == null) {
-								obj = ((EObject) obj).eContainer();
-							}
-						}
+//						// FIXME[WORKAROUND]: Wrapping of raw types in ecore generics.
+//						if (obj instanceof EGenericType) {
+//							EGenericType eGenericType = (EGenericType) obj;
+//							
+//							if (eGenericType.getETypeParameter() == null) {
+//								obj = ((EObject) obj).eContainer();
+//							}
+//						}
 						
 						validationError.getInvalidElement().add((EObject) obj);
 					}

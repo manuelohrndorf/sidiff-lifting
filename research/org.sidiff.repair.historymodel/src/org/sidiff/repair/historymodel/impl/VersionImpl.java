@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.common.emf.EMFUtil;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.repair.historymodel.HistoryModelPackage;
 import org.sidiff.repair.historymodel.ModelStatus;
 import org.sidiff.repair.historymodel.ValidationError;
@@ -246,7 +245,7 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	 */
 	public Resource getModel() {
 		if(model == null){
-			model = EMFStorage.eLoad(URI.createURI(modelURI), eResource().getResourceSet()).eResource();
+			model = eResource().getResourceSet().getResource(URI.createURI(modelURI), true);
 		}
 		return model;
 	}
@@ -259,7 +258,8 @@ public class VersionImpl extends MinimalEObjectImpl.Container implements Version
 	public void setModel(Resource newModel) {
 		Resource oldModel = model;
 		model = newModel;
-		setModelURI(URI.createPlatformResourceURI(model.getURI().toPlatformString(false), true).toString());
+		setModelURI(newModel.getURI().toString());
+		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HistoryModelPackage.VERSION__MODEL, oldModel, model));
 	}

@@ -49,12 +49,10 @@ public class GenerateHistoryModelUMLandFOLHandler extends AbstractHandler implem
 						EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"uml"}, differenceSettings, new FOLValidator());
 						
 						try {
-							HistoryModelGenerator.generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
+							new HistoryModelGenerator().generateHistoryProject(folder.getLocation().toOSString(), evaluationSettings);
 						} catch (CoreException e) {
 							e.printStackTrace();
 						}
-//						HistoryModelGenerator.subfoldering(folder.getLocation().toOSString(), evaluationSettings);					
-						
 					}
 				}				
 				return Status.OK_STATUS;
