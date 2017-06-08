@@ -6,16 +6,21 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public class StringUtil {
 
 	public static String eObjectToString(EObject obj) {
-		EStructuralFeature nameFeature = obj.eClass().getEStructuralFeature("name");
 		
-		if (nameFeature != null) {
-			Object name = obj.eGet(nameFeature);
+		if (obj != null) {
+			EStructuralFeature nameFeature = obj.eClass().getEStructuralFeature("name");
 			
-			if (name instanceof String) {
-				return (String) name;
+			if (nameFeature != null) {
+				Object name = obj.eGet(nameFeature);
+				
+				if (name instanceof String) {
+					return (String) name;
+				}
 			}
+			
+			return obj.toString();
 		}
 		
-		return obj.toString();
+		return "null";
 	}
 }
