@@ -144,17 +144,25 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 		// Attribute value changes:
 		for (Change change : changes) {
 			if (change instanceof AttributeValueChange) {
-				AttributeValueChange avc = (AttributeValueChange) change;
-				Node rhsNode = traceB2RHS.get(avc.getObjB());
-				
-				// Create attribute with parameter:
-				Parameter param = HenshinFactory.eINSTANCE.createParameter(
-						"in_" + rhsNode.getName() + "_" + avc.getType().getName());
-				Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
-						rhsNode, avc.getType(), param.getName());
-				rhsNode.getAttributes().add(attr);
+				if (validate((AttributeValueChange) change)) {
+					AttributeValueChange avc = (AttributeValueChange) change;
+					Node rhsNode = traceB2RHS.get(avc.getObjB());
+					
+					// Create attribute with parameter:
+					Parameter param = HenshinFactory.eINSTANCE.createParameter(
+							"in_" + rhsNode.getName() + "_" + avc.getType().getName());
+					Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
+							rhsNode, avc.getType(), param.getName());
+					rhsNode.getAttributes().add(attr);
+				} else {
+					System.err.println("Invalid Attribute-Value-Change: " + change);
+				}
 			}
 		}
+	}
+	
+	private static boolean validate(AttributeValueChange avc) {
+		return (avc.getObjA() != null) && (avc.getObjB() != null) && (avc.getType() != null);
 	}
 
 	private static void convertObjectChanges(
@@ -166,14 +174,30 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 
 			// Delete nodes:
 			if (change instanceof RemoveObject) {
-				convertRemoveObject(change, editrule, traceA2LHS, names);
+				if (validate((RemoveObject) change)) {
+					convertRemoveObject(change, editrule, traceA2LHS, names);
+				} else {
+					System.err.println("Invalid Remove-Object: " + change);
+				}
 			}
 			
 			// Create nodes:
 			else if (change instanceof AddObject) {
-				convertCreateObject(change, mainUnit, editrule, traceB2RHS, names);
+				if (validate((AddObject) change)) {
+					convertCreateObject(change, mainUnit, editrule, traceB2RHS, names);
+				} else {
+					System.err.println("Invalid Add-Object: " + change);
+				}
 			}
 		}
+	}
+	
+	private static boolean validate(AddObject addObject) {
+		return (addObject.getObj() != null);
+	}
+	
+	private static boolean validate(RemoveObject removeObject) {
+		return (removeObject.getObj() != null);
 	}
 
 	private static void convertRemoveObject(Change change, Rule editrule, 
@@ -245,32 +269,48 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 			
 			// Delete edges:
 			if (change instanceof RemoveReference) {
-				RemoveReference removeReference = (RemoveReference) change;
-				Node srcNode = traceA2LHS.get(removeReference.getSrc());
-				Node tgtNode = traceA2LHS.get(removeReference.getTgt());
-				
-				// Create edges only once:
-				if (!removeReference.getType().isDerived()) {
-					if (!isEdgeContained(srcNode, tgtNode, removeReference.getType())) {
-						createDeleteEdge(srcNode, tgtNode, removeReference.getType(), editrule);
+				if (validate((RemoveReference) change)) {
+					RemoveReference removeReference = (RemoveReference) change;
+					Node srcNode = traceA2LHS.get(removeReference.getSrc());
+					Node tgtNode = traceA2LHS.get(removeReference.getTgt());
+					
+					// Create edges only once:
+					if (!removeReference.getType().isDerived()) {
+						if (!isEdgeContained(srcNode, tgtNode, removeReference.getType())) {
+							createDeleteEdge(srcNode, tgtNode, removeReference.getType(), editrule);
+						}
 					}
+				} else {
+					System.err.println("Invalid Remove-Reference: " + change);
 				}
 			}
 			
 			// Create edges:
 			if (change instanceof AddReference) {
-				AddReference addReference = (AddReference) change;
-				Node srcNode = traceB2RHS.get(addReference.getSrc());
-				Node tgtNode = traceB2RHS.get(addReference.getTgt());
-				
-				// Create edges only once:
-				if (!addReference.getType().isDerived()) {
-					if (!isEdgeContained(srcNode, tgtNode, addReference.getType())) {
-						createCreateEdge(srcNode, tgtNode, addReference.getType());
+				if (validate((AddReference) change)) {
+					AddReference addReference = (AddReference) change;
+					Node srcNode = traceB2RHS.get(addReference.getSrc());
+					Node tgtNode = traceB2RHS.get(addReference.getTgt());
+					
+					// Create edges only once:
+					if (!addReference.getType().isDerived()) {
+						if (!isEdgeContained(srcNode, tgtNode, addReference.getType())) {
+							createCreateEdge(srcNode, tgtNode, addReference.getType());
+						}
 					}
+				} else {
+					System.err.println("Invalid Add-Reference: " + change);
 				}
 			}
 		}
+	}
+	
+	private static boolean validate(RemoveReference ref) {
+		return (ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null);
+	}
+	
+	private static boolean validate(AddReference ref) {
+		return (ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null);
 	}
 	
 	@SuppressWarnings("unchecked")
