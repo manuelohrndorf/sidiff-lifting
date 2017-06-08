@@ -39,7 +39,7 @@ import org.sidiff.repair.historymodel.Version;
 
 public class HistoryModelGenerator {
 	
-	private boolean PRINT_IDS = true;
+	private boolean PRINT_IDS = false;
 	
 	private String VERSIONS_FOLDER = "versions";
 	
@@ -90,10 +90,7 @@ public class HistoryModelGenerator {
 		String versionFolder = project.getName() + "/" + VERSIONS_FOLDER + "/";
 		
 		for (Version version : history.getVersions()) {
-			String fileName = version.getModel().getURI().trimFileExtension().lastSegment();
-			String fileExtension = version.getModel().getURI().fileExtension();
-			
-			URI targetURI = URI.createPlatformResourceURI(versionFolder + fileName + "." + fileExtension, true);
+			URI targetURI = URI.createPlatformResourceURI(versionFolder + getModelFileName(version), true);
 			version.getModel().setURI(targetURI);
 			version.setModelURI(targetURI.toString());
 			
@@ -102,6 +99,13 @@ public class HistoryModelGenerator {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		// Save Differences:
+		for (SymmetricDifference diff : history.getTechnicalDifferences()) {
+			TechnicalDifferenceFacade.serializeTechnicalDifference(diff,
+					project.getLocation().toOSString() + File.separator + DIFF_FOLDER,
+					diff.getModelA().getURI().lastSegment() + "_x_" + diff.getModelB().getURI().lastSegment());
 		}
 		
 		// Save history:
@@ -115,6 +119,20 @@ public class HistoryModelGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	protected String getModelFileName(Version version) {
+		URI original = version.getModel().getURI();
+		String fileName = original.trimFileExtension().lastSegment();
+		String fileExtension = original.fileExtension();
+		
+		String index = fileName.substring(0, fileName.indexOf("_"));
+		
+		if (index.isEmpty()) {
+			index = "" + ((History) version.eContainer()).getVersions().indexOf(version);
+		}
+		
+		return index + "." + fileExtension;
 	}
 
 	private static List<File> searchModelFiles(File root, EvaluationSettings settings) {
@@ -204,29 +222,28 @@ public class HistoryModelGenerator {
 			if (validationError.getMessage().contains("contains an unresolved proxy")
 					|| validationError.getMessage().contains("contains a dangling reference")) {
 				modelStatus = ModelStatus.DEFECT;
-				return null;
+//				return null;
 			}
 		}
 		
 		Version version = HistoryModelFactory.eINSTANCE.createVersion();
-		version.setName(model.getURI().lastSegment());
 		version.setModel(model);
 		version.getValidationErrors().addAll(validationErrors);
 		version.setStatus(modelStatus);
+		version.setName(getModelFileName(version));
 		
 		return version;
 	}
 	
 	private SymmetricDifference generateTechnicalDifference(Version versionA, Version versionB,
 			EvaluationSettings settings) throws InvalidModelException, NoCorrespondencesException {
+		
 		Resource resourceA = versionA.getModel();
 		Resource resourceB = versionB.getModel();
-		SymmetricDifference diff = TechnicalDifferenceFacade.deriveTechnicalDifference(resourceA, resourceB,
-				settings.getDifferenceSettings());
 		
-		TechnicalDifferenceFacade.serializeTechnicalDifference(diff,
-				project.getLocation().toOSString() + File.separator + DIFF_FOLDER,
-				versionA.getName() + "_x_" + versionB.getName());
+		SymmetricDifference diff = TechnicalDifferenceFacade.deriveTechnicalDifference(
+				resourceA, resourceB, settings.getDifferenceSettings());
+
 		return diff;
 	}
 	

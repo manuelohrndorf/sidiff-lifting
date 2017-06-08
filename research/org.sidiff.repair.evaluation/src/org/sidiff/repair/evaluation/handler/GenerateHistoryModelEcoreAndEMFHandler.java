@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.configuration.IConfigurable;
+import org.sidiff.consistency.common.settings.SettingsUtil;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
@@ -38,8 +39,8 @@ public class GenerateHistoryModelEcoreAndEMFHandler extends AbstractHandler impl
 					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 					if(structuredSelection.getFirstElement() instanceof IFolder){
 						IFolder folder = (IFolder) structuredSelection.getFirstElement();
-						DifferenceSettings differenceSettings = new DifferenceSettings();
-						differenceSettings.setMergeImports(false);
+						
+						DifferenceSettings differenceSettings = SettingsUtil.getDefaultDifferenceSettings();
 						
 						IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.signature.name.NamedElementMatcher");
 						ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.ecore.difference.technical.TechnicalDifferenceBuilderEcoreNoAnnotations");

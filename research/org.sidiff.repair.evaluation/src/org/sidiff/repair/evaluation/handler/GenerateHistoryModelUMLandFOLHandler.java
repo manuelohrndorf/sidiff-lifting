@@ -13,6 +13,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.consistency.common.settings.SettingsUtil;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
@@ -37,14 +39,16 @@ public class GenerateHistoryModelUMLandFOLHandler extends AbstractHandler implem
 					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 					if(structuredSelection.getFirstElement() instanceof IFolder){
 						IFolder folder = (IFolder) structuredSelection.getFirstElement();
-						DifferenceSettings differenceSettings = new DifferenceSettings();
-						differenceSettings.setMergeImports(false);
+						
+						DifferenceSettings differenceSettings = SettingsUtil.getDefaultDifferenceSettings();
 						
 						IMatcher matcher = MatchingUtils.getMatcherByKey("org.sidiff.matcher.adapter.emfcompare.EMFCompareMatcherAdapter");
 						ITechnicalDifferenceBuilder builder = TechnicalDifferenceUtils.getTechnicalDifferenceBuilder("org.sidiff.uml2v4.difference.technical.TechnicalDifferenceBuilderUML");
 						
+						differenceSettings.setCorrespondencesService(new MatchingModelCorrespondences());
 						differenceSettings.setMatcher(matcher);
 						differenceSettings.setTechBuilder(builder);
+						differenceSettings.setMergeImports(false);
 						
 						EvaluationSettings evaluationSettings = new EvaluationSettings(folder.getName(), new String[]{"uml"}, differenceSettings, new FOLValidator());
 						
