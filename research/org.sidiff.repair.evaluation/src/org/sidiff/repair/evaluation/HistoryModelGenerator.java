@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
@@ -22,6 +24,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -51,9 +55,67 @@ public class HistoryModelGenerator {
 	
 	private IProject project = null;
 	
-	private ResourceSet resourceSet = new ResourceSetImpl();
+	private ResourceSet resourceSet;
+
+	// Fixes absolute internal URI-References in older Ecore models! 
+	private static class RepairURIHandler extends URIHandlerImpl {
+		
+		private ResourceSet resourceSet;
+		
+		private Map<String, String> uriMap = new HashMap<>();
+		
+		public RepairURIHandler(ResourceSet resourceSet) {
+			super();
+			this.resourceSet = resourceSet;
+			
+			// Map URIs:
+			//uriMap.put("platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore", "http://www.eclipse.org/emf/2002/Ecore");
+		}
+
+		@Override
+		public URI resolve(URI uri) {
+			
+			// Map URI:
+			for (String uriPrefix : uriMap.keySet()) {
+				String uriString = uri.toString();
+				
+				if (uriString.startsWith(uriPrefix)) {
+					uriString = uriString.replaceFirst(uriPrefix, uriMap.get(uriPrefix));
+					uri = URI.createURI(uriString);
+					break;
+				}
+			}
+			
+			// Fix:
+			// ../../../../../../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString
+			// platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore
+			if (uri.toString().contains("Ecore.ecore")) {
+				uri = URI.createURI("http://www.eclipse.org/emf/2002/Ecore#" + uri.fragment());
+			}
+			
+			// Test URI:
+			EObject obj = resourceSet.getEObject(uri, false);
+			
+			if ((obj == null) || (obj.eIsProxy())) {
+				
+				// Try relative URI:
+				URI relative = URI.createURI(uri.fragment());
+				obj = resourceSet.getEObject(relative, false);
+				
+				if (obj != null) {
+					return relative;
+				}
+			}
+			
+			return uri;
+		}
+	}
 	
 	public void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException {
+
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getLoadOptions().put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+		resourceSet.getLoadOptions().put(XMIResource.OPTION_URI_HANDLER, new RepairURIHandler(resourceSet));
 		
 		// Scan for model files within that folder:
 		File modelFolder = new File(folderpath);
