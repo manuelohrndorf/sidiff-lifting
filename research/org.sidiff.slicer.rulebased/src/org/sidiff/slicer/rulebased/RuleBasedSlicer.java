@@ -186,7 +186,7 @@ public class RuleBasedSlicer{
 		
 		for (Iterator<EObject> iterator = targetResource.getAllContents(); iterator.hasNext();) {
 			EObject eObject =  iterator.next();
-			if(!correspondences.containsKey(eObject)){
+			if(!correspondences.containsValue(eObject)){
 				matching.getUnmatchedA().add(eObject);
 			}
 		}
