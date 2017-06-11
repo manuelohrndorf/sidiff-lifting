@@ -9,6 +9,11 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.BaseArgumentManager;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class SlicingArgumentManager extends BaseArgumentManager {
 	
 	private Map<EObject, EObject> correspondences;
