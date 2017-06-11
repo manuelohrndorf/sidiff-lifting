@@ -1,26 +1,16 @@
 package org.sidiff.slicer.rulebased.configuration;
 
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.slicer.ISlicingConfiguration;
 
-public class SlicingConfiguration implements ISlicingConfiguration{
-	
-	SlicingMode slicingMode;
+public class SlicingConfiguration {
 
 	private LiftingSettings liftingSettings;
 	
-	public SlicingConfiguration(SlicingMode slicingMode, LiftingSettings liftingSettings) {
-		this.slicingMode = slicingMode;
+	public SlicingConfiguration(LiftingSettings liftingSettings) {
+
 		this.liftingSettings = liftingSettings;
 	}
 
-	public SlicingMode getSlicingMode() {
-		return slicingMode;
-	}
-
-	public void setSlicingMode(SlicingMode slicingMode) {
-		this.slicingMode = slicingMode;
-	}
 
 	public LiftingSettings getLiftingSettings() {
 		return liftingSettings;
