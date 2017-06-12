@@ -48,8 +48,15 @@ public class EMFValidator implements IValidator {
 				ValidationError validationError = HistoryModelFactory.eINSTANCE.createValidationError();
 				validationError.setMessage(childDiagnostic.getMessage());
 				validationError.setSource(childDiagnostic.getSource());
-				validationError.setSeverity(childDiagnostic.getSeverity() == Diagnostic.ERROR ? ValidationSeverity.ERROR
-						: ValidationSeverity.WARNING);
+				
+				if (childDiagnostic.getSeverity() == Diagnostic.ERROR) {
+					validationError.setSeverity(ValidationSeverity.ERROR);
+				} else if (childDiagnostic.getSeverity() == Diagnostic.WARNING) {
+					validationError.setSeverity(ValidationSeverity.WARNING);
+				} else {
+					validationError.setSeverity(ValidationSeverity.UNKNOWN);
+				}
+
 				String name = childDiagnostic.getMessage().replaceAll("'.*?'", "").trim();
 				name = name.replaceAll("\\s.[^\\s]*@.*?\\s", "");
 				
@@ -61,23 +68,8 @@ public class EMFValidator implements IValidator {
 				name = name.replaceAll("[^\\p{Alpha}]", "");
 				validationError.setName(name);
 				
-				if (childDiagnostic.getMessage().contains("eneric") && !childDiagnostic.getMessage().contains("proxy")
-						&& !childDiagnostic.getMessage().contains("null")) {
-					System.out.println("EMFValidator.validate()");
-				}
-				
 				for (Object obj : childDiagnostic.getData()) {
 					if (obj instanceof EObject) {
-						
-//						// FIXME[WORKAROUND]: Wrapping of raw types in ecore generics.
-//						if (obj instanceof EGenericType) {
-//							EGenericType eGenericType = (EGenericType) obj;
-//							
-//							if (eGenericType.getETypeParameter() == null) {
-//								obj = ((EObject) obj).eContainer();
-//							}
-//						}
-						
 						validationError.getInvalidElement().add((EObject) obj);
 					}
 				}

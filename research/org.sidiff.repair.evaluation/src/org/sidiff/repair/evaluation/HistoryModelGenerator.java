@@ -64,9 +64,12 @@ public class HistoryModelGenerator {
 		
 		private Map<String, String> uriMap = new HashMap<>();
 		
-		public RepairURIHandler(ResourceSet resourceSet) {
+		private URI versionFolder;
+		
+		public RepairURIHandler(ResourceSet resourceSet, URI versionFolder) {
 			super();
 			this.resourceSet = resourceSet;
+			this.versionFolder = versionFolder;
 			
 			// Map URIs:
 			//uriMap.put("platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore", "http://www.eclipse.org/emf/2002/Ecore");
@@ -88,9 +91,20 @@ public class HistoryModelGenerator {
 			
 			// Fix:
 			// ../../../../../../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString
-			// platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore
+			// platform:/resource/org.eclipse.emf.ecore/model/Ecore.ecore#//EString
 			if (uri.toString().contains("Ecore.ecore")) {
 				uri = URI.createURI("http://www.eclipse.org/emf/2002/Ecore#" + uri.fragment());
+			}
+			
+			// Try default:
+			try {
+				URI defaultDeresolvedURI = super.resolve(uri);
+				EObject obj = resourceSet.getEObject(defaultDeresolvedURI, true);
+				
+				if (obj != null) {
+					return defaultDeresolvedURI;
+				}
+			} catch (Exception e) {
 			}
 			
 			// Test URI:
@@ -104,18 +118,66 @@ public class HistoryModelGenerator {
 				
 				if (obj != null) {
 					return relative;
+				} else {
+					
+					// Remove: ../../
+					String subModelElementURI = uri.toString();
+					
+					while (subModelElementURI.startsWith("../")) {
+						subModelElementURI = subModelElementURI.substring(3, subModelElementURI.length());
+					}
+					
+					// Remove: protocol
+					subModelElementURI = subModelElementURI.replaceFirst("platform:/plugin/", "");
+					subModelElementURI = subModelElementURI.replaceFirst("platform:/resource/", "");
+					
+					// Find: ../mainModel.ecore_subModel.ecore/subModelPath/subModel.ecore
+					URI subModelURI = URI.createURI(subModelElementURI).trimFragment();
+					
+					if (!subModelURI.isEmpty()) {
+						String mainModel = getModelName(getBaseURI().toString());
+						String subModel = subModelURI.lastSegment().toString();
+						String subModelPath = subModelURI.trimSegments(1).trimFragment().toString();
+						
+						URI findSubModelElement = super.resolve(URI.createURI("../" + mainModel + "_" + subModel 
+								+ "/" + subModelPath + "/" + subModel).appendFragment(uri.fragment()));
+						
+						try {
+							obj = resourceSet.getEObject(findSubModelElement, true);
+						} catch (Exception e) {
+						}
+						
+						if (obj != null) {
+							try {
+								URI subModelCopy = versionFolder.appendSegments(subModelPath.split("/")).appendSegment(subModel);
+								obj.eResource().setURI(subModelCopy);
+								obj.eResource().save(null);
+								
+								uriMap.put(uri.trimFragment().toString(), subModelCopy.toString());
+								return resolve(uri);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						} else {
+							System.err.println("Unresolved URI: " + uri);
+							uri = URI.createURI(subModelElementURI);
+							System.err.println("  -> " + uri);
+						}
+					}
 				}
 			}
 			
 			return uri;
 		}
+		
+		private String getModelName(String uri) {
+			return uri.toString().substring(
+					uri.toString().lastIndexOf("_") + 1,
+					uri.toString().length());
+		}
 	}
 	
 	public void generateHistoryProject(String folderpath, EvaluationSettings settings) throws CoreException {
-
-		resourceSet = new ResourceSetImpl();
-		resourceSet.getLoadOptions().put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-		resourceSet.getLoadOptions().put(XMIResource.OPTION_URI_HANDLER, new RepairURIHandler(resourceSet));
 		
 		// Scan for model files within that folder:
 		File modelFolder = new File(folderpath);
@@ -139,6 +201,12 @@ public class HistoryModelGenerator {
 			diffF.create(false, true, null);
 			
 			// Create a history:
+			URI versionFolder = URI.createPlatformResourceURI(project.getName() + "/" + VERSIONS_FOLDER, true);
+			
+			resourceSet = new ResourceSetImpl();
+			resourceSet.getLoadOptions().put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+			resourceSet.getLoadOptions().put(XMIResource.OPTION_URI_HANDLER, new RepairURIHandler(resourceSet, versionFolder));
+			
 			History history = generateHistory(files, settings);
 			saveHistory(history);
 			
@@ -233,8 +301,11 @@ public class HistoryModelGenerator {
 		history.setName(settings.getHistory_name());
 		
 		// Load history:
+		System.out.println("############################## LOAD MODELS ##############################");
+		
 		for (File modelFile : files) {
 			URI uri = EMFStorage.fileToUri(modelFile);
+			System.out.println(uri);
 			Resource resource = new UUIDResource(uri, resourceSet);
 			Version version = generateVersion(resource, settings);
 			
@@ -244,11 +315,15 @@ public class HistoryModelGenerator {
 		}
 		
 		// Calculate matchings:
+		System.out.println("############################## Calcualte Traces ##############################");
+		
 		for (int i = 0; i < (history.getVersions().size() - 1); i++) {
 			int j = i + 1;
 			
 			Version versionA = history.getVersions().get(i);
 			Version versionB = history.getVersions().get(j);
+			
+			System.out.println("Versions: " + versionA.getName() + " -> " + versionB.getName());
 			
 			while (versionB.getStatus().equals(ModelStatus.DEFECT) && (j < (history.getVersions().size() - 1))) {
 				versionB = history.getVersions().get(++j);
@@ -279,12 +354,12 @@ public class HistoryModelGenerator {
 		
 		ModelStatus modelStatus = validationErrors.isEmpty() ? ModelStatus.VALID : ModelStatus.INVALID;
 		
-		// Do not handle defect models
+		// Mark defect models
 		for (ValidationError validationError : validationErrors) {
-			if (validationError.getMessage().contains("contains an unresolved proxy")
-					|| validationError.getMessage().contains("contains a dangling reference")) {
-				modelStatus = ModelStatus.DEFECT;
-//				return null;
+			for (EObject element : validationError.getInvalidElement()) {
+				if (element.eIsProxy()) {
+					modelStatus = ModelStatus.DEFECT;
+				}
 			}
 		}
 		
