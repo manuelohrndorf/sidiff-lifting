@@ -1,8 +1,10 @@
 package org.sidiff.slicer.rulebased.ui.views;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EObject;
@@ -18,10 +20,8 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -29,12 +29,15 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
@@ -42,8 +45,14 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.patching.ui.adapter.ModelAdapter;
+import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.perspective.SiLiftPerspective;
+import org.sidiff.patching.ui.view.OperationExplorerView;
+import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration.SlicingMode;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
@@ -53,7 +62,7 @@ import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
  * @author cpietsch
  *
  */
-public class SlicingCriteriaView extends ViewPart implements ICheckStateListener {
+public class SlicingCriteriaView extends ViewPart {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -100,7 +109,12 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	/**
 	 * 
 	 */
-	private Action sliceAction;
+	private Action batchSliceAction;
+	
+	/**
+	 * 
+	 */
+	private Action interactiveSliceAction;
 	
 	/**
 	 * 
@@ -154,8 +168,10 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		slicer.init(config, originResource, domainEditor.getEditingDomain(editorPart).getResourceSet().getResource(targetResource.getURI(), false));
 		slicer.setEditingDomain(domainEditor.getEditingDomain(editorPart));
 		
-		sliceAction.setEnabled(true);
-		sliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_ENABLED));
+		batchSliceAction.setEnabled(true);
+		batchSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_ENABLED));
+		interactiveSliceAction.setEnabled(true);
+		interactiveSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_INTERACTIVE_ENABLED));
 	}
 	
 	/**
@@ -166,7 +182,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 		viewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-		viewer.addCheckStateListener(this);
+//		viewer.addCheckStateListener(this);
 		
 		
 		// Create the help context id for the viewer's control
@@ -204,9 +220,11 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		//end deselectSubTreeAction
 		
 		//begin sliceAction		
-		sliceAction = new Action() {
+		batchSliceAction = new Action() {
 			public void run() {
 				try {
+					updateSlicingCriteria();
+					slicer.switchSlicingMode(SlicingMode.BATCH);
 					slicer.slice(slicingCriteria);
 				} catch (UncoveredChangesException | NotInitializedException e) {
 					MessageDialog.openError(viewer.getControl().getShell(), "Error", e.getMessage());
@@ -214,11 +232,89 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			}
 			
 		};
-		sliceAction.setText("Apply Slice");
-		sliceAction.setToolTipText("slice model");
-		sliceAction.setEnabled(false);
-		sliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_DISABLED));
+		batchSliceAction.setText("Apply Slice");
+		batchSliceAction.setToolTipText("slice model");
+		batchSliceAction.setEnabled(false);
+		batchSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_DISABLED));
 		//end sliceAction
+		
+		//begin interactiveSliceAction
+		interactiveSliceAction = new Action() {
+			public void run() {
+				try {
+					updateSlicingCriteria();
+					slicer.switchSlicingMode(SlicingMode.INTERACTIVE);
+					slicer.slice(slicingCriteria);
+					final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
+					final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
+					Display.getDefault().syncExec(new Runnable() {
+
+						@Override
+						public void run() {
+							try {
+								PlatformUI
+										.getWorkbench()
+										.showPerspective(
+												SiLiftPerspective.ID,
+												PlatformUI
+														.getWorkbench()
+														.getActiveWorkbenchWindow());
+
+								// Opening and setting operation explorer view
+								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI
+										.getWorkbench()
+										.getActiveWorkbenchWindow()
+										.getActivePage()
+										.showView(OperationExplorerView.ID);
+								operationExplorerView
+										.setPatchEngine(slicer.getPatchEngine());
+								operationExplorerViewReference
+										.set(operationExplorerView);
+
+								// Opening and setting report view
+								ReportView reportView = (ReportView) PlatformUI
+										.getWorkbench()
+										.getActiveWorkbenchWindow()
+										.getActivePage()
+										.showView(ReportView.ID);
+								reportView.setPatchReportManager(slicer.getPatchEngine()
+										.getPatchReportManager());
+								reportViewReference.set(reportView);
+
+							} catch (PartInitException e) {
+								e.printStackTrace();
+							} catch (WorkbenchException e) {
+								e.printStackTrace();
+							}
+						}
+					});
+					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
+				
+
+					// ModelChangeHandler works independent; PatchView is
+					// interested in model changes
+					ModelAdapter adapter = new ModelAdapter(
+							slicer.getPatchEngine().getPatchedResource());
+					adapter.addListener(new ModelChangeHandler(slicer.getPatchEngine().getArgumentManager()));
+					adapter.addListener(operationExplorerView);
+					
+				} catch (UncoveredChangesException | NotInitializedException e) {
+					MessageDialog.openError(viewer.getControl().getShell(), "Error", e.getMessage());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		};
+		interactiveSliceAction.setText("Apply Incremental Slice");
+		interactiveSliceAction.setToolTipText("open the incremental slice perspective");
+		interactiveSliceAction.setEnabled(false);
+		interactiveSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_INTERACTIVE_DISABLED));
+		//end interactiveSliceAction
 		
 		//begin expandAllAction
 		expandAllAction = new Action() {
@@ -282,12 +378,14 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(sliceAction);
+		manager.add(batchSliceAction);
+		manager.add(interactiveSliceAction);
 		manager.add(new Separator());
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(sliceAction);
+		manager.add(batchSliceAction);
+		manager.add(interactiveSliceAction);
 		manager.add(new Separator());
 		manager.add(expandAllAction);
 		manager.add(collapseAllAction);
@@ -318,14 +416,22 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		viewer.getControl().setFocus();
 	}
 
-
-	@Override
-	public void checkStateChanged(CheckStateChangedEvent event) {
-		if(event.getChecked()){	
-			Object element = event.getElement();
-			if(element instanceof EObject){
-				slicingCriteria.add((EObject)element);
-			}
+	private void updateSlicingCriteria(){
+		slicingCriteria.clear();
+		for(Object obj : viewer.getCheckedElements()){
+			slicingCriteria.add((EObject)obj);
 		}
 	}
+
+//	@Override
+//	public void checkStateChanged(CheckStateChangedEvent event) {
+//		Object element = event.getElement();
+//		if(event.getChecked()){	
+//			
+//			slicingCriteria.add((EObject)element);
+//			
+//		}else {
+//			slicingCriteria.remove((EObject)element);
+//		}
+//	}
 }

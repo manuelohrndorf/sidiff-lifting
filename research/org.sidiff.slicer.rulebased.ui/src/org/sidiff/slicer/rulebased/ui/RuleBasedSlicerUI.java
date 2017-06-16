@@ -12,6 +12,8 @@ public class RuleBasedSlicerUI extends AbstractUIPlugin {
 	
 	public static final String IMG_RUN_ENABLED = "run_enabled.gif";
 	public static final String IMG_RUN_DISABLED = "run_disabled.gif";
+	public static final String IMG_RUN_INTERACTIVE_ENABLED = "run_interactive_enabled.gif";
+	public static final String IMG_RUN_INTERACTIVE_DISABLED = "run_interactive_disabled.gif";
 	public static final String IMG_EXPANDALL = "expandall.gif";
 	public static final String IMG_COLLAPSEALL = "collapseall.gif";
 	

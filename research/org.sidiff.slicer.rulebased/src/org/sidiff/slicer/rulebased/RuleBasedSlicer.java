@@ -33,6 +33,7 @@ import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration.SlicingMode;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 
@@ -66,9 +67,24 @@ public class RuleBasedSlicer{
 	private EditingDomain editingDomain;
 	
 	/**
+	 * Set containing the initial sub-model, i.e. the root objects and their mandatory references
+	 */
+	private Set<EObject> submodel;
+	
+	/**
 	 * A map holding the correspondences between the origin and (incremental modified) target resource
 	 */
 	private Map<EObject, EObject> correspondences;
+	
+	/**
+	 * The {@link AsymmetricDifference} for building the slice
+	 */
+	private AsymmetricDifference asymDiff;
+	
+	/**
+	 * The {@link PatchEngine} for applying the {@link #asymDiff}
+	 */
+	private PatchEngine patchEngine;
 	
 	/**
 	 * flag that indicates if the slicer is initialized
@@ -90,6 +106,7 @@ public class RuleBasedSlicer{
 		this.targetResource = targetResource;
 		this.generateIDs(originResource);
 		this.correspondences = EMFUtil.copySubModel(new HashSet<EObject>(originResource.getContents()));
+		this.submodel = new HashSet<EObject>(correspondences.keySet());
 		this.targetResource.getContents().addAll(correspondences.values());
 		this.initialized = true;
 	}
@@ -112,6 +129,7 @@ public class RuleBasedSlicer{
 			this.enrichSlicingCriteria(slicingCriteria);
 			this.slicingConfiguration.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(slicingCriteria));
 			
+			cleanCorrespondences(slicingCriteria);
 			Map<EObject, OperationInvocation> opInvs = new HashMap<EObject, OperationInvocation>();
 			
 			// (1)
@@ -138,14 +156,17 @@ public class RuleBasedSlicer{
 			
 			// 4
 			for(OperationInvocation opInv : asymmetricDifference.getOperationInvocations()){
-				if(!opInvO.contains(opInv)){
+				if((!opInv.getOutParameterBindings().isEmpty() || slicingConfiguration.isChangePreserving()) && !opInvO.contains(opInv)){
 					opInv.setApply(false);
 				}
 			}
 				
 			// 5
-			this.applyEditScript(asymmetricDifference, targetResource);
-			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
+			this.initPatchEngine();
+			if(slicingConfiguration.getSlicingMode().equals(SlicingMode.BATCH)){
+				this.applyEditScript();
+				LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
+			}
 		}else{
 			throw new NotInitializedException();
 		}
@@ -192,21 +213,14 @@ public class RuleBasedSlicer{
 		}
 		
 		SymmetricDifference technicalDifference = AsymmetricDiffFacade.deriveTechnicalDifference(matching, this.slicingConfiguration.getLiftingSettings());
-		AsymmetricDifference asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(technicalDifference, this.slicingConfiguration.getLiftingSettings()).getAsymmetric();
+		asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(technicalDifference, this.slicingConfiguration.getLiftingSettings()).getAsymmetric();
 		if(DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
 			throw new UncoveredChangesException();
 		}
 		return asymDiff;
 	}
 	
-	/**
-	 * applies an edit script onto a target model and adds new created model
-	 * elements to {@link #correspondences}
-	 * 
-	 * @param asymmetricDifference
-	 * @param targetModel
-	 */
-	private void applyEditScript(AsymmetricDifference asymmetricDifference, Resource targetModel){
+	private void initPatchEngine(){
 		IArgumentManager argumentManager = new SlicingArgumentManager(correspondences);
 		PatchingSettings settings = new PatchingSettings(slicingConfiguration.getLiftingSettings().getScope(), false,
 				slicingConfiguration.getLiftingSettings().getMatcher(),
@@ -216,19 +230,51 @@ public class RuleBasedSlicer{
 				argumentManager,
 				new BatchInterruptHandler(),
 				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
-				null, ExecutionMode.BATCH, PatchMode.PATCHING, 100, ValidationMode.NO_VALIDATION);
+				null, slicingConfiguration.getSlicingMode().equals(SlicingMode.BATCH) ? ExecutionMode.BATCH
+						: ExecutionMode.INTERACTIVE,
+				PatchMode.PATCHING, 100, ValidationMode.NO_VALIDATION);
 		
-		PatchEngine patchEngine = new PatchEngine(asymmetricDifference, targetModel, settings);
+		patchEngine = new PatchEngine(asymDiff, targetResource, settings);
 		if(editingDomain != null){
 			patchEngine.setPatchedEditingDomain(editingDomain);
 		}
+	}
+	
+	/**
+	 * applies an edit script onto a target model and adds new created model
+	 * elements to {@link #correspondences}
+	 */
+	private void applyEditScript(){
 		patchEngine.applyPatch(true);
-		for(OperationInvocation opInv : asymmetricDifference.getOperationInvocations()){
+		updateCorrespondences();
+	}
+	
+	/**
+	 * 
+	 * @param slicingCriteria
+	 */
+	private void cleanCorrespondences(Set<EObject> slicingCriteria){
+		Set<EObject> removedSlicingCriteria = new HashSet<EObject>();
+		for(EObject eObject : correspondences.keySet()){
+			if(!slicingCriteria.contains(eObject) && !submodel.contains(eObject)){
+				removedSlicingCriteria.add(eObject);
+			}
+		}
+		for(EObject eObject : removedSlicingCriteria){
+			correspondences.remove(eObject);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void updateCorrespondences(){
+		for(OperationInvocation opInv : asymDiff.getOperationInvocations()){
 			if(opInv.isApply()){
 				for(ParameterBinding pb : opInv.getOutParameterBindings()){
 					if(pb instanceof ObjectParameterBinding){
 						ObjectParameterBinding opb = (ObjectParameterBinding) pb;
-						ObjectArgumentWrapper argumentWrapper = (ObjectArgumentWrapper) argumentManager.getArgument(opb);
+						ObjectArgumentWrapper argumentWrapper = (ObjectArgumentWrapper) patchEngine.getArgumentManager().getArgument(opb);
 						correspondences.put(argumentWrapper.getObjectBinding().getActualB(), argumentWrapper.getTargetObject());
 					}
 				}
@@ -280,5 +326,21 @@ public class RuleBasedSlicer{
 	 */
 	public void setEditingDomain(EditingDomain editingDomain) {
 		this.editingDomain = editingDomain;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public PatchEngine getPatchEngine() {
+		return patchEngine;
+	}
+	
+	/**
+	 * 
+	 * @param slicingMode
+	 */
+	public void switchSlicingMode(SlicingMode slicingMode){
+		slicingConfiguration.setSlicingMode(slicingMode);
 	}
 }

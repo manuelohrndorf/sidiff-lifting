@@ -67,6 +67,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
 			LogUtil.log(LogEvent.NOTICE, "Post processing");
 			PostProcessor postProcessor = new PostProcessor(settings.getRecognitionEngine());
+			postProcessor.setCsPrioComparator(settings.getComparator());
 			postProcessor.postProcess();
 		}
 		
