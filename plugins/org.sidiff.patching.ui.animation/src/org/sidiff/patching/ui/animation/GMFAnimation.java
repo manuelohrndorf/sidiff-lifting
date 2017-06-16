@@ -52,7 +52,7 @@ public class GMFAnimation {
 						if(createMatching){
 							IMatcher usedMatcher = null;
 							// Search registered matcher extension points
-							Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(changingResource, resource));
+							List<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(changingResource, resource));
 							if(matcherSet.size() > 0){
 								for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 									IMatcher matcher = iterator.next();

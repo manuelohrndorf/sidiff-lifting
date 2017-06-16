@@ -229,9 +229,7 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		matchers = new TreeMap<String, IMatcher>();
 
 		// Search registered matcher extension points
-		Set<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(inputModels);
-
-		for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
+		for (Iterator<IMatcher> iterator = MatcherUtil.getAvailableMatchers(inputModels).iterator(); iterator.hasNext();) {
 			IMatcher matcher = iterator.next();
 			matchers.put(matcher.getName(), matcher);
 		}
