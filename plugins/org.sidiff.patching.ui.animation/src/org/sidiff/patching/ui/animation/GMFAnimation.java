@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -51,8 +50,10 @@ public class GMFAnimation {
 					if(resource.getURI().toString().endsWith(".ecore")){
 						if(createMatching){
 							IMatcher usedMatcher = null;
+							
 							// Search registered matcher extension points
 							List<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(changingResource, resource));
+							
 							if(matcherSet.size() > 0){
 								for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 									IMatcher matcher = iterator.next();

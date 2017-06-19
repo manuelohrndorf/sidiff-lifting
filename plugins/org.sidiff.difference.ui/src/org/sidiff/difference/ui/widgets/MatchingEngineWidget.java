@@ -3,7 +3,6 @@ package org.sidiff.difference.ui.widgets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -229,7 +228,9 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		matchers = new TreeMap<String, IMatcher>();
 
 		// Search registered matcher extension points
-		for (Iterator<IMatcher> iterator = MatcherUtil.getAvailableMatchers(inputModels).iterator(); iterator.hasNext();) {
+		java.util.List<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(inputModels);
+
+		for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {
 			IMatcher matcher = iterator.next();
 			matchers.put(matcher.getName(), matcher);
 		}
