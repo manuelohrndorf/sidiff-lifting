@@ -63,11 +63,25 @@
          <handler
             class="org.sidiff.editrule.recorder.handlers.CreateEditRuleHandler"
             commandId="org.sidiff.editrule.recorder.command.createeditrule">
-         <activeWhen>
-            <reference
-                  definitionId="org.sidiff.difference.lifting.ui.definition.difference">
-            </reference>
-         </activeWhen>
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.sidiff.difference.symmetric">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.sidiff.difference.symmetric">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
       </handler>
          <handler
                class="org.sidiff.editrule.recorder.handlers.ReduceToContext"
@@ -314,6 +328,15 @@
             <or>
                 <test property="org.eclipse.core.resources.extension"
                       value="henshin">
+                </test>
+            </or>
+         </adapt>
+      </definition>
+      <definition id="org.sidiff.difference.symmetric">
+         <adapt type="org.eclipse.core.resources.IResource">
+            <or>
+                <test property="org.eclipse.core.resources.extension"
+                      value="symmetric">
                 </test>
             </or>
          </adapt>

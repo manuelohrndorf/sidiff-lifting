@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Display;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
+import org.sidiff.common.ui.util.UIUtil.NotEmptyValidator;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleNaming;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil.NotEmptyValidator;
 
 /**
  * Renames an edit-rule: file, module, rule, diagram
@@ -52,66 +52,14 @@ public class RenameEditRuleHandler extends AbstractHandler {
 			// Rename:
 			if (setNameDialog.getValue() != null) {
 				String name = setNameDialog.getValue();
-
-				// Module and rule:
-				editRule.setName(EditRuleNaming.formatModuleName(name));
-				EditRuleUtil.getMainRule(editRule).setName(EditRuleNaming.formatRuleName(name));
+				String description = "";
 				
 				// Description:
 				if (setDescriptionDialog.getValue() != null) {
-					String description = setDescriptionDialog.getValue();
-					
-					if (description != null) {
-						editRule.setDescription(description);
-					}
+					description = setDescriptionDialog.getValue();
 				}
 				
-				// Files:
-				String newFileName = EditRuleNaming.formatFileName(name);
-				
-				// Model:
-				URI modelURI = editRule.eResource().getURI();
-				URI newModelURI = modelURI.trimSegments(1).appendSegment(
-						newFileName + "_execute").appendFileExtension("henshin");
-				String oldModelName = modelURI.segment(modelURI.segmentCount() - 1);
-				
-				
-				// Diagram:
-				URI diagramURI = modelURI.trimFileExtension().appendFileExtension("henshin_diagram");
-				URI newDiagramURI = modelURI.trimSegments(1).appendSegment(
-						newFileName + "_execute").appendFileExtension("henshin_diagram");
-				
-				Resource diagram = editRule.eResource().getResourceSet().getResource(diagramURI, true);
-				
-				// Set URIs:
-				diagram.setURI(newDiagramURI);
-				editRule.eResource().setURI(newModelURI);
-				
-				// Save changes:
-				try {
-					// Save model:
-					editRule.eResource().save(Collections.emptyMap());
-					
-					// Save diagram:
-					Map<String, Object> options = new HashMap<String, Object>();
-					options.put(XMIResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
-
-						@Override
-						public URI deresolve(URI uri) {
-							
-							if (uri.segment(uri.segmentCount() - 1).equals(oldModelName)) {
-								uri = uri.trimSegments(1).appendSegment(
-										newFileName + "_execute").appendFileExtension("henshin");
-							}
-							
-							return super.deresolve(uri);
-						}
-					});
-
-					diagram.save(options);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				renameEditRule(editRule, name, description);
 				
 				UIUtil.showMessage("Edit-Rule saved:\n\n" + EcoreUtil.getURI(editRule).toPlatformString(true));
 			}
@@ -120,4 +68,59 @@ public class RenameEditRuleHandler extends AbstractHandler {
 		return null;
 	}
 
+	public static void renameEditRule(Module editRule, String name, String description) {
+
+		// Module and rule:
+		editRule.setName(EditRuleNaming.formatModuleName(name));
+		editRule.setDescription(description);
+		
+		EditRuleUtil.getMainRule(editRule).setName(EditRuleNaming.formatRuleName(name));
+		
+		// Files:
+		String newFileName = EditRuleNaming.formatFileName(name);
+		
+		// Model:
+		URI modelURI = editRule.eResource().getURI();
+		URI newModelURI = modelURI.trimSegments(1).appendSegment(
+				newFileName + "_execute").appendFileExtension("henshin");
+		String oldModelName = modelURI.segment(modelURI.segmentCount() - 1);
+		
+		
+		// Diagram:
+		URI diagramURI = modelURI.trimFileExtension().appendFileExtension("henshin_diagram");
+		URI newDiagramURI = modelURI.trimSegments(1).appendSegment(
+				newFileName + "_execute").appendFileExtension("henshin_diagram");
+		
+		Resource diagram = editRule.eResource().getResourceSet().getResource(diagramURI, true);
+		
+		// Set URIs:
+		diagram.setURI(newDiagramURI);
+		editRule.eResource().setURI(newModelURI);
+		
+		// Save changes:
+		try {
+			// Save model:
+			editRule.eResource().save(Collections.emptyMap());
+			
+			// Save diagram:
+			Map<String, Object> options = new HashMap<String, Object>();
+			options.put(XMIResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
+
+				@Override
+				public URI deresolve(URI uri) {
+					
+					if (uri.segment(uri.segmentCount() - 1).equals(oldModelName)) {
+						uri = uri.trimSegments(1).appendSegment(
+								newFileName + "_execute").appendFileExtension("henshin");
+					}
+					
+					return super.deresolve(uri);
+				}
+			});
+
+			diagram.save(options);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -88,7 +88,14 @@ public class AttributePair {
 	 * @return the attribute type.
 	 */
 	public EAttribute getType() {
-		return lhsAttribute.getType();
+		
+		if (rhsAttribute != null) {
+			return rhsAttribute.getType();
+		} else if (lhsAttribute != null) {
+			return lhsAttribute.getType();
+		}
+
+		return null;
 	}
 	
 	/**

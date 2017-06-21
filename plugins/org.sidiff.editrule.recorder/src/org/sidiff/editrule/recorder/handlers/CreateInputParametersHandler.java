@@ -21,9 +21,9 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 
 /**
  * Creates an edit-rule input parameter.
@@ -82,7 +82,7 @@ public class CreateInputParametersHandler extends AbstractHandler {
 			if (selectDialog.getResult() != null) {
 				for(Object selection : selectDialog.getResult()) {
 					if (selection instanceof GraphElement) {
-						EditRuleUtil.createInputParameter(editRule, getIdentifier(selection));
+						createInputParameter(editRule, getIdentifier(selection));
 					}
 				}
 				
@@ -98,6 +98,10 @@ public class CreateInputParametersHandler extends AbstractHandler {
 		}
 		
 		return null;
+	}
+	
+	public static void createInputParameter(Module editRule, String name) {
+		EditRuleUtil.createInputParameter(editRule, name);
 	}
 	
 	private String getIdentifier(Object element) {

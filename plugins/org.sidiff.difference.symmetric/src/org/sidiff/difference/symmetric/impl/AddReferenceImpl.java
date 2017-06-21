@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.difference.symmetric.util.StringUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -277,7 +278,29 @@ public class AddReferenceImpl extends ChangeImpl implements AddReference {
 	
 	@Override
 	public String toString() {
-		return super.toString() + " (type: " + type.getName() + ")";
+	    StringBuilder result = new StringBuilder(eClass().getName());
+	    result.append('@');
+	    result.append(Integer.toHexString(hashCode()));
+
+		if (eIsProxy()) {
+			result.append(" (eProxyURI: ");
+			result.append(eProxyURI());
+			
+			if (eDynamicClass() != null) {
+				result.append(" eClass: ");
+				result.append(eDynamicClass());
+			}
+			result.append(')');
+		} else if (eDynamicClass() != null) {
+			result.append(" (eClass: ");
+			result.append(eDynamicClass());
+			result.append(')');
+		}
+
+	    return result.toString() 
+	    		+ " (type: " + type.getName() 
+	    		+ " src: " + StringUtil.eObjectToString(getSrc())
+	    		+ " tgt: " + StringUtil.eObjectToString(getTgt()) + ")";
 	}
 
 } //AddReferenceImpl

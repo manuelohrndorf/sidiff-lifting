@@ -1239,7 +1239,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		EAttribute type = attribute.getType();
 		
 		// Operator '+,-,/,*' is not supported for incoming unit parameters
-		if (Pattern.matches(".*[+-/*].*", value)) {
+		if (!Pattern.matches("\".*?\"", value) && Pattern.matches(".*[+-/*].*", value)) {
 			// // Extract parameters from attribute
 			// Set<Parameter> usedParameter = ParameterInfo.getUsedParameters(editRule, attribute);
 			//

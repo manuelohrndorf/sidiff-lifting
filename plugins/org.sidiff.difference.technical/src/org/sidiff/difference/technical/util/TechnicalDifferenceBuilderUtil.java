@@ -1,12 +1,13 @@
 package org.sidiff.difference.technical.util;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -22,8 +23,8 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @param documentTypes
 	 * @return
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes){
-		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
+	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes){
+		List<ITechnicalDifferenceBuilder> tdbSet = new ArrayList<ITechnicalDifferenceBuilder>();
 		
 		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
 			if (techBuilder.canHandleDocTypes(documentTypes)) {
@@ -31,10 +32,7 @@ public class TechnicalDifferenceBuilderUtil {
 			}
 		}
 		
-		if(tdbSet.size()==0){
-			tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
-		}
-		
+		tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
 		return tdbSet;
 	}
 	
@@ -45,8 +43,8 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @param documentTypes
 	 * @return
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB){
-		Set<ITechnicalDifferenceBuilder> tdbSet = new HashSet<ITechnicalDifferenceBuilder>();
+	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB){
+		List<ITechnicalDifferenceBuilder> tdbSet = new ArrayList<ITechnicalDifferenceBuilder>();
 		
 		for(ITechnicalDifferenceBuilder techBuilder : getAllAvailableTechnicalDifferenceBuilders()){
 			if (techBuilder.canHandleModels(modelA, modelB)) {
@@ -54,10 +52,7 @@ public class TechnicalDifferenceBuilderUtil {
 			}
 		}
 		
-		if(tdbSet.size()==0){
-			tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
-		}
-		
+		tdbSet.add(GENERIC_TECHNICAL_DIFFERENCE_BUILDER);
 		return tdbSet;
 	}
 	
@@ -72,16 +67,11 @@ public class TechnicalDifferenceBuilderUtil {
 	 * @return
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes){
-		Set<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentTypes);
-
+		List<ITechnicalDifferenceBuilder> tdBuilders = getAvailableTechnicalDifferenceBuilders(documentTypes);
 		ITechnicalDifferenceBuilder tdBuilder = null;
-		if (documentTypes.contains(EcorePackage.eINSTANCE.getNsURI())){
-			for (ITechnicalDifferenceBuilder iTechnicalDifferenceBuilder : tdBuilders) {
-				if (!iTechnicalDifferenceBuilder.getClass().getName().contains("Generics")){
-					tdBuilder = iTechnicalDifferenceBuilder;
-					break;
-				}
-			}
+		
+		if (!tdBuilders.isEmpty()){
+			tdBuilder = tdBuilders.get(0);
 		} else {
 			tdBuilder = getGenericTechnicalDifferenceBuilder();
 		}
@@ -120,16 +110,29 @@ public class TechnicalDifferenceBuilderUtil {
 	 * 
 	 * @return
 	 */
-	public static Set<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
-		Set<ITechnicalDifferenceBuilder> availableTechBuilders = new HashSet<ITechnicalDifferenceBuilder>();
+	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
+		List<ITechnicalDifferenceBuilder> availableTechBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
 		
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
 			try {
-				availableTechBuilders.add((ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder"));
+				ITechnicalDifferenceBuilder techBuilder = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");
+				
+				if (!availableTechBuilders.contains(techBuilder)) {
+					availableTechBuilders.add(techBuilder);
+				}
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		availableTechBuilders.sort(new Comparator<ITechnicalDifferenceBuilder>() {
+
+			@Override
+			public int compare(ITechnicalDifferenceBuilder t1, ITechnicalDifferenceBuilder t2) {
+				return t1.getName().compareTo(t2.getName());
+			}
+		});
+		
 		return availableTechBuilders;
 	}
 

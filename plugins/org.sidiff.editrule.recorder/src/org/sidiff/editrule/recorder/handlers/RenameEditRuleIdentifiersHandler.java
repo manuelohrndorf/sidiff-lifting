@@ -21,10 +21,10 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
+import org.sidiff.common.ui.util.UIUtil.NotEmptyValidator;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil.NotEmptyValidator;
 
 /**
  * Renames node names and attribute variables.
@@ -47,20 +47,7 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 			selectDialog.setMultipleSelection(true);
 			
 			// Collect preserve nodes:
-			List<GraphElement> graphElements = new ArrayList<>();
-			Set<String> identifiers = new HashSet<>();
-			
-			getRules(editRule).forEach(rule -> {
-				rule.eAllContents().forEachRemaining(element -> {
-					String identifier = getIdentifier(element);
-
-					if ((identifier != null) && (!identifiers.contains(identifier))) {
-						graphElements.add((GraphElement) element);
-						identifiers.add(identifier);
-					}
-				});
-			});
-			
+			List<GraphElement> graphElements = getEditRuleIdentifier(editRule);
 			selectDialog.setElements(graphElements.toArray());
 			
 			// Open dialog:
@@ -77,7 +64,7 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 					setIdentifierDialog.open();
 					
 					if (setIdentifierDialog.getValue() != null) {
-						EditRuleUtil.renameIdentifier((GraphElement) selection, setIdentifierDialog.getValue());
+						renameEditRuleIdentifier((GraphElement) selection, setIdentifierDialog.getValue());
 					}
 				}
 				
@@ -95,7 +82,29 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 		return null;
 	}
 	
-	private String getIdentifier(Object element) {
+	public static List<GraphElement> getEditRuleIdentifier(Module editRule) {
+		List<GraphElement> graphElements = new ArrayList<>();
+		Set<String> identifiers = new HashSet<>();
+		
+		getRules(editRule).forEach(rule -> {
+			rule.eAllContents().forEachRemaining(element -> {
+				String identifier = getIdentifier(element);
+
+				if ((identifier != null) && (!identifiers.contains(identifier))) {
+					graphElements.add((GraphElement) element);
+					identifiers.add(identifier);
+				}
+			});
+		});
+		
+		return graphElements;
+	}
+	
+	public static void renameEditRuleIdentifier(GraphElement graphElement, String identifier) {
+		EditRuleUtil.renameIdentifier(graphElement, identifier);
+	}
+	
+	private static String getIdentifier(Object element) {
 		if (element instanceof GraphElement) {
 			String identifier = null;
 			

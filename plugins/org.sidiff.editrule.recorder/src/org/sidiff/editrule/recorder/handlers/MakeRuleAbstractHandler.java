@@ -18,8 +18,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 
 /**
  * Makes each << preserve >> and << delete >> node as abstract as possible.
@@ -33,26 +33,7 @@ public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			editRule.eAllContents().forEachRemaining(element -> {
-				if (element instanceof Node) {
-					Node node = (Node) element;
-					
-					if (isDeletionNode(node)) {
-						node.setType(selectMostSpecificType(getRequiredTypes(node)));
-					}
-					
-					else if (isPreservedNode(node)) {
-						Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
-						Set<EClass> requieredTypes = getRequiredTypes(node);
-						requieredTypes.addAll(getRequiredTypes(remoteNode));
-						
-						EClass mostAnstractType = selectMostSpecificType(requieredTypes);
-						
-						node.setType(mostAnstractType);
-						remoteNode.setType(mostAnstractType);
-					}
-				}
-			});
+			makeRuleAbstract(editRule);
 			
 			try {
 				editRule.eResource().save(Collections.emptyMap());
@@ -64,5 +45,28 @@ public class MakeRuleAbstractHandler extends AbstractHandler implements IHandler
 		}
 		
 		return null;
+	}
+	
+	public static void makeRuleAbstract(Module editRule) {
+		editRule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Node) {
+				Node node = (Node) element;
+				
+				if (isDeletionNode(node)) {
+					node.setType(selectMostSpecificType(getRequiredTypes(node)));
+				}
+				
+				else if (isPreservedNode(node)) {
+					Node remoteNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
+					Set<EClass> requieredTypes = getRequiredTypes(node);
+					requieredTypes.addAll(getRequiredTypes(remoteNode));
+					
+					EClass mostAnstractType = selectMostSpecificType(requieredTypes);
+					
+					node.setType(mostAnstractType);
+					remoteNode.setType(mostAnstractType);
+				}
+			}
+		});
 	}
 }

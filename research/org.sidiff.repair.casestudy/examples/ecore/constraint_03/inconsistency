@@ -1,0 +1,21 @@
+INTRODUCED: file:/home/kehrer/Downloads/GitExtractedModels/versions/mmt/org.eclipse.atl/deprecated/org.atl.eclipse.engine/src/org/atl/eclipse/engine/resources/ATL-0.2.ecore/004_3f070c5c26f8af16df4a6bd83ce23b1c3c938a41_deprecated_org.atl.eclipse.engine_src_org_atl_eclipse_engine_resources_ATL-0.2.ecore
+RESOLVED: file:/home/kehrer/Downloads/GitExtractedModels/versions/mmt/org.eclipse.atl/deprecated/org.atl.eclipse.engine/src/org/atl/eclipse/engine/resources/ATL-0.2.ecore/005_c6402cb299429cb8cacfb73c690a5a7d9f477669_deprecated_org.atl.eclipse.engine_src_org_atl_eclipse_engine_resources_ATL-0.2.ecore
+	source: org.eclipse.emf.ecore.model
+	severity: ERROR
+	message: A container reference must have upper bound of 1 not -1
+		[org.eclipse.emf.ecore.impl.EReferenceImpl@2352d5e8 (name: tupleTypeAttribute) (ordered: false, unique: true, lowerBound: 0, upperBound: -1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (containment: false, resolveProxies: true), org.eclipse.emf.ecore.impl.EAttributeImpl@31c7528f (name: upperBound) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: 1, unsettable: false, derived: false) (iD: false)]
+
+		
+Rules:
+*001
+SetAttributeEReferenceAUpperBoundToN And SetAttributeEReferenceBContainmentToFalse: "Sets EReference's (refEClassA) attribute UpperBound to n and sets EReference's (refEClassB) attribute Containment to false"
+SetAttributeEReferenceAUpperBoundToOne And SetAttributeEReferenceBContainmentToTrue: "Sets EReference's (refEClassA) attribute UpperBound to one and sets EReference's (refEClassB) attribute Containment to true"
+
+*002
+SetReferenceEReference(eOpposite)TgtEReferenceAndSetAttributeEReferenceUpperBoundToOne: "Sets EReference's reference eOpposite the target EReference and sets EReference's attribute UpperBound to one"
+UnsetReferenceEReference(EOpposite)TgtEReferenceAndSetAttributeEReferenceUpperBoundToN: "Unsets EReference's reference eOpposite the target EReference and sets EReference's attribute UpperBound to n"
+
+*003
+SetReferenceEReference(eOpposite)TgtEReferenceAndSetAttributeEReferenceContainmentToFalse: "Sets EReference's reference eOpposite the target EReference and sets EReference's attribute Containment to false"
+UnsetReferenceEReference(eOpposite)TgtEReferenceAndSetAttributeEReferenceContainmentToTrue: "Unsets EReference's reference eOpposite the target EReference and sets EReference's attribute Containment to true"
+

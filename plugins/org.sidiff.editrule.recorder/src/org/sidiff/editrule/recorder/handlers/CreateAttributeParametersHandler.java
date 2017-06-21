@@ -13,8 +13,8 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 
 /**
  * Creates a parameter for each attribute variable.
@@ -28,24 +28,7 @@ public class CreateAttributeParametersHandler extends AbstractHandler {
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			List<Attribute> attributes = new ArrayList<>();
-			
-			editRule.eAllContents().forEachRemaining(element -> {
-				if (element instanceof Attribute) {
-					 // Ignore attributes with constants!
-					if (!((Attribute) element).getValue().contains("\"")) {
-						attributes.add((Attribute) element);
-					}
-				}
-			});
-			
-			for (Attribute attribute : attributes) {
-				Rule rule = attribute.getNode().getGraph().getRule();
-				
-				if (rule.getParameter(attribute.getValue()) == null) {
-					rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter(attribute.getValue()));
-				}
-			}
+			createAttributeParameters(editRule);
 			
 			// Save edit-rule:
 			try {
@@ -58,5 +41,26 @@ public class CreateAttributeParametersHandler extends AbstractHandler {
 		}
 		
 		return null;
+	}
+	
+	public static void createAttributeParameters(Module editRule) {
+		List<Attribute> attributes = new ArrayList<>();
+		
+		editRule.eAllContents().forEachRemaining(element -> {
+			if (element instanceof Attribute) {
+				 // Ignore attributes with constants!
+				if (!((Attribute) element).getValue().contains("\"")) {
+					attributes.add((Attribute) element);
+				}
+			}
+		});
+		
+		for (Attribute attribute : attributes) {
+			Rule rule = attribute.getNode().getGraph().getRule();
+			
+			if (rule.getParameter(attribute.getValue()) == null) {
+				rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter(attribute.getValue()));
+			}
+		}
 	}
 }

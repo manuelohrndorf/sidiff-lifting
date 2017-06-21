@@ -8,9 +8,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
-import org.sidiff.editrule.recorder.handlers.util.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.UIUtil;
 
 public class CleanUpImportsHandler extends AbstractHandler{
 
@@ -19,8 +19,7 @@ public class CleanUpImportsHandler extends AbstractHandler{
 		Module editRule = EMFHandlerUtil.getSelection(event, Module.class);
 		
 		if (editRule != null) {
-			editRule.getImports().clear();
-			editRule.getImports().addAll(EditRuleUtil.getImports(editRule));
+			cleanUpImports(editRule);
 			
 			try {
 				editRule.eResource().save(Collections.emptyMap());
@@ -33,5 +32,9 @@ public class CleanUpImportsHandler extends AbstractHandler{
 		
 		return null;
 	}
-
+	
+	public static void cleanUpImports(Module editRule) {
+		editRule.getImports().clear();
+		editRule.getImports().addAll(EditRuleUtil.getImports(editRule));
+	}
 }
