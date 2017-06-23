@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Guard" description="Creates one Guard">
+  <annotations key="INVERSE" value="DELETE_Guard"/>
+  <imports href="http://www.sidiff.org/model/statemachine#/"/>
+  <units xsi:type="henshin:Rule" name="createGuard" description="creates one Guard">
+    <parameters name="New">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/model/statemachine#//Guard"/>
+    </parameters>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs name="Lhs"/>
+    <rhs name="Rhs">
+      <nodes name="New">
+        <type href="http://www.sidiff.org/model/statemachine#//Guard"/>
+        <attributes value="Name">
+          <type href="http://www.sidiff.org/model/statemachine#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Expression">
+          <type href="http://www.sidiff.org/model/statemachine#//Guard/expression"/>
+        </attributes>
+      </nodes>
+    </rhs>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/model/statemachine#//Guard"/>
+    </parameters>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="Expression">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings source="//@units.0/@parameters.0" target="//@units.1/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+  </units>
+</henshin:Module>
