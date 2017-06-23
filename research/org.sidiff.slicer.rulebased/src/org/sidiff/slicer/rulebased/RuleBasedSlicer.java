@@ -7,8 +7,10 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -16,6 +18,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
@@ -108,6 +111,13 @@ public class RuleBasedSlicer{
 		this.correspondences = EMFUtil.copySubModel(new HashSet<EObject>(originResource.getContents()));
 		this.submodel = new HashSet<EObject>(correspondences.keySet());
 		this.targetResource.getContents().addAll(correspondences.values());
+		EcoreUtil.resolveAll(originResource);
+		for(Resource resource : originResource.getResourceSet().getResources()){
+			if(resource != originResource){
+				Resource r = EMFStorage.eLoad(resource.getURI()).eResource();
+				this.targetResource.getResourceSet().getResources().add(r);
+			}
+		}
 		this.initialized = true;
 	}
 
@@ -215,6 +225,7 @@ public class RuleBasedSlicer{
 		SymmetricDifference technicalDifference = AsymmetricDiffFacade.deriveTechnicalDifference(matching, this.slicingConfiguration.getLiftingSettings());
 		asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(technicalDifference, this.slicingConfiguration.getLiftingSettings()).getAsymmetric();
 		if(DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
+			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), EMFStorage.uriToPath(targetResource.getURI()).replace(targetResource.getURI().lastSegment(),  ""), "diff");
 			throw new UncoveredChangesException();
 		}
 		return asymDiff;
