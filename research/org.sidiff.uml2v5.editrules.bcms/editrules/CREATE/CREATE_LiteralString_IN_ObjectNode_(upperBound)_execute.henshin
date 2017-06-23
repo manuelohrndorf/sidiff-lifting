@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_V90B8A8OEeeospYCu75rcw" name="CREATE_LiteralString_IN_ObjectNode_(upperBound)" description="Creates one LiteralString in ObjectNode">
+  <annotations xmi:id="_V90B8Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralString_IN_ObjectNode_(upperBound)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_V90B8g8OEeeospYCu75rcw" name="createLiteralString_IN_ObjectNode" description="creates one LiteralString in the context: ObjectNode">
+    <parameters xmi:id="_V90B8w8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_V90B9A8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <lhs xmi:id="_V90B9Q8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_V90B9g8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_V90B9w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_V90B-A8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_V90B-Q8OEeeospYCu75rcw" name="Selected" outgoing="_V90B_Q8OEeeospYCu75rcw">
+        <annotations xmi:id="_V90B-g8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+      </nodes>
+      <nodes xmi:id="_V90B-w8OEeeospYCu75rcw" name="New" incoming="_V90B_Q8OEeeospYCu75rcw">
+        <annotations xmi:id="_V90B_A8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+      </nodes>
+      <edges xmi:id="_V90B_Q8OEeeospYCu75rcw" source="_V90B-Q8OEeeospYCu75rcw" target="_V90B-w8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode/upperBound"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_V90B_g8OEeeospYCu75rcw" origin="_V90B9g8OEeeospYCu75rcw" image="_V90B-Q8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_V90B_w8OEeeospYCu75rcw" name="mainUnit" subUnits="_V90B8g8OEeeospYCu75rcw">
+    <parameters xmi:id="_V90CAA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_V90CAQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_V90CAg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_V90CAw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameterMappings xmi:id="_V90CBA8OEeeospYCu75rcw" source="_V90CAA8OEeeospYCu75rcw" target="_V90B8w8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_V90CBQ8OEeeospYCu75rcw" source="_V90B9A8OEeeospYCu75rcw" target="_V90CAg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Z38VMA8OEeeospYCu75rcw" name="CREATE_Comment_IN_Element_(ownedComment)" description="Creates one Comment in Element">
+  <annotations xmi:id="_Z38VMQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Comment_IN_Element_(ownedComment)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Z38VMg8OEeeospYCu75rcw" name="createComment_IN_Element" description="creates one Comment in the context: Element">
+    <parameters xmi:id="_Z38VMw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+    </parameters>
+    <parameters xmi:id="_Z38VNA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+    </parameters>
+    <lhs xmi:id="_Z38VNQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_Z38VNg8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_Z38VNw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Z38VOA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_Z38VOQ8OEeeospYCu75rcw" name="Selected" outgoing="_Z38VPQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_Z38VOg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+      </nodes>
+      <nodes xmi:id="_Z38VOw8OEeeospYCu75rcw" name="New" incoming="_Z38VPQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_Z38VPA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+      </nodes>
+      <edges xmi:id="_Z38VPQ8OEeeospYCu75rcw" source="_Z38VOQ8OEeeospYCu75rcw" target="_Z38VOw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Element/ownedComment"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Z38VPg8OEeeospYCu75rcw" origin="_Z38VNg8OEeeospYCu75rcw" image="_Z38VOQ8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Z38VPw8OEeeospYCu75rcw" name="mainUnit" subUnits="_Z38VMg8OEeeospYCu75rcw">
+    <parameters xmi:id="_Z38VQA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_Z38VQQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+    </parameters>
+    <parameters xmi:id="_Z38VQg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_Z38VQw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+    </parameters>
+    <parameterMappings xmi:id="_Z38VRA8OEeeospYCu75rcw" source="_Z38VQA8OEeeospYCu75rcw" target="_Z38VMw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_Z38VRQ8OEeeospYCu75rcw" source="_Z38VNA8OEeeospYCu75rcw" target="_Z38VQg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

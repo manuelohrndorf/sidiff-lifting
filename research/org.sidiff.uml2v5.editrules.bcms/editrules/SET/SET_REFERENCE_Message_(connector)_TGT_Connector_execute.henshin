@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XAxTwA8OEeeospYCu75rcw" name="SET_REFERENCE_Message_(connector)_TGT_Connector" description="Sets Message's reference connector the target Connector">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_XAxTwQ8OEeeospYCu75rcw" name="setMessage_connector_TO_Connector" description="SetMessageRefconnectorToConnector">
+    <parameters xmi:id="_XAxTwg8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_XAxTww8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Connector"/>
+    </parameters>
+    <lhs xmi:id="_XAxTxA8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_XAx60A8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_XAx60Q8OEeeospYCu75rcw" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Connector"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_XAx60g8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_XAx60w8OEeeospYCu75rcw" name="Selected" outgoing="_XAx61Q8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_XAx61A8OEeeospYCu75rcw" name="NewTarget" incoming="_XAx61Q8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Connector"/>
+      </nodes>
+      <edges xmi:id="_XAx61Q8OEeeospYCu75rcw" source="_XAx60w8OEeeospYCu75rcw" target="_XAx61A8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/connector"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_XAx61g8OEeeospYCu75rcw" origin="_XAx60A8OEeeospYCu75rcw" image="_XAx60w8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_XAx61w8OEeeospYCu75rcw" origin="_XAx60Q8OEeeospYCu75rcw" image="_XAx61A8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_XAx62A8OEeeospYCu75rcw" name="mainUnit" subUnits="_XAxTwQ8OEeeospYCu75rcw">
+    <parameters xmi:id="_XAx62Q8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_XAx62g8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Connector"/>
+    </parameters>
+    <parameterMappings xmi:id="_XAx62w8OEeeospYCu75rcw" source="_XAx62Q8OEeeospYCu75rcw" target="_XAxTwg8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_XAx63A8OEeeospYCu75rcw" source="_XAx62g8OEeeospYCu75rcw" target="_XAxTww8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

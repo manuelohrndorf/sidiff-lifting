@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_RMVxsFd1EeeC75Gc-lhA5A" name="RR: CREATE_LiteralInteger_IN_ActivityEdge_(guard)" description="Recognize: Creates one LiteralInteger in ActivityEdge">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_RMVxsVd1EeeC75Gc-lhA5A" name="rr:createLiteralInteger_IN_ActivityEdge" description="Recognize: creates one LiteralInteger in the context: ActivityEdge">
+    <parameters xmi:id="_RMVxsld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+    </parameters>
+    <parameters xmi:id="_RMVxs1d1EeeC75Gc-lhA5A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_RMVxtFd1EeeC75Gc-lhA5A" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_RMVxtVd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_RMVxtld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RMVxv1d1EeeC75Gc-lhA5A" outgoing="_RMVxwld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+      </nodes>
+      <nodes xmi:id="_RMVxt1d1EeeC75Gc-lhA5A" name="" outgoing="_RMVxvld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RMVxuFd1EeeC75Gc-lhA5A" name="B.New" incoming="_RMVxvld1EeeC75Gc-lhA5A _RMVxwFd1EeeC75Gc-lhA5A _RMVxwld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_RMVxuVd1EeeC75Gc-lhA5A" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RMVxuld1EeeC75Gc-lhA5A" name="" outgoing="_RMVxv1d1EeeC75Gc-lhA5A _RMVxwFd1EeeC75Gc-lhA5A _RMVxwVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RMVxu1d1EeeC75Gc-lhA5A" name="" incoming="_RMVxwVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_RMVxvFd1EeeC75Gc-lhA5A" value="&quot;guard&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RMVxvVd1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RMVxvld1EeeC75Gc-lhA5A" source="_RMVxt1d1EeeC75Gc-lhA5A" target="_RMVxuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RMVxv1d1EeeC75Gc-lhA5A" source="_RMVxuld1EeeC75Gc-lhA5A" target="_RMVxtld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RMVxwFd1EeeC75Gc-lhA5A" source="_RMVxuld1EeeC75Gc-lhA5A" target="_RMVxuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RMVxwVd1EeeC75Gc-lhA5A" source="_RMVxuld1EeeC75Gc-lhA5A" target="_RMVxu1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RMVxwld1EeeC75Gc-lhA5A" source="_RMVxtld1EeeC75Gc-lhA5A" target="_RMVxuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge/guard"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_RMVxw1d1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_RMVxxFd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RMVx1Fd1EeeC75Gc-lhA5A" outgoing="_RMVx11d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+      </nodes>
+      <nodes xmi:id="_RMVxxVd1EeeC75Gc-lhA5A" name="" incoming="_RMVx2Fd1EeeC75Gc-lhA5A" outgoing="_RMVx01d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RMVxxld1EeeC75Gc-lhA5A" name="B.New" incoming="_RMVx01d1EeeC75Gc-lhA5A _RMVx1Vd1EeeC75Gc-lhA5A _RMVx11d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+      </nodes>
+      <nodes xmi:id="_RMVxx1d1EeeC75Gc-lhA5A" name="" incoming="_RMVx2Vd1EeeC75Gc-lhA5A" outgoing="_RMVx1Fd1EeeC75Gc-lhA5A _RMVx1Vd1EeeC75Gc-lhA5A _RMVx1ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RMVxyFd1EeeC75Gc-lhA5A" name="" incoming="_RMVx1ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_RMVxyVd1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_RMVx2ld1EeeC75Gc-lhA5A" outgoing="_RMVx2Fd1EeeC75Gc-lhA5A _RMVx2Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_RMVxyld1EeeC75Gc-lhA5A" value="&quot;CREATE_LiteralInteger_IN_ActivityEdge_(guard)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_RMVxy1d1EeeC75Gc-lhA5A" value="&quot;Creates one LiteralInteger in ActivityEdge&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_RMVxzFd1EeeC75Gc-lhA5A" value="&quot;CREATE_LiteralInteger_IN_ActivityEdge_(guard)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_RMVxzVd1EeeC75Gc-lhA5A" value="&quot;RR: CREATE_LiteralInteger_IN_ActivityEdge_(guard)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_RMVxzld1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_RMVxz1d1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_RMVx0Fd1EeeC75Gc-lhA5A" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_RMVx0Vd1EeeC75Gc-lhA5A" value="14">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RMVx0ld1EeeC75Gc-lhA5A" name="" outgoing="_RMVx2ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RMVx01d1EeeC75Gc-lhA5A" source="_RMVxxVd1EeeC75Gc-lhA5A" target="_RMVxxld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RMVx1Fd1EeeC75Gc-lhA5A" source="_RMVxx1d1EeeC75Gc-lhA5A" target="_RMVxxFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RMVx1Vd1EeeC75Gc-lhA5A" source="_RMVxx1d1EeeC75Gc-lhA5A" target="_RMVxxld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RMVx1ld1EeeC75Gc-lhA5A" source="_RMVxx1d1EeeC75Gc-lhA5A" target="_RMVxyFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RMVx11d1EeeC75Gc-lhA5A" source="_RMVxxFd1EeeC75Gc-lhA5A" target="_RMVxxld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge/guard"/>
+      </edges>
+      <edges xmi:id="_RMVx2Fd1EeeC75Gc-lhA5A" source="_RMVxyVd1EeeC75Gc-lhA5A" target="_RMVxxVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RMVx2Vd1EeeC75Gc-lhA5A" source="_RMVxyVd1EeeC75Gc-lhA5A" target="_RMVxx1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RMVx2ld1EeeC75Gc-lhA5A" source="_RMVx0ld1EeeC75Gc-lhA5A" target="_RMVxyVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_RMVx21d1EeeC75Gc-lhA5A" origin="_RMVxtld1EeeC75Gc-lhA5A" image="_RMVxxFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RMVx3Fd1EeeC75Gc-lhA5A" origin="_RMVxt1d1EeeC75Gc-lhA5A" image="_RMVxxVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RMVx3Vd1EeeC75Gc-lhA5A" origin="_RMVxuFd1EeeC75Gc-lhA5A" image="_RMVxxld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RMVx3ld1EeeC75Gc-lhA5A" origin="_RMVxuld1EeeC75Gc-lhA5A" image="_RMVxx1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RMVx31d1EeeC75Gc-lhA5A" origin="_RMVxu1d1EeeC75Gc-lhA5A" image="_RMVxyFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RMVx4Fd1EeeC75Gc-lhA5A" origin="_RMVxvVd1EeeC75Gc-lhA5A" image="_RMVx0ld1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

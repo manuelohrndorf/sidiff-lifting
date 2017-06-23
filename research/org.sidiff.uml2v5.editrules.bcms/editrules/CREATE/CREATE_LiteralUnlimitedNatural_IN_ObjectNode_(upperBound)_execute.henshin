@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WIYTMA8OEeeospYCu75rcw" name="CREATE_LiteralUnlimitedNatural_IN_ObjectNode_(upperBound)" description="Creates one LiteralUnlimitedNatural in ObjectNode">
+  <annotations xmi:id="_WIYTMQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralUnlimitedNatural_IN_ObjectNode_(upperBound)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WIYTMg8OEeeospYCu75rcw" name="createLiteralUnlimitedNatural_IN_ObjectNode" description="creates one LiteralUnlimitedNatural in the context: ObjectNode">
+    <parameters xmi:id="_WIYTMw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_WIYTNA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+    </parameters>
+    <parameters xmi:id="_WIYTNQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//UnlimitedNatural"/>
+    </parameters>
+    <lhs xmi:id="_WIYTNg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WIYTNw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_WIYTOA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_WIYTOQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WIYTOg8OEeeospYCu75rcw" name="Selected" outgoing="_WIYTPw8OEeeospYCu75rcw">
+        <annotations xmi:id="_WIYTOw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+      </nodes>
+      <nodes xmi:id="_WIYTPA8OEeeospYCu75rcw" name="New" incoming="_WIYTPw8OEeeospYCu75rcw">
+        <annotations xmi:id="_WIYTPQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+        <attributes xmi:id="_WIYTPg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_WIYTPw8OEeeospYCu75rcw" source="_WIYTOg8OEeeospYCu75rcw" target="_WIYTPA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode/upperBound"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WIYTQA8OEeeospYCu75rcw" origin="_WIYTNw8OEeeospYCu75rcw" image="_WIYTOg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WIYTQQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_WIYTMg8OEeeospYCu75rcw">
+    <parameters xmi:id="_WIYTQg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_WIYTQw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectNode"/>
+    </parameters>
+    <parameters xmi:id="_WIYTRA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_WIYTRQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+    </parameters>
+    <parameters xmi:id="_WIYTRg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//UnlimitedNatural"/>
+    </parameters>
+    <parameterMappings xmi:id="_WIYTRw8OEeeospYCu75rcw" source="_WIYTQg8OEeeospYCu75rcw" target="_WIYTMw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WIYTSA8OEeeospYCu75rcw" source="_WIYTNA8OEeeospYCu75rcw" target="_WIYTRA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WIYTSQ8OEeeospYCu75rcw" source="_WIYTRg8OEeeospYCu75rcw" target="_WIYTNQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

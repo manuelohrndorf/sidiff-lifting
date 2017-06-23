@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_eMue0Fd1EeeC75Gc-lhA5A" name="RR: SET_ATTRIBUTE_Class_Visibility" description="Recognize: Sets Class Visibility">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_eMue0Vd1EeeC75Gc-lhA5A" name="rr:setClassVisibility" description="Recognize: Sets the EAttribute visibility">
+    <parameters xmi:id="_eMue0ld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_eMue01d1EeeC75Gc-lhA5A" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_eMue1Fd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_eMue1Vd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_eMue3ld1EeeC75Gc-lhA5A _eMue4Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        <attributes xmi:id="_eMue1ld1EeeC75Gc-lhA5A" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eMue11d1EeeC75Gc-lhA5A" name="A.Selected" incoming="_eMue3Vd1EeeC75Gc-lhA5A _eMue31d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_eMue2Fd1EeeC75Gc-lhA5A" name="" outgoing="_eMue3Vd1EeeC75Gc-lhA5A _eMue3ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_eMue2Vd1EeeC75Gc-lhA5A" name="" outgoing="_eMue31d1EeeC75Gc-lhA5A _eMue4Fd1EeeC75Gc-lhA5A _eMue4Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_eMue2ld1EeeC75Gc-lhA5A" name="" incoming="_eMue4Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_eMue21d1EeeC75Gc-lhA5A" value="&quot;visibility&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eMue3Fd1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_eMue3Vd1EeeC75Gc-lhA5A" source="_eMue2Fd1EeeC75Gc-lhA5A" target="_eMue11d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_eMue3ld1EeeC75Gc-lhA5A" source="_eMue2Fd1EeeC75Gc-lhA5A" target="_eMue1Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_eMue31d1EeeC75Gc-lhA5A" source="_eMue2Vd1EeeC75Gc-lhA5A" target="_eMue11d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_eMue4Fd1EeeC75Gc-lhA5A" source="_eMue2Vd1EeeC75Gc-lhA5A" target="_eMue1Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_eMue4Vd1EeeC75Gc-lhA5A" source="_eMue2Vd1EeeC75Gc-lhA5A" target="_eMue2ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_eMue4ld1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_eMue41d1EeeC75Gc-lhA5A" name="B.Selected" incoming="_eMue81d1EeeC75Gc-lhA5A _eMue9Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_eMue5Fd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_eMue8ld1EeeC75Gc-lhA5A _eMue9Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_eMue5Vd1EeeC75Gc-lhA5A" name="" outgoing="_eMue8ld1EeeC75Gc-lhA5A _eMue81d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_eMue5ld1EeeC75Gc-lhA5A" name="" incoming="_eMue91d1EeeC75Gc-lhA5A" outgoing="_eMue9Fd1EeeC75Gc-lhA5A _eMue9Vd1EeeC75Gc-lhA5A _eMue9ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_eMue51d1EeeC75Gc-lhA5A" name="" incoming="_eMue9ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_eMue6Fd1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_eMue-Fd1EeeC75Gc-lhA5A" outgoing="_eMue91d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_eMue6Vd1EeeC75Gc-lhA5A" value="&quot;SET_ATTRIBUTE_Class_Visibility&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_eMue6ld1EeeC75Gc-lhA5A" value="&quot;Sets Class Visibility&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_eMue61d1EeeC75Gc-lhA5A" value="&quot;SET_ATTRIBUTE_Class_Visibility&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_eMue7Fd1EeeC75Gc-lhA5A" value="&quot;RR: SET_ATTRIBUTE_Class_Visibility&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_eMue7Vd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_eMue7ld1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_eMue71d1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_eMue8Fd1EeeC75Gc-lhA5A" value="14">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eMue8Vd1EeeC75Gc-lhA5A" name="" outgoing="_eMue-Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_eMue8ld1EeeC75Gc-lhA5A" source="_eMue5Vd1EeeC75Gc-lhA5A" target="_eMue5Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_eMue81d1EeeC75Gc-lhA5A" source="_eMue5Vd1EeeC75Gc-lhA5A" target="_eMue41d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_eMue9Fd1EeeC75Gc-lhA5A" source="_eMue5ld1EeeC75Gc-lhA5A" target="_eMue5Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_eMue9Vd1EeeC75Gc-lhA5A" source="_eMue5ld1EeeC75Gc-lhA5A" target="_eMue41d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_eMue9ld1EeeC75Gc-lhA5A" source="_eMue5ld1EeeC75Gc-lhA5A" target="_eMue51d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+      <edges xmi:id="_eMue91d1EeeC75Gc-lhA5A" source="_eMue6Fd1EeeC75Gc-lhA5A" target="_eMue5ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_eMue-Fd1EeeC75Gc-lhA5A" source="_eMue8Vd1EeeC75Gc-lhA5A" target="_eMue6Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eMue-Vd1EeeC75Gc-lhA5A" origin="_eMue1Vd1EeeC75Gc-lhA5A" image="_eMue41d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eMue-ld1EeeC75Gc-lhA5A" origin="_eMue11d1EeeC75Gc-lhA5A" image="_eMue5Fd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eMue-1d1EeeC75Gc-lhA5A" origin="_eMue2Fd1EeeC75Gc-lhA5A" image="_eMue5Vd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eMue_Fd1EeeC75Gc-lhA5A" origin="_eMue2Vd1EeeC75Gc-lhA5A" image="_eMue5ld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eMue_Vd1EeeC75Gc-lhA5A" origin="_eMue2ld1EeeC75Gc-lhA5A" image="_eMue51d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eMue_ld1EeeC75Gc-lhA5A" origin="_eMue3Fd1EeeC75Gc-lhA5A" image="_eMue8Vd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

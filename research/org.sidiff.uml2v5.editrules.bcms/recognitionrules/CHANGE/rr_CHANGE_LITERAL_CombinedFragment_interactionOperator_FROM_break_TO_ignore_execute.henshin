@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_QUwCYFd1EeeC75Gc-lhA5A" name="RR: CHANGE_LITERAL_CombinedFragment_interactionOperator_FROM_break_TO_ignore" description="Recognize: Changes the attribute value of interactionOperator_FROM_break_TO_ignore">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_QUwCYVd1EeeC75Gc-lhA5A" name="rr:changeCombinedFragmentInteractionOperator_FROM_Break_TO_ignore" description="Recognize: Changes the attribute value of interactionOperator_FROM_break_TO_ignore">
+    <parameters xmi:id="_QUwCYld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
+    </parameters>
+    <parameters xmi:id="_QUwCY1d1EeeC75Gc-lhA5A" name="&quot;break&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperatorKind"/>
+    </parameters>
+    <parameters xmi:id="_QUwCZFd1EeeC75Gc-lhA5A" name="&quot;ignore&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperatorKind"/>
+    </parameters>
+    <lhs xmi:id="_QUwCZVd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_QUwCZld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QUwCcFd1EeeC75Gc-lhA5A _QUwCcld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
+        <attributes xmi:id="_QUwCZ1d1EeeC75Gc-lhA5A" value="&quot;ignore&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment/interactionOperator"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QUwCaFd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QUwCb1d1EeeC75Gc-lhA5A _QUwCcVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
+        <attributes xmi:id="_QUwCaVd1EeeC75Gc-lhA5A" value="&quot;break&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment/interactionOperator"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QUwCald1EeeC75Gc-lhA5A" name="" outgoing="_QUwCb1d1EeeC75Gc-lhA5A _QUwCcFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QUwCa1d1EeeC75Gc-lhA5A" name="" outgoing="_QUwCcVd1EeeC75Gc-lhA5A _QUwCcld1EeeC75Gc-lhA5A _QUwCc1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QUwCbFd1EeeC75Gc-lhA5A" name="" incoming="_QUwCc1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_QUwCbVd1EeeC75Gc-lhA5A" value="&quot;interactionOperator&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QUwCbld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QUwCb1d1EeeC75Gc-lhA5A" source="_QUwCald1EeeC75Gc-lhA5A" target="_QUwCaFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QUwCcFd1EeeC75Gc-lhA5A" source="_QUwCald1EeeC75Gc-lhA5A" target="_QUwCZld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QUwCcVd1EeeC75Gc-lhA5A" source="_QUwCa1d1EeeC75Gc-lhA5A" target="_QUwCaFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QUwCcld1EeeC75Gc-lhA5A" source="_QUwCa1d1EeeC75Gc-lhA5A" target="_QUwCZld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QUwCc1d1EeeC75Gc-lhA5A" source="_QUwCa1d1EeeC75Gc-lhA5A" target="_QUwCbFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_QUwCdFd1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_QUwCdVd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QUwChVd1EeeC75Gc-lhA5A _QUwCh1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
+      </nodes>
+      <nodes xmi:id="_QUwCdld1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QUwChFd1EeeC75Gc-lhA5A _QUwChld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
+      </nodes>
+      <nodes xmi:id="_QUwCd1d1EeeC75Gc-lhA5A" name="" outgoing="_QUwChFd1EeeC75Gc-lhA5A _QUwChVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QUwCeFd1EeeC75Gc-lhA5A" name="" incoming="_QUwCiVd1EeeC75Gc-lhA5A" outgoing="_QUwChld1EeeC75Gc-lhA5A _QUwCh1d1EeeC75Gc-lhA5A _QUwCiFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QUwCeVd1EeeC75Gc-lhA5A" name="" incoming="_QUwCiFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_QUwCeld1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_QUwCild1EeeC75Gc-lhA5A" outgoing="_QUwCiVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_QUwCe1d1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_CombinedFragment_interactionOperator_FROM_break_TO_ignore&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_QUwCfFd1EeeC75Gc-lhA5A" value="&quot;Changes the attribute value of interactionOperator_FROM_break_TO_ignore&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_QUwCfVd1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_CombinedFragment_interactionOperator_FROM_break_TO_ignore&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_QUwCfld1EeeC75Gc-lhA5A" value="&quot;RR: CHANGE_LITERAL_CombinedFragment_interactionOperator_FROM_break_TO_ignore&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_QUwCf1d1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_QUwCgFd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_QUwCgVd1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_QUwCgld1EeeC75Gc-lhA5A" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QUwCg1d1EeeC75Gc-lhA5A" name="" outgoing="_QUwCild1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QUwChFd1EeeC75Gc-lhA5A" source="_QUwCd1d1EeeC75Gc-lhA5A" target="_QUwCdld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QUwChVd1EeeC75Gc-lhA5A" source="_QUwCd1d1EeeC75Gc-lhA5A" target="_QUwCdVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QUwChld1EeeC75Gc-lhA5A" source="_QUwCeFd1EeeC75Gc-lhA5A" target="_QUwCdld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QUwCh1d1EeeC75Gc-lhA5A" source="_QUwCeFd1EeeC75Gc-lhA5A" target="_QUwCdVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QUwCiFd1EeeC75Gc-lhA5A" source="_QUwCeFd1EeeC75Gc-lhA5A" target="_QUwCeVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+      <edges xmi:id="_QUwCiVd1EeeC75Gc-lhA5A" source="_QUwCeld1EeeC75Gc-lhA5A" target="_QUwCeFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_QUwCild1EeeC75Gc-lhA5A" source="_QUwCg1d1EeeC75Gc-lhA5A" target="_QUwCeld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QUwCi1d1EeeC75Gc-lhA5A" origin="_QUwCZld1EeeC75Gc-lhA5A" image="_QUwCdVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QUwCjFd1EeeC75Gc-lhA5A" origin="_QUwCaFd1EeeC75Gc-lhA5A" image="_QUwCdld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QUwCjVd1EeeC75Gc-lhA5A" origin="_QUwCald1EeeC75Gc-lhA5A" image="_QUwCd1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QUwCjld1EeeC75Gc-lhA5A" origin="_QUwCa1d1EeeC75Gc-lhA5A" image="_QUwCeFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QUwCj1d1EeeC75Gc-lhA5A" origin="_QUwCbFd1EeeC75Gc-lhA5A" image="_QUwCeVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QUwCkFd1EeeC75Gc-lhA5A" origin="_QUwCbld1EeeC75Gc-lhA5A" image="_QUwCg1d1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

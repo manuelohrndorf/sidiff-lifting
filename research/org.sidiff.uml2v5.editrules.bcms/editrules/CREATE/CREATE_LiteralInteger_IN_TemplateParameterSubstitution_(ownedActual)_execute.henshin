@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WKfMAA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_TemplateParameterSubstitution_(ownedActual)" description="Creates one LiteralInteger in TemplateParameterSubstitution">
+  <annotations xmi:id="_WKfMAQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_TemplateParameterSubstitution_(ownedActual)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WKfMAg8OEeeospYCu75rcw" name="createLiteralInteger_IN_TemplateParameterSubstitution" description="creates one LiteralInteger in the context: TemplateParameterSubstitution">
+    <parameters xmi:id="_WKfMAw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+    </parameters>
+    <parameters xmi:id="_WKfMBA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_WKfMBQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_WKfMBg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WKfMBw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_WKfMCA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_WKfMCQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WKfMCg8OEeeospYCu75rcw" name="Selected" outgoing="_WKfMDw8OEeeospYCu75rcw">
+        <annotations xmi:id="_WKfMCw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+      </nodes>
+      <nodes xmi:id="_WKfMDA8OEeeospYCu75rcw" name="New" incoming="_WKfMDw8OEeeospYCu75rcw">
+        <annotations xmi:id="_WKfMDQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_WKfMDg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_WKfMDw8OEeeospYCu75rcw" source="_WKfMCg8OEeeospYCu75rcw" target="_WKfMDA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution/ownedActual"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WKfMEA8OEeeospYCu75rcw" origin="_WKfMBw8OEeeospYCu75rcw" image="_WKfMCg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WKfMEQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_WKfMAg8OEeeospYCu75rcw">
+    <parameters xmi:id="_WKfMEg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_WKfMEw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+    </parameters>
+    <parameters xmi:id="_WKfMFA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_WKfMFQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_WKfMFg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_WKfMFw8OEeeospYCu75rcw" source="_WKfMEg8OEeeospYCu75rcw" target="_WKfMAw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WKfMGA8OEeeospYCu75rcw" source="_WKfMBA8OEeeospYCu75rcw" target="_WKfMFA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WKfMGQ8OEeeospYCu75rcw" source="_WKfMFg8OEeeospYCu75rcw" target="_WKfMBQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

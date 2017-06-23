@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_RB-UwFd1EeeC75Gc-lhA5A" name="RR: CREATE_Class_IN_Interface_(nestedClassifier)" description="Recognize: Creates one Class in Interface">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_RB-UwVd1EeeC75Gc-lhA5A" name="rr:createClass_IN_Interface" description="Recognize: creates one Class in the context: Interface">
+    <parameters xmi:id="_RB-Uwld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+    </parameters>
+    <parameters xmi:id="_RB-Uw1d1EeeC75Gc-lhA5A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_RB-UxFd1EeeC75Gc-lhA5A" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RB-UxVd1EeeC75Gc-lhA5A" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RB-Uxld1EeeC75Gc-lhA5A" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RB-Ux1d1EeeC75Gc-lhA5A" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_RB-UyFd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_RB-UyVd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RB-U1Vd1EeeC75Gc-lhA5A" outgoing="_RB-U2Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+      </nodes>
+      <nodes xmi:id="_RB-Uyld1EeeC75Gc-lhA5A" name="" outgoing="_RB-U1Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RB-Uy1d1EeeC75Gc-lhA5A" name="B.New" incoming="_RB-U1Fd1EeeC75Gc-lhA5A _RB-U1ld1EeeC75Gc-lhA5A _RB-U2Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        <attributes xmi:id="_RB-UzFd1EeeC75Gc-lhA5A" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_RB-UzVd1EeeC75Gc-lhA5A" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_RB-Uzld1EeeC75Gc-lhA5A" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+        <attributes xmi:id="_RB-Uz1d1EeeC75Gc-lhA5A" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RB-U0Fd1EeeC75Gc-lhA5A" name="" outgoing="_RB-U1Vd1EeeC75Gc-lhA5A _RB-U1ld1EeeC75Gc-lhA5A _RB-U11d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RB-U0Vd1EeeC75Gc-lhA5A" name="" incoming="_RB-U11d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_RB-U0ld1EeeC75Gc-lhA5A" value="&quot;nestedClassifier&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RB-U01d1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RB-U1Fd1EeeC75Gc-lhA5A" source="_RB-Uyld1EeeC75Gc-lhA5A" target="_RB-Uy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RB-U1Vd1EeeC75Gc-lhA5A" source="_RB-U0Fd1EeeC75Gc-lhA5A" target="_RB-UyVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RB-U1ld1EeeC75Gc-lhA5A" source="_RB-U0Fd1EeeC75Gc-lhA5A" target="_RB-Uy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RB-U11d1EeeC75Gc-lhA5A" source="_RB-U0Fd1EeeC75Gc-lhA5A" target="_RB-U0Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RB-U2Fd1EeeC75Gc-lhA5A" source="_RB-UyVd1EeeC75Gc-lhA5A" target="_RB-Uy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface/nestedClassifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_RB-U2Vd1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_RB-U2ld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RB-U6ld1EeeC75Gc-lhA5A" outgoing="_RB-U7Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+      </nodes>
+      <nodes xmi:id="_RB-U21d1EeeC75Gc-lhA5A" name="" incoming="_RB-U7ld1EeeC75Gc-lhA5A" outgoing="_RB-U6Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RB-U3Fd1EeeC75Gc-lhA5A" name="B.New" incoming="_RB-U6Vd1EeeC75Gc-lhA5A _RB-U61d1EeeC75Gc-lhA5A _RB-U7Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_RB-U3Vd1EeeC75Gc-lhA5A" name="" incoming="_RB-U71d1EeeC75Gc-lhA5A" outgoing="_RB-U6ld1EeeC75Gc-lhA5A _RB-U61d1EeeC75Gc-lhA5A _RB-U7Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RB-U3ld1EeeC75Gc-lhA5A" name="" incoming="_RB-U7Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_RB-U31d1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_RB-U8Fd1EeeC75Gc-lhA5A" outgoing="_RB-U7ld1EeeC75Gc-lhA5A _RB-U71d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_RB-U4Fd1EeeC75Gc-lhA5A" value="&quot;CREATE_Class_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_RB-U4Vd1EeeC75Gc-lhA5A" value="&quot;Creates one Class in Interface&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_RB-U4ld1EeeC75Gc-lhA5A" value="&quot;CREATE_Class_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_RB-U41d1EeeC75Gc-lhA5A" value="&quot;RR: CREATE_Class_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_RB-U5Fd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_RB-U5Vd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_RB-U5ld1EeeC75Gc-lhA5A" value="6">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_RB-U51d1EeeC75Gc-lhA5A" value="25">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RB-U6Fd1EeeC75Gc-lhA5A" name="" outgoing="_RB-U8Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RB-U6Vd1EeeC75Gc-lhA5A" source="_RB-U21d1EeeC75Gc-lhA5A" target="_RB-U3Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RB-U6ld1EeeC75Gc-lhA5A" source="_RB-U3Vd1EeeC75Gc-lhA5A" target="_RB-U2ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RB-U61d1EeeC75Gc-lhA5A" source="_RB-U3Vd1EeeC75Gc-lhA5A" target="_RB-U3Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RB-U7Fd1EeeC75Gc-lhA5A" source="_RB-U3Vd1EeeC75Gc-lhA5A" target="_RB-U3ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RB-U7Vd1EeeC75Gc-lhA5A" source="_RB-U2ld1EeeC75Gc-lhA5A" target="_RB-U3Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface/nestedClassifier"/>
+      </edges>
+      <edges xmi:id="_RB-U7ld1EeeC75Gc-lhA5A" source="_RB-U31d1EeeC75Gc-lhA5A" target="_RB-U21d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RB-U71d1EeeC75Gc-lhA5A" source="_RB-U31d1EeeC75Gc-lhA5A" target="_RB-U3Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RB-U8Fd1EeeC75Gc-lhA5A" source="_RB-U6Fd1EeeC75Gc-lhA5A" target="_RB-U31d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_RB-U8Vd1EeeC75Gc-lhA5A" origin="_RB-UyVd1EeeC75Gc-lhA5A" image="_RB-U2ld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RB-U8ld1EeeC75Gc-lhA5A" origin="_RB-Uyld1EeeC75Gc-lhA5A" image="_RB-U21d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RB-U81d1EeeC75Gc-lhA5A" origin="_RB-Uy1d1EeeC75Gc-lhA5A" image="_RB-U3Fd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RB-U9Fd1EeeC75Gc-lhA5A" origin="_RB-U0Fd1EeeC75Gc-lhA5A" image="_RB-U3Vd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RB-U9Vd1EeeC75Gc-lhA5A" origin="_RB-U0Vd1EeeC75Gc-lhA5A" image="_RB-U3ld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RB-U9ld1EeeC75Gc-lhA5A" origin="_RB-U01d1EeeC75Gc-lhA5A" image="_RB-U6Fd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

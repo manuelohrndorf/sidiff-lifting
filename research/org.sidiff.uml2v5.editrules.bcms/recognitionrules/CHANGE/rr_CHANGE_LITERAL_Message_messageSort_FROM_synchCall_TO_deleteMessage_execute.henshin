@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_QstPYFd1EeeC75Gc-lhA5A" name="RR: CHANGE_LITERAL_Message_messageSort_FROM_synchCall_TO_deleteMessage" description="Recognize: Changes the attribute value of messageSort_FROM_synchCall_TO_deleteMessage">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_QstPYVd1EeeC75Gc-lhA5A" name="rr:changeMessageMessageSort_FROM_SynchCall_TO_deleteMessage" description="Recognize: Changes the attribute value of messageSort_FROM_synchCall_TO_deleteMessage">
+    <parameters xmi:id="_QstPYld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_QstPY1d1EeeC75Gc-lhA5A" name="&quot;synchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameters xmi:id="_QstPZFd1EeeC75Gc-lhA5A" name="&quot;deleteMessage&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <lhs xmi:id="_QstPZVd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_QstPZld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QstPcFd1EeeC75Gc-lhA5A _QstPcld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+        <attributes xmi:id="_QstPZ1d1EeeC75Gc-lhA5A" value="&quot;deleteMessage&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QstPaFd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QstPb1d1EeeC75Gc-lhA5A _QstPcVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+        <attributes xmi:id="_QstPaVd1EeeC75Gc-lhA5A" value="&quot;synchCall&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QstPald1EeeC75Gc-lhA5A" name="" outgoing="_QstPb1d1EeeC75Gc-lhA5A _QstPcFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QstPa1d1EeeC75Gc-lhA5A" name="" outgoing="_QstPcVd1EeeC75Gc-lhA5A _QstPcld1EeeC75Gc-lhA5A _QstPc1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QstPbFd1EeeC75Gc-lhA5A" name="" incoming="_QstPc1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_QstPbVd1EeeC75Gc-lhA5A" value="&quot;messageSort&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QstPbld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QstPb1d1EeeC75Gc-lhA5A" source="_QstPald1EeeC75Gc-lhA5A" target="_QstPaFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QstPcFd1EeeC75Gc-lhA5A" source="_QstPald1EeeC75Gc-lhA5A" target="_QstPZld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QstPcVd1EeeC75Gc-lhA5A" source="_QstPa1d1EeeC75Gc-lhA5A" target="_QstPaFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QstPcld1EeeC75Gc-lhA5A" source="_QstPa1d1EeeC75Gc-lhA5A" target="_QstPZld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QstPc1d1EeeC75Gc-lhA5A" source="_QstPa1d1EeeC75Gc-lhA5A" target="_QstPbFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_QstPdFd1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_QstPdVd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QstPhVd1EeeC75Gc-lhA5A _QstPh1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_QstPdld1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QstPhFd1EeeC75Gc-lhA5A _QstPhld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_QstPd1d1EeeC75Gc-lhA5A" name="" outgoing="_QstPhFd1EeeC75Gc-lhA5A _QstPhVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QstPeFd1EeeC75Gc-lhA5A" name="" incoming="_QstPiVd1EeeC75Gc-lhA5A" outgoing="_QstPhld1EeeC75Gc-lhA5A _QstPh1d1EeeC75Gc-lhA5A _QstPiFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QstPeVd1EeeC75Gc-lhA5A" name="" incoming="_QstPiFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_QstPeld1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_QstPild1EeeC75Gc-lhA5A" outgoing="_QstPiVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_QstPe1d1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_Message_messageSort_FROM_synchCall_TO_deleteMessage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_QstPfFd1EeeC75Gc-lhA5A" value="&quot;Changes the attribute value of messageSort_FROM_synchCall_TO_deleteMessage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_QstPfVd1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_Message_messageSort_FROM_synchCall_TO_deleteMessage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_QstPfld1EeeC75Gc-lhA5A" value="&quot;RR: CHANGE_LITERAL_Message_messageSort_FROM_synchCall_TO_deleteMessage&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_QstPf1d1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_QstPgFd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_QstPgVd1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_QstPgld1EeeC75Gc-lhA5A" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QstPg1d1EeeC75Gc-lhA5A" name="" outgoing="_QstPild1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QstPhFd1EeeC75Gc-lhA5A" source="_QstPd1d1EeeC75Gc-lhA5A" target="_QstPdld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QstPhVd1EeeC75Gc-lhA5A" source="_QstPd1d1EeeC75Gc-lhA5A" target="_QstPdVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QstPhld1EeeC75Gc-lhA5A" source="_QstPeFd1EeeC75Gc-lhA5A" target="_QstPdld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QstPh1d1EeeC75Gc-lhA5A" source="_QstPeFd1EeeC75Gc-lhA5A" target="_QstPdVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QstPiFd1EeeC75Gc-lhA5A" source="_QstPeFd1EeeC75Gc-lhA5A" target="_QstPeVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+      <edges xmi:id="_QstPiVd1EeeC75Gc-lhA5A" source="_QstPeld1EeeC75Gc-lhA5A" target="_QstPeFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_QstPild1EeeC75Gc-lhA5A" source="_QstPg1d1EeeC75Gc-lhA5A" target="_QstPeld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QstPi1d1EeeC75Gc-lhA5A" origin="_QstPZld1EeeC75Gc-lhA5A" image="_QstPdVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QstPjFd1EeeC75Gc-lhA5A" origin="_QstPaFd1EeeC75Gc-lhA5A" image="_QstPdld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QstPjVd1EeeC75Gc-lhA5A" origin="_QstPald1EeeC75Gc-lhA5A" image="_QstPd1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QstPjld1EeeC75Gc-lhA5A" origin="_QstPa1d1EeeC75Gc-lhA5A" image="_QstPeFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QstPj1d1EeeC75Gc-lhA5A" origin="_QstPbFd1EeeC75Gc-lhA5A" image="_QstPeVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QstPkFd1EeeC75Gc-lhA5A" origin="_QstPbld1EeeC75Gc-lhA5A" image="_QstPg1d1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

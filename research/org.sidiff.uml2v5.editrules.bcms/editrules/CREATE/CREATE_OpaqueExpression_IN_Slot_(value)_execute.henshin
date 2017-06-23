@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_aR67cA8OEeeospYCu75rcw" name="CREATE_OpaqueExpression_IN_Slot_(value)" description="Creates one OpaqueExpression in Slot">
+  <annotations xmi:id="_aR67cQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_OpaqueExpression_IN_Slot_(value)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_aR67cg8OEeeospYCu75rcw" name="createOpaqueExpression_IN_Slot" description="creates one OpaqueExpression in the context: Slot">
+    <parameters xmi:id="_aR67cw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Slot"/>
+    </parameters>
+    <parameters xmi:id="_aR67dA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <lhs xmi:id="_aR67dQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_aR67dg8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_aR67dw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Slot"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_aR67eA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_aR67eQ8OEeeospYCu75rcw" name="Selected" outgoing="_aR67fQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_aR67eg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Slot"/>
+      </nodes>
+      <nodes xmi:id="_aR67ew8OEeeospYCu75rcw" name="New" incoming="_aR67fQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_aR67fA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+      </nodes>
+      <edges xmi:id="_aR67fQ8OEeeospYCu75rcw" source="_aR67eQ8OEeeospYCu75rcw" target="_aR67ew8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Slot/value"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_aR67fg8OEeeospYCu75rcw" origin="_aR67dg8OEeeospYCu75rcw" image="_aR67eQ8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_aR67fw8OEeeospYCu75rcw" name="mainUnit" subUnits="_aR67cg8OEeeospYCu75rcw">
+    <parameters xmi:id="_aR67gA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_aR67gQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Slot"/>
+    </parameters>
+    <parameters xmi:id="_aR67gg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_aR67gw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameterMappings xmi:id="_aR67hA8OEeeospYCu75rcw" source="_aR67gA8OEeeospYCu75rcw" target="_aR67cw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_aR67hQ8OEeeospYCu75rcw" source="_aR67dA8OEeeospYCu75rcw" target="_aR67gg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

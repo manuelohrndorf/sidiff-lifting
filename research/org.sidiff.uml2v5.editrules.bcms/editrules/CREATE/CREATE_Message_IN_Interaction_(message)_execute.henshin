@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_eZvscA8OEeeospYCu75rcw" name="CREATE_Message_IN_Interaction_(message)" description="Creates one Message in Interaction">
+  <annotations xmi:id="_eZvscQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Message_IN_Interaction_(message)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_eZvscg8OEeeospYCu75rcw" name="createMessage_IN_Interaction" description="creates one Message in the context: Interaction">
+    <parameters xmi:id="_eZvscw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameters xmi:id="_eZvsdA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_eZvsdQ8OEeeospYCu75rcw" name="MessageSort">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <lhs xmi:id="_eZvsdg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_eZvsdw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_eZvseA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_eZvseQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_eZvseg8OEeeospYCu75rcw" name="Selected" incoming="_eZvsgA8OEeeospYCu75rcw" outgoing="_eZvsfw8OEeeospYCu75rcw">
+        <annotations xmi:id="_eZvsew8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <nodes xmi:id="_eZvsfA8OEeeospYCu75rcw" name="New" incoming="_eZvsfw8OEeeospYCu75rcw" outgoing="_eZvsgA8OEeeospYCu75rcw">
+        <annotations xmi:id="_eZvsfQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+        <attributes xmi:id="_eZvsfg8OEeeospYCu75rcw" value="MessageSort">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_eZvsfw8OEeeospYCu75rcw" source="_eZvseg8OEeeospYCu75rcw" target="_eZvsfA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction/message"/>
+      </edges>
+      <edges xmi:id="_eZvsgA8OEeeospYCu75rcw" source="_eZvsfA8OEeeospYCu75rcw" target="_eZvseg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/interaction"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eZvsgQ8OEeeospYCu75rcw" origin="_eZvsdw8OEeeospYCu75rcw" image="_eZvseg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_eZvsgg8OEeeospYCu75rcw" name="mainUnit" subUnits="_eZvscg8OEeeospYCu75rcw">
+    <parameters xmi:id="_eZvsgw8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_eZvshA8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameters xmi:id="_eZvshQ8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_eZvshg8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_eZvshw8OEeeospYCu75rcw" name="MessageSort">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameterMappings xmi:id="_eZvsiA8OEeeospYCu75rcw" source="_eZvsgw8OEeeospYCu75rcw" target="_eZvscw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_eZvsiQ8OEeeospYCu75rcw" source="_eZvsdA8OEeeospYCu75rcw" target="_eZvshQ8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_eZvsig8OEeeospYCu75rcw" source="_eZvshw8OEeeospYCu75rcw" target="_eZvsdQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

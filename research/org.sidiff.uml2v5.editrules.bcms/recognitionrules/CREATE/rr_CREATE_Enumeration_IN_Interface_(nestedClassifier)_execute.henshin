@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_RFNO8Fd1EeeC75Gc-lhA5A" name="RR: CREATE_Enumeration_IN_Interface_(nestedClassifier)" description="Recognize: Creates one Enumeration in Interface">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_RFNO8Vd1EeeC75Gc-lhA5A" name="rr:createEnumeration_IN_Interface" description="Recognize: creates one Enumeration in the context: Interface">
+    <parameters xmi:id="_RFNO8ld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+    </parameters>
+    <parameters xmi:id="_RFNO81d1EeeC75Gc-lhA5A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_RFNO9Fd1EeeC75Gc-lhA5A" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RFNO9Vd1EeeC75Gc-lhA5A" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_RFNO9ld1EeeC75Gc-lhA5A" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_RFNO91d1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_RFNO-Fd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RFNPA1d1EeeC75Gc-lhA5A" outgoing="_RFNPBld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+      </nodes>
+      <nodes xmi:id="_RFNO-Vd1EeeC75Gc-lhA5A" name="" outgoing="_RFNPAld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RFNO-ld1EeeC75Gc-lhA5A" name="B.New" incoming="_RFNPAld1EeeC75Gc-lhA5A _RFNPBFd1EeeC75Gc-lhA5A _RFNPBld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+        <attributes xmi:id="_RFNO-1d1EeeC75Gc-lhA5A" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_RFNO_Fd1EeeC75Gc-lhA5A" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_RFNO_Vd1EeeC75Gc-lhA5A" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RFNO_ld1EeeC75Gc-lhA5A" name="" outgoing="_RFNPA1d1EeeC75Gc-lhA5A _RFNPBFd1EeeC75Gc-lhA5A _RFNPBVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RFNO_1d1EeeC75Gc-lhA5A" name="" incoming="_RFNPBVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_RFNPAFd1EeeC75Gc-lhA5A" value="&quot;nestedClassifier&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RFNPAVd1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RFNPAld1EeeC75Gc-lhA5A" source="_RFNO-Vd1EeeC75Gc-lhA5A" target="_RFNO-ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RFNPA1d1EeeC75Gc-lhA5A" source="_RFNO_ld1EeeC75Gc-lhA5A" target="_RFNO-Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RFNPBFd1EeeC75Gc-lhA5A" source="_RFNO_ld1EeeC75Gc-lhA5A" target="_RFNO-ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RFNPBVd1EeeC75Gc-lhA5A" source="_RFNO_ld1EeeC75Gc-lhA5A" target="_RFNO_1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RFNPBld1EeeC75Gc-lhA5A" source="_RFNO-Fd1EeeC75Gc-lhA5A" target="_RFNO-ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface/nestedClassifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_RFNPB1d1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_RFNPCFd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_RFNPGFd1EeeC75Gc-lhA5A" outgoing="_RFNPG1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+      </nodes>
+      <nodes xmi:id="_RFNPCVd1EeeC75Gc-lhA5A" name="" incoming="_RFNPHFd1EeeC75Gc-lhA5A" outgoing="_RFNPF1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_RFNPCld1EeeC75Gc-lhA5A" name="B.New" incoming="_RFNPF1d1EeeC75Gc-lhA5A _RFNPGVd1EeeC75Gc-lhA5A _RFNPG1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+      <nodes xmi:id="_RFNPC1d1EeeC75Gc-lhA5A" name="" incoming="_RFNPHVd1EeeC75Gc-lhA5A" outgoing="_RFNPGFd1EeeC75Gc-lhA5A _RFNPGVd1EeeC75Gc-lhA5A _RFNPGld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_RFNPDFd1EeeC75Gc-lhA5A" name="" incoming="_RFNPGld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_RFNPDVd1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_RFNPHld1EeeC75Gc-lhA5A" outgoing="_RFNPHFd1EeeC75Gc-lhA5A _RFNPHVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_RFNPDld1EeeC75Gc-lhA5A" value="&quot;CREATE_Enumeration_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_RFNPD1d1EeeC75Gc-lhA5A" value="&quot;Creates one Enumeration in Interface&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_RFNPEFd1EeeC75Gc-lhA5A" value="&quot;CREATE_Enumeration_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_RFNPEVd1EeeC75Gc-lhA5A" value="&quot;RR: CREATE_Enumeration_IN_Interface_(nestedClassifier)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_RFNPEld1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_RFNPE1d1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_RFNPFFd1EeeC75Gc-lhA5A" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_RFNPFVd1EeeC75Gc-lhA5A" value="23">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_RFNPFld1EeeC75Gc-lhA5A" name="" outgoing="_RFNPHld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_RFNPF1d1EeeC75Gc-lhA5A" source="_RFNPCVd1EeeC75Gc-lhA5A" target="_RFNPCld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_RFNPGFd1EeeC75Gc-lhA5A" source="_RFNPC1d1EeeC75Gc-lhA5A" target="_RFNPCFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_RFNPGVd1EeeC75Gc-lhA5A" source="_RFNPC1d1EeeC75Gc-lhA5A" target="_RFNPCld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_RFNPGld1EeeC75Gc-lhA5A" source="_RFNPC1d1EeeC75Gc-lhA5A" target="_RFNPDFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_RFNPG1d1EeeC75Gc-lhA5A" source="_RFNPCFd1EeeC75Gc-lhA5A" target="_RFNPCld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface/nestedClassifier"/>
+      </edges>
+      <edges xmi:id="_RFNPHFd1EeeC75Gc-lhA5A" source="_RFNPDVd1EeeC75Gc-lhA5A" target="_RFNPCVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RFNPHVd1EeeC75Gc-lhA5A" source="_RFNPDVd1EeeC75Gc-lhA5A" target="_RFNPC1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_RFNPHld1EeeC75Gc-lhA5A" source="_RFNPFld1EeeC75Gc-lhA5A" target="_RFNPDVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_RFNPH1d1EeeC75Gc-lhA5A" origin="_RFNO-Fd1EeeC75Gc-lhA5A" image="_RFNPCFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RFNPIFd1EeeC75Gc-lhA5A" origin="_RFNO-Vd1EeeC75Gc-lhA5A" image="_RFNPCVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RFNPIVd1EeeC75Gc-lhA5A" origin="_RFNO-ld1EeeC75Gc-lhA5A" image="_RFNPCld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RFNPIld1EeeC75Gc-lhA5A" origin="_RFNO_ld1EeeC75Gc-lhA5A" image="_RFNPC1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RFNPI1d1EeeC75Gc-lhA5A" origin="_RFNO_1d1EeeC75Gc-lhA5A" image="_RFNPDFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_RFNPJFd1EeeC75Gc-lhA5A" origin="_RFNPAVd1EeeC75Gc-lhA5A" image="_RFNPFld1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

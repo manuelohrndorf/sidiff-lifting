@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bhPOQA8OEeeospYCu75rcw" name="CREATE_EnumerationLiteral_IN_TemplateParameter_(ownedParameteredElement)" description="Creates one EnumerationLiteral in TemplateParameter">
+  <annotations xmi:id="_bhPOQQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_EnumerationLiteral_IN_TemplateParameter_(ownedParameteredElement)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_bhPOQg8OEeeospYCu75rcw" name="createEnumerationLiteral_IN_TemplateParameter" description="creates one EnumerationLiteral in the context: TemplateParameter">
+    <parameters xmi:id="_bhPOQw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bhPORA8OEeeospYCu75rcw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_bhPORQ8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <lhs xmi:id="_bhPORg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_bhPORw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_bhPOSA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <nodes xmi:id="_bhPOSQ8OEeeospYCu75rcw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_bhPOSg8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_bhPOSw8OEeeospYCu75rcw" name="Selected" incoming="_bhPOUQ8OEeeospYCu75rcw" outgoing="_bhPOUA8OEeeospYCu75rcw">
+        <annotations xmi:id="_bhPOTA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <nodes xmi:id="_bhPOTQ8OEeeospYCu75rcw" name="New" incoming="_bhPOUA8OEeeospYCu75rcw _bhPOUw8OEeeospYCu75rcw" outgoing="_bhPOUQ8OEeeospYCu75rcw _bhPOUg8OEeeospYCu75rcw">
+        <annotations xmi:id="_bhPOTg8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+      </nodes>
+      <nodes xmi:id="_bhPOTw8OEeeospYCu75rcw" name="Existing" incoming="_bhPOUg8OEeeospYCu75rcw" outgoing="_bhPOUw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+      <edges xmi:id="_bhPOUA8OEeeospYCu75rcw" source="_bhPOSw8OEeeospYCu75rcw" target="_bhPOTQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter/ownedParameteredElement"/>
+      </edges>
+      <edges xmi:id="_bhPOUQ8OEeeospYCu75rcw" source="_bhPOTQ8OEeeospYCu75rcw" target="_bhPOSw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterableElement/owningTemplateParameter"/>
+      </edges>
+      <edges xmi:id="_bhPOUg8OEeeospYCu75rcw" source="_bhPOTQ8OEeeospYCu75rcw" target="_bhPOTw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral/enumeration"/>
+      </edges>
+      <edges xmi:id="_bhPOUw8OEeeospYCu75rcw" source="_bhPOTw8OEeeospYCu75rcw" target="_bhPOTQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration/ownedLiteral"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bhPOVA8OEeeospYCu75rcw" origin="_bhPORw8OEeeospYCu75rcw" image="_bhPOSw8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_bhPOVQ8OEeeospYCu75rcw" origin="_bhPOSQ8OEeeospYCu75rcw" image="_bhPOTw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_bhPOVg8OEeeospYCu75rcw" name="mainUnit" subUnits="_bhPOQg8OEeeospYCu75rcw">
+    <parameters xmi:id="_bhPOVw8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_bhPOWA8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bhPOWQ8OEeeospYCu75rcw" name="Existing">
+      <annotations xmi:id="_bhPOWg8OEeeospYCu75rcw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameters xmi:id="_bhPOWw8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_bhPOXA8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//EnumerationLiteral"/>
+    </parameters>
+    <parameterMappings xmi:id="_bhPOXQ8OEeeospYCu75rcw" source="_bhPOVw8OEeeospYCu75rcw" target="_bhPOQw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bhPOXg8OEeeospYCu75rcw" source="_bhPOWQ8OEeeospYCu75rcw" target="_bhPORA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bhPOXw8OEeeospYCu75rcw" source="_bhPORQ8OEeeospYCu75rcw" target="_bhPOWw8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

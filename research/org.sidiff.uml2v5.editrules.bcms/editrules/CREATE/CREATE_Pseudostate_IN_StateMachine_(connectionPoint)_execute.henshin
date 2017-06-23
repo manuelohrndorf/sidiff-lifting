@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_cVU9oA8OEeeospYCu75rcw" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+  <annotations xmi:id="_cVU9oQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_cVU9og8OEeeospYCu75rcw" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_cVU9ow8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_cVU9pA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_cVU9pQ8OEeeospYCu75rcw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_cVU9pg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_cVU9pw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_cVU9qA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_cVU9qQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_cVU9qg8OEeeospYCu75rcw" name="Selected" incoming="_cVU9sA8OEeeospYCu75rcw" outgoing="_cVU9rw8OEeeospYCu75rcw">
+        <annotations xmi:id="_cVU9qw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_cVU9rA8OEeeospYCu75rcw" name="New" incoming="_cVU9rw8OEeeospYCu75rcw" outgoing="_cVU9sA8OEeeospYCu75rcw">
+        <annotations xmi:id="_cVU9rQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_cVU9rg8OEeeospYCu75rcw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_cVU9rw8OEeeospYCu75rcw" source="_cVU9qg8OEeeospYCu75rcw" target="_cVU9rA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_cVU9sA8OEeeospYCu75rcw" source="_cVU9rA8OEeeospYCu75rcw" target="_cVU9qg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_cVU9sQ8OEeeospYCu75rcw" origin="_cVU9pw8OEeeospYCu75rcw" image="_cVU9qg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_cVU9sg8OEeeospYCu75rcw" name="mainUnit" subUnits="_cVU9og8OEeeospYCu75rcw">
+    <parameters xmi:id="_cVU9sw8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_cVU9tA8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_cVU9tQ8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_cVU9tg8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_cVU9tw8OEeeospYCu75rcw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_cVU9uA8OEeeospYCu75rcw" source="_cVU9sw8OEeeospYCu75rcw" target="_cVU9ow8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_cVU9uQ8OEeeospYCu75rcw" source="_cVU9pA8OEeeospYCu75rcw" target="_cVU9tQ8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_cVU9ug8OEeeospYCu75rcw" source="_cVU9tw8OEeeospYCu75rcw" target="_cVU9pQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

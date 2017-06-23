@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZBl8AA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_InteractionUse_(returnValue)" description="Creates one LiteralInteger in InteractionUse">
+  <annotations xmi:id="_ZBl8AQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_InteractionUse_(returnValue)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ZBl8Ag8OEeeospYCu75rcw" name="createLiteralInteger_IN_InteractionUse" description="creates one LiteralInteger in the context: InteractionUse">
+    <parameters xmi:id="_ZBl8Aw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters xmi:id="_ZBl8BA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_ZBl8BQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_ZBl8Bg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_ZBl8Bw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_ZBl8CA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ZBl8CQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_ZBl8Cg8OEeeospYCu75rcw" name="Selected" outgoing="_ZBl8Dw8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZBl8Cw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+      </nodes>
+      <nodes xmi:id="_ZBl8DA8OEeeospYCu75rcw" name="New" incoming="_ZBl8Dw8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZBl8DQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_ZBl8Dg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ZBl8Dw8OEeeospYCu75rcw" source="_ZBl8Cg8OEeeospYCu75rcw" target="_ZBl8DA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse/returnValue"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ZBl8EA8OEeeospYCu75rcw" origin="_ZBl8Bw8OEeeospYCu75rcw" image="_ZBl8Cg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZBl8EQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_ZBl8Ag8OEeeospYCu75rcw">
+    <parameters xmi:id="_ZBl8Eg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_ZBl8Ew8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionUse"/>
+    </parameters>
+    <parameters xmi:id="_ZBl8FA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_ZBl8FQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_ZBl8Fg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_ZBl8Fw8OEeeospYCu75rcw" source="_ZBl8Eg8OEeeospYCu75rcw" target="_ZBl8Aw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZBl8GA8OEeeospYCu75rcw" source="_ZBl8BA8OEeeospYCu75rcw" target="_ZBl8FA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZBl8GQ8OEeeospYCu75rcw" source="_ZBl8Fg8OEeeospYCu75rcw" target="_ZBl8BQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

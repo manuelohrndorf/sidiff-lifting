@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WNJecA8OEeeospYCu75rcw" name="ADD_StateMachine_(extendedStateMachine)_TGT_StateMachine" description="Adds to StateMachine's reference extendedStateMachine the target StateMachine">
+  <annotations xmi:id="_WNJecQ8OEeeospYCu75rcw" key="INVERSE" value="REMOVE_StateMachine_(extendedStateMachine)_TGT_StateMachine"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WNJecg8OEeeospYCu75rcw" name="addToStateMachine_extendedStateMachine_StateMachine" description="Adds to StateMachine's reference extendedStateMachine the target StateMachine">
+    <parameters xmi:id="_WNJecw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_WNJedA8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <lhs xmi:id="_WNJedQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WNJedg8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_WNJedw8OEeeospYCu75rcw" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_WNJeeA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WNJeeQ8OEeeospYCu75rcw" name="Selected" outgoing="_WNJeew8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_WNJeeg8OEeeospYCu75rcw" name="NewTarget" incoming="_WNJeew8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <edges xmi:id="_WNJeew8OEeeospYCu75rcw" source="_WNJeeQ8OEeeospYCu75rcw" target="_WNJeeg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/extendedStateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WNJefA8OEeeospYCu75rcw" origin="_WNJedg8OEeeospYCu75rcw" image="_WNJeeQ8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_WNJefQ8OEeeospYCu75rcw" origin="_WNJedw8OEeeospYCu75rcw" image="_WNJeeg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WNJefg8OEeeospYCu75rcw" name="mainUnit" subUnits="_WNJecg8OEeeospYCu75rcw">
+    <parameters xmi:id="_WNJefw8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_WNJegA8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_WNJegQ8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameterMappings xmi:id="_WNJegg8OEeeospYCu75rcw" source="_WNJefw8OEeeospYCu75rcw" target="_WNJecw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WNJegw8OEeeospYCu75rcw" source="_WNJegQ8OEeeospYCu75rcw" target="_WNJedA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

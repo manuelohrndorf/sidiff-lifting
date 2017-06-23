@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XsUyMA8OEeeospYCu75rcw" name="MOVE_Lifeline_FROM_Interaction_(lifeline)_TO_Interaction_(lifeline)" description="MOVEs Lifeline from Interaction(Reference:lifeline) to Interaction(Reference:lifeline">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_XsUyMQ8OEeeospYCu75rcw" name="moveLifeline_FROM_Interaction_lifeline_TO_Interaction_Interaction" description="Moves Lifeline from Interaction(Reference:lifeline) toInteraction(Reference:Interaction)">
+    <parameters xmi:id="_XsUyMg8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_XsUyMw8OEeeospYCu75rcw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameters xmi:id="_XsUyNA8OEeeospYCu75rcw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <lhs xmi:id="_XsUyNQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_XsUyNg8OEeeospYCu75rcw" name="Selected" incoming="_XsUyOQ8OEeeospYCu75rcw" outgoing="_XsUyOg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+      <nodes xmi:id="_XsUyNw8OEeeospYCu75rcw" name="OldSource" incoming="_XsUyOg8OEeeospYCu75rcw" outgoing="_XsUyOQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <nodes xmi:id="_XsUyOA8OEeeospYCu75rcw" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <edges xmi:id="_XsUyOQ8OEeeospYCu75rcw" source="_XsUyNw8OEeeospYCu75rcw" target="_XsUyNg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction/lifeline"/>
+      </edges>
+      <edges xmi:id="_XsUyOg8OEeeospYCu75rcw" source="_XsUyNg8OEeeospYCu75rcw" target="_XsUyNw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline/interaction"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_XsUyOw8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_XsUyPA8OEeeospYCu75rcw" name="Selected" incoming="_XsUyPw8OEeeospYCu75rcw" outgoing="_XsUyQA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+      <nodes xmi:id="_XsUyPQ8OEeeospYCu75rcw" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <nodes xmi:id="_XsUyPg8OEeeospYCu75rcw" name="NewSource" incoming="_XsUyQA8OEeeospYCu75rcw" outgoing="_XsUyPw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <edges xmi:id="_XsUyPw8OEeeospYCu75rcw" source="_XsUyPg8OEeeospYCu75rcw" target="_XsUyPA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction/lifeline"/>
+      </edges>
+      <edges xmi:id="_XsUyQA8OEeeospYCu75rcw" source="_XsUyPA8OEeeospYCu75rcw" target="_XsUyPg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline/interaction"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_XsUyQQ8OEeeospYCu75rcw" origin="_XsUyNg8OEeeospYCu75rcw" image="_XsUyPA8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_XsUyQg8OEeeospYCu75rcw" origin="_XsUyNw8OEeeospYCu75rcw" image="_XsUyPQ8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_XsUyQw8OEeeospYCu75rcw" origin="_XsUyOA8OEeeospYCu75rcw" image="_XsUyPg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_XsUyRA8OEeeospYCu75rcw" name="mainUnit" subUnits="_XsUyMQ8OEeeospYCu75rcw">
+    <parameters xmi:id="_XsUyRQ8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_XsUyRg8OEeeospYCu75rcw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameters xmi:id="_XsUyRw8OEeeospYCu75rcw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameterMappings xmi:id="_XsUySA8OEeeospYCu75rcw" source="_XsUyRQ8OEeeospYCu75rcw" target="_XsUyMg8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_XsUySQ8OEeeospYCu75rcw" source="_XsUyRg8OEeeospYCu75rcw" target="_XsUyMw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_XsUySg8OEeeospYCu75rcw" source="_XsUyRw8OEeeospYCu75rcw" target="_XsUyNA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

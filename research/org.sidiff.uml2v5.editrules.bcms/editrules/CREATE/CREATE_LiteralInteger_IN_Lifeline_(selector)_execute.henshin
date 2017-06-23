@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_W5bVoA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_Lifeline_(selector)" description="Creates one LiteralInteger in Lifeline">
+  <annotations xmi:id="_W5bVoQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_Lifeline_(selector)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_W5bVog8OEeeospYCu75rcw" name="createLiteralInteger_IN_Lifeline" description="creates one LiteralInteger in the context: Lifeline">
+    <parameters xmi:id="_W5bVow8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_W5bVpA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_W5bVpQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_W5bVpg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_W5bVpw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_W5bVqA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_W5bVqQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_W5bVqg8OEeeospYCu75rcw" name="Selected" outgoing="_W5bVrw8OEeeospYCu75rcw">
+        <annotations xmi:id="_W5bVqw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+      <nodes xmi:id="_W5bVrA8OEeeospYCu75rcw" name="New" incoming="_W5bVrw8OEeeospYCu75rcw">
+        <annotations xmi:id="_W5bVrQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_W5bVrg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_W5bVrw8OEeeospYCu75rcw" source="_W5bVqg8OEeeospYCu75rcw" target="_W5bVrA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline/selector"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_W5bVsA8OEeeospYCu75rcw" origin="_W5bVpw8OEeeospYCu75rcw" image="_W5bVqg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_W5bVsQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_W5bVog8OEeeospYCu75rcw">
+    <parameters xmi:id="_W5bVsg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_W5bVsw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_W5bVtA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_W5bVtQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_W5bVtg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_W5bVtw8OEeeospYCu75rcw" source="_W5bVsg8OEeeospYCu75rcw" target="_W5bVow8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_W5bVuA8OEeeospYCu75rcw" source="_W5bVpA8OEeeospYCu75rcw" target="_W5bVtA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_W5bVuQ8OEeeospYCu75rcw" source="_W5bVtg8OEeeospYCu75rcw" target="_W5bVpQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

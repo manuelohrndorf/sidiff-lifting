@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WM3KkA8OEeeospYCu75rcw" name="SET_ATTRIBUTE_Lifeline_Visibility" description="Sets Lifeline Visibility">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WM3KkQ8OEeeospYCu75rcw" name="setLifelineVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_WM3Kkg8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_WM3Kkw8OEeeospYCu75rcw" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_WM3KlA8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WM3KlQ8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_WM3Klg8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WM3Klw8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+        <attributes xmi:id="_WM3KmA8OEeeospYCu75rcw" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_WM3KmQ8OEeeospYCu75rcw" origin="_WM3KlQ8OEeeospYCu75rcw" image="_WM3Klw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WM3Kmg8OEeeospYCu75rcw" name="mainUnit" subUnits="_WM3KkQ8OEeeospYCu75rcw">
+    <parameters xmi:id="_WM3Kmw8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_WM3KnA8OEeeospYCu75rcw" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_WM3KnQ8OEeeospYCu75rcw" source="_WM3Kmw8OEeeospYCu75rcw" target="_WM3Kkg8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WM3Kng8OEeeospYCu75rcw" source="_WM3KnA8OEeeospYCu75rcw" target="_WM3Kkw8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

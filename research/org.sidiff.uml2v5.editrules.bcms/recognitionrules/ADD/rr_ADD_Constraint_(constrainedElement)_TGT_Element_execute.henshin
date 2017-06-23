@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_QMca8Fd1EeeC75Gc-lhA5A" name="RR: ADD_Constraint_(constrainedElement)_TGT_Element" description="Recognize: Adds to Constraint's reference constrainedElement the target Element">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_QMca8Vd1EeeC75Gc-lhA5A" name="rr:addToConstraint_constrainedElement_Element" description="Recognize: Adds to Constraint's reference constrainedElement the target Element">
+    <parameters xmi:id="_QMca8ld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_QMca81d1EeeC75Gc-lhA5A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+    </parameters>
+    <lhs xmi:id="_QMca9Fd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_QMca9Vd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QMca-1d1EeeC75Gc-lhA5A" outgoing="_QMdCAVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_QMca9ld1EeeC75Gc-lhA5A" name="B.NewTarget" incoming="_QMca_Fd1EeeC75Gc-lhA5A _QMdCAVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+      </nodes>
+      <nodes xmi:id="_QMca91d1EeeC75Gc-lhA5A" name="" outgoing="_QMca-1d1EeeC75Gc-lhA5A _QMca_Fd1EeeC75Gc-lhA5A _QMdCAFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_QMca-Fd1EeeC75Gc-lhA5A" name="" incoming="_QMdCAFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_QMca-Vd1EeeC75Gc-lhA5A" value="&quot;constrainedElement&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QMca-ld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QMca-1d1EeeC75Gc-lhA5A" source="_QMca91d1EeeC75Gc-lhA5A" target="_QMca9Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_QMca_Fd1EeeC75Gc-lhA5A" source="_QMca91d1EeeC75Gc-lhA5A" target="_QMca9ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_QMdCAFd1EeeC75Gc-lhA5A" source="_QMca91d1EeeC75Gc-lhA5A" target="_QMca-Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_QMdCAVd1EeeC75Gc-lhA5A" source="_QMca9Vd1EeeC75Gc-lhA5A" target="_QMca9ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/constrainedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_QMdCAld1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_QMdCA1d1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QMdCEVd1EeeC75Gc-lhA5A" outgoing="_QMdCFFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_QMdCBFd1EeeC75Gc-lhA5A" name="B.NewTarget" incoming="_QMdCEld1EeeC75Gc-lhA5A _QMdCFFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+      </nodes>
+      <nodes xmi:id="_QMdCBVd1EeeC75Gc-lhA5A" name="" incoming="_QMdCFVd1EeeC75Gc-lhA5A" outgoing="_QMdCEVd1EeeC75Gc-lhA5A _QMdCEld1EeeC75Gc-lhA5A _QMdCE1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_QMdCBld1EeeC75Gc-lhA5A" name="" incoming="_QMdCE1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_QMdCB1d1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_QMdCFld1EeeC75Gc-lhA5A" outgoing="_QMdCFVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_QMdCCFd1EeeC75Gc-lhA5A" value="&quot;ADD_Constraint_(constrainedElement)_TGT_Element&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_QMdCCVd1EeeC75Gc-lhA5A" value="&quot;Adds to Constraint's reference constrainedElement the target Element&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_QMdCCld1EeeC75Gc-lhA5A" value="&quot;ADD_Constraint_(constrainedElement)_TGT_Element&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_QMdCC1d1EeeC75Gc-lhA5A" value="&quot;RR: ADD_Constraint_(constrainedElement)_TGT_Element&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_QMdCDFd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_QMdCDVd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_QMdCDld1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_QMdCD1d1EeeC75Gc-lhA5A" value="8">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QMdCEFd1EeeC75Gc-lhA5A" name="" outgoing="_QMdCFld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QMdCEVd1EeeC75Gc-lhA5A" source="_QMdCBVd1EeeC75Gc-lhA5A" target="_QMdCA1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_QMdCEld1EeeC75Gc-lhA5A" source="_QMdCBVd1EeeC75Gc-lhA5A" target="_QMdCBFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_QMdCE1d1EeeC75Gc-lhA5A" source="_QMdCBVd1EeeC75Gc-lhA5A" target="_QMdCBld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_QMdCFFd1EeeC75Gc-lhA5A" source="_QMdCA1d1EeeC75Gc-lhA5A" target="_QMdCBFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/constrainedElement"/>
+      </edges>
+      <edges xmi:id="_QMdCFVd1EeeC75Gc-lhA5A" source="_QMdCB1d1EeeC75Gc-lhA5A" target="_QMdCBVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_QMdCFld1EeeC75Gc-lhA5A" source="_QMdCEFd1EeeC75Gc-lhA5A" target="_QMdCB1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QMdCF1d1EeeC75Gc-lhA5A" origin="_QMca9Vd1EeeC75Gc-lhA5A" image="_QMdCA1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QMdCGFd1EeeC75Gc-lhA5A" origin="_QMca9ld1EeeC75Gc-lhA5A" image="_QMdCBFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QMdCGVd1EeeC75Gc-lhA5A" origin="_QMca91d1EeeC75Gc-lhA5A" image="_QMdCBVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QMdCGld1EeeC75Gc-lhA5A" origin="_QMca-Fd1EeeC75Gc-lhA5A" image="_QMdCBld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QMdCG1d1EeeC75Gc-lhA5A" origin="_QMca-ld1EeeC75Gc-lhA5A" image="_QMdCEFd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Xd-0MA8OEeeospYCu75rcw" name="CREATE_Generalization_IN_Classifier_(generalization)" description="Creates one Generalization in Classifier">
+  <annotations xmi:id="_Xd-0MQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Generalization_IN_Classifier_(generalization)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Xd-0Mg8OEeeospYCu75rcw" name="createGeneralization_IN_Classifier" description="creates one Generalization in the context: Classifier">
+    <parameters xmi:id="_Xd-0Mw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_Xd-0NA8OEeeospYCu75rcw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_Xd-0NQ8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
+    </parameters>
+    <lhs xmi:id="_Xd-0Ng8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_Xd-0Nw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_Xd-0OA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_Xd-0OQ8OEeeospYCu75rcw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_Xd-0Og8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_Xd-0Ow8OEeeospYCu75rcw" name="Selected" incoming="_Xd-0QQ8OEeeospYCu75rcw" outgoing="_Xd-0QA8OEeeospYCu75rcw">
+        <annotations xmi:id="_Xd-0PA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_Xd-0PQ8OEeeospYCu75rcw" name="New" incoming="_Xd-0QA8OEeeospYCu75rcw" outgoing="_Xd-0QQ8OEeeospYCu75rcw _Xd-0Qg8OEeeospYCu75rcw">
+        <annotations xmi:id="_Xd-0Pg8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
+      </nodes>
+      <nodes xmi:id="_Xd-0Pw8OEeeospYCu75rcw" name="Existing" incoming="_Xd-0Qg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <edges xmi:id="_Xd-0QA8OEeeospYCu75rcw" source="_Xd-0Ow8OEeeospYCu75rcw" target="_Xd-0PQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/generalization"/>
+      </edges>
+      <edges xmi:id="_Xd-0QQ8OEeeospYCu75rcw" source="_Xd-0PQ8OEeeospYCu75rcw" target="_Xd-0Ow8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization/specific"/>
+      </edges>
+      <edges xmi:id="_Xd-0Qg8OEeeospYCu75rcw" source="_Xd-0PQ8OEeeospYCu75rcw" target="_Xd-0Pw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization/general"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Xd-0Qw8OEeeospYCu75rcw" origin="_Xd-0Nw8OEeeospYCu75rcw" image="_Xd-0Ow8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_Xd-0RA8OEeeospYCu75rcw" origin="_Xd-0OQ8OEeeospYCu75rcw" image="_Xd-0Pw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Xd-0RQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_Xd-0Mg8OEeeospYCu75rcw">
+    <parameters xmi:id="_Xd-0Rg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_Xd-0Rw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_Xd-0SA8OEeeospYCu75rcw" name="Existing">
+      <annotations xmi:id="_Xd-0SQ8OEeeospYCu75rcw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_Xd-0Sg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_Xd-0Sw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
+    </parameters>
+    <parameterMappings xmi:id="_Xd-0TA8OEeeospYCu75rcw" source="_Xd-0Rg8OEeeospYCu75rcw" target="_Xd-0Mw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_Xd-0TQ8OEeeospYCu75rcw" source="_Xd-0SA8OEeeospYCu75rcw" target="_Xd-0NA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_Xd-0Tg8OEeeospYCu75rcw" source="_Xd-0NQ8OEeeospYCu75rcw" target="_Xd-0Sg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

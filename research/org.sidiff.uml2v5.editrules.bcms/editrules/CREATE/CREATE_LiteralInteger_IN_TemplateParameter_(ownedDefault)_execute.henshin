@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bEvfgA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_TemplateParameter_(ownedDefault)" description="Creates one LiteralInteger in TemplateParameter">
+  <annotations xmi:id="_bEvfgQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_TemplateParameter_(ownedDefault)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_bEvfgg8OEeeospYCu75rcw" name="createLiteralInteger_IN_TemplateParameter" description="creates one LiteralInteger in the context: TemplateParameter">
+    <parameters xmi:id="_bEvfgw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bEvfhA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_bEvfhQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_bEvfhg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_bEvfhw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_bEvfiA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_bEvfiQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_bEvfig8OEeeospYCu75rcw" name="Selected" outgoing="_bEvfjw8OEeeospYCu75rcw">
+        <annotations xmi:id="_bEvfiw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <nodes xmi:id="_bEvfjA8OEeeospYCu75rcw" name="New" incoming="_bEvfjw8OEeeospYCu75rcw">
+        <annotations xmi:id="_bEvfjQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_bEvfjg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_bEvfjw8OEeeospYCu75rcw" source="_bEvfig8OEeeospYCu75rcw" target="_bEvfjA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter/ownedDefault"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bEvfkA8OEeeospYCu75rcw" origin="_bEvfhw8OEeeospYCu75rcw" image="_bEvfig8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_bEvfkQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_bEvfgg8OEeeospYCu75rcw">
+    <parameters xmi:id="_bEvfkg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_bEvfkw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bEvflA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_bEvflQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_bEvflg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_bEvflw8OEeeospYCu75rcw" source="_bEvfkg8OEeeospYCu75rcw" target="_bEvfgw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bEvfmA8OEeeospYCu75rcw" source="_bEvfhA8OEeeospYCu75rcw" target="_bEvflA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bEvfmQ8OEeeospYCu75rcw" source="_bEvflg8OEeeospYCu75rcw" target="_bEvfhQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

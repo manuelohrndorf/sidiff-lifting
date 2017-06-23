@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SiH44Fd1EeeC75Gc-lhA5A" name="RR: DELETE_Trigger_IN_State_(deferrableTrigger)" description="Recognize: Deletes one Trigger in State">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_SiH44Vd1EeeC75Gc-lhA5A" name="rr:deleteTrigger_IN_State" description="Recognize: deletes one Trigger in the context: State">
+    <parameters xmi:id="_SiH44ld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_SiH441d1EeeC75Gc-lhA5A" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+    </parameters>
+    <parameters xmi:id="_SiH45Fd1EeeC75Gc-lhA5A" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+    </parameters>
+    <lhs xmi:id="_SiH45Vd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_SiH45ld1EeeC75Gc-lhA5A" name="A.Selected" incoming="_SiH48ld1EeeC75Gc-lhA5A" outgoing="_SiH49Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_SiH451d1EeeC75Gc-lhA5A" name="A.Existing" incoming="_SiH491d1EeeC75Gc-lhA5A _SiH4-Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+      </nodes>
+      <nodes xmi:id="_SiH46Fd1EeeC75Gc-lhA5A" name="" outgoing="_SiH48Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_SiH46Vd1EeeC75Gc-lhA5A" name="A.ToBeDeleted" incoming="_SiH48Vd1EeeC75Gc-lhA5A _SiH481d1EeeC75Gc-lhA5A _SiH49Vd1EeeC75Gc-lhA5A _SiH49ld1EeeC75Gc-lhA5A" outgoing="_SiH4-Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <nodes xmi:id="_SiH46ld1EeeC75Gc-lhA5A" name="" outgoing="_SiH48ld1EeeC75Gc-lhA5A _SiH481d1EeeC75Gc-lhA5A _SiH49Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH461d1EeeC75Gc-lhA5A" name="" incoming="_SiH49Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_SiH47Fd1EeeC75Gc-lhA5A" value="&quot;deferrableTrigger&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_SiH47Vd1EeeC75Gc-lhA5A" name="" outgoing="_SiH49ld1EeeC75Gc-lhA5A _SiH491d1EeeC75Gc-lhA5A _SiH4-Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH47ld1EeeC75Gc-lhA5A" name="" incoming="_SiH4-Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_SiH471d1EeeC75Gc-lhA5A" value="&quot;event&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_SiH48Fd1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_SiH48Vd1EeeC75Gc-lhA5A" source="_SiH46Fd1EeeC75Gc-lhA5A" target="_SiH46Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_SiH48ld1EeeC75Gc-lhA5A" source="_SiH46ld1EeeC75Gc-lhA5A" target="_SiH45ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_SiH481d1EeeC75Gc-lhA5A" source="_SiH46ld1EeeC75Gc-lhA5A" target="_SiH46Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_SiH49Fd1EeeC75Gc-lhA5A" source="_SiH46ld1EeeC75Gc-lhA5A" target="_SiH461d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_SiH49Vd1EeeC75Gc-lhA5A" source="_SiH45ld1EeeC75Gc-lhA5A" target="_SiH46Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/deferrableTrigger"/>
+      </edges>
+      <edges xmi:id="_SiH49ld1EeeC75Gc-lhA5A" source="_SiH47Vd1EeeC75Gc-lhA5A" target="_SiH46Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_SiH491d1EeeC75Gc-lhA5A" source="_SiH47Vd1EeeC75Gc-lhA5A" target="_SiH451d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_SiH4-Fd1EeeC75Gc-lhA5A" source="_SiH47Vd1EeeC75Gc-lhA5A" target="_SiH47ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_SiH4-Vd1EeeC75Gc-lhA5A" source="_SiH46Vd1EeeC75Gc-lhA5A" target="_SiH451d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_SiH4-ld1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_SiH4-1d1EeeC75Gc-lhA5A" name="A.Selected" incoming="_SiH5Dld1EeeC75Gc-lhA5A" outgoing="_SiH5EVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_SiH4_Fd1EeeC75Gc-lhA5A" name="A.Existing" incoming="_SiH5E1d1EeeC75Gc-lhA5A _SiH5FVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+      </nodes>
+      <nodes xmi:id="_SiH4_Vd1EeeC75Gc-lhA5A" name="" incoming="_SiH5Fld1EeeC75Gc-lhA5A" outgoing="_SiH5DVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_SiH4_ld1EeeC75Gc-lhA5A" name="A.ToBeDeleted" incoming="_SiH5DVd1EeeC75Gc-lhA5A _SiH5D1d1EeeC75Gc-lhA5A _SiH5EVd1EeeC75Gc-lhA5A _SiH5Eld1EeeC75Gc-lhA5A" outgoing="_SiH5FVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <nodes xmi:id="_SiH4_1d1EeeC75Gc-lhA5A" name="" incoming="_SiH5F1d1EeeC75Gc-lhA5A" outgoing="_SiH5Dld1EeeC75Gc-lhA5A _SiH5D1d1EeeC75Gc-lhA5A _SiH5EFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH5AFd1EeeC75Gc-lhA5A" name="" incoming="_SiH5EFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH5AVd1EeeC75Gc-lhA5A" name="" incoming="_SiH5GFd1EeeC75Gc-lhA5A" outgoing="_SiH5Eld1EeeC75Gc-lhA5A _SiH5E1d1EeeC75Gc-lhA5A _SiH5FFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH5Ald1EeeC75Gc-lhA5A" name="" incoming="_SiH5FFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_SiH5A1d1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_SiH5GVd1EeeC75Gc-lhA5A" outgoing="_SiH5Fld1EeeC75Gc-lhA5A _SiH5F1d1EeeC75Gc-lhA5A _SiH5GFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_SiH5BFd1EeeC75Gc-lhA5A" value="&quot;DELETE_Trigger_IN_State_(deferrableTrigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_SiH5BVd1EeeC75Gc-lhA5A" value="&quot;Deletes one Trigger in State&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_SiH5Bld1EeeC75Gc-lhA5A" value="&quot;DELETE_Trigger_IN_State_(deferrableTrigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_SiH5B1d1EeeC75Gc-lhA5A" value="&quot;RR: DELETE_Trigger_IN_State_(deferrableTrigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_SiH5CFd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_SiH5CVd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_SiH5Cld1EeeC75Gc-lhA5A" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_SiH5C1d1EeeC75Gc-lhA5A" value="17">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_SiH5DFd1EeeC75Gc-lhA5A" name="" outgoing="_SiH5GVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_SiH5DVd1EeeC75Gc-lhA5A" source="_SiH4_Vd1EeeC75Gc-lhA5A" target="_SiH4_ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_SiH5Dld1EeeC75Gc-lhA5A" source="_SiH4_1d1EeeC75Gc-lhA5A" target="_SiH4-1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_SiH5D1d1EeeC75Gc-lhA5A" source="_SiH4_1d1EeeC75Gc-lhA5A" target="_SiH4_ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_SiH5EFd1EeeC75Gc-lhA5A" source="_SiH4_1d1EeeC75Gc-lhA5A" target="_SiH5AFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_SiH5EVd1EeeC75Gc-lhA5A" source="_SiH4-1d1EeeC75Gc-lhA5A" target="_SiH4_ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/deferrableTrigger"/>
+      </edges>
+      <edges xmi:id="_SiH5Eld1EeeC75Gc-lhA5A" source="_SiH5AVd1EeeC75Gc-lhA5A" target="_SiH4_ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_SiH5E1d1EeeC75Gc-lhA5A" source="_SiH5AVd1EeeC75Gc-lhA5A" target="_SiH4_Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_SiH5FFd1EeeC75Gc-lhA5A" source="_SiH5AVd1EeeC75Gc-lhA5A" target="_SiH5Ald1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_SiH5FVd1EeeC75Gc-lhA5A" source="_SiH4_ld1EeeC75Gc-lhA5A" target="_SiH4_Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
+      </edges>
+      <edges xmi:id="_SiH5Fld1EeeC75Gc-lhA5A" source="_SiH5A1d1EeeC75Gc-lhA5A" target="_SiH4_Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_SiH5F1d1EeeC75Gc-lhA5A" source="_SiH5A1d1EeeC75Gc-lhA5A" target="_SiH4_1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_SiH5GFd1EeeC75Gc-lhA5A" source="_SiH5A1d1EeeC75Gc-lhA5A" target="_SiH5AVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_SiH5GVd1EeeC75Gc-lhA5A" source="_SiH5DFd1EeeC75Gc-lhA5A" target="_SiH5A1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_SiH5Gld1EeeC75Gc-lhA5A" origin="_SiH45ld1EeeC75Gc-lhA5A" image="_SiH4-1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5G1d1EeeC75Gc-lhA5A" origin="_SiH451d1EeeC75Gc-lhA5A" image="_SiH4_Fd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5HFd1EeeC75Gc-lhA5A" origin="_SiH46Fd1EeeC75Gc-lhA5A" image="_SiH4_Vd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5HVd1EeeC75Gc-lhA5A" origin="_SiH46Vd1EeeC75Gc-lhA5A" image="_SiH4_ld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5Hld1EeeC75Gc-lhA5A" origin="_SiH46ld1EeeC75Gc-lhA5A" image="_SiH4_1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5H1d1EeeC75Gc-lhA5A" origin="_SiH461d1EeeC75Gc-lhA5A" image="_SiH5AFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5IFd1EeeC75Gc-lhA5A" origin="_SiH47Vd1EeeC75Gc-lhA5A" image="_SiH5AVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5IVd1EeeC75Gc-lhA5A" origin="_SiH47ld1EeeC75Gc-lhA5A" image="_SiH5Ald1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_SiH5Ild1EeeC75Gc-lhA5A" origin="_SiH48Fd1EeeC75Gc-lhA5A" image="_SiH5DFd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

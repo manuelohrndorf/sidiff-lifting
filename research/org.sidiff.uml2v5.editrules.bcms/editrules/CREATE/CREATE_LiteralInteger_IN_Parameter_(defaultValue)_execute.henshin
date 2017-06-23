@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZTsYoA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_Parameter_(defaultValue)" description="Creates one LiteralInteger in Parameter">
+  <annotations xmi:id="_ZTsYoQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_Parameter_(defaultValue)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ZTsYog8OEeeospYCu75rcw" name="createLiteralInteger_IN_Parameter" description="creates one LiteralInteger in the context: Parameter">
+    <parameters xmi:id="_ZTsYow8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_ZTsYpA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_ZTsYpQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_ZTsYpg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_ZTsYpw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_ZTsYqA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ZTsYqQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_ZTsYqg8OEeeospYCu75rcw" name="Selected" outgoing="_ZTsYrw8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZTsYqw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+      </nodes>
+      <nodes xmi:id="_ZTsYrA8OEeeospYCu75rcw" name="New" incoming="_ZTsYrw8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZTsYrQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_ZTsYrg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ZTsYrw8OEeeospYCu75rcw" source="_ZTsYqg8OEeeospYCu75rcw" target="_ZTsYrA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter/defaultValue"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ZTsYsA8OEeeospYCu75rcw" origin="_ZTsYpw8OEeeospYCu75rcw" image="_ZTsYqg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZTsYsQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_ZTsYog8OEeeospYCu75rcw">
+    <parameters xmi:id="_ZTsYsg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_ZTsYsw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Parameter"/>
+    </parameters>
+    <parameters xmi:id="_ZTsYtA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_ZTsYtQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_ZTsYtg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_ZTsYtw8OEeeospYCu75rcw" source="_ZTsYsg8OEeeospYCu75rcw" target="_ZTsYow8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZTsYuA8OEeeospYCu75rcw" source="_ZTsYpA8OEeeospYCu75rcw" target="_ZTsYtA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZTsYuQ8OEeeospYCu75rcw" source="_ZTsYtg8OEeeospYCu75rcw" target="_ZTsYpQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

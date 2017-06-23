@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_QsSYoFd1EeeC75Gc-lhA5A" name="RR: CHANGE_LITERAL_Message_messageSort_FROM_reply_TO_synchCall" description="Recognize: Changes the attribute value of messageSort_FROM_reply_TO_synchCall">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_QsSYoVd1EeeC75Gc-lhA5A" name="rr:changeMessageMessageSort_FROM_Reply_TO_synchCall" description="Recognize: Changes the attribute value of messageSort_FROM_reply_TO_synchCall">
+    <parameters xmi:id="_QsSYold1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_QsSYo1d1EeeC75Gc-lhA5A" name="&quot;reply&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <parameters xmi:id="_QsSYpFd1EeeC75Gc-lhA5A" name="&quot;synchCall&quot;">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageSort"/>
+    </parameters>
+    <lhs xmi:id="_QsSYpVd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_QsSYpld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QsSYsFd1EeeC75Gc-lhA5A _QsSYsld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+        <attributes xmi:id="_QsSYp1d1EeeC75Gc-lhA5A" value="&quot;synchCall&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QsSYqFd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QsSYr1d1EeeC75Gc-lhA5A _QsSYsVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+        <attributes xmi:id="_QsSYqVd1EeeC75Gc-lhA5A" value="&quot;reply&quot;">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/messageSort"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QsSYqld1EeeC75Gc-lhA5A" name="" outgoing="_QsSYr1d1EeeC75Gc-lhA5A _QsSYsFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QsSYq1d1EeeC75Gc-lhA5A" name="" outgoing="_QsSYsVd1EeeC75Gc-lhA5A _QsSYsld1EeeC75Gc-lhA5A _QsSYs1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QsSYrFd1EeeC75Gc-lhA5A" name="" incoming="_QsSYs1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_QsSYrVd1EeeC75Gc-lhA5A" value="&quot;messageSort&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QsSYrld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QsSYr1d1EeeC75Gc-lhA5A" source="_QsSYqld1EeeC75Gc-lhA5A" target="_QsSYqFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QsSYsFd1EeeC75Gc-lhA5A" source="_QsSYqld1EeeC75Gc-lhA5A" target="_QsSYpld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QsSYsVd1EeeC75Gc-lhA5A" source="_QsSYq1d1EeeC75Gc-lhA5A" target="_QsSYqFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QsSYsld1EeeC75Gc-lhA5A" source="_QsSYq1d1EeeC75Gc-lhA5A" target="_QsSYpld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QsSYs1d1EeeC75Gc-lhA5A" source="_QsSYq1d1EeeC75Gc-lhA5A" target="_QsSYrFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_QsSYtFd1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_QsSYtVd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_QsSYxVd1EeeC75Gc-lhA5A _QsSYx1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_QsSYtld1EeeC75Gc-lhA5A" name="A.Selected" incoming="_QsSYxFd1EeeC75Gc-lhA5A _QsSYxld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_QsSYt1d1EeeC75Gc-lhA5A" name="" outgoing="_QsSYxFd1EeeC75Gc-lhA5A _QsSYxVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence"/>
+      </nodes>
+      <nodes xmi:id="_QsSYuFd1EeeC75Gc-lhA5A" name="" incoming="_QsSYyVd1EeeC75Gc-lhA5A" outgoing="_QsSYxld1EeeC75Gc-lhA5A _QsSYx1d1EeeC75Gc-lhA5A _QsSYyFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange"/>
+      </nodes>
+      <nodes xmi:id="_QsSYuVd1EeeC75Gc-lhA5A" name="" incoming="_QsSYyFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_QsSYuld1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_QsSYyld1EeeC75Gc-lhA5A" outgoing="_QsSYyVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_QsSYu1d1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_Message_messageSort_FROM_reply_TO_synchCall&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_QsSYvFd1EeeC75Gc-lhA5A" value="&quot;Changes the attribute value of messageSort_FROM_reply_TO_synchCall&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_QsSYvVd1EeeC75Gc-lhA5A" value="&quot;CHANGE_LITERAL_Message_messageSort_FROM_reply_TO_synchCall&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_QsSYvld1EeeC75Gc-lhA5A" value="&quot;RR: CHANGE_LITERAL_Message_messageSort_FROM_reply_TO_synchCall&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_QsSYv1d1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_QsSYwFd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_QsSYwVd1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_QsSYwld1EeeC75Gc-lhA5A" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_QsSYw1d1EeeC75Gc-lhA5A" name="" outgoing="_QsSYyld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_QsSYxFd1EeeC75Gc-lhA5A" source="_QsSYt1d1EeeC75Gc-lhA5A" target="_QsSYtld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedA"/>
+      </edges>
+      <edges xmi:id="_QsSYxVd1EeeC75Gc-lhA5A" source="_QsSYt1d1EeeC75Gc-lhA5A" target="_QsSYtVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/matching/model#//Correspondence/matchedB"/>
+      </edges>
+      <edges xmi:id="_QsSYxld1EeeC75Gc-lhA5A" source="_QsSYuFd1EeeC75Gc-lhA5A" target="_QsSYtld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objA"/>
+      </edges>
+      <edges xmi:id="_QsSYx1d1EeeC75Gc-lhA5A" source="_QsSYuFd1EeeC75Gc-lhA5A" target="_QsSYtVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/objB"/>
+      </edges>
+      <edges xmi:id="_QsSYyFd1EeeC75Gc-lhA5A" source="_QsSYuFd1EeeC75Gc-lhA5A" target="_QsSYuVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AttributeValueChange/type"/>
+      </edges>
+      <edges xmi:id="_QsSYyVd1EeeC75Gc-lhA5A" source="_QsSYuld1EeeC75Gc-lhA5A" target="_QsSYuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_QsSYyld1EeeC75Gc-lhA5A" source="_QsSYw1d1EeeC75Gc-lhA5A" target="_QsSYuld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_QsSYy1d1EeeC75Gc-lhA5A" origin="_QsSYpld1EeeC75Gc-lhA5A" image="_QsSYtVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QsSYzFd1EeeC75Gc-lhA5A" origin="_QsSYqFd1EeeC75Gc-lhA5A" image="_QsSYtld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QsSYzVd1EeeC75Gc-lhA5A" origin="_QsSYqld1EeeC75Gc-lhA5A" image="_QsSYt1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QsSYzld1EeeC75Gc-lhA5A" origin="_QsSYq1d1EeeC75Gc-lhA5A" image="_QsSYuFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QsSYz1d1EeeC75Gc-lhA5A" origin="_QsSYrFd1EeeC75Gc-lhA5A" image="_QsSYuVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_QsSY0Fd1EeeC75Gc-lhA5A" origin="_QsSYrld1EeeC75Gc-lhA5A" image="_QsSYw1d1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bYkacA8OEeeospYCu75rcw" name="DELETE_Constraint_IN_TemplateParameter_(ownedDefault)" description="Deletes one Constraint in TemplateParameter">
+  <annotations xmi:id="_bYkacQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_Constraint_IN_TemplateParameter_(ownedDefault)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_bYkacg8OEeeospYCu75rcw" name="deleteConstraint_IN_TemplateParameter" description="deletes one Constraint in the context: TemplateParameter">
+    <parameters xmi:id="_bYkacw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bYkadA8OEeeospYCu75rcw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_bYkadQ8OEeeospYCu75rcw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <lhs xmi:id="_bYkadg8OEeeospYCu75rcw" name="LHS">
+      <nodes xmi:id="_bYkadw8OEeeospYCu75rcw" name="Selected" outgoing="_bYkafA8OEeeospYCu75rcw">
+        <annotations xmi:id="_bYkaeA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <nodes xmi:id="_bYkaeQ8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_bYkafA8OEeeospYCu75rcw" outgoing="_bYkafQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_bYkaeg8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_bYkaew8OEeeospYCu75rcw" name="Child" incoming="_bYkafQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+      </nodes>
+      <edges xmi:id="_bYkafA8OEeeospYCu75rcw" source="_bYkadw8OEeeospYCu75rcw" target="_bYkaeQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter/ownedDefault"/>
+      </edges>
+      <edges xmi:id="_bYkafQ8OEeeospYCu75rcw" source="_bYkaeQ8OEeeospYCu75rcw" target="_bYkaew8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bYkafg8OEeeospYCu75rcw" name="RHS">
+      <nodes xmi:id="_bYkafw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_bYkagA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_bYkagQ8OEeeospYCu75rcw" origin="_bYkadw8OEeeospYCu75rcw" image="_bYkafw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_bYkagg8OEeeospYCu75rcw" name="mainUnit" subUnits="_bYkacg8OEeeospYCu75rcw">
+    <parameters xmi:id="_bYkagw8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_bYkahA8OEeeospYCu75rcw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_bYkahQ8OEeeospYCu75rcw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameterMappings xmi:id="_bYkahg8OEeeospYCu75rcw" source="_bYkagw8OEeeospYCu75rcw" target="_bYkacw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bYkahw8OEeeospYCu75rcw" source="_bYkahA8OEeeospYCu75rcw" target="_bYkadA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_bYkaiA8OEeeospYCu75rcw" source="_bYkahQ8OEeeospYCu75rcw" target="_bYkadQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

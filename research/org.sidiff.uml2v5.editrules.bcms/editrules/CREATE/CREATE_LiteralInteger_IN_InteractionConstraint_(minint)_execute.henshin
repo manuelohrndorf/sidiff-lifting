@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YJFmsA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_InteractionConstraint_(minint)" description="Creates one LiteralInteger in InteractionConstraint">
+  <annotations xmi:id="_YJFmsQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_InteractionConstraint_(minint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YJFmsg8OEeeospYCu75rcw" name="createLiteralInteger_IN_InteractionConstraint" description="creates one LiteralInteger in the context: InteractionConstraint">
+    <parameters xmi:id="_YJFmsw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_YJFmtA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_YJFmtQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_YJFmtg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_YJFmtw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_YJFmuA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YJFmuQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_YJFmug8OEeeospYCu75rcw" name="Selected" outgoing="_YJFmvw8OEeeospYCu75rcw">
+        <annotations xmi:id="_YJFmuw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+      <nodes xmi:id="_YJFmvA8OEeeospYCu75rcw" name="New" incoming="_YJFmvw8OEeeospYCu75rcw">
+        <annotations xmi:id="_YJFmvQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_YJFmvg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_YJFmvw8OEeeospYCu75rcw" source="_YJFmug8OEeeospYCu75rcw" target="_YJFmvA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint/minint"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YJFmwA8OEeeospYCu75rcw" origin="_YJFmtw8OEeeospYCu75rcw" image="_YJFmug8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YJFmwQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_YJFmsg8OEeeospYCu75rcw">
+    <parameters xmi:id="_YJFmwg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_YJFmww8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_YJFmxA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_YJFmxQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_YJFmxg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_YJFmxw8OEeeospYCu75rcw" source="_YJFmwg8OEeeospYCu75rcw" target="_YJFmsw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YJFmyA8OEeeospYCu75rcw" source="_YJFmtA8OEeeospYCu75rcw" target="_YJFmxA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YJFmyQ8OEeeospYCu75rcw" source="_YJFmxg8OEeeospYCu75rcw" target="_YJFmtQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

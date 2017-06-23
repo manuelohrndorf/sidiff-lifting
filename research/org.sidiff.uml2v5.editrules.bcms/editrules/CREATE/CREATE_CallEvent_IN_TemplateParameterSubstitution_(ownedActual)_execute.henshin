@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_eN5BwA8OEeeospYCu75rcw" name="CREATE_CallEvent_IN_TemplateParameterSubstitution_(ownedActual)" description="Creates one CallEvent in TemplateParameterSubstitution">
+  <annotations xmi:id="_eN5BwQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_CallEvent_IN_TemplateParameterSubstitution_(ownedActual)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_eN5Bwg8OEeeospYCu75rcw" name="createCallEvent_IN_TemplateParameterSubstitution" description="creates one CallEvent in the context: TemplateParameterSubstitution">
+    <parameters xmi:id="_eN5Bww8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+    </parameters>
+    <parameters xmi:id="_eN5BxA8OEeeospYCu75rcw" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_eN5BxQ8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallEvent"/>
+    </parameters>
+    <lhs xmi:id="_eN5Bxg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_eN5Bxw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_eN5ByA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+      </nodes>
+      <nodes xmi:id="_eN5ByQ8OEeeospYCu75rcw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_eN5Byg8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_eN5Byw8OEeeospYCu75rcw" name="Selected" outgoing="_eN5B0A8OEeeospYCu75rcw">
+        <annotations xmi:id="_eN5BzA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+      </nodes>
+      <nodes xmi:id="_eN5BzQ8OEeeospYCu75rcw" name="New" incoming="_eN5B0A8OEeeospYCu75rcw" outgoing="_eN5B0Q8OEeeospYCu75rcw">
+        <annotations xmi:id="_eN5Bzg8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CallEvent"/>
+      </nodes>
+      <nodes xmi:id="_eN5Bzw8OEeeospYCu75rcw" name="Existing" incoming="_eN5B0Q8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <edges xmi:id="_eN5B0A8OEeeospYCu75rcw" source="_eN5Byw8OEeeospYCu75rcw" target="_eN5BzQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution/ownedActual"/>
+      </edges>
+      <edges xmi:id="_eN5B0Q8OEeeospYCu75rcw" source="_eN5BzQ8OEeeospYCu75rcw" target="_eN5Bzw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CallEvent/operation"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eN5B0g8OEeeospYCu75rcw" origin="_eN5Bxw8OEeeospYCu75rcw" image="_eN5Byw8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_eN5B0w8OEeeospYCu75rcw" origin="_eN5ByQ8OEeeospYCu75rcw" image="_eN5Bzw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_eN5B1A8OEeeospYCu75rcw" name="mainUnit" subUnits="_eN5Bwg8OEeeospYCu75rcw">
+    <parameters xmi:id="_eN5B1Q8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_eN5B1g8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
+    </parameters>
+    <parameters xmi:id="_eN5B1w8OEeeospYCu75rcw" name="Existing">
+      <annotations xmi:id="_eN5B2A8OEeeospYCu75rcw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_eN5B2Q8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_eN5B2g8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallEvent"/>
+    </parameters>
+    <parameterMappings xmi:id="_eN5B2w8OEeeospYCu75rcw" source="_eN5B1Q8OEeeospYCu75rcw" target="_eN5Bww8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_eN5B3A8OEeeospYCu75rcw" source="_eN5B1w8OEeeospYCu75rcw" target="_eN5BxA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_eN5B3Q8OEeeospYCu75rcw" source="_eN5BxQ8OEeeospYCu75rcw" target="_eN5B2Q8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

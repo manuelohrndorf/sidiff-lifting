@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_W-KrsA8OEeeospYCu75rcw" name="CREATE_OpaqueExpression_IN_Lifeline_(selector)" description="Creates one OpaqueExpression in Lifeline">
+  <annotations xmi:id="_W-KrsQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_OpaqueExpression_IN_Lifeline_(selector)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_W-Krsg8OEeeospYCu75rcw" name="createOpaqueExpression_IN_Lifeline" description="creates one OpaqueExpression in the context: Lifeline">
+    <parameters xmi:id="_W-Krsw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_W-KrtA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <lhs xmi:id="_W-KrtQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_W-Krtg8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_W-Krtw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_W-KruA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_W-KruQ8OEeeospYCu75rcw" name="Selected" outgoing="_W-KrvQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_W-Krug8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+      </nodes>
+      <nodes xmi:id="_W-Kruw8OEeeospYCu75rcw" name="New" incoming="_W-KrvQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_W-KrvA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+      </nodes>
+      <edges xmi:id="_W-KrvQ8OEeeospYCu75rcw" source="_W-KruQ8OEeeospYCu75rcw" target="_W-Kruw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline/selector"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_W-Krvg8OEeeospYCu75rcw" origin="_W-Krtg8OEeeospYCu75rcw" image="_W-KruQ8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_W-Krvw8OEeeospYCu75rcw" name="mainUnit" subUnits="_W-Krsg8OEeeospYCu75rcw">
+    <parameters xmi:id="_W-KrwA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_W-KrwQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Lifeline"/>
+    </parameters>
+    <parameters xmi:id="_W-Krwg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_W-Krww8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameterMappings xmi:id="_W-KrxA8OEeeospYCu75rcw" source="_W-KrwA8OEeeospYCu75rcw" target="_W-Krsw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_W-KrxQ8OEeeospYCu75rcw" source="_W-KrtA8OEeeospYCu75rcw" target="_W-Krwg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

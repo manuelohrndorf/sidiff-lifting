@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WvmrQA8OEeeospYCu75rcw" name="DELETE_OpaqueBehavior_IN_State_(entry)" description="Deletes one OpaqueBehavior in State">
+  <annotations xmi:id="_WvmrQQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_OpaqueBehavior_IN_State_(entry)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WvmrQg8OEeeospYCu75rcw" name="deleteOpaqueBehavior_IN_State" description="deletes one OpaqueBehavior in the context: State">
+    <parameters xmi:id="_WvmrQw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_WvmrRA8OEeeospYCu75rcw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <lhs xmi:id="_WvmrRQ8OEeeospYCu75rcw" name="LHS">
+      <nodes xmi:id="_WvmrRg8OEeeospYCu75rcw" name="Selected" outgoing="_WvmrSg8OEeeospYCu75rcw">
+        <annotations xmi:id="_WvmrRw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_WvmrSA8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_WvmrSg8OEeeospYCu75rcw">
+        <annotations xmi:id="_WvmrSQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <edges xmi:id="_WvmrSg8OEeeospYCu75rcw" source="_WvmrRg8OEeeospYCu75rcw" target="_WvmrSA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/entry"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_WvmrSw8OEeeospYCu75rcw" name="RHS">
+      <nodes xmi:id="_WvmrTA8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_WvmrTQ8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_WvmrTg8OEeeospYCu75rcw" origin="_WvmrRg8OEeeospYCu75rcw" image="_WvmrTA8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WvmrTw8OEeeospYCu75rcw" name="mainUnit" subUnits="_WvmrQg8OEeeospYCu75rcw">
+    <parameters xmi:id="_WvmrUA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_WvmrUQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_WvmrUg8OEeeospYCu75rcw" name="ToBeDeleted">
+      <annotations xmi:id="_WvmrUw8OEeeospYCu75rcw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_WvmrVA8OEeeospYCu75rcw" source="_WvmrUA8OEeeospYCu75rcw" target="_WvmrQw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WvmrVQ8OEeeospYCu75rcw" source="_WvmrUg8OEeeospYCu75rcw" target="_WvmrRA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

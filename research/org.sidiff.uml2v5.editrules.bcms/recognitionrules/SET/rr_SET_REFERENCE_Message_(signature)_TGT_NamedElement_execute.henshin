@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_esVzAFd1EeeC75Gc-lhA5A" name="RR: SET_REFERENCE_Message_(signature)_TGT_NamedElement" description="Recognize: Sets Message's reference signature the target NamedElement">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_esVzAVd1EeeC75Gc-lhA5A" name="rr:setMessage_signature_TO_NamedElement" description="Recognize: SetMessageRefsignatureToNamedElement">
+    <parameters xmi:id="_esVzAld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+    </parameters>
+    <parameters xmi:id="_esVzA1d1EeeC75Gc-lhA5A" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+    </parameters>
+    <lhs xmi:id="_esVzBFd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_esVzBVd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_esVzC1d1EeeC75Gc-lhA5A" outgoing="_esVzDld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_esVzBld1EeeC75Gc-lhA5A" name="B.NewTarget" incoming="_esVzDFd1EeeC75Gc-lhA5A _esVzDld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_esVzB1d1EeeC75Gc-lhA5A" name="" outgoing="_esVzC1d1EeeC75Gc-lhA5A _esVzDFd1EeeC75Gc-lhA5A _esVzDVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_esVzCFd1EeeC75Gc-lhA5A" name="" incoming="_esVzDVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_esVzCVd1EeeC75Gc-lhA5A" value="&quot;signature&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_esVzCld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_esVzC1d1EeeC75Gc-lhA5A" source="_esVzB1d1EeeC75Gc-lhA5A" target="_esVzBVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_esVzDFd1EeeC75Gc-lhA5A" source="_esVzB1d1EeeC75Gc-lhA5A" target="_esVzBld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_esVzDVd1EeeC75Gc-lhA5A" source="_esVzB1d1EeeC75Gc-lhA5A" target="_esVzCFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_esVzDld1EeeC75Gc-lhA5A" source="_esVzBVd1EeeC75Gc-lhA5A" target="_esVzBld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/signature"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_esVzD1d1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_esVzEFd1EeeC75Gc-lhA5A" name="B.Selected" incoming="_esVzHld1EeeC75Gc-lhA5A" outgoing="_esVzIVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
+      </nodes>
+      <nodes xmi:id="_esVzEVd1EeeC75Gc-lhA5A" name="B.NewTarget" incoming="_esVzH1d1EeeC75Gc-lhA5A _esVzIVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+      </nodes>
+      <nodes xmi:id="_esVzEld1EeeC75Gc-lhA5A" name="" incoming="_esVzIld1EeeC75Gc-lhA5A" outgoing="_esVzHld1EeeC75Gc-lhA5A _esVzH1d1EeeC75Gc-lhA5A _esVzIFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_esVzE1d1EeeC75Gc-lhA5A" name="" incoming="_esVzIFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_esVzFFd1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_esVzI1d1EeeC75Gc-lhA5A" outgoing="_esVzIld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_esVzFVd1EeeC75Gc-lhA5A" value="&quot;SET_REFERENCE_Message_(signature)_TGT_NamedElement&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_esVzFld1EeeC75Gc-lhA5A" value="&quot;Sets Message's reference signature the target NamedElement&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_esVzF1d1EeeC75Gc-lhA5A" value="&quot;SET_REFERENCE_Message_(signature)_TGT_NamedElement&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_esVzGFd1EeeC75Gc-lhA5A" value="&quot;RR: SET_REFERENCE_Message_(signature)_TGT_NamedElement&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_esVzGVd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_esVzGld1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_esVzG1d1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_esVzHFd1EeeC75Gc-lhA5A" value="7">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_esVzHVd1EeeC75Gc-lhA5A" name="" outgoing="_esVzI1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_esVzHld1EeeC75Gc-lhA5A" source="_esVzEld1EeeC75Gc-lhA5A" target="_esVzEFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_esVzH1d1EeeC75Gc-lhA5A" source="_esVzEld1EeeC75Gc-lhA5A" target="_esVzEVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_esVzIFd1EeeC75Gc-lhA5A" source="_esVzEld1EeeC75Gc-lhA5A" target="_esVzE1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_esVzIVd1EeeC75Gc-lhA5A" source="_esVzEFd1EeeC75Gc-lhA5A" target="_esVzEVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/signature"/>
+      </edges>
+      <edges xmi:id="_esVzIld1EeeC75Gc-lhA5A" source="_esVzFFd1EeeC75Gc-lhA5A" target="_esVzEld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_esVzI1d1EeeC75Gc-lhA5A" source="_esVzHVd1EeeC75Gc-lhA5A" target="_esVzFFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_esVzJFd1EeeC75Gc-lhA5A" origin="_esVzBVd1EeeC75Gc-lhA5A" image="_esVzEFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_esVzJVd1EeeC75Gc-lhA5A" origin="_esVzBld1EeeC75Gc-lhA5A" image="_esVzEVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_esVzJld1EeeC75Gc-lhA5A" origin="_esVzB1d1EeeC75Gc-lhA5A" image="_esVzEld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_esVzJ1d1EeeC75Gc-lhA5A" origin="_esVzCFd1EeeC75Gc-lhA5A" image="_esVzE1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_esVzKFd1EeeC75Gc-lhA5A" origin="_esVzCld1EeeC75Gc-lhA5A" image="_esVzHVd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

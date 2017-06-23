@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_V2794A8OEeeospYCu75rcw" name="CREATE_Pseudostate_IN_State_(connectionPoint)" description="Creates one Pseudostate in State">
+  <annotations xmi:id="_V2794Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Pseudostate_IN_State_(connectionPoint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_V2794g8OEeeospYCu75rcw" name="createPseudostate_IN_State" description="creates one Pseudostate in the context: State">
+    <parameters xmi:id="_V2794w8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_V2795A8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_V2795Q8OEeeospYCu75rcw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_V2795g8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_V2795w8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_V2796A8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_V2796Q8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_V2796g8OEeeospYCu75rcw" name="Selected" incoming="_V2798A8OEeeospYCu75rcw" outgoing="_V2797w8OEeeospYCu75rcw">
+        <annotations xmi:id="_V2796w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_V2797A8OEeeospYCu75rcw" name="New" incoming="_V2797w8OEeeospYCu75rcw" outgoing="_V2798A8OEeeospYCu75rcw">
+        <annotations xmi:id="_V2797Q8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_V2797g8OEeeospYCu75rcw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_V2797w8OEeeospYCu75rcw" source="_V2796g8OEeeospYCu75rcw" target="_V2797A8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_V2798A8OEeeospYCu75rcw" source="_V2797A8OEeeospYCu75rcw" target="_V2796g8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/state"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_V2798Q8OEeeospYCu75rcw" origin="_V2795w8OEeeospYCu75rcw" image="_V2796g8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_V2798g8OEeeospYCu75rcw" name="mainUnit" subUnits="_V2794g8OEeeospYCu75rcw">
+    <parameters xmi:id="_V2798w8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_V2799A8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_V2799Q8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_V2799g8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_V2799w8OEeeospYCu75rcw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_V279-A8OEeeospYCu75rcw" source="_V2798w8OEeeospYCu75rcw" target="_V2794w8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_V279-Q8OEeeospYCu75rcw" source="_V2795A8OEeeospYCu75rcw" target="_V2799Q8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_V279-g8OEeeospYCu75rcw" source="_V2799w8OEeeospYCu75rcw" target="_V2795Q8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

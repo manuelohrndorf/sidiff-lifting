@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZFK0cA8OEeeospYCu75rcw" name="CREATE_OpaqueBehavior_IN_Component_(packagedElement)" description="Creates one OpaqueBehavior in Component">
+  <annotations xmi:id="_ZFK0cQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_OpaqueBehavior_IN_Component_(packagedElement)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ZFK0cg8OEeeospYCu75rcw" name="createOpaqueBehavior_IN_Component" description="creates one OpaqueBehavior in the context: Component">
+    <parameters xmi:id="_ZFK0cw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Component"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0dA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0dQ8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0dg8OEeeospYCu75rcw" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0dw8OEeeospYCu75rcw" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0eA8OEeeospYCu75rcw" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_ZFK0eQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_ZFK0eg8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_ZFK0ew8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Component"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_ZFK0fA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_ZFK0fQ8OEeeospYCu75rcw" name="Selected" outgoing="_ZFK0hQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZFK0fg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Component"/>
+      </nodes>
+      <nodes xmi:id="_ZFK0fw8OEeeospYCu75rcw" name="New" incoming="_ZFK0hQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_ZFK0gA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+        <attributes xmi:id="_ZFK0gQ8OEeeospYCu75rcw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_ZFK0gg8OEeeospYCu75rcw" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_ZFK0gw8OEeeospYCu75rcw" value="IsFinalSpecialization">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
+        </attributes>
+        <attributes xmi:id="_ZFK0hA8OEeeospYCu75rcw" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ZFK0hQ8OEeeospYCu75rcw" source="_ZFK0fQ8OEeeospYCu75rcw" target="_ZFK0fw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Component/packagedElement"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ZFK0hg8OEeeospYCu75rcw" origin="_ZFK0eg8OEeeospYCu75rcw" image="_ZFK0fQ8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZFK0hw8OEeeospYCu75rcw" name="mainUnit" subUnits="_ZFK0cg8OEeeospYCu75rcw">
+    <parameters xmi:id="_ZFK0iA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_ZFK0iQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Component"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0ig8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_ZFK0iw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0jA8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0jQ8OEeeospYCu75rcw" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0jg8OEeeospYCu75rcw" name="IsFinalSpecialization">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_ZFK0jw8OEeeospYCu75rcw" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_ZFK0kA8OEeeospYCu75rcw" source="_ZFK0iA8OEeeospYCu75rcw" target="_ZFK0cw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZFK0kQ8OEeeospYCu75rcw" source="_ZFK0dA8OEeeospYCu75rcw" target="_ZFK0ig8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZFK0kg8OEeeospYCu75rcw" source="_ZFK0jA8OEeeospYCu75rcw" target="_ZFK0dQ8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZFK0kw8OEeeospYCu75rcw" source="_ZFK0jQ8OEeeospYCu75rcw" target="_ZFK0dg8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZFK0lA8OEeeospYCu75rcw" source="_ZFK0jg8OEeeospYCu75rcw" target="_ZFK0dw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_ZFK0lQ8OEeeospYCu75rcw" source="_ZFK0jw8OEeeospYCu75rcw" target="_ZFK0eA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

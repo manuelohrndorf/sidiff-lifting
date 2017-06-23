@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YlWE4A8OEeeospYCu75rcw" name="CREATE_Operation_IN_TemplateParameter_(ownedParameteredElement)" description="Creates one Operation in TemplateParameter">
+  <annotations xmi:id="_YlWE4Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Operation_IN_TemplateParameter_(ownedParameteredElement)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_YlWE4g8OEeeospYCu75rcw" name="createOperation_IN_TemplateParameter" description="creates one Operation in the context: TemplateParameter">
+    <parameters xmi:id="_YlWE4w8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_YlWE5A8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_YlWE5Q8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWE5g8OEeeospYCu75rcw" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWE5w8OEeeospYCu75rcw" name="Concurrency">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <parameters xmi:id="_YlWE6A8OEeeospYCu75rcw" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWE6Q8OEeeospYCu75rcw" name="IsQuery">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_YlWE6g8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_YlWE6w8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_YlWE7A8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_YlWE7Q8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_YlWE7g8OEeeospYCu75rcw" name="Selected" incoming="_YlWE-A8OEeeospYCu75rcw" outgoing="_YlWE9w8OEeeospYCu75rcw">
+        <annotations xmi:id="_YlWE7w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <nodes xmi:id="_YlWE8A8OEeeospYCu75rcw" name="New" incoming="_YlWE9w8OEeeospYCu75rcw" outgoing="_YlWE-A8OEeeospYCu75rcw">
+        <annotations xmi:id="_YlWE8Q8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+        <attributes xmi:id="_YlWE8g8OEeeospYCu75rcw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+        <attributes xmi:id="_YlWE8w8OEeeospYCu75rcw" value="IsStatic">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+        <attributes xmi:id="_YlWE9A8OEeeospYCu75rcw" value="Concurrency">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
+        </attributes>
+        <attributes xmi:id="_YlWE9Q8OEeeospYCu75rcw" value="IsAbstract">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/isAbstract"/>
+        </attributes>
+        <attributes xmi:id="_YlWE9g8OEeeospYCu75rcw" value="IsQuery">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/isQuery"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_YlWE9w8OEeeospYCu75rcw" source="_YlWE7g8OEeeospYCu75rcw" target="_YlWE8A8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter/ownedParameteredElement"/>
+      </edges>
+      <edges xmi:id="_YlWE-A8OEeeospYCu75rcw" source="_YlWE8A8OEeeospYCu75rcw" target="_YlWE7g8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterableElement/owningTemplateParameter"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_YlWE-Q8OEeeospYCu75rcw" origin="_YlWE6w8OEeeospYCu75rcw" image="_YlWE7g8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YlWE-g8OEeeospYCu75rcw" name="mainUnit" subUnits="_YlWE4g8OEeeospYCu75rcw">
+    <parameters xmi:id="_YlWE-w8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_YlWE_A8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameters xmi:id="_YlWE_Q8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_YlWE_g8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_YlWE_w8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWFAA8OEeeospYCu75rcw" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWFAQ8OEeeospYCu75rcw" name="Concurrency">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <parameters xmi:id="_YlWFAg8OEeeospYCu75rcw" name="IsAbstract">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters xmi:id="_YlWFAw8OEeeospYCu75rcw" name="IsQuery">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_YlWFBA8OEeeospYCu75rcw" source="_YlWE-w8OEeeospYCu75rcw" target="_YlWE4w8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFBQ8OEeeospYCu75rcw" source="_YlWE5A8OEeeospYCu75rcw" target="_YlWE_Q8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFBg8OEeeospYCu75rcw" source="_YlWE_w8OEeeospYCu75rcw" target="_YlWE5Q8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFBw8OEeeospYCu75rcw" source="_YlWFAA8OEeeospYCu75rcw" target="_YlWE5g8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFCA8OEeeospYCu75rcw" source="_YlWFAQ8OEeeospYCu75rcw" target="_YlWE5w8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFCQ8OEeeospYCu75rcw" source="_YlWFAg8OEeeospYCu75rcw" target="_YlWE6A8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_YlWFCg8OEeeospYCu75rcw" source="_YlWFAw8OEeeospYCu75rcw" target="_YlWE6Q8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

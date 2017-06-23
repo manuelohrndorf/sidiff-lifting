@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_eHs04Fd1EeeC75Gc-lhA5A" name="RR: REMOVE_Property_(subsettedProperty)_TGT_Property" description="Recognize: Removes Property's reference subsettedProperty the target Property">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_eHs04Vd1EeeC75Gc-lhA5A" name="rr:removeFromProperty_subsettedProperty_Property" description="Recognize: Removes from Property's reference subsettedProperty the target Property">
+    <parameters xmi:id="_eHs04ld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_eHs041d1EeeC75Gc-lhA5A" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_eHs05Fd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_eHs05Vd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_eHs061d1EeeC75Gc-lhA5A" outgoing="_eHs07ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_eHs05ld1EeeC75Gc-lhA5A" name="A.OldTarget" incoming="_eHs07Fd1EeeC75Gc-lhA5A _eHs07ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_eHs051d1EeeC75Gc-lhA5A" name="" outgoing="_eHs061d1EeeC75Gc-lhA5A _eHs07Fd1EeeC75Gc-lhA5A _eHs07Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_eHs06Fd1EeeC75Gc-lhA5A" name="" incoming="_eHs07Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_eHs06Vd1EeeC75Gc-lhA5A" value="&quot;subsettedProperty&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eHs06ld1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_eHs061d1EeeC75Gc-lhA5A" source="_eHs051d1EeeC75Gc-lhA5A" target="_eHs05Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_eHs07Fd1EeeC75Gc-lhA5A" source="_eHs051d1EeeC75Gc-lhA5A" target="_eHs05ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_eHs07Vd1EeeC75Gc-lhA5A" source="_eHs051d1EeeC75Gc-lhA5A" target="_eHs06Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_eHs07ld1EeeC75Gc-lhA5A" source="_eHs05Vd1EeeC75Gc-lhA5A" target="_eHs05ld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/subsettedProperty"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_eHs071d1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_eHs08Fd1EeeC75Gc-lhA5A" name="A.Selected" incoming="_eHs0_ld1EeeC75Gc-lhA5A" outgoing="_eHs1AVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_eHs08Vd1EeeC75Gc-lhA5A" name="A.OldTarget" incoming="_eHs0_1d1EeeC75Gc-lhA5A _eHs1AVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_eHs08ld1EeeC75Gc-lhA5A" name="" incoming="_eHs1Ald1EeeC75Gc-lhA5A" outgoing="_eHs0_ld1EeeC75Gc-lhA5A _eHs0_1d1EeeC75Gc-lhA5A _eHs1AFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_eHs081d1EeeC75Gc-lhA5A" name="" incoming="_eHs1AFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_eHs09Fd1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_eHs1A1d1EeeC75Gc-lhA5A" outgoing="_eHs1Ald1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_eHs09Vd1EeeC75Gc-lhA5A" value="&quot;REMOVE_Property_(subsettedProperty)_TGT_Property&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_eHs09ld1EeeC75Gc-lhA5A" value="&quot;Removes Property's reference subsettedProperty the target Property&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_eHs091d1EeeC75Gc-lhA5A" value="&quot;REMOVE_Property_(subsettedProperty)_TGT_Property&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_eHs0-Fd1EeeC75Gc-lhA5A" value="&quot;RR: REMOVE_Property_(subsettedProperty)_TGT_Property&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_eHs0-Vd1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_eHs0-ld1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_eHs0-1d1EeeC75Gc-lhA5A" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_eHs0_Fd1EeeC75Gc-lhA5A" value="24">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_eHs0_Vd1EeeC75Gc-lhA5A" name="" outgoing="_eHs1A1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_eHs0_ld1EeeC75Gc-lhA5A" source="_eHs08ld1EeeC75Gc-lhA5A" target="_eHs08Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_eHs0_1d1EeeC75Gc-lhA5A" source="_eHs08ld1EeeC75Gc-lhA5A" target="_eHs08Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_eHs1AFd1EeeC75Gc-lhA5A" source="_eHs08ld1EeeC75Gc-lhA5A" target="_eHs081d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_eHs1AVd1EeeC75Gc-lhA5A" source="_eHs08Fd1EeeC75Gc-lhA5A" target="_eHs08Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/subsettedProperty"/>
+      </edges>
+      <edges xmi:id="_eHs1Ald1EeeC75Gc-lhA5A" source="_eHs09Fd1EeeC75Gc-lhA5A" target="_eHs08ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_eHs1A1d1EeeC75Gc-lhA5A" source="_eHs0_Vd1EeeC75Gc-lhA5A" target="_eHs09Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_eHs1BFd1EeeC75Gc-lhA5A" origin="_eHs05Vd1EeeC75Gc-lhA5A" image="_eHs08Fd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eHs1BVd1EeeC75Gc-lhA5A" origin="_eHs05ld1EeeC75Gc-lhA5A" image="_eHs08Vd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eHs1Bld1EeeC75Gc-lhA5A" origin="_eHs051d1EeeC75Gc-lhA5A" image="_eHs08ld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eHs1B1d1EeeC75Gc-lhA5A" origin="_eHs06Fd1EeeC75Gc-lhA5A" image="_eHs081d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_eHs1CFd1EeeC75Gc-lhA5A" origin="_eHs06ld1EeeC75Gc-lhA5A" image="_eHs0_Vd1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

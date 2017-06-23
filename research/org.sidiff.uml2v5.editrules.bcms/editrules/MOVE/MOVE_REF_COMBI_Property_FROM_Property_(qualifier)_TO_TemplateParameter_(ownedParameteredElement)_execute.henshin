@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WI1mMA8OEeeospYCu75rcw" name="MOVE_REF_COMBI_Property_FROM_Property_(qualifier)_TO_TemplateParameter_(ownedParameteredElement)" description="MOVEs Property from Property(Reference:qualifier) to TemplateParameter(Reference:ownedParameteredElement">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WI1mMQ8OEeeospYCu75rcw" name="moveProperty_FROM_Property_qualifier_TO_TemplateParameter_TemplateParameter" description="Moves Property from Property(Reference:qualifier) toTemplateParameter(Reference:TemplateParameter)">
+    <parameters xmi:id="_WI1mMg8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_WI1mMw8OEeeospYCu75rcw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_WI1mNA8OEeeospYCu75rcw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <lhs xmi:id="_WI1mNQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WI1mNg8OEeeospYCu75rcw" name="Selected" incoming="_WI1mOQ8OEeeospYCu75rcw" outgoing="_WI1mOg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_WI1mNw8OEeeospYCu75rcw" name="OldSource" incoming="_WI1mOg8OEeeospYCu75rcw" outgoing="_WI1mOQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_WI1mOA8OEeeospYCu75rcw" name="NewSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <edges xmi:id="_WI1mOQ8OEeeospYCu75rcw" source="_WI1mNw8OEeeospYCu75rcw" target="_WI1mNg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/qualifier"/>
+      </edges>
+      <edges xmi:id="_WI1mOg8OEeeospYCu75rcw" source="_WI1mNg8OEeeospYCu75rcw" target="_WI1mNw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/associationEnd"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_WI1mOw8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WI1mPA8OEeeospYCu75rcw" name="Selected" incoming="_WI1mPw8OEeeospYCu75rcw" outgoing="_WI1mQA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_WI1mPQ8OEeeospYCu75rcw" name="OldSource">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_WI1mPg8OEeeospYCu75rcw" name="NewSource" incoming="_WI1mQA8OEeeospYCu75rcw" outgoing="_WI1mPw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+      </nodes>
+      <edges xmi:id="_WI1mPw8OEeeospYCu75rcw" source="_WI1mPg8OEeeospYCu75rcw" target="_WI1mPA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter/ownedParameteredElement"/>
+      </edges>
+      <edges xmi:id="_WI1mQA8OEeeospYCu75rcw" source="_WI1mPA8OEeeospYCu75rcw" target="_WI1mPg8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterableElement/owningTemplateParameter"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WI1mQQ8OEeeospYCu75rcw" origin="_WI1mNg8OEeeospYCu75rcw" image="_WI1mPA8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_WI1mQg8OEeeospYCu75rcw" origin="_WI1mNw8OEeeospYCu75rcw" image="_WI1mPQ8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_WI1mQw8OEeeospYCu75rcw" origin="_WI1mOA8OEeeospYCu75rcw" image="_WI1mPg8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WI1mRA8OEeeospYCu75rcw" name="mainUnit" subUnits="_WI1mMQ8OEeeospYCu75rcw">
+    <parameters xmi:id="_WI1mRQ8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_WI1mRg8OEeeospYCu75rcw" name="OldSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_WI1mRw8OEeeospYCu75rcw" name="NewSource">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameter"/>
+    </parameters>
+    <parameterMappings xmi:id="_WI1mSA8OEeeospYCu75rcw" source="_WI1mRQ8OEeeospYCu75rcw" target="_WI1mMg8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WI1mSQ8OEeeospYCu75rcw" source="_WI1mRg8OEeeospYCu75rcw" target="_WI1mMw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WI1mSg8OEeeospYCu75rcw" source="_WI1mRw8OEeeospYCu75rcw" target="_WI1mNA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

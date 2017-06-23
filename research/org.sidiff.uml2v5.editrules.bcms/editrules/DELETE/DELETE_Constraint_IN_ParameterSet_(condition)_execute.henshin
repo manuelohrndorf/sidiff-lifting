@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_adWvYA8OEeeospYCu75rcw" name="DELETE_Constraint_IN_ParameterSet_(condition)" description="Deletes one Constraint in ParameterSet">
+  <annotations xmi:id="_adWvYQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_Constraint_IN_ParameterSet_(condition)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_adWvYg8OEeeospYCu75rcw" name="deleteConstraint_IN_ParameterSet" description="deletes one Constraint in the context: ParameterSet">
+    <parameters xmi:id="_adWvYw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterSet"/>
+    </parameters>
+    <parameters xmi:id="_adWvZA8OEeeospYCu75rcw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_adWvZQ8OEeeospYCu75rcw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <lhs xmi:id="_adWvZg8OEeeospYCu75rcw" name="LHS">
+      <nodes xmi:id="_adWvZw8OEeeospYCu75rcw" name="Selected" outgoing="_adWvbA8OEeeospYCu75rcw">
+        <annotations xmi:id="_adWvaA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterSet"/>
+      </nodes>
+      <nodes xmi:id="_adWvaQ8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_adWvbA8OEeeospYCu75rcw" outgoing="_adWvbQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_adWvag8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_adWvaw8OEeeospYCu75rcw" name="Child" incoming="_adWvbQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+      </nodes>
+      <edges xmi:id="_adWvbA8OEeeospYCu75rcw" source="_adWvZw8OEeeospYCu75rcw" target="_adWvaQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterSet/condition"/>
+      </edges>
+      <edges xmi:id="_adWvbQ8OEeeospYCu75rcw" source="_adWvaQ8OEeeospYCu75rcw" target="_adWvaw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_adWvbg8OEeeospYCu75rcw" name="RHS">
+      <nodes xmi:id="_adWvbw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_adWvcA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterSet"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_adWvcQ8OEeeospYCu75rcw" origin="_adWvZw8OEeeospYCu75rcw" image="_adWvbw8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_adWvcg8OEeeospYCu75rcw" name="mainUnit" subUnits="_adWvYg8OEeeospYCu75rcw">
+    <parameters xmi:id="_adWvcw8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ParameterSet"/>
+    </parameters>
+    <parameters xmi:id="_adWvdA8OEeeospYCu75rcw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_adWvdQ8OEeeospYCu75rcw" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameterMappings xmi:id="_adWvdg8OEeeospYCu75rcw" source="_adWvcw8OEeeospYCu75rcw" target="_adWvYw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_adWvdw8OEeeospYCu75rcw" source="_adWvdA8OEeeospYCu75rcw" target="_adWvZA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_adWveA8OEeeospYCu75rcw" source="_adWvdQ8OEeeospYCu75rcw" target="_adWvZQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

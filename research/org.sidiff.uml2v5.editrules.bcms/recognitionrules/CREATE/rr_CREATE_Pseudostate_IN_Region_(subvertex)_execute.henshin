@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Rl-ZsFd1EeeC75Gc-lhA5A" name="RR: CREATE_Pseudostate_IN_Region_(subvertex)" description="Recognize: Creates one Pseudostate in Region">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_Rl-ZsVd1EeeC75Gc-lhA5A" name="rr:createPseudostate_IN_Region" description="Recognize: creates one Pseudostate in the context: Region">
+    <parameters xmi:id="_Rl-Zsld1EeeC75Gc-lhA5A" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_Rl-Zs1d1EeeC75Gc-lhA5A" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_Rl-ZtFd1EeeC75Gc-lhA5A" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_Rl-ZtVd1EeeC75Gc-lhA5A" name="Lhs">
+      <nodes xmi:id="_Rl-Ztld1EeeC75Gc-lhA5A" name="B.Selected" incoming="_Rl-Zwld1EeeC75Gc-lhA5A _Rl-Zx1d1EeeC75Gc-lhA5A _Rl-ZyVd1EeeC75Gc-lhA5A" outgoing="_Rl-ZxVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Zt1d1EeeC75Gc-lhA5A" name="" outgoing="_Rl-ZwVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_Rl-ZuFd1EeeC75Gc-lhA5A" name="B.New" incoming="_Rl-ZwVd1EeeC75Gc-lhA5A _Rl-Zw1d1EeeC75Gc-lhA5A _Rl-ZxVd1EeeC75Gc-lhA5A _Rl-Zxld1EeeC75Gc-lhA5A" outgoing="_Rl-ZyVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_Rl-ZuVd1EeeC75Gc-lhA5A" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Rl-Zuld1EeeC75Gc-lhA5A" name="" outgoing="_Rl-Zwld1EeeC75Gc-lhA5A _Rl-Zw1d1EeeC75Gc-lhA5A _Rl-ZxFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Zu1d1EeeC75Gc-lhA5A" name="" incoming="_Rl-ZxFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Rl-ZvFd1EeeC75Gc-lhA5A" value="&quot;subvertex&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Rl-ZvVd1EeeC75Gc-lhA5A" name="" outgoing="_Rl-Zxld1EeeC75Gc-lhA5A _Rl-Zx1d1EeeC75Gc-lhA5A _Rl-ZyFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Zvld1EeeC75Gc-lhA5A" name="" incoming="_Rl-ZyFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_Rl-Zv1d1EeeC75Gc-lhA5A" value="&quot;container&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Rl-ZwFd1EeeC75Gc-lhA5A" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Rl-ZwVd1EeeC75Gc-lhA5A" source="_Rl-Zt1d1EeeC75Gc-lhA5A" target="_Rl-ZuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_Rl-Zwld1EeeC75Gc-lhA5A" source="_Rl-Zuld1EeeC75Gc-lhA5A" target="_Rl-Ztld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Rl-Zw1d1EeeC75Gc-lhA5A" source="_Rl-Zuld1EeeC75Gc-lhA5A" target="_Rl-ZuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Rl-ZxFd1EeeC75Gc-lhA5A" source="_Rl-Zuld1EeeC75Gc-lhA5A" target="_Rl-Zu1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Rl-ZxVd1EeeC75Gc-lhA5A" source="_Rl-Ztld1EeeC75Gc-lhA5A" target="_Rl-ZuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Rl-Zxld1EeeC75Gc-lhA5A" source="_Rl-ZvVd1EeeC75Gc-lhA5A" target="_Rl-ZuFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Rl-Zx1d1EeeC75Gc-lhA5A" source="_Rl-ZvVd1EeeC75Gc-lhA5A" target="_Rl-Ztld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Rl-ZyFd1EeeC75Gc-lhA5A" source="_Rl-ZvVd1EeeC75Gc-lhA5A" target="_Rl-Zvld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Rl-ZyVd1EeeC75Gc-lhA5A" source="_Rl-ZuFd1EeeC75Gc-lhA5A" target="_Rl-Ztld1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_Rl-Zyld1EeeC75Gc-lhA5A" name="Rhs">
+      <nodes xmi:id="_Rl-Zy1d1EeeC75Gc-lhA5A" name="B.Selected" incoming="_Rl-Z3Vd1EeeC75Gc-lhA5A _Rl-Z4ld1EeeC75Gc-lhA5A _Rl-Z5Fd1EeeC75Gc-lhA5A" outgoing="_Rl-Z4Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_Rl-ZzFd1EeeC75Gc-lhA5A" name="" incoming="_Rl-Z5Vd1EeeC75Gc-lhA5A" outgoing="_Rl-Z3Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_Rl-ZzVd1EeeC75Gc-lhA5A" name="B.New" incoming="_Rl-Z3Fd1EeeC75Gc-lhA5A _Rl-Z3ld1EeeC75Gc-lhA5A _Rl-Z4Fd1EeeC75Gc-lhA5A _Rl-Z4Vd1EeeC75Gc-lhA5A" outgoing="_Rl-Z5Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Zzld1EeeC75Gc-lhA5A" name="" incoming="_Rl-Z5ld1EeeC75Gc-lhA5A" outgoing="_Rl-Z3Vd1EeeC75Gc-lhA5A _Rl-Z3ld1EeeC75Gc-lhA5A _Rl-Z31d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Zz1d1EeeC75Gc-lhA5A" name="" incoming="_Rl-Z31d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Z0Fd1EeeC75Gc-lhA5A" name="" incoming="_Rl-Z51d1EeeC75Gc-lhA5A" outgoing="_Rl-Z4Vd1EeeC75Gc-lhA5A _Rl-Z4ld1EeeC75Gc-lhA5A _Rl-Z41d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Z0Vd1EeeC75Gc-lhA5A" name="" incoming="_Rl-Z41d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_Rl-Z0ld1EeeC75Gc-lhA5A" name="ChangeSet" incoming="_Rl-Z6Fd1EeeC75Gc-lhA5A" outgoing="_Rl-Z5Vd1EeeC75Gc-lhA5A _Rl-Z5ld1EeeC75Gc-lhA5A _Rl-Z51d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_Rl-Z01d1EeeC75Gc-lhA5A" value="&quot;CREATE_Pseudostate_IN_Region_(subvertex)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z1Fd1EeeC75Gc-lhA5A" value="&quot;Creates one Pseudostate in Region&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z1Vd1EeeC75Gc-lhA5A" value="&quot;CREATE_Pseudostate_IN_Region_(subvertex)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z1ld1EeeC75Gc-lhA5A" value="&quot;RR: CREATE_Pseudostate_IN_Region_(subvertex)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z11d1EeeC75Gc-lhA5A" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z2Fd1EeeC75Gc-lhA5A" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z2Vd1EeeC75Gc-lhA5A" value="3">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_Rl-Z2ld1EeeC75Gc-lhA5A" value="11">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Rl-Z21d1EeeC75Gc-lhA5A" name="" outgoing="_Rl-Z6Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_Rl-Z3Fd1EeeC75Gc-lhA5A" source="_Rl-ZzFd1EeeC75Gc-lhA5A" target="_Rl-ZzVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_Rl-Z3Vd1EeeC75Gc-lhA5A" source="_Rl-Zzld1EeeC75Gc-lhA5A" target="_Rl-Zy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Rl-Z3ld1EeeC75Gc-lhA5A" source="_Rl-Zzld1EeeC75Gc-lhA5A" target="_Rl-ZzVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Rl-Z31d1EeeC75Gc-lhA5A" source="_Rl-Zzld1EeeC75Gc-lhA5A" target="_Rl-Zz1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Rl-Z4Fd1EeeC75Gc-lhA5A" source="_Rl-Zy1d1EeeC75Gc-lhA5A" target="_Rl-ZzVd1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_Rl-Z4Vd1EeeC75Gc-lhA5A" source="_Rl-Z0Fd1EeeC75Gc-lhA5A" target="_Rl-ZzVd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_Rl-Z4ld1EeeC75Gc-lhA5A" source="_Rl-Z0Fd1EeeC75Gc-lhA5A" target="_Rl-Zy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_Rl-Z41d1EeeC75Gc-lhA5A" source="_Rl-Z0Fd1EeeC75Gc-lhA5A" target="_Rl-Z0Vd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_Rl-Z5Fd1EeeC75Gc-lhA5A" source="_Rl-ZzVd1EeeC75Gc-lhA5A" target="_Rl-Zy1d1EeeC75Gc-lhA5A">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
+      </edges>
+      <edges xmi:id="_Rl-Z5Vd1EeeC75Gc-lhA5A" source="_Rl-Z0ld1EeeC75Gc-lhA5A" target="_Rl-ZzFd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Rl-Z5ld1EeeC75Gc-lhA5A" source="_Rl-Z0ld1EeeC75Gc-lhA5A" target="_Rl-Zzld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Rl-Z51d1EeeC75Gc-lhA5A" source="_Rl-Z0ld1EeeC75Gc-lhA5A" target="_Rl-Z0Fd1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_Rl-Z6Fd1EeeC75Gc-lhA5A" source="_Rl-Z21d1EeeC75Gc-lhA5A" target="_Rl-Z0ld1EeeC75Gc-lhA5A">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_Rl-Z6Vd1EeeC75Gc-lhA5A" origin="_Rl-Ztld1EeeC75Gc-lhA5A" image="_Rl-Zy1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z6ld1EeeC75Gc-lhA5A" origin="_Rl-Zt1d1EeeC75Gc-lhA5A" image="_Rl-ZzFd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z61d1EeeC75Gc-lhA5A" origin="_Rl-ZuFd1EeeC75Gc-lhA5A" image="_Rl-ZzVd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z7Fd1EeeC75Gc-lhA5A" origin="_Rl-Zuld1EeeC75Gc-lhA5A" image="_Rl-Zzld1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z7Vd1EeeC75Gc-lhA5A" origin="_Rl-Zu1d1EeeC75Gc-lhA5A" image="_Rl-Zz1d1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z7ld1EeeC75Gc-lhA5A" origin="_Rl-ZvVd1EeeC75Gc-lhA5A" image="_Rl-Z0Fd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z71d1EeeC75Gc-lhA5A" origin="_Rl-Zvld1EeeC75Gc-lhA5A" image="_Rl-Z0Vd1EeeC75Gc-lhA5A"/>
+    <mappings xmi:id="_Rl-Z8Fd1EeeC75Gc-lhA5A" origin="_Rl-ZwFd1EeeC75Gc-lhA5A" image="_Rl-Z21d1EeeC75Gc-lhA5A"/>
+  </units>
+</henshin:Module>

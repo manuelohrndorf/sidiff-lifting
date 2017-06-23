@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_V3VmgA8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_MultiplicityElement_(lowerValue)" description="Creates one LiteralInteger in MultiplicityElement">
+  <annotations xmi:id="_V3VmgQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_MultiplicityElement_(lowerValue)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_V3Vmgg8OEeeospYCu75rcw" name="createLiteralInteger_IN_MultiplicityElement" description="creates one LiteralInteger in the context: MultiplicityElement">
+    <parameters xmi:id="_V3Vmgw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+    </parameters>
+    <parameters xmi:id="_V3VmhA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_V3VmhQ8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_V3Vmhg8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_V3Vmhw8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_V3VmiA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_V3VmiQ8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_V3Vmig8OEeeospYCu75rcw" name="Selected" outgoing="_V3Vmjw8OEeeospYCu75rcw">
+        <annotations xmi:id="_V3Vmiw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+      <nodes xmi:id="_V3VmjA8OEeeospYCu75rcw" name="New" incoming="_V3Vmjw8OEeeospYCu75rcw">
+        <annotations xmi:id="_V3VmjQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_V3Vmjg8OEeeospYCu75rcw" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_V3Vmjw8OEeeospYCu75rcw" source="_V3Vmig8OEeeospYCu75rcw" target="_V3VmjA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement/lowerValue"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_V3VmkA8OEeeospYCu75rcw" origin="_V3Vmhw8OEeeospYCu75rcw" image="_V3Vmig8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_V3VmkQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_V3Vmgg8OEeeospYCu75rcw">
+    <parameters xmi:id="_V3Vmkg8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_V3Vmkw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+    </parameters>
+    <parameters xmi:id="_V3VmlA8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_V3VmlQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_V3Vmlg8OEeeospYCu75rcw" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <parameterMappings xmi:id="_V3Vmlw8OEeeospYCu75rcw" source="_V3Vmkg8OEeeospYCu75rcw" target="_V3Vmgw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_V3VmmA8OEeeospYCu75rcw" source="_V3VmhA8OEeeospYCu75rcw" target="_V3VmlA8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_V3VmmQ8OEeeospYCu75rcw" source="_V3Vmlg8OEeeospYCu75rcw" target="_V3VmhQ8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

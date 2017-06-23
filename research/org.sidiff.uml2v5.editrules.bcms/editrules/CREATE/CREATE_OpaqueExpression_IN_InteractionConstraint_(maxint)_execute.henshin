@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_cgrSAA8OEeeospYCu75rcw" name="CREATE_OpaqueExpression_IN_InteractionConstraint_(maxint)" description="Creates one OpaqueExpression in InteractionConstraint">
+  <annotations xmi:id="_cgrSAQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_OpaqueExpression_IN_InteractionConstraint_(maxint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_cgrSAg8OEeeospYCu75rcw" name="createOpaqueExpression_IN_InteractionConstraint" description="creates one OpaqueExpression in the context: InteractionConstraint">
+    <parameters xmi:id="_cgrSAw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_cgrSBA8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <lhs xmi:id="_cgrSBQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_cgrSBg8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_cgrSBw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_cgrSCA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_cgrSCQ8OEeeospYCu75rcw" name="Selected" outgoing="_cgrSDQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_cgrSCg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+      <nodes xmi:id="_cgrSCw8OEeeospYCu75rcw" name="New" incoming="_cgrSDQ8OEeeospYCu75rcw">
+        <annotations xmi:id="_cgrSDA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+      </nodes>
+      <edges xmi:id="_cgrSDQ8OEeeospYCu75rcw" source="_cgrSCQ8OEeeospYCu75rcw" target="_cgrSCw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint/maxint"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_cgrSDg8OEeeospYCu75rcw" origin="_cgrSBg8OEeeospYCu75rcw" image="_cgrSCQ8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_cgrSDw8OEeeospYCu75rcw" name="mainUnit" subUnits="_cgrSAg8OEeeospYCu75rcw">
+    <parameters xmi:id="_cgrSEA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_cgrSEQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_cgrSEg8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_cgrSEw8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameterMappings xmi:id="_cgrSFA8OEeeospYCu75rcw" source="_cgrSEA8OEeeospYCu75rcw" target="_cgrSAw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_cgrSFQ8OEeeospYCu75rcw" source="_cgrSBA8OEeeospYCu75rcw" target="_cgrSEg8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

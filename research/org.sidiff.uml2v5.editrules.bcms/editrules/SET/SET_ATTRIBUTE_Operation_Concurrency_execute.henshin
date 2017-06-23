@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XSLz4A8OEeeospYCu75rcw" name="SET_ATTRIBUTE_Operation_Concurrency" description="Sets Operation Concurrency">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_XSLz4Q8OEeeospYCu75rcw" name="setOperationConcurrency" description="Sets the EAttribute concurrency">
+    <parameters xmi:id="_XSLz4g8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_XSLz4w8OEeeospYCu75rcw" name="Concurrency">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <lhs xmi:id="_XSLz5A8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_XSLz5Q8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_XSLz5g8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_XSLz5w8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+        <attributes xmi:id="_XSLz6A8OEeeospYCu75rcw" value="Concurrency">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_XSLz6Q8OEeeospYCu75rcw" origin="_XSLz5Q8OEeeospYCu75rcw" image="_XSLz5w8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_XSLz6g8OEeeospYCu75rcw" name="mainUnit" subUnits="_XSLz4Q8OEeeospYCu75rcw">
+    <parameters xmi:id="_XSLz6w8OEeeospYCu75rcw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_XSLz7A8OEeeospYCu75rcw" name="Concurrency">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_XSLz7Q8OEeeospYCu75rcw" source="_XSLz6w8OEeeospYCu75rcw" target="_XSLz4g8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_XSLz7g8OEeeospYCu75rcw" source="_XSLz7A8OEeeospYCu75rcw" target="_XSLz4w8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

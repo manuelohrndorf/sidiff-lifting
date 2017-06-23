@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WKw40A8OEeeospYCu75rcw" name="CREATE_Region_IN_StateMachine_(region)" description="Creates one Region in StateMachine">
+  <annotations xmi:id="_WKw40Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Region_IN_StateMachine_(region)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_WKw40g8OEeeospYCu75rcw" name="createRegion_IN_StateMachine" description="creates one Region in the context: StateMachine">
+    <parameters xmi:id="_WKw40w8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_WKw41A8OEeeospYCu75rcw" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_WKw41Q8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_WKw41g8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_WKw41w8OEeeospYCu75rcw" name="Selected">
+        <annotations xmi:id="_WKw42A8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_WKw42Q8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_WKw42g8OEeeospYCu75rcw" name="Selected" incoming="_WKw44A8OEeeospYCu75rcw" outgoing="_WKw43w8OEeeospYCu75rcw">
+        <annotations xmi:id="_WKw42w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_WKw43A8OEeeospYCu75rcw" name="New" incoming="_WKw43w8OEeeospYCu75rcw" outgoing="_WKw44A8OEeeospYCu75rcw">
+        <annotations xmi:id="_WKw43Q8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+        <attributes xmi:id="_WKw43g8OEeeospYCu75rcw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_WKw43w8OEeeospYCu75rcw" source="_WKw42g8OEeeospYCu75rcw" target="_WKw43A8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_WKw44A8OEeeospYCu75rcw" source="_WKw43A8OEeeospYCu75rcw" target="_WKw42g8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_WKw44Q8OEeeospYCu75rcw" origin="_WKw41w8OEeeospYCu75rcw" image="_WKw42g8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_WKw44g8OEeeospYCu75rcw" name="mainUnit" subUnits="_WKw40g8OEeeospYCu75rcw">
+    <parameters xmi:id="_WKw44w8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_WKw45A8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_WKw45Q8OEeeospYCu75rcw" name="New">
+      <annotations xmi:id="_WKw45g8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_WKw45w8OEeeospYCu75rcw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_WKw46A8OEeeospYCu75rcw" source="_WKw44w8OEeeospYCu75rcw" target="_WKw40w8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WKw46Q8OEeeospYCu75rcw" source="_WKw41A8OEeeospYCu75rcw" target="_WKw45Q8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_WKw46g8OEeeospYCu75rcw" source="_WKw45w8OEeeospYCu75rcw" target="_WKw41Q8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>

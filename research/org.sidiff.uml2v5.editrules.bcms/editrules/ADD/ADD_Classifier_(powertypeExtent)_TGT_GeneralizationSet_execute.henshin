@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_cGiTsA8OEeeospYCu75rcw" name="ADD_Classifier_(powertypeExtent)_TGT_GeneralizationSet" description="Adds to Classifier's reference powertypeExtent the target GeneralizationSet">
+  <annotations xmi:id="_cGiTsQ8OEeeospYCu75rcw" key="INVERSE" value="REMOVE_Classifier_(powertypeExtent)_TGT_GeneralizationSet"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_cGiTsg8OEeeospYCu75rcw" name="addToClassifier_powertypeExtent_GeneralizationSet" description="Adds to Classifier's reference powertypeExtent the target GeneralizationSet">
+    <parameters xmi:id="_cGiTsw8OEeeospYCu75rcw" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_cGiTtA8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
+    </parameters>
+    <lhs xmi:id="_cGiTtQ8OEeeospYCu75rcw" name="Lhs">
+      <nodes xmi:id="_cGiTtg8OEeeospYCu75rcw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_cGiTtw8OEeeospYCu75rcw" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_cGiTuA8OEeeospYCu75rcw" name="Rhs">
+      <nodes xmi:id="_cGiTuQ8OEeeospYCu75rcw" name="Selected" incoming="_cGiTvA8OEeeospYCu75rcw" outgoing="_cGiTuw8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_cGiTug8OEeeospYCu75rcw" name="NewTarget" incoming="_cGiTuw8OEeeospYCu75rcw" outgoing="_cGiTvA8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
+      </nodes>
+      <edges xmi:id="_cGiTuw8OEeeospYCu75rcw" source="_cGiTuQ8OEeeospYCu75rcw" target="_cGiTug8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/powertypeExtent"/>
+      </edges>
+      <edges xmi:id="_cGiTvA8OEeeospYCu75rcw" source="_cGiTug8OEeeospYCu75rcw" target="_cGiTuQ8OEeeospYCu75rcw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet/powertype"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_cGiTvQ8OEeeospYCu75rcw" origin="_cGiTtg8OEeeospYCu75rcw" image="_cGiTuQ8OEeeospYCu75rcw"/>
+    <mappings xmi:id="_cGiTvg8OEeeospYCu75rcw" origin="_cGiTtw8OEeeospYCu75rcw" image="_cGiTug8OEeeospYCu75rcw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_cGiTvw8OEeeospYCu75rcw" name="mainUnit" subUnits="_cGiTsg8OEeeospYCu75rcw">
+    <parameters xmi:id="_cGiTwA8OEeeospYCu75rcw" name="selectedEObject">
+      <annotations xmi:id="_cGiTwQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_cGiTwg8OEeeospYCu75rcw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
+    </parameters>
+    <parameterMappings xmi:id="_cGiTww8OEeeospYCu75rcw" source="_cGiTwA8OEeeospYCu75rcw" target="_cGiTsw8OEeeospYCu75rcw"/>
+    <parameterMappings xmi:id="_cGiTxA8OEeeospYCu75rcw" source="_cGiTwg8OEeeospYCu75rcw" target="_cGiTtA8OEeeospYCu75rcw"/>
+  </units>
+</henshin:Module>
