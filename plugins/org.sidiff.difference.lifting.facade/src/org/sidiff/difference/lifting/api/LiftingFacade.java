@@ -19,6 +19,7 @@ import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionEngineUtil;
 import org.sidiff.difference.lifting.recognitionengine.util.SubtreeAggregator;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.util.ChangeSetPriorityComparator;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.debug.ModelReducer;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
@@ -66,6 +67,11 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		// Postprocess
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {
 			LogUtil.log(LogEvent.NOTICE, "Post processing");
+			
+			if (settings.getComparator() == null){
+				settings.setComparator(new ChangeSetPriorityComparator());
+			}
+			
 			PostProcessor postProcessor = new PostProcessor(settings.getRecognitionEngine());
 			postProcessor.setCsPrioComparator(settings.getComparator());
 			postProcessor.postProcess();

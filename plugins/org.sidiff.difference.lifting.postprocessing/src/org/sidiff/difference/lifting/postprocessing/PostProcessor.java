@@ -176,6 +176,7 @@ public class PostProcessor {
 		// equal if they have the same atomic changes.
 		Collection<List<SemanticChangeSet>> equalCS = DifferenceAnalysisUtil.classifyEqual(difference.getChangeSets());
 		for (List<SemanticChangeSet> changeSets : equalCS) {
+			assert(csPrioComparator != null);
 			Collections.sort(changeSets, csPrioComparator);
 			// the cs with the highest priority is at the end of the sorted list
 			PCS_D.add(changeSets.get(changeSets.size()-1)); 
