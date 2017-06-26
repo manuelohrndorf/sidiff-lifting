@@ -57,12 +57,12 @@ public class ResourceSetAdapter {
 	/**
 	 * ResourceSet objects imported into A
 	 */
-	private Set<EObject> importsA = Collections.emptySet();
+	private Set<EObject> importsA;
 	
 	/**
 	 * ResourceSet objects imported into B
 	 */
-	private Set<EObject> importsB = Collections.emptySet();
+	private Set<EObject> importsB;
 
 	/**
 	 * Constructor.
@@ -221,22 +221,30 @@ public class ResourceSetAdapter {
 					}
 				}
 
-				assert (objsB.size() > 0) : "Object with URI " + objA.eResource().getURIFragment(objA)
-						+ "not found in model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
-				assert (objsB.size() == 1) : "Multiple occurrences with URI " + objA.eResource().getURIFragment(objA)
-						+ "in ResourceSet of model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
+				if (objsB.size() == 0){
+					LogUtil.log(LogEvent.DEBUG, "Object with URI " + objA.eResource().getURIFragment(objA)
+						+ "not found in model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
+				}
+				if (objsB.size() > 1){
+					LogUtil.log(LogEvent.DEBUG, "Multiple occurrences with URI " + objA.eResource().getURIFragment(objA)
+						+ "in ResourceSet of model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
+				}
 
-				objB = objsB.get(0);
+				if (!objsB.isEmpty()){
+					objB = objsB.get(0);
+				}				
 			}
 
 			// Create new Correspondence
-			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-			correspondence.setMatchedA(objA);
-			correspondence.setMatchedB(objB);		
-			difference.addCorrespondence(correspondence);
-			resourceSetCorrespondences.add(correspondence);
+			if (objB != null){
+				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+				correspondence.setMatchedA(objA);
+				correspondence.setMatchedB(objB);		
+				difference.addCorrespondence(correspondence);
+				resourceSetCorrespondences.add(correspondence);
 
-			assert (difference.getCorrespondingObjectInB(objA) != null);
+				assert (difference.getCorrespondingObjectInB(objA) != null);
+			}
 		}
 	}
 
@@ -251,7 +259,9 @@ public class ResourceSetAdapter {
 		assert (objB.eResource() != null);
 
 		if (difference.getCorrespondingObjectInA(objB) == null) {
-			// (a) get corresponding resource and (b) locate corresponding
+			EObject objA = null;
+			
+			// (1) First (and better) option: (a) get corresponding resource and (b) locate corresponding
 			// object of objB within the corresponding resource (by URI
 			// fragement).
 
@@ -278,25 +288,56 @@ public class ResourceSetAdapter {
 				resourceA = potentialResourcesA.get(0);
 			}
 
-			// TODO: As a less exact heuristics, we could also apply the second
+			
+			// step (b)
+			if (resourceA != null) {
+				objA = resourceA.getEObject(objB.eResource().getURIFragment(objB));
+				assert (objA != null) : "Object with URI " + objB.eResource().getURIFragment(objB) + "not found in corresponding resource "
+						+ resourceA.getURI() + "of model A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
+			}
+			
+			// (2) As a less exact heuristics, we also apply the second
 			// option from addCorrespondenceA here
 
-			assert (resourceA != null) : "Resource with URI '" + objB.eResource().getURI()
-					+ "' not found in ResourceSet A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.";
+			if (objA == null) {
+				// (2) Second option: Try to locate corresponding object of objA
+				// within any resource of the ResourceSet of model B (by URI
+				// fragement).
+				List<EObject> objsA = new LinkedList<EObject>();
+				for (Resource r : difference.getModelA().getResourceSet().getResources()) {
+					if (r == difference.getModelA()) {
+						continue;
+					}
+					EObject o = r.getEObject(objB.eResource().getURIFragment(objB));
+					if (o != null) {
+						objsA.add(o);
+					}
+				}
 
-			// step (b)
-			EObject objA = resourceA.getEObject(objB.eResource().getURIFragment(objB));
-			assert (objA != null);
+				if (objsA.size() == 0){
+					LogUtil.log(LogEvent.DEBUG, "Object with URI " + objB.eResource().getURIFragment(objB)
+						+ "not found in model A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
+				}
+				if (objsA.size() > 1){
+					LogUtil.log(LogEvent.DEBUG, "Multiple occurrences with URI " + objB.eResource().getURIFragment(objB)
+						+ "in ResourceSet of model A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
+				}
 
+				if (!objsA.isEmpty()){
+					objA = objsA.get(0);
+				}				
+			}
+			
 			// Create new Correspondence
-			// Create new Correspondence
-			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-			correspondence.setMatchedA(objA);
-			correspondence.setMatchedB(objB);		
-			difference.addCorrespondence(correspondence);
-			resourceSetCorrespondences.add(correspondence);
+			if (objA != null){
+				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
+				correspondence.setMatchedA(objA);
+				correspondence.setMatchedB(objB);		
+				difference.addCorrespondence(correspondence);
+				resourceSetCorrespondences.add(correspondence);
 
-			assert (difference.getCorrespondingObjectInA(objB) != null);
+				assert (difference.getCorrespondingObjectInA(objB) != null);
+			}
 		}
 	}
 
