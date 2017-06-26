@@ -112,7 +112,7 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 		if (validate()) {
 			message = new ValidationMessage(ValidationType.OK, "");
 		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
-			message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine does not support resourceset scope, select another matching engine!");
+			message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName() + " does not support resourceset scope, select another matching engine!");
 		}else{
 			message = new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
