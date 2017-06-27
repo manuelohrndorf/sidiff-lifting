@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Association_(navigableOwnedEnd)_TGT_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
-  <annotations key="INVERSE" value="REMOVE_Association_(navigableOwnedEnd)_TGT_Property"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hWiAsFtMEeesAqvk4oi7fQ" name="ADD_Association_(navigableOwnedEnd)_TGT_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
+  <annotations xmi:id="_hWiAsVtMEeesAqvk4oi7fQ" key="INVERSE" value="REMOVE_Association_(navigableOwnedEnd)_TGT_Property"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="addToAssociation_navigableOwnedEnd_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_hWiAsltMEeesAqvk4oi7fQ" name="addToAssociation_navigableOwnedEnd_Property" description="Adds to Association's reference navigableOwnedEnd the target Property">
+    <parameters xmi:id="_hWiAs1tMEeesAqvk4oi7fQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_hWiAtFtMEeesAqvk4oi7fQ" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_hWiAtVtMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hWiAtltMEeesAqvk4oi7fQ" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_hWiAt1tMEeesAqvk4oi7fQ" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_hWiAuFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hWiAuVtMEeesAqvk4oi7fQ" name="Selected" outgoing="_hWiAu1tMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_hWiAultMEeesAqvk4oi7fQ" name="NewTarget" incoming="_hWiAu1tMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_hWiAu1tMEeesAqvk4oi7fQ" source="_hWiAuVtMEeesAqvk4oi7fQ" target="_hWiAultMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/navigableOwnedEnd"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_hWiAvFtMEeesAqvk4oi7fQ" origin="_hWiAtltMEeesAqvk4oi7fQ" image="_hWiAuVtMEeesAqvk4oi7fQ"/>
+    <mappings xmi:id="_hWiAvVtMEeesAqvk4oi7fQ" origin="_hWiAt1tMEeesAqvk4oi7fQ" image="_hWiAultMEeesAqvk4oi7fQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hWiAvltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hWiAsltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hWiAv1tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hWiAwFtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_hWiAwVtMEeesAqvk4oi7fQ" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_hWiAwltMEeesAqvk4oi7fQ" source="_hWiAv1tMEeesAqvk4oi7fQ" target="_hWiAs1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hWiAw1tMEeesAqvk4oi7fQ" source="_hWiAwVtMEeesAqvk4oi7fQ" target="_hWiAtFtMEeesAqvk4oi7fQ"/>
   </units>
 </henshin:Module>
