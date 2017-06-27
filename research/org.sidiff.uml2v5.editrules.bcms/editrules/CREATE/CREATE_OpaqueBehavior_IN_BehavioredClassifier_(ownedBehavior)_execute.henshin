@@ -1,85 +1,135 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Wd_94A8OEeeospYCu75rcw" name="CREATE_OpaqueBehavior_IN_BehavioredClassifier_(ownedBehavior)" description="Creates one OpaqueBehavior in BehavioredClassifier">
-  <annotations xmi:id="_Wd_94Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_OpaqueBehavior_IN_BehavioredClassifier_(ownedBehavior)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_OpaqueBehavior_IN_BehavioredClassifier_(ownedBehavior)" description="Creates one OpaqueBehavior in BehavioredClassifier">
+  <annotations key="INVERSE" value="DELETE_OpaqueBehavior_IN_BehavioredClassifier_(ownedBehavior)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Wd_94g8OEeeospYCu75rcw" name="createOpaqueBehavior_IN_BehavioredClassifier" description="creates one OpaqueBehavior in the context: BehavioredClassifier">
-    <parameters xmi:id="_Wd_94w8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="createOpaqueBehavior_IN_BehavioredClassifier" description="creates one OpaqueBehavior in the context: BehavioredClassifier">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
     </parameters>
-    <parameters xmi:id="_Wd_95A8OEeeospYCu75rcw" name="New">
+    <parameters name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <parameters xmi:id="_Wd_95Q8OEeeospYCu75rcw" name="IsLeaf">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_Wd_95g8OEeeospYCu75rcw" name="IsAbstract">
+    <parameters name="IsAbstract">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_Wd_95w8OEeeospYCu75rcw" name="IsFinalSpecialization">
+    <parameters name="IsFinalSpecialization">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_Wd_96A8OEeeospYCu75rcw" name="IsActive">
+    <parameters name="IsActive">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs xmi:id="_Wd_96Q8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_Wd_96g8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_Wd_96w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <parameters name="IsReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters name="Body">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_Wd_97A8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_Wd_97Q8OEeeospYCu75rcw" name="Selected" outgoing="_Wd_99Q8OEeeospYCu75rcw">
-        <annotations xmi:id="_Wd_97g8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
       </nodes>
-      <nodes xmi:id="_Wd_97w8OEeeospYCu75rcw" name="New" incoming="_Wd_99Q8OEeeospYCu75rcw">
-        <annotations xmi:id="_Wd_98A8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
-        <attributes xmi:id="_Wd_98Q8OEeeospYCu75rcw" value="IsLeaf">
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="IsLeaf">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
         </attributes>
-        <attributes xmi:id="_Wd_98g8OEeeospYCu75rcw" value="IsAbstract">
+        <attributes value="IsAbstract">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
         </attributes>
-        <attributes xmi:id="_Wd_98w8OEeeospYCu75rcw" value="IsFinalSpecialization">
+        <attributes value="IsFinalSpecialization">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
         </attributes>
-        <attributes xmi:id="_Wd_99A8OEeeospYCu75rcw" value="IsActive">
+        <attributes value="IsActive">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
         </attributes>
+        <attributes value="IsReentrant">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/isReentrant"/>
+        </attributes>
+        <attributes value="Body">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior/body"/>
+        </attributes>
+        <attributes value="Language">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior/language"/>
+        </attributes>
       </nodes>
-      <edges xmi:id="_Wd_99Q8OEeeospYCu75rcw" source="_Wd_97Q8OEeeospYCu75rcw" target="_Wd_97w8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_Wd_99g8OEeeospYCu75rcw" origin="_Wd_96g8OEeeospYCu75rcw" image="_Wd_97Q8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_Wd_99w8OEeeospYCu75rcw" name="mainUnit" subUnits="_Wd_94g8OEeeospYCu75rcw">
-    <parameters xmi:id="_Wd_9-A8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_WeAk8A8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
     </parameters>
-    <parameters xmi:id="_WeAk8Q8OEeeospYCu75rcw" name="New">
-      <annotations xmi:id="_WeAk8g8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <parameters xmi:id="_WeAk8w8OEeeospYCu75rcw" name="IsLeaf">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_WeAk9A8OEeeospYCu75rcw" name="IsAbstract">
+    <parameters name="IsAbstract">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_WeAk9Q8OEeeospYCu75rcw" name="IsFinalSpecialization">
+    <parameters name="IsFinalSpecialization">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_WeAk9g8OEeeospYCu75rcw" name="IsActive">
+    <parameters name="IsActive">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings xmi:id="_WeAk9w8OEeeospYCu75rcw" source="_Wd_9-A8OEeeospYCu75rcw" target="_Wd_94w8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WeAk-A8OEeeospYCu75rcw" source="_Wd_95A8OEeeospYCu75rcw" target="_WeAk8Q8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WeAk-Q8OEeeospYCu75rcw" source="_WeAk8w8OEeeospYCu75rcw" target="_Wd_95Q8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WeAk-g8OEeeospYCu75rcw" source="_WeAk9A8OEeeospYCu75rcw" target="_Wd_95g8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WeAk-w8OEeeospYCu75rcw" source="_WeAk9Q8OEeeospYCu75rcw" target="_Wd_95w8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WeAk_A8OEeeospYCu75rcw" source="_WeAk9g8OEeeospYCu75rcw" target="_Wd_96A8OEeeospYCu75rcw"/>
+    <parameters name="IsReentrant">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameters name="Body">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings source="//@units.1/@parameters.5" target="//@units.0/@parameters.5"/>
+    <parameterMappings source="//@units.1/@parameters.6" target="//@units.0/@parameters.6"/>
+    <parameterMappings source="//@units.1/@parameters.7" target="//@units.0/@parameters.7"/>
+    <parameterMappings source="//@units.1/@parameters.8" target="//@units.0/@parameters.8"/>
+    <parameterMappings source="//@units.1/@parameters.9" target="//@units.0/@parameters.9"/>
+    <parameterMappings source="//@units.1/@parameters.10" target="//@units.0/@parameters.10"/>
   </units>
 </henshin:Module>

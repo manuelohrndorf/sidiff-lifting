@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Xml9oA8OEeeospYCu75rcw" name="CREATE_LiteralUnlimitedNatural_IN_Property_(defaultValue)" description="Creates one LiteralUnlimitedNatural in Property">
-  <annotations xmi:id="_Xml9oQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralUnlimitedNatural_IN_Property_(defaultValue)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_LiteralUnlimitedNatural_IN_Property_(defaultValue)" description="Creates one LiteralUnlimitedNatural in Property">
+  <annotations key="INVERSE" value="DELETE_LiteralUnlimitedNatural_IN_Property_(defaultValue)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Xml9og8OEeeospYCu75rcw" name="createLiteralUnlimitedNatural_IN_Property" description="creates one LiteralUnlimitedNatural in the context: Property">
-    <parameters xmi:id="_Xml9ow8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="createLiteralUnlimitedNatural_IN_Property" description="creates one LiteralUnlimitedNatural in the context: Property">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters xmi:id="_Xml9pA8OEeeospYCu75rcw" name="New">
+    <parameters name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
     </parameters>
-    <parameters xmi:id="_Xml9pQ8OEeeospYCu75rcw" name="Value">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//UnlimitedNatural"/>
     </parameters>
-    <lhs xmi:id="_Xml9pg8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_Xml9pw8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_Xml9qA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_Xml9qQ8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_Xml9qg8OEeeospYCu75rcw" name="Selected" outgoing="_Xml9rw8OEeeospYCu75rcw">
-        <annotations xmi:id="_Xml9qw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
-      <nodes xmi:id="_Xml9rA8OEeeospYCu75rcw" name="New" incoming="_Xml9rw8OEeeospYCu75rcw">
-        <annotations xmi:id="_Xml9rQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
-        <attributes xmi:id="_Xml9rg8OEeeospYCu75rcw" value="Value">
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="Value">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural/value"/>
         </attributes>
       </nodes>
-      <edges xmi:id="_Xml9rw8OEeeospYCu75rcw" source="_Xml9qg8OEeeospYCu75rcw" target="_Xml9rA8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/defaultValue"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_Xml9sA8OEeeospYCu75rcw" origin="_Xml9pw8OEeeospYCu75rcw" image="_Xml9qg8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_Xml9sQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_Xml9og8OEeeospYCu75rcw">
-    <parameters xmi:id="_Xml9sg8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_Xml9sw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters xmi:id="_Xml9tA8OEeeospYCu75rcw" name="New">
-      <annotations xmi:id="_Xml9tQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
     </parameters>
-    <parameters xmi:id="_Xml9tg8OEeeospYCu75rcw" name="Value">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//UnlimitedNatural"/>
     </parameters>
-    <parameterMappings xmi:id="_Xml9tw8OEeeospYCu75rcw" source="_Xml9sg8OEeeospYCu75rcw" target="_Xml9ow8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_Xml9uA8OEeeospYCu75rcw" source="_Xml9pA8OEeeospYCu75rcw" target="_Xml9tA8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_Xml9uQ8OEeeospYCu75rcw" source="_Xml9tg8OEeeospYCu75rcw" target="_Xml9pQ8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
   </units>
 </henshin:Module>

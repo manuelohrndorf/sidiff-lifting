@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_cUWGMA8OEeeospYCu75rcw" name="SET_REFERENCE_Transition_(redefinedTransition)_TGT_Transition" description="Sets Transition's reference redefinedTransition the target Transition">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_REFERENCE_Transition_(redefinedTransition)_TGT_Transition" description="Sets Transition's reference redefinedTransition the target Transition">
+  <annotations key="INVERSE" value="UNSET_REFERENCE_Transition_(redefinedTransition)_TGT_Transition"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_cUWGMQ8OEeeospYCu75rcw" name="setTransition_redefinedTransition_TO_Transition" description="SetTransitionRefredefinedTransitionToTransition">
-    <parameters xmi:id="_cUWGMg8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="setTransition_redefinedTransition_TO_Transition" description="SetTransitionRefredefinedTransitionToTransition">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters xmi:id="_cUWGMw8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <lhs xmi:id="_cUWGNA8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_cUWGNQ8OEeeospYCu75rcw" name="Selected">
+    <lhs name="Lhs">
+      <nodes name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <nodes xmi:id="_cUWGNg8OEeeospYCu75rcw" name="NewTarget">
+      <nodes name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_cUWGNw8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_cUWGOA8OEeeospYCu75rcw" name="Selected" outgoing="_cUWGOg8OEeeospYCu75rcw">
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <nodes xmi:id="_cUWGOQ8OEeeospYCu75rcw" name="NewTarget" incoming="_cUWGOg8OEeeospYCu75rcw">
+      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <edges xmi:id="_cUWGOg8OEeeospYCu75rcw" source="_cUWGOA8OEeeospYCu75rcw" target="_cUWGOQ8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/redefinedTransition"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_cUWGOw8OEeeospYCu75rcw" origin="_cUWGNQ8OEeeospYCu75rcw" image="_cUWGOA8OEeeospYCu75rcw"/>
-    <mappings xmi:id="_cUWGPA8OEeeospYCu75rcw" origin="_cUWGNg8OEeeospYCu75rcw" image="_cUWGOQ8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_cUWGPQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_cUWGMQ8OEeeospYCu75rcw">
-    <parameters xmi:id="_cUWGPg8OEeeospYCu75rcw" name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters xmi:id="_cUWGPw8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
+      <annotations key="INVERSE" value="NewTarget"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameterMappings xmi:id="_cUWGQA8OEeeospYCu75rcw" source="_cUWGPg8OEeeospYCu75rcw" target="_cUWGMg8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_cUWGQQ8OEeeospYCu75rcw" source="_cUWGPw8OEeeospYCu75rcw" target="_cUWGMw8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

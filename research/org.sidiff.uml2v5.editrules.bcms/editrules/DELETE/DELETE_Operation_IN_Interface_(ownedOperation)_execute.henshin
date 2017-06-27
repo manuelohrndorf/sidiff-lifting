@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_b1FXUA8OEeeospYCu75rcw" name="DELETE_Operation_IN_Interface_(ownedOperation)" description="Deletes one Operation in Interface">
-  <annotations xmi:id="_b1FXUQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_Operation_IN_Interface_(ownedOperation)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Operation_IN_Interface_(ownedOperation)" description="Deletes one Operation in Interface">
+  <annotations key="INVERSE" value="CREATE_Operation_IN_Interface_(ownedOperation)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_b1FXUg8OEeeospYCu75rcw" name="deleteOperation_IN_Interface" description="deletes one Operation in the context: Interface">
-    <parameters xmi:id="_b1FXUw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="deleteOperation_IN_Interface" description="deletes one Operation in the context: Interface">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
     </parameters>
-    <parameters xmi:id="_b1FXVA8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <lhs xmi:id="_b1FXVQ8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_b1FXVg8OEeeospYCu75rcw" name="Selected" incoming="_b1FXWw8OEeeospYCu75rcw" outgoing="_b1FXWg8OEeeospYCu75rcw">
-        <annotations xmi:id="_b1FXVw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="LHS">
+      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
       </nodes>
-      <nodes xmi:id="_b1FXWA8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_b1FXWg8OEeeospYCu75rcw" outgoing="_b1FXWw8OEeeospYCu75rcw">
-        <annotations xmi:id="_b1FXWQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
       </nodes>
-      <edges xmi:id="_b1FXWg8OEeeospYCu75rcw" source="_b1FXVg8OEeeospYCu75rcw" target="_b1FXWA8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface/ownedOperation"/>
       </edges>
-      <edges xmi:id="_b1FXWw8OEeeospYCu75rcw" source="_b1FXWA8OEeeospYCu75rcw" target="_b1FXVg8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/interface"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_b1FXXA8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_b1FXXQ8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_b1FXXg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_b1FXXw8OEeeospYCu75rcw" origin="_b1FXVg8OEeeospYCu75rcw" image="_b1FXXQ8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_b1FXYA8OEeeospYCu75rcw" name="mainUnit" subUnits="_b1FXUg8OEeeospYCu75rcw">
-    <parameters xmi:id="_b1FXYQ8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_b1FXYg8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
     </parameters>
-    <parameters xmi:id="_b1FXYw8OEeeospYCu75rcw" name="ToBeDeleted">
-      <annotations xmi:id="_b1FXZA8OEeeospYCu75rcw" key="INVERSE" value="New"/>
+    <parameters name="ToBeDeleted">
+      <annotations key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <parameterMappings xmi:id="_b1FXZQ8OEeeospYCu75rcw" source="_b1FXYQ8OEeeospYCu75rcw" target="_b1FXUw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_b1FXZg8OEeeospYCu75rcw" source="_b1FXYw8OEeeospYCu75rcw" target="_b1FXVA8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

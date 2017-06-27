@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZzONQA8OEeeospYCu75rcw" name="DELETE_Operation_IN_Artifact_(ownedOperation)" description="Deletes one Operation in Artifact">
-  <annotations xmi:id="_ZzONQQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_Operation_IN_Artifact_(ownedOperation)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Operation_IN_Artifact_(ownedOperation)" description="Deletes one Operation in Artifact">
+  <annotations key="INVERSE" value="CREATE_Operation_IN_Artifact_(ownedOperation)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_ZzONQg8OEeeospYCu75rcw" name="deleteOperation_IN_Artifact" description="deletes one Operation in the context: Artifact">
-    <parameters xmi:id="_ZzONQw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="deleteOperation_IN_Artifact" description="deletes one Operation in the context: Artifact">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Artifact"/>
     </parameters>
-    <parameters xmi:id="_ZzONRA8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <lhs xmi:id="_ZzONRQ8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_ZzONRg8OEeeospYCu75rcw" name="Selected" outgoing="_ZzONSg8OEeeospYCu75rcw">
-        <annotations xmi:id="_ZzONRw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="LHS">
+      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Artifact"/>
       </nodes>
-      <nodes xmi:id="_ZzONSA8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_ZzONSg8OEeeospYCu75rcw">
-        <annotations xmi:id="_ZzONSQ8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
       </nodes>
-      <edges xmi:id="_ZzONSg8OEeeospYCu75rcw" source="_ZzONRg8OEeeospYCu75rcw" target="_ZzONSA8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Artifact/ownedOperation"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_ZzONSw8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_ZzONTA8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_ZzONTQ8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Artifact"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_ZzONTg8OEeeospYCu75rcw" origin="_ZzONRg8OEeeospYCu75rcw" image="_ZzONTA8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZzONTw8OEeeospYCu75rcw" name="mainUnit" subUnits="_ZzONQg8OEeeospYCu75rcw">
-    <parameters xmi:id="_ZzONUA8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_ZzONUQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Artifact"/>
     </parameters>
-    <parameters xmi:id="_ZzONUg8OEeeospYCu75rcw" name="ToBeDeleted">
-      <annotations xmi:id="_ZzONUw8OEeeospYCu75rcw" key="INVERSE" value="New"/>
+    <parameters name="ToBeDeleted">
+      <annotations key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <parameterMappings xmi:id="_ZzONVA8OEeeospYCu75rcw" source="_ZzONUA8OEeeospYCu75rcw" target="_ZzONQw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_ZzONVQ8OEeeospYCu75rcw" source="_ZzONUg8OEeeospYCu75rcw" target="_ZzONRA8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

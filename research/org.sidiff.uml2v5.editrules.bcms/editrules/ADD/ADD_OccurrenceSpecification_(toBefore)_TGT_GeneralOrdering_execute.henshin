@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bKIV0A8OEeeospYCu75rcw" name="ADD_OccurrenceSpecification_(toBefore)_TGT_GeneralOrdering" description="Adds to OccurrenceSpecification's reference toBefore the target GeneralOrdering">
-  <annotations xmi:id="_bKIV0Q8OEeeospYCu75rcw" key="INVERSE" value="REMOVE_OccurrenceSpecification_(toBefore)_TGT_GeneralOrdering"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_OccurrenceSpecification_(toBefore)_TGT_GeneralOrdering" description="Adds to OccurrenceSpecification's reference toBefore the target GeneralOrdering">
+  <annotations key="INVERSE" value="REMOVE_OccurrenceSpecification_(toBefore)_TGT_GeneralOrdering"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_bKIV0g8OEeeospYCu75rcw" name="addToOccurrenceSpecification_toBefore_GeneralOrdering" description="Adds to OccurrenceSpecification's reference toBefore the target GeneralOrdering">
-    <parameters xmi:id="_bKIV0w8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="addToOccurrenceSpecification_toBefore_GeneralOrdering" description="Adds to OccurrenceSpecification's reference toBefore the target GeneralOrdering">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OccurrenceSpecification"/>
     </parameters>
-    <parameters xmi:id="_bKIV1A8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralOrdering"/>
     </parameters>
-    <lhs xmi:id="_bKIV1Q8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_bKIV1g8OEeeospYCu75rcw" name="Selected">
+    <lhs name="Lhs">
+      <nodes name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OccurrenceSpecification"/>
       </nodes>
-      <nodes xmi:id="_bKIV1w8OEeeospYCu75rcw" name="NewTarget">
+      <nodes name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralOrdering"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_bKIV2A8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_bKIV2Q8OEeeospYCu75rcw" name="Selected" incoming="_bKIV3A8OEeeospYCu75rcw" outgoing="_bKIV2w8OEeeospYCu75rcw">
+    <rhs name="Rhs">
+      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OccurrenceSpecification"/>
       </nodes>
-      <nodes xmi:id="_bKIV2g8OEeeospYCu75rcw" name="NewTarget" incoming="_bKIV2w8OEeeospYCu75rcw" outgoing="_bKIV3A8OEeeospYCu75rcw">
+      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralOrdering"/>
       </nodes>
-      <edges xmi:id="_bKIV2w8OEeeospYCu75rcw" source="_bKIV2Q8OEeeospYCu75rcw" target="_bKIV2g8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OccurrenceSpecification/toBefore"/>
       </edges>
-      <edges xmi:id="_bKIV3A8OEeeospYCu75rcw" source="_bKIV2g8OEeeospYCu75rcw" target="_bKIV2Q8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralOrdering/after"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_bKIV3Q8OEeeospYCu75rcw" origin="_bKIV1g8OEeeospYCu75rcw" image="_bKIV2Q8OEeeospYCu75rcw"/>
-    <mappings xmi:id="_bKIV3g8OEeeospYCu75rcw" origin="_bKIV1w8OEeeospYCu75rcw" image="_bKIV2g8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_bKIV3w8OEeeospYCu75rcw" name="mainUnit" subUnits="_bKIV0g8OEeeospYCu75rcw">
-    <parameters xmi:id="_bKIV4A8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_bKIV4Q8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OccurrenceSpecification"/>
     </parameters>
-    <parameters xmi:id="_bKIV4g8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralOrdering"/>
     </parameters>
-    <parameterMappings xmi:id="_bKIV4w8OEeeospYCu75rcw" source="_bKIV4A8OEeeospYCu75rcw" target="_bKIV0w8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_bKIV5A8OEeeospYCu75rcw" source="_bKIV4g8OEeeospYCu75rcw" target="_bKIV1A8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

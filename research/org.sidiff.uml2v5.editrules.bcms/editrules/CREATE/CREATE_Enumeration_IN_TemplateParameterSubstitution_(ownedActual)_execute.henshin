@@ -1,75 +1,95 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YMrGMA8OEeeospYCu75rcw" name="CREATE_Enumeration_IN_TemplateParameterSubstitution_(ownedActual)" description="Creates one Enumeration in TemplateParameterSubstitution">
-  <annotations xmi:id="_YMrGMQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_Enumeration_IN_TemplateParameterSubstitution_(ownedActual)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Enumeration_IN_TemplateParameterSubstitution_(ownedActual)" description="Creates one Enumeration in TemplateParameterSubstitution">
+  <annotations key="INVERSE" value="DELETE_Enumeration_IN_TemplateParameterSubstitution_(ownedActual)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_YMrGMg8OEeeospYCu75rcw" name="createEnumeration_IN_TemplateParameterSubstitution" description="creates one Enumeration in the context: TemplateParameterSubstitution">
-    <parameters xmi:id="_YMrGMw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="createEnumeration_IN_TemplateParameterSubstitution" description="creates one Enumeration in the context: TemplateParameterSubstitution">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
     </parameters>
-    <parameters xmi:id="_YMrGNA8OEeeospYCu75rcw" name="New">
+    <parameters name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
     </parameters>
-    <parameters xmi:id="_YMrGNQ8OEeeospYCu75rcw" name="IsLeaf">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_YMrGNg8OEeeospYCu75rcw" name="IsAbstract">
+    <parameters name="IsAbstract">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_YMrGNw8OEeeospYCu75rcw" name="IsFinalSpecialization">
+    <parameters name="IsFinalSpecialization">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs xmi:id="_YMrGOA8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_YMrGOQ8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_YMrGOg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_YMrGOw8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_YMrGPA8OEeeospYCu75rcw" name="Selected" outgoing="_YMrGQw8OEeeospYCu75rcw">
-        <annotations xmi:id="_YMrGPQ8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
       </nodes>
-      <nodes xmi:id="_YMrGPg8OEeeospYCu75rcw" name="New" incoming="_YMrGQw8OEeeospYCu75rcw">
-        <annotations xmi:id="_YMrGPw8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
-        <attributes xmi:id="_YMrGQA8OEeeospYCu75rcw" value="IsLeaf">
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="IsLeaf">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
         </attributes>
-        <attributes xmi:id="_YMrGQQ8OEeeospYCu75rcw" value="IsAbstract">
+        <attributes value="IsAbstract">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isAbstract"/>
         </attributes>
-        <attributes xmi:id="_YMrGQg8OEeeospYCu75rcw" value="IsFinalSpecialization">
+        <attributes value="IsFinalSpecialization">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
         </attributes>
       </nodes>
-      <edges xmi:id="_YMrGQw8OEeeospYCu75rcw" source="_YMrGPA8OEeeospYCu75rcw" target="_YMrGPg8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution/ownedActual"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_YMrGRA8OEeeospYCu75rcw" origin="_YMrGOQ8OEeeospYCu75rcw" image="_YMrGPA8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_YMrGRQ8OEeeospYCu75rcw" name="mainUnit" subUnits="_YMrGMg8OEeeospYCu75rcw">
-    <parameters xmi:id="_YMrGRg8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_YMrGRw8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TemplateParameterSubstitution"/>
     </parameters>
-    <parameters xmi:id="_YMrGSA8OEeeospYCu75rcw" name="New">
-      <annotations xmi:id="_YMrGSQ8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
     </parameters>
-    <parameters xmi:id="_YMrGSg8OEeeospYCu75rcw" name="IsLeaf">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_YMrGSw8OEeeospYCu75rcw" name="IsAbstract">
+    <parameters name="IsAbstract">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameters xmi:id="_YMrGTA8OEeeospYCu75rcw" name="IsFinalSpecialization">
+    <parameters name="IsFinalSpecialization">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings xmi:id="_YMrGTQ8OEeeospYCu75rcw" source="_YMrGRg8OEeeospYCu75rcw" target="_YMrGMw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_YMrGTg8OEeeospYCu75rcw" source="_YMrGNA8OEeeospYCu75rcw" target="_YMrGSA8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_YMrGTw8OEeeospYCu75rcw" source="_YMrGSg8OEeeospYCu75rcw" target="_YMrGNQ8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_YMrGUA8OEeeospYCu75rcw" source="_YMrGSw8OEeeospYCu75rcw" target="_YMrGNg8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_YMrGUQ8OEeeospYCu75rcw" source="_YMrGTA8OEeeospYCu75rcw" target="_YMrGNw8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings source="//@units.1/@parameters.5" target="//@units.0/@parameters.5"/>
+    <parameterMappings source="//@units.1/@parameters.6" target="//@units.0/@parameters.6"/>
   </units>
 </henshin:Module>

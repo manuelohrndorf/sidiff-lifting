@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_V1uc8A8OEeeospYCu75rcw" name="CREATE_LiteralInteger_IN_TimeExpression_(expr)" description="Creates one LiteralInteger in TimeExpression">
-  <annotations xmi:id="_V1uc8Q8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralInteger_IN_TimeExpression_(expr)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_LiteralInteger_IN_TimeExpression_(expr)" description="Creates one LiteralInteger in TimeExpression">
+  <annotations key="INVERSE" value="DELETE_LiteralInteger_IN_TimeExpression_(expr)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_V1uc8g8OEeeospYCu75rcw" name="createLiteralInteger_IN_TimeExpression" description="creates one LiteralInteger in the context: TimeExpression">
-    <parameters xmi:id="_V1uc8w8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="createLiteralInteger_IN_TimeExpression" description="creates one LiteralInteger in the context: TimeExpression">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
     </parameters>
-    <parameters xmi:id="_V1uc9A8OEeeospYCu75rcw" name="New">
+    <parameters name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
     </parameters>
-    <parameters xmi:id="_V1uc9Q8OEeeospYCu75rcw" name="Value">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
     </parameters>
-    <lhs xmi:id="_V1uc9g8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_V1uc9w8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_V1uc-A8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_V1vEAA8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_V1vEAQ8OEeeospYCu75rcw" name="Selected" outgoing="_V1vEBg8OEeeospYCu75rcw">
-        <annotations xmi:id="_V1vEAg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
       </nodes>
-      <nodes xmi:id="_V1vEAw8OEeeospYCu75rcw" name="New" incoming="_V1vEBg8OEeeospYCu75rcw">
-        <annotations xmi:id="_V1vEBA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
-        <attributes xmi:id="_V1vEBQ8OEeeospYCu75rcw" value="Value">
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="Value">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
         </attributes>
       </nodes>
-      <edges xmi:id="_V1vEBg8OEeeospYCu75rcw" source="_V1vEAQ8OEeeospYCu75rcw" target="_V1vEAw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression/expr"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_V1vEBw8OEeeospYCu75rcw" origin="_V1uc9w8OEeeospYCu75rcw" image="_V1vEAQ8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_V1vECA8OEeeospYCu75rcw" name="mainUnit" subUnits="_V1uc8g8OEeeospYCu75rcw">
-    <parameters xmi:id="_V1vECQ8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_V1vECg8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
     </parameters>
-    <parameters xmi:id="_V1vECw8OEeeospYCu75rcw" name="New">
-      <annotations xmi:id="_V1vEDA8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
     </parameters>
-    <parameters xmi:id="_V1vEDQ8OEeeospYCu75rcw" name="Value">
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
     </parameters>
-    <parameterMappings xmi:id="_V1vEDg8OEeeospYCu75rcw" source="_V1vECQ8OEeeospYCu75rcw" target="_V1uc8w8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_V1vEDw8OEeeospYCu75rcw" source="_V1uc9A8OEeeospYCu75rcw" target="_V1vECw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_V1vEEA8OEeeospYCu75rcw" source="_V1vEDQ8OEeeospYCu75rcw" target="_V1uc9Q8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
   </units>
 </henshin:Module>

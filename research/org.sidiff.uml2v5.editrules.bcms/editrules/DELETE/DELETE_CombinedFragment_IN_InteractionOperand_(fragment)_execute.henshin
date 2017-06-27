@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_WytpoA8OEeeospYCu75rcw" name="DELETE_CombinedFragment_IN_InteractionOperand_(fragment)" description="Deletes one CombinedFragment in InteractionOperand">
-  <annotations xmi:id="_WytpoQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_CombinedFragment_IN_InteractionOperand_(fragment)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_CombinedFragment_IN_InteractionOperand_(fragment)" description="Deletes one CombinedFragment in InteractionOperand">
+  <annotations key="INVERSE" value="CREATE_CombinedFragment_IN_InteractionOperand_(fragment)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Wytpog8OEeeospYCu75rcw" name="deleteCombinedFragment_IN_InteractionOperand" description="deletes one CombinedFragment in the context: InteractionOperand">
-    <parameters xmi:id="_Wytpow8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="deleteCombinedFragment_IN_InteractionOperand" description="deletes one CombinedFragment in the context: InteractionOperand">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <parameters xmi:id="_WytppA8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
     </parameters>
-    <parameters xmi:id="_WytppQ8OEeeospYCu75rcw" name="Child">
+    <parameters name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <lhs xmi:id="_Wytppg8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_Wytppw8OEeeospYCu75rcw" name="Selected" incoming="_WytprQ8OEeeospYCu75rcw" outgoing="_WytprA8OEeeospYCu75rcw">
-        <annotations xmi:id="_WytpqA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="LHS">
+      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
       </nodes>
-      <nodes xmi:id="_WytpqQ8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_WytprA8OEeeospYCu75rcw" outgoing="_WytprQ8OEeeospYCu75rcw _Wytprg8OEeeospYCu75rcw">
-        <annotations xmi:id="_Wytpqg8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
       </nodes>
-      <nodes xmi:id="_Wytpqw8OEeeospYCu75rcw" name="Child" incoming="_Wytprg8OEeeospYCu75rcw">
+      <nodes name="Child" incoming="//@units.0/@lhs/@edges.2">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
       </nodes>
-      <edges xmi:id="_WytprA8OEeeospYCu75rcw" source="_Wytppw8OEeeospYCu75rcw" target="_WytpqQ8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand/fragment"/>
       </edges>
-      <edges xmi:id="_WytprQ8OEeeospYCu75rcw" source="_WytpqQ8OEeeospYCu75rcw" target="_Wytppw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionFragment/enclosingOperand"/>
       </edges>
-      <edges xmi:id="_Wytprg8OEeeospYCu75rcw" source="_WytpqQ8OEeeospYCu75rcw" target="_Wytpqw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment/operand"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_Wytprw8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_WytpsA8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_WytpsQ8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_Wytpsg8OEeeospYCu75rcw" origin="_Wytppw8OEeeospYCu75rcw" image="_WytpsA8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_Wytpsw8OEeeospYCu75rcw" name="mainUnit" subUnits="_Wytpog8OEeeospYCu75rcw">
-    <parameters xmi:id="_WytptA8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_WytptQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <parameters xmi:id="_Wytptg8OEeeospYCu75rcw" name="ToBeDeleted">
-      <annotations xmi:id="_Wytptw8OEeeospYCu75rcw" key="INVERSE" value="New"/>
+    <parameters name="ToBeDeleted">
+      <annotations key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CombinedFragment"/>
     </parameters>
-    <parameters xmi:id="_WytpuA8OEeeospYCu75rcw" name="Child">
-      <annotations xmi:id="_WytpuQ8OEeeospYCu75rcw" key="INVERSE" value="Child"/>
+    <parameters name="Child">
+      <annotations key="INVERSE" value="Child"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <parameterMappings xmi:id="_Wytpug8OEeeospYCu75rcw" source="_WytptA8OEeeospYCu75rcw" target="_Wytpow8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_Wytpuw8OEeeospYCu75rcw" source="_Wytptg8OEeeospYCu75rcw" target="_WytppA8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_WytpvA8OEeeospYCu75rcw" source="_WytpuA8OEeeospYCu75rcw" target="_WytppQ8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
   </units>
 </henshin:Module>

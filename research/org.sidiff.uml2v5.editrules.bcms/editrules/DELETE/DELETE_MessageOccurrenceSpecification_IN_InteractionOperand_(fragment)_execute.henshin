@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_aXyS4A8OEeeospYCu75rcw" name="DELETE_MessageOccurrenceSpecification_IN_InteractionOperand_(fragment)" description="Deletes one MessageOccurrenceSpecification in InteractionOperand">
-  <annotations xmi:id="_aXyS4Q8OEeeospYCu75rcw" key="INVERSE" value="CREATE_MessageOccurrenceSpecification_IN_InteractionOperand_(fragment)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_MessageOccurrenceSpecification_IN_InteractionOperand_(fragment)" description="Deletes one MessageOccurrenceSpecification in InteractionOperand">
+  <annotations key="INVERSE" value="CREATE_MessageOccurrenceSpecification_IN_InteractionOperand_(fragment)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_aXyS4g8OEeeospYCu75rcw" name="deleteMessageOccurrenceSpecification_IN_InteractionOperand" description="deletes one MessageOccurrenceSpecification in the context: InteractionOperand">
-    <parameters xmi:id="_aXyS4w8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="deleteMessageOccurrenceSpecification_IN_InteractionOperand" description="deletes one MessageOccurrenceSpecification in the context: InteractionOperand">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <parameters xmi:id="_aXyS5A8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageOccurrenceSpecification"/>
     </parameters>
-    <lhs xmi:id="_aXyS5Q8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_aXyS5g8OEeeospYCu75rcw" name="Selected" incoming="_aXyS6w8OEeeospYCu75rcw" outgoing="_aXyS6g8OEeeospYCu75rcw">
-        <annotations xmi:id="_aXyS5w8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="LHS">
+      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
       </nodes>
-      <nodes xmi:id="_aXyS6A8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_aXyS6g8OEeeospYCu75rcw" outgoing="_aXyS6w8OEeeospYCu75rcw">
-        <annotations xmi:id="_aXyS6Q8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageOccurrenceSpecification"/>
       </nodes>
-      <edges xmi:id="_aXyS6g8OEeeospYCu75rcw" source="_aXyS5g8OEeeospYCu75rcw" target="_aXyS6A8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand/fragment"/>
       </edges>
-      <edges xmi:id="_aXyS6w8OEeeospYCu75rcw" source="_aXyS6A8OEeeospYCu75rcw" target="_aXyS5g8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionFragment/enclosingOperand"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_aXyS7A8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_aXyS7Q8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_aXyS7g8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_aXyS7w8OEeeospYCu75rcw" origin="_aXyS5g8OEeeospYCu75rcw" image="_aXyS7Q8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_aXyS8A8OEeeospYCu75rcw" name="mainUnit" subUnits="_aXyS4g8OEeeospYCu75rcw">
-    <parameters xmi:id="_aXyS8Q8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_aXyS8g8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
     </parameters>
-    <parameters xmi:id="_aXyS8w8OEeeospYCu75rcw" name="ToBeDeleted">
-      <annotations xmi:id="_aXyS9A8OEeeospYCu75rcw" key="INVERSE" value="New"/>
+    <parameters name="ToBeDeleted">
+      <annotations key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MessageOccurrenceSpecification"/>
     </parameters>
-    <parameterMappings xmi:id="_aXyS9Q8OEeeospYCu75rcw" source="_aXyS8Q8OEeeospYCu75rcw" target="_aXyS4w8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_aXyS9g8OEeeospYCu75rcw" source="_aXyS8w8OEeeospYCu75rcw" target="_aXyS5A8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

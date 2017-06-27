@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_aGd5YA8OEeeospYCu75rcw" name="ADD_Generalization_(generalizationSet)_TGT_GeneralizationSet" description="Adds to Generalization's reference generalizationSet the target GeneralizationSet">
-  <annotations xmi:id="_aGd5YQ8OEeeospYCu75rcw" key="INVERSE" value="REMOVE_Generalization_(generalizationSet)_TGT_GeneralizationSet"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Generalization_(generalizationSet)_TGT_GeneralizationSet" description="Adds to Generalization's reference generalizationSet the target GeneralizationSet">
+  <annotations key="INVERSE" value="REMOVE_Generalization_(generalizationSet)_TGT_GeneralizationSet"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_aGd5Yg8OEeeospYCu75rcw" name="addToGeneralization_generalizationSet_GeneralizationSet" description="Adds to Generalization's reference generalizationSet the target GeneralizationSet">
-    <parameters xmi:id="_aGd5Yw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="addToGeneralization_generalizationSet_GeneralizationSet" description="Adds to Generalization's reference generalizationSet the target GeneralizationSet">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
     </parameters>
-    <parameters xmi:id="_aGd5ZA8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
     </parameters>
-    <lhs xmi:id="_aGd5ZQ8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_aGd5Zg8OEeeospYCu75rcw" name="Selected">
+    <lhs name="Lhs">
+      <nodes name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
       </nodes>
-      <nodes xmi:id="_aGd5Zw8OEeeospYCu75rcw" name="NewTarget">
+      <nodes name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_aGd5aA8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_aGd5aQ8OEeeospYCu75rcw" name="Selected" incoming="_aGd5bA8OEeeospYCu75rcw" outgoing="_aGd5aw8OEeeospYCu75rcw">
+    <rhs name="Rhs">
+      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
       </nodes>
-      <nodes xmi:id="_aGd5ag8OEeeospYCu75rcw" name="NewTarget" incoming="_aGd5aw8OEeeospYCu75rcw" outgoing="_aGd5bA8OEeeospYCu75rcw">
+      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
       </nodes>
-      <edges xmi:id="_aGd5aw8OEeeospYCu75rcw" source="_aGd5aQ8OEeeospYCu75rcw" target="_aGd5ag8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization/generalizationSet"/>
       </edges>
-      <edges xmi:id="_aGd5bA8OEeeospYCu75rcw" source="_aGd5ag8OEeeospYCu75rcw" target="_aGd5aQ8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet/generalization"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_aGd5bQ8OEeeospYCu75rcw" origin="_aGd5Zg8OEeeospYCu75rcw" image="_aGd5aQ8OEeeospYCu75rcw"/>
-    <mappings xmi:id="_aGd5bg8OEeeospYCu75rcw" origin="_aGd5Zw8OEeeospYCu75rcw" image="_aGd5ag8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_aGd5bw8OEeeospYCu75rcw" name="mainUnit" subUnits="_aGd5Yg8OEeeospYCu75rcw">
-    <parameters xmi:id="_aGd5cA8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_aGd5cQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Generalization"/>
     </parameters>
-    <parameters xmi:id="_aGd5cg8OEeeospYCu75rcw" name="NewTarget">
+    <parameters name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//GeneralizationSet"/>
     </parameters>
-    <parameterMappings xmi:id="_aGd5cw8OEeeospYCu75rcw" source="_aGd5cA8OEeeospYCu75rcw" target="_aGd5Yw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_aGd5dA8OEeeospYCu75rcw" source="_aGd5cg8OEeeospYCu75rcw" target="_aGd5ZA8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

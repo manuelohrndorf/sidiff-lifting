@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZwqBcA8OEeeospYCu75rcw" name="REMOVE_Classifier_(useCase)_TGT_UseCase" description="Removes Classifier's reference useCase the target UseCase">
-  <annotations xmi:id="_ZwqBcQ8OEeeospYCu75rcw" key="INVERSE" value="ADD_Classifier_(useCase)_TGT_UseCase"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="REMOVE_Classifier_(useCase)_TGT_UseCase" description="Removes Classifier's reference useCase the target UseCase">
+  <annotations key="INVERSE" value="ADD_Classifier_(useCase)_TGT_UseCase"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_ZwqBcg8OEeeospYCu75rcw" name="removeFromClassifier_useCase_UseCase" description="Removes from Classifier's reference useCase the target UseCase">
-    <parameters xmi:id="_ZwqBcw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="removeFromClassifier_useCase_UseCase" description="Removes from Classifier's reference useCase the target UseCase">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters xmi:id="_ZwqBdA8OEeeospYCu75rcw" name="OldTarget">
+    <parameters name="OldTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
     </parameters>
-    <lhs xmi:id="_ZwqBdQ8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_ZwqBdg8OEeeospYCu75rcw" name="Selected" incoming="_ZwqBeQ8OEeeospYCu75rcw" outgoing="_ZwqBeA8OEeeospYCu75rcw">
+    <lhs name="LHS">
+      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes xmi:id="_ZwqBdw8OEeeospYCu75rcw" name="OldTarget" incoming="_ZwqBeA8OEeeospYCu75rcw" outgoing="_ZwqBeQ8OEeeospYCu75rcw">
+      <nodes name="OldTarget" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
       </nodes>
-      <edges xmi:id="_ZwqBeA8OEeeospYCu75rcw" source="_ZwqBdg8OEeeospYCu75rcw" target="_ZwqBdw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/useCase"/>
       </edges>
-      <edges xmi:id="_ZwqBeQ8OEeeospYCu75rcw" source="_ZwqBdw8OEeeospYCu75rcw" target="_ZwqBdg8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase/subject"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_ZwqBeg8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_ZwqBew8OEeeospYCu75rcw" name="Selected">
+    <rhs name="RHS">
+      <nodes name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes xmi:id="_ZwqBfA8OEeeospYCu75rcw" name="OldTarget">
+      <nodes name="OldTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_ZwqBfQ8OEeeospYCu75rcw" origin="_ZwqBdg8OEeeospYCu75rcw" image="_ZwqBew8OEeeospYCu75rcw"/>
-    <mappings xmi:id="_ZwqBfg8OEeeospYCu75rcw" origin="_ZwqBdw8OEeeospYCu75rcw" image="_ZwqBfA8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZwqBfw8OEeeospYCu75rcw" name="mainUnit" subUnits="_ZwqBcg8OEeeospYCu75rcw">
-    <parameters xmi:id="_ZwqBgA8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_ZwqBgQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters xmi:id="_ZwqBgg8OEeeospYCu75rcw" name="OldTarget">
+    <parameters name="OldTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//UseCase"/>
     </parameters>
-    <parameterMappings xmi:id="_ZwqBgw8OEeeospYCu75rcw" source="_ZwqBgA8OEeeospYCu75rcw" target="_ZwqBcw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_ZwqBhA8OEeeospYCu75rcw" source="_ZwqBgg8OEeeospYCu75rcw" target="_ZwqBdA8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
   </units>
 </henshin:Module>

@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_cMULkA8OEeeospYCu75rcw" name="CREATE_LiteralString_IN_Message_(argument)" description="Creates one LiteralString in Message">
-  <annotations xmi:id="_cMULkQ8OEeeospYCu75rcw" key="INVERSE" value="DELETE_LiteralString_IN_Message_(argument)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_LiteralString_IN_Message_(argument)" description="Creates one LiteralString in Message">
+  <annotations key="INVERSE" value="DELETE_LiteralString_IN_Message_(argument)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_cMULkg8OEeeospYCu75rcw" name="createLiteralString_IN_Message" description="creates one LiteralString in the context: Message">
-    <parameters xmi:id="_cMULkw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="createLiteralString_IN_Message" description="creates one LiteralString in the context: Message">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
     </parameters>
-    <parameters xmi:id="_cMULlA8OEeeospYCu75rcw" name="New">
+    <parameters name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
     </parameters>
-    <lhs xmi:id="_cMULlQ8OEeeospYCu75rcw" name="Lhs">
-      <nodes xmi:id="_cMULlg8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_cMULlw8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs name="Lhs">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
       </nodes>
     </lhs>
-    <rhs xmi:id="_cMULmA8OEeeospYCu75rcw" name="Rhs">
-      <nodes xmi:id="_cMULmQ8OEeeospYCu75rcw" name="Selected" outgoing="_cMULnQ8OEeeospYCu75rcw">
-        <annotations xmi:id="_cMULmg8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="Rhs">
+      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
       </nodes>
-      <nodes xmi:id="_cMULmw8OEeeospYCu75rcw" name="New" incoming="_cMULnQ8OEeeospYCu75rcw">
-        <annotations xmi:id="_cMULnA8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+        <attributes value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString/value"/>
+        </attributes>
       </nodes>
-      <edges xmi:id="_cMULnQ8OEeeospYCu75rcw" source="_cMULmQ8OEeeospYCu75rcw" target="_cMULmw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Message/argument"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_cMULng8OEeeospYCu75rcw" origin="_cMULlg8OEeeospYCu75rcw" image="_cMULmQ8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_cMULnw8OEeeospYCu75rcw" name="mainUnit" subUnits="_cMULkg8OEeeospYCu75rcw">
-    <parameters xmi:id="_cMULoA8OEeeospYCu75rcw" name="selectedEObject">
-      <annotations xmi:id="_cMULoQ8OEeeospYCu75rcw" key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
+      <annotations key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Message"/>
     </parameters>
-    <parameters xmi:id="_cMULog8OEeeospYCu75rcw" name="New">
-      <annotations xmi:id="_cMULow8OEeeospYCu75rcw" key="INVERSE" value="ToBeDeleted"/>
+    <parameters name="New">
+      <annotations key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
     </parameters>
-    <parameterMappings xmi:id="_cMULpA8OEeeospYCu75rcw" source="_cMULoA8OEeeospYCu75rcw" target="_cMULkw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_cMULpQ8OEeeospYCu75rcw" source="_cMULlA8OEeeospYCu75rcw" target="_cMULog8OEeeospYCu75rcw"/>
+    <parameters name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
   </units>
 </henshin:Module>

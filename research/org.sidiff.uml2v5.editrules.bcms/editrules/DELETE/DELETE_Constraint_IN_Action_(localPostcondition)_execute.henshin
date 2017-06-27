@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Wg12gA8OEeeospYCu75rcw" name="DELETE_Constraint_IN_Action_(localPostcondition)" description="Deletes one Constraint in Action">
-  <annotations xmi:id="_Wg12gQ8OEeeospYCu75rcw" key="INVERSE" value="CREATE_Constraint_IN_Action_(localPostcondition)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Constraint_IN_Action_(localPostcondition)" description="Deletes one Constraint in Action">
+  <annotations key="INVERSE" value="CREATE_Constraint_IN_Action_(localPostcondition)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_Wg12gg8OEeeospYCu75rcw" name="deleteConstraint_IN_Action" description="deletes one Constraint in the context: Action">
-    <parameters xmi:id="_Wg12gw8OEeeospYCu75rcw" name="Selected">
+  <units xsi:type="henshin:Rule" name="deleteConstraint_IN_Action" description="deletes one Constraint in the context: Action">
+    <parameters name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
     </parameters>
-    <parameters xmi:id="_Wg12hA8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <parameters xmi:id="_Wg12hQ8OEeeospYCu75rcw" name="Child">
+    <parameters name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <lhs xmi:id="_Wg12hg8OEeeospYCu75rcw" name="LHS">
-      <nodes xmi:id="_Wg12hw8OEeeospYCu75rcw" name="Selected" outgoing="_Wg12jA8OEeeospYCu75rcw">
-        <annotations xmi:id="_Wg12iA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <lhs name="LHS">
+      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
       </nodes>
-      <nodes xmi:id="_Wg12iQ8OEeeospYCu75rcw" name="ToBeDeleted" incoming="_Wg12jA8OEeeospYCu75rcw" outgoing="_Wg12jQ8OEeeospYCu75rcw">
-        <annotations xmi:id="_Wg12ig8OEeeospYCu75rcw" key="SERGE_" value="FOCUS"/>
+      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
+        <annotations key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
       </nodes>
-      <nodes xmi:id="_Wg12iw8OEeeospYCu75rcw" name="Child" incoming="_Wg12jQ8OEeeospYCu75rcw">
+      <nodes name="Child" incoming="//@units.0/@lhs/@edges.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
-      <edges xmi:id="_Wg12jA8OEeeospYCu75rcw" source="_Wg12hw8OEeeospYCu75rcw" target="_Wg12iQ8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action/localPostcondition"/>
       </edges>
-      <edges xmi:id="_Wg12jQ8OEeeospYCu75rcw" source="_Wg12iQ8OEeeospYCu75rcw" target="_Wg12iw8OEeeospYCu75rcw">
+      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_Wg12jg8OEeeospYCu75rcw" name="RHS">
-      <nodes xmi:id="_Wg12jw8OEeeospYCu75rcw" name="Selected">
-        <annotations xmi:id="_Wg12kA8OEeeospYCu75rcw" key="SERGE_" value="CONTEXT"/>
+    <rhs name="RHS">
+      <nodes name="Selected">
+        <annotations key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_Wg12kQ8OEeeospYCu75rcw" origin="_Wg12hw8OEeeospYCu75rcw" image="_Wg12jw8OEeeospYCu75rcw"/>
+    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_Wg12kg8OEeeospYCu75rcw" name="mainUnit" subUnits="_Wg12gg8OEeeospYCu75rcw">
-    <parameters xmi:id="_Wg12kw8OEeeospYCu75rcw" name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
+    <parameters name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
     </parameters>
-    <parameters xmi:id="_Wg12lA8OEeeospYCu75rcw" name="ToBeDeleted">
+    <parameters name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <parameters xmi:id="_Wg12lQ8OEeeospYCu75rcw" name="Child">
+    <parameters name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <parameterMappings xmi:id="_Wg12lg8OEeeospYCu75rcw" source="_Wg12kw8OEeeospYCu75rcw" target="_Wg12gw8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_Wg12lw8OEeeospYCu75rcw" source="_Wg12lA8OEeeospYCu75rcw" target="_Wg12hA8OEeeospYCu75rcw"/>
-    <parameterMappings xmi:id="_Wg12mA8OEeeospYCu75rcw" source="_Wg12lQ8OEeeospYCu75rcw" target="_Wg12hQ8OEeeospYCu75rcw"/>
+    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
   </units>
 </henshin:Module>
