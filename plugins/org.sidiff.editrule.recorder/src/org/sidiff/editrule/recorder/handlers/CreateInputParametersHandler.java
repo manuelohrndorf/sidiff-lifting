@@ -17,7 +17,8 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -48,9 +49,12 @@ public class CreateInputParametersHandler extends AbstractHandler {
 			// Collect possible parameters:
 			List<GraphElement> graphElements = new ArrayList<>();
 			Set<String> identifiers = new HashSet<>();
+			Unit mainUnit = EditRuleUtil.getMainUnit(editRule);
 			
-			for (Parameter inputParameters : EditRuleUtil.getMainUnit(editRule).getParameters()) {
-				identifiers.add(inputParameters.getName());
+			for (ParameterMapping inputParameters : mainUnit.getParameterMappings()) {
+				if (inputParameters.getTarget() != mainUnit) {
+					identifiers.add(inputParameters.getTarget().getName());
+				}
 			}
 			
 			getRules(editRule).forEach(rule -> {
