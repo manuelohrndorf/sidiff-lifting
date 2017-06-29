@@ -3,6 +3,8 @@ package org.sidiff.patching.arguments;
 import java.util.Arrays;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -66,7 +68,6 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 				try {
 					throw new NoCorrespondencesException();
 				} catch (NoCorrespondencesException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -94,7 +95,6 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 				try {
 					throw new NoCorrespondencesException();
 				} catch (NoCorrespondencesException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -124,7 +124,15 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 			return originObject;
 		}
 		if (location == EObjectLocation.RESOURCE_SET_INTERNAL) {
-			// TODO (TK)
+			Resource targetResource = getTargetModel().getResourceSet().getResource(originObject.eResource().getURI(), true);
+			EObject targetObject = targetResource.getEObject(EcoreUtil.getURI(originObject).fragment());
+			
+			Correspondence c = MatchingModelFactory.eINSTANCE.createCorrespondence();
+			c.setMatchedA(originObject);
+			c.setMatchedB(targetObject);
+			matchingOriginTarget.addCorrespondence(c);
+			
+			return originObject;
 		}
 
 		return null;
