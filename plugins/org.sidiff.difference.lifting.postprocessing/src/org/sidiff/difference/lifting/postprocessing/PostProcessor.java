@@ -9,20 +9,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
+import org.sidiff.difference.symmetric.AddObject;
+import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.util.ChangeSetPriorityComparator;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
+import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
 
 /**
  * The post processing algorithm eliminates overlapping semantic change sets. The prior goal of post
@@ -31,6 +37,11 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
  * sets.
  */
 public class PostProcessor {
+
+	Comparator<SemanticChangeSet> csPrioComparator = new ChangeSetPriorityComparator();
+	public void setCsPrioComparator(Comparator<SemanticChangeSet> csPrioComparator) {
+		this.csPrioComparator = csPrioComparator;
+	}
 
 	/**
 	 * The RecognitionEngine instance that was used to semantically lift a difference
@@ -164,8 +175,8 @@ public class PostProcessor {
 		// Remove equal semantic change sets. Two semantic change sets are
 		// equal if they have the same atomic changes.
 		Collection<List<SemanticChangeSet>> equalCS = DifferenceAnalysisUtil.classifyEqual(difference.getChangeSets());
-		Comparator<SemanticChangeSet> csPrioComparator = new ChangeSetPriorityComparator();
 		for (List<SemanticChangeSet> changeSets : equalCS) {
+			assert(csPrioComparator != null);
 			Collections.sort(changeSets, csPrioComparator);
 			// the cs with the highest priority is at the end of the sorted list
 			PCS_D.add(changeSets.get(changeSets.size()-1)); 
@@ -477,7 +488,7 @@ public class PostProcessor {
 			// Get power set of PCS_D_part
 			PowerSet<SemanticChangeSet> powerSetCalculator = new PowerSet<SemanticChangeSet>(limit);
 			LinkedHashSet<LinkedHashSet<SemanticChangeSet>> pcs_d_powerSet = powerSetCalculator.powerSet(PCS_D_part);
-
+			
 			for (LinkedHashSet<SemanticChangeSet> subset : pcs_d_powerSet) {
 
 				// Skip overlapping
@@ -495,6 +506,35 @@ public class PostProcessor {
 						if (compression < bestCompression) {
 							bestCompression = compression;
 							best_PCS_min_result = subset;
+						}else if (csPrioComparator instanceof SlicingChangeSetPriorityComparator && compression == bestCompression){
+							Set<EObject> slicingCriteria = ((SlicingChangeSetPriorityComparator)csPrioComparator).getSlicingCriteria();
+							Map<EObject, SemanticChangeSet> overlappingBest = new HashMap<EObject, SemanticChangeSet>();
+							Map<EObject, SemanticChangeSet> overlappingSubset = new HashMap<EObject, SemanticChangeSet>();
+							for(EObject eObject : slicingCriteria){
+								for(SemanticChangeSet scs : best_PCS_min_result){
+									for(Change change : scs.getChanges()){
+										if(change instanceof AddObject){
+											AddObject addObject = (AddObject) change;
+											if(eObject.equals(addObject.getObj())){
+												overlappingBest.put(addObject.getObj(), scs);
+											}
+										}
+									}
+								}
+								for(SemanticChangeSet scs : subset){
+									for(Change change : scs.getChanges()){
+										if(change instanceof AddObject){
+											AddObject addObject = (AddObject) change;
+											if(eObject.equals(addObject.getObj())){
+												overlappingSubset.put(addObject.getObj(), scs);
+											}
+										}
+									}
+								}
+								if(new HashSet<SemanticChangeSet>(overlappingSubset.values()).size() < new HashSet<SemanticChangeSet>(overlappingBest.values()).size()){
+									best_PCS_min_result = subset;
+								}
+							}
 						}
 					}
 				}

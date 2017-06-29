@@ -66,16 +66,20 @@ public class ParameterMapper {
 			ObjectParameterBinding bindingOut = paramBindings_OUT_B.get(bindingIn.getActualB());
 
 			// assertions
-			assert (bindingOut != null) : "There is no OUT ParameterBinding that creates " + ((OperationInvocation)bindingIn.eContainer()).resolveEditRule().getExecuteModule().getName() + "::" + bindingIn.getFormalName();
-			OperationInvocation opIn = (OperationInvocation) bindingIn.eContainer();
-			OperationInvocation opOut = (OperationInvocation) bindingOut.eContainer();
-			assert (existsDependency(opIn, opOut)) : opIn + " must have a dependency to " + opOut;
-
-			// create mapping and add it to difference
-			ParameterMapping mapping = AsymmetricFactory.eINSTANCE.createParameterMapping();
-			mapping.setSource(bindingOut);
-			mapping.setTarget(bindingIn);
-			asymDiff.getParameterMappings().add(mapping);
+			//assert (bindingOut != null) : "There is no OUT ParameterBinding that creates " + ((OperationInvocation)bindingIn.eContainer()).resolveEditRule().getExecuteModule().getName() + "::" + bindingIn.getFormalName();
+			
+			// FIXME[resource set internal references]: Filter e.g. PrimitiveTypes in UML
+			if (bindingOut  != null) {
+				OperationInvocation opIn = (OperationInvocation) bindingIn.eContainer();
+				OperationInvocation opOut = (OperationInvocation) bindingOut.eContainer();
+				assert (existsDependency(opIn, opOut)) : opIn + " must have a dependency to " + opOut;
+				
+				// create mapping and add it to difference
+				ParameterMapping mapping = AsymmetricFactory.eINSTANCE.createParameterMapping();
+				mapping.setSource(bindingOut);
+				mapping.setTarget(bindingIn);
+				asymDiff.getParameterMappings().add(mapping);
+			}
 		}
 	}
 
@@ -98,6 +102,7 @@ public class ParameterMapper {
 					// only in B, i.e.: actualA == null && actualB != null
 					ObjectParameterBinding objParameterBinding = (ObjectParameterBinding) parameterBinding;
 					
+					// FIXME[resource set internal references]: Filter e.g. PrimitiveTypes in UML
 					if (objParameterBinding.getActualA() == null
 							&& objParameterBinding.getActualB() != null) {
 

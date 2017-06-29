@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hYUJYFtMEeesAqvk4oi7fQ" name="DELETE_Property_IN_Association_(ownedEnd)" description="Deletes one Property in Association">
+  <annotations xmi:id="_hYUJYVtMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_Property_IN_Association_(ownedEnd)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hYUJYltMEeesAqvk4oi7fQ" name="deleteProperty_IN_Association" description="deletes one Property in the context: Association">
+    <parameters xmi:id="_hYUJY1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_hYUJZFtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_hYUJZVtMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hYUJZltMEeesAqvk4oi7fQ" name="Selected" incoming="_hYUJa1tMEeesAqvk4oi7fQ" outgoing="_hYUJaltMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hYUJZ1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_hYUJaFtMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hYUJaltMEeesAqvk4oi7fQ" outgoing="_hYUJa1tMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hYUJaVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <edges xmi:id="_hYUJaltMEeesAqvk4oi7fQ" source="_hYUJZltMEeesAqvk4oi7fQ" target="_hYUJaFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/ownedEnd"/>
+      </edges>
+      <edges xmi:id="_hYUJa1tMEeesAqvk4oi7fQ" source="_hYUJaFtMEeesAqvk4oi7fQ" target="_hYUJZltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/owningAssociation"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hYUJbFtMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hYUJbVtMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hYUJbltMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hYUJb1tMEeesAqvk4oi7fQ" origin="_hYUJZltMEeesAqvk4oi7fQ" image="_hYUJbVtMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hYUJcFtMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hYUJYltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hYUJcVtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hYUJcltMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_hYUJc1tMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hYUJdFtMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_hYUJdVtMEeesAqvk4oi7fQ" source="_hYUJcVtMEeesAqvk4oi7fQ" target="_hYUJY1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hYUJdltMEeesAqvk4oi7fQ" source="_hYUJc1tMEeesAqvk4oi7fQ" target="_hYUJZFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

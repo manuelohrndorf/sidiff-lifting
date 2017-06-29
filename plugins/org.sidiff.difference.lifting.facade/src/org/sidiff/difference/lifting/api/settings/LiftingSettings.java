@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.api.settings;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
@@ -98,6 +100,16 @@ public class LiftingSettings extends DifferenceSettings {
 	 * Whether to detect Split/Joins or not
 	 */
 	private boolean detectSplitJoins = false;
+	
+	private Comparator<SemanticChangeSet> comparator;
+
+	public Comparator<SemanticChangeSet> getComparator() {
+		return comparator;
+	}
+
+	public void setComparator(Comparator<SemanticChangeSet> comparator) {
+		this.comparator = comparator;
+	}
 
 	/**
 	 * Setup the lifting settings.

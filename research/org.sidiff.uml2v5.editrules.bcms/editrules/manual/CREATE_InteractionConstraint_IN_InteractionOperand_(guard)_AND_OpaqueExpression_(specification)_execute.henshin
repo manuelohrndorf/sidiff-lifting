@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hTsvPFtMEeesAqvk4oi7fQ" name="CREATE_InteractionConstraint_IN_InteractionOperand_(guard)_AND_OpaqueExpression_(specification)" description="Creates one InteractionConstraint in InteractionOperand">
+  <annotations xmi:id="_hTsvPVtMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_InteractionConstraint_IN_InteractionOperand_(guard)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hTsvPltMEeesAqvk4oi7fQ" name="createInteractionConstraint_IN_InteractionOperand_AND_OpaqueExpression" description="creates one InteractionConstraint in the context: InteractionOperand">
+    <parameters xmi:id="_hTsvP1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
+    </parameters>
+    <parameters xmi:id="_hTsvQFtMEeesAqvk4oi7fQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hTsvQVtMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hTsvQltMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hTsvQ1tMEeesAqvk4oi7fQ" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameters xmi:id="_hTsvRFtMEeesAqvk4oi7fQ" name="Name1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hTsvRVtMEeesAqvk4oi7fQ" name="Visibility1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Body"/>
+    <parameters name="Language"/>
+    <lhs xmi:id="_hTsvRltMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hTsvR1tMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hTsvSFtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hTsvSVtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hTsvSltMEeesAqvk4oi7fQ" name="Selected" outgoing="_hTsvU1tMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hTsvS1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
+      </nodes>
+      <nodes xmi:id="_hTsvTFtMEeesAqvk4oi7fQ" name="New" incoming="_hTsvU1tMEeesAqvk4oi7fQ" outgoing="_hTsvVFtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hTsvTVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+        <attributes xmi:id="_hTsvTltMEeesAqvk4oi7fQ" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_hTsvT1tMEeesAqvk4oi7fQ" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_hTsvUFtMEeesAqvk4oi7fQ" name="Child" incoming="_hTsvVFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+        <attributes xmi:id="_hTsvUVtMEeesAqvk4oi7fQ" value="Name1">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_hTsvUltMEeesAqvk4oi7fQ" value="Visibility1">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes value="Body">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression/body"/>
+        </attributes>
+        <attributes value="Language">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression/language"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_hTsvU1tMEeesAqvk4oi7fQ" source="_hTsvSltMEeesAqvk4oi7fQ" target="_hTsvTFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand/guard"/>
+      </edges>
+      <edges xmi:id="_hTsvVFtMEeesAqvk4oi7fQ" source="_hTsvTFtMEeesAqvk4oi7fQ" target="_hTsvUFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hTsvVVtMEeesAqvk4oi7fQ" origin="_hTsvR1tMEeesAqvk4oi7fQ" image="_hTsvSltMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hTsvVltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hTsvPltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hTsvV1tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hTsvWFtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionOperand"/>
+    </parameters>
+    <parameters xmi:id="_hTsvWVtMEeesAqvk4oi7fQ" name="New">
+      <annotations xmi:id="_hTsvWltMEeesAqvk4oi7fQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hTsvW1tMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hTsvXFtMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hTsvXVtMEeesAqvk4oi7fQ" name="Child">
+      <annotations xmi:id="_hTsvXltMEeesAqvk4oi7fQ" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameters xmi:id="_hTsvX1tMEeesAqvk4oi7fQ" name="Name1">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hTsvYFtMEeesAqvk4oi7fQ" name="Visibility1">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters name="Body"/>
+    <parameters name="Language"/>
+    <parameterMappings xmi:id="_hTsvYVtMEeesAqvk4oi7fQ" source="_hTsvV1tMEeesAqvk4oi7fQ" target="_hTsvP1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvYltMEeesAqvk4oi7fQ" source="_hTsvQFtMEeesAqvk4oi7fQ" target="_hTsvWVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvY1tMEeesAqvk4oi7fQ" source="_hTsvW1tMEeesAqvk4oi7fQ" target="_hTsvQVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvZFtMEeesAqvk4oi7fQ" source="_hTsvXFtMEeesAqvk4oi7fQ" target="_hTsvQltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvZVtMEeesAqvk4oi7fQ" source="_hTsvQ1tMEeesAqvk4oi7fQ" target="_hTsvXVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvZltMEeesAqvk4oi7fQ" source="_hTsvX1tMEeesAqvk4oi7fQ" target="_hTsvRFtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hTsvZ1tMEeesAqvk4oi7fQ" source="_hTsvYFtMEeesAqvk4oi7fQ" target="_hTsvRVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings source="//@units.1/@parameters.7" target="//@units.0/@parameters.7"/>
+    <parameterMappings source="//@units.1/@parameters.8" target="//@units.0/@parameters.8"/>
+  </units>
+</henshin:Module>

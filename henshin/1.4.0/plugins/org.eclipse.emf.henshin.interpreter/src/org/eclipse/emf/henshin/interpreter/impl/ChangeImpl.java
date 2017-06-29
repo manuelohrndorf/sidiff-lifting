@@ -129,6 +129,8 @@ public abstract class ChangeImpl implements Change {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public void applyAndReverse() {
+			object.eSetDeliver(false);	// FIXME
+			
 			// Need to initialize?
 			if (!initialized && attribute != null) { //bug fix: && attribute != null
 				oldValue = object.eGet(attribute);
@@ -155,6 +157,8 @@ public abstract class ChangeImpl implements Change {
 			java.lang.Object dummy = oldValue;
 			oldValue = newValue;
 			newValue = dummy;
+			
+			object.eSetDeliver(true); // FIXME
 		}
 
 		/*

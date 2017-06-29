@@ -17,6 +17,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.util.UIUtil.NotEmptyValidator;
 import org.sidiff.editrule.recorder.handlers.util.EditRuleNaming;
@@ -91,36 +92,39 @@ public class RenameEditRuleHandler extends AbstractHandler {
 		URI newDiagramURI = modelURI.trimSegments(1).appendSegment(
 				newFileName + "_execute").appendFileExtension("henshin_diagram");
 		
-		Resource diagram = editRule.eResource().getResourceSet().getResource(diagramURI, true);
-		
-		// Set URIs:
-		diagram.setURI(newDiagramURI);
-		editRule.eResource().setURI(newModelURI);
-		
-		// Save changes:
-		try {
-			// Save model:
-			editRule.eResource().save(Collections.emptyMap());
+		if (EMFStorage.uriToFile(diagramURI).exists()) {
+			Resource diagram = editRule.eResource().getResourceSet().getResource(diagramURI, true);
 			
-			// Save diagram:
-			Map<String, Object> options = new HashMap<String, Object>();
-			options.put(XMIResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
-
-				@Override
-				public URI deresolve(URI uri) {
+			// Set URIs:
+			diagram.setURI(newDiagramURI);
+			editRule.eResource().setURI(newModelURI);
+			
+			// Save changes:
+			try {
+				// Save model:
+				editRule.eResource().save(Collections.emptyMap());
+				
+				// Save diagram:
+				Map<String, Object> options = new HashMap<String, Object>();
+				options.put(XMIResource.OPTION_URI_HANDLER, new URIHandlerImpl() {
 					
-					if (uri.segment(uri.segmentCount() - 1).equals(oldModelName)) {
-						uri = uri.trimSegments(1).appendSegment(
-								newFileName + "_execute").appendFileExtension("henshin");
+					@Override
+					public URI deresolve(URI uri) {
+						
+						if (uri.segment(uri.segmentCount() - 1).equals(oldModelName)) {
+							uri = uri.trimSegments(1).appendSegment(
+									newFileName + "_execute").appendFileExtension("henshin");
+						}
+						
+						return super.deresolve(uri);
 					}
-					
-					return super.deresolve(uri);
-				}
-			});
-
-			diagram.save(options);
-		} catch (IOException e) {
-			e.printStackTrace();
+				});
+				
+				diagram.save(options);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 	}
 }

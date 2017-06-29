@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_84pr0E69Eee3bM73Nno5Zg" name="RR: UNSET_REFERENCE_Transition_(guard)_TGT_Guard" description="Recognize: Sets Transition's reference guard the target Guard">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.sidiff.org/model/statemachine#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_84pr0U69Eee3bM73Nno5Zg" name="rr:setTransition_guard_TO_Guard" description="Recognize: SetTransitionRefguardToGuard">
+    <parameters xmi:id="_84pr0k69Eee3bM73Nno5Zg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/model/statemachine#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_84pr0069Eee3bM73Nno5Zg" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.sidiff.org/model/statemachine#//Guard"/>
+    </parameters>
+    <lhs xmi:id="_84pr1E69Eee3bM73Nno5Zg" name="Lhs">
+      <nodes xmi:id="_84pr1U69Eee3bM73Nno5Zg" name="A.Selected" incoming="_84pr2069Eee3bM73Nno5Zg" outgoing="_84pr3k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_84pr1k69Eee3bM73Nno5Zg" name="A.NewTarget" incoming="_84pr3E69Eee3bM73Nno5Zg _84pr3k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Guard"/>
+      </nodes>
+      <nodes xmi:id="_84pr1069Eee3bM73Nno5Zg" name="" outgoing="_84pr2069Eee3bM73Nno5Zg _84pr3E69Eee3bM73Nno5Zg _84pr3U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_84pr2E69Eee3bM73Nno5Zg" name="" incoming="_84pr3U69Eee3bM73Nno5Zg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_84pr2U69Eee3bM73Nno5Zg" value="&quot;guard&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_84pr2k69Eee3bM73Nno5Zg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_84pr2069Eee3bM73Nno5Zg" source="_84pr1069Eee3bM73Nno5Zg" target="_84pr1U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_84pr3E69Eee3bM73Nno5Zg" source="_84pr1069Eee3bM73Nno5Zg" target="_84pr1k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_84pr3U69Eee3bM73Nno5Zg" source="_84pr1069Eee3bM73Nno5Zg" target="_84pr2E69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_84pr3k69Eee3bM73Nno5Zg" source="_84pr1U69Eee3bM73Nno5Zg" target="_84pr1k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Transition/guard"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_84pr3069Eee3bM73Nno5Zg" name="Rhs">
+      <nodes xmi:id="_84pr4E69Eee3bM73Nno5Zg" name="A.Selected" incoming="_84pr7k69Eee3bM73Nno5Zg" outgoing="_84pr8U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_84pr4U69Eee3bM73Nno5Zg" name="A.NewTarget" incoming="_84pr7069Eee3bM73Nno5Zg _84pr8U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Guard"/>
+      </nodes>
+      <nodes xmi:id="_84pr4k69Eee3bM73Nno5Zg" name="" incoming="_84pr8k69Eee3bM73Nno5Zg" outgoing="_84pr7k69Eee3bM73Nno5Zg _84pr7069Eee3bM73Nno5Zg _84pr8E69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_84pr4069Eee3bM73Nno5Zg" name="" incoming="_84pr8E69Eee3bM73Nno5Zg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_84pr5E69Eee3bM73Nno5Zg" name="ChangeSet" incoming="_84pr8069Eee3bM73Nno5Zg" outgoing="_84pr8k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_84pr5U69Eee3bM73Nno5Zg" value="&quot;UNSET_REFERENCE_Transition_(guard)_TGT_Guard&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_84pr5k69Eee3bM73Nno5Zg" value="&quot;Sets Transition's reference guard the target Guard&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_84pr5069Eee3bM73Nno5Zg" value="&quot;UNSET_REFERENCE_Transition_(guard)_TGT_Guard&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_84pr6E69Eee3bM73Nno5Zg" value="&quot;RR: UNSET_REFERENCE_Transition_(guard)_TGT_Guard&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_84pr6U69Eee3bM73Nno5Zg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_84pr6k69Eee3bM73Nno5Zg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_84pr6069Eee3bM73Nno5Zg" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_84pr7E69Eee3bM73Nno5Zg" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_84pr7U69Eee3bM73Nno5Zg" name="" outgoing="_84pr8069Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_84pr7k69Eee3bM73Nno5Zg" source="_84pr4k69Eee3bM73Nno5Zg" target="_84pr4E69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_84pr7069Eee3bM73Nno5Zg" source="_84pr4k69Eee3bM73Nno5Zg" target="_84pr4U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_84pr8E69Eee3bM73Nno5Zg" source="_84pr4k69Eee3bM73Nno5Zg" target="_84pr4069Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_84pr8U69Eee3bM73Nno5Zg" source="_84pr4E69Eee3bM73Nno5Zg" target="_84pr4U69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/model/statemachine#//Transition/guard"/>
+      </edges>
+      <edges xmi:id="_84pr8k69Eee3bM73Nno5Zg" source="_84pr5E69Eee3bM73Nno5Zg" target="_84pr4k69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_84pr8069Eee3bM73Nno5Zg" source="_84pr7U69Eee3bM73Nno5Zg" target="_84pr5E69Eee3bM73Nno5Zg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_84pr9E69Eee3bM73Nno5Zg" origin="_84pr1U69Eee3bM73Nno5Zg" image="_84pr4E69Eee3bM73Nno5Zg"/>
+    <mappings xmi:id="_84pr9U69Eee3bM73Nno5Zg" origin="_84pr1k69Eee3bM73Nno5Zg" image="_84pr4U69Eee3bM73Nno5Zg"/>
+    <mappings xmi:id="_84pr9k69Eee3bM73Nno5Zg" origin="_84pr1069Eee3bM73Nno5Zg" image="_84pr4k69Eee3bM73Nno5Zg"/>
+    <mappings xmi:id="_84pr9069Eee3bM73Nno5Zg" origin="_84pr2E69Eee3bM73Nno5Zg" image="_84pr4069Eee3bM73Nno5Zg"/>
+    <mappings xmi:id="_84pr-E69Eee3bM73Nno5Zg" origin="_84pr2k69Eee3bM73Nno5Zg" image="_84pr7U69Eee3bM73Nno5Zg"/>
+  </units>
+</henshin:Module>

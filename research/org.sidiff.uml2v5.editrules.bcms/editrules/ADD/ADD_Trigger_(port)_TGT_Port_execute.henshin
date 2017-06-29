@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hxp2cFtMEeesAqvk4oi7fQ" name="ADD_Trigger_(port)_TGT_Port" description="Adds to Trigger's reference port the target Port">
+  <annotations xmi:id="_hxp2cVtMEeesAqvk4oi7fQ" key="INVERSE" value="REMOVE_Trigger_(port)_TGT_Port"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hxp2cltMEeesAqvk4oi7fQ" name="addToTrigger_port_Port" description="Adds to Trigger's reference port the target Port">
+    <parameters xmi:id="_hxp2c1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+    </parameters>
+    <parameters xmi:id="_hxp2dFtMEeesAqvk4oi7fQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <lhs xmi:id="_hxp2dVtMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hxp2dltMEeesAqvk4oi7fQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <nodes xmi:id="_hxp2d1tMEeesAqvk4oi7fQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hxp2eFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hxp2eVtMEeesAqvk4oi7fQ" name="Selected" outgoing="_hxp2e1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <nodes xmi:id="_hxp2eltMEeesAqvk4oi7fQ" name="NewTarget" incoming="_hxp2e1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+      </nodes>
+      <edges xmi:id="_hxp2e1tMEeesAqvk4oi7fQ" source="_hxp2eVtMEeesAqvk4oi7fQ" target="_hxp2eltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/port"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hxp2fFtMEeesAqvk4oi7fQ" origin="_hxp2dltMEeesAqvk4oi7fQ" image="_hxp2eVtMEeesAqvk4oi7fQ"/>
+    <mappings xmi:id="_hxp2fVtMEeesAqvk4oi7fQ" origin="_hxp2d1tMEeesAqvk4oi7fQ" image="_hxp2eltMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hxp2fltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hxp2cltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hxp2f1tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hxp2gFtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+    </parameters>
+    <parameters xmi:id="_hxp2gVtMEeesAqvk4oi7fQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
+    </parameters>
+    <parameterMappings xmi:id="_hxp2gltMEeesAqvk4oi7fQ" source="_hxp2f1tMEeesAqvk4oi7fQ" target="_hxp2c1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hxp2g1tMEeesAqvk4oi7fQ" source="_hxp2gVtMEeesAqvk4oi7fQ" target="_hxp2dFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

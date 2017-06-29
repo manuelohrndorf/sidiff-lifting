@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+			
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.sidiff.org/model/statemachine" isProfile="false" />						
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<RootModelElement name="Model" canBeNested="false" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="false" allowReferenceCombinations="false" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="false" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="true" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+		</AbstractReplacements>
+		
+		<SupertypeReplacements>
+		</SupertypeReplacements>
+		
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true" />
+			<DanglingNodeSettings defaultTypeInclusion="always">
+			<!-- can be fine-tuned for each element type in detail here; see documentation -->
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings defaultGenerationCase="always">
+			<!-- can be fine-tuned for each element type in detail here;  see documentation -->
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

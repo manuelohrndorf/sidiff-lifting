@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hjMjsFtMEeesAqvk4oi7fQ" name="ADD_Behavior_(redefinedBehavior)_TGT_Behavior" description="Adds to Behavior's reference redefinedBehavior the target Behavior">
+  <annotations xmi:id="_hjMjsVtMEeesAqvk4oi7fQ" key="INVERSE" value="REMOVE_Behavior_(redefinedBehavior)_TGT_Behavior"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hjMjsltMEeesAqvk4oi7fQ" name="addToBehavior_redefinedBehavior_Behavior" description="Adds to Behavior's reference redefinedBehavior the target Behavior">
+    <parameters xmi:id="_hjMjs1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_hjMjtFtMEeesAqvk4oi7fQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <lhs xmi:id="_hjMjtVtMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hjMjtltMEeesAqvk4oi7fQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_hjMjt1tMEeesAqvk4oi7fQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hjMjuFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hjMjuVtMEeesAqvk4oi7fQ" name="Selected" outgoing="_hjMju1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_hjMjultMEeesAqvk4oi7fQ" name="NewTarget" incoming="_hjMju1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+      <edges xmi:id="_hjMju1tMEeesAqvk4oi7fQ" source="_hjMjuVtMEeesAqvk4oi7fQ" target="_hjMjultMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/redefinedBehavior"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hjMjvFtMEeesAqvk4oi7fQ" origin="_hjMjtltMEeesAqvk4oi7fQ" image="_hjMjuVtMEeesAqvk4oi7fQ"/>
+    <mappings xmi:id="_hjMjvVtMEeesAqvk4oi7fQ" origin="_hjMjt1tMEeesAqvk4oi7fQ" image="_hjMjultMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hjMjvltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hjMjsltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hjMjv1tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hjMjwFtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_hjMjwVtMEeesAqvk4oi7fQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_hjMjwltMEeesAqvk4oi7fQ" source="_hjMjv1tMEeesAqvk4oi7fQ" target="_hjMjs1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hjMjw1tMEeesAqvk4oi7fQ" source="_hjMjwVtMEeesAqvk4oi7fQ" target="_hjMjtFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

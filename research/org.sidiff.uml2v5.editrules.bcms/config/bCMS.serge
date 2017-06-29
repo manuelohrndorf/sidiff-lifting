@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd">
+<Config>
+	<MetaModel>
+		
+	<MainModel nsUri="http://www.eclipse.org/uml2/5.0.0/UML"/>
+    </MetaModel>
+
+	<Transformations>
+		<CREATE enable="true"/>
+		<DELETE enable="true"/>
+		<MOVE allowReferenceCombinations="false" allowReferenceSwitching="false" enable="false"/>
+		<MOVE_UP enable="false"/>
+		<MOVE_DOWN enable="false"/>
+		<SET_ATTRIBUTE enable="false"/>
+		<UNSET_ATTRIBUTE enable="false"/>
+		<SET_REFERENCE enable="true"/>
+		<UNSET_REFERENCE enable="true"/>
+		<ADD enable="true"/>
+		<REMOVE enable="true"/>
+		<CHANGE_LITERAL allowLiteralSwitching="false" enable="false"/>
+		<CHANGE_REFERENCE enable="false"/>
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true"/>
+		<CreateMandatoryNeighbours enable="true"/>
+		<CreateMultiplicityPreconditions enable="true"/>
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement reduceDanglings="true" ruleType="CREATE_DELETE"/>
+			<AbstractReplacement reduceDanglings="true" ruleType="ADD_REMOVE"/>
+			<AbstractReplacement reduceDanglings="true" ruleType="SET_UNSET_REFERENCE"/>
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement reduceContext="true" reduceDanglings="true" ruleType="CREATE_DELETE"/>
+			<SupertypeReplacement reduceContext="true" reduceDanglings="true" ruleType="ADD_REMOVE"/>
+			<SupertypeReplacement reduceContext="true" reduceDanglings="true" ruleType="SET_UNSET_REFERENCE"/>
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true"/>
+			<DanglingNodeSettings defaultTypeInclusion="always">
+			<!-- can be fine-tuned for each element type in detail here; see documentation -->
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings defaultGenerationCase="always">
+			<!-- can be fine-tuned for each element type in detail here;  see documentation -->
+			<GenerateModulesFor case="always" type="InteractionOperand"/>
+                <GenerateModulesFor case="always" type="Message"/>
+                <GenerateModulesFor case="always" type="Property"/>
+                <GenerateModulesFor case="always" type="OpaqueBehavior"/>
+                <GenerateModulesFor case="always" type="Pseudostate"/>
+                <GenerateModulesFor case="always" type="Class"/>
+                <GenerateModulesFor case="always" type="Enumeration"/>
+                <GenerateModulesFor case="always" type="LiteralInteger"/>
+                <GenerateModulesFor case="always" type="Association"/>
+                <GenerateModulesFor case="always" type="Transition"/>
+                <GenerateModulesFor case="always" type="Operation"/>
+                <GenerateModulesFor case="always" type="Region"/>
+                <GenerateModulesFor case="always" type="Model"/>
+                <GenerateModulesFor case="always" type="Comment"/>
+                <GenerateModulesFor case="always" type="Generalization"/>
+                <GenerateModulesFor case="always" type="Trigger"/>
+                <GenerateModulesFor case="always" type="Package"/>
+                <GenerateModulesFor case="always" type="CombinedFragment"/>
+                <GenerateModulesFor case="always" type="LiteralUnlimitedNatural"/>
+                <GenerateModulesFor case="always" type="EnumerationLiteral"/>
+                <GenerateModulesFor case="always" type="StateMachine"/>
+                <GenerateModulesFor case="always" type="State"/>
+                <GenerateModulesFor case="always" type="OpaqueExpression"/>
+                <GenerateModulesFor case="always" type="Lifeline"/>
+                <GenerateModulesFor case="always" type="BehaviorExecutionSpecification"/>
+                <GenerateModulesFor case="always" type="FinalState"/>
+                <GenerateModulesFor case="always" type="ExecutionOccurrenceSpecification"/>
+                <GenerateModulesFor case="always" type="Interaction"/>
+                <GenerateModulesFor case="always" type="LiteralString"/>
+                <GenerateModulesFor case="always" type="CallEvent"/>
+                <GenerateModulesFor case="always" type="MessageOccurrenceSpecification"/>
+                <GenerateModulesFor case="always" type="Constraint"/>
+                <GenerateModulesFor case="always" type="InteractionConstraint"/>
+            </ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>
