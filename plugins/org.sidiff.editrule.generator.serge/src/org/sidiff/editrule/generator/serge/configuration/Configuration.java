@@ -32,7 +32,7 @@ public class Configuration {
 	
 	// configurations not on config or settings	
 	public boolean enable_duplicate_filter = false;
-	public boolean enable_execution_check_filter = false;
+	public boolean enable_execution_check_filter = true;
 	public boolean enable_name_mapper = false;
 	public boolean enable_inner_containment_cycle_detection = false;
 	
