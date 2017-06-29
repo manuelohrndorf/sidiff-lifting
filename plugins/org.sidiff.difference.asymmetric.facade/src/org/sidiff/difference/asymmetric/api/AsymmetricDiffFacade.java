@@ -9,6 +9,8 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StatisticsUtil;
+import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.api.util.Difference;
@@ -113,10 +115,17 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 */
 	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
-		settings.setUnmergeImports(false);
+		// Set SiLift default Correspondence-Service:
+		settings.setCorrespondencesService(
+				CorrespondencesUtil.getAvailableCorrespondencesService(
+						MatchingModelCorrespondences.SERVICE_ID));
+		
+		// Calculate model difference:
+		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
 		settings.setUnmergeImports(true);
 		
+		// Lift model difference:
 		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
 	}
 	
@@ -137,11 +146,11 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 */
 	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
-		settings.setUnmergeImports(false);
-		SymmetricDifference symmetricDifference = deriveTechnicalDifference(models, settings);
-		settings.setUnmergeImports(true);
-		
-		return deriveLiftedAsymmetricDifference(symmetricDifference, settings);
+		if (models.getResources().size() == 2) {
+			return deriveLiftedAsymmetricDifference(models.getResources().get(0), models.getResources().get(1), settings);
+		} else {
+			throw new RuntimeException("Exactly two models are required.");
+		}
 	}
 
 	/**
