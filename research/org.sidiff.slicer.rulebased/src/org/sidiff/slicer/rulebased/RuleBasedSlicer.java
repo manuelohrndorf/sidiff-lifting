@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
@@ -117,15 +118,25 @@ public class RuleBasedSlicer{
 		this.emptyResource = emtpyResource;
 		this.slicedResource = slicedResource;
 		
-		this.generateIDs(completeResource);
+//		this.generateIDs(completeResource);
 		
 		this.c_complete_slice = EMFUtil.copySubModel(new HashSet<EObject>(completeResource.getContents()));
 		
 		this.slicedResource.getContents().addAll(c_complete_slice.values());
 		
+		for(EObject c_complete : c_complete_slice.keySet()){
+			String id = EMFUtil.getXmiId(c_complete);
+			EMFUtil.setXmiId(c_complete_slice.get(c_complete), id);
+		}
+		
 		this.c_slice_empty = EMFUtil.copySubModel(new HashSet<EObject>(slicedResource.getContents()));
 		
 		this.emptyResource.getContents().addAll(c_slice_empty.values());
+		
+		for(EObject c_slice : c_slice_empty.keySet()){
+			String id = EMFUtil.getXmiId(c_slice);
+			EMFUtil.setXmiId(c_slice_empty.get(c_slice), id);
+		}
 		
 //		EcoreUtil.resolveAll(originResource);
 //		for(Resource resource : originResource.getResourceSet().getResources()){
@@ -414,19 +425,19 @@ public class RuleBasedSlicer{
 //		return removedElements;
 //	}
 	
-	/**
-	 * generates UUIDs for elements without one
-	 * @param model
-	 */
-	private void generateIDs(Resource model){
-		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
-			EObject eObject = iterator.next();
-			String id = EMFUtil.getXmiId(eObject);
-			if(id == null){
-				EMFUtil.setXmiId(eObject, java.util.UUID.randomUUID().toString());
-			}
-		}
-	}
+//	/**
+//	 * generates UUIDs for elements without one
+//	 * @param model
+//	 */
+//	private void generateIDs(Resource model){
+//		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
+//			EObject eObject = iterator.next();
+//			String id = EMFUtil.getXmiId(eObject);
+//			if(id == null){
+//				EMFUtil.setXmiId(eObject, EcoreUtil.generateUUID());
+//			}
+//		}
+//	}
 
 	/**
 	 * 

@@ -3,13 +3,16 @@ package org.sidiff.slicer.rulebased.ui.views;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -50,6 +53,7 @@ import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.api.util.Difference;
@@ -221,9 +225,14 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * 			the {@link IFile} representing the origin resource
 	 */
 	public void init(IFile input){
-		this.remoteResourceComplete = EMFStorage.eLoad(EMFStorage.pathToUri(input.getLocation().toOSString())).eResource();
-		this.remoteResourceEmpty = new ResourceSetImpl().createResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())));
-		this.currentSlice = new ResourceSetImpl().createResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "current_slice_" + remoteResourceComplete.getURI().lastSegment())));
+		
+		this.localResource = null;
+		
+		this.remoteResourceComplete = new UUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString()), new ResourceSetImpl());
+		
+		this.remoteResourceEmpty = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())));
+			
+		this.currentSlice = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "current_slice_" + remoteResourceComplete.getURI().lastSegment())));
 	
 		this.config.setLiftingSettings(new LiftingSettings(EMFModelAccess.getDocumentTypes(this.remoteResourceComplete, Scope.RESOURCE)));
 		this.config.getLiftingSettings().setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
@@ -244,6 +253,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty, this.currentSlice);
 		
 		try {
+			this.remoteResourceComplete.save(null);
 			this.remoteResourceEmpty.save(null);
 			this.currentSlice.save(null);
 		} catch (IOException e) {
@@ -335,6 +345,26 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 					updateSlicingCriteria();
 					slicer.slice(addSlicingCriteria, remSlicingCriteria);
 					currentSlice.save(null);
+					treeViewer.setInput(currentSlice.getResourceSet());
+					
+					
+					if(localResource == null){
+						localResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local")));
+						Map<EObject, EObject> copies = EMFUtil.copyAll(currentSlice.getContents());
+						for(EObject eObject : currentSlice.getContents()){
+							localResource.getContents().add(copies.get(eObject));
+						}
+						for(EObject o : copies.keySet()){
+							String id = EMFUtil.getXmiId(o);
+							EMFUtil.setXmiId(copies.get(o), id);
+						}
+						localResource.save(null);
+					}
+					
+					IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localResource);
+					IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localResource.getURI());
+					EditingDomain editingDomain = domainEditor.getEditingDomain(editorPart);
+					
 				} catch (UncoveredChangesException | NotInitializedException e) {
 					MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
 				} catch (IOException e) {
@@ -363,7 +393,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							Difference diff = null;
 							if(localResource == null){
 								localResource = new ResourceSetImpl().createResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local")));
-								localResource.getContents().addAll(EcoreUtil.copyAll(currentSlice.getContents()));
+								localResource.getContents().addAll(EMFUtil.copyAll(currentSlice.getContents()).values());
 								localResource.save(null);
 							}else{
 //								 diff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(previousSlice, currentSlice, config.getLiftingSettings());
