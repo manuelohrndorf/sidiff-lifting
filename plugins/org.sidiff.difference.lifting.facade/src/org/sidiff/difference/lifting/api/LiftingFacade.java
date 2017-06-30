@@ -12,6 +12,7 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
@@ -25,6 +26,7 @@ import org.sidiff.difference.symmetric.util.debug.ModelReducer;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.correspondences.CorrespondencesUtil;
 
 /**
  * Convenient access to lifting functions.
@@ -149,10 +151,17 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 */
 	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
-		settings.setUnmergeImports(false);
+		// Set SiLift default Correspondence-Service:
+		settings.setCorrespondencesService(
+				CorrespondencesUtil.getAvailableCorrespondencesService(
+						MatchingModelCorrespondences.SERVICE_ID));
+		
+		// Calculate model difference:
+		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
 		settings.setUnmergeImports(true);
 		
+		// Lift model difference:
 		return liftTechnicalDifference(symmetricDifference, settings);
 	}
 	
