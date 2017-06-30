@@ -61,8 +61,8 @@ public class SiDiffSlicingApplication implements IApplication{
 		
 	
 		RuleBasedSlicer slicer = new RuleBasedSlicer();
-		slicer.init(slicing_config, model.eResource(), targetResource);
-		slicer.slice(contexts);
+//		slicer.init(slicing_config, model.eResource(), targetResource);
+//		slicer.slice(contexts);
 		
 		targetResource.save(null);
 
