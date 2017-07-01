@@ -354,6 +354,17 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							updateSlicingCriteria();
 							asymDiff = slicer.slice(addSlicingCriteria, remSlicingCriteria);
 							remoteSlicedResource.save(null);
+							
+							for (Iterator<EObject> iterator = remoteSlicedResource.getAllContents(); iterator.hasNext();) {
+								EObject eObject = iterator.next();
+								String id = EMFUtil.getXmiId(eObject);
+								assert id!=null: "no id";
+								EObject o = remoteResourceComplete.getEObject(id);
+								checkboxTreeViewer.setChecked(o, true);
+							}
+
+							checkboxTreeViewer.refresh();
+							
 //							treeViewer.setInput(currentSlice.getResourceSet());
 					
 							IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localModifiedSlicedResource);
