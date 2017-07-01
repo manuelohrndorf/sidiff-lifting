@@ -2,6 +2,7 @@ package org.sidiff.slicer.rulebased.ui.views;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.rmi.server.RemoteCall;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -75,6 +76,7 @@ import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
+import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
 
 /**
  * 
@@ -167,6 +169,11 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 */
 	private CheckboxTreeViewer checkboxTreeViewer;
 	
+	/**
+	 * 
+	 */
+	
+	private SlicingCriteriaLabelProvider labelProvider;
 	/**
 	 * 
 	 */
@@ -283,7 +290,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	public void createPartControl(Composite parent) {
 		this.checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.checkboxTreeViewer.setContentProvider(new AdapterFactoryContentProvider(this.adapterFactory));
-		this.checkboxTreeViewer.setLabelProvider(new AdapterFactoryLabelProvider(this.adapterFactory));
+		this.labelProvider = new SlicingCriteriaLabelProvider(new AdapterFactoryLabelProvider(this.adapterFactory));
+		this.checkboxTreeViewer.setLabelProvider(this.labelProvider);
 		this.checkboxTreeViewer.addCheckStateListener(this);
 
 		// Create the help context id for the viewer's control
@@ -354,6 +362,27 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							updateSlicingCriteria();
 							asymDiff = slicer.slice(addSlicingCriteria, remSlicingCriteria);
 							remoteSlicedResource.save(null);
+							Set<EObject> newElements = new HashSet<EObject>();
+							for (Iterator<EObject> iterator = remoteSlicedResource.getAllContents(); iterator.hasNext();) {
+								EObject eObject = iterator.next();
+								String id = EMFUtil.getXmiId(eObject);
+								EObject eObject_ = null;
+								for (Iterator<EObject> iterator2 = remoteResourceComplete.getAllContents(); iterator2.hasNext();) {
+									EObject eObject2 = iterator2.next();
+									String id_ = EMFUtil.getXmiId(eObject2);
+									if(id.equals(id_)){
+										eObject_ = eObject2;
+										break;
+									}
+								}
+								if(!addSlicingCriteria.contains(eObject_)){
+									checkboxTreeViewer.setChecked(eObject_, true);
+									checkboxTreeViewer.expandToLevel(((ITreeContentProvider)checkboxTreeViewer.getContentProvider()).getParent(eObject_), 1);
+									newElements.add(eObject_);
+								}
+							}
+							labelProvider.setAddElements(newElements);
+							checkboxTreeViewer.refresh();
 //							treeViewer.setInput(currentSlice.getResourceSet());
 					
 							IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localModifiedSlicedResource);
@@ -401,7 +430,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 						}
 					}
 					
-					if(conflicting){
+					if(true){
 						OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 						ModelAdapter adapter = new ModelAdapter(
 								resourceResult.get());
