@@ -49,6 +49,8 @@ import org.eclipse.ui.part.ViewPart;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
@@ -72,7 +74,9 @@ import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
+import org.sidiff.slicer.rulebased.UUIDBasedArgumentManager;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
@@ -101,11 +105,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	private Resource remoteResourceEmpty;
 	
 	/**
-	 * The current sliced remote {@link Resource}
-	 */
-	private Resource remoteSlicedResource;
-	
-	/**
 	 * The local sliced {@link Resource}
 	 */
 	private Resource localSlicedResource;
@@ -126,14 +125,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	private RuleBasedSlicer slicer;
 	
 	/**
-	 * The slicing criteria to add
+	 * The slicing criteria
 	 */
-	private Set<EObject> addSlicingCriteria;
-	
-	/**
-	 * The slicing criteria to remove
-	 */
-	private Set<EObject> remSlicingCriteria;
+	private Set<EObject> slicingCriteria;
 	
 	/**
 	 * The {@link SlicingConfiguration}
@@ -210,8 +204,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 */
 	public SlicingCriteriaView() {
 		this.slicer = new RuleBasedSlicer();
-		this.addSlicingCriteria = new HashSet<EObject>();
-		this.remSlicingCriteria = new HashSet<EObject>();
+		this.slicingCriteria = new HashSet<EObject>();
 		this.config = new SlicingConfiguration(new LiftingSettings());
 		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 	}
@@ -223,14 +216,22 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 */
 	public void init(IFile input){
 		
-		this.localSlicedResource = null;
 		
 		this.remoteResourceComplete = new UUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString()), new ResourceSetImpl());
 		
 		this.remoteResourceEmpty = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())));
-			
-		this.remoteSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "current_slice_" + remoteResourceComplete.getURI().lastSegment())));
-	
+
+		this.localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
+		
+		Map<EObject, EObject> copies = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
+		
+		this.localSlicedResource.getContents().addAll(copies.values());
+		
+		for(EObject origin : copies.keySet()){
+			String id = EMFUtil.getXmiId(origin);
+			EMFUtil.setXmiId(copies.get(origin), id);
+		}
+		
 		this.config.setLiftingSettings(new LiftingSettings(EMFModelAccess.getDocumentTypes(this.remoteResourceComplete, Scope.RESOURCE)));
 		this.config.getLiftingSettings().setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
 		
@@ -239,7 +240,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				config.getLiftingSettings().getCandidatesService(),
 				config.getLiftingSettings().getCorrespondencesService(),
 				config.getLiftingSettings().getTechBuilder(), null,
-				new InteractiveArgumentManager(config.getLiftingSettings().getMatcher()),
+				new UUIDBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
 				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
 				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE,
@@ -247,14 +248,12 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		
 		this.checkboxTreeViewer.setInput(this.remoteResourceComplete.getResourceSet());
 		this.checkboxTreeViewer.refresh();
-		this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty, this.remoteSlicedResource);
-		
 		try {
-			this.remoteResourceComplete.save(null);
+			this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty);
 			this.remoteResourceEmpty.save(null);
-			this.remoteSlicedResource.save(null);
-		} catch (IOException e) {
+		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException | IOException e) {
 			MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
+			e.printStackTrace();
 		}
 		
 		this.checkboxTreeViewer.setGrayChecked(this.remoteResourceComplete, true);
@@ -263,25 +262,21 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		}
 		
 		this.synchAction.setEnabled(true);
-//		this.treeViewer.setInput(this.currentSlice.getResourceSet());
-//		this.treeViewer.refresh();
-		
-		initEContentAdapter(this.remoteSlicedResource);
 	}
 	
-	private void initEContentAdapter(Resource resource){
-		this.eContentAdapter = new EContentAdapter(){
-
-			@Override
-			public void notifyChanged(Notification notification) {
-				// TODO Auto-generated method stub
-				super.notifyChanged(notification);
-				System.out.println(notification);
-			}
-			
-		};
-		resource.eAdapters().add(this.eContentAdapter);
-	}
+//	private void initEContentAdapter(Resource resource){
+//		this.eContentAdapter = new EContentAdapter(){
+//
+//			@Override
+//			public void notifyChanged(Notification notification) {
+//				// TODO Auto-generated method stub
+//				super.notifyChanged(notification);
+//				System.out.println(notification);
+//			}
+//			
+//		};
+//		resource.eAdapters().add(this.eContentAdapter);
+//	}
 	
 	/**
 	 * This is a callback that will allow us
@@ -334,21 +329,10 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 					public void run() {
 						try {
 							
-							localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
-							Map<EObject, EObject> copies = EMFUtil.copyAll(remoteSlicedResource.getContents());
-							for(EObject eObject : remoteSlicedResource.getContents()){
-								localSlicedResource.getContents().add(copies.get(eObject));
-							}
-							for(EObject o : copies.keySet()){
-								String id = EMFUtil.getXmiId(o);
-								EMFUtil.setXmiId(copies.get(o), id);
-							}
-							localSlicedResource.save(null);
-							
 							if(localModifiedSlicedResource == null){
 								localModifiedSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local")));
-								copies = EMFUtil.copyAll(remoteSlicedResource.getContents());
-								for(EObject eObject : remoteSlicedResource.getContents()){
+								Map<EObject, EObject> copies = EMFUtil.copyAll(localSlicedResource.getContents());
+								for(EObject eObject : localSlicedResource.getContents()){
 									localModifiedSlicedResource.getContents().add(copies.get(eObject));
 								}
 								for(EObject o : copies.keySet()){
@@ -360,28 +344,16 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							}
 							
 							updateSlicingCriteria();
-							asymDiff = slicer.slice(addSlicingCriteria, remSlicingCriteria);
-							remoteSlicedResource.save(null);
-							Set<EObject> newElements = new HashSet<EObject>();
-							for (Iterator<EObject> iterator = remoteSlicedResource.getAllContents(); iterator.hasNext();) {
-								EObject eObject = iterator.next();
-								String id = EMFUtil.getXmiId(eObject);
-								EObject eObject_ = null;
-								for (Iterator<EObject> iterator2 = remoteResourceComplete.getAllContents(); iterator2.hasNext();) {
-									EObject eObject2 = iterator2.next();
-									String id_ = EMFUtil.getXmiId(eObject2);
-									if(id.equals(id_)){
-										eObject_ = eObject2;
-										break;
-									}
-								}
-								if(!addSlicingCriteria.contains(eObject_)){
-									checkboxTreeViewer.setChecked(eObject_, true);
-									checkboxTreeViewer.expandToLevel(((ITreeContentProvider)checkboxTreeViewer.getContentProvider()).getParent(eObject_), 1);
-									newElements.add(eObject_);
-								}
+							asymDiff = slicer.slice(slicingCriteria);
+							for (EObject eObject : slicer.getExtendedAddSlicingCriteria()) {
+								checkboxTreeViewer.setChecked(eObject, true);								
 							}
-							labelProvider.setAddElements(newElements);
+							labelProvider.setAddElements(slicer.getExtendedAddSlicingCriteria());
+							
+							for (EObject eObject : slicer.getExtendedRemSlicingCriteria()) {
+								checkboxTreeViewer.setChecked(eObject, false);								
+							}
+							labelProvider.setRemElements(slicer.getExtendedRemSlicingCriteria());
 							checkboxTreeViewer.refresh();
 //							treeViewer.setInput(currentSlice.getResourceSet());
 					
@@ -409,12 +381,14 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 									reportViewReference.set(reportView);
 							}			
 					
-						} catch (UncoveredChangesException | NotInitializedException e) {
-							MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
-						} catch (IOException e) {
+						
+						} catch (IOException | NotInitializedException e) {
 							MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
 							e.printStackTrace();
 						} catch (PartInitException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ExtendedSlicingCriteriaIntersectionException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -562,14 +536,11 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	}
 	
 	private void updateSlicingCriteria(){
-		addSlicingCriteria.clear();
-		remSlicingCriteria.clear();
+		slicingCriteria.clear();
 		for (Iterator<EObject> iterator = remoteResourceComplete.getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
 			if(this.checkboxTreeViewer.getChecked(eObject)){
-				addSlicingCriteria.add(eObject);
-			}else{
-				remSlicingCriteria.add(eObject);
+				slicingCriteria.add(eObject);
 			}
 			
 		}
