@@ -355,6 +355,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							asymDiff = slicer.slice(addSlicingCriteria, remSlicingCriteria);
 							remoteSlicedResource.save(null);
 							
+							// Update repository browser selection according to the extended slice:
 							for (Iterator<EObject> iterator = remoteSlicedResource.getAllContents(); iterator.hasNext();) {
 								EObject eObject = iterator.next();
 								String id = EMFUtil.getXmiId(eObject);
