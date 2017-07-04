@@ -118,8 +118,6 @@ public class RuleBasedSlicer{
 		this.emptyResource = emtpyResource;
 		this.slicedResource = slicedResource;
 		
-//		this.generateIDs(completeResource);
-		
 		this.c_complete_slice = EMFUtil.copySubModel(new HashSet<EObject>(completeResource.getContents()));
 		
 		this.slicedResource.getContents().addAll(c_complete_slice.values());

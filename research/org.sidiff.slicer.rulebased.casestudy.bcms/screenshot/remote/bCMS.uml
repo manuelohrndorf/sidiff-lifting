@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_1MmhamndEeWZOoTCcU_ksg" name="BCMS" URI="" viewpoint="">
+  <ownedComment xmi:type="uml:Comment" xmi:id="_1Mmha2ndEeWZOoTCcU_ksg" annotatedElement="_1MmhamndEeWZOoTCcU_ksg">
+    <body>Author:alfredo.&#xD;
+Created:20/04/11 15:08.&#xD;
+Title:.&#xD;
+Comment:.&#xD;
+</body>
+  </ownedComment>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_1Mnt4GndEeWZOoTCcU_ksg" name="SM-PSCSystem" isReentrant="true">
+    <region xmi:type="uml:Region" xmi:id="_1Mnt4WndEeWZOoTCcU_ksg" name="Region1" visibility="public">
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt5mndEeWZOoTCcU_ksg" name="Authorising-comTimeout(Trigger)/standAloneResolution->Idle" visibility="public" source="_1Mnt9WndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iBRwkKGYEeWOH5kx_G3ggA" name="standAloneResolution"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_eSCesKGYEeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt62ndEeWZOoTCcU_ksg" name="Idle-callFScoordinator(Trigger)[ConnectivityPSC.Online]/reqComPSC->Authorising" visibility="public" guard="_Og23MKGTEeWOH5kx_G3ggA" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1Mnt9WndEeWZOoTCcU_ksg">
+        <ownedRule xmi:type="uml:Constraint" xmi:id="_Og23MKGTEeWOH5kx_G3ggA" name="ConnectivityPSC.Online">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_tVx88KGTEeWOH5kx_G3ggA" name="ConnectivityPSC.Online(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>in(ConnectivityPSC.Online)</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZvLCYKGWEeWOH5kx_G3ggA" name="reqComPSC"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_8B7L0KGUEeWOH5kx_G3ggA" name="callFScoordinator(Trigger)" event="_74rwQKGUEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt7GndEeWZOoTCcU_ksg" name="Idle-reqComFSC(Trigger)/receiveFScoordinatorCall->Authorising" visibility="public" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1Mnt9WndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_7pnSIKGXEeWOH5kx_G3ggA" name="receiveFScoordinatorCall"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_6W0qAKGWEeWOH5kx_G3ggA" name="reqComFSC(Trigger)" event="_6JKogKGWEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt8GndEeWZOoTCcU_ksg" name="initial-->Idle" visibility="public" source="_1Mnuo2ndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg"/>
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt8WndEeWZOoTCcU_ksg" name="ExchangingCrisisDetails-comTimout(Trigger)/standAloneResolution->Idle" visibility="public" source="_1MnupGndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_xZdbgKGYEeWOH5kx_G3ggA" name="standAloneResolution"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_uE4sYKGYEeWOH5kx_G3ggA" name="comTimout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnuo2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1Mnt9WndEeWZOoTCcU_ksg" name="Authorising" visibility="public">
+        <region xmi:type="uml:Region" xmi:id="_K6P9UKEZEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnt92ndEeWZOoTCcU_ksg" name="initial-->S.1.0.0" visibility="public" source="_1Mnt-2ndEeWZOoTCcU_ksg" target="_1Mnt-mndEeWZOoTCcU_ksg"/>
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnt-GndEeWZOoTCcU_ksg" name="S.1.0.0-sendPScoordinatorCredentials(Trigger)/authPSC->S.1.0.1" visibility="public" source="_1Mnt-mndEeWZOoTCcU_ksg" target="_1Mnt_WndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_3c0PoKGZEeWOH5kx_G3ggA" name="authPSC"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_1JPDcKGZEeWOH5kx_G3ggA" name="sendPScoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnt-WndEeWZOoTCcU_ksg" name="S.1.0.1-authFSC(Trigger)/receiveFScoordinatorCredentials->ExchangingCrisisDetails" visibility="public" source="_1Mnt_WndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mH25gKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_hIbyIKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnt-2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt-mndEeWZOoTCcU_ksg" name="S.1.0.0" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt_WndEeWZOoTCcU_ksg" name="S.1.0.1" visibility="public"/>
+        </region>
+        <region xmi:type="uml:Region" xmi:id="_NciT4KEZEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnt_2ndEeWZOoTCcU_ksg" name="initial-->S.1.1.0" visibility="public" source="_1MnuA2ndEeWZOoTCcU_ksg" target="_1MnuAmndEeWZOoTCcU_ksg"/>
+          <transition xmi:type="uml:Transition" xmi:id="_1MnuAGndEeWZOoTCcU_ksg" name="S.1.1.0-authFSC(Trigger)/receiveFScoordinatorCredentials->S.1.1.1" visibility="public" source="_1MnuAmndEeWZOoTCcU_ksg" target="_1MnuBWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_X-r_YKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_T0LGwKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_1MnuAWndEeWZOoTCcU_ksg" name="S.1.1.1-sendPCcoordinatorCredentials(Trigger)/authPSC->ExchangingCrisisDetails" visibility="public" source="_1MnuBWndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_spVCcKGaEeWOH5kx_G3ggA" name="authPSC"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_rRRDUKGaEeWOH5kx_G3ggA" name="sendPCcoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuA2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuAmndEeWZOoTCcU_ksg" name="S.1.1.0" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuBWndEeWZOoTCcU_ksg" name="S.1.1.1" visibility="public"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnupGndEeWZOoTCcU_ksg" name="ExchangingCrisisDetails" visibility="public">
+        <region xmi:type="uml:Region" xmi:id="_2B28saEZEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_1MnupmndEeWZOoTCcU_ksg" name="initial-->S.2.0.0" visibility="public" source="_1MnuqmndEeWZOoTCcU_ksg" target="_1MnuqWndEeWZOoTCcU_ksg"/>
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnup2ndEeWZOoTCcU_ksg" name="S.2.0.0-sendPSCrisisDetails(Trigger)/crisisDetailsPSC->S.2.0.1" visibility="public" source="_1MnuqWndEeWZOoTCcU_ksg" target="_1MnurGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_FX7DIKGbEeWOH5kx_G3ggA" name="crisisDetailsPSC"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_CxmhIKGbEeWOH5kx_G3ggA" name="sendPSCrisisDetails(Trigger)" event="_fR20sJjLEeWO1Z0hulOgIQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuqmndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuqWndEeWZOoTCcU_ksg" name="S.2.0.0" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnurGndEeWZOoTCcU_ksg" name="S.2.0.1" visibility="public"/>
+        </region>
+        <region xmi:type="uml:Region" xmi:id="_2rdTUKEZEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:type="uml:Transition" xmi:id="_1MnurmndEeWZOoTCcU_ksg" name="initial-->S.2.1.0" visibility="public" source="_1MnusGndEeWZOoTCcU_ksg" target="_1MnusWndEeWZOoTCcU_ksg"/>
+          <transition xmi:type="uml:Transition" xmi:id="_1Mnur2ndEeWZOoTCcU_ksg" name="S.2.1.0-crisisDetailsFSC(Trigger)/receiveFScrisisDetails->S.2.1.1" visibility="public" source="_1MnusWndEeWZOoTCcU_ksg" target="_1Mnus2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_S8TOIKGbEeWOH5kx_G3ggA" name="receiveFScrisisDetails"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_PTuk8KGbEeWOH5kx_G3ggA" name="crisisDetailsFSC(Trigger)" event="_PGqZUKGbEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnusGndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnusWndEeWZOoTCcU_ksg" name="S.2.1.0" visibility="public"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnus2ndEeWZOoTCcU_ksg" name="S.2.1.1" visibility="public"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuM2ndEeWZOoTCcU_ksg" name="Idle" visibility="public"/>
+    </region>
+    <region xmi:type="uml:Region" xmi:id="_25hZ8KEYEeW-btv3BzkPdA" name="Region2">
+      <transition xmi:type="uml:Transition" xmi:id="_1MnutWndEeWZOoTCcU_ksg" name="initial-->Idle" visibility="public" source="_1Mnut2ndEeWZOoTCcU_ksg" target="_1MnuuGndEeWZOoTCcU_ksg"/>
+      <transition xmi:type="uml:Transition" xmi:id="_1MnutmndEeWZOoTCcU_ksg" name="Idle-reportReasonsTimeout(Trigger)[routeNegotiationTimeout(Constraint)]->final" visibility="public" guard="_95aO4KG1EeWOH5kx_G3ggA" source="_1MnuuGndEeWZOoTCcU_ksg" target="_1MnuuWndEeWZOoTCcU_ksg">
+        <ownedRule xmi:type="uml:Constraint" xmi:id="_95aO4KG1EeWOH5kx_G3ggA" name="routeNegotiationTimeout(Constraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_95aO4aG1EeWOH5kx_G3ggA" name="routeNegotiationTimeout(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>routeNegotiationTimeout</body>
+          </specification>
+        </ownedRule>
+        <trigger xmi:type="uml:Trigger" xmi:id="_3SXpcKG1EeWOH5kx_G3ggA" name="reportReasonsTimeout(Trigger)" event="_YhwkkJm1EeW-E4TEPaxzcQ"/>
+      </transition>
+      <subvertex xmi:type="uml:FinalState" xmi:id="_1MnuuWndEeWZOoTCcU_ksg" name="final" visibility="public"/>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnut2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuuGndEeWZOoTCcU_ksg" name="Idle" visibility="public"/>
+    </region>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_GxPQsGz8EeW6uPHIhAGlxQ" name="Scenario1-2">
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_qt6VkG0LEeW6uPHIhAGlxQ" name="Scenario1-2:PScoordinator" represents="_1MnFkGndEeWZOoTCcU_ksg" coveredBy="_S0a7cG0MEeW6uPHIhAGlxQ _S0cwoG0MEeW6uPHIhAGlxQ _aYqwAG0MEeW6uPHIhAGlxQ _knQosJdCEeWvcez0hKdksQ _knQBoJdCEeWvcez0hKdksQ _Ge0RoJdGEeWvcez0hKdksQ _ZOBaYpdUEeWvcez0hKdksQ _ZOBaYZdUEeWvcez0hKdksQ _hVXU8pdUEeWvcez0hKdksQ"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_4bguAG0LEeW6uPHIhAGlxQ" name="Scenario1-2:PSCSystem" represents="_1MnuxGndEeWZOoTCcU_ksg" coveredBy="_S0a7cG0MEeW6uPHIhAGlxQ _S0cwoG0MEeW6uPHIhAGlxQ _aYqwAG0MEeW6uPHIhAGlxQ _0w2tAJdDEeWvcez0hKdksQ _Ge0RoZdGEeWvcez0hKdksQ _fUr3oJdJEeWvcez0hKdksQ _3hGYUJdJEeWvcez0hKdksQ _RKJVcZdSEeWvcez0hKdksQ _RKJVcJdSEeWvcez0hKdksQ _1S99wJdSEeWvcez0hKdksQ _hVXU8ZdUEeWvcez0hKdksQ"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_LNls8G0MEeW6uPHIhAGlxQ" name="Scenario1-2:FScoordinator" represents="_1MntkWndEeWZOoTCcU_ksg" coveredBy="_S0a7cG0MEeW6uPHIhAGlxQ _S0cwoG0MEeW6uPHIhAGlxQ _aYqwAG0MEeW6uPHIhAGlxQ _KGrbEZdEEeWvcez0hKdksQ _KGrbEJdEEeWvcez0hKdksQ _Ni6lgZdREeWvcez0hKdksQ _Ni6lgJdREeWvcez0hKdksQ _tlOEYJdREeWvcez0hKdksQ _IR1KkJdKEeWvcez0hKdksQ"/>
+    <lifeline xmi:type="uml:Lifeline" xmi:id="_AefhsIJwEeWxhcHHNLyGhQ" name="Scenario1-2:FSCSystem" represents="_1Mnux2ndEeWZOoTCcU_ksg" coveredBy="_S0a7cG0MEeW6uPHIhAGlxQ _S0cwoG0MEeW6uPHIhAGlxQ _aYqwAG0MEeW6uPHIhAGlxQ _Gd26QZdEEeWvcez0hKdksQ _Gd26QJdEEeWvcez0hKdksQ _fUr3oZdJEeWvcez0hKdksQ _IR0jgJdKEeWvcez0hKdksQ _QPA_YpdREeWvcez0hKdksQ _QPA_YZdREeWvcez0hKdksQ _tlOEYZdREeWvcez0hKdksQ _1S9WsZdSEeWvcez0hKdksQ"/>
+    <fragment xmi:type="uml:CombinedFragment" xmi:id="_S0a7cG0MEeW6uPHIhAGlxQ" name="CombinedFragment[alt]" covered="_qt6VkG0LEeW6uPHIhAGlxQ _LNls8G0MEeW6uPHIhAGlxQ _4bguAG0LEeW6uPHIhAGlxQ _AefhsIJwEeWxhcHHNLyGhQ" interactionOperator="alt">
+      <operand xmi:type="uml:InteractionOperand" xmi:id="_S0cwoG0MEeW6uPHIhAGlxQ" name="InteractionOperand[PS coordinator starts communication]" covered="_qt6VkG0LEeW6uPHIhAGlxQ _LNls8G0MEeW6uPHIhAGlxQ _4bguAG0LEeW6uPHIhAGlxQ _AefhsIJwEeWxhcHHNLyGhQ">
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Ge0RoJdGEeWvcez0hKdksQ" name="callFScoordinator_MessageSend" covered="_qt6VkG0LEeW6uPHIhAGlxQ" message="_GezqkJdGEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0w2tAJdDEeWvcez0hKdksQ" name="PSCSystem_BehaviorExecSpec" covered="_4bguAG0LEeW6uPHIhAGlxQ" finish="_3hGYUJdJEeWvcez0hKdksQ" start="_Ge0RoZdGEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_knQBoJdCEeWvcez0hKdksQ" name="PScoordinator_BehaviorExecSpec" covered="_qt6VkG0LEeW6uPHIhAGlxQ" finish="_knQosJdCEeWvcez0hKdksQ" start="_Ge0RoJdGEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Ge0RoZdGEeWvcez0hKdksQ" name="callFScoordinator_MessageRecv" covered="_4bguAG0LEeW6uPHIhAGlxQ" message="_GezqkJdGEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_fUr3oJdJEeWvcez0hKdksQ" name="reqComPSC_MessageSend" covered="_4bguAG0LEeW6uPHIhAGlxQ" message="_fUrQkJdJEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Gd26QJdEEeWvcez0hKdksQ" name="FSCSystem_BehaviorExecSpec" covered="_AefhsIJwEeWxhcHHNLyGhQ" finish="_Gd26QZdEEeWvcez0hKdksQ" start="_fUr3oZdJEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_fUr3oZdJEeWvcez0hKdksQ" name="reqComPSC_MessageRecv" covered="_AefhsIJwEeWxhcHHNLyGhQ" message="_fUrQkJdJEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_IR0jgJdKEeWvcez0hKdksQ" name="receivePScoordinatorCall_MessageSend" covered="_AefhsIJwEeWxhcHHNLyGhQ" message="_IRz8cJdKEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_KGrbEJdEEeWvcez0hKdksQ" name="FScoordinator_BehaviorExecSpec" covered="_LNls8G0MEeW6uPHIhAGlxQ" finish="_KGrbEZdEEeWvcez0hKdksQ" start="_IR1KkJdKEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_IR1KkJdKEeWvcez0hKdksQ" name="receivePScoordinatorCall_MessageRecv" covered="_LNls8G0MEeW6uPHIhAGlxQ" message="_IRz8cJdKEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_KGrbEZdEEeWvcez0hKdksQ" name="FScoordinator_BehaviorExecSpecFinish" covered="_LNls8G0MEeW6uPHIhAGlxQ" execution="_KGrbEJdEEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_Gd26QZdEEeWvcez0hKdksQ" name="FSCSystem_BehaviorExecSpecFinish" covered="_AefhsIJwEeWxhcHHNLyGhQ" execution="_Gd26QJdEEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_3hGYUJdJEeWvcez0hKdksQ" name="PSCSystem_BehaviorExecSpecFinish" covered="_4bguAG0LEeW6uPHIhAGlxQ" execution="_0w2tAJdDEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_knQosJdCEeWvcez0hKdksQ" name="PScoordinator_BehaviorExecSpecFinish" covered="_qt6VkG0LEeW6uPHIhAGlxQ" execution="_knQBoJdCEeWvcez0hKdksQ"/>
+        <guard xmi:type="uml:InteractionConstraint" xmi:id="_S0dXsG0MEeW6uPHIhAGlxQ" name="PS coordinator starts communication">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_Y4Kk8KWTEeWTsILQwtBrhg" name="PS coordinator starts communication(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>PS coordinator starts communication</body>
+          </specification>
+          <maxint xmi:type="uml:LiteralInteger" xmi:id="_S0d-wG0MEeW6uPHIhAGlxQ" value="1"/>
+          <minint xmi:type="uml:LiteralInteger" xmi:id="_S0dXsm0MEeW6uPHIhAGlxQ"/>
+        </guard>
+      </operand>
+      <operand xmi:type="uml:InteractionOperand" xmi:id="_aYqwAG0MEeW6uPHIhAGlxQ" name="InteractionOperand[else]" covered="_qt6VkG0LEeW6uPHIhAGlxQ _LNls8G0MEeW6uPHIhAGlxQ _4bguAG0LEeW6uPHIhAGlxQ _AefhsIJwEeWxhcHHNLyGhQ">
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_tlOEYJdREeWvcez0hKdksQ" name="callPScoordinator_MessageSend" covered="_LNls8G0MEeW6uPHIhAGlxQ" message="_tlNdUJdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Ni6lgJdREeWvcez0hKdksQ" name="FScoordinator_BehaviorExecSpec" covered="_LNls8G0MEeW6uPHIhAGlxQ" finish="_Ni6lgZdREeWvcez0hKdksQ" start="_tlOEYJdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_QPA_YZdREeWvcez0hKdksQ" name="FSCSystem_BehaviorExecSpec" covered="_AefhsIJwEeWxhcHHNLyGhQ" finish="_QPA_YpdREeWvcez0hKdksQ" start="_tlOEYZdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_tlOEYZdREeWvcez0hKdksQ" name="callPScoordinator_MessageRecv" covered="_AefhsIJwEeWxhcHHNLyGhQ" message="_tlNdUJdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1S9WsZdSEeWvcez0hKdksQ" name="reqComFSC_MessageSend" covered="_AefhsIJwEeWxhcHHNLyGhQ" message="_1S9WsJdSEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_RKJVcJdSEeWvcez0hKdksQ" name="PSCSystem_BehaviorExecSpec" covered="_4bguAG0LEeW6uPHIhAGlxQ" finish="_RKJVcZdSEeWvcez0hKdksQ" start="_1S99wJdSEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1S99wJdSEeWvcez0hKdksQ" name="reqComFSC_MessageRecv" covered="_4bguAG0LEeW6uPHIhAGlxQ" message="_1S9WsJdSEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_ZOBaYZdUEeWvcez0hKdksQ" name="PS_coordinatorBehaviorExecSpec" covered="_qt6VkG0LEeW6uPHIhAGlxQ" finish="_ZOBaYpdUEeWvcez0hKdksQ" start="_hVXU8pdUEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_hVXU8ZdUEeWvcez0hKdksQ" name="receiveFScoordinatorCall_MessageSend" covered="_4bguAG0LEeW6uPHIhAGlxQ" message="_hVXU8JdUEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_RKJVcZdSEeWvcez0hKdksQ" name="PSCSystem_BehaviorExecSpecFinish" covered="_4bguAG0LEeW6uPHIhAGlxQ" execution="_RKJVcJdSEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_ZOBaYpdUEeWvcez0hKdksQ" name="PScoordinator_BehaviorExecSpecFinish" covered="_qt6VkG0LEeW6uPHIhAGlxQ" execution="_ZOBaYZdUEeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_QPA_YpdREeWvcez0hKdksQ" name="FSCSystem_BehaviorExecSpecFinish" covered="_AefhsIJwEeWxhcHHNLyGhQ" execution="_QPA_YZdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:ExecutionOccurrenceSpecification" xmi:id="_Ni6lgZdREeWvcez0hKdksQ" name="FScoordinator_BehaviorExecSpecFinish" covered="_LNls8G0MEeW6uPHIhAGlxQ" execution="_Ni6lgJdREeWvcez0hKdksQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_hVXU8pdUEeWvcez0hKdksQ" name="receiveFScoordinatorCall_MessageRecv" covered="_qt6VkG0LEeW6uPHIhAGlxQ" message="_hVXU8JdUEeWvcez0hKdksQ"/>
+        <guard xmi:type="uml:InteractionConstraint" xmi:id="_aYrXEG0MEeW6uPHIhAGlxQ" name="else">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_gGxgsKWTEeWTsILQwtBrhg" name="else(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>else</body>
+          </specification>
+          <maxint xmi:type="uml:LiteralInteger" xmi:id="_aYr-IW0MEeW6uPHIhAGlxQ" value="1"/>
+          <minint xmi:type="uml:LiteralInteger" xmi:id="_aYr-IG0MEeW6uPHIhAGlxQ"/>
+        </guard>
+      </operand>
+    </fragment>
+    <message xmi:type="uml:Message" xmi:id="_GezqkJdGEeWvcez0hKdksQ" name="callFScoordinator_Message" receiveEvent="_Ge0RoZdGEeWvcez0hKdksQ" sendEvent="_Ge0RoJdGEeWvcez0hKdksQ" signature="_1MnFomndEeWZOoTCcU_ksg"/>
+    <message xmi:type="uml:Message" xmi:id="_fUrQkJdJEeWvcez0hKdksQ" name="reqComPSC_Message" receiveEvent="_fUr3oZdJEeWvcez0hKdksQ" sendEvent="_fUr3oJdJEeWvcez0hKdksQ" signature="_1MntoWndEeWZOoTCcU_ksg"/>
+    <message xmi:type="uml:Message" xmi:id="_IRz8cJdKEeWvcez0hKdksQ" name="receivePScoordinatorCall_Message" receiveEvent="_IR1KkJdKEeWvcez0hKdksQ" sendEvent="_IR0jgJdKEeWvcez0hKdksQ" signature="_1MntzWndEeWZOoTCcU_ksg"/>
+    <message xmi:type="uml:Message" xmi:id="_tlNdUJdREeWvcez0hKdksQ" name="callPScoordinator_Message" receiveEvent="_tlOEYZdREeWvcez0hKdksQ" sendEvent="_tlOEYJdREeWvcez0hKdksQ" signature="_1Mnto2ndEeWZOoTCcU_ksg"/>
+    <message xmi:type="uml:Message" xmi:id="_1S9WsJdSEeWvcez0hKdksQ" name="reqComFSC_Message" receiveEvent="_1S99wJdSEeWvcez0hKdksQ" sendEvent="_1S9WsZdSEeWvcez0hKdksQ" signature="_1MnFoWndEeWZOoTCcU_ksg"/>
+    <message xmi:type="uml:Message" xmi:id="_hVXU8JdUEeWvcez0hKdksQ" name="receiveFScoordinatorCall_Message" receiveEvent="_hVXU8pdUEeWvcez0hKdksQ" sendEvent="_hVXU8ZdUEeWvcez0hKdksQ" signature="_1MnGe2ndEeWZOoTCcU_ksg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_TOhmUKI6EeW4HYbLqBRXrg" name="Global Events">
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_TpzCwKGaEeWOH5kx_G3ggA" name="authFSC(CallEvent:PSCSystem)" operation="_1MnFo2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_ROSAwKHVEeW3969E5hQWLg" name="authPSC(CallEvent:FSCSystem)" operation="_1MntomndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_74rwQKGUEeWOH5kx_G3ggA" name="callFScoordinator(CallEvent:PSCSystem)" operation="_1MnFomndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_wPNQQJz1EeW2peXycS-8tg" name="callPScoordinator(CallEvent:FSCSystem)" operation="_1Mnto2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_jrxoEKHbEeW3969E5hQWLg" name="comTimeout(CallEvent:FSCSystem)" operation="_5w2z8F6hEeedh_6NmgTm7g"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_eEr_MKGYEeWOH5kx_G3ggA" name="comTimeout(CallEvent:PSCSystem)" operation="_3k9kIF6hEeedh_6NmgTm7g"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_PGqZUKGbEeWOH5kx_G3ggA" name="crisisDetailsFSC(CallEvent:PSCSystem)" operation="_1MnFpmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_2SGRsKHVEeW3969E5hQWLg" name="crisisDetailsPSC(CallEvent:FSCSystem)" operation="_1MntpmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_U7-DYJqWEeWL16I25ZOVVw" name="online(CallEvent:PScoordinator)" operation="_1MnGjWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_ezDLEJjGEeWO1Z0hulOgIQ" name="receiveFScoordinatorCall(CallEvent:PScoordinator)" operation="_1MnGe2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QjdqcJjHEeWO1Z0hulOgIQ" name="receiveFScoordinatorCredentials(CallEvent:PScoordinator)" operation="_1MnGfGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Q6-OsJjLEeWO1Z0hulOgIQ" name="receiveFScrisisDetails(CallEvent:PScoordinator)" operation="_1MnGfWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_njUeMJz1EeW2peXycS-8tg" name="receivePScoordinatorCall(CallEvent:FScoordinator)" operation="_1MntzWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_7rY_sJz1EeW2peXycS-8tg" name="receivePScoordinatorCredentials(CallEvent:FScoordinator)" operation="_1MntzmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_SGyrMJz1EeW2peXycS-8tg" name="receivePSCrisisDetails(CallEvent:FScoordinator)" operation="_1Mntz2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_CuY5AKIzEeW4HYbLqBRXrg" name="reportReasonsTimeout(CallEvent:FSCSystem)" operation="_6kXfEF6iEeedh_6NmgTm7g"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YhwkkJm1EeW-E4TEPaxzcQ" name="reportReasonsTimeout(CallEvent:PSCSystem)" operation="_4xlS0F6iEeedh_6NmgTm7g"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_6JKogKGWEeWOH5kx_G3ggA" name="reqComFSC(CallEvent:PSCSystem)" operation="_1MnFoWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MCE9cKHcEeW3969E5hQWLg" name="reqComPSC(CallEvent:FSCSystem)" operation="_1MntoWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_2wt1cJz1EeW2peXycS-8tg" name="sendFScoordinatorCredentials(CallEvent:FSCSystem)" operation="_1MntpGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_JXcVcJz1EeW2peXycS-8tg" name="sendFSCrisisDetails(CallEvent:FSCSystem)" operation="_1MntpWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MRpIkJjKEeWO1Z0hulOgIQ" name="sendPScoordinatorCredentials(CallEvent:PSCSystem)" operation="_1MnFpGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_fR20sJjLEeWO1Z0hulOgIQ" name="sendPSCrisisDetails(CallEvent:PSCSystem)" operation="_1MnFpWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_SoK8sKJVEeWaBP5WLLtcqg" name="online(CallEvent:FScoordinator)" operation="_1Mnt3mndEeWZOoTCcU_ksg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Model" xmi:id="_uxR7QKI7EeW4HYbLqBRXrg" name="Domain Model">
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGWWndEeWZOoTCcU_ksg" name="bCMSSystem_contain_fSCSystem" memberEnd="_1Mnux2ndEeWZOoTCcU_ksg _1MntmWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGDWndEeWZOoTCcU_ksg" name="bCMSSystem_contain_pSCSystem" memberEnd="_1MnuxGndEeWZOoTCcU_ksg _1MnFmGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnH6mndEeWZOoTCcU_ksg" name="communicationInfrastructure_access_communicationCompromisers" memberEnd="_1MnsjWndEeWZOoTCcU_ksg _1MnHXGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGbGndEeWZOoTCcU_ksg" name="crisis_allocate_policeCars" memberEnd="_1MnGTGndEeWZOoTCcU_ksg _1MnGZGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnH6WndEeWZOoTCcU_ksg" name="crisis_allocate_fireTrucks" memberEnd="_1MnGE2ndEeWZOoTCcU_ksg _1MnGZ2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnuumndEeWZOoTCcU_ksg" name="BCMSSystem" isLeaf="true">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnuu2ndEeWZOoTCcU_ksg" name="govermentAgency" visibility="private" type="_1MnIzWndEeWZOoTCcU_ksg" association="_1MnF3WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnuvGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnuvWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnuvmndEeWZOoTCcU_ksg" name="communicationInfrastructure" visibility="private" type="_1MnHW2ndEeWZOoTCcU_ksg" association="_1Mntc2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnuv2ndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnuwGndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnuwWndEeWZOoTCcU_ksg" name="crisis" visibility="private" type="_1MnGWmndEeWZOoTCcU_ksg" association="_1MntjGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnuwmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnuw2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnuxGndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" aggregation="composite" association="_1MnGDWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnuxWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnuxmndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnux2ndEeWZOoTCcU_ksg" name="fSCSystem" visibility="private" type="_1MntjWndEeWZOoTCcU_ksg" aggregation="composite" association="_1MnGWWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnuyGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnuyWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnsjGndEeWZOoTCcU_ksg" name="CommunicationCompromiser">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnsjWndEeWZOoTCcU_ksg" name="communicationInfrastructure" visibility="private" type="_1MnHW2ndEeWZOoTCcU_ksg" association="_1MnH6mndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnsjmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnsj2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnHW2ndEeWZOoTCcU_ksg" name="CommunicationInfrastructure">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnHXGndEeWZOoTCcU_ksg" name="communicationCompromisers" visibility="private" type="_1MnsjGndEeWZOoTCcU_ksg" association="_1MnH6mndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnHXWndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnHXmndEeWZOoTCcU_ksg" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnHX2ndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1Mntc2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnHYGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnHYWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_nakFgJc8EeWvcez0hKdksQ" name="Credential">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_pCmaUJc8EeWvcez0hKdksQ" name="format" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_zK6HEJc8EeWvcez0hKdksQ" name="user" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_QUTfIJc9EeWvcez0hKdksQ" name="password" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnGWmndEeWZOoTCcU_ksg" name="Crisis">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGW2ndEeWZOoTCcU_ksg" name="id" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGXGndEeWZOoTCcU_ksg" name="location" visibility="private" type="_1MnsiWndEeWZOoTCcU_ksg"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGXWndEeWZOoTCcU_ksg" name="startTime" visibility="private">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeExpression"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGXmndEeWZOoTCcU_ksg" name="endTime" visibility="private">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeExpression"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGX2ndEeWZOoTCcU_ksg" name="status" visibility="private" type="_1MnuymndEeWZOoTCcU_ksg"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGYGndEeWZOoTCcU_ksg" name="description" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGYWndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1MntjGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGYmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGY2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGZGndEeWZOoTCcU_ksg" name="policeCars" visibility="private" type="_1MnGR2ndEeWZOoTCcU_ksg" association="_1MnGbGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGZWndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGZmndEeWZOoTCcU_ksg" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGZ2ndEeWZOoTCcU_ksg" name="fireTrucks" visibility="private" type="_1MnGDmndEeWZOoTCcU_ksg" association="_1MnH6WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGaGndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGaWndEeWZOoTCcU_ksg" name="" value="*"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnGDmndEeWZOoTCcU_ksg" name="FireTruck">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGD2ndEeWZOoTCcU_ksg" name="position" visibility="private" type="_1MntdGndEeWZOoTCcU_ksg"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGE2ndEeWZOoTCcU_ksg" name="crisis" visibility="private" type="_1MnGWmndEeWZOoTCcU_ksg" association="_1MnH6WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGFGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGFWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGFmndEeWZOoTCcU_ksg" name="fScoordinator" visibility="private" type="_1MntwGndEeWZOoTCcU_ksg" association="_1MnGbWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGF2ndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGGGndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MntwGndEeWZOoTCcU_ksg" name="FScoordinator">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntwWndEeWZOoTCcU_ksg" name="fireTrucks" visibility="private" type="_1MnGDmndEeWZOoTCcU_ksg" association="_1MnGbWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MntwmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mntw2ndEeWZOoTCcU_ksg" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mntx2ndEeWZOoTCcU_ksg" name="timeoutLog" visibility="private" type="_1Mnu12ndEeWZOoTCcU_ksg" association="_1Mnvq2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MntyGndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MntyWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntymndEeWZOoTCcU_ksg" name="fSCSystem" visibility="private" type="_1MntjWndEeWZOoTCcU_ksg" association="_1MnGjmndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnty2ndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MntzGndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_YUuSUJc9EeWvcez0hKdksQ" name="credential" visibility="private" type="_nakFgJc8EeWvcez0hKdksQ"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntzWndEeWZOoTCcU_ksg" name="receivePScoordinatorCall" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntzmndEeWZOoTCcU_ksg" name="receivePScoordinatorCredentials" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1Mntz2ndEeWZOoTCcU_ksg" name="receivePScrisisDetails" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1Mnt3mndEeWZOoTCcU_ksg" name="online" isAbstract="true"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MntjWndEeWZOoTCcU_ksg" name="FSCSystem">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntjmndEeWZOoTCcU_ksg" name="timeoutLog" visibility="private" type="_1Mnu12ndEeWZOoTCcU_ksg" aggregation="shared" association="_1MnsiGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mntj2ndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MntkGndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntkWndEeWZOoTCcU_ksg" name="fScoordinator" visibility="private" type="_1MntwGndEeWZOoTCcU_ksg" association="_1MnGjmndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MntkmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mntk2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntlGndEeWZOoTCcU_ksg" name="routeAgreement" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntlWndEeWZOoTCcU_ksg" name="closeAgreement" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MntmWndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1MnGWWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MntmmndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mntm2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntoWndEeWZOoTCcU_ksg" name="reqComPSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntomndEeWZOoTCcU_ksg" name="authPSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1Mnto2ndEeWZOoTCcU_ksg" name="callPScoordinator" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntpGndEeWZOoTCcU_ksg" name="sendFScoordinatorCredentials" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntpWndEeWZOoTCcU_ksg" name="sendFSCrisisDetails" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MntpmndEeWZOoTCcU_ksg" name="crisisDetailsPSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_5w2z8F6hEeedh_6NmgTm7g" name="comTimeout"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_6kXfEF6iEeedh_6NmgTm7g" name="reportReasonsTimeout"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnIzWndEeWZOoTCcU_ksg" name="GovermentAgency">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnIzmndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1MnF3WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnIz2ndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnI0GndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnsiWndEeWZOoTCcU_ksg" name="GPS">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnsimndEeWZOoTCcU_ksg" name="x" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnsi2ndEeWZOoTCcU_ksg" name="y" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MntjGndEeWZOoTCcU_ksg" name="crisis_handle_bCMSSystem" memberEnd="_1MnuwWndEeWZOoTCcU_ksg _1MnGYWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGjmndEeWZOoTCcU_ksg" name="fScoordinator_interact_fSCSystem" memberEnd="_1MntkWndEeWZOoTCcU_ksg _1MntymndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1Mnu-WndEeWZOoTCcU_ksg" name="pScoordinator_interact_pSCSystem" memberEnd="_1MnFkGndEeWZOoTCcU_ksg _1MnGeGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGa2ndEeWZOoTCcU_ksg" name="policeCars_manage_pScoordinator" memberEnd="_1MnGb2ndEeWZOoTCcU_ksg _1MnGT2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGbWndEeWZOoTCcU_ksg" name="fireTrucks_manage_fScoordinator" memberEnd="_1MntwWndEeWZOoTCcU_ksg _1MnGFmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnGR2ndEeWZOoTCcU_ksg" name="PoliceCar">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGSGndEeWZOoTCcU_ksg" name="position" visibility="private" type="_1MntdGndEeWZOoTCcU_ksg"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGTGndEeWZOoTCcU_ksg" name="crisis" visibility="private" type="_1MnGWmndEeWZOoTCcU_ksg" association="_1MnGbGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGTWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGTmndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGT2ndEeWZOoTCcU_ksg" name="pScoordinator" visibility="private" type="_1MnGbmndEeWZOoTCcU_ksg" association="_1MnGa2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGUGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGUWndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_1MntdGndEeWZOoTCcU_ksg" name="Position">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1MntdWndEeWZOoTCcU_ksg" name="station"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1MntdmndEeWZOoTCcU_ksg" name="inRouteToLocation"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1Mntd2ndEeWZOoTCcU_ksg" name="atLocation"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1MnteGndEeWZOoTCcU_ksg" name="inRouteFromLocation"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnGbmndEeWZOoTCcU_ksg" name="PScoordinator">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGb2ndEeWZOoTCcU_ksg" name="policeCars" visibility="private" type="_1MnGR2ndEeWZOoTCcU_ksg" association="_1MnGa2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGcGndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGcWndEeWZOoTCcU_ksg" name="" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGdWndEeWZOoTCcU_ksg" name="timeoutLog" visibility="private" type="_1Mnu12ndEeWZOoTCcU_ksg" association="_1MnI0WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGdmndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGd2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnGeGndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" association="_1Mnu-WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnGeWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnGemndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_T77GEJc9EeWvcez0hKdksQ" name="credential" visibility="private" type="_nakFgJc8EeWvcez0hKdksQ"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnGe2ndEeWZOoTCcU_ksg" name="receiveFScoordinatorCall" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnGfGndEeWZOoTCcU_ksg" name="receiveFScoordinatorCredentials" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnGfWndEeWZOoTCcU_ksg" name="receiveFScrisisDetails" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnGjWndEeWZOoTCcU_ksg" name="online" visibility="public" isAbstract="true"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnFjGndEeWZOoTCcU_ksg" name="PSCSystem">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFjWndEeWZOoTCcU_ksg" name="timeoutLog" visibility="private" type="_1Mnu12ndEeWZOoTCcU_ksg" aggregation="shared" association="_1MnIzGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFjmndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFj2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFkGndEeWZOoTCcU_ksg" name="pScoordinator" visibility="private" type="_1MnGbmndEeWZOoTCcU_ksg" association="_1Mnu-WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFkWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFkmndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFk2ndEeWZOoTCcU_ksg" name="routeAgreement" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFlGndEeWZOoTCcU_ksg" name="closeAgreement" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFmGndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1MnGDWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFmWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFmmndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1MnFm2ndEeWZOoTCcU_ksg" name="noMoreRoutesLeftToBeProposed" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFoWndEeWZOoTCcU_ksg" name="reqComFSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFomndEeWZOoTCcU_ksg" name="callFScoordinator" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFo2ndEeWZOoTCcU_ksg" name="authFSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFpGndEeWZOoTCcU_ksg" name="sendPScoordinatorCredentials" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFpWndEeWZOoTCcU_ksg" name="sendPSCrisisDetails" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1MnFpmndEeWZOoTCcU_ksg" name="crisisDetailsFSC" visibility="public" isAbstract="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_3k9kIF6hEeedh_6NmgTm7g" name="comTimeout"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_4xlS0F6iEeedh_6NmgTm7g" name="reportReasonsTimeout"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnIzGndEeWZOoTCcU_ksg" name="timeoutLog_register_pSCSystem" memberEnd="_1MnFjWndEeWZOoTCcU_ksg _1Mnu5GndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnsiGndEeWZOoTCcU_ksg" name="timeoutLog_register_fSCSystem" memberEnd="_1MntjmndEeWZOoTCcU_ksg _1Mnu4WndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnF3WndEeWZOoTCcU_ksg" name="bCMSSystem_regulate_govermentAgency" memberEnd="_1MnIzmndEeWZOoTCcU_ksg _1Mnuu2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnI0WndEeWZOoTCcU_ksg" name="timeoutLog_report_pScoordinator" memberEnd="_1MnGdWndEeWZOoTCcU_ksg _1Mnu22ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1Mnvq2ndEeWZOoTCcU_ksg" name="timeoutLog_report_fScoordinator" memberEnd="_1Mntx2ndEeWZOoTCcU_ksg _1Mnu3mndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_1MnuymndEeWZOoTCcU_ksg" name="Status">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1Mnuy2ndEeWZOoTCcU_ksg" name="active"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_1MnuzGndEeWZOoTCcU_ksg" name="closed"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1Mnu12ndEeWZOoTCcU_ksg" name="TimeoutLog">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu2GndEeWZOoTCcU_ksg" name="crisisID" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu2WndEeWZOoTCcU_ksg" name="submissionTime" visibility="private">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeExpression"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu2mndEeWZOoTCcU_ksg" name="ocurrenceTime" visibility="private">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeExpression"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu22ndEeWZOoTCcU_ksg" name="pScoordinator" visibility="private" type="_1MnGbmndEeWZOoTCcU_ksg" association="_1MnI0WndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnu3GndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnu3WndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu3mndEeWZOoTCcU_ksg" name="fScoordinator" visibility="private" type="_1MntwGndEeWZOoTCcU_ksg" association="_1Mnvq2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnu32ndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnu4GndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu4WndEeWZOoTCcU_ksg" name="fSCSystem" visibility="private" type="_1MntjWndEeWZOoTCcU_ksg" association="_1MnsiGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnu4mndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnu42ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu5GndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" association="_1MnIzGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1Mnu5WndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Mnu5mndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_1Mnu52ndEeWZOoTCcU_ksg" name="reason" visibility="private">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1Mntc2ndEeWZOoTCcU_ksg" name="communicationInfrastructure_use_bCMSSystem" memberEnd="_1MnuvmndEeWZOoTCcU_ksg _1MnHX2ndEeWZOoTCcU_ksg"/>
+  </packagedElement>
+</uml:Model>
