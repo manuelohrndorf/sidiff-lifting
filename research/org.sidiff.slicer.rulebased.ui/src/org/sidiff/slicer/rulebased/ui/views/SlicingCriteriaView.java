@@ -2,7 +2,6 @@ package org.sidiff.slicer.rulebased.ui.views;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.rmi.server.RemoteCall;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -69,7 +67,6 @@ import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
-import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;

@@ -21,6 +21,7 @@ import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
+import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
@@ -52,10 +53,18 @@ public class RuleBasedSlicer{
 	private Resource emptyResource;
 	
 	/**
-	 * The {@link AsymmetricDifference} for creating the complete model
+	 * Mapping between correspondence elements in {@link #completeResource} and {@link #emptyResource}
+	 */
+	private Map<EObject,EObject> complete2emptyResource;
+	
+	/**
+	 * The edit script for creating the complete model
 	 */
 	private AsymmetricDifference editScript_create;
 	
+	/**
+	 * Mapping of created {@link EObject}s to the creating {@link OperationInvocation} in {@link #editScript_create}
+	 */
 	private Map<EObject, OperationInvocation> opInvsCreate;
 	
 	/**
@@ -63,18 +72,11 @@ public class RuleBasedSlicer{
 	 */
 	private AsymmetricDifference editScript_delete;
 	
+	/**
+	 * Mapping of deleted {@link EObject}s to the deleting {@link OperationInvocation} in {@link #editScript_delete}
+	 */
 	private Map<EObject, OperationInvocation> opInvsDelete;
 	
-	/**
-	 * The {@link PatchEngine} for applying the {@link #asymDiff}
-	 */
-	private PatchEngine patchEngine;
-	
-	/**
-	 * flag that indicates if the slicer is initialized
-	 */
-	private boolean initialized = false;
-
 	/**
 	 * The previous slicing criteria;
 	 */
@@ -85,13 +87,35 @@ public class RuleBasedSlicer{
 	 */
 	private Set<EObject> slicingCriteria_new;
 	
+	/**
+	 * {@link #addSlicingCriteria} = {@link #slicingCriteria_new} - {@link #slicingCriteria_old}
+	 */
 	private Set<EObject> addSlicingCriteria;
 	
+	/**
+	 * {@link #extend_addSlicingCriteria} = extend({@link #slicingCriteria_new} - extend({@link #slicingCriteria_old})
+	 */
 	private Set<EObject> extend_addSlicingCriteria;
 	
+	/**
+	 * {@link #remSlicingCriteria} = {@link #slicingCriteria_old} - {@link #slicingCriteria_new}
+	 */
 	private Set<EObject> remSlicingCriteria;
 	
+	/**
+	 * {@link #extend_remSlicingCriteria} = extend({@link #slicingCriteria_old} - extend({@link #slicingCriteria_new})
+	 */
 	private Set<EObject> extend_remSlicingCriteria;
+
+	/**
+	 * The {@link PatchEngine} for applying the {@link #asymDiff}
+	 */
+	private PatchEngine patchEngine;
+	
+	/**
+	 * flag that indicates if the slicer is initialized
+	 */
+	private boolean initialized = false;
 	
 	/**
 	 * initializes the slicer
@@ -112,17 +136,17 @@ public class RuleBasedSlicer{
 		this.completeResource = completeResource;
 		this.emptyResource = emtpyResource;
 		
-		Map<EObject, EObject> copies = EMFUtil.copySubModel(new HashSet<EObject>(completeResource.getContents()));
+		this.complete2emptyResource = EMFUtil.copySubModel(new HashSet<EObject>(completeResource.getContents()));
 		
-		this.emptyResource.getContents().addAll(copies.values());
+		this.emptyResource.getContents().addAll(this.complete2emptyResource.values());
 		
-		for(EObject origin : copies.keySet()){
+		for(EObject origin : this.complete2emptyResource.keySet()){
 			String id = EMFUtil.getXmiId(origin);
-			EMFUtil.setXmiId(copies.get(origin), id);
+			EMFUtil.setXmiId(this.complete2emptyResource.get(origin), id);
 		}
 		
 		this.slicingCriteria_old = new HashSet<EObject>();
-		this.slicingCriteria_new = new HashSet<EObject>(copies.keySet());
+		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
 		editScript_create = generateEditScript(emtpyResource, completeResource);
 		
@@ -135,6 +159,22 @@ public class RuleBasedSlicer{
 				}
 			}
 		}
+		
+		Set<EObject> postProcessorElements = new HashSet<EObject>();
+		for(OperationInvocation opInv : editScript_create.getOperationInvocations()){
+			for(Change change : opInv.getChangeSet().getChanges()){
+				Set<EObject> addedElements = new HashSet<EObject>();
+				if(change instanceof AddObject){
+					AddObject addObject = (AddObject)change;
+					addedElements.add(addObject.getObj());
+				}
+				if(addedElements.size()>1){
+					postProcessorElements.addAll(addedElements);
+				}
+			}
+		}
+		
+		config.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(postProcessorElements));
 		
 		editScript_delete = generateEditScript(completeResource, emtpyResource);
 		
@@ -190,64 +230,84 @@ public class RuleBasedSlicer{
 			remSlicingCriteria = new HashSet<EObject>(slicingCriteria_old);
 			remSlicingCriteria.removeAll(slicingCriteria_new);
 			
-			// collect all operation invocations creating the slicing criteria
-			extend_addSlicingCriteria = new HashSet<EObject>(addSlicingCriteria);
-			Set<OperationInvocation> extendOpInvsCreate = new HashSet<OperationInvocation>();
-			for(EObject in : addSlicingCriteria){
-				OperationInvocation opInv = opInvsCreate.get(in);
-				if(opInv != null){
-					opInv.setApply(true);
-					extendOpInvsCreate.add(opInv);
-					extendOpInvsCreate.addAll(opInv.getAllPredecessors());
+
+			Set<EObject> extend_slicingCriteria_old = new HashSet<EObject>(slicingCriteria_old);
+			
+			for(EObject in : slicingCriteria_old){
+				if(complete2emptyResource.get(in) == null){
+					OperationInvocation opInv = opInvsCreate.get(in);
+					assert opInv != null: "no creating operation invocation found for " + in;
 					for(OperationInvocation preOpInv : opInv.getAllPredecessors()){
 						for(EObject eObject : opInvsCreate.keySet()){
-							if(!slicingCriteria_old.contains(eObject) && preOpInv.equals(opInvsCreate.get(eObject))){
-								preOpInv.setApply(true);
-								extend_addSlicingCriteria.add(eObject);
-								slicingCriteria_new.add(eObject);
+							if(preOpInv.equals(opInvsCreate.get(eObject))){
+								extend_slicingCriteria_old.add(eObject);
 							}
 						}
 					}
 				}
 			}
 			
-			slicingCriteria_new.addAll(extend_addSlicingCriteria);
+
+			Set<EObject> extend_slicingCriteria_new = new HashSet<EObject>(slicingCriteria_new);
+
+			for (EObject in : slicingCriteria_new) {
+				if(complete2emptyResource.get(in) == null){
+					OperationInvocation opInv = opInvsCreate.get(in);
+					assert opInv != null : "no creating operation invocation found for " + in;
+					for (OperationInvocation preOpInv : opInv.getAllPredecessors()) {
+						for (EObject eObject : opInvsCreate.keySet()) {
+							if (preOpInv.equals(opInvsCreate.get(eObject))) {
+								extend_slicingCriteria_new.add(eObject);
+							}
+						}
+					}
+				}
+			}
 			
+			extend_addSlicingCriteria = new HashSet<EObject>(extend_slicingCriteria_new);
+			extend_addSlicingCriteria.removeAll(extend_slicingCriteria_old);
+			
+			extend_remSlicingCriteria = new HashSet<EObject>(extend_slicingCriteria_old);
+			extend_remSlicingCriteria.removeAll(extend_slicingCriteria_new);
+			
+			Set<OperationInvocation> extendOpInvsCreate = new HashSet<OperationInvocation>();
+			for(EObject addElement : extend_addSlicingCriteria){
+				OperationInvocation opInv = opInvsCreate.get(addElement);
+				assert opInv != null : "no creating operation invocation found for " + addElement;
+				opInv.setApply(true);
+				extendOpInvsCreate.add(opInv);
+			}
+			
+			// collect all operation invocations creating all connecting edges according the
+			// transitive closure of the required relation, which is implied by dependencies
+			// between operation invocations
 			for (OperationInvocation opInv : editScript_create.getOperationInvocations()){
 				if(!opInvsCreate.values().contains(opInv) && extendOpInvsCreate.contains(opInv.getPredecessors())){
+					extendOpInvsCreate.add(opInv);
 					opInv.setApply(true);
 				}
 			}
 			
-			// collect all operation invocations deleting the removed slicing criteria
-			extend_remSlicingCriteria = new HashSet<EObject>(remSlicingCriteria);
 			Set<OperationInvocation> extendOpInvsDelete = new HashSet<OperationInvocation>();
-			for(EObject in : remSlicingCriteria){
-				OperationInvocation opInv = opInvsDelete.get(in);
-				if(opInv != null){
-					opInv.setApply(true);
-					extendOpInvsDelete.add(opInv);
-					extendOpInvsDelete.addAll(opInv.getAllPredecessors());
-					for(OperationInvocation preOpInv : opInv.getAllPredecessors()){
-						for(EObject eObject : opInvsDelete.keySet()){
-							if(slicingCriteria_old.contains(eObject) && preOpInv.equals(opInvsDelete.get(eObject))){
-								preOpInv.setApply(true);
-								extend_remSlicingCriteria.add(eObject);
-								slicingCriteria_new.remove(eObject);
-							}
-						}
-					}
-				}
+			for(EObject remElement : extend_remSlicingCriteria){
+				OperationInvocation opInv = opInvsDelete.get(remElement);
+				assert opInv != null : "no deleting operation invocation found for " + remElement;
+				opInv.setApply(true);
+				extendOpInvsDelete.add(opInv);
 			}
 			
 			
+			// collect all operation invocations deleting all connecting edges according the
+			// transitive closure of the required relation, which is implied by dependencies
+			// between operation invocations
 			for (OperationInvocation opInv : editScript_delete.getOperationInvocations()){
 				if(!opInvsDelete.values().contains(opInv) && extendOpInvsDelete.contains(opInv.getPredecessors())){
+					extendOpInvsDelete.add(opInv);
 					opInv.setApply(true);
 				}
 			}
-			// check intersection of extendOpInvsCreate and extendOpInvsDelete
 			
+			// check intersection of extendOpInvsCreate and extendOpInvsDelete
 			Set<EObject> intersect_extendSlicingCriteria = new HashSet<EObject>();
 			for(EObject remEObject : extend_remSlicingCriteria){
 				if(extend_addSlicingCriteria.contains(remEObject)){
@@ -255,9 +315,10 @@ public class RuleBasedSlicer{
 				}
 			}
 			
+			this.slicingCriteria_new.addAll(this.extend_addSlicingCriteria);
+			
 			if(!intersect_extendSlicingCriteria.isEmpty())
 				throw new ExtendedSlicingCriteriaIntersectionException(intersect_extendSlicingCriteria);
-		
 			
 			AsymmetricDifference editScript_merged = EcoreUtil.copy(editScript_create);
 			editScript_merged.getOperationInvocations().addAll(EcoreUtil.copyAll(editScript_delete.getOperationInvocations()));
@@ -324,104 +385,6 @@ public class RuleBasedSlicer{
 //		updateCorrespondences(asymDiff);
 //	}
 	
-//	/**
-//	 * 
-//	 * @param slicingCriteria
-//	 */
-//	private void cleanCorrespondences(Set<EObject> slicingCriteria){
-//		Set<EObject> removedSlicingCriteria = new HashSet<EObject>();
-//		for(EObject eObject : correspondences.keySet()){
-//			if(!slicingCriteria.contains(eObject) && !submodel.contains(eObject)){
-//				removedSlicingCriteria.add(eObject);
-//			}
-//		}
-//		for(EObject eObject : removedSlicingCriteria){
-//			correspondences.remove(eObject);
-//		}
-//	}
-	
-	/**
-	 * 
-	 */
-//	private void updateCorrespondences(AsymmetricDifference asymDiff){
-//		for(OperationInvocation opInv : asymDiff.getOperationInvocations()){
-//			if(opInv.isApply()){
-//				for(ParameterBinding pb : opInv.getOutParameterBindings()){
-//					if(pb instanceof ObjectParameterBinding){
-//						ObjectParameterBinding opb = (ObjectParameterBinding) pb;
-//						ObjectArgumentWrapper argumentWrapper = (ObjectArgumentWrapper) patchEngine.getArgumentManager().getArgument(opb);
-//						c_complete_slice.put(argumentWrapper.getObjectBinding().getActualB(), argumentWrapper.getTargetObject());
-//					}
-//				}
-//				for(Change change : opInv.getChangeSet().getChanges()){
-//					if(change instanceof RemoveObject){
-//						RemoveObject removeObject = (RemoveObject)change;
-//						Set<EObject> removedObjects = new HashSet<EObject>();
-//						for(EObject c_complete : c_complete_slice.keySet()){
-//							EObject c_slice = c_complete_slice.get(c_complete);
-//							if(removeObject.getObj().equals(c_slice)){
-//								removedObjects.add(c_complete);
-//							}
-//						}
-//						for(EObject removedObject : removedObjects){
-//							c_complete_slice.remove(removedObject);
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-	
-//	/**
-//	 * calculates the elements to be added to the slice
-//	 * @param slicingCriteria
-//	 * @return
-//	 */
-//	private Set<EObject> addedSlicingCriteria(Set<EObject> slicingCriteria){
-//		Set<EObject> addedElements = new HashSet<EObject>();
-//		for(EObject eObject : slicingCriteria){
-//			addedElements.add(eObject);
-//			EObject container = eObject.eContainer();
-//			while(container != null){
-//				addedElements.add(container);
-//				container = container.eContainer();
-//			}
-//		}
-//		return addedElements;
-//	}
-//	
-//	/**
-//	 * calculates the elements to be removed from the slice
-//	 * @param slicingCriteria
-//	 * @return
-//	 */
-//	private Set<EObject> removedSlicingCriteria(Set<EObject> slicingCriteria){
-//		Set<EObject> removedElements = new HashSet<EObject>();
-//		for (Iterator<EObject> iterator = slicedResource.getAllContents(); iterator.hasNext();) {
-//			EObject eObject = iterator.next();
-//			for(EObject c_complete : c_complete_slice.keySet()){
-//				if(c_complete_slice.get(c_complete).equals(eObject) && !slicingCriteria.contains(c_complete_slice.get(c_complete))){
-//					removedElements.add(c_complete);
-//				}
-//			}
-//		}
-//		return removedElements;
-//	}
-	
-//	/**
-//	 * generates UUIDs for elements without one
-//	 * @param model
-//	 */
-//	private void generateIDs(Resource model){
-//		for (Iterator<EObject> iterator = model.getAllContents(); iterator.hasNext();) {
-//			EObject eObject = iterator.next();
-//			String id = EMFUtil.getXmiId(eObject);
-//			if(id == null){
-//				EMFUtil.setXmiId(eObject, EcoreUtil.generateUUID());
-//			}
-//		}
-//	}
-
 	/**
 	 * 
 	 * @return
