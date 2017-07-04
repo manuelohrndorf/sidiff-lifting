@@ -10,15 +10,12 @@ public class RuleBasedSlicerUI extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "org.sidiff.slicer.rulebased.ui";
 	
-	public static final String IMG_RUN_ENABLED = "run_enabled.gif";
-	public static final String IMG_RUN_DISABLED = "run_disabled.gif";
-	public static final String IMG_RUN_INTERACTIVE_ENABLED = "run_interactive_enabled.gif";
-	public static final String IMG_RUN_INTERACTIVE_DISABLED = "run_interactive_disabled.gif";
+	public static final String IMG_SYNCH = "synch.gif";
 	public static final String IMG_EXPANDALL = "expandall.gif";
 	public static final String IMG_COLLAPSEALL = "collapseall.gif";
+	public static final String IMG_SELECT = "selected.gif";
 	
 	public RuleBasedSlicerUI() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static ImageDescriptor getImageDescriptor(String name) {

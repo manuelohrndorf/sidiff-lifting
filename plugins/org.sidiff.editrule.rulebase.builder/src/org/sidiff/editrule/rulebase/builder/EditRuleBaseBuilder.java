@@ -3,7 +3,9 @@ package org.sidiff.editrule.rulebase.builder;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -90,11 +92,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		try {
-			// Compile the rulebase project class:
-			getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			
 			// Unload runtime rulebases:
 			unloadRulebase();
+			
+			// Compile the rulebase project class:
+			getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -516,7 +518,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		URI rulebase = EMFStorage.iFileToURI(ruleBaseFile);
 
 		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
-		ruleBaseWrapper.setName(getRuleBasePluginBundleName());
+		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+		ruleBaseWrapper.setName(getRuleBasePluginBundleName() + " (" + timestamp + ")");
 
 		return ruleBaseWrapper;
 	}

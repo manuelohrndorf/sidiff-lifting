@@ -2,14 +2,20 @@ package org.sidiff.slicer.rulebased.ui.views;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.rmi.server.RemoteCall;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -20,12 +26,15 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -34,35 +43,47 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.part.ViewPart;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
+import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.matcher.MatcherUtil;
+import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
-import org.sidiff.patching.ui.perspective.SiLiftPerspective;
+import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
+import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
-import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration.SlicingMode;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
+import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class SlicingCriteriaView extends ViewPart {
+public class SlicingCriteriaView extends ViewPart implements ICheckStateListener {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -70,14 +91,49 @@ public class SlicingCriteriaView extends ViewPart {
 	public static final String ID = "org.sidiff.slicer.rulebased.ui.views.SlicingCriteriaView";
 	
 	/**
+	 * The remote complete @link Resource}
+	 */
+	private Resource remoteResourceComplete;
+	
+	/**
+	 * The remote empty {@link Resource}
+	 */
+	private Resource remoteResourceEmpty;
+	
+	/**
+	 * The current sliced remote {@link Resource}
+	 */
+	private Resource remoteSlicedResource;
+	
+	/**
+	 * The local sliced {@link Resource}
+	 */
+	private Resource localSlicedResource;
+	
+	/**
+	 * The local modified sliced {@link Resource}
+	 */
+	private Resource localModifiedSlicedResource;
+	
+	/**
+	 * The {@link AsymmetricDifference} for propagating the slice to the {@link #localSlicedResource}
+	 */
+	private AsymmetricDifference asymDiff; 
+	
+	/**
 	 * The {@link RuleBasedSlicer}
 	 */
 	private RuleBasedSlicer slicer;
 	
 	/**
-	 * The slicing criteria
+	 * The slicing criteria to add
 	 */
-	private Set<EObject> slicingCriteria;
+	private Set<EObject> addSlicingCriteria;
+	
+	/**
+	 * The slicing criteria to remove
+	 */
+	private Set<EObject> remSlicingCriteria;
 	
 	/**
 	 * The {@link SlicingConfiguration}
@@ -85,16 +141,43 @@ public class SlicingCriteriaView extends ViewPart {
 	private SlicingConfiguration config;
 	
 	/**
+	 * The {@link PatchEngine} merging {@link #remoteSlicedResource} into {@link #localSlicedResource}
+	 */
+	private PatchEngine mergeEngine;
+	
+	/**
+	 * The {@link PatchingSettings} used for merging
+	 */
+	private PatchingSettings mergeSettings;
+	
+	/**
 	 * The {@link ComposedAdapterFactory}
 	 */
 	private ComposedAdapterFactory adapterFactory;
+	
+	/**
+	 * An {@link EContentAdapter} for listing modifications of the model slice
+	 */
+	private EContentAdapter eContentAdapter;
+	
+	
 
 	// ---------- UI Elements ----------
 	
 	/**
 	 * 
 	 */
-	private CheckboxTreeViewer viewer;
+	private CheckboxTreeViewer checkboxTreeViewer;
+	
+	/**
+	 * 
+	 */
+	
+	private SlicingCriteriaLabelProvider labelProvider;
+	/**
+	 * 
+	 */
+//	private TreeViewer treeViewer;
 	
 	/**
 	 * 
@@ -104,17 +187,7 @@ public class SlicingCriteriaView extends ViewPart {
 	/**
 	 * 
 	 */
-	private Action deselectSubTreeAction;
-	
-	/**
-	 * 
-	 */
-	private Action batchSliceAction;
-	
-	/**
-	 * 
-	 */
-	private Action interactiveSliceAction;
+	private Action synchAction;
 	
 	/**
 	 * 
@@ -137,41 +210,77 @@ public class SlicingCriteriaView extends ViewPart {
 	 */
 	public SlicingCriteriaView() {
 		this.slicer = new RuleBasedSlicer();
-		this.slicingCriteria = new HashSet<EObject>();
+		this.addSlicingCriteria = new HashSet<EObject>();
+		this.remSlicingCriteria = new HashSet<EObject>();
 		this.config = new SlicingConfiguration(new LiftingSettings());
 		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		
 	}
 
 	/**
-	 * loads the origin resource and shows the content in the {@link #viewer}
+	 * loads the origin resource and shows the content in the {@link #checkboxTreeViewer}
 	 * @param input
 	 * 			the {@link IFile} representing the origin resource
 	 */
 	public void init(IFile input){
-		Resource originResource = EMFStorage.eLoad(EMFStorage.pathToUri(input.getLocation().toOSString())).eResource();
-		Resource targetResource = new ResourceSetImpl().createResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(originResource.getURI().lastSegment(), "sliced_" + originResource.getURI().lastSegment())));
+		
+		this.localSlicedResource = null;
+		
+		this.remoteResourceComplete = new UUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString()), new ResourceSetImpl());
+		
+		this.remoteResourceEmpty = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())));
+			
+		this.remoteSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "current_slice_" + remoteResourceComplete.getURI().lastSegment())));
+	
+		this.config.setLiftingSettings(new LiftingSettings(EMFModelAccess.getDocumentTypes(this.remoteResourceComplete, Scope.RESOURCE)));
+		this.config.getLiftingSettings().setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
+		
+		this.mergeSettings = new PatchingSettings(config.getLiftingSettings().getScope(), false,
+				config.getLiftingSettings().getMatcher(),
+				config.getLiftingSettings().getCandidatesService(),
+				config.getLiftingSettings().getCorrespondencesService(),
+				config.getLiftingSettings().getTechBuilder(), null,
+				new InteractiveArgumentManager(config.getLiftingSettings().getMatcher()),
+				new DialogPatchInterruptHandler(),
+				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
+				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE,
+				PatchMode.MERGING, 100, ValidationMode.NO_VALIDATION);
+		
+		this.checkboxTreeViewer.setInput(this.remoteResourceComplete.getResourceSet());
+		this.checkboxTreeViewer.refresh();
+		this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty, this.remoteSlicedResource);
+		
 		try {
-			targetResource.save(null);
+			this.remoteResourceComplete.save(null);
+			this.remoteResourceEmpty.save(null);
+			this.remoteSlicedResource.save(null);
 		} catch (IOException e) {
-			MessageDialog.openError(viewer.getControl().getShell(), "Error", "Couldn't save the target resource at " + targetResource.getURI());
+			MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
 		}
-		config.setLiftingSettings(new LiftingSettings(EMFModelAccess.getDocumentTypes(originResource, Scope.RESOURCE)));
 		
-		viewer.setInput(originResource.getResourceSet());
-		viewer.refresh();
+		this.checkboxTreeViewer.setGrayChecked(this.remoteResourceComplete, true);
+		for(EObject eObject : EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents())).keySet()){
+			checkboxTreeViewer.setGrayChecked(eObject, true);
+		}
 		
-		IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance()
-				.getIntegrationEditorForModel(targetResource);
-		IEditorPart editorPart = domainEditor.openModelInDefaultEditor(targetResource.getURI());
+		this.synchAction.setEnabled(true);
+//		this.treeViewer.setInput(this.currentSlice.getResourceSet());
+//		this.treeViewer.refresh();
 		
-		slicer.init(config, originResource, domainEditor.getEditingDomain(editorPart).getResourceSet().getResource(targetResource.getURI(), false));
-		slicer.setEditingDomain(domainEditor.getEditingDomain(editorPart));
-		
-		batchSliceAction.setEnabled(true);
-		batchSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_ENABLED));
-		interactiveSliceAction.setEnabled(true);
-		interactiveSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_INTERACTIVE_ENABLED));
+		initEContentAdapter(this.remoteSlicedResource);
+	}
+	
+	private void initEContentAdapter(Resource resource){
+		this.eContentAdapter = new EContentAdapter(){
+
+			@Override
+			public void notifyChanged(Notification notification) {
+				// TODO Auto-generated method stub
+				super.notifyChanged(notification);
+				System.out.println(notification);
+			}
+			
+		};
+		resource.eAdapters().add(this.eContentAdapter);
 	}
 	
 	/**
@@ -179,147 +288,178 @@ public class SlicingCriteriaView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-		viewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//		viewer.addCheckStateListener(this);
-		
-		
+		this.checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		this.checkboxTreeViewer.setContentProvider(new AdapterFactoryContentProvider(this.adapterFactory));
+		this.labelProvider = new SlicingCriteriaLabelProvider(new AdapterFactoryLabelProvider(this.adapterFactory));
+		this.checkboxTreeViewer.setLabelProvider(this.labelProvider);
+		this.checkboxTreeViewer.addCheckStateListener(this);
+
 		// Create the help context id for the viewer's control
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "org.sidiff.slicer.rulebased.ui.viewer");
-		getSite().setSelectionProvider(viewer);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.checkboxTreeViewer.getControl(), "org.sidiff.slicer.rulebased.ui.viewer");
+		getSite().setSelectionProvider(this.checkboxTreeViewer);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		
+//		this.treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+//		this.treeViewer.setContentProvider(new AdapterFactoryContentProvider(this.adapterFactory));
+//		this.treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(this.adapterFactory));
 	}
 
 	private void makeActions() {
 		//begin selectSubTreeAction
 		selectSubTreeAction = new Action() {
 			public void run(){
-				for(TreeItem treeItem : viewer.getTree().getSelection()){
-					viewer.setSubtreeChecked(treeItem.getData(), true);
+				for(TreeItem treeItem : checkboxTreeViewer.getTree().getSelection()){
+					checkboxTreeViewer.setSubtreeChecked(treeItem.getData(), true);
 				}
 			}
 		};
 		selectSubTreeAction.setText("Select Subtree");
-		selectSubTreeAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
+		selectSubTreeAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_SELECT));
 		//end selectSubTreeAction
 		
-		//begin deselectSubTreeAction
-		deselectSubTreeAction = new Action() {
-			public void run(){
-				for(TreeItem treeItem : viewer.getTree().getSelection()){
-					viewer.setSubtreeChecked(treeItem.getData(), false);
-				}
-			}
-		};
-		deselectSubTreeAction.setText("Select Subtree");
-		deselectSubTreeAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_DELETE));
-		//end deselectSubTreeAction
-		
 		//begin sliceAction		
-		batchSliceAction = new Action() {
+		synchAction = new Action() {
 			public void run() {
-				try {
-					updateSlicingCriteria();
-					slicer.switchSlicingMode(SlicingMode.BATCH);
-					slicer.slice(slicingCriteria);
-				} catch (UncoveredChangesException | NotInitializedException e) {
-					MessageDialog.openError(viewer.getControl().getShell(), "Error", e.getMessage());
-				}
-			}
-			
-		};
-		batchSliceAction.setText("Apply Slice");
-		batchSliceAction.setToolTipText("slice model");
-		batchSliceAction.setEnabled(false);
-		batchSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_DISABLED));
-		//end sliceAction
-		
-		//begin interactiveSliceAction
-		interactiveSliceAction = new Action() {
-			public void run() {
-				try {
-					updateSlicingCriteria();
-					slicer.switchSlicingMode(SlicingMode.INTERACTIVE);
-					slicer.slice(slicingCriteria);
-					final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
-					final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
-					Display.getDefault().syncExec(new Runnable() {
+				
+				final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
+				final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
+				final AtomicReference<Resource> resourceResult = new AtomicReference<Resource>();
+				
+				Display.getDefault().syncExec(new Runnable() {
 
-						@Override
-						public void run() {
-							try {
-								PlatformUI
-										.getWorkbench()
-										.showPerspective(
-												SiLiftPerspective.ID,
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow());
+					@Override
+					public void run() {
+						try {
+							
+							localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
+							Map<EObject, EObject> copies = EMFUtil.copyAll(remoteSlicedResource.getContents());
+							for(EObject eObject : remoteSlicedResource.getContents()){
+								localSlicedResource.getContents().add(copies.get(eObject));
+							}
+							for(EObject o : copies.keySet()){
+								String id = EMFUtil.getXmiId(o);
+								EMFUtil.setXmiId(copies.get(o), id);
+							}
+							localSlicedResource.save(null);
+							
+							if(localModifiedSlicedResource == null){
+								localModifiedSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local")));
+								copies = EMFUtil.copyAll(remoteSlicedResource.getContents());
+								for(EObject eObject : remoteSlicedResource.getContents()){
+									localModifiedSlicedResource.getContents().add(copies.get(eObject));
+								}
+								for(EObject o : copies.keySet()){
+									String id = EMFUtil.getXmiId(o);
+									EMFUtil.setXmiId(copies.get(o), id);
+								}
+								localModifiedSlicedResource.save(null);
+								
+							}
+							
+							updateSlicingCriteria();
+							asymDiff = slicer.slice(addSlicingCriteria, remSlicingCriteria);
+							remoteSlicedResource.save(null);
+							Set<EObject> newElements = new HashSet<EObject>();
+							for (Iterator<EObject> iterator = remoteSlicedResource.getAllContents(); iterator.hasNext();) {
+								EObject eObject = iterator.next();
+								String id = EMFUtil.getXmiId(eObject);
+								EObject eObject_ = null;
+								for (Iterator<EObject> iterator2 = remoteResourceComplete.getAllContents(); iterator2.hasNext();) {
+									EObject eObject2 = iterator2.next();
+									String id_ = EMFUtil.getXmiId(eObject2);
+									if(id.equals(id_)){
+										eObject_ = eObject2;
+										break;
+									}
+								}
+								if(!addSlicingCriteria.contains(eObject_)){
+									checkboxTreeViewer.setChecked(eObject_, true);
+									checkboxTreeViewer.expandToLevel(((ITreeContentProvider)checkboxTreeViewer.getContentProvider()).getParent(eObject_), 1);
+									newElements.add(eObject_);
+								}
+							}
+							labelProvider.setAddElements(newElements);
+							checkboxTreeViewer.refresh();
+//							treeViewer.setInput(currentSlice.getResourceSet());
+					
+							IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localModifiedSlicedResource);
+							IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localModifiedSlicedResource.getURI());
+							EditingDomain editingDomain = domainEditor.getEditingDomain(editorPart);
+							resourceResult.set(domainEditor.getResource(editorPart));
+							
+							if(asymDiff != null){
+								
+								mergeEngine = new PatchEngine(asymDiff, resourceResult.get(), mergeSettings);
+								mergeEngine.setPatchedEditingDomain(editingDomain);
+								// Init detector if available
+								if (mergeSettings.getModifiedDetector() != null) {
+									mergeSettings.getModifiedDetector().init(localSlicedResource, localModifiedSlicedResource, mergeSettings.getMatcher(), Scope.RESOURCE);
+								}
 
 								// Opening and setting operation explorer view
-								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI
-										.getWorkbench()
-										.getActiveWorkbenchWindow()
-										.getActivePage()
-										.showView(OperationExplorerView.ID);
-								operationExplorerView
-										.setPatchEngine(slicer.getPatchEngine());
-								operationExplorerViewReference
-										.set(operationExplorerView);
-
+								OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(OperationExplorerView.ID);
+								operationExplorerView.setPatchEngine(mergeEngine);
+								operationExplorerViewReference.set(operationExplorerView);
 								// Opening and setting report view
-								ReportView reportView = (ReportView) PlatformUI
-										.getWorkbench()
-										.getActiveWorkbenchWindow()
-										.getActivePage()
-										.showView(ReportView.ID);
-								reportView.setPatchReportManager(slicer.getPatchEngine()
-										.getPatchReportManager());
-								reportViewReference.set(reportView);
-
-							} catch (PartInitException e) {
-								e.printStackTrace();
-							} catch (WorkbenchException e) {
-								e.printStackTrace();
-							}
-						}
-					});
-					OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
-				
-
-					// ModelChangeHandler works independent; PatchView is
-					// interested in model changes
-					ModelAdapter adapter = new ModelAdapter(
-							slicer.getPatchEngine().getPatchedResource());
-					adapter.addListener(new ModelChangeHandler(slicer.getPatchEngine().getArgumentManager()));
-					adapter.addListener(operationExplorerView);
+								ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ReportView.ID);
+									reportView.setPatchReportManager(mergeEngine.getPatchReportManager());
+									reportViewReference.set(reportView);
+							}			
 					
-				} catch (UncoveredChangesException | NotInitializedException e) {
-					MessageDialog.openError(viewer.getControl().getShell(), "Error", e.getMessage());
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						} catch (UncoveredChangesException | NotInitializedException e) {
+							MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
+						} catch (IOException e) {
+							MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
+							e.printStackTrace();
+						} catch (PartInitException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				
+				if(mergeEngine != null){
+					boolean conflicting = false;
+					for(OperationInvocationWrapper wrapper : mergeEngine.getOperationManager().getOrderedOperationWrappers()){
+						if(wrapper.hasUnresolvedInArguments()){
+							conflicting = true;
+							break;
+						}
+					}
+					
+					if(true){
+						OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
+						ModelAdapter adapter = new ModelAdapter(
+								resourceResult.get());
+						try {
+							adapter.addListener(new ModelChangeHandler(mergeSettings.getArgumentManager()));
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						adapter.addListener(operationExplorerView);
+					}else{
+						mergeEngine.applyPatch(true);
+					}
 				}
 			}
-			
 		};
-		interactiveSliceAction.setText("Apply Incremental Slice");
-		interactiveSliceAction.setToolTipText("open the incremental slice perspective");
-		interactiveSliceAction.setEnabled(false);
-		interactiveSliceAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_RUN_INTERACTIVE_DISABLED));
-		//end interactiveSliceAction
+		synchAction.setText("checkout/synchronize model");
+		synchAction.setToolTipText("checkout/synchronize model");
+		synchAction.setEnabled(false);
+		synchAction.setImageDescriptor(RuleBasedSlicerUI.getImageDescriptor(RuleBasedSlicerUI.IMG_SYNCH));
+		//end sliceAction
 		
 		//begin expandAllAction
 		expandAllAction = new Action() {
 			public void run() {
-				viewer.expandAll();
+				checkboxTreeViewer.expandAll();
 			}
 		};
 		expandAllAction.setToolTipText("expand all");
@@ -329,7 +469,7 @@ public class SlicingCriteriaView extends ViewPart {
 		// begin collapseAllAction
 		collapseAllAction = new Action() {
 			public void run() {
-				viewer.collapseAll();
+				checkboxTreeViewer.collapseAll();
 			}
 		};
 		collapseAllAction.setToolTipText("collapse all");
@@ -339,14 +479,22 @@ public class SlicingCriteriaView extends ViewPart {
 		//begin doubleClickAction
 		doubleClickAction = new Action() {
 			public void run() {
-				ISelection selection = viewer.getSelection();
+				ISelection selection = checkboxTreeViewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				System.out.println(checkboxTreeViewer.getChecked(obj));
+				if(checkboxTreeViewer.getGrayed(obj)){
+					checkboxTreeViewer.setChecked(obj, false);
+				}else if(checkboxTreeViewer.getChecked(obj)){
+					checkboxTreeViewer.setGrayed(obj, true);
+				}else {
+					checkboxTreeViewer.setChecked(obj, true);
+				}
+//				showMessage("Double-click detected on "+obj.toString());
 			}
 		};
 		//end doubleClickAction
 		
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		checkboxTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             public void selectionChanged(SelectionChangedEvent event) {
                     
             }
@@ -361,14 +509,13 @@ public class SlicingCriteriaView extends ViewPart {
 				fillContextMenu(manager);
 			}
 		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
+		Menu menu = menuMgr.createContextMenu(checkboxTreeViewer.getControl());
+		checkboxTreeViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, checkboxTreeViewer);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(selectSubTreeAction);
-		manager.add(deselectSubTreeAction);
 	}
 	
 	private void contributeToActionBars() {
@@ -378,14 +525,12 @@ public class SlicingCriteriaView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(batchSliceAction);
-		manager.add(interactiveSliceAction);
+		manager.add(synchAction);
 		manager.add(new Separator());
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(batchSliceAction);
-		manager.add(interactiveSliceAction);
+		manager.add(synchAction);
 		manager.add(new Separator());
 		manager.add(expandAllAction);
 		manager.add(collapseAllAction);
@@ -394,7 +539,7 @@ public class SlicingCriteriaView extends ViewPart {
 	
 
 	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
+		checkboxTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
@@ -404,7 +549,7 @@ public class SlicingCriteriaView extends ViewPart {
 	
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
+			checkboxTreeViewer.getControl().getShell(),
 			"Slicing Criteria view",
 			message);
 	}
@@ -413,25 +558,37 @@ public class SlicingCriteriaView extends ViewPart {
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-		viewer.getControl().setFocus();
+		checkboxTreeViewer.getControl().setFocus();
 	}
-
+	
 	private void updateSlicingCriteria(){
-		slicingCriteria.clear();
-		for(Object obj : viewer.getCheckedElements()){
-			slicingCriteria.add((EObject)obj);
+		addSlicingCriteria.clear();
+		remSlicingCriteria.clear();
+		for (Iterator<EObject> iterator = remoteResourceComplete.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			if(this.checkboxTreeViewer.getChecked(eObject)){
+				addSlicingCriteria.add(eObject);
+			}else{
+				remSlicingCriteria.add(eObject);
+			}
+			
 		}
 	}
 
-//	@Override
-//	public void checkStateChanged(CheckStateChangedEvent event) {
-//		Object element = event.getElement();
-//		if(event.getChecked()){	
-//			
-//			slicingCriteria.add((EObject)element);
-//			
-//		}else {
-//			slicingCriteria.remove((EObject)element);
-//		}
-//	}
+	@Override
+	public void checkStateChanged(CheckStateChangedEvent event) {
+		Object element = event.getElement();
+		if(this.checkboxTreeViewer.getGrayed(element)){
+			this.checkboxTreeViewer.setGrayChecked(element, true);
+		}else if(event.getChecked()){
+			 ITreeContentProvider provider = (ITreeContentProvider)this.checkboxTreeViewer.getContentProvider();
+			 Object parent = provider.getParent(element);
+			 while(parent != null){
+				 this.checkboxTreeViewer.setChecked(parent, true);
+				 parent = provider.getParent(parent);
+			 }
+		}else if(!event.getChecked()){
+			this.checkboxTreeViewer.setSubtreeChecked(element, false);
+		}
+	}
 }
