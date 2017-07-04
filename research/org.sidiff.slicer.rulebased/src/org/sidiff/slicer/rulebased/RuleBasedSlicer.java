@@ -320,9 +320,7 @@ public class RuleBasedSlicer{
 			if(!intersect_extendSlicingCriteria.isEmpty())
 				throw new ExtendedSlicingCriteriaIntersectionException(intersect_extendSlicingCriteria);
 			
-			AsymmetricDifference editScript_merged = EcoreUtil.copy(editScript_create);
-			editScript_merged.getOperationInvocations().addAll(EcoreUtil.copyAll(editScript_delete.getOperationInvocations()));
-
+			AsymmetricDifference editScript_merged = mergeEditScripts(editScript_create, editScript_delete);
 			
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 			
@@ -358,6 +356,21 @@ public class RuleBasedSlicer{
 			throw new UncoveredChangesException();
 		}
 		return asymDiff;
+	}
+	
+	/**
+	 * 
+	 * @param asymDiffA
+	 * @param asymDiffB
+	 * @return
+	 */
+	private AsymmetricDifference mergeEditScripts(AsymmetricDifference asymDiffA, AsymmetricDifference asymDiffB){
+		AsymmetricDifference mergedAsymDiff = EcoreUtil.copy(asymDiffA);
+		AsymmetricDifference copy = EcoreUtil.copy(asymDiffB);
+		mergedAsymDiff.getOperationInvocations().addAll(copy.getOperationInvocations());
+		mergedAsymDiff.getDepContainers().addAll(copy.getDepContainers());
+		mergedAsymDiff.getParameterMappings().addAll(copy.getParameterMappings());
+		return mergedAsymDiff;
 	}
 	
 //	private void initPatchEngine(AsymmetricDifference asymDiff, Map<EObject,EObject> correspondences){
@@ -408,8 +421,8 @@ public class RuleBasedSlicer{
 	}
 	
 	public Set<EObject> getExtendedRemSlicingCriteria(){
-		Set<EObject> extendSlicingCriteria = new HashSet<EObject>(extend_remSlicingCriteria);
-		extendSlicingCriteria.removeAll(remSlicingCriteria);
+		Set<EObject> extendSlicingCriteria = new HashSet<EObject>(remSlicingCriteria);
+		extendSlicingCriteria.removeAll(extend_remSlicingCriteria);
 		return extendSlicingCriteria;
 	}
 }
