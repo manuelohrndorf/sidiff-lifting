@@ -73,6 +73,13 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 
+		try {
+			// Unload runtime rulebases:
+			RuleBaseProjectLibrary.clearRuleBaseCache();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// The rulebase manager of the rulebase project for which this builder is defined:
 		EditRuleBaseWrapper ruleBaseWrapper = createEditRuleBaseWrapper();
 	
@@ -92,12 +99,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		}
 		
 		try {
-			// Unload runtime rulebases:
-			unloadRulebase();
-			
 			// Compile the rulebase project class:
 			getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		} catch (CoreException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

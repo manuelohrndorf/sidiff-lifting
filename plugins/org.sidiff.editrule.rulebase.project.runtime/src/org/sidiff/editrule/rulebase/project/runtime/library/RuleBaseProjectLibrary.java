@@ -59,6 +59,13 @@ public class RuleBaseProjectLibrary {
 	}
 	
 	/**
+	 * Clear rulebase cache.
+	 */
+	public static void clearRuleBaseCache() {
+		rulebases = null;
+	}
+	
+	/**
 	 * @return All registered rulebase projects.
 	 */
 	public static Set<IRuleBaseProject> getRuleBaseProjects() {
