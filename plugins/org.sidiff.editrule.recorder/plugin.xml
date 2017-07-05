@@ -57,6 +57,12 @@
             id="org.sidiff.editrule.recorder.command.reducetocontext"
             name="Reduce To Context">
       </command>
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            description="Invert all edit rule actions (delete - create)."
+            id="org.sidiff.editrule.recorder.command.invertrules"
+            name="Invert Edit-Rule Actions">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -267,6 +273,29 @@
                </or>
             </activeWhen>
          </handler>
+         <handler
+               class="org.sidiff.editrule.recorder.handlers.InvertEditRuleActionsHandler"
+               commandId="org.sidiff.editrule.recorder.command.invertrules">
+            <activeWhen>
+               <or>
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false">
+                        <reference
+                              definitionId="org.eclipse.emf.henshin.fileextension">
+                        </reference>
+                     </iterate>
+                  </with>
+                  <with
+                        variable="activeEditorInput">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.fileextension">
+                     </reference>
+                  </with>
+               </or>
+            </activeWhen>
+         </handler>         
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -313,6 +342,10 @@
             </command>
             <command
                   commandId="org.sidiff.editrule.recorder.command.renamerule"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.sidiff.editrule.recorder.command.invertrules"
                   style="push">
             </command>
          </menu>
