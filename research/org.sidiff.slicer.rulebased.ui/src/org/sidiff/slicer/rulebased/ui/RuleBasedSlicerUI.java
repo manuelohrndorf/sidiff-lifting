@@ -13,10 +13,9 @@ public class RuleBasedSlicerUI extends AbstractUIPlugin {
 	public static final String IMG_SYNCH = "synch.gif";
 	public static final String IMG_EXPANDALL = "expandall.gif";
 	public static final String IMG_COLLAPSEALL = "collapseall.gif";
-	public static final String IMG_SELECT = "select.gif";
+	public static final String IMG_SELECT = "selected.gif";
 	
 	public RuleBasedSlicerUI() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static ImageDescriptor getImageDescriptor(String name) {

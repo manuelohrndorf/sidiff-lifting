@@ -217,10 +217,10 @@ public class OperationInvocationWrapper implements HighlightableElement {
 
 		return Collections.unmodifiableList(wrapperPredecessors);
 	}
-
+	
 	public String getText() {
-		return operationManager.getOrderedOperationWrappers().indexOf(this)+1 + ": "
-				+ operationInvocation.getChangeSet().getName();
+		return operationManager.getOrderedOperationWrappers().indexOf(this) + 1 + ": "
+				+ NameUtil.beautifyName(operationInvocation.getChangeSet().getName());
 	}
 
 	public boolean hasUnresolvedInArguments() {

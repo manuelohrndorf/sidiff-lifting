@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_1MmhamndEeWZOoTCcU_ksg" name="BCMS" URI="" viewpoint="">
+  <packagedElement xmi:type="uml:Model" xmi:id="_uxR7QKI7EeW4HYbLqBRXrg" name="Domain Model">
+    <packagedElement xmi:type="uml:Class" xmi:id="_1Mnu12ndEeWZOoTCcU_ksg" name="TimeoutLog">
+      <ownedAttribute xmi:id="_1Mnu5GndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" association="_1MnIzGndEeWZOoTCcU_ksg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnFzmndEeWZOoTCcU_ksg" name="RoutePlan">
+      <ownedAttribute xmi:id="_1MnF0GndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" association="_1Mntv2ndEeWZOoTCcU_ksg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnFjGndEeWZOoTCcU_ksg" name="PSCSystem">
+      <ownedAttribute xmi:id="_1MnFlGndEeWZOoTCcU_ksg" name="closeAgreement" visibility="private"/>
+      <ownedAttribute xmi:id="_1MnFm2ndEeWZOoTCcU_ksg" name="noMoreRoutesLeftToBeProposed" visibility="private"/>
+      <ownedAttribute xmi:id="_1MnFk2ndEeWZOoTCcU_ksg" name="routeAgreement" visibility="private"/>
+      <ownedAttribute xmi:id="_1MnFmGndEeWZOoTCcU_ksg" name="bCMSSystem" visibility="private" type="_1MnuumndEeWZOoTCcU_ksg" association="_1MnGDWndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFmWndEeWZOoTCcU_ksg" name="" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFmmndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_1MnFlWndEeWZOoTCcU_ksg" name="routePlans" visibility="private" type="_1MnFzmndEeWZOoTCcU_ksg" aggregation="shared" association="_1Mntv2ndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFlmndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFl2ndEeWZOoTCcU_ksg" name="" value="2"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_1MnFjWndEeWZOoTCcU_ksg" name="timeoutLog" visibility="private" type="_1Mnu12ndEeWZOoTCcU_ksg" aggregation="shared" association="_1MnIzGndEeWZOoTCcU_ksg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1MnFjmndEeWZOoTCcU_ksg" name=""/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1MnFj2ndEeWZOoTCcU_ksg" name="" value="1"/>
+      </ownedAttribute>
+      <ownedOperation xmi:id="_1MnFsWndEeWZOoTCcU_ksg" name="deployPoliceCars" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFvGndEeWZOoTCcU_ksg" name="comTimeout" isAbstract="true"/>
+      <ownedOperation xmi:id="_bqdB0F81EeecbcDs8pcgmg" name="reqComFSC" isAbstract="true">
+        <ownedParameter xmi:id="_jVTNoF81EeecbcDs8pcgmg" name="severity"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_1MnFtWndEeWZOoTCcU_ksg" name="replacedFireTruck" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFoGndEeWZOoTCcU_ksg" name="crisisCompleteFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFvWndEeWZOoTCcU_ksg" name="comRestored" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFq2ndEeWZOoTCcU_ksg" name="fireTruckObjectiveCompleted" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFuGndEeWZOoTCcU_ksg" name="recallPoliceCars" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFumndEeWZOoTCcU_ksg" name="replacedPoliceCarPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFqGndEeWZOoTCcU_ksg" name="disagreementFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFnGndEeWZOoTCcU_ksg" name="fireTrucks" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFr2ndEeWZOoTCcU_ksg" name="closeCrisisFS" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFqWndEeWZOoTCcU_ksg" name="policeCarDispatchedPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFt2ndEeWZOoTCcU_ksg" name="rescheduleRoutePlanFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFvmndEeWZOoTCcU_ksg" name="synchFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFpGndEeWZOoTCcU_ksg" name="sendPScoordinatorCredentials" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFu2ndEeWZOoTCcU_ksg" name="newETApoliceCarPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFnWndEeWZOoTCcU_ksg" name="fireTruckDispatched" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFtmndEeWZOoTCcU_ksg" name="rescheduleRoutePlanPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFs2ndEeWZOoTCcU_ksg" name="reportReasonsTimeout" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFpWndEeWZOoTCcU_ksg" name="sendPSCrisisDetails" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFsGndEeWZOoTCcU_ksg" name="agreementFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFqmndEeWZOoTCcU_ksg" name="policeCarArrivedPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFuWndEeWZOoTCcU_ksg" name="recallFireTrucks" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFtGndEeWZOoTCcU_ksg" name="newETAfireTruck" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFnmndEeWZOoTCcU_ksg" name="fireTruckArrived" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFn2ndEeWZOoTCcU_ksg" name="policeCarObjectiveCompletedPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFrGndEeWZOoTCcU_ksg" name="policeCarBackPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFpmndEeWZOoTCcU_ksg" name="crisisDetailsFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFp2ndEeWZOoTCcU_ksg" name="proposeFireTrucksRoute" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFrWndEeWZOoTCcU_ksg" name="fireTruckBack" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFo2ndEeWZOoTCcU_ksg" name="authFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFrmndEeWZOoTCcU_ksg" name="closeCrisisPScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFomndEeWZOoTCcU_ksg" name="callFScoordinator" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFoWndEeWZOoTCcU_ksg" name="reqComFSC" isAbstract="true"/>
+      <ownedOperation xmi:id="_1MnFsmndEeWZOoTCcU_ksg" name="uncoordinatedRoute" isAbstract="true"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1MnuumndEeWZOoTCcU_ksg" name="BCMSSystem" isLeaf="true">
+      <ownedAttribute xmi:id="_1MnuxGndEeWZOoTCcU_ksg" name="pSCSystem" visibility="private" type="_1MnFjGndEeWZOoTCcU_ksg" aggregation="composite" association="_1MnGDWndEeWZOoTCcU_ksg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnGDWndEeWZOoTCcU_ksg" name="bCMSSystem_contain_pSCSystem" memberEnd="_1MnFmGndEeWZOoTCcU_ksg _1MnuxGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1Mntv2ndEeWZOoTCcU_ksg" name="routePlans_develop_pSCSystem" memberEnd="_1MnF0GndEeWZOoTCcU_ksg _1MnFlWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1MnIzGndEeWZOoTCcU_ksg" name="timeoutLog_register_pSCSystem" memberEnd="_1MnFjWndEeWZOoTCcU_ksg _1Mnu5GndEeWZOoTCcU_ksg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_TOhmUKI6EeW4HYbLqBRXrg" name="Global Events">
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_AHdpkKGwEeWOH5kx_G3ggA" name="replacedFireTruck(CallEvent:PSCSystem)" operation="_1MnFtWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_XShV8JqUEeWL16I25ZOVVw" name="recallPoliceCars(CallEvent:PSCSystem)" operation="_1MnFuGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FtooIJm-EeW-E4TEPaxzcQ" name="proposeFireTrucksRoute(CallEvent:PSCSystem)" operation="_1MnFp2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_74rwQKGUEeWOH5kx_G3ggA" name="callFScoordinator(CallEvent:PSCSystem)" operation="_1MnFomndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_6JKogKGWEeWOH5kx_G3ggA" name="reqComFSC(CallEvent:PSCSystem)" operation="_1MnFoWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_509qoJm1EeW-E4TEPaxzcQ" name="deployPoliceCars(CallEvent:PSCSystem)" operation="_1MnFsWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_PGqZUKGbEeWOH5kx_G3ggA" name="crisisDetailsFSC(CallEvent:PSCSystem)" operation="_1MnFpmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_w6BPAKGvEeWOH5kx_G3ggA" name="recallFireTrucks(CallEvent:PSCSystem)" operation="_1MnFuWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_emYlIJqUEeWL16I25ZOVVw" name="policeCarArrivedPScoordinator(CallEvent:PSCSystem)" operation="_1MnFqmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_eEr_MKGYEeWOH5kx_G3ggA" name="comTimeout(CallEvent:PSCSystem)" operation="_1MnFvGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MHfs8KGwEeWOH5kx_G3ggA" name="fireTruckArrived(CallEvent:PSCSystem)" operation="_1MnFnmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_7ltY0KGzEeWOH5kx_G3ggA" name="fireTruckBack(CallEvent:PSCSystem)" operation="_1MnFrWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_u_EDwJqUEeWL16I25ZOVVw" name="newETApoliceCarPScoordinator(CallEvent:PSCSystem)" operation="_1MnFu2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_guP-oJqWEeWL16I25ZOVVw" name="policeCarObjectiveCompletedPScoordinator(CallEvent:PSCSystem)" operation="_1MnFn2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FCC3wKGxEeWOH5kx_G3ggA" name="fireTruckObjectiveCompleted(CallEvent:PSCSystem)" operation="_1MnFq2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_5uCs0JnBEeW-E4TEPaxzcQ" name="rescheduleRoutePlanPScoordinator(CallEvent:PSCSystem)" operation="_1MnFtmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_4h1NkKGyEeWOH5kx_G3ggA" name="rescheduleRoutePlanFSC(CallEvent:PSCSystem)" operation="_1MnFt2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MRpIkJjKEeWO1Z0hulOgIQ" name="sendPScoordinatorCredentials(CallEvent:PSCSystem)" operation="_1MnFpGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_A4QdEKGfEeWOH5kx_G3ggA" name="agreementFSC(CallEvent:PSCSystem)" operation="_1MnFsGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_zVkbgKGbEeWOH5kx_G3ggA" name="fireTrucks(CallEvent:PSCSystem)" operation="_1MnFnGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_VCTSgKG1EeWOH5kx_G3ggA" name="closeCrisisFS(CallEvent:PSCSystem)" operation="_1MnFr2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_DS_DQJnBEeW-E4TEPaxzcQ" name="policeCarDispatchedPScoordinator(CallEvent:PSCSystem)" operation="_1MnFqWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_sDC8cJnBEeW-E4TEPaxzcQ" name="uncoordinatedRoute(CallEvent:PSCSystem)" operation="_1MnFsmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YhwkkJm1EeW-E4TEPaxzcQ" name="reportReasonsTimeout(CallEvent:PSCSystem)" operation="_1MnFs2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_fR20sJjLEeWO1Z0hulOgIQ" name="sendPSCrisisDetails(CallEvent:PSCSystem)" operation="_1MnFpWndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_F1HDgKGdEeWOH5kx_G3ggA" name="disagreementFSC(CallEvent:PSCSystem)" operation="_1MnFqGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_TpzCwKGaEeWOH5kx_G3ggA" name="authFSC(CallEvent:PSCSystem)" operation="_1MnFo2ndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_2XLJUKGxEeWOH5kx_G3ggA" name="synchFSC(CallEvent:PSCSystem)" operation="_1MnFvmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_UmhNQJqVEeWL16I25ZOVVw" name="closeCrisisPScoordinator(CallEvent:PSCSystem)" operation="_1MnFrmndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_z6DhoJqVEeWL16I25ZOVVw" name="policeCarBackPScoordinator(CallEvent:PSCSystem)" operation="_1MnFrGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_1qfw4KGuEeWOH5kx_G3ggA" name="newETAfireTruck(CallEvent:PSCSystem)" operation="_1MnFtGndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_psZ3UJqUEeWL16I25ZOVVw" name="replacedPoliceCarPScoordinator(CallEvent:PSCSystem)" operation="_1MnFumndEeWZOoTCcU_ksg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_y4EqYKGfEeWOH5kx_G3ggA" name="fireTruckDispatched(CallEvent:PSCSystem)" operation="_1MnFnWndEeWZOoTCcU_ksg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_1Mnt4GndEeWZOoTCcU_ksg" name="SM-PSCSystem">
+    <region xmi:id="_25hZ8KEYEeW-btv3BzkPdA" name="Region2">
+      <transition xmi:id="_1MnutmndEeWZOoTCcU_ksg" name="Idle-reportReasonsTimeout(Trigger)[routeNegotiationTimeout(Constraint)]->final" source="_1MnuuGndEeWZOoTCcU_ksg" target="_1MnuuWndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="_95aO4KG1EeWOH5kx_G3ggA" name="routeNegotiationTimeout(Constraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_95aO4aG1EeWOH5kx_G3ggA" name="routeNegotiationTimeout(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>routeNegotiationTimeout</body>
+          </specification>
+        </ownedRule>
+        <trigger xmi:id="_3SXpcKG1EeWOH5kx_G3ggA" name="reportReasonsTimeout(Trigger)" event="_YhwkkJm1EeW-E4TEPaxzcQ"/>
+      </transition>
+      <transition xmi:id="_1MnutWndEeWZOoTCcU_ksg" name="initial-->Idle" source="_1Mnut2ndEeWZOoTCcU_ksg" target="_1MnuuGndEeWZOoTCcU_ksg"/>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnut2ndEeWZOoTCcU_ksg" name="initial"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuuGndEeWZOoTCcU_ksg" name="Idle"/>
+      <subvertex xmi:type="uml:FinalState" xmi:id="_1MnuuWndEeWZOoTCcU_ksg" name="final"/>
+    </region>
+    <region xmi:id="_1Mnt4WndEeWZOoTCcU_ksg" name="Region1">
+      <transition xmi:id="_1Mnt6mndEeWZOoTCcU_ksg" name="NegotiatingRoutePlan-[timeout(Contraint)]/routeNegotiationTimeout->NegotiatingRoutePlan" source="_1MnuFmndEeWZOoTCcU_ksg" target="_1MnuFmndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="_y8FSkKGdEeWOH5kx_G3ggA" name="timeout(Contraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_3osysKGdEeWOH5kx_G3ggA" name="timout(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>timeout</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6dPW4KGdEeWOH5kx_G3ggA" name="routeNegotiationTimeout">
+          <language></language>
+          <body></body>
+        </effect>
+      </transition>
+      <transition xmi:id="_1Mnt8GndEeWZOoTCcU_ksg" name="initial-->Idle" source="_1Mnuo2ndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg"/>
+      <transition xmi:id="_1Mnt52ndEeWZOoTCcU_ksg" name="StatingNumberOfVehicles-comTimout(Trigger)/standAloneResolution->Idle" source="_1MnuBmndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_38BwoKGYEeWOH5kx_G3ggA" name="standAloneResolution">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_2B3xEKGYEeWOH5kx_G3ggA" name="comTimout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt8WndEeWZOoTCcU_ksg" name="ExchangingCrisisDetails-comTimout(Trigger)/standAloneResolution->Idle" source="_1MnupGndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_xZdbgKGYEeWOH5kx_G3ggA" name="standAloneResolution">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_uE4sYKGYEeWOH5kx_G3ggA" name="comTimout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt7mndEeWZOoTCcU_ksg" name="Closing-comTimeout(Trigger)/standAloneResolution->Idle" source="_1Mnuk2ndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_upKX8KG1EeWOH5kx_G3ggA" name="standAloneResolution">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_thx5IKG1EeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt6WndEeWZOoTCcU_ksg" name="NegotiatingRoutePlan-comTimout(Trigger)/standAloneResolution->Idle" source="_1MnuFmndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BzC5EKGZEeWOH5kx_G3ggA" name="standAloneResolution">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_EwrH0KGZEeWOH5kx_G3ggA" name="comTimout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt82ndEeWZOoTCcU_ksg" name="DealingWithCrisis-rescheduleRoutePlanFSC(Trigger)[numArrivedFireTrucks>0(Constraint)]/receiveRescheduleRoutePlan->StatingNumberOfVehicles" source="_1MnuNGndEeWZOoTCcU_ksg" target="_1MnuBmndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="__U0kUKGyEeWOH5kx_G3ggA" name="numArrivedFireTrucks>0(Constraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="__U0kUaGyEeWOH5kx_G3ggA" name="numArrivedFireTrucks>0(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>numArrivedFireTrucks>0</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6PXtcKGyEeWOH5kx_G3ggA" name="receiveRescheduleRoutePlan">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_431SwKGyEeWOH5kx_G3ggA" name="rescheduleRoutePlanFSC(Trigger)" event="_4h1NkKGyEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt8mndEeWZOoTCcU_ksg" name="Idle-deployPoliceCars(Trigger)[in(ConnectivityPSC.Offline)(Constraint)]/policeCars->StandAlone-Arriving" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1MnubWndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="_DFDmQKZJEeWoNLjY9V341g" name="in(ConnectivityPSC.Offline)(Constraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_DFDmQaZJEeWoNLjY9V341g" name="in(ConnectivityPSC.Offline)(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>in(ConnectivityPSC.Offline)</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_G_bKEKZJEeWoNLjY9V341g" name="policeCars">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_7E88IKZIEeWoNLjY9V341g" name="deployPoliceCars(Trigger)" event="_509qoJm1EeW-E4TEPaxzcQ"/>
+      </transition>
+      <transition xmi:id="_1Mnt5mndEeWZOoTCcU_ksg" name="Authorising-comTimeout(Trigger)/standAloneResolution->Idle" source="_1Mnt9WndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iBRwkKGYEeWOH5kx_G3ggA" name="standAloneResolution">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_eSCesKGYEeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt62ndEeWZOoTCcU_ksg" name="Idle-callFScoordinator(Trigger)[ConnectivityPSC.Online]/reqComPSC->Authorising" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1Mnt9WndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="_Og23MKGTEeWOH5kx_G3ggA" name="ConnectivityPSC.Online">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_tVx88KGTEeWOH5kx_G3ggA" name="ConnectivityPSC.Online(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>in(ConnectivityPSC.Online)</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZvLCYKGWEeWOH5kx_G3ggA" name="reqComPSC">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_8B7L0KGUEeWOH5kx_G3ggA" name="callFScoordinator(Trigger)" event="_74rwQKGUEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:id="_1Mnt9GndEeWZOoTCcU_ksg" name="DealingWithCrisis-rescheduleRoutePlanPScoordinator(Trigger)[numArrivedPoliceCars>0(Constraint)]/rescheduleRoutePlanPSC->StatingNumberOfVehicles" source="_1MnuNGndEeWZOoTCcU_ksg" target="_1MnuBmndEeWZOoTCcU_ksg">
+        <ownedRule xmi:id="_tByR0KGyEeWOH5kx_G3ggA" name="numArrivedPoliceCars>0(Constraint)">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_tByR0aGyEeWOH5kx_G3ggA" name="numArrivedPoliceCars>0(OpaqueExpression)">
+            <language>Natural language</language>
+            <body>numArrivedPoliceCars>0</body>
+          </specification>
+        </ownedRule>
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_nJCVwKGyEeWOH5kx_G3ggA" name="rescheduleRoutePlanPSC">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_l0C4wKGyEeWOH5kx_G3ggA" name="rescheduleRoutePlanPScoordinator(Trigger)" event="_5uCs0JnBEeW-E4TEPaxzcQ"/>
+      </transition>
+      <transition xmi:id="_1Mnt7GndEeWZOoTCcU_ksg" name="Idle-reqComFSC(Trigger)/receiveFScoordinatorCall->Authorising" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1Mnt9WndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_7pnSIKGXEeWOH5kx_G3ggA" name="receiveFScoordinatorCall">
+          <language></language>
+          <body></body>
+        </effect>
+        <trigger xmi:id="_6W0qAKGWEeWOH5kx_G3ggA" name="reqComFSC(Trigger)" event="_6JKogKGWEeWOH5kx_G3ggA"/>
+      </transition>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnuo2ndEeWZOoTCcU_ksg" name="initial"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuFmndEeWZOoTCcU_ksg" name="NegotiatingRoutePlan">
+        <region xmi:id="_1MnuF2ndEeWZOoTCcU_ksg" name="Region1">
+          <transition xmi:id="_1MnuGWndEeWZOoTCcU_ksg" name="S.3.2.1.1-proposeFireTrucksRoute(Trigger)/fireTrucksRoute->S.3.2.1.2" source="_1MnuH2ndEeWZOoTCcU_ksg" target="_1MnuIGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6eODwKGcEeWOH5kx_G3ggA" name="fireTrucksRoute">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_xuukEKGcEeWOH5kx_G3ggA" name="proposeFireTrucksRoute(Trigger)" event="_FtooIJm-EeW-E4TEPaxzcQ"/>
+          </transition>
+          <transition xmi:id="_1MnuGmndEeWZOoTCcU_ksg" name="S.3.2.1.2-disagreementFSC(Trigger)/receiveFScoordinatorRouteDisagreement->S.3.2.1.3" source="_1MnuIGndEeWZOoTCcU_ksg" target="_1MnuIWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_IIYGoKGdEeWOH5kx_G3ggA" name="receiveFScoordinatorRouteDisagreement">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_GFJDkKGdEeWOH5kx_G3ggA" name="disagreementFSC(Trigger)" event="_F1HDgKGdEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuGGndEeWZOoTCcU_ksg" name="initial-->S.3.2.1.1" source="_1MnuHmndEeWZOoTCcU_ksg" target="_1MnuH2ndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1MnuG2ndEeWZOoTCcU_ksg" name="S.3.2.1.3-proposeFireTrucksRoute(Trigger)/fireTrucksRoute->S.3.2.1.2" source="_1MnuIWndEeWZOoTCcU_ksg" target="_1MnuIGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_T7sjsKGdEeWOH5kx_G3ggA" name="fireTrucksRoute">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_RNoa8KGdEeWOH5kx_G3ggA" name="proposeFireTrucksRoute(Trigger)" event="_FtooIJm-EeW-E4TEPaxzcQ"/>
+          </transition>
+          <transition xmi:id="_1MnuHGndEeWZOoTCcU_ksg" name="S.3.2.1.2-agreementFSC(Trigger)/receiveFScoordinatorRouteAgreement->Dispatching" source="_1MnuIGndEeWZOoTCcU_ksg" target="_1MnuI2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_DQHsUKGfEeWOH5kx_G3ggA" name="receiveFScoordinatorRouteAgreement">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_BE0SYKGfEeWOH5kx_G3ggA" name="agreementFSC(Trigger)" event="_A4QdEKGfEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuHWndEeWZOoTCcU_ksg" name="S.3.2.1.3-uncoordinatedRoute(Trigger)/uncoordinatedRoute->Idle" source="_1MnuIWndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_c_mJ8KGZEeWOH5kx_G3ggA" name="uncoordinatedRoute">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_Y0td4KGZEeWOH5kx_G3ggA" name="uncoordinatedRoute(Trigger)" event="_sDC8cJnBEeW-E4TEPaxzcQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuHmndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuH2ndEeWZOoTCcU_ksg" name="S.3.2.1.1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuIWndEeWZOoTCcU_ksg" name="S.3.2.1.3"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuIGndEeWZOoTCcU_ksg" name="S.3.2.1.2"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuNGndEeWZOoTCcU_ksg" name="DealingWithCrisis">
+        <region xmi:id="_MQOKYKEcEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_1MnuU2ndEeWZOoTCcU_ksg" name="CompletingMission-comTimeout(Trigger)/standAloneResolution->StandAlone-CompletingMission" source="_1MnuVWndEeWZOoTCcU_ksg" target="_1MnuZGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_YZmiUKGxEeWOH5kx_G3ggA" name="standAloneResolution">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_Wk-jAKGxEeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuVGndEeWZOoTCcU_ksg" name="StandAlone-CompletingMission-synchFSCSystem/online->CompletingMission" source="_1MnuZGndEeWZOoTCcU_ksg" target="_1MnuVWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_4V4RsKGxEeWOH5kx_G3ggA" name="online">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_2iqnoKGxEeWOH5kx_G3ggA" name="synchFSCSystem" event="_2XLJUKGxEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuZGndEeWZOoTCcU_ksg" name="StandAlone-CompletingMission">
+            <region xmi:id="_1MnuZWndEeWZOoTCcU_ksg" name="Region1">
+              <transition xmi:id="_1MnuZ2ndEeWZOoTCcU_ksg" name="SA.6.1-fireTruckObjectiveCompleted(Trigger)[numFireTrucksAtLocation>0(Constraint)]/receiveFireTruckObjectiveCompleted AND numFireTrucksAtLocation--->SA.6.1" source="_1MnuaWndEeWZOoTCcU_ksg" target="_1MnuaWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_b1PGQKGyEeWOH5kx_G3ggA" name="numFireTrucksAtLocation>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_b1PGQaGyEeWOH5kx_G3ggA" name="numFireTrucksAtLocation>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numFireTrucksAtLocation>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_W5YQQKGyEeWOH5kx_G3ggA" name="receiveFireTruckObjectiveCompleted AND numFireTrucksAtLocation--">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_TiudgKGyEeWOH5kx_G3ggA" name="fireTruckObjectiveCompleted(Trigger)" event="_FCC3wKGxEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnuZmndEeWZOoTCcU_ksg" name="initial-->SA.6.1" source="_1MnuamndEeWZOoTCcU_ksg" target="_1MnuaWndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuamndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuaWndEeWZOoTCcU_ksg" name="SA.6.1"/>
+            </region>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuVWndEeWZOoTCcU_ksg" name="CompletingMission">
+            <region xmi:id="_RyMIsKEdEeW-btv3BzkPdA" name="Region2">
+              <transition xmi:id="_1MnuYGndEeWZOoTCcU_ksg" name="S.6.2-fireTruckObjectiveCompleted(Trigger)[numFireTrucksAtLocation>0(Constraint)]/receiveFireTruckObjectiveCompleted AND numFireTrucksAtLocation--->S.6.2" source="_1MnuYWndEeWZOoTCcU_ksg" target="_1MnuYWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_PJ-xEKGxEeWOH5kx_G3ggA" name="numFireTrucksAtLocation>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_PJ-xEaGxEeWOH5kx_G3ggA" name="numFireTrucksAtLocation>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numFireTrucksAtLocation>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_JIIjYKGxEeWOH5kx_G3ggA" name="receiveFireTruckObjectiveCompleted AND numFireTrucksAtLocation--">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_FR1nQKGxEeWOH5kx_G3ggA" name="fireTruckObjectiveCompleted(Trigger)" event="_FCC3wKGxEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnuXmndEeWZOoTCcU_ksg" name="initial-->S.6.2" source="_1MnuYmndEeWZOoTCcU_ksg" target="_1MnuYWndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuYmndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuYWndEeWZOoTCcU_ksg" name="S.6.2"/>
+            </region>
+            <region xmi:id="_Rc-GoKEdEeW-btv3BzkPdA" name="Region1">
+              <transition xmi:id="_1MnuWWndEeWZOoTCcU_ksg" name="S.6.1-policeCarObjectiveCompletedPScoordinator(Trigger)[numPoliceCarsAtLocation>0(Constraint)]/policeCarObjectiveCompleted AND numPoliceCarsAtLocation--->S.6.1" source="_1MnuWmndEeWZOoTCcU_ksg" target="_1MnuWmndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_6inrgKGwEeWOH5kx_G3ggA" name="numPoliceCarsAtLocation>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_6inrgaGwEeWOH5kx_G3ggA" name="numPoliceCarsAtLocation>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numPoliceCarsAtLocation>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0Zi0cKGwEeWOH5kx_G3ggA" name="policeCarObjectiveCompleted AND numPoliceCarsAtLocation--">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_x1390KGwEeWOH5kx_G3ggA" name="policeCarObjectiveCompletedPScoordinator(Trigger)" event="_guP-oJqWEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnuV2ndEeWZOoTCcU_ksg" name="initial-->S.6.1" source="_1MnuW2ndEeWZOoTCcU_ksg" target="_1MnuWmndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuW2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuWmndEeWZOoTCcU_ksg" name="S.6.1"/>
+            </region>
+          </subvertex>
+        </region>
+        <region xmi:id="_LgGVAqEcEeW-btv3BzkPdA" name="Region3">
+          <transition xmi:id="_1MnudGndEeWZOoTCcU_ksg" name="StandAlone-Arriving-comTimeout(Trigger)/standAloneResolution->Arriving" source="_1MnubWndEeWZOoTCcU_ksg" target="_1Mnud2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_B8oJgKGyEeWOH5kx_G3ggA" name="standAloneResolution">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="__0GWwKGxEeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1Mnuf2ndEeWZOoTCcU_ksg" name="Arriving-synchFSC(Trigger)/online->StandAlone-Arriving" source="_1Mnud2ndEeWZOoTCcU_ksg" target="_1MnubWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Gk9mkKGyEeWOH5kx_G3ggA" name="online">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_E8t2YKGyEeWOH5kx_G3ggA" name="synchFSC(Trigger)" event="_2XLJUKGxEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnubWndEeWZOoTCcU_ksg" name="StandAlone-Arriving">
+            <region xmi:id="_1MnubmndEeWZOoTCcU_ksg" name="Region1">
+              <transition xmi:id="_1MnucWndEeWZOoTCcU_ksg" name="SA.5.1-recallPoliceCars[numArrivedPoliceCars>0(Constraint)]/recallPoliceCars(n) AND numDispatchedPoliceCars=numDispatchedPoliceCars->SA.5.1" source="_1MnudmndEeWZOoTCcU_ksg" target="_1MnudmndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_mIOMQKGiEeWOH5kx_G3ggA" name="numArrivedPoliceCars>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_mIOMQaGiEeWOH5kx_G3ggA" name="numArrivedPoliceCars>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numArrivedPoliceCars>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_eqpAYKGiEeWOH5kx_G3ggA" name="recallPoliceCars(n) AND numDispatchedPoliceCars=numDispatchedPoliceCars">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_YaG2cKGiEeWOH5kx_G3ggA" name="recallPoliceCars" event="_XShV8JqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnucmndEeWZOoTCcU_ksg" name="SA.5.1-newETApoliceCarPScoordinator(Trigger)/newETApoliceCar->SA.5.1" source="_1MnudmndEeWZOoTCcU_ksg" target="_1MnudmndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6GS5sKGhEeWOH5kx_G3ggA" name="newETApoliceCar">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_zell4KGhEeWOH5kx_G3ggA" name="newETApoliceCarPScoordinator(Trigger)" event="_u_EDwJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1Mnub2ndEeWZOoTCcU_ksg" name="SA.5.1-replacedPoliceCarPScoordinator(Trigger)/replacedPoliceCar->SA.5.1" source="_1MnudmndEeWZOoTCcU_ksg" target="_1MnudmndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_GmXIAKGiEeWOH5kx_G3ggA" name="replacedPoliceCar">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_E93gMKGiEeWOH5kx_G3ggA" name="replacedPoliceCarPScoordinator(Trigger)" event="_psZ3UJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnucGndEeWZOoTCcU_ksg" name="SA.5.1-policeCarArrivedPScoordinator(Trigger)[numDispatchedPoliceCars>numArrivedPoliceCars(Constraint)]/policeCarArrived AND numArrivedPoliceCars++->SA.5.1" source="_1MnudmndEeWZOoTCcU_ksg" target="_1MnudmndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_4XUZ8KGiEeWOH5kx_G3ggA" name="numDispatchedPoliceCars>numArrivedPoliceCars(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_4XUZ8aGiEeWOH5kx_G3ggA" name="numDispatchedPoliceCars>numArrivedPoliceCars(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numDispatchedPoliceCars>numArrivedPoliceCars</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_xGcNUKGiEeWOH5kx_G3ggA" name="policeCarArrived AND numArrivedPoliceCars++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_uwXGwKGiEeWOH5kx_G3ggA" name="policeCarArrivedPScoordinator(Trigger)" event="_emYlIJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1Mnuc2ndEeWZOoTCcU_ksg" name="initial-->SA.5.1" source="_1MnudWndEeWZOoTCcU_ksg" target="_1MnudmndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnudWndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnudmndEeWZOoTCcU_ksg" name="SA.5.1"/>
+            </region>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnud2ndEeWZOoTCcU_ksg" name="Arriving">
+            <region xmi:id="_7VwicKEdEeW-btv3BzkPdA" name="Region2">
+              <transition xmi:id="_1MnujGndEeWZOoTCcU_ksg" name="S.5.2-recallFireTrucks(Trigger)[numArrivedFireTrucks>0(Constraint)]/receiveRecallFireTrucks(n) AND numDispatchedFireTrucks=numDispatchedFireTrucks-n->S.5.2" source="_1MnukWndEeWZOoTCcU_ksg" target="_1MnukWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_Z1CQcKGvEeWOH5kx_G3ggA" name="numArrivedFireTrucks>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_Z1CQcaGvEeWOH5kx_G3ggA" name="numArrivedFireTrucks>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numArrivedFireTrucks>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ec1iAKGvEeWOH5kx_G3ggA" name="receiveRecallFireTrucks(n) AND numDispatchedFireTrucks=numDispatchedFireTrucks-n">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_Ro4HUKGvEeWOH5kx_G3ggA" name="recallFireTrucks(Trigger)" event="_w6BPAKGvEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1Mnui2ndEeWZOoTCcU_ksg" name="S.5.2-fireTruckArrived(Trigger)[numArrivedFireTrucks&lt;numDispatchedFireTrucks(Constraint)]/receiveFireTruckArrived AND numArrivedFireTrucks++->S.5.2" source="_1MnukWndEeWZOoTCcU_ksg" target="_1MnukWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_YYTXQKGwEeWOH5kx_G3ggA" name="numArrivedFireTrucks&lt;numDispatchedFireTrucks(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_YYTXQaGwEeWOH5kx_G3ggA" name="numArrivedFireTrucks&lt;numDispatchedFireTrucks(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numArrivedFireTrucks&lt;numDispatchedFireTrucks</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_QATKgKGwEeWOH5kx_G3ggA" name="receiveFireTruckArrived AND numArrivedFireTrucks++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_McRqIKGwEeWOH5kx_G3ggA" name="fireTruckArrived(Trigger)" event="_MHfs8KGwEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnujWndEeWZOoTCcU_ksg" name="S.5.2-newETAfireTruck(Trigger)/receiveNewETAfireTruck->S.5.2" source="_1MnukWndEeWZOoTCcU_ksg" target="_1MnukWndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_43htkKGuEeWOH5kx_G3ggA" name="receiveNewETAfireTruck">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_2L84IKGuEeWOH5kx_G3ggA" name="newETAfireTruck(Trigger)" event="_1qfw4KGuEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnuimndEeWZOoTCcU_ksg" name="S.5.2-replacedFireTruck(Trigger)/receiveReplacedFireTruck->S.5.2" source="_1MnukWndEeWZOoTCcU_ksg" target="_1MnukWndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_CCB40KGwEeWOH5kx_G3ggA" name="receiveReplacedFireTruck">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_AQLgsKGwEeWOH5kx_G3ggA" name="replacedFireTruck(Trigger)" event="_AHdpkKGwEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnujmndEeWZOoTCcU_ksg" name="initial-->S.5.2" source="_1Mnuj2ndEeWZOoTCcU_ksg" target="_1MnukWndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnuj2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnukWndEeWZOoTCcU_ksg" name="S.5.2"/>
+            </region>
+            <region xmi:id="_7ALUAKEdEeW-btv3BzkPdA" name="Region1">
+              <transition xmi:id="_1MnufmndEeWZOoTCcU_ksg" name="S.5.1-recallPoliceCars(Trigger)[ArrivedPoliceCars>0(Constraint)]/recallPoliceCars(n) AND numDispatchedPoliceCars=numDispatchedPoliceCars-n->S.5.1" source="_1MnuhGndEeWZOoTCcU_ksg" target="_1MnuhGndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_OTPdsKGuEeWOH5kx_G3ggA" name="ArrivedPoliceCars>0(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_OTPdsaGuEeWOH5kx_G3ggA" name="ArrivedPoliceCars>0(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>ArrivedPoliceCars>0</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Gmje0KGuEeWOH5kx_G3ggA" name="recallPoliceCars(n) AND numDispatchedPoliceCars=numDispatchedPoliceCars-n">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_CTDpUKGuEeWOH5kx_G3ggA" name="recallPoliceCars(Trigger)" event="_XShV8JqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnufWndEeWZOoTCcU_ksg" name="S.5.1-replacedPoliceCarPScoordinator(Trigger)/replacedPoliceCar->S.5.1" source="_1MnuhGndEeWZOoTCcU_ksg" target="_1MnuhGndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_7JgzwKGtEeWOH5kx_G3ggA" name="replacedPoliceCar">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_4fdoUKGtEeWOH5kx_G3ggA" name="replacedPoliceCarPScoordinator(Trigger)" event="_psZ3UJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnugWndEeWZOoTCcU_ksg" name="S.5.1-newETApoliceCarPScoordinator(Trigger)/newETApoliceCar->S.5.1" source="_1MnuhGndEeWZOoTCcU_ksg" target="_1MnuhGndEeWZOoTCcU_ksg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_y11tYKGtEeWOH5kx_G3ggA" name="newETApoliceCar">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_wgjRAKGtEeWOH5kx_G3ggA" name="newETApoliceCarPScoordinator(Trigger)" event="_u_EDwJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnufGndEeWZOoTCcU_ksg" name="S.5.1-policeCarArrivedPScoordinator(Trigger)[numArrivedPoliceCars&lt;numDispatchedPoliceCars(Constraint)]/policeCarArrived AND numArrivedPoliceCars++->S.5.1" source="_1MnuhGndEeWZOoTCcU_ksg" target="_1MnuhGndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_ir5Y4KGuEeWOH5kx_G3ggA" name="numArrivedPoliceCars&lt;numDispatchedPoliceCars(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_ir5Y4aGuEeWOH5kx_G3ggA" name="numArrivedPoliceCars&lt;numDispatchedPoliceCars(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numArrivedPoliceCars&lt;numDispatchedPoliceCars</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Zu3McKGuEeWOH5kx_G3ggA" name="policeCarArrived AND numArrivedPoliceCars++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_V2LqsKGuEeWOH5kx_G3ggA" name="policeCarArrivedPScoordinator(Trigger)" event="_emYlIJqUEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnugGndEeWZOoTCcU_ksg" name="initial-->S.5.1" source="_1Mnug2ndEeWZOoTCcU_ksg" target="_1MnuhGndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnug2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuhGndEeWZOoTCcU_ksg" name="S.5.1"/>
+            </region>
+          </subvertex>
+        </region>
+        <region xmi:id="_L3I8AKEcEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1MnuN2ndEeWZOoTCcU_ksg" name="Returning-comTimeout(Trigger)/standAloneResolution->StandAlone-Returning" source="_1MnuQWndEeWZOoTCcU_ksg" target="_1MnuOWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Y3V8UKGzEeWOH5kx_G3ggA" name="standAloneResolution">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_V671kKGzEeWOH5kx_G3ggA" name="comTimeout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuNmndEeWZOoTCcU_ksg" name="StandAlone-Returning-synchFSC(Trigger)->Returning" source="_1MnuOWndEeWZOoTCcU_ksg" target="_1MnuQWndEeWZOoTCcU_ksg">
+            <trigger xmi:id="_h9QX8KGzEeWOH5kx_G3ggA" name="synchFSC(Trigger)" event="_2XLJUKGxEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuOGndEeWZOoTCcU_ksg" name="StandAlone-Returning-closeCrisisPScoordinator[numDispatchedPoliceCars=numReturnedPoliceCars(Constraint)]->Idle" source="_1MnuOWndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+            <ownedRule xmi:id="_LiB2IKG1EeWOH5kx_G3ggA" name="numDispatchedPoliceCars=numReturnedPoliceCars(Constraint)">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_LiB2IaG1EeWOH5kx_G3ggA" name="numDispatchedPoliceCars=numReturnedPoliceCars(OpaqueExpression)">
+                <language>Natural language</language>
+                <body>numDispatchedPoliceCars=numReturnedPoliceCars</body>
+              </specification>
+            </ownedRule>
+            <trigger xmi:id="_9n1zMKG0EeWOH5kx_G3ggA" name="closeCrisisPScoordinator" event="_UmhNQJqVEeWL16I25ZOVVw"/>
+          </transition>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuOWndEeWZOoTCcU_ksg" name="StandAlone-Returning">
+            <region xmi:id="_1MnuOmndEeWZOoTCcU_ksg" name="Region1">
+              <transition xmi:id="_1MnuPGndEeWZOoTCcU_ksg" name="SA.7.1-policeCarBackPScoordinator(Trigger)[numReturnedPoliceCars&lt;numDispatchedPoliceCars(Constraint)]/policeCarBack AND numReturnedPoliceCars++->SA.7.1" source="_1MnuPmndEeWZOoTCcU_ksg" target="_1MnuPmndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_Q1Wb0KGzEeWOH5kx_G3ggA" name="numReturnedPoliceCars&lt;numDispatchedPoliceCars(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_Q1Wb0aGzEeWOH5kx_G3ggA" name="numReturnedPoliceCars&lt;numDispatchedPoliceCars(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numReturnedPoliceCars&lt;numDispatchedPoliceCars</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_J9hBUKGzEeWOH5kx_G3ggA" name="policeCarBack AND numReturnedPoliceCars++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_HwAA4KGzEeWOH5kx_G3ggA" name="policeCarBackPScoordinator(Trigger)" event="_z6DhoJqVEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnuO2ndEeWZOoTCcU_ksg" name="initial-->SA.7.1" source="_1MnuP2ndEeWZOoTCcU_ksg" target="_1MnuPmndEeWZOoTCcU_ksg"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuP2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuPmndEeWZOoTCcU_ksg" name="SA.7.1"/>
+            </region>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuQWndEeWZOoTCcU_ksg" name="Returning">
+            <region xmi:id="_aDQccKEcEeW-btv3BzkPdA" name="Region1">
+              <transition xmi:id="_1MnuRWndEeWZOoTCcU_ksg" name="S.7.1-policeCarBackPScoordinator(Trigger)[numReturnedPoliceCars&lt;numDispatchedPoliceCars(Constraint)]/policeCarBack AND numReturnedPoliceCars++->S.7.1" source="_1MnuSWndEeWZOoTCcU_ksg" target="_1MnuSWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_wwLZsKGzEeWOH5kx_G3ggA" name="numReturnedPoliceCars&lt;numDispatchedPoliceCars(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_wwLZsaGzEeWOH5kx_G3ggA" name="numReturnedPoliceCars&lt;numDispatchedPoliceCars(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numReturnedPoliceCars&lt;numDispatchedPoliceCars</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_prsqUKGzEeWOH5kx_G3ggA" name="policeCarBack AND numReturnedPoliceCars++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_nVx70KGzEeWOH5kx_G3ggA" name="policeCarBackPScoordinator(Trigger)" event="_z6DhoJqVEeWL16I25ZOVVw"/>
+              </transition>
+              <transition xmi:id="_1MnuRGndEeWZOoTCcU_ksg" name="initial-->S.7.1" source="_1MnuR2ndEeWZOoTCcU_ksg" target="_1MnuSWndEeWZOoTCcU_ksg"/>
+              <transition xmi:id="_1MnuRmndEeWZOoTCcU_ksg" name="S.7.1-fireTruckBack(Trigger)[numDispatchedPoliceCars=numReturnedPoliceCars(Constraint)]/receiveFireTruckBack AND numReturnedFireTrucks++->Closing" source="_1MnuSWndEeWZOoTCcU_ksg" target="_1Mnuk2ndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_01MR0KG0EeWOH5kx_G3ggA" name="numDispatchedPoliceCars=numReturnedPoliceCars(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_01MR0aG0EeWOH5kx_G3ggA" name="numDispatchedPoliceCars=numReturnedPoliceCars(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numDispatchedPoliceCars=numReturnedPoliceCars</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_v4V9UKG0EeWOH5kx_G3ggA" name="receiveFireTruckBack AND numReturnedFireTrucks++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_tHQ80KG0EeWOH5kx_G3ggA" name="fireTruckBack(Trigger)" event="_7ltY0KGzEeWOH5kx_G3ggA"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuR2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuSWndEeWZOoTCcU_ksg" name="S.7.1"/>
+            </region>
+            <region xmi:id="_aatTIKEcEeW-btv3BzkPdA" name="Region2">
+              <transition xmi:id="_1MnuTWndEeWZOoTCcU_ksg" name="S.7.2-fireTruckBack(Trigger)[numReturnedFireTrucks&lt;umDispatchedFireTrucks(Constraint)]/receiceFireTruckBack AND numReturnedFireTrucks++->S.7.2" source="_1MnuUWndEeWZOoTCcU_ksg" target="_1MnuUWndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_PiJSEKG0EeWOH5kx_G3ggA" name="numReturnedFireTrucks&lt;umDispatchedFireTrucks(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_PiJSEaG0EeWOH5kx_G3ggA" name="numReturnedFireTrucks&lt;umDispatchedFireTrucks(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numReturnedFireTrucks&lt;umDispatchedFireTrucks</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_LbCSwKG0EeWOH5kx_G3ggA" name="receiceFireTruckBack AND numReturnedFireTrucks++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_74H-gKGzEeWOH5kx_G3ggA" name="fireTruckBack(Trigger)" event="_7ltY0KGzEeWOH5kx_G3ggA"/>
+              </transition>
+              <transition xmi:id="_1MnuS2ndEeWZOoTCcU_ksg" name="initial-->S.7.2" source="_1MnuT2ndEeWZOoTCcU_ksg" target="_1MnuUWndEeWZOoTCcU_ksg"/>
+              <transition xmi:id="_1MnuTmndEeWZOoTCcU_ksg" name="S.7.2-policeCarBackPScoordinator(Trigger)[numDispatchedFireTrucks=numReturnedFireTrucks(Constraint)]/policeCarBack AND numReturnedPoliceCars++->Closing" source="_1MnuUWndEeWZOoTCcU_ksg" target="_1Mnuk2ndEeWZOoTCcU_ksg">
+                <ownedRule xmi:id="_keXNUKG0EeWOH5kx_G3ggA" name="numDispatchedFireTrucks=numReturnedFireTrucks(Constraint)">
+                  <specification xmi:type="uml:OpaqueExpression" xmi:id="_keXNUaG0EeWOH5kx_G3ggA" name="numDispatchedFireTrucks=numReturnedFireTrucks(OpaqueExpression)">
+                    <language>Natural language</language>
+                    <body>numDispatchedFireTrucks=numReturnedFireTrucks</body>
+                  </specification>
+                </ownedRule>
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_fi1HcKG0EeWOH5kx_G3ggA" name="policeCarBack AND numReturnedPoliceCars++">
+                  <language></language>
+                  <body></body>
+                </effect>
+                <trigger xmi:id="_boHlYKG0EeWOH5kx_G3ggA" name="policeCarBackPScoordinator(Trigger)" event="_z6DhoJqVEeWL16I25ZOVVw"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuT2ndEeWZOoTCcU_ksg" name="initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_1MnuUWndEeWZOoTCcU_ksg" name="S.7.2"/>
+            </region>
+          </subvertex>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1Mnuk2ndEeWZOoTCcU_ksg" name="Closing">
+        <region xmi:id="_YLIV0qEfEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1MnulmndEeWZOoTCcU_ksg" name="S.8.1.1-closeCrisisPScoordinator(Trigger)/closeCrisisPS->S.8.1.2" source="_1MnumGndEeWZOoTCcU_ksg" target="_1MnummndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ameswKG1EeWOH5kx_G3ggA" name="closeCrisisPS">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_ZkxYIKG1EeWOH5kx_G3ggA" name="closeCrisisPScoordinator(Trigger)" event="_UmhNQJqVEeWL16I25ZOVVw"/>
+          </transition>
+          <transition xmi:id="_1MnulWndEeWZOoTCcU_ksg" name="initial-->S.8.1.1" source="_1Mnul2ndEeWZOoTCcU_ksg" target="_1MnumGndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnt72ndEeWZOoTCcU_ksg" name="S.8.1.2-closeCrisisFS(Trigger)/receiveCloseCrisisFS->Idle" source="_1MnummndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_lqGLMKG1EeWOH5kx_G3ggA" name="receiveCloseCrisisFS">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_keMYwKG1EeWOH5kx_G3ggA" name="closeCrisisFS(Trigger)" event="_VCTSgKG1EeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnul2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnumGndEeWZOoTCcU_ksg" name="S.8.1.1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnummndEeWZOoTCcU_ksg" name="S.8.1.2"/>
+        </region>
+        <region xmi:id="_YjWBgKEfEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_1MnunWndEeWZOoTCcU_ksg" name="S.8.2.1-closeCrisisFS(Trigger)/receiveCloseCrisisFS->S.8.2.2" source="_1MnuoGndEeWZOoTCcU_ksg" target="_1MnuomndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_WRS1MKG1EeWOH5kx_G3ggA" name="receiveCloseCrisisFS">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_VPOUMKG1EeWOH5kx_G3ggA" name="closeCrisisFS(Trigger)" event="_VCTSgKG1EeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnunGndEeWZOoTCcU_ksg" name="initial-->S.8.2.1" source="_1Mnun2ndEeWZOoTCcU_ksg" target="_1MnuoGndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1MnunmndEeWZOoTCcU_ksg" name="S.8.2.2-closeCrisisPScoordinator(Trigger)/closeCrisisPS->Idle" source="_1MnuomndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qSM-wKG1EeWOH5kx_G3ggA" name="closeCrisisPS">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_pM9N8KG1EeWOH5kx_G3ggA" name="closeCrisisPScoordinator(Trigger)" event="_UmhNQJqVEeWL16I25ZOVVw"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnun2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuomndEeWZOoTCcU_ksg" name="S.8.2.2"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuoGndEeWZOoTCcU_ksg" name="S.8.2.1"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuI2ndEeWZOoTCcU_ksg" name="Dispatching">
+        <region xmi:id="_SqNAsqEbEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1MnuJ2ndEeWZOoTCcU_ksg" name="S.4.1-policeCarDispatchedPScoordinator(Trigger)[numRequestedPoliceCars>numDispatchedPoliceCars(Constraint)]/numDispatchedPoliceCars++ AND policeCarDispatched->S.4.1" source="_1MnuKGndEeWZOoTCcU_ksg" target="_1MnuKGndEeWZOoTCcU_ksg">
+            <ownedRule xmi:id="_fz_8gKGfEeWOH5kx_G3ggA" name="numRequestedPoliceCars>numDispatchedPoliceCars(Constraint)">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_kvfmIKGfEeWOH5kx_G3ggA" name="numRequestedPoliceCars>numDispatchedPoliceCars(OpaqueExpression)">
+                <language>Natural language</language>
+                <body>numRequestedPoliceCars>numDispatchedPoliceCars</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZW7LYKGfEeWOH5kx_G3ggA" name="numDispatchedPoliceCars++ AND policeCarDispatched">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_OmkAIKGfEeWOH5kx_G3ggA" name="policeCarDispatchedPScoordinator(Trigger)" event="_DS_DQJnBEeW-E4TEPaxzcQ"/>
+          </transition>
+          <transition xmi:id="_1MnuJWndEeWZOoTCcU_ksg" name="initial-->S.4.1" source="_1MnuKWndEeWZOoTCcU_ksg" target="_1MnuKGndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnt7WndEeWZOoTCcU_ksg" name="S.4.1-fireTruckDispatched(Trigger)[numRequestedFireTrucks=numDispatchedFireTrucks(Constraint)]/numDispatchedFireTrucks++ AND receiveFireTruckDispatched->DealingWithCrisis" source="_1MnuKGndEeWZOoTCcU_ksg" target="_1MnuNGndEeWZOoTCcU_ksg">
+            <ownedRule xmi:id="_gx55wKGgEeWOH5kx_G3ggA" name="numRequestedFireTrucks=numDispatchedFireTrucks(Constraint)">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_jkBcEKGgEeWOH5kx_G3ggA" name="numRequestedFireTrucks=numDispatchedFireTrucks(OpaqueExpression)">
+                <language>Natural language</language>
+                <body>numRequestedFireTrucks=numDispatchedFireTrucks</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_XcBIcKGgEeWOH5kx_G3ggA" name="numDispatchedFireTrucks++ AND receiveFireTruckDispatched">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_T3wXgKGgEeWOH5kx_G3ggA" name="fireTruckDispatched(Trigger)" event="_y4EqYKGfEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuKWndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuKGndEeWZOoTCcU_ksg" name="S.4.1"/>
+        </region>
+        <region xmi:id="_TAjrMKEbEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_1MnuLmndEeWZOoTCcU_ksg" name="S.4.2-fireTruckDispatched(Trigger)[numRequestedFireTrucks>numDispatchedFireTrucks(Constraint)]/numDispatchedFireTrucks++ AND receiveFireTruckDispatched->S.4.2" source="_1MnuMWndEeWZOoTCcU_ksg" target="_1MnuMWndEeWZOoTCcU_ksg">
+            <ownedRule xmi:id="_Br_xsKGgEeWOH5kx_G3ggA" name="numRequestedFireTrucks>numDispatchedFireTrucks(Constraint)">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_GU0W8KGgEeWOH5kx_G3ggA" name="numRequestedFireTrucks>numDispatchedFireTrucks(OpaqueExpression)">
+                <language>Natural language</language>
+                <body>numRequestedFireTrucks>numDispatchedFireTrucks</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_2Fsc8KGfEeWOH5kx_G3ggA" name="numDispatchedFireTrucks++ AND receiveFireTruckDispatched">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_zJGI8KGfEeWOH5kx_G3ggA" name="fireTruckDispatched(Trigger)" event="_y4EqYKGfEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuL2ndEeWZOoTCcU_ksg" name="S.4.2-policeCarDispatchedPScoordinator(Trigger)[numRequestedPoliceCars=numDispatchedPoliceCars(Constraint)]/numDispatchedPoliceCars++ AND policeCarDispatched->DealingWithCrisis" source="_1MnuMWndEeWZOoTCcU_ksg" target="_1MnuNGndEeWZOoTCcU_ksg">
+            <ownedRule xmi:id="_2xsx4KGgEeWOH5kx_G3ggA" name="numRequestedPoliceCars=numDispatchedPoliceCars(Constraint)">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_9mEosKGgEeWOH5kx_G3ggA" name="numRequestedPoliceCars=numDispatchedPoliceCars(OpaqueExpression)">
+                <language>Natural language</language>
+                <body>numRequestedPoliceCars=numDispatchedPoliceCars</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_zQaccKGgEeWOH5kx_G3ggA" name="numDispatchedPoliceCars++ AND policeCarDispatched">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_qcyDoKGgEeWOH5kx_G3ggA" name="policeCarDispatchedPScoordinator(Trigger)" event="_DS_DQJnBEeW-E4TEPaxzcQ"/>
+          </transition>
+          <transition xmi:id="_1MnuLWndEeWZOoTCcU_ksg" name="initial-->S.4.2" source="_1MnuMGndEeWZOoTCcU_ksg" target="_1MnuMWndEeWZOoTCcU_ksg"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuMGndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuMWndEeWZOoTCcU_ksg" name="S.4.2"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1Mnt9WndEeWZOoTCcU_ksg" name="Authorising">
+        <region xmi:id="_K6P9UKEZEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1Mnt-GndEeWZOoTCcU_ksg" name="S.1.0.0-sendPScoordinatorCredentials(Trigger)/authPSC->S.1.0.1" source="_1Mnt-mndEeWZOoTCcU_ksg" target="_1Mnt_WndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_3c0PoKGZEeWOH5kx_G3ggA" name="authPSC">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_1JPDcKGZEeWOH5kx_G3ggA" name="sendPScoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
+          </transition>
+          <transition xmi:id="_1Mnt92ndEeWZOoTCcU_ksg" name="initial-->S.1.0.0" source="_1Mnt-2ndEeWZOoTCcU_ksg" target="_1Mnt-mndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnt-WndEeWZOoTCcU_ksg" name="S.1.0.1-authFSC(Trigger)/receiveFScoordinatorCredentials->ExchangingCrisisDetails" source="_1Mnt_WndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mH25gKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_hIbyIKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnt-2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt-mndEeWZOoTCcU_ksg" name="S.1.0.0"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt_WndEeWZOoTCcU_ksg" name="S.1.0.1"/>
+        </region>
+        <region xmi:id="_NciT4KEZEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_1Mnt_2ndEeWZOoTCcU_ksg" name="initial-->S.1.1.0" source="_1MnuA2ndEeWZOoTCcU_ksg" target="_1MnuAmndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1MnuAGndEeWZOoTCcU_ksg" name="S.1.1.0-authFSC(Trigger)/receiveFScoordinatorCredentials->S.1.1.1" source="_1MnuAmndEeWZOoTCcU_ksg" target="_1MnuBWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_X-r_YKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_T0LGwKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuAWndEeWZOoTCcU_ksg" name="S.1.1.1-sendPCcoordinatorCredentials(Trigger)/authPSC->ExchangingCrisisDetails" source="_1MnuBWndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_spVCcKGaEeWOH5kx_G3ggA" name="authPSC">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_rRRDUKGaEeWOH5kx_G3ggA" name="sendPCcoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuA2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuAmndEeWZOoTCcU_ksg" name="S.1.1.0"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuBWndEeWZOoTCcU_ksg" name="S.1.1.1"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnupGndEeWZOoTCcU_ksg" name="ExchangingCrisisDetails">
+        <region xmi:id="_2B28saEZEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1MnupmndEeWZOoTCcU_ksg" name="initial-->S.2.0.0" source="_1MnuqmndEeWZOoTCcU_ksg" target="_1MnuqWndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnup2ndEeWZOoTCcU_ksg" name="S.2.0.0-sendPSCrisisDetails(Trigger)/crisisDetailsPSC->S.2.0.1" source="_1MnuqWndEeWZOoTCcU_ksg" target="_1MnurGndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_FX7DIKGbEeWOH5kx_G3ggA" name="crisisDetailsPSC">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_CxmhIKGbEeWOH5kx_G3ggA" name="sendPSCrisisDetails(Trigger)" event="_fR20sJjLEeWO1Z0hulOgIQ"/>
+          </transition>
+          <transition xmi:id="_1MnuqGndEeWZOoTCcU_ksg" name="S.2.0.1-crisisDetailsFSC(Trigger)/receiveFScrisisDetails->StatingNumberOfVehicles" source="_1MnurGndEeWZOoTCcU_ksg" target="_1MnuBmndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_cmgCkKGbEeWOH5kx_G3ggA" name="receiveFScrisisDetails">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_ZYVdcKGbEeWOH5kx_G3ggA" name="crisisDetailsFSC(Trigger)" event="_PGqZUKGbEeWOH5kx_G3ggA"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuqmndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnurGndEeWZOoTCcU_ksg" name="S.2.0.1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuqWndEeWZOoTCcU_ksg" name="S.2.0.0"/>
+        </region>
+        <region xmi:id="_2rdTUKEZEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_1MnurmndEeWZOoTCcU_ksg" name="initial-->S.2.1.0" source="_1MnusGndEeWZOoTCcU_ksg" target="_1MnusWndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnur2ndEeWZOoTCcU_ksg" name="S.2.1.0-crisisDetailsFSC(Trigger)/receiveFScrisisDetails->S.2.1.1" source="_1MnusWndEeWZOoTCcU_ksg" target="_1Mnus2ndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_S8TOIKGbEeWOH5kx_G3ggA" name="receiveFScrisisDetails">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_PTuk8KGbEeWOH5kx_G3ggA" name="crisisDetailsFSC(Trigger)" event="_PGqZUKGbEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_RZmJ4KEaEeW-btv3BzkPdA" name="S.2.1.1-sendPSCrisisDetails(Trigger)/crisisDetailsPSC->StatingNumberOfVehicles" source="_1Mnus2ndEeWZOoTCcU_ksg" target="_1MnuBmndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iJgYIKGbEeWOH5kx_G3ggA" name="crisisDetailsPSC">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_g3BckKGbEeWOH5kx_G3ggA" name="sendPSCrisisDetails(Trigger)" event="_fR20sJjLEeWO1Z0hulOgIQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnusGndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnusWndEeWZOoTCcU_ksg" name="S.2.1.0"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnus2ndEeWZOoTCcU_ksg" name="S.2.1.1"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuBmndEeWZOoTCcU_ksg" name="StatingNumberOfVehicles">
+        <region xmi:id="_agxJwqEaEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1MnuCWndEeWZOoTCcU_ksg" name="S.3.1.0.0-fireTrucks(Trigger)/receiveDeployFireTrucks->S.3.1.0.1" source="_1MnuDGndEeWZOoTCcU_ksg" target="_1MnuDmndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_3xo-MKGbEeWOH5kx_G3ggA" name="receiveDeployFireTrucks">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_0K3EwKGbEeWOH5kx_G3ggA" name="fireTrucks(Trigger)" event="_zVkbgKGbEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuCGndEeWZOoTCcU_ksg" name="initial-->S.3.1.0.0" source="_1MnuC2ndEeWZOoTCcU_ksg" target="_1MnuDGndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1MnuCmndEeWZOoTCcU_ksg" name="S.3.1.0.1-deployPoliceCars(Trigger)/policeCar->NegotiatingRoutePlan" source="_1MnuDmndEeWZOoTCcU_ksg" target="_1MnuFmndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aayjgKGcEeWOH5kx_G3ggA" name="policeCar">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_Yn1YIKGcEeWOH5kx_G3ggA" name="deployPoliceCars(Trigger)" event="_509qoJm1EeW-E4TEPaxzcQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuC2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuDmndEeWZOoTCcU_ksg" name="S.3.1.0.1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuDGndEeWZOoTCcU_ksg" name="S.3.1.0.0"/>
+        </region>
+        <region xmi:id="_a7uAYKEaEeW-btv3BzkPdA" name="Region2">
+          <transition xmi:id="_v0togKEaEeW-btv3BzkPdA" name="S.3.1.1.1-fireTrucks(Trigger)/receiveDeployFireTrucks->NegotiatingRoutePlan" source="_1MnuFWndEeWZOoTCcU_ksg" target="_1MnuFmndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_fPnkcKGcEeWOH5kx_G3ggA" name="receiveDeployFireTrucks">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_eA02EKGcEeWOH5kx_G3ggA" name="fireTrucks(Trigger)" event="_zVkbgKGbEeWOH5kx_G3ggA"/>
+          </transition>
+          <transition xmi:id="_1MnuEWndEeWZOoTCcU_ksg" name="S.3.1.1.0-deployPoliceCars(Trigger)/policeCar->S.3.1.1.1" source="_1MnuE2ndEeWZOoTCcU_ksg" target="_1MnuFWndEeWZOoTCcU_ksg">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_FOwDkKGcEeWOH5kx_G3ggA" name="policeCar">
+              <language></language>
+              <body></body>
+            </effect>
+            <trigger xmi:id="_Bk0IcKGcEeWOH5kx_G3ggA" name="deployPoliceCars(Trigger)" event="_509qoJm1EeW-E4TEPaxzcQ"/>
+          </transition>
+          <transition xmi:id="_1MnuEGndEeWZOoTCcU_ksg" name="initial-->S.3.1.1.0" source="_1MnuEmndEeWZOoTCcU_ksg" target="_1MnuE2ndEeWZOoTCcU_ksg"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuEmndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuFWndEeWZOoTCcU_ksg" name="S.3.1.1.1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1MnuE2ndEeWZOoTCcU_ksg" name="S.3.1.1.0"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuM2ndEeWZOoTCcU_ksg" name="Idle"/>
+    </region>
+  </packagedElement>
+</uml:Model>

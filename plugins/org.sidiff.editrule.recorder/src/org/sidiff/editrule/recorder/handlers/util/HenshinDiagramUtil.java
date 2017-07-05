@@ -101,7 +101,10 @@ public class HenshinDiagramUtil {
 		try {
 			OperationHistoryFactory.getOperationHistory().execute(command, new NullProgressMonitor(), null);
 			diagramResource.save(HenshinDiagramEditorUtil.getSaveOptions());
-			HenshinDiagramEditorUtil.openDiagram(diagramResource);
+			
+			if (EditRuleUtil.getMainRule(editRule).getLhs().getNodes().size() < 50) {
+				HenshinDiagramEditorUtil.openDiagram(diagramResource);
+			}
 		} catch (ExecutionException e) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
 		} catch (IOException ex) {
