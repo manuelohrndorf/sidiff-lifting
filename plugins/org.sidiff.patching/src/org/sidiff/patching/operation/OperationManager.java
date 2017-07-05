@@ -148,6 +148,17 @@ public class OperationManager {
 		for (OperationInvocation operationInvocation : unorderdOperationInvocations) {
 			if (operationInvocation.getOutgoing().isEmpty()) {
 				addIncomingOperations(operationInvocations, operationInvocation);
+			}else{
+				boolean skipped = true;
+				for(DependencyContainer depCon : operationInvocation.getOutgoing()){
+					if(depCon.getTarget().isApply()){
+						skipped = false;
+						break;
+					}
+				}
+				if(skipped){
+					addIncomingOperations(operationInvocations, operationInvocation);
+				}
 			}
 		}
 		return operationInvocations;
