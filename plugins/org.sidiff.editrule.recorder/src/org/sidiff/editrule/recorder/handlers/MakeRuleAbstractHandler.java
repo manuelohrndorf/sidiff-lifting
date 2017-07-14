@@ -3,8 +3,8 @@ package org.sidiff.editrule.recorder.handlers;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
-import static org.sidiff.editrule.recorder.handlers.util.EditRuleUtil.getRequiredTypes;
-import static org.sidiff.editrule.recorder.handlers.util.EditRuleUtil.selectMostSpecificType;
+import static org.sidiff.editrule.recorder.util.EditRuleUtil.getRequiredTypes;
+import static org.sidiff.editrule.recorder.util.EditRuleUtil.selectMostSpecificType;
 
 import java.io.IOException;
 import java.util.Collections;

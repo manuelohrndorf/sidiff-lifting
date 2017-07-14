@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
+import org.sidiff.editrule.recorder.util.EditRuleUtil;
 
 /**
  * Creates an edit-rule input parameter.

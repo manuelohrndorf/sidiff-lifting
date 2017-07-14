@@ -1,4 +1,4 @@
-package org.sidiff.editrule.recorder.handlers.util;
+package org.sidiff.editrule.recorder.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

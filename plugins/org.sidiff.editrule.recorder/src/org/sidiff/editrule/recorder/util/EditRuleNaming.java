@@ -1,4 +1,4 @@
-package org.sidiff.editrule.recorder.handlers.util;
+package org.sidiff.editrule.recorder.util;
 
 public class EditRuleNaming {
 

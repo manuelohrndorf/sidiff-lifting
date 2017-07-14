@@ -48,8 +48,8 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.editrule.recorder.handlers.util.EditRuleUtil;
-import org.sidiff.editrule.recorder.handlers.util.HenshinDiagramUtil;
+import org.sidiff.editrule.recorder.util.EditRuleUtil;
+import org.sidiff.editrule.recorder.util.HenshinDiagramUtil;
 import org.sidiff.matching.model.Correspondence;
 
 /**
