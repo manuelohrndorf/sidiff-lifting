@@ -55,14 +55,20 @@ public class HenshinDiagramUtil {
 
 		String projectName = modelURI.segment(1);
 		String path = modelURI.trimFragment().trimSegments(1).toString()
-				.replaceFirst("platform:/resource/" + projectName + "/", "");
+				.replaceFirst("platform:/resource/" + projectName, "");
 		String diagramName = modelURI.trimFileExtension().lastSegment() + ".henshin_diagram";
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		IProject project = root.getProject(projectName);
-		IFolder folder = project.getFolder(path);
-		IFile diagramFile = folder.getFile(diagramName);
+		IFile diagramFile = null;
+		
+		if (!path.isEmpty()) {
+			IFolder folder = project.getFolder(path);
+			diagramFile = folder.getFile(diagramName);
+		} else {
+			diagramFile = project.getFile(diagramName);
+		}
 		
 		if (!diagramFile.exists()) {
 			try {
