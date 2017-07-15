@@ -3,6 +3,7 @@ package org.sidiff.editrule.recorder.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -19,6 +20,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -28,6 +30,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorUtil;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -39,7 +42,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 
 public class HenshinDiagramUtil {
 
-	public static void createDiagram(Module editRule) {
+	public static Resource createDiagram(Module editRule) {
 		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(editRule);
 		
 		if (editingDomain == null) {
@@ -77,7 +80,7 @@ public class HenshinDiagramUtil {
 
 		URI diagramModelURI = URI.createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
 		ResourceSet resourceSet = editingDomain.getResourceSet();
-		final Resource diagramResource = resourceSet.createResource(diagramModelURI);
+		Resource diagramResource = resourceSet.createResource(diagramModelURI);
 
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
 				Messages.HenshinNewDiagramFileWizard_InitDiagramCommand, affectedFiles) {
@@ -101,16 +104,38 @@ public class HenshinDiagramUtil {
 		try {
 			OperationHistoryFactory.getOperationHistory().execute(command, new NullProgressMonitor(), null);
 			diagramResource.save(HenshinDiagramEditorUtil.getSaveOptions());
-			
-			if (EditRuleUtil.getMainRule(editRule).getLhs().getNodes().size() < 50) {
-				HenshinDiagramEditorUtil.openDiagram(diagramResource);
-			}
 		} catch (ExecutionException e) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
-		} catch (IOException ex) {
-			HenshinDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, ex); //$NON-NLS-1$
-		} catch (PartInitException ex) {
-			HenshinDiagramEditorPlugin.getInstance().logError("Unable to open editor", ex); //$NON-NLS-1$
+		} catch (IOException e) {
+			HenshinDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, e); //$NON-NLS-1$
 		}
+		
+		return diagramResource;
+	}
+	
+	public static void openDiagram(Resource diagramResource) {
+		try {
+			HenshinDiagramEditorUtil.openDiagram(diagramResource);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean maxNodeCount(Module editRule, int maxNodeCount) {
+		Integer nodeCount = 0;
+		
+		for (Iterator<EObject> iterator = editRule.eAllContents(); iterator.hasNext();) {
+			EObject element = iterator.next();
+			
+			if (element instanceof Node) {
+				++nodeCount;
+				
+				if (nodeCount > maxNodeCount) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 }

@@ -80,7 +80,11 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 
 				try {
 					eoRes.save(Collections.emptyMap());
-					HenshinDiagramUtil.createDiagram(module);
+					Resource diagramResource = HenshinDiagramUtil.createDiagram(module);
+					
+					if (HenshinDiagramUtil.maxNodeCount(module, 100)) {
+						HenshinDiagramUtil.openDiagram(diagramResource);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
