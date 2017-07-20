@@ -1,4 +1,4 @@
-package org.sidiff.editrule.recorder.util;
+package org.sidiff.editrule.recorder.filter;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
