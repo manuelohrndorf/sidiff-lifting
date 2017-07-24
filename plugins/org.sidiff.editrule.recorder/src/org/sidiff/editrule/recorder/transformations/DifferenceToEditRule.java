@@ -6,7 +6,6 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createDeleteEd
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createDeleteNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createPreservedNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getLHS;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,6 +29,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.difference.symmetric.AddObject;
@@ -38,8 +38,10 @@ import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
+import org.sidiff.editrule.recorder.filters.IAttributeFilter;
+import org.sidiff.editrule.recorder.filters.IObjectFilter;
+import org.sidiff.editrule.recorder.filters.IReferenceFilter;
 import org.sidiff.matching.model.Correspondence;
-import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 
 public class DifferenceToEditRule {
 	
@@ -53,6 +55,12 @@ public class DifferenceToEditRule {
 	
 	protected Collection<Change> changes;
 	
+	protected IObjectFilter objectFilter = IObjectFilter.DUMMY;
+	
+	protected IAttributeFilter attributeFilter = IAttributeFilter.DUMMY;
+	
+	protected IReferenceFilter referenceFilter = IReferenceFilter.DUMMY;
+	
 	protected Map<EObject, Node> traceA2LHS;
 	
 	protected Map<EObject, Node> traceB2RHS;
@@ -63,6 +71,30 @@ public class DifferenceToEditRule {
 		this.changes = changes;
 	}
 	
+	public IObjectFilter getObjectFilter() {
+		return objectFilter;
+	}
+
+	public void setObjectFilter(IObjectFilter objectFilter) {
+		this.objectFilter = objectFilter;
+	}
+
+	public IAttributeFilter getAttributeFilter() {
+		return attributeFilter;
+	}
+
+	public void setAttributeFilter(IAttributeFilter attributeFilter) {
+		this.attributeFilter = attributeFilter;
+	}
+
+	public IReferenceFilter getReferenceFilter() {
+		return referenceFilter;
+	}
+
+	public void setReferenceFilter(IReferenceFilter referenceFilter) {
+		this.referenceFilter = referenceFilter;
+	}
+
 	public Module getEditRule() {
 		
 		if (editRule == null) {
@@ -112,28 +144,43 @@ public class DifferenceToEditRule {
 		Set<String> names = new HashSet<>();
 		names.add(UNKNOWN_NAMES);
 		
-		convertCorrespondences(correspondences, editrule, traceA2LHS, traceB2RHS, names);
-		convertAttribteValueChange(changes, traceB2RHS);
-		convertObjectChanges(changes, mainUnit, editrule, traceA2LHS, traceB2RHS, names);
-		convertReferenceChanges(changes, editrule, traceA2LHS, traceB2RHS);
-		convertContextEdges(correspondences, editrule, traceA2LHS, traceB2RHS);
+		convertCorrespondences(correspondences, editrule, names);
+		convertAttribteValueChange(changes);
+		convertObjectChanges(changes, mainUnit, editrule, names);
+		convertReferenceChanges(changes, editrule);
+		convertContextEdges(correspondences, editrule);
 		
 		return module;
 	}
 
-	private static void convertCorrespondences(Collection<Correspondence> correspondences, Rule editrule,
-			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS, Set<String> names) {
+	private void convertCorrespondences(Collection<Correspondence> correspondences, Rule editrule, Set<String> names) {
 		
 		// Preserve nodes:
 		for (Correspondence correspondence : correspondences) {
-			NodePair preserveNode = createPreservedNode(
-					editrule, getName(correspondence, names), correspondence.getMatchedA().eClass());
-			traceA2LHS.put(correspondence.getMatchedA(), preserveNode.getLhsNode());
-			traceB2RHS.put(correspondence.getMatchedB(), preserveNode.getRhsNode());
+			if (validate(correspondence)) {
+				NodePair preserveNode = createPreservedNode(
+						editrule, getName(correspondence, names), correspondence.getMatchedA().eClass());
+				traceA2LHS.put(correspondence.getMatchedA(), preserveNode.getLhsNode());
+				traceB2RHS.put(correspondence.getMatchedB(), preserveNode.getRhsNode());
+			}
 		}
 	}
 	
-	private static void convertAttribteValueChange(Collection<Change> changes, Map<EObject, Node> traceB2RHS) {
+	private boolean validate(Correspondence correspondence) {
+		
+		if ((correspondence.getMatchedA() != null) && (correspondence.getMatchedB() != null)) {
+			if (!objectFilter.filter(correspondence.getMatchedA())) {
+				if (!objectFilter.filter(correspondence.getMatchedB())) {
+					return true;
+				}
+			}
+		}  else {
+			System.err.println("Invalid Correspondence: " + correspondence);
+		}
+		return false;
+	}
+	
+	private void convertAttribteValueChange(Collection<Change> changes) {
 		
 		// Attribute value changes:
 		for (Change change : changes) {
@@ -148,93 +195,115 @@ public class DifferenceToEditRule {
 					Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
 							rhsNode, avc.getType(), param.getName());
 					rhsNode.getAttributes().add(attr);
-				} else {
-					System.err.println("Invalid Attribute-Value-Change: " + change);
 				}
 			}
 		}
 	}
 	
-	private static boolean validate(AttributeValueChange avc) {
-		return (avc.getObjA() != null) && (avc.getObjB() != null) && (avc.getType() != null);
+	private boolean validate(AttributeValueChange avc) {
+		
+		if ((avc.getObjA() != null) && (avc.getObjB() != null) && (avc.getType() != null)) {
+			if (!objectFilter.filter(avc.getObjA()) && !objectFilter.filter(avc.getObjB())) {
+				Object valueA =  avc.getObjA().eGet(avc.getType());
+				Object valueB =  avc.getObjB().eGet(avc.getType());
+						
+				if (!attributeFilter.filter(avc.getObjA(), valueA, avc.getType())) {
+					if (!attributeFilter.filter(avc.getObjB(), valueB, avc.getType())) {
+						return true;
+					}
+				}
+			}
+		} else {
+			System.err.println("Invalid Attribute-Value-Change: " + avc);
+		}
+		return false;
 	}
 
-	private static void convertObjectChanges(
-			Collection<Change> changes, SequentialUnit mainUnit, Rule editrule,
-			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS, Set<String> names) {
+	private void convertObjectChanges(
+			Collection<Change> changes, SequentialUnit mainUnit, Rule editrule, Set<String> names) {
 		
 		// Change nodes:
 		for (Change change : changes) {
 
 			// Delete nodes:
 			if (change instanceof RemoveObject) {
-				if (validate((RemoveObject) change)) {
-					convertRemoveObject(change, editrule, traceA2LHS, names);
-				} else {
-					System.err.println("Invalid Remove-Object: " + change);
-				}
+				convertRemoveObject((RemoveObject) change, editrule, names);
 			}
 			
 			// Create nodes:
 			else if (change instanceof AddObject) {
-				if (validate((AddObject) change)) {
-					convertCreateObject(change, mainUnit, editrule, traceB2RHS, names);
-				} else {
-					System.err.println("Invalid Add-Object: " + change);
-				}
+				convertCreateObject((AddObject) change, mainUnit, editrule, names);
 			}
 		}
 	}
 	
-	private static boolean validate(AddObject addObject) {
-		return (addObject.getObj() != null);
+	private void convertRemoveObject(RemoveObject removeObject, Rule editrule, Set<String> names) {
+		
+		if (filter(removeObject)) {
+			Node removeNode = createDeleteNode(
+					getName(removeObject.getObj(), names), 
+					removeObject.getObj().eClass(), 
+					editrule);
+			traceA2LHS.put(removeObject.getObj(), removeNode);
+		}
 	}
 	
-	private static boolean validate(RemoveObject removeObject) {
-		return (removeObject.getObj() != null);
-	}
-
-	private static void convertRemoveObject(Change change, Rule editrule, 
-			Map<EObject, Node> traceA2LHS, Set<String> names) {
+	protected boolean filter(RemoveObject removeObject) {
 		
-		RemoveObject removeObject = (RemoveObject) change;
-		Node removeNode = createDeleteNode(
-				getName(removeObject.getObj(), names), 
-				removeObject.getObj().eClass(), 
-				editrule);
-		traceA2LHS.put(removeObject.getObj(), removeNode);
+		if ((removeObject.getObj() != null)) {
+			if (!objectFilter.filter(removeObject.getObj())) {
+				return true;
+			}
+		} else {
+			System.err.println("Invalid Remove-Object: " + removeObject);
+		}
+		
+		return false;
 	}
 	
-	private static void convertCreateObject(Change change, SequentialUnit mainUnit, 
-			Rule editrule,Map<EObject, Node> traceB2RHS, Set<String> names) {
+	private void convertCreateObject(AddObject addObject, 
+			SequentialUnit mainUnit, Rule editrule, Set<String> names) {
 		
-		AddObject addObject = (AddObject) change;
-		Node addNode = createCreateNode(
-				getName(addObject.getObj(), names), 
-				addObject.getObj().eClass(), 
-				editrule);
-		traceB2RHS.put(addObject.getObj(), addNode);
+		if (filter(addObject)) {
+			Node addNode = createCreateNode(
+					getName(addObject.getObj(), names), 
+					addObject.getObj().eClass(), 
+					editrule);
+			traceB2RHS.put(addObject.getObj(), addNode);
+			
+			// Map node to out-parameter:
+			Parameter ruleAddNodeParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
+			editrule.getParameters().add(ruleAddNodeParameter);
+			
+			Parameter mainUnitAddOutParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
+			mainUnit.getParameters().add(mainUnitAddOutParameter);
+			
+			ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+			parameterMapping.setSource(ruleAddNodeParameter);
+			parameterMapping.setTarget(mainUnitAddOutParameter);
+			mainUnit.getParameterMappings().add(parameterMapping);
+			
+			// Create initial attributes:
+			createInitializationAttributes(addObject.getObj(), addNode);
+		}
+	}
+	
+	protected boolean filter(AddObject addObject) {
 		
-		// Map node to out-parameter:
-		Parameter ruleAddNodeParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
-		editrule.getParameters().add(ruleAddNodeParameter);
-		
-		Parameter mainUnitAddOutParameter = HenshinFactory.eINSTANCE.createParameter(addNode.getName());
-		mainUnit.getParameters().add(mainUnitAddOutParameter);
-		
-		ParameterMapping parameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-		parameterMapping.setSource(ruleAddNodeParameter);
-		parameterMapping.setTarget(mainUnitAddOutParameter);
-		mainUnit.getParameterMappings().add(parameterMapping);
-		
-		// Create initial attributes:
-		convertAttributes(addObject.getObj(), addNode);
+		if ((addObject.getObj() != null)) {
+			if (!objectFilter.filter(addObject.getObj())) {
+				return true;
+			}
+		} else {
+			System.err.println("Invalid Add-Object: " + addObject);
+		}
+		return false;
 	}
 
-	private static void convertAttributes(EObject object, Node node) {
+	private static void createInitializationAttributes(EObject object, Node node) {
 		
 		for (EAttribute eAttribute : object.eClass().getEAllAttributes()) {
-			if (isUnconsideredStructualFeature(eAttribute)) {
+			if (isUneditableStructualFeature(eAttribute)) {
 				continue;
 			}
 
@@ -255,107 +324,114 @@ public class DifferenceToEditRule {
 		}
 	}
 	
-	private static void convertReferenceChanges(Collection<Change> changes, Rule editrule, 
-			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS) {
+	private void convertReferenceChanges(Collection<Change> changes, Rule editrule) {
 		
 		// Change edges:
 		for (Change change : changes) {
 			
 			// Delete edges:
 			if (change instanceof RemoveReference) {
-				if (validate((RemoveReference) change)) {
-					RemoveReference removeReference = (RemoveReference) change;
-					Node srcNode = traceA2LHS.get(removeReference.getSrc());
-					Node tgtNode = traceA2LHS.get(removeReference.getTgt());
-					
-					// Create edges only once:
-					if (!removeReference.getType().isDerived()) {
-						if (!isEdgeContained(srcNode, tgtNode, removeReference.getType())) {
-							createDeleteEdge(srcNode, tgtNode, removeReference.getType(), editrule);
-						}
-					}
-				} else {
-					System.err.println("Invalid Remove-Reference: " + change);
-				}
+				convertRemoveReference((RemoveReference) change, editrule);
 			}
 			
 			// Create edges:
 			if (change instanceof AddReference) {
-				if (validate((AddReference) change)) {
-					AddReference addReference = (AddReference) change;
-					Node srcNode = traceB2RHS.get(addReference.getSrc());
-					Node tgtNode = traceB2RHS.get(addReference.getTgt());
-					
-					// Create edges only once:
-					if (!addReference.getType().isDerived()) {
-						if (!isEdgeContained(srcNode, tgtNode, addReference.getType())) {
-							createCreateEdge(srcNode, tgtNode, addReference.getType());
-						}
-					}
-				} else {
-					System.err.println("Invalid Add-Reference: " + change);
+				convertAddReference((AddReference) change, editrule);
+			}
+		}
+	}
+	
+	private void convertRemoveReference(RemoveReference rmvRef, Rule editrule) {
+		
+		if (filter(rmvRef)) {
+			Node srcNode = traceA2LHS.get(rmvRef.getSrc());
+			Node tgtNode = traceA2LHS.get(rmvRef.getTgt());
+			
+			// Create edges only once:
+			if (!rmvRef.getType().isDerived()) {
+				if (!isEdgeContained(srcNode, tgtNode, rmvRef.getType())) {
+					createDeleteEdge(srcNode, tgtNode, rmvRef.getType(), editrule);
 				}
 			}
 		}
 	}
 	
-	private static boolean validate(RemoveReference ref) {
-		return (ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null);
+	protected boolean filter(RemoveReference ref) {
+		
+		if ((ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null)) {
+			if (!objectFilter.filter(ref.getSrc()) && !objectFilter.filter(ref.getTgt())) {
+				if (!referenceFilter.filter(ref.getSrc(), ref.getTgt(), ref.getType())) {
+					return true;
+				}
+			}
+		} else {
+			System.err.println("Invalid Remove-Reference: " + ref);
+		}
+		return false;
 	}
 	
-	private static boolean validate(AddReference ref) {
-		return (ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null);
+	private void convertAddReference(AddReference addRef, Rule editrule) {
+		
+		if (filter(addRef)) {
+			Node srcNode = traceB2RHS.get(addRef.getSrc());
+			Node tgtNode = traceB2RHS.get(addRef.getTgt());
+			
+			// Create edges only once:
+			if (!addRef.getType().isDerived()) {
+				if (!isEdgeContained(srcNode, tgtNode, addRef.getType())) {
+					createCreateEdge(srcNode, tgtNode, addRef.getType());
+				}
+			}
+		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	private static void convertContextEdges(
-			Collection<Correspondence> correspondences, Rule editrule,
-			Map<EObject, Node> traceA2LHS, Map<EObject, Node> traceB2RHS) {
+	protected boolean filter(AddReference ref) {
+		
+		if ((ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null)) {
+			if (!objectFilter.filter(ref.getSrc()) && !objectFilter.filter(ref.getTgt())) {
+				if (!referenceFilter.filter(ref.getSrc(), ref.getTgt(), ref.getType())) {
+					return true;
+				}
+			}
+		} else {
+			System.err.println("Invalid Add-Reference: " + ref);
+		}
+		return false;
+	}
+	
+	private void convertContextEdges(Collection<Correspondence> correspondences, Rule editrule) {
 		
 		// Preserve edges:
-		for (Correspondence correspondence : correspondences) {
-			EObject modelB = correspondence.getMatchedB();
+		for (Correspondence source : correspondences) {
+			EObject objASource = source.getMatchedA();
+			EObject objBSource = source.getMatchedB();
 			
-			Node srcNodeB = traceB2RHS.get(modelB);
-			Node srcNodeA = traceA2LHS.get(correspondence.getMatchedA());
-			assert (srcNodeA != null) && (srcNodeB != null);
-			
-			NodePair srcNode = new NodePair(srcNodeA, srcNodeB);
-			
-			for (EStructuralFeature feature : modelB.eClass().getEAllStructuralFeatures()) {
+			for (EStructuralFeature feature : objBSource.eClass().getEAllStructuralFeatures()) {
 				if (feature instanceof EReference) {
-					Collection<EObject> targets = Collections.emptyList();
-					Object value = modelB.eGet(feature);
-
-					if (value != null) {
-						if (feature.isMany()) {
-							targets = (Collection<EObject>) value;
-						} else {
-							targets = (Collection<EObject>) (Object) Collections.singletonList(modelB.eGet(feature));
-						}
-					}
+					EReference refType = (EReference) feature;
 					
-					// Create edge:
-					for (EObject target : targets) {
-						Node tgtNodeB = traceB2RHS.get(target);
-						Node tgtNodeA = (tgtNodeB != null) ? getLHS(tgtNodeB) : null;
-						
-						// A: Is target a preserve node:
-						// NOTE: Preserve edges exists only between preserve nodes.
-						
-						// B: Is the target node covered in the difference?
-						// NOTE: This might depend on the technical difference builder used.
-						if ((tgtNodeB != null) && (tgtNodeA != null)) {
-							NodePair tgtNode = new NodePair(tgtNodeA, tgtNodeB);
-							
-							if (!feature.isDerived()) {
-								
-								// New edge?
-								// NOTE: Already existing preserve.
-								// NOTE: Prefer create/delete over preserve edges.
-								if (!isEdgeContained(srcNodeA, tgtNodeA, (EReference) feature)
-										&& !isEdgeContained(srcNodeB, tgtNodeB, (EReference) feature)) {
-									createPreservedEdge(editrule, srcNode, tgtNode, (EReference) feature);
+					// Create <<preserve>> edges:
+					for (EObject objATarget : getTargets(objASource, refType)) {
+						EObject objBTarget = getMatchedB(correspondences, objATarget);
+
+						// Is reference contained in model B?
+						if ((objBTarget != null) && getTargets(objBSource, refType).contains(objBTarget)) {
+
+							if (filter(objASource, objATarget, refType) && filter(objBSource, objBTarget, refType)) {
+
+								Node srcNodeLHS = traceA2LHS.get(objASource);
+								Node srcNodeRHS = traceB2RHS.get(objBSource);
+								NodePair srcNode = new NodePair(srcNodeLHS, srcNodeRHS);
+								assert (srcNodeLHS != null) && (srcNodeRHS != null);
+
+								Node tgtNodeLHS = traceA2LHS.get(objATarget);
+								Node tgtNodeRHS = traceB2RHS.get(objBTarget);
+								NodePair tgtNode = new NodePair(tgtNodeLHS, tgtNodeRHS);
+								assert (tgtNodeLHS != null) && (tgtNodeRHS != null);
+
+								if (!isEdgeContained(srcNodeLHS, tgtNodeLHS, refType)
+										&& !isEdgeContained(srcNodeRHS, tgtNodeRHS, refType)) {
+									createPreservedEdge(editrule, srcNode, tgtNode, refType);
 								}
 							}
 						}
@@ -365,6 +441,47 @@ public class DifferenceToEditRule {
 		}
 	}
 	
+	protected boolean filter(EObject source, EObject target, EReference feature) {
+		
+		if ((source != null) && (target != null) && (feature != null)) {
+			if (!objectFilter.filter(source) && !objectFilter.filter(target)) {
+				if (!referenceFilter.filter(source, target, feature)) {
+					return true;
+				}
+			}
+		}  else {
+			System.err.println("Invalid Context-Reference: " + source + " - " + feature + " -> " + target);
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Collection<EObject> getTargets(EObject obj, EReference feature) {
+		Collection<EObject> targets = Collections.emptyList();
+		Object value = obj.eGet(feature);
+
+		if (value != null) {
+			if (feature.isMany()) {
+				targets = (Collection<EObject>) value;
+			} else {
+				targets = (Collection<EObject>) (Object) Collections.singletonList(obj.eGet(feature));
+			}
+		}
+		
+		return targets;
+	}
+	
+	private EObject getMatchedB(Collection<Correspondence> correspondences, EObject modelAElement) {
+
+		for (Correspondence correspondence : correspondences) {
+			if (correspondence.getMatchedA() == modelAElement) {
+				return correspondence.getMatchedB();
+			}
+		}
+		
+		return null;
+	}
+
 	private static boolean isEdgeContained(Node src, Node tgt, EReference type) {
 		
 		for (Edge outgoing : src.getOutgoing()) {
@@ -435,7 +552,7 @@ public class DifferenceToEditRule {
 	/**
 	 * We do not consider unchangeable, derived and transient features.
 	 */
-	protected static boolean isUnconsideredStructualFeature(EStructuralFeature structualFeatureType) {
+	protected static boolean isUneditableStructualFeature(EStructuralFeature structualFeatureType) {
 		return  ((structualFeatureType.isChangeable() == false) 
 				|| (structualFeatureType.isDerived() == true)
 				|| (structualFeatureType.isTransient() == true));
