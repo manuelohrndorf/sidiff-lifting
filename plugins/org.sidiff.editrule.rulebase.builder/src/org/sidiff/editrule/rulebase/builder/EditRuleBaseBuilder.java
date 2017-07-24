@@ -73,12 +73,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) {
 
-		try {
-			// Unload runtime rulebases:
-			RuleBaseProjectLibrary.clearRuleBaseCache();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// Unload runtime rulebases:
+		RuleBaseProjectLibrary.clearRuleBaseCache();
 		
 		// The rulebase manager of the rulebase project for which this builder is defined:
 		EditRuleBaseWrapper ruleBaseWrapper = createEditRuleBaseWrapper();
@@ -270,6 +266,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	private void internalClean(IProgressMonitor monitor, 
 			Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
 
+		// Unload runtime rulebases:
+		RuleBaseProjectLibrary.clearRuleBaseCache();
+		
 		// Remove Markers
 		removeMarkers(getProject(), IResource.DEPTH_INFINITE);
 
@@ -637,12 +636,6 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			if (monitor.isCanceled()) {
 				throw new OperationCanceledException();
 			}
-		}
-	}
-	
-	private void unloadRulebase() {
-		for (IRuleBaseProject rulebaseProject : RuleBaseProjectLibrary.getRuleBaseProjects()) {
-			rulebaseProject.unloadRuleBaseData();
 		}
 	}
 }
