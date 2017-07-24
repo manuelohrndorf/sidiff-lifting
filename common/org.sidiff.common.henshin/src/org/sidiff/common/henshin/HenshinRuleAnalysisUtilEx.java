@@ -2186,6 +2186,35 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 	
 	/**
+	 * @param node
+	 *            The node to check.
+	 * @return <code>true</code> if the node is contained by other node;
+	 *         <code>false</code> otherwise
+	 */
+	public static boolean isContainedNode(Node node) {
+		for (Edge incoming : node.getIncoming()) {
+			if (incoming.getType().isContainment()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param node
+	 *            The node to check.
+	 * @return <code>true</code> if the node is a delete/create node;
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean isChangedNode(Node node) {
+		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
+			return (HenshinRuleAnalysisUtilEx.getRemoteNode(node.getGraph().getRule().getMappings(), node) == null);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Searches for the first incoming or outgoing << preserve >> edge of the given node. Returns
 	 * <code> true </code> if there is a << preserve >> edge; <code> false </code> otherwise.
 	 * 
