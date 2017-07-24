@@ -1,4 +1,4 @@
-package org.sidiff.editrule.recorder.transformation;
+package org.sidiff.editrule.recorder.transformations;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateNode;
@@ -41,7 +41,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 
-public class EditRuleRecorder {
+public class DifferenceToEditRule {
 	
 	protected static final String UNKNOWN_NAMES = "N";
 	
@@ -57,7 +57,7 @@ public class EditRuleRecorder {
 	
 	protected Map<EObject, Node> traceB2RHS;
 	
-	public EditRuleRecorder(String eoName, Collection<Correspondence> correspondences, Collection<Change> changes) {
+	public DifferenceToEditRule(String eoName, Collection<Correspondence> correspondences, Collection<Change> changes) {
 		this.eoName = eoName;
 		this.correspondences = correspondences;
 		this.changes = changes;

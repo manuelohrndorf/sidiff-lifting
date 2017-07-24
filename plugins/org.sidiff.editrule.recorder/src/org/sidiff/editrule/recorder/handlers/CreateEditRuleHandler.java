@@ -15,7 +15,7 @@ import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.editrule.recorder.transformation.EditRuleRecorder;
+import org.sidiff.editrule.recorder.transformations.DifferenceToEditRule;
 import org.sidiff.editrule.recorder.util.EditRuleUtil;
 import org.sidiff.editrule.recorder.util.HenshinDiagramUtil;
 import org.sidiff.matching.model.Correspondence;
@@ -70,7 +70,7 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 	public static Module createEditRule(String eoName, 
 			Collection<Correspondence> correspondences, Collection<Change> changes) {
 		
-		EditRuleRecorder editRuleRecorder = new EditRuleRecorder(eoName, correspondences, changes);
+		DifferenceToEditRule editRuleRecorder = new DifferenceToEditRule(eoName, correspondences, changes);
 		return editRuleRecorder.getEditRule();
 	}
 }
