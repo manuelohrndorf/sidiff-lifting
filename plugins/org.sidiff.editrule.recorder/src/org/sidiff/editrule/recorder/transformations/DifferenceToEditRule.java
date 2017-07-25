@@ -38,61 +38,20 @@ import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
-import org.sidiff.editrule.recorder.filters.IAttributeFilter;
-import org.sidiff.editrule.recorder.filters.IObjectFilter;
-import org.sidiff.editrule.recorder.filters.IReferenceFilter;
 import org.sidiff.matching.model.Correspondence;
 
 public class DifferenceToEditRule {
 	
-	protected static final String UNKNOWN_NAMES = "N";
-	
-	protected String eoName;
+	protected TransformationSetup trafoSetup;
 	
 	protected Module editRule;
-	
-	protected Collection<Correspondence> correspondences;
-	
-	protected Collection<Change> changes;
-	
-	protected IObjectFilter objectFilter = IObjectFilter.DUMMY;
-	
-	protected IAttributeFilter attributeFilter = IAttributeFilter.DUMMY;
-	
-	protected IReferenceFilter referenceFilter = IReferenceFilter.DUMMY;
 	
 	protected Map<EObject, Node> traceA2LHS;
 	
 	protected Map<EObject, Node> traceB2RHS;
 	
-	public DifferenceToEditRule(String eoName, Collection<Correspondence> correspondences, Collection<Change> changes) {
-		this.eoName = eoName;
-		this.correspondences = correspondences;
-		this.changes = changes;
-	}
-	
-	public IObjectFilter getObjectFilter() {
-		return objectFilter;
-	}
-
-	public void setObjectFilter(IObjectFilter objectFilter) {
-		this.objectFilter = objectFilter;
-	}
-
-	public IAttributeFilter getAttributeFilter() {
-		return attributeFilter;
-	}
-
-	public void setAttributeFilter(IAttributeFilter attributeFilter) {
-		this.attributeFilter = attributeFilter;
-	}
-
-	public IReferenceFilter getReferenceFilter() {
-		return referenceFilter;
-	}
-
-	public void setReferenceFilter(IReferenceFilter referenceFilter) {
-		this.referenceFilter = referenceFilter;
+	public DifferenceToEditRule(TransformationSetup trafoSetup) {
+		this.trafoSetup = trafoSetup;
 	}
 
 	public Module getEditRule() {
@@ -127,13 +86,13 @@ public class DifferenceToEditRule {
 		
 		// Create rule container:
 		Module module = HenshinFactory.eINSTANCE.createModule();
-		module.setName(eoName);
+		module.setName(trafoSetup.getEditRuleName());
 		
 		SequentialUnit mainUnit = HenshinFactory.eINSTANCE.createSequentialUnit();
 		mainUnit.setName(INamingConventions.MAIN_UNIT);
 		module.getUnits().add(mainUnit);
 		
-		Rule editrule = HenshinFactory.eINSTANCE.createRule(eoName);
+		Rule editrule = HenshinFactory.eINSTANCE.createRule(trafoSetup.getEditRuleName());
 		module.getUnits().add(editrule);
 		mainUnit.getSubUnits().add(editrule);
 		
@@ -142,13 +101,13 @@ public class DifferenceToEditRule {
 		traceB2RHS = new HashMap<>();
 		
 		Set<String> names = new HashSet<>();
-		names.add(UNKNOWN_NAMES);
+		names.add(trafoSetup.getUnknownNamesPrefix());
 		
-		convertCorrespondences(correspondences, editrule, names);
-		convertAttribteValueChange(changes);
-		convertObjectChanges(changes, mainUnit, editrule, names);
-		convertReferenceChanges(changes, editrule);
-		convertContextEdges(correspondences, editrule);
+		convertCorrespondences(trafoSetup.getCorrespondences(), editrule, names);
+		convertAttribteValueChange(trafoSetup.getChanges());
+		convertObjectChanges(trafoSetup.getChanges(), mainUnit, editrule, names);
+		convertReferenceChanges(trafoSetup.getChanges(), editrule);
+		convertContextEdges(trafoSetup.getCorrespondences(), editrule);
 		
 		return module;
 	}
@@ -157,7 +116,7 @@ public class DifferenceToEditRule {
 		
 		// Preserve nodes:
 		for (Correspondence correspondence : correspondences) {
-			if (validate(correspondence)) {
+			if (filter(correspondence)) {
 				NodePair preserveNode = createPreservedNode(
 						editrule, getName(correspondence, names), correspondence.getMatchedA().eClass());
 				traceA2LHS.put(correspondence.getMatchedA(), preserveNode.getLhsNode());
@@ -166,11 +125,11 @@ public class DifferenceToEditRule {
 		}
 	}
 	
-	private boolean validate(Correspondence correspondence) {
+	protected boolean filter(Correspondence correspondence) {
 		
 		if ((correspondence.getMatchedA() != null) && (correspondence.getMatchedB() != null)) {
-			if (!objectFilter.filter(correspondence.getMatchedA())) {
-				if (!objectFilter.filter(correspondence.getMatchedB())) {
+			if (!trafoSetup.getContextObjectFilter().filter(correspondence.getMatchedA())) {
+				if (!trafoSetup.getContextObjectFilter().filter(correspondence.getMatchedB())) {
 					return true;
 				}
 			}
@@ -185,34 +144,29 @@ public class DifferenceToEditRule {
 		// Attribute value changes:
 		for (Change change : changes) {
 			if (change instanceof AttributeValueChange) {
-				if (validate((AttributeValueChange) change)) {
+				if (filter((AttributeValueChange) change)) {
 					AttributeValueChange avc = (AttributeValueChange) change;
 					Node rhsNode = traceB2RHS.get(avc.getObjB());
 					
 					// Create attribute with parameter:
-					Parameter param = HenshinFactory.eINSTANCE.createParameter(
-							"in_" + rhsNode.getName() + "_" + avc.getType().getName());
-					Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
-							rhsNode, avc.getType(), param.getName());
-					rhsNode.getAttributes().add(attr);
+					if (rhsNode != null) {
+						Parameter param = HenshinFactory.eINSTANCE.createParameter(
+								"in_" + rhsNode.getName() + "_" + avc.getType().getName());
+						Attribute attr = HenshinFactory.eINSTANCE.createAttribute(
+								rhsNode, avc.getType(), param.getName());
+						rhsNode.getAttributes().add(attr);
+					} else {
+						System.err.println("Missing Attribute-Value-Change Context: " + avc);
+					}
 				}
 			}
 		}
 	}
 	
-	private boolean validate(AttributeValueChange avc) {
+	protected boolean filter(AttributeValueChange avc) {
 		
 		if ((avc.getObjA() != null) && (avc.getObjB() != null) && (avc.getType() != null)) {
-			if (!objectFilter.filter(avc.getObjA()) && !objectFilter.filter(avc.getObjB())) {
-				Object valueA =  avc.getObjA().eGet(avc.getType());
-				Object valueB =  avc.getObjB().eGet(avc.getType());
-						
-				if (!attributeFilter.filter(avc.getObjA(), valueA, avc.getType())) {
-					if (!attributeFilter.filter(avc.getObjB(), valueB, avc.getType())) {
-						return true;
-					}
-				}
-			}
+			return true;
 		} else {
 			System.err.println("Invalid Attribute-Value-Change: " + avc);
 		}
@@ -251,9 +205,7 @@ public class DifferenceToEditRule {
 	protected boolean filter(RemoveObject removeObject) {
 		
 		if ((removeObject.getObj() != null)) {
-			if (!objectFilter.filter(removeObject.getObj())) {
-				return true;
-			}
+			return true;
 		} else {
 			System.err.println("Invalid Remove-Object: " + removeObject);
 		}
@@ -291,16 +243,14 @@ public class DifferenceToEditRule {
 	protected boolean filter(AddObject addObject) {
 		
 		if ((addObject.getObj() != null)) {
-			if (!objectFilter.filter(addObject.getObj())) {
-				return true;
-			}
+			return true;
 		} else {
 			System.err.println("Invalid Add-Object: " + addObject);
 		}
 		return false;
 	}
 
-	private static void createInitializationAttributes(EObject object, Node node) {
+	protected void createInitializationAttributes(EObject object, Node node) {
 		
 		for (EAttribute eAttribute : object.eClass().getEAllAttributes()) {
 			if (isUneditableStructualFeature(eAttribute)) {
@@ -348,10 +298,12 @@ public class DifferenceToEditRule {
 			Node tgtNode = traceA2LHS.get(rmvRef.getTgt());
 			
 			// Create edges only once:
-			if (!rmvRef.getType().isDerived()) {
+			if ((srcNode != null) && (tgtNode != null)) {
 				if (!isEdgeContained(srcNode, tgtNode, rmvRef.getType())) {
 					createDeleteEdge(srcNode, tgtNode, rmvRef.getType(), editrule);
 				}
+			} else {
+				System.err.println("Missing Context Node: " + rmvRef);
 			}
 		}
 	}
@@ -359,10 +311,8 @@ public class DifferenceToEditRule {
 	protected boolean filter(RemoveReference ref) {
 		
 		if ((ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null)) {
-			if (!objectFilter.filter(ref.getSrc()) && !objectFilter.filter(ref.getTgt())) {
-				if (!referenceFilter.filter(ref.getSrc(), ref.getTgt(), ref.getType())) {
-					return true;
-				}
+			if (!isUneditableStructualFeature(ref.getType())) {
+				return true;
 			}
 		} else {
 			System.err.println("Invalid Remove-Reference: " + ref);
@@ -377,10 +327,12 @@ public class DifferenceToEditRule {
 			Node tgtNode = traceB2RHS.get(addRef.getTgt());
 			
 			// Create edges only once:
-			if (!addRef.getType().isDerived()) {
+			if ((srcNode != null) && (tgtNode != null)) {
 				if (!isEdgeContained(srcNode, tgtNode, addRef.getType())) {
 					createCreateEdge(srcNode, tgtNode, addRef.getType());
 				}
+			} else {
+				System.err.println("Missing Context Node: " + addRef);
 			}
 		}
 	}
@@ -388,10 +340,8 @@ public class DifferenceToEditRule {
 	protected boolean filter(AddReference ref) {
 		
 		if ((ref.getSrc() != null) && (ref.getTgt() != null) && (ref.getType() != null)) {
-			if (!objectFilter.filter(ref.getSrc()) && !objectFilter.filter(ref.getTgt())) {
-				if (!referenceFilter.filter(ref.getSrc(), ref.getTgt(), ref.getType())) {
-					return true;
-				}
+			if (!isUneditableStructualFeature(ref.getType())) {
+				return true;
 			}
 		} else {
 			System.err.println("Invalid Add-Reference: " + ref);
@@ -422,16 +372,22 @@ public class DifferenceToEditRule {
 								Node srcNodeLHS = traceA2LHS.get(objASource);
 								Node srcNodeRHS = traceB2RHS.get(objBSource);
 								NodePair srcNode = new NodePair(srcNodeLHS, srcNodeRHS);
-								assert (srcNodeLHS != null) && (srcNodeRHS != null);
 
 								Node tgtNodeLHS = traceA2LHS.get(objATarget);
 								Node tgtNodeRHS = traceB2RHS.get(objBTarget);
 								NodePair tgtNode = new NodePair(tgtNodeLHS, tgtNodeRHS);
-								assert (tgtNodeLHS != null) && (tgtNodeRHS != null);
 
-								if (!isEdgeContained(srcNodeLHS, tgtNodeLHS, refType)
-										&& !isEdgeContained(srcNodeRHS, tgtNodeRHS, refType)) {
-									createPreservedEdge(editrule, srcNode, tgtNode, refType);
+								if ((srcNodeLHS != null) && (srcNodeRHS != null)) {
+									if ((tgtNodeLHS != null) && (tgtNodeRHS != null)) {
+										if (!isEdgeContained(srcNodeLHS, tgtNodeLHS, refType)
+												&& !isEdgeContained(srcNodeRHS, tgtNodeRHS, refType)) {
+											createPreservedEdge(editrule, srcNode, tgtNode, refType);
+										}
+									} else {
+										System.err.println("Missing Context Node: " + objATarget + ", " + objBTarget);
+									}
+								} else {
+									System.err.println("Missing Context Node: " + objASource + ", " + objBSource);
 								}
 							}
 						}
@@ -444,9 +400,11 @@ public class DifferenceToEditRule {
 	protected boolean filter(EObject source, EObject target, EReference feature) {
 		
 		if ((source != null) && (target != null) && (feature != null)) {
-			if (!objectFilter.filter(source) && !objectFilter.filter(target)) {
-				if (!referenceFilter.filter(source, target, feature)) {
-					return true;
+			if (!trafoSetup.getContextObjectFilter().filter(source)) {
+				if (!trafoSetup.getContextObjectFilter().filter(target)) {
+					if (!trafoSetup.getContextReferenceFilter().filter(source, target, feature)) {
+						return true;
+					}
 				}
 			}
 		}  else {
@@ -456,7 +414,7 @@ public class DifferenceToEditRule {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Collection<EObject> getTargets(EObject obj, EReference feature) {
+	private static Collection<EObject> getTargets(EObject obj, EReference feature) {
 		Collection<EObject> targets = Collections.emptyList();
 		Object value = obj.eGet(feature);
 
@@ -471,7 +429,7 @@ public class DifferenceToEditRule {
 		return targets;
 	}
 	
-	private EObject getMatchedB(Collection<Correspondence> correspondences, EObject modelAElement) {
+	private static EObject getMatchedB(Collection<Correspondence> correspondences, EObject modelAElement) {
 
 		for (Correspondence correspondence : correspondences) {
 			if (correspondence.getMatchedA() == modelAElement) {
@@ -493,7 +451,7 @@ public class DifferenceToEditRule {
 		return false;
 	}
 	
-	protected static String getName(EObject obj, Set<String> names) {
+	protected String getName(EObject obj, Set<String> names) {
 		String name = getName(obj);
 		
 //		// Qualified:
@@ -524,7 +482,7 @@ public class DifferenceToEditRule {
 		return name;
 	}
 	
-	protected static String getName(EObject obj) {
+	protected String getName(EObject obj) {
 		EClass eClass = (obj != null) ? obj.eClass() : null;
 		EStructuralFeature nameFeature = (eClass != null) ? eClass.getEStructuralFeature("name") : null;
 		
@@ -536,10 +494,10 @@ public class DifferenceToEditRule {
 			}
 		}
 		
-		return UNKNOWN_NAMES;
+		return trafoSetup.getUnknownNamesPrefix();
 	}
 	
-	protected static String getName(Correspondence correspondence, Set<String> names) {
+	protected String getName(Correspondence correspondence, Set<String> names) {
 		String name = getName(correspondence.getMatchedA(), names);
 		
 		if (name == null) {
@@ -552,7 +510,7 @@ public class DifferenceToEditRule {
 	/**
 	 * We do not consider unchangeable, derived and transient features.
 	 */
-	protected static boolean isUneditableStructualFeature(EStructuralFeature structualFeatureType) {
+	protected boolean isUneditableStructualFeature(EStructuralFeature structualFeatureType) {
 		return  ((structualFeatureType.isChangeable() == false) 
 				|| (structualFeatureType.isDerived() == true)
 				|| (structualFeatureType.isTransient() == true));

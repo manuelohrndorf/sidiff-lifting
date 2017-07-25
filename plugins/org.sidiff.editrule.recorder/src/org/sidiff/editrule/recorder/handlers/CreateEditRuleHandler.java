@@ -16,6 +16,7 @@ import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.recorder.transformations.DifferenceToEditRule;
+import org.sidiff.editrule.recorder.transformations.TransformationSetup;
 import org.sidiff.editrule.recorder.util.EditRuleUtil;
 import org.sidiff.editrule.recorder.util.HenshinDiagramUtil;
 import org.sidiff.matching.model.Correspondence;
@@ -70,7 +71,12 @@ public class CreateEditRuleHandler extends AbstractHandler implements IHandler {
 	public static Module createEditRule(String eoName, 
 			Collection<Correspondence> correspondences, Collection<Change> changes) {
 		
-		DifferenceToEditRule editRuleRecorder = new DifferenceToEditRule(eoName, correspondences, changes);
+		TransformationSetup trafoSetup = new TransformationSetup();
+		trafoSetup.setChanges(changes);
+		trafoSetup.setCorrespondences(correspondences);
+		trafoSetup.setEditRuleName(eoName);
+		
+		DifferenceToEditRule editRuleRecorder = new DifferenceToEditRule(trafoSetup);
 		return editRuleRecorder.getEditRule();
 	}
 }
