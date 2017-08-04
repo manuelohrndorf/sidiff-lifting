@@ -155,14 +155,18 @@ public class SelectionControllerTreeViewer {
 						List<EObject> editorSelected = new ArrayList<EObject>();
 
 						for (EObject selectedObject : selected) {
-							String selectedObjectFragment = EcoreUtil.getURI(selectedObject).fragment();
-
-							if (!selectedObjectFragment.isEmpty()) {
-								for (Resource resource : editorResources) {
-									EObject result = resource.getEObject(selectedObjectFragment);
-									
-									if (result != null) {
-										editorSelected.add(result);
+							
+							// NOTE: Otherwise there is no URI fragment!
+							if (selectedObject.eResource() != null) {
+								String selectedObjectFragment = EcoreUtil.getURI(selectedObject).fragment();
+								
+								if (!selectedObjectFragment.isEmpty()) {
+									for (Resource resource : editorResources) {
+										EObject result = resource.getEObject(selectedObjectFragment);
+										
+										if (result != null) {
+											editorSelected.add(result);
+										}
 									}
 								}
 							}
