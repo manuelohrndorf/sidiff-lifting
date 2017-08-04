@@ -64,8 +64,13 @@ public class SelectionControllerTreeViewer {
 		
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				highlightTreeEditors();
-				highlightingProcess.countDown();
+				try {
+					highlightTreeEditors();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					highlightingProcess.countDown();
+				}
 			}
 		});
 	}
