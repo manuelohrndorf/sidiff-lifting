@@ -10,6 +10,8 @@ import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorte
 
 public class RecognitionRuleSorterLibrary {
 
+	private final static IRecognitionRuleSorter GENERIC_RECOGNITION_RULE_SORTER = new GenericRecognitionRuleSorter();
+	
 	/**
 	 * 
 	 * @param documentTypes
@@ -81,5 +83,9 @@ public class RecognitionRuleSorterLibrary {
 		}
 		
 		return rrSorters;
+	}
+	
+	public static IRecognitionRuleSorter getGenericRecognitionRuleSorter(){
+		return GENERIC_RECOGNITION_RULE_SORTER;
 	}
 }

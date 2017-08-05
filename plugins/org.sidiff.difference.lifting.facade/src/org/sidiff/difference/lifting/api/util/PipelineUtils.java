@@ -59,7 +59,14 @@ public class PipelineUtils extends TechnicalDifferenceUtils{
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes) {
 		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentTypes);
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static IRecognitionRuleSorter getGenericRecognitionRuleSorter(){
+		return RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
+	}
 	/**
 	 * 
 	 * Returns the default recognition rule sorter for the given documentType: <br/>
