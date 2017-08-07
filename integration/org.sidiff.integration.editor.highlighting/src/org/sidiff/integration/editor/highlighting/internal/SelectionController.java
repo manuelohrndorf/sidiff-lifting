@@ -54,9 +54,14 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 		
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				SelectionControllerDiagram.getInstance().setSelection(selected);
-				SelectionControllerTreeViewer.getInstance().setSelection(selected);
-				highlightingProcess.countDown();
+				try {
+					SelectionControllerDiagram.getInstance().setSelection(selected);
+					SelectionControllerTreeViewer.getInstance().setSelection(selected);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					highlightingProcess.countDown();
+				}
 			}
 		});
 	}
