@@ -159,12 +159,14 @@ public class SelectionDecorator extends AbstractDecorator {
 		if(viewDataElements != null && !viewDataElements.isEmpty()){
 			for(EObject selected : controller.getSelected()){
 				for (EObject element : viewDataElements){
-					String fragmentA = EcoreUtil.getURI(selected).fragment();
-					String fragmentB = EcoreUtil.getURI(element).fragment();
-					
-					if (fragmentA.equals(fragmentB)){
-						return true;
-					}					
+					if ((selected.eResource() != null) && (element.eResource() != null)) {
+						String fragmentA = EcoreUtil.getURI(selected).fragment();
+						String fragmentB = EcoreUtil.getURI(element).fragment();
+						
+						if (fragmentA.equals(fragmentB)){
+							return true;
+						}					
+					}
 				}			
 			}
 		}
