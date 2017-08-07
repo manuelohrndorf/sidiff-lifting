@@ -69,32 +69,31 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 
 		if (element instanceof Node) {
 			Node node = (Node) element;
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(node)) {
-				Rule rule = (Rule) node.getGraph().eContainer();
-
+			Rule rule = (Rule) node.getGraph().getRule();
+			Node remoteNode = HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node);
+			
+			if (remoteNode != null) {
 				res.add(node);
-				res.add(HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node));
+				res.add(remoteNode);
 			}
 		}
 		if (element instanceof Edge) {
 			Edge edge = (Edge) element;
-			if (HenshinRuleAnalysisUtilEx.isPreservedEdge(edge)) {
-				Rule rule = (Rule) edge.getGraph().eContainer();
-
+			Rule rule = (Rule) edge.getGraph().getRule();
+			Edge remoteEdge = HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge);
+			
+			if (remoteEdge != null) {
 				res.add(edge);
-				res.add(HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge));
+				res.add(remoteEdge);
 			}
 		}
 		if (element instanceof Attribute) {
 			Attribute attribute = (Attribute) element;
-			Node node = attribute.getNode();
-			if (HenshinRuleAnalysisUtilEx.isPreservedNode(node)) {
-				Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
-				
-				if (remoteAttribute != null) {
-					res.add(attribute);
-					res.add(remoteAttribute);
-				}
+			Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
+
+			if (remoteAttribute != null) {
+				res.add(attribute);
+				res.add(remoteAttribute);
 			}
 		}
 
