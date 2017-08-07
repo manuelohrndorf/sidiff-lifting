@@ -89,19 +89,20 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 			Attribute attribute = (Attribute) element;
 			Node node = attribute.getNode();
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(node)) {
-				Rule rule = (Rule) node.getGraph().eContainer();
-
-				res.add(attribute);
-				res.add(HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node).getAttribute(
-						attribute.getType()));
+				Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
+				
+				if (remoteAttribute != null) {
+					res.add(attribute);
+					res.add(remoteAttribute);
+				}
 			}
 		}
 
 		if (!res.isEmpty()) {
 			return res;
+		} else {
+			return super.getHighlightableElements(element);
 		}
-
-		return super.getHighlightableElements(element);
 	}
 
 }
