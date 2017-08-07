@@ -98,11 +98,16 @@ public class SelectionControllerDiagram {
 		
 		// Start the highlighting:
 		highlightingProcess = new CountDownLatch(1);
-		
+
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				highlightDiagrams();
-				highlightingProcess.countDown();
+				try {
+					highlightDiagrams();
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					highlightingProcess.countDown();
+				}
 			}
 		});
 	}
