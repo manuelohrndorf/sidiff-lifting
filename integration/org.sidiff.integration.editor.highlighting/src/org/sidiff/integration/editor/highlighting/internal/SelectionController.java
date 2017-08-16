@@ -3,6 +3,7 @@ package org.sidiff.integration.editor.highlighting.internal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
@@ -40,7 +41,9 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 		// Synchronize previous highlighting:
 		if (highlightingProcess != null) {
 			try {
-				highlightingProcess.await();
+				if (!highlightingProcess.await(3000, TimeUnit.MILLISECONDS)) {
+					return;
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -50,17 +53,17 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 		this.selected = selected;
 		
 		// Start the highlighting:
-		highlightingProcess = new CountDownLatch(1);
-		
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
+					highlightingProcess = new CountDownLatch(1);
 					SelectionControllerDiagram.getInstance().setSelection(selected);
 					SelectionControllerTreeViewer.getInstance().setSelection(selected);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
 					highlightingProcess.countDown();
+					highlightingProcess = null;
 				}
 			}
 		});

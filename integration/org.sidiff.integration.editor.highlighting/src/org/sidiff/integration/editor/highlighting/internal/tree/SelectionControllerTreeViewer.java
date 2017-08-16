@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EObject;
@@ -50,7 +51,9 @@ public class SelectionControllerTreeViewer {
 		// Synchronize previous highlighting:
 		if (highlightingProcess != null) {
 			try {
-				highlightingProcess.await();
+				if (!highlightingProcess.await(3000, TimeUnit.MILLISECONDS)) {
+					return;
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -60,11 +63,10 @@ public class SelectionControllerTreeViewer {
 		this.selected = selected;
 		
 		// Start the highlighting:
-		highlightingProcess = new CountDownLatch(1);
-		
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
+					highlightingProcess = new CountDownLatch(1);
 					highlightTreeEditors();
 				} catch (Exception e) {
 					e.printStackTrace();
