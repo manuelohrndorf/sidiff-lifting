@@ -1,6 +1,5 @@
 package org.sidiff.integration.editor.henshin;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.URI;
@@ -65,43 +64,44 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 	 */
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		ArrayList<EObject> res = new ArrayList<EObject>();
+		Collection<EObject> res = super.getHighlightableElements(element);
 
 		if (element instanceof Node) {
 			Node node = (Node) element;
-			Rule rule = (Rule) node.getGraph().getRule();
-			Node remoteNode = HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node);
 			
-			if (remoteNode != null) {
-				res.add(node);
-				res.add(remoteNode);
+			if ((node.getGraph() != null) && (node.getGraph().getRule() != null)) {
+				Rule rule = (Rule) node.getGraph().getRule();
+				Node remoteNode = HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node);
+				
+				if (remoteNode != null) {
+					res.add(remoteNode);
+				}
 			}
 		}
 		if (element instanceof Edge) {
 			Edge edge = (Edge) element;
-			Rule rule = (Rule) edge.getGraph().getRule();
-			Edge remoteEdge = HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge);
 			
-			if (remoteEdge != null) {
-				res.add(edge);
-				res.add(remoteEdge);
+			if ((edge.getGraph() != null) && (edge.getGraph().getRule() != null)) {
+				Rule rule = (Rule) edge.getGraph().getRule();
+				Edge remoteEdge = HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge);
+				
+				if (remoteEdge != null) {
+					res.add(remoteEdge);
+				}
 			}
 		}
 		if (element instanceof Attribute) {
 			Attribute attribute = (Attribute) element;
-			Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
-
-			if (remoteAttribute != null) {
-				res.add(attribute);
-				res.add(remoteAttribute);
+			
+			if ((attribute.getNode() != null) && (attribute.getNode().getGraph() != null) && (attribute.getNode().getGraph().getRule() != null)) {
+				Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
+				
+				if (remoteAttribute != null) {
+					res.add(remoteAttribute);
+				}
 			}
 		}
 
-		if (!res.isEmpty()) {
-			return res;
-		} else {
-			return super.getHighlightableElements(element);
-		}
+		return res;
 	}
-
 }
