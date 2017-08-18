@@ -299,7 +299,7 @@ public class AttributeValueChangeImpl extends ChangeImpl implements AttributeVal
 		}
 
 	    return result.toString() 
-	    		+ " (type: " + type.getName() 
+	    		+ " (type: " + StringUtil.eAttributeToString(type)
 	    		+ " objA: " + StringUtil.eObjectToString(getObjA())
 	    		+ " objB: " + StringUtil.eObjectToString(getObjB()) + ")";
 	}

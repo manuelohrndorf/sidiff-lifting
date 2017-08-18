@@ -175,10 +175,11 @@ public class RemoveObjectImpl extends ChangeImpl implements RemoveObject {
 			result.append(eDynamicClass());
 			result.append(')');
 		}
+		
+		result.append(" (type: " + StringUtil.eTypeToString(obj));
+		result.append(" obj: " + StringUtil.eObjectToString(getObj()) + ")");
 
-	    return result.toString() 
-	    		+ " (type: " + obj.eClass().getName() 
-	    		+ " obj: " + StringUtil.eObjectToString(getObj()) + ")";
+	    return result.toString();
 	}
 	
 } //RemoveObjectImpl

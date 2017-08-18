@@ -298,7 +298,7 @@ public class AddReferenceImpl extends ChangeImpl implements AddReference {
 		}
 
 	    return result.toString() 
-	    		+ " (type: " + type.getName() 
+	    		+ " (type: " + StringUtil.eReferenceToString(type)
 	    		+ " src: " + StringUtil.eObjectToString(getSrc())
 	    		+ " tgt: " + StringUtil.eObjectToString(getTgt()) + ")";
 	}
