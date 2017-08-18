@@ -176,10 +176,15 @@ public class AddObjectImpl extends ChangeImpl implements AddObject {
 			result.append(eDynamicClass());
 			result.append(')');
 		}
+		
+		if (obj != null) {
+			result.append(" (type: " + obj.eClass().getName());
+			result.append(" obj: " + StringUtil.eObjectToString(getObj()) + ")");
+		} else {
+			result.append("(obj: " + StringUtil.eObjectToString(getObj()) + ")");
+		}
 
-	    return result.toString() 
-	    		+ " (type: " + obj.eClass().getName() 
-	    		+ " obj: " + StringUtil.eObjectToString(getObj()) + ")";
+	    return result.toString();
 	}
 
 } //AddObjectImpl
