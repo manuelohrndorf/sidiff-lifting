@@ -353,41 +353,43 @@ public class DifferenceToEditRule {
 		
 		// Preserve edges:
 		for (Correspondence source : correspondences) {
-			EObject objASource = source.getMatchedA();
-			EObject objBSource = source.getMatchedB();
-			
-			for (EStructuralFeature feature : objBSource.eClass().getEAllStructuralFeatures()) {
-				if (feature instanceof EReference) {
-					EReference refType = (EReference) feature;
-					
-					// Create <<preserve>> edges:
-					for (EObject objATarget : getTargets(objASource, refType)) {
-						EObject objBTarget = getMatchedB(correspondences, objATarget);
-
-						// Is reference contained in model B?
-						if ((objBTarget != null) && getTargets(objBSource, refType).contains(objBTarget)) {
-
-							if (filter(objASource, objATarget, refType) && filter(objBSource, objBTarget, refType)) {
-
-								Node srcNodeLHS = traceA2LHS.get(objASource);
-								Node srcNodeRHS = traceB2RHS.get(objBSource);
-								NodePair srcNode = new NodePair(srcNodeLHS, srcNodeRHS);
-
-								Node tgtNodeLHS = traceA2LHS.get(objATarget);
-								Node tgtNodeRHS = traceB2RHS.get(objBTarget);
-								NodePair tgtNode = new NodePair(tgtNodeLHS, tgtNodeRHS);
-
-								if ((srcNodeLHS != null) && (srcNodeRHS != null)) {
-									if ((tgtNodeLHS != null) && (tgtNodeRHS != null)) {
-										if (!isEdgeContained(srcNodeLHS, tgtNodeLHS, refType)
-												&& !isEdgeContained(srcNodeRHS, tgtNodeRHS, refType)) {
-											createPreservedEdge(editrule, srcNode, tgtNode, refType);
+			if (filter(source)) {
+				EObject objASource = source.getMatchedA();
+				EObject objBSource = source.getMatchedB();
+				
+				for (EStructuralFeature feature : objBSource.eClass().getEAllStructuralFeatures()) {
+					if (feature instanceof EReference) {
+						EReference refType = (EReference) feature;
+						
+						// Create <<preserve>> edges:
+						for (EObject objATarget : getTargets(objASource, refType)) {
+							EObject objBTarget = getMatchedB(correspondences, objATarget);
+							
+							// Is reference contained in model B?
+							if ((objBTarget != null) && getTargets(objBSource, refType).contains(objBTarget)) {
+								
+								if (filter(objASource, objATarget, refType) && filter(objBSource, objBTarget, refType)) {
+									
+									Node srcNodeLHS = traceA2LHS.get(objASource);
+									Node srcNodeRHS = traceB2RHS.get(objBSource);
+									NodePair srcNode = new NodePair(srcNodeLHS, srcNodeRHS);
+									
+									Node tgtNodeLHS = traceA2LHS.get(objATarget);
+									Node tgtNodeRHS = traceB2RHS.get(objBTarget);
+									NodePair tgtNode = new NodePair(tgtNodeLHS, tgtNodeRHS);
+									
+									if ((srcNodeLHS != null) && (srcNodeRHS != null)) {
+										if ((tgtNodeLHS != null) && (tgtNodeRHS != null)) {
+											if (!isEdgeContained(srcNodeLHS, tgtNodeLHS, refType)
+													&& !isEdgeContained(srcNodeRHS, tgtNodeRHS, refType)) {
+												createPreservedEdge(editrule, srcNode, tgtNode, refType);
+											}
+										} else {
+											System.err.println("Missing Context Node: " + objATarget + ", " + objBTarget);
 										}
 									} else {
-										System.err.println("Missing Context Node: " + objATarget + ", " + objBTarget);
+										System.err.println("Missing Context Node: " + objASource + ", " + objBSource);
 									}
-								} else {
-									System.err.println("Missing Context Node: " + objASource + ", " + objBSource);
 								}
 							}
 						}
