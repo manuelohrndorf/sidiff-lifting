@@ -27,8 +27,11 @@ public class XtextMarkerImpl implements XtextMarker {
 
 	@Override
 	public boolean isXtextObject(EObject eObject) {
-		INode node = adapt(INode.class, eObject);
-		return node != null;
+		if (eObject != null) {
+			INode node = adapt(INode.class, eObject);
+			return node != null;
+		}
+		return false;
 	}
 
 	@Override
