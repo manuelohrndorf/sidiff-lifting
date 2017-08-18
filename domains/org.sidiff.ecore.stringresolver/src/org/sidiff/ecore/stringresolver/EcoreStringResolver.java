@@ -59,8 +59,13 @@ public class EcoreStringResolver extends AbstractStringResolver {
 			String indexFragment = fragments[fragments.length - 1];
 
 			if (indexFragment.matches("\\d+")) {
-				res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
-						fragments[fragments.length - 1], eObject.eClass().getName());
+				if (eObject.eContainingFeature() != null) {
+					res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
+							fragments[fragments.length - 1], eObject.eClass().getName());
+				} else {
+					res = String.format("%s [%s]",
+							fragments[fragments.length - 1], eObject.eClass().getName());
+				}
 			} else {
 				res = eObject.eClass().getName();
 			}
