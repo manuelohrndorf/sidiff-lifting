@@ -2,8 +2,6 @@ package org.sidiff.integration.editor.highlighting.internal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,8 +18,6 @@ import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControl
 public class SelectionController implements ISelectionListener, ISelectionChangedListener, INullSelectionListener {
 
 	private static SelectionController instance;
-
-	private CountDownLatch highlightingProcess;
 	
 	private List<EObject> selected = new ArrayList<>();
 
@@ -38,17 +34,6 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 	
 	public synchronized void setSelection(List<EObject> selected) {
 		
-		// Synchronize previous highlighting:
-		if (highlightingProcess != null) {
-			try {
-				if (!highlightingProcess.await(3000, TimeUnit.MILLISECONDS)) {
-					return;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		// Set new selection:
 		this.selected = selected;
 		
@@ -56,14 +41,10 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-					highlightingProcess = new CountDownLatch(1);
 					SelectionControllerDiagram.getInstance().setSelection(selected);
 					SelectionControllerTreeViewer.getInstance().setSelection(selected);
 				} catch (Exception e) {
 					e.printStackTrace();
-				} finally {
-					highlightingProcess.countDown();
-					highlightingProcess = null;
 				}
 			}
 		});

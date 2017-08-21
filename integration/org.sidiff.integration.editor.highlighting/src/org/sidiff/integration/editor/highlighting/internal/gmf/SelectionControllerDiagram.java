@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecorator;
@@ -18,8 +16,6 @@ import org.eclipse.swt.widgets.Display;
 public class SelectionControllerDiagram {
 
 	private static SelectionControllerDiagram instance;
-
-	private CountDownLatch highlightingProcess;
 	
 	private List<EObject> selected = new ArrayList<>();
 
@@ -85,17 +81,6 @@ public class SelectionControllerDiagram {
 	
 	public synchronized void setSelection(List<EObject> selected) {
 		
-		// Synchronize previous highlighting:
-		if (highlightingProcess != null) {
-			try {
-				if (!highlightingProcess.await(3000, TimeUnit.MILLISECONDS)) {
-					return;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		// Set new selection:
 		this.selected = selected;
 		
@@ -103,13 +88,10 @@ public class SelectionControllerDiagram {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-					highlightingProcess = new CountDownLatch(1);
 					highlightDiagrams();
 				} catch (Exception e) {
 					e.printStackTrace();
-				} finally {
-					highlightingProcess.countDown();
-					highlightingProcess = null;				}
+				}
 			}
 		});
 	}

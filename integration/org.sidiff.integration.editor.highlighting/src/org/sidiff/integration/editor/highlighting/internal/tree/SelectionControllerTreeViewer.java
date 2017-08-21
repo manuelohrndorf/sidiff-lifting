@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.ecore.EObject;
@@ -28,8 +26,6 @@ import org.eclipse.ui.PlatformUI;
 public class SelectionControllerTreeViewer {
 
 	private static SelectionControllerTreeViewer instance;
-
-	private CountDownLatch highlightingProcess;
 	
 	private List<EObject> selected = new ArrayList<>();
 	
@@ -48,17 +44,6 @@ public class SelectionControllerTreeViewer {
 	
 	public synchronized void setSelection(List<EObject> selected) {
 		
-		// Synchronize previous highlighting:
-		if (highlightingProcess != null) {
-			try {
-				if (!highlightingProcess.await(3000, TimeUnit.MILLISECONDS)) {
-					return;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		// Set new selection:
 		this.selected = selected;
 		
@@ -66,12 +51,9 @@ public class SelectionControllerTreeViewer {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				try {
-					highlightingProcess = new CountDownLatch(1);
 					highlightTreeEditors();
 				} catch (Exception e) {
 					e.printStackTrace();
-				} finally {
-					highlightingProcess.countDown();
 				}
 			}
 		});
