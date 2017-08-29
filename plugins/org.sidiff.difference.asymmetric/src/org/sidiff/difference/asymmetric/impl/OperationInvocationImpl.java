@@ -9,7 +9,9 @@ package org.sidiff.difference.asymmetric.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -21,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.sidiff.deltamodeling.superimposition.SuperimposedModel;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -658,8 +661,20 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 		// Try to derive the EditRule via the available rulebases:
 		AsymmetricDifference difference = (AsymmetricDifference) this.eContainer();
-		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
-		this.editRule = RuleBaseProjectUtil.resolveEditRule(Collections.singleton(documentType), this.getEditRuleName());
+		//TODO 29-08-2017 cpietsch: this is just a workaround, another solution must be found
+		String documentType = null;
+		Set<String> docTypes = new HashSet<String>();
+		if(difference.getOriginModel().getContents().get(0) instanceof SuperimposedModel){
+			SuperimposedModel model = (SuperimposedModel) difference.getOriginModel().getContents().get(0);
+			docTypes.addAll(model.getDocType());
+		}else{
+			documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
+			if(documentType != null){
+				docTypes.add(documentType);
+			}
+		}
+		 
+		this.editRule = RuleBaseProjectUtil.resolveEditRule(docTypes, this.getEditRuleName());
 
 		return this.editRule;
 	}
