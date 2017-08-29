@@ -17,13 +17,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.sidiff.deltamodeling.superimposition.SuperimposedModel;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -664,9 +664,12 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		//TODO 29-08-2017 cpietsch: this is just a workaround, another solution must be found
 		String documentType = null;
 		Set<String> docTypes = new HashSet<String>();
-		if(difference.getOriginModel().getContents().get(0) instanceof SuperimposedModel){
-			SuperimposedModel model = (SuperimposedModel) difference.getOriginModel().getContents().get(0);
-			docTypes.addAll(model.getDocType());
+		EObject eObject = difference.getOriginModel().getContents().get(0);
+		if(eObject.eClass().getEStructuralFeature("docType") != null){
+			Object object = eObject.eGet(eObject.eClass().getEStructuralFeature("docType"));
+			if(object instanceof EList<?>){
+				docTypes = new HashSet<String>((Collection<? extends String>) object);
+			}
 		}else{
 			documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
 			if(documentType != null){
