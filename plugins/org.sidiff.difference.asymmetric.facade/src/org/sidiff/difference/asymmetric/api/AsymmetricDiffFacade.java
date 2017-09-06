@@ -15,6 +15,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.asymmetric.dependencies.real.DependencyAnalyzer;
+import org.sidiff.difference.asymmetric.dependencies.real.EngineBasedDependencyAnalyzer;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterMapper;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
 import org.sidiff.difference.lifting.api.LiftingFacade;
@@ -69,7 +70,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Retrieve dependencies of operation invocations
 		StatisticsUtil.getInstance().start("DependencyAnalysis");
 		LogUtil.log(LogEvent.NOTICE, "Analyze dependencies");
-		DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(settings.getRecognitionEngine(), asymmetricDifference);
+		DependencyAnalyzer dependencyAnalyzer = new EngineBasedDependencyAnalyzer(asymmetricDifference, settings.getRecognitionEngine());
 		dependencyAnalyzer.analyze();
 		StatisticsUtil.getInstance().stop("DependencyAnalysis");
 		

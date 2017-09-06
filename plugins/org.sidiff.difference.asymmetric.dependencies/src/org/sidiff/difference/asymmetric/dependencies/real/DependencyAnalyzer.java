@@ -4,6 +4,7 @@ import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.get
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +24,6 @@ import org.sidiff.difference.asymmetric.NodeDependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
 import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
@@ -36,49 +36,48 @@ import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 
-public class DependencyAnalyzer {
-
-	/**
-	 * The RecognitionEngine instance that was used to semantically lift a
-	 * difference
-	 */
-	private IRecognitionEngine recognitionEngine;
+public abstract class DependencyAnalyzer {
 
 	/**
 	 * The asymmetric difference
 	 */
-	private AsymmetricDifference asymmetricDiff;
+	protected AsymmetricDifference asymmetricDiff;
+	
+	/**
+	 * The {@link ILiftingRuleBase} used by {@link #recognitionEngine}/{@link #asymmetricDiff}
+	 */
+	protected  Set<ILiftingRuleBase> ruleBases;
+	
+	/**
+	 * 
+	 */
+	protected Map<EditRule, Set<SemanticChangeSet>> editRule2SCS;
 
 	/**
 	 * Analysis the dependencies between different rulebases
 	 */
 	InterRuleBasePotentialDependencyAnalyzer crossOverPotDeps;
 
-	/**
-	 * Creates a {@link DependencyAnalyzer}
-	 * 
-	 * @param recognitionEngine
-	 *            The RecognitionEngine instance that was used to semantically
-	 *            lift a difference
-	 */
-	public DependencyAnalyzer(IRecognitionEngine recognitionEngine, AsymmetricDifference asymmetricDiff) {
-		this.recognitionEngine = recognitionEngine;
+	public DependencyAnalyzer(AsymmetricDifference asymmetricDiff) {
 		this.asymmetricDiff = asymmetricDiff;
+		this.ruleBases = new HashSet<ILiftingRuleBase>();
+		this.editRule2SCS = new HashMap<EditRule, Set<SemanticChangeSet>>();
 	}
+	
+	protected abstract void initialize();
 
 	public void analyze() {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "-------------------- ANALYZE DEPENDENCIES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
+		
+		initialize();
+		
 		// Initialize RuleBase cross-over potential dependency analyzer
-		if (recognitionEngine.getSetup().getRulebases().size() > 1) {
+		if (ruleBases.size() > 1) {
 			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(
-					recognitionEngine.getSetup().getRulebases());
-		}
-
-		// Map edit rule types to occurring SCS.
-		Map<EditRule, Set<SemanticChangeSet>> editRule2SCS = recognitionEngine.getChangeSets();
+					ruleBases);
+		}	
 
 		// Run through all types of edit rules contained in the lifted
 		// difference:
@@ -107,8 +106,8 @@ public class DependencyAnalyzer {
 					for (SemanticChangeSet scsTgt : scsTgts) {
 
 						// Get matches of potentially depending edit rules:
-						IEditRuleMatch erSrcMatch = recognitionEngine.getEditRuleMatch(scsSrc);
-						IEditRuleMatch erTgtMatch = recognitionEngine.getEditRuleMatch(scsTgt);
+						IEditRuleMatch erSrcMatch = getEditRuleMatch(scsSrc);
+						IEditRuleMatch erTgtMatch = getEditRuleMatch(scsTgt);
 						int kind = 0;
 						Object intersection = null;
 						if (potDep instanceof PotentialNodeDependency) {
@@ -188,10 +187,12 @@ public class DependencyAnalyzer {
 		assert (cycle.isEmpty()) : "cycle between: " + cycle;
 	}
 
+	protected abstract IEditRuleMatch getEditRuleMatch(SemanticChangeSet scs);
+	
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
 		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
-		for (ILiftingRuleBase rb : recognitionEngine.getSetup().getRulebases()) {
+		for (ILiftingRuleBase rb : ruleBases) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
 
