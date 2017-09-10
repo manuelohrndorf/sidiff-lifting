@@ -153,16 +153,17 @@ public class AttributeValueChangeItemProvider
 			LabelPrinter labelPrinter = avc.getLabelPrinter();
 			EObject elementA = avc.getObjA();
 			EObject elementB = avc.getObjB();
+			// TODO get the type and value via labelprinter
+//			Object valueA = elementA.eGet(avc.getType());
+//			Object valueB = elementB.eGet(avc.getType());
+//			
+//			String type = avc.getType().getName();
 			
-			Object valueA = elementA.eGet(avc.getType());
-			Object valueB = elementB.eGet(avc.getType());
-			
-			String type = avc.getType().getName();
 			
 			return baseString + ": " 
-					+ labelPrinter.getLabel(elementA) + ".[" + type + "] = " + valueA
+					+ labelPrinter.getLabel(elementA) // + ".[" + type + "] = " + valueA
 					+ " -> "
-					+ labelPrinter.getLabel(elementB) + ".[" + type + "] = " + valueB;
+					+ labelPrinter.getLabel(elementB);// + ".[" + type + "] = " + valueB;
 		}
 		
 		return baseString;
