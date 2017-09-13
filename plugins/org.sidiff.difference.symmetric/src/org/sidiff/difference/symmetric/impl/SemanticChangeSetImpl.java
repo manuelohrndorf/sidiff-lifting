@@ -8,11 +8,14 @@ package org.sidiff.difference.symmetric.impl;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -910,10 +913,29 @@ public class SemanticChangeSetImpl extends EObjectImpl implements SemanticChange
 	public EditRule resolveEditRule() {
 		// Try to derive the EditRule via the available rulebases:
 		SymmetricDifference difference = (SymmetricDifference) this.eContainer();
+		// TODO 13-09-2017 cpietsch: this is just a workaround, another solution
+		// must be found
+		String documentType = null;
+		Set<String> docTypes = new HashSet<String>();
+		EObject eObject = difference.getModelA().getContents().get(0);
+		if (eObject.eClass().getEStructuralFeature("docType") != null) {
+			Object object = eObject.eGet(eObject.eClass().getEStructuralFeature("docType"));
+			if (object instanceof EList<?>) {
+				docTypes = new HashSet<String>((Collection<? extends String>) object);
+			}
+		} else {
+			documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getModelA());
+			if (documentType != null) {
+				docTypes.add(documentType);
+			}
+		}
 
-		//TODO cpietsch 19.06.2015: �berarbeiten
-		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getMatching().getCorrespondences().get(0).getMatchedA());
-		return RuleBaseProjectUtil.resolveEditRule(Collections.singleton(documentType), this.getEditRName());
+		return RuleBaseProjectUtil.resolveEditRule(docTypes, this.getEditRName());
+
+
+//		//TODO cpietsch 19.06.2015: �berarbeiten
+//		String documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getMatching().getCorrespondences().get(0).getMatchedA());
+//		return RuleBaseProjectUtil.resolveEditRule(Collections.singleton(documentType), this.getEditRName());
 	}
 
 } //SemanticChangeSetImpl
