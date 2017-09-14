@@ -132,12 +132,10 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean isResolvable() {
-		// TODO: implement this method to return the 'Resolvable' attribute
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return getConflictResolution() != null;
 	}
 
 	/**
