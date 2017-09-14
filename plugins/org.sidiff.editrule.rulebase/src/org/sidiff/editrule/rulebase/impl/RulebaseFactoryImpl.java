@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.sidiff.editrule.rulebase.*;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.Parameter;
@@ -78,6 +79,9 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_DEPENDENCY: return createPotentialAttributeDependency();
 			case RulebasePackage.PARAMETER: return createParameter();
 			case RulebasePackage.CLASSIFICATION: return createClassification();
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT: return createPotentialNodeConflict();
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT: return createPotentialEdgeConflict();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT: return createPotentialAttributeConflict();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -97,6 +101,8 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 				return createParameterDirectionFromString(eDataType, initialValue);
 			case RulebasePackage.PARAMETER_KIND:
 				return createParameterKindFromString(eDataType, initialValue);
+			case RulebasePackage.POTENTIAL_CONFLICT_KIND:
+				return createPotentialConflictKindFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -116,6 +122,8 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 				return convertParameterDirectionToString(eDataType, instanceValue);
 			case RulebasePackage.PARAMETER_KIND:
 				return convertParameterKindToString(eDataType, instanceValue);
+			case RulebasePackage.POTENTIAL_CONFLICT_KIND:
+				return convertPotentialConflictKindToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -206,6 +214,36 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public PotentialNodeConflict createPotentialNodeConflict() {
+		PotentialNodeConflictImpl potentialNodeConflict = new PotentialNodeConflictImpl();
+		return potentialNodeConflict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PotentialEdgeConflict createPotentialEdgeConflict() {
+		PotentialEdgeConflictImpl potentialEdgeConflict = new PotentialEdgeConflictImpl();
+		return potentialEdgeConflict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PotentialAttributeConflict createPotentialAttributeConflict() {
+		PotentialAttributeConflictImpl potentialAttributeConflict = new PotentialAttributeConflictImpl();
+		return potentialAttributeConflict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public PotentialDependencyKind createPotentialDependencyKindFromString(EDataType eDataType, String initialValue) {
 		PotentialDependencyKind result = PotentialDependencyKind.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -258,6 +296,26 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * @generated
 	 */
 	public String convertParameterKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PotentialConflictKind createPotentialConflictKindFromString(EDataType eDataType, String initialValue) {
+		PotentialConflictKind result = PotentialConflictKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPotentialConflictKindToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

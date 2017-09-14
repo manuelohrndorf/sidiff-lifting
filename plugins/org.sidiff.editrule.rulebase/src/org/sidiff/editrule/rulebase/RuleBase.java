@@ -25,6 +25,9 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialEdgeDependencies <em>Potential Edge Dependencies</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialAttributeDependencies <em>Potential Attribute Dependencies</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getDocumentTypes <em>Document Types</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialNodeConflicts <em>Potential Node Conflicts</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialEdgeConflicts <em>Potential Edge Conflicts</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialAttributeConflicts <em>Potential Attribute Conflicts</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase()
@@ -83,6 +86,60 @@ public interface RuleBase extends EObject {
 	 * @generated
 	 */
 	EList<String> getDocumentTypes();
+
+	/**
+	 * Returns the value of the '<em><b>Potential Node Conflicts</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialNodeConflict}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getRuleBase <em>Rule Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Potential Node Conflicts</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Potential Node Conflicts</em>' containment reference list.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialNodeConflicts()
+	 * @see org.sidiff.editrule.rulebase.PotentialNodeConflict#getRuleBase
+	 * @model opposite="ruleBase" containment="true"
+	 * @generated
+	 */
+	EList<PotentialNodeConflict> getPotentialNodeConflicts();
+
+	/**
+	 * Returns the value of the '<em><b>Potential Edge Conflicts</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialEdgeConflict}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getRuleBase <em>Rule Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Potential Edge Conflicts</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Potential Edge Conflicts</em>' containment reference list.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialEdgeConflicts()
+	 * @see org.sidiff.editrule.rulebase.PotentialEdgeConflict#getRuleBase
+	 * @model opposite="ruleBase" containment="true"
+	 * @generated
+	 */
+	EList<PotentialEdgeConflict> getPotentialEdgeConflicts();
+
+	/**
+	 * Returns the value of the '<em><b>Potential Attribute Conflicts</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialAttributeConflict}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getRuleBase <em>Rule Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Potential Attribute Conflicts</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Potential Attribute Conflicts</em>' containment reference list.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialAttributeConflicts()
+	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getRuleBase
+	 * @model opposite="ruleBase" containment="true"
+	 * @generated
+	 */
+	EList<PotentialAttributeConflict> getPotentialAttributeConflicts();
 
 	/**
 	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.

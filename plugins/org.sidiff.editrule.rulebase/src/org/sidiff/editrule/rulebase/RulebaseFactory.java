@@ -98,6 +98,33 @@ public interface RulebaseFactory extends EFactory {
 	Classification createClassification();
 
 	/**
+	 * Returns a new object of class '<em>Potential Node Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Potential Node Conflict</em>'.
+	 * @generated
+	 */
+	PotentialNodeConflict createPotentialNodeConflict();
+
+	/**
+	 * Returns a new object of class '<em>Potential Edge Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Potential Edge Conflict</em>'.
+	 * @generated
+	 */
+	PotentialEdgeConflict createPotentialEdgeConflict();
+
+	/**
+	 * Returns a new object of class '<em>Potential Attribute Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Potential Attribute Conflict</em>'.
+	 * @generated
+	 */
+	PotentialAttributeConflict createPotentialAttributeConflict();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

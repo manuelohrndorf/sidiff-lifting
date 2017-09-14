@@ -119,7 +119,7 @@ public interface PotentialDependency extends EObject {
 	 * @see org.sidiff.editrule.rulebase.PotentialDependencyKind
 	 * @see #setKind(PotentialDependencyKind)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDependency_Kind()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	PotentialDependencyKind getKind();

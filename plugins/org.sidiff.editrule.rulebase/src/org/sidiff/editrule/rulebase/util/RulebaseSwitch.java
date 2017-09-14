@@ -9,6 +9,7 @@ package org.sidiff.editrule.rulebase.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
+import org.sidiff.editrule.rulebase.*;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.EditRuleAttachment;
@@ -138,6 +139,33 @@ public class RulebaseSwitch<T> extends Switch<T> {
 			case RulebasePackage.EDIT_RULE_ATTACHMENT: {
 				EditRuleAttachment editRuleAttachment = (EditRuleAttachment)theEObject;
 				T result = caseEditRuleAttachment(editRuleAttachment);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RulebasePackage.POTENTIAL_CONFLICT: {
+				PotentialConflict potentialConflict = (PotentialConflict)theEObject;
+				T result = casePotentialConflict(potentialConflict);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT: {
+				PotentialNodeConflict potentialNodeConflict = (PotentialNodeConflict)theEObject;
+				T result = casePotentialNodeConflict(potentialNodeConflict);
+				if (result == null) result = casePotentialConflict(potentialNodeConflict);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT: {
+				PotentialEdgeConflict potentialEdgeConflict = (PotentialEdgeConflict)theEObject;
+				T result = casePotentialEdgeConflict(potentialEdgeConflict);
+				if (result == null) result = casePotentialConflict(potentialEdgeConflict);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT: {
+				PotentialAttributeConflict potentialAttributeConflict = (PotentialAttributeConflict)theEObject;
+				T result = casePotentialAttributeConflict(potentialAttributeConflict);
+				if (result == null) result = casePotentialConflict(potentialAttributeConflict);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -292,6 +320,66 @@ public class RulebaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseEditRuleAttachment(EditRuleAttachment object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Potential Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Potential Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePotentialConflict(PotentialConflict object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Potential Node Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Potential Node Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePotentialNodeConflict(PotentialNodeConflict object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Potential Edge Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Potential Edge Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePotentialEdgeConflict(PotentialEdgeConflict object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Potential Attribute Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Potential Attribute Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePotentialAttributeConflict(PotentialAttributeConflict object) {
 		return null;
 	}
 
