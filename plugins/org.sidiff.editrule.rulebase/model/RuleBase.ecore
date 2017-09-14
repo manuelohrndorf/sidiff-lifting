@@ -17,6 +17,12 @@
         eOpposite="#//PotentialAttributeDependency/ruleBase"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentTypes" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialNodeConflicts"
+        upperBound="-1" eType="#//PotentialNodeConflict" containment="true" eOpposite="#//PotentialNodeConflict/ruleBase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialEdgeConflicts"
+        upperBound="-1" eType="#//PotentialEdgeConflict" containment="true" eOpposite="#//PotentialEdgeConflict/ruleBase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialAttributeConflicts"
+        upperBound="-1" eType="#//PotentialAttributeConflict" containment="true" eOpposite="#//PotentialAttributeConflict/ruleBase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditRule">
     <eOperations name="getExecuteModule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
@@ -54,7 +60,7 @@
     <eLiterals name="ChangeForbid" value="7"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PotentialDependency" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//PotentialDependencyKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//PotentialDependencyKind"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sourceRule" lowerBound="1"
         eType="#//EditRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" lowerBound="1"
@@ -109,5 +115,38 @@
         eOpposite="#//RuleBaseItem/editRuleAttachments"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editRule" eType="#//EditRule"
         changeable="false" volatile="true" transient="true" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PotentialConflict" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="potentialConflictKind"
+        lowerBound="1" eType="#//PotentialConflictKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolvable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" volatile="true" transient="true" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="editRules" lowerBound="2"
+        upperBound="2" eType="#//EditRule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conflictResolution" eType="#//PotentialDependency"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PotentialConflictKind">
+    <eLiterals name="DeleteUse"/>
+    <eLiterals name="ChangeUse" value="1"/>
+    <eLiterals name="CreateForbid" value="2"/>
+    <eLiterals name="ChangeForbid" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PotentialNodeConflict" eSuperTypes="#//PotentialConflict">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
+        eOpposite="#//RuleBase/potentialNodeConflicts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="2" upperBound="2"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PotentialEdgeConflict" eSuperTypes="#//PotentialConflict">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
+        eOpposite="#//RuleBase/potentialEdgeConflicts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" lowerBound="2" upperBound="2"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Edge"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PotentialAttributeConflict" eSuperTypes="#//PotentialConflict">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
+        eOpposite="#//RuleBase/potentialAttributeConflicts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" lowerBound="2"
+        upperBound="2" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Attribute"/>
   </eClassifiers>
 </ecore:EPackage>
