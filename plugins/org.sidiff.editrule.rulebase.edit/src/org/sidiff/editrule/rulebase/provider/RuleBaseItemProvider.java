@@ -62,6 +62,9 @@ public class RuleBaseItemProvider
 			addNamePropertyDescriptor(object);
 			addEditRulesPropertyDescriptor(object);
 			addDocumentTypesPropertyDescriptor(object);
+			addPotentialNodeConflictsPropertyDescriptor(object);
+			addPotentialEdgeConflictsPropertyDescriptor(object);
+			addPotentialAttributeConflictsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -133,6 +136,72 @@ public class RuleBaseItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Potential Node Conflicts feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPotentialNodeConflictsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_potentialNodeConflicts_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_potentialNodeConflicts_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__POTENTIAL_NODE_CONFLICTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Potential Edge Conflicts feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPotentialEdgeConflictsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_potentialEdgeConflicts_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_potentialEdgeConflicts_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__POTENTIAL_EDGE_CONFLICTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Potential Attribute Conflicts feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPotentialAttributeConflictsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_potentialAttributeConflicts_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_potentialAttributeConflicts_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -148,6 +217,9 @@ public class RuleBaseItemProvider
 			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_NODE_DEPENDENCIES);
 			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES);
 			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES);
+			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_NODE_CONFLICTS);
+			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_EDGE_CONFLICTS);
+			childrenFeatures.add(RulebasePackage.Literals.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS);
 		}
 		return childrenFeatures;
 	}
@@ -211,6 +283,9 @@ public class RuleBaseItemProvider
 			case RulebasePackage.RULE_BASE__POTENTIAL_NODE_DEPENDENCIES:
 			case RulebasePackage.RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES:
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES:
+			case RulebasePackage.RULE_BASE__POTENTIAL_NODE_CONFLICTS:
+			case RulebasePackage.RULE_BASE__POTENTIAL_EDGE_CONFLICTS:
+			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -247,6 +322,21 @@ public class RuleBaseItemProvider
 			(createChildParameter
 				(RulebasePackage.Literals.RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES,
 				 RulebaseFactory.eINSTANCE.createPotentialAttributeDependency()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(RulebasePackage.Literals.RULE_BASE__POTENTIAL_NODE_CONFLICTS,
+				 RulebaseFactory.eINSTANCE.createPotentialNodeConflict()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(RulebasePackage.Literals.RULE_BASE__POTENTIAL_EDGE_CONFLICTS,
+				 RulebaseFactory.eINSTANCE.createPotentialEdgeConflict()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(RulebasePackage.Literals.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS,
+				 RulebaseFactory.eINSTANCE.createPotentialAttributeConflict()));
 	}
 
 	/**

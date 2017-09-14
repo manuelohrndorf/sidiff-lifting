@@ -254,6 +254,75 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.editrule.rulebase.PotentialNodeConflict} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PotentialNodeConflictItemProvider potentialNodeConflictItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.editrule.rulebase.PotentialNodeConflict}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPotentialNodeConflictAdapter() {
+		if (potentialNodeConflictItemProvider == null) {
+			potentialNodeConflictItemProvider = new PotentialNodeConflictItemProvider(this);
+		}
+
+		return potentialNodeConflictItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.editrule.rulebase.PotentialEdgeConflict} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PotentialEdgeConflictItemProvider potentialEdgeConflictItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.editrule.rulebase.PotentialEdgeConflict}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPotentialEdgeConflictAdapter() {
+		if (potentialEdgeConflictItemProvider == null) {
+			potentialEdgeConflictItemProvider = new PotentialEdgeConflictItemProvider(this);
+		}
+
+		return potentialEdgeConflictItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.editrule.rulebase.PotentialAttributeConflict} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PotentialAttributeConflictItemProvider potentialAttributeConflictItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.editrule.rulebase.PotentialAttributeConflict}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPotentialAttributeConflictAdapter() {
+		if (potentialAttributeConflictItemProvider == null) {
+			potentialAttributeConflictItemProvider = new PotentialAttributeConflictItemProvider(this);
+		}
+
+		return potentialAttributeConflictItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,6 +429,9 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 		if (potentialAttributeDependencyItemProvider != null) potentialAttributeDependencyItemProvider.dispose();
 		if (parameterItemProvider != null) parameterItemProvider.dispose();
 		if (classificationItemProvider != null) classificationItemProvider.dispose();
+		if (potentialNodeConflictItemProvider != null) potentialNodeConflictItemProvider.dispose();
+		if (potentialEdgeConflictItemProvider != null) potentialEdgeConflictItemProvider.dispose();
+		if (potentialAttributeConflictItemProvider != null) potentialAttributeConflictItemProvider.dispose();
 	}
 
 }

@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -19,16 +21,18 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.sidiff.editrule.rulebase.Parameter;
+
+import org.sidiff.editrule.rulebase.PotentialConflict;
+import org.sidiff.editrule.rulebase.PotentialConflictKind;
 import org.sidiff.editrule.rulebase.RulebasePackage;
 
 /**
- * This is the item provider adapter for a {@link org.sidiff.editrule.rulebase.Parameter} object.
+ * This is the item provider adapter for a {@link org.sidiff.editrule.rulebase.PotentialConflict} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ParameterItemProvider 
+public class PotentialConflictItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -42,7 +46,7 @@ public class ParameterItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ParameterItemProvider(AdapterFactory adapterFactory) {
+	public PotentialConflictItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -57,29 +61,28 @@ public class ParameterItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addDirectionPropertyDescriptor(object);
-			addKindPropertyDescriptor(object);
-			addTypePropertyDescriptor(object);
-			addMultiPropertyDescriptor(object);
+			addPotentialConflictKindPropertyDescriptor(object);
+			addResolvablePropertyDescriptor(object);
+			addEditRulesPropertyDescriptor(object);
+			addConflictResolutionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Potential Conflict Kind feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addPotentialConflictKindPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Parameter_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_name_feature", "_UI_Parameter_type"),
-				 RulebasePackage.Literals.PARAMETER__NAME,
+				 getString("_UI_PotentialConflict_potentialConflictKind_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_potentialConflictKind_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND,
 				 true,
 				 false,
 				 false,
@@ -89,85 +92,19 @@ public class ParameterItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Direction feature.
+	 * This adds a property descriptor for the Resolvable feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addDirectionPropertyDescriptor(Object object) {
+	protected void addResolvablePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Parameter_direction_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_direction_feature", "_UI_Parameter_type"),
-				 RulebasePackage.Literals.PARAMETER__DIRECTION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Kind feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addKindPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Parameter_kind_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_kind_feature", "_UI_Parameter_type"),
-				 RulebasePackage.Literals.PARAMETER__KIND,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Type feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Parameter_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_type_feature", "_UI_Parameter_type"),
-				 RulebasePackage.Literals.PARAMETER__TYPE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Multi feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMultiPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Parameter_multi_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Parameter_multi_feature", "_UI_Parameter_type"),
-				 RulebasePackage.Literals.PARAMETER__MULTI,
+				 getString("_UI_PotentialConflict_resolvable_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_resolvable_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__RESOLVABLE,
 				 true,
 				 false,
 				 false,
@@ -177,14 +114,58 @@ public class ParameterItemProvider
 	}
 
 	/**
-	 * This returns Parameter.gif.
+	 * This adds a property descriptor for the Edit Rules feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEditRulesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialConflict_editRules_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_editRules_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__EDIT_RULES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Conflict Resolution feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addConflictResolutionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialConflict_conflictResolution_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_conflictResolution_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns PotentialConflict.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Parameter"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PotentialConflict"));
 	}
 
 	/**
@@ -195,10 +176,11 @@ public class ParameterItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Parameter)object).getName();
+		PotentialConflictKind labelValue = ((PotentialConflict)object).getPotentialConflictKind();
+		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
-			getString("_UI_Parameter_type") :
-			getString("_UI_Parameter_type") + " " + label;
+			getString("_UI_PotentialConflict_type") :
+			getString("_UI_PotentialConflict_type") + " " + label;
 	}
 	
 
@@ -213,11 +195,9 @@ public class ParameterItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Parameter.class)) {
-			case RulebasePackage.PARAMETER__NAME:
-			case RulebasePackage.PARAMETER__DIRECTION:
-			case RulebasePackage.PARAMETER__KIND:
-			case RulebasePackage.PARAMETER__MULTI:
+		switch (notification.getFeatureID(PotentialConflict.class)) {
+			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
+			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
