@@ -20,10 +20,12 @@ import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.editrule.analysis.classification.IClassificator;
 import org.sidiff.editrule.analysis.classification.util.ClassificatorUtil;
+import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialConflictAnalyzer;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.editrule.analysis.parameters.ParameterExtractor;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialConflict;
 import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
@@ -34,7 +36,7 @@ import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 /**
  * Encapsulates a RuleBase instance and provides some convenience functions for the RuleBase management.
  * 
- * @author Manuel Ohrndorf
+ * @author Manuel Ohrndorf, cpietsch
  */
 public class EditRuleBaseWrapper {
 	
@@ -53,6 +55,10 @@ public class EditRuleBaseWrapper {
 	 */
 	private IntraRuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
 	
+	/**
+	 * Internal {@link IntraRuleBasePotentialConflictAnalyzer} 
+	 */
+	private IntraRuleBasePotentialConflictAnalyzer ruleBasePotentialConflictAnalyzer;
 	/**
 	 * List of edited (Henshin) Edit-Rules. Used to delay the storage of the Henshin
 	 * files. Call {@link EditRuleBaseWrapper#saveRuleBase()} to save all.
@@ -105,6 +111,7 @@ public class EditRuleBaseWrapper {
 	 */
 	private void init() {
 		ruleBasePotentialDependencyAnalyzer = new IntraRuleBasePotentialDependencyAnalyzer(rulebase);
+		ruleBasePotentialConflictAnalyzer = new IntraRuleBasePotentialConflictAnalyzer(rulebase);
 		changedEditRules = new HashSet<EditRule>();
 	}
 
@@ -228,6 +235,9 @@ public class EditRuleBaseWrapper {
 		
 		// Find new potential dependencies in the rule base
 		ruleBasePotentialDependencyAnalyzer.findDependencies(item.getEditRule());
+		
+		// Find new potential conflicts in the rule base
+		ruleBasePotentialConflictAnalyzer.findConflicts(item.getEditRule());
 
 		// Extract formal parameters of the edit rule
 		ParameterExtractor paramExtractor = new ParameterExtractor(item.getEditRule());
@@ -252,6 +262,11 @@ public class EditRuleBaseWrapper {
 		// Remove potential dependencies of the item:
 		for (PotentialDependency potDep : getIncomingDependencies(item.getEditRule())) {
 			EcoreUtil.remove(potDep);
+		}
+		
+		// Remove potential conflicts of the item:
+		for (PotentialConflict potCon : getConflicts(item.getEditRule())) {
+			EcoreUtil.remove(potCon);
 		}
 
 		// Remove item from rule base
@@ -301,6 +316,40 @@ public class EditRuleBaseWrapper {
 		return potDeps;
 	}
 
+	/**
+	 * Collects all potential (Node, Edge, Attribute) conflicts of the given Edit-Rule.
+	 * 
+	 * @param er
+	 *            The Edit-Rule of interest.
+	 * @return All potential (Node, Edge, Attribute) conflicts.
+	 */
+	public List<PotentialConflict> getConflicts(EditRule er) {
+		List<PotentialConflict> potCons = new ArrayList<PotentialConflict>();
+		
+		// Nodes
+		for (PotentialConflict potDep : rulebase.getPotentialNodeConflicts()) {
+			if (potDep.getEditRules().contains(er)) {
+				potCons.add(potDep);
+			}
+		}
+
+		// Edges
+		for (PotentialConflict potDep : rulebase.getPotentialEdgeConflicts()) {
+			if (potDep.getEditRules().contains(er)) {
+				potCons.add(potDep);
+			}
+		}
+		
+		// Attributes
+		for (PotentialConflict potDep : rulebase.getPotentialAttributeConflicts()) {
+			if (potDep.getEditRules().contains(er)) {
+				potCons.add(potDep);
+			}
+		}
+		
+		return potCons;
+	}
+	
 	/**
 	 * Inverts the active flag of all rulebase items.
 	 */
