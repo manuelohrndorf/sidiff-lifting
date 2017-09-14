@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialConflict;
 import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 
@@ -44,6 +45,17 @@ public interface IEditRuleBase extends IBasicRuleBase {
 	 * @return All corresponding potential dependencies.
 	 */
 	public Set<PotentialDependency> getPotentialDependencies(EditRule editRule);
+	
+	/**
+	 * Returns the Set of all PotentialConflicts potCon.
+	 * If the given editRule hasn't any
+	 * PotentialConflict, this method returns {@link Collections#EMPTY_SET}.
+	 * 
+	 * @param editRule
+	 *            The source edit rules ({@link EditRule}).
+	 * @return All corresponding potential conflicts.
+	 */
+	public Set<PotentialConflict> getPotentialConflicts(EditRule editRule);
 
 	/**
 	 * Returns a list containing all active rulebase edit rules
