@@ -45,7 +45,10 @@ public class PotentialAttributeConflictItemProvider extends PotentialConflictIte
 			super.getPropertyDescriptors(object);
 
 			addRuleBasePropertyDescriptor(object);
-			addAttributesPropertyDescriptor(object);
+			addSourceAttributePropertyDescriptor(object);
+			addTargetAttributePropertyDescriptor(object);
+			addSourceNodePropertyDescriptor(object);
+			addTargetNodePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -73,19 +76,85 @@ public class PotentialAttributeConflictItemProvider extends PotentialConflictIte
 	}
 
 	/**
-	 * This adds a property descriptor for the Attributes feature.
+	 * This adds a property descriptor for the Source Attribute feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addAttributesPropertyDescriptor(Object object) {
+	protected void addSourceAttributePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialAttributeConflict_attributes_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_attributes_feature", "_UI_PotentialAttributeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES,
+				 getString("_UI_PotentialAttributeConflict_sourceAttribute_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_sourceAttribute_feature", "_UI_PotentialAttributeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Attribute feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetAttributePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialAttributeConflict_targetAttribute_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_targetAttribute_feature", "_UI_PotentialAttributeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Source Node feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSourceNodePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialAttributeConflict_sourceNode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_sourceNode_feature", "_UI_PotentialAttributeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Node feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetNodePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialAttributeConflict_targetNode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_targetNode_feature", "_UI_PotentialAttributeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE,
 				 true,
 				 false,
 				 true,

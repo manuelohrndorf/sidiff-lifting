@@ -2,20 +2,11 @@
  */
 package org.sidiff.editrule.rulebase.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialConflict;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
@@ -32,7 +23,8 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getPotentialConflictKind <em>Potential Conflict Kind</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#isResolvable <em>Resolvable</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getEditRules <em>Edit Rules</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getSourceRule <em>Source Rule</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getConflictResolution <em>Conflict Resolution</em>}</li>
  * </ul>
  *
@@ -70,14 +62,24 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	protected static final boolean RESOLVABLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #getEditRules() <em>Edit Rules</em>}' reference list.
+	 * The cached value of the '{@link #getSourceRule() <em>Source Rule</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEditRules()
+	 * @see #getSourceRule()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EditRule> editRules;
+	protected EditRule sourceRule;
+
+	/**
+	 * The cached value of the '{@link #getTargetRule() <em>Target Rule</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected EditRule targetRule;
 
 	/**
 	 * The cached value of the '{@link #getConflictResolution() <em>Conflict Resolution</em>}' reference.
@@ -143,11 +145,75 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EditRule> getEditRules() {
-		if (editRules == null) {
-			editRules = new EObjectResolvingEList<EditRule>(EditRule.class, this, RulebasePackage.POTENTIAL_CONFLICT__EDIT_RULES);
+	public EditRule getSourceRule() {
+		if (sourceRule != null && sourceRule.eIsProxy()) {
+			InternalEObject oldSourceRule = (InternalEObject)sourceRule;
+			sourceRule = (EditRule)eResolveProxy(oldSourceRule);
+			if (sourceRule != oldSourceRule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE, oldSourceRule, sourceRule));
+			}
 		}
-		return editRules;
+		return sourceRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditRule basicGetSourceRule() {
+		return sourceRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceRule(EditRule newSourceRule) {
+		EditRule oldSourceRule = sourceRule;
+		sourceRule = newSourceRule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE, oldSourceRule, sourceRule));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditRule getTargetRule() {
+		if (targetRule != null && targetRule.eIsProxy()) {
+			InternalEObject oldTargetRule = (InternalEObject)targetRule;
+			targetRule = (EditRule)eResolveProxy(oldTargetRule);
+			if (targetRule != oldTargetRule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE, oldTargetRule, targetRule));
+			}
+		}
+		return targetRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditRule basicGetTargetRule() {
+		return targetRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetRule(EditRule newTargetRule) {
+		EditRule oldTargetRule = targetRule;
+		targetRule = newTargetRule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE, oldTargetRule, targetRule));
 	}
 
 	/**
@@ -200,8 +266,12 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 				return getPotentialConflictKind();
 			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
 				return isResolvable();
-			case RulebasePackage.POTENTIAL_CONFLICT__EDIT_RULES:
-				return getEditRules();
+			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
+				if (resolve) return getSourceRule();
+				return basicGetSourceRule();
+			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
+				if (resolve) return getTargetRule();
+				return basicGetTargetRule();
 			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
 				if (resolve) return getConflictResolution();
 				return basicGetConflictResolution();
@@ -214,16 +284,17 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
 				setPotentialConflictKind((PotentialConflictKind)newValue);
 				return;
-			case RulebasePackage.POTENTIAL_CONFLICT__EDIT_RULES:
-				getEditRules().clear();
-				getEditRules().addAll((Collection<? extends EditRule>)newValue);
+			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
+				setSourceRule((EditRule)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
+				setTargetRule((EditRule)newValue);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
 				setConflictResolution((PotentialDependency)newValue);
@@ -243,8 +314,11 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
 				setPotentialConflictKind(POTENTIAL_CONFLICT_KIND_EDEFAULT);
 				return;
-			case RulebasePackage.POTENTIAL_CONFLICT__EDIT_RULES:
-				getEditRules().clear();
+			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
+				setSourceRule((EditRule)null);
+				return;
+			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
+				setTargetRule((EditRule)null);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
 				setConflictResolution((PotentialDependency)null);
@@ -265,8 +339,10 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 				return potentialConflictKind != POTENTIAL_CONFLICT_KIND_EDEFAULT;
 			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
 				return isResolvable() != RESOLVABLE_EDEFAULT;
-			case RulebasePackage.POTENTIAL_CONFLICT__EDIT_RULES:
-				return editRules != null && !editRules.isEmpty();
+			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
+				return sourceRule != null;
+			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
+				return targetRule != null;
 			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
 				return conflictResolution != null;
 		}

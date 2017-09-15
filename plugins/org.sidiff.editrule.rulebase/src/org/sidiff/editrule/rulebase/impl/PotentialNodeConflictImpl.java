@@ -2,23 +2,13 @@
  */
 package org.sidiff.editrule.rulebase.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.henshin.model.Node;
-
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RulebasePackage;
@@ -32,22 +22,31 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl#getSourceNode <em>Source Node</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl#getTargetNode <em>Target Node</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PotentialNodeConflictImpl extends PotentialConflictImpl implements PotentialNodeConflict {
 	/**
-	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' reference list.
+	 * The cached value of the '{@link #getSourceNode() <em>Source Node</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNodes()
+	 * @see #getSourceNode()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Node> nodes;
-
+	protected Node sourceNode;
+	/**
+	 * The cached value of the '{@link #getTargetNode() <em>Target Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetNode()
+	 * @generated
+	 * @ordered
+	 */
+	protected Node targetNode;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,11 +112,75 @@ public class PotentialNodeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node> getNodes() {
-		if (nodes == null) {
-			nodes = new EObjectResolvingEList<Node>(Node.class, this, RulebasePackage.POTENTIAL_NODE_CONFLICT__NODES);
+	public Node getSourceNode() {
+		if (sourceNode != null && sourceNode.eIsProxy()) {
+			InternalEObject oldSourceNode = (InternalEObject)sourceNode;
+			sourceNode = (Node)eResolveProxy(oldSourceNode);
+			if (sourceNode != oldSourceNode) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE, oldSourceNode, sourceNode));
+			}
 		}
-		return nodes;
+		return sourceNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node basicGetSourceNode() {
+		return sourceNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceNode(Node newSourceNode) {
+		Node oldSourceNode = sourceNode;
+		sourceNode = newSourceNode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE, oldSourceNode, sourceNode));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node getTargetNode() {
+		if (targetNode != null && targetNode.eIsProxy()) {
+			InternalEObject oldTargetNode = (InternalEObject)targetNode;
+			targetNode = (Node)eResolveProxy(oldTargetNode);
+			if (targetNode != oldTargetNode) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE, oldTargetNode, targetNode));
+			}
+		}
+		return targetNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node basicGetTargetNode() {
+		return targetNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetNode(Node newTargetNode) {
+		Node oldTargetNode = targetNode;
+		targetNode = newTargetNode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE, oldTargetNode, targetNode));
 	}
 
 	/**
@@ -174,8 +237,12 @@ public class PotentialNodeConflictImpl extends PotentialConflictImpl implements 
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_NODE_CONFLICT__RULE_BASE:
 				return getRuleBase();
-			case RulebasePackage.POTENTIAL_NODE_CONFLICT__NODES:
-				return getNodes();
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE:
+				if (resolve) return getSourceNode();
+				return basicGetSourceNode();
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE:
+				if (resolve) return getTargetNode();
+				return basicGetTargetNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -185,16 +252,17 @@ public class PotentialNodeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_NODE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)newValue);
 				return;
-			case RulebasePackage.POTENTIAL_NODE_CONFLICT__NODES:
-				getNodes().clear();
-				getNodes().addAll((Collection<? extends Node>)newValue);
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE:
+				setSourceNode((Node)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE:
+				setTargetNode((Node)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -211,8 +279,11 @@ public class PotentialNodeConflictImpl extends PotentialConflictImpl implements 
 			case RulebasePackage.POTENTIAL_NODE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)null);
 				return;
-			case RulebasePackage.POTENTIAL_NODE_CONFLICT__NODES:
-				getNodes().clear();
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE:
+				setSourceNode((Node)null);
+				return;
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE:
+				setTargetNode((Node)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -228,8 +299,10 @@ public class PotentialNodeConflictImpl extends PotentialConflictImpl implements 
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_NODE_CONFLICT__RULE_BASE:
 				return getRuleBase() != null;
-			case RulebasePackage.POTENTIAL_NODE_CONFLICT__NODES:
-				return nodes != null && !nodes.isEmpty();
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__SOURCE_NODE:
+				return sourceNode != null;
+			case RulebasePackage.POTENTIAL_NODE_CONFLICT__TARGET_NODE:
+				return targetNode != null;
 		}
 		return super.eIsSet(featureID);
 	}

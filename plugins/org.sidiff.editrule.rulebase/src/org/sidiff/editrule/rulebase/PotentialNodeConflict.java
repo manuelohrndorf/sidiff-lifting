@@ -2,8 +2,6 @@
  */
 package org.sidiff.editrule.rulebase;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.henshin.model.Node;
 
 /**
@@ -16,7 +14,8 @@ import org.eclipse.emf.henshin.model.Node;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getSourceNode <em>Source Node</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getTargetNode <em>Target Node</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict()
@@ -53,19 +52,55 @@ public interface PotentialNodeConflict extends PotentialConflict {
 	void setRuleBase(RuleBase value);
 
 	/**
-	 * Returns the value of the '<em><b>Nodes</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Node}.
+	 * Returns the value of the '<em><b>Source Node</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Nodes</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Source Node</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Nodes</em>' reference list.
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict_Nodes()
-	 * @model lower="2" upper="2"
+	 * @return the value of the '<em>Source Node</em>' reference.
+	 * @see #setSourceNode(Node)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict_SourceNode()
+	 * @model required="true"
 	 * @generated
 	 */
-	EList<Node> getNodes();
+	Node getSourceNode();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getSourceNode <em>Source Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source Node</em>' reference.
+	 * @see #getSourceNode()
+	 * @generated
+	 */
+	void setSourceNode(Node value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Node</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Node</em>' reference.
+	 * @see #setTargetNode(Node)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict_TargetNode()
+	 * @model required="true"
+	 * @generated
+	 */
+	Node getTargetNode();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getTargetNode <em>Target Node</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Node</em>' reference.
+	 * @see #getTargetNode()
+	 * @generated
+	 */
+	void setTargetNode(Node value);
 
 } // PotentialNodeConflict

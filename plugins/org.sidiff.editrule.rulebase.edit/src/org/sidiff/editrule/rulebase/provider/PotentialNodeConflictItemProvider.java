@@ -45,7 +45,8 @@ public class PotentialNodeConflictItemProvider extends PotentialConflictItemProv
 			super.getPropertyDescriptors(object);
 
 			addRuleBasePropertyDescriptor(object);
-			addNodesPropertyDescriptor(object);
+			addSourceNodePropertyDescriptor(object);
+			addTargetNodePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -73,19 +74,41 @@ public class PotentialNodeConflictItemProvider extends PotentialConflictItemProv
 	}
 
 	/**
-	 * This adds a property descriptor for the Nodes feature.
+	 * This adds a property descriptor for the Source Node feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNodesPropertyDescriptor(Object object) {
+	protected void addSourceNodePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialNodeConflict_nodes_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialNodeConflict_nodes_feature", "_UI_PotentialNodeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_NODE_CONFLICT__NODES,
+				 getString("_UI_PotentialNodeConflict_sourceNode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialNodeConflict_sourceNode_feature", "_UI_PotentialNodeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_NODE_CONFLICT__SOURCE_NODE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Node feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetNodePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialNodeConflict_targetNode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialNodeConflict_targetNode_feature", "_UI_PotentialNodeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_NODE_CONFLICT__TARGET_NODE,
 				 true,
 				 false,
 				 true,

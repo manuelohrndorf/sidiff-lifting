@@ -45,7 +45,8 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 			super.getPropertyDescriptors(object);
 
 			addRuleBasePropertyDescriptor(object);
-			addEdgesPropertyDescriptor(object);
+			addSourceEdgePropertyDescriptor(object);
+			addTargetEdgePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -73,19 +74,41 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 	}
 
 	/**
-	 * This adds a property descriptor for the Edges feature.
+	 * This adds a property descriptor for the Source Edge feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addEdgesPropertyDescriptor(Object object) {
+	protected void addSourceEdgePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialEdgeConflict_edges_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_edges_feature", "_UI_PotentialEdgeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__EDGES,
+				 getString("_UI_PotentialEdgeConflict_sourceEdge_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_sourceEdge_feature", "_UI_PotentialEdgeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Edge feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetEdgePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialEdgeConflict_targetEdge_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_targetEdge_feature", "_UI_PotentialEdgeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE,
 				 true,
 				 false,
 				 true,

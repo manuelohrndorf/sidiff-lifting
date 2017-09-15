@@ -327,23 +327,23 @@ public class EditRuleBaseWrapper {
 		List<PotentialConflict> potCons = new ArrayList<PotentialConflict>();
 		
 		// Nodes
-		for (PotentialConflict potDep : rulebase.getPotentialNodeConflicts()) {
-			if (potDep.getEditRules().contains(er)) {
-				potCons.add(potDep);
+		for (PotentialConflict potCon : rulebase.getPotentialNodeConflicts()) {
+			if ((potCon.getSourceRule() == er) || (potCon.getTargetRule() == er)) {
+				potCons.add(potCon);
 			}
 		}
 
 		// Edges
-		for (PotentialConflict potDep : rulebase.getPotentialEdgeConflicts()) {
-			if (potDep.getEditRules().contains(er)) {
-				potCons.add(potDep);
+		for (PotentialConflict potCon : rulebase.getPotentialEdgeConflicts()) {
+			if ((potCon.getSourceRule() == er) || (potCon.getTargetRule() == er)) {
+				potCons.add(potCon);
 			}
 		}
 		
 		// Attributes
-		for (PotentialConflict potDep : rulebase.getPotentialAttributeConflicts()) {
-			if (potDep.getEditRules().contains(er)) {
-				potCons.add(potDep);
+		for (PotentialConflict potCon : rulebase.getPotentialAttributeConflicts()) {
+			if ((potCon.getSourceRule() == er) || (potCon.getTargetRule() == er)) {
+				potCons.add(potCon);
 			}
 		}
 		

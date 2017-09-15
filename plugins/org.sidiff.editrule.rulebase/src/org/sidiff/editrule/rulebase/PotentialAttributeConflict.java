@@ -2,9 +2,8 @@
  */
 package org.sidiff.editrule.rulebase;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Node;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,7 +15,10 @@ import org.eclipse.emf.henshin.model.Attribute;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceAttribute <em>Source Attribute</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetAttribute <em>Target Attribute</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceNode <em>Source Node</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetNode <em>Target Node</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict()
@@ -53,19 +55,85 @@ public interface PotentialAttributeConflict extends PotentialConflict {
 	void setRuleBase(RuleBase value);
 
 	/**
-	 * Returns the value of the '<em><b>Attributes</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Attribute}.
+	 * Returns the value of the '<em><b>Source Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Attributes</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Source Attribute</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Attributes</em>' reference list.
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_Attributes()
-	 * @model lower="2" upper="2"
+	 * @return the value of the '<em>Source Attribute</em>' reference.
+	 * @see #setSourceAttribute(Attribute)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_SourceAttribute()
+	 * @model required="true"
 	 * @generated
 	 */
-	EList<Attribute> getAttributes();
+	Attribute getSourceAttribute();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceAttribute <em>Source Attribute</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source Attribute</em>' reference.
+	 * @see #getSourceAttribute()
+	 * @generated
+	 */
+	void setSourceAttribute(Attribute value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Attribute</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Attribute</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Attribute</em>' reference.
+	 * @see #setTargetAttribute(Attribute)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_TargetAttribute()
+	 * @model required="true"
+	 * @generated
+	 */
+	Attribute getTargetAttribute();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetAttribute <em>Target Attribute</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Attribute</em>' reference.
+	 * @see #getTargetAttribute()
+	 * @generated
+	 */
+	void setTargetAttribute(Attribute value);
+
+	/**
+	 * Returns the value of the '<em><b>Source Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Source Node</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source Node</em>' reference.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_SourceNode()
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	Node getSourceNode();
+
+	/**
+	 * Returns the value of the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Node</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Node</em>' reference.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_TargetNode()
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	Node getTargetNode();
 
 } // PotentialAttributeConflict

@@ -783,13 +783,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_CONFLICT__RESOLVABLE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_CONFLICT__EDIT_RULES = 2;
+	int POTENTIAL_CONFLICT__SOURCE_RULE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Target Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_CONFLICT__TARGET_RULE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Conflict Resolution</b></em>' reference.
@@ -798,7 +807,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_CONFLICT__CONFLICT_RESOLUTION = 3;
+	int POTENTIAL_CONFLICT__CONFLICT_RESOLUTION = 4;
 
 	/**
 	 * The number of structural features of the '<em>Potential Conflict</em>' class.
@@ -807,7 +816,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_CONFLICT_FEATURE_COUNT = 4;
+	int POTENTIAL_CONFLICT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl <em>Potential Node Conflict</em>}' class.
@@ -838,13 +847,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_NODE_CONFLICT__RESOLVABLE = POTENTIAL_CONFLICT__RESOLVABLE;
 
 	/**
-	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_NODE_CONFLICT__EDIT_RULES = POTENTIAL_CONFLICT__EDIT_RULES;
+	int POTENTIAL_NODE_CONFLICT__SOURCE_RULE = POTENTIAL_CONFLICT__SOURCE_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Target Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
 
 	/**
 	 * The feature id for the '<em><b>Conflict Resolution</b></em>' reference.
@@ -865,13 +883,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_NODE_CONFLICT__RULE_BASE = POTENTIAL_CONFLICT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Node</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_NODE_CONFLICT__NODES = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+	int POTENTIAL_NODE_CONFLICT__SOURCE_NODE = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_CONFLICT__TARGET_NODE = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Potential Node Conflict</em>' class.
@@ -880,7 +907,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_NODE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
+	int POTENTIAL_NODE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl <em>Potential Edge Conflict</em>}' class.
@@ -911,13 +938,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_CONFLICT__RESOLVABLE = POTENTIAL_CONFLICT__RESOLVABLE;
 
 	/**
-	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_EDGE_CONFLICT__EDIT_RULES = POTENTIAL_CONFLICT__EDIT_RULES;
+	int POTENTIAL_EDGE_CONFLICT__SOURCE_RULE = POTENTIAL_CONFLICT__SOURCE_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Target Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
 
 	/**
 	 * The feature id for the '<em><b>Conflict Resolution</b></em>' reference.
@@ -938,13 +974,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_CONFLICT__RULE_BASE = POTENTIAL_CONFLICT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Edges</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Edge</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_EDGE_CONFLICT__EDGES = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+	int POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Target Edge</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_CONFLICT__TARGET_EDGE = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Potential Edge Conflict</em>' class.
@@ -953,7 +998,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_EDGE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
+	int POTENTIAL_EDGE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl <em>Potential Attribute Conflict</em>}' class.
@@ -984,13 +1029,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_ATTRIBUTE_CONFLICT__RESOLVABLE = POTENTIAL_CONFLICT__RESOLVABLE;
 
 	/**
-	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_ATTRIBUTE_CONFLICT__EDIT_RULES = POTENTIAL_CONFLICT__EDIT_RULES;
+	int POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_RULE = POTENTIAL_CONFLICT__SOURCE_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Target Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
 
 	/**
 	 * The feature id for the '<em><b>Conflict Resolution</b></em>' reference.
@@ -1011,13 +1065,40 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE = POTENTIAL_CONFLICT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' reference list.
+	 * The feature id for the '<em><b>Source Attribute</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+	int POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE = POTENTIAL_CONFLICT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Target Attribute</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Source Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE = POTENTIAL_CONFLICT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Target Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE = POTENTIAL_CONFLICT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Potential Attribute Conflict</em>' class.
@@ -1026,7 +1107,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_ATTRIBUTE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 2;
+	int POTENTIAL_ATTRIBUTE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.
@@ -1688,15 +1769,26 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getPotentialConflict_Resolvable();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.editrule.rulebase.PotentialConflict#getEditRules <em>Edit Rules</em>}'.
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialConflict#getSourceRule <em>Source Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Edit Rules</em>'.
-	 * @see org.sidiff.editrule.rulebase.PotentialConflict#getEditRules()
+	 * @return the meta object for the reference '<em>Source Rule</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialConflict#getSourceRule()
 	 * @see #getPotentialConflict()
 	 * @generated
 	 */
-	EReference getPotentialConflict_EditRules();
+	EReference getPotentialConflict_SourceRule();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialConflict#getTargetRule <em>Target Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Rule</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialConflict#getTargetRule()
+	 * @see #getPotentialConflict()
+	 * @generated
+	 */
+	EReference getPotentialConflict_TargetRule();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialConflict#getConflictResolution <em>Conflict Resolution</em>}'.
@@ -1731,15 +1823,26 @@ public interface RulebasePackage extends EPackage {
 	EReference getPotentialNodeConflict_RuleBase();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getNodes <em>Nodes</em>}'.
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getSourceNode <em>Source Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Nodes</em>'.
-	 * @see org.sidiff.editrule.rulebase.PotentialNodeConflict#getNodes()
+	 * @return the meta object for the reference '<em>Source Node</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialNodeConflict#getSourceNode()
 	 * @see #getPotentialNodeConflict()
 	 * @generated
 	 */
-	EReference getPotentialNodeConflict_Nodes();
+	EReference getPotentialNodeConflict_SourceNode();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict#getTargetNode <em>Target Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Node</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialNodeConflict#getTargetNode()
+	 * @see #getPotentialNodeConflict()
+	 * @generated
+	 */
+	EReference getPotentialNodeConflict_TargetNode();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict <em>Potential Edge Conflict</em>}'.
@@ -1763,15 +1866,26 @@ public interface RulebasePackage extends EPackage {
 	EReference getPotentialEdgeConflict_RuleBase();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getEdges <em>Edges</em>}'.
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getSourceEdge <em>Source Edge</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Edges</em>'.
-	 * @see org.sidiff.editrule.rulebase.PotentialEdgeConflict#getEdges()
+	 * @return the meta object for the reference '<em>Source Edge</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialEdgeConflict#getSourceEdge()
 	 * @see #getPotentialEdgeConflict()
 	 * @generated
 	 */
-	EReference getPotentialEdgeConflict_Edges();
+	EReference getPotentialEdgeConflict_SourceEdge();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getTargetEdge <em>Target Edge</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Edge</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialEdgeConflict#getTargetEdge()
+	 * @see #getPotentialEdgeConflict()
+	 * @generated
+	 */
+	EReference getPotentialEdgeConflict_TargetEdge();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict <em>Potential Attribute Conflict</em>}'.
@@ -1795,15 +1909,48 @@ public interface RulebasePackage extends EPackage {
 	EReference getPotentialAttributeConflict_RuleBase();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getAttributes <em>Attributes</em>}'.
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceAttribute <em>Source Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Attributes</em>'.
-	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getAttributes()
+	 * @return the meta object for the reference '<em>Source Attribute</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceAttribute()
 	 * @see #getPotentialAttributeConflict()
 	 * @generated
 	 */
-	EReference getPotentialAttributeConflict_Attributes();
+	EReference getPotentialAttributeConflict_SourceAttribute();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetAttribute <em>Target Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Attribute</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetAttribute()
+	 * @see #getPotentialAttributeConflict()
+	 * @generated
+	 */
+	EReference getPotentialAttributeConflict_TargetAttribute();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceNode <em>Source Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source Node</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getSourceNode()
+	 * @see #getPotentialAttributeConflict()
+	 * @generated
+	 */
+	EReference getPotentialAttributeConflict_SourceNode();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetNode <em>Target Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target Node</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialAttributeConflict#getTargetNode()
+	 * @see #getPotentialAttributeConflict()
+	 * @generated
+	 */
+	EReference getPotentialAttributeConflict_TargetNode();
 
 	/**
 	 * Returns the meta object for enum '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}'.
@@ -2346,12 +2493,20 @@ public interface RulebasePackage extends EPackage {
 		EAttribute POTENTIAL_CONFLICT__RESOLVABLE = eINSTANCE.getPotentialConflict_Resolvable();
 
 		/**
-		 * The meta object literal for the '<em><b>Edit Rules</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Source Rule</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference POTENTIAL_CONFLICT__EDIT_RULES = eINSTANCE.getPotentialConflict_EditRules();
+		EReference POTENTIAL_CONFLICT__SOURCE_RULE = eINSTANCE.getPotentialConflict_SourceRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Rule</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_CONFLICT__TARGET_RULE = eINSTANCE.getPotentialConflict_TargetRule();
 
 		/**
 		 * The meta object literal for the '<em><b>Conflict Resolution</b></em>' reference feature.
@@ -2380,12 +2535,20 @@ public interface RulebasePackage extends EPackage {
 		EReference POTENTIAL_NODE_CONFLICT__RULE_BASE = eINSTANCE.getPotentialNodeConflict_RuleBase();
 
 		/**
-		 * The meta object literal for the '<em><b>Nodes</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Source Node</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference POTENTIAL_NODE_CONFLICT__NODES = eINSTANCE.getPotentialNodeConflict_Nodes();
+		EReference POTENTIAL_NODE_CONFLICT__SOURCE_NODE = eINSTANCE.getPotentialNodeConflict_SourceNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_NODE_CONFLICT__TARGET_NODE = eINSTANCE.getPotentialNodeConflict_TargetNode();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl <em>Potential Edge Conflict</em>}' class.
@@ -2406,12 +2569,20 @@ public interface RulebasePackage extends EPackage {
 		EReference POTENTIAL_EDGE_CONFLICT__RULE_BASE = eINSTANCE.getPotentialEdgeConflict_RuleBase();
 
 		/**
-		 * The meta object literal for the '<em><b>Edges</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Source Edge</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference POTENTIAL_EDGE_CONFLICT__EDGES = eINSTANCE.getPotentialEdgeConflict_Edges();
+		EReference POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE = eINSTANCE.getPotentialEdgeConflict_SourceEdge();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Edge</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_EDGE_CONFLICT__TARGET_EDGE = eINSTANCE.getPotentialEdgeConflict_TargetEdge();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl <em>Potential Attribute Conflict</em>}' class.
@@ -2432,12 +2603,36 @@ public interface RulebasePackage extends EPackage {
 		EReference POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE = eINSTANCE.getPotentialAttributeConflict_RuleBase();
 
 		/**
-		 * The meta object literal for the '<em><b>Attributes</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Source Attribute</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES = eINSTANCE.getPotentialAttributeConflict_Attributes();
+		EReference POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE = eINSTANCE.getPotentialAttributeConflict_SourceAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Attribute</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE = eINSTANCE.getPotentialAttributeConflict_TargetAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Source Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE = eINSTANCE.getPotentialAttributeConflict_SourceNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Target Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE = eINSTANCE.getPotentialAttributeConflict_TargetNode();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.

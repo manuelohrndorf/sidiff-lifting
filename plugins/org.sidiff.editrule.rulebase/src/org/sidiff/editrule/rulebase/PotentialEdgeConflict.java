@@ -2,8 +2,6 @@
  */
 package org.sidiff.editrule.rulebase;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.henshin.model.Edge;
 
 /**
@@ -16,7 +14,8 @@ import org.eclipse.emf.henshin.model.Edge;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getEdges <em>Edges</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getSourceEdge <em>Source Edge</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getTargetEdge <em>Target Edge</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict()
@@ -53,19 +52,55 @@ public interface PotentialEdgeConflict extends PotentialConflict {
 	void setRuleBase(RuleBase value);
 
 	/**
-	 * Returns the value of the '<em><b>Edges</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
+	 * Returns the value of the '<em><b>Source Edge</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Edges</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Source Edge</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edges</em>' reference list.
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict_Edges()
-	 * @model lower="2" upper="2"
+	 * @return the value of the '<em>Source Edge</em>' reference.
+	 * @see #setSourceEdge(Edge)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict_SourceEdge()
+	 * @model required="true"
 	 * @generated
 	 */
-	EList<Edge> getEdges();
+	Edge getSourceEdge();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getSourceEdge <em>Source Edge</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source Edge</em>' reference.
+	 * @see #getSourceEdge()
+	 * @generated
+	 */
+	void setSourceEdge(Edge value);
+
+	/**
+	 * Returns the value of the '<em><b>Target Edge</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target Edge</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target Edge</em>' reference.
+	 * @see #setTargetEdge(Edge)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict_TargetEdge()
+	 * @model required="true"
+	 * @generated
+	 */
+	Edge getTargetEdge();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialEdgeConflict#getTargetEdge <em>Target Edge</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target Edge</em>' reference.
+	 * @see #getTargetEdge()
+	 * @generated
+	 */
+	void setTargetEdge(Edge value);
 
 } // PotentialEdgeConflict

@@ -1987,8 +1987,8 @@ public abstract class PotentialConflictAnalyzer {
 	 */
 	protected boolean hasPotentialNodeConflict(PotentialRuleConflicts potRuleDep, Node nodeA, Node nodeB) {
 		for(PotentialNodeConflict potCon : potRuleDep.getPotentialNodeConflicts()) {
-			if (potCon.getNodes().contains(nodeA)) {
-				if (potCon.getNodes().contains(nodeB)) {
+			if (potCon.getSourceNode().equals(nodeA) || potCon.getTargetNode().equals(nodeA)) {
+				if (potCon.getSourceNode().equals(nodeB) || potCon.getTargetNode().equals(nodeB)) {
 					return true;	
 				}
 			}

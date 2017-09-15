@@ -2,23 +2,13 @@
  */
 package org.sidiff.editrule.rulebase.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.henshin.model.Edge;
-
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RulebasePackage;
@@ -32,22 +22,31 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl#getEdges <em>Edges</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl#getSourceEdge <em>Source Edge</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialEdgeConflictImpl#getTargetEdge <em>Target Edge</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements PotentialEdgeConflict {
 	/**
-	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' reference list.
+	 * The cached value of the '{@link #getSourceEdge() <em>Source Edge</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEdges()
+	 * @see #getSourceEdge()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Edge> edges;
-
+	protected Edge sourceEdge;
+	/**
+	 * The cached value of the '{@link #getTargetEdge() <em>Target Edge</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetEdge()
+	 * @generated
+	 * @ordered
+	 */
+	protected Edge targetEdge;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,11 +112,75 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Edge> getEdges() {
-		if (edges == null) {
-			edges = new EObjectResolvingEList<Edge>(Edge.class, this, RulebasePackage.POTENTIAL_EDGE_CONFLICT__EDGES);
+	public Edge getSourceEdge() {
+		if (sourceEdge != null && sourceEdge.eIsProxy()) {
+			InternalEObject oldSourceEdge = (InternalEObject)sourceEdge;
+			sourceEdge = (Edge)eResolveProxy(oldSourceEdge);
+			if (sourceEdge != oldSourceEdge) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE, oldSourceEdge, sourceEdge));
+			}
 		}
-		return edges;
+		return sourceEdge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Edge basicGetSourceEdge() {
+		return sourceEdge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceEdge(Edge newSourceEdge) {
+		Edge oldSourceEdge = sourceEdge;
+		sourceEdge = newSourceEdge;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE, oldSourceEdge, sourceEdge));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Edge getTargetEdge() {
+		if (targetEdge != null && targetEdge.eIsProxy()) {
+			InternalEObject oldTargetEdge = (InternalEObject)targetEdge;
+			targetEdge = (Edge)eResolveProxy(oldTargetEdge);
+			if (targetEdge != oldTargetEdge) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE, oldTargetEdge, targetEdge));
+			}
+		}
+		return targetEdge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Edge basicGetTargetEdge() {
+		return targetEdge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetEdge(Edge newTargetEdge) {
+		Edge oldTargetEdge = targetEdge;
+		targetEdge = newTargetEdge;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE, oldTargetEdge, targetEdge));
 	}
 
 	/**
@@ -174,8 +237,12 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE:
 				return getRuleBase();
-			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__EDGES:
-				return getEdges();
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE:
+				if (resolve) return getSourceEdge();
+				return basicGetSourceEdge();
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE:
+				if (resolve) return getTargetEdge();
+				return basicGetTargetEdge();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -185,16 +252,17 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)newValue);
 				return;
-			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__EDGES:
-				getEdges().clear();
-				getEdges().addAll((Collection<? extends Edge>)newValue);
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE:
+				setSourceEdge((Edge)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE:
+				setTargetEdge((Edge)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -211,8 +279,11 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)null);
 				return;
-			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__EDGES:
-				getEdges().clear();
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE:
+				setSourceEdge((Edge)null);
+				return;
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE:
+				setTargetEdge((Edge)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -228,8 +299,10 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE:
 				return getRuleBase() != null;
-			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__EDGES:
-				return edges != null && !edges.isEmpty();
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE:
+				return sourceEdge != null;
+			case RulebasePackage.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE:
+				return targetEdge != null;
 		}
 		return super.eIsSet(featureID);
 	}

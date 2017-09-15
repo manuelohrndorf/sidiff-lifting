@@ -152,39 +152,27 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 			potConIndex = new HashMap<EditRule, Set<PotentialConflict>>();
 
 			// Nodes
-			for (PotentialConflict potDep : getRuleBase().getPotentialNodeConflicts()) {
-				if (!potConIndex.containsKey(potDep.getEditRules().get(0))) {
-					potConIndex.put(potDep.getEditRules().get(0), new HashSet<PotentialConflict>());
+			for (PotentialConflict potCon : getRuleBase().getPotentialNodeConflicts()) {
+				if (!potConIndex.containsKey(potCon.getSourceRule())) {
+					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
 				}
-				potConIndex.get(potDep.getEditRules().get(0)).add(potDep);
-				if (!potConIndex.containsKey(potDep.getEditRules().get(1))) {
-					potConIndex.put(potDep.getEditRules().get(1), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potDep.getEditRules().get(1)).add(potDep);
+				potConIndex.get(potCon.getSourceRule()).add(potCon);
 			}
 
 			// Edges
-			for (PotentialConflict potDep : getRuleBase().getPotentialEdgeConflicts()) {
-				if (!potConIndex.containsKey(potDep.getEditRules().get(0))) {
-					potConIndex.put(potDep.getEditRules().get(0), new HashSet<PotentialConflict>());
+			for (PotentialConflict potCon : getRuleBase().getPotentialEdgeConflicts()) {
+				if (!potConIndex.containsKey(potCon.getSourceRule())) {
+					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
 				}
-				potConIndex.get(potDep.getEditRules().get(0)).add(potDep);
-				if (!potConIndex.containsKey(potDep.getEditRules().get(1))) {
-					potConIndex.put(potDep.getEditRules().get(1), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potDep.getEditRules().get(1)).add(potDep);
+				potConIndex.get(potCon.getSourceRule()).add(potCon);
 			}
 
 			// Attributes
-			for (PotentialConflict potDep : getRuleBase().getPotentialAttributeConflicts()) {
-				if (!potConIndex.containsKey(potDep.getEditRules().get(0))) {
-					potConIndex.put(potDep.getEditRules().get(0), new HashSet<PotentialConflict>());
+			for (PotentialConflict potCon : getRuleBase().getPotentialAttributeConflicts()) {
+				if (!potConIndex.containsKey(potCon.getSourceRule())) {
+					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
 				}
-				potConIndex.get(potDep.getEditRules().get(0)).add(potDep);
-				if (!potConIndex.containsKey(potDep.getEditRules().get(1))) {
-					potConIndex.put(potDep.getEditRules().get(1), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potDep.getEditRules().get(1)).add(potDep);
+				potConIndex.get(potCon.getSourceRule()).add(potCon);
 			}
 		}
 

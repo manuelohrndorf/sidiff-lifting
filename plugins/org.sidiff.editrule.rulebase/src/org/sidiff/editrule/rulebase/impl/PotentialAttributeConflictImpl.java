@@ -2,23 +2,14 @@
  */
 package org.sidiff.editrule.rulebase.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.henshin.model.Attribute;
-
+import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RulebasePackage;
@@ -32,22 +23,33 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getRuleBase <em>Rule Base</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getSourceAttribute <em>Source Attribute</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getTargetAttribute <em>Target Attribute</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getSourceNode <em>Source Node</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialAttributeConflictImpl#getTargetNode <em>Target Node</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PotentialAttributeConflictImpl extends PotentialConflictImpl implements PotentialAttributeConflict {
 	/**
-	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' reference list.
+	 * The cached value of the '{@link #getSourceAttribute() <em>Source Attribute</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAttributes()
+	 * @see #getSourceAttribute()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Attribute> attributes;
-
+	protected Attribute sourceAttribute;
+	/**
+	 * The cached value of the '{@link #getTargetAttribute() <em>Target Attribute</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargetAttribute()
+	 * @generated
+	 * @ordered
+	 */
+	protected Attribute targetAttribute;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,11 +115,113 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Attribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new EObjectResolvingEList<Attribute>(Attribute.class, this, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES);
+	public Attribute getSourceAttribute() {
+		if (sourceAttribute != null && sourceAttribute.eIsProxy()) {
+			InternalEObject oldSourceAttribute = (InternalEObject)sourceAttribute;
+			sourceAttribute = (Attribute)eResolveProxy(oldSourceAttribute);
+			if (sourceAttribute != oldSourceAttribute) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE, oldSourceAttribute, sourceAttribute));
+			}
 		}
-		return attributes;
+		return sourceAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute basicGetSourceAttribute() {
+		return sourceAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceAttribute(Attribute newSourceAttribute) {
+		Attribute oldSourceAttribute = sourceAttribute;
+		sourceAttribute = newSourceAttribute;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE, oldSourceAttribute, sourceAttribute));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute getTargetAttribute() {
+		if (targetAttribute != null && targetAttribute.eIsProxy()) {
+			InternalEObject oldTargetAttribute = (InternalEObject)targetAttribute;
+			targetAttribute = (Attribute)eResolveProxy(oldTargetAttribute);
+			if (targetAttribute != oldTargetAttribute) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
+			}
+		}
+		return targetAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Attribute basicGetTargetAttribute() {
+		return targetAttribute;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTargetAttribute(Attribute newTargetAttribute) {
+		Attribute oldTargetAttribute = targetAttribute;
+		targetAttribute = newTargetAttribute;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE, oldTargetAttribute, targetAttribute));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node getSourceNode() {
+		Node sourceNode = basicGetSourceNode();
+		return sourceNode != null && sourceNode.eIsProxy() ? (Node)eResolveProxy((InternalEObject)sourceNode) : sourceNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Node basicGetSourceNode() {
+		return this.basicGetSourceAttribute().getNode();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node getTargetNode() {
+		Node targetNode = basicGetTargetNode();
+		return targetNode != null && targetNode.eIsProxy() ? (Node)eResolveProxy((InternalEObject)targetNode) : targetNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Node basicGetTargetNode() {
+		return this.getTargetAttribute().getNode();
 	}
 
 	/**
@@ -174,8 +278,18 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE:
 				return getRuleBase();
-			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES:
-				return getAttributes();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE:
+				if (resolve) return getSourceAttribute();
+				return basicGetSourceAttribute();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE:
+				if (resolve) return getTargetAttribute();
+				return basicGetTargetAttribute();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE:
+				if (resolve) return getSourceNode();
+				return basicGetSourceNode();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE:
+				if (resolve) return getTargetNode();
+				return basicGetTargetNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -185,16 +299,17 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)newValue);
 				return;
-			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES:
-				getAttributes().clear();
-				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE:
+				setSourceAttribute((Attribute)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE:
+				setTargetAttribute((Attribute)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -211,8 +326,11 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE:
 				setRuleBase((RuleBase)null);
 				return;
-			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES:
-				getAttributes().clear();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE:
+				setSourceAttribute((Attribute)null);
+				return;
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE:
+				setTargetAttribute((Attribute)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -228,8 +346,14 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE:
 				return getRuleBase() != null;
-			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES:
-				return attributes != null && !attributes.isEmpty();
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE:
+				return sourceAttribute != null;
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE:
+				return targetAttribute != null;
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE:
+				return basicGetSourceNode() != null;
+			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE:
+				return basicGetTargetNode() != null;
 		}
 		return super.eIsSet(featureID);
 	}

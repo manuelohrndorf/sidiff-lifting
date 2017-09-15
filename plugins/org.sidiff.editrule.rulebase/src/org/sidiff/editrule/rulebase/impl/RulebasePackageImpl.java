@@ -750,7 +750,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPotentialConflict_EditRules() {
+	public EReference getPotentialConflict_SourceRule() {
 		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -759,8 +759,17 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPotentialConflict_ConflictResolution() {
+	public EReference getPotentialConflict_TargetRule() {
 		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialConflict_ConflictResolution() {
+		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -786,8 +795,17 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPotentialNodeConflict_Nodes() {
+	public EReference getPotentialNodeConflict_SourceNode() {
 		return (EReference)potentialNodeConflictEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialNodeConflict_TargetNode() {
+		return (EReference)potentialNodeConflictEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -813,8 +831,17 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPotentialEdgeConflict_Edges() {
+	public EReference getPotentialEdgeConflict_SourceEdge() {
 		return (EReference)potentialEdgeConflictEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialEdgeConflict_TargetEdge() {
+		return (EReference)potentialEdgeConflictEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -840,8 +867,35 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPotentialAttributeConflict_Attributes() {
+	public EReference getPotentialAttributeConflict_SourceAttribute() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialAttributeConflict_TargetAttribute() {
+		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialAttributeConflict_SourceNode() {
+		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPotentialAttributeConflict_TargetNode() {
+		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -975,20 +1029,26 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		potentialConflictEClass = createEClass(POTENTIAL_CONFLICT);
 		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND);
 		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__RESOLVABLE);
-		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__EDIT_RULES);
+		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__SOURCE_RULE);
+		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__TARGET_RULE);
 		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__CONFLICT_RESOLUTION);
 
 		potentialNodeConflictEClass = createEClass(POTENTIAL_NODE_CONFLICT);
 		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__RULE_BASE);
-		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__NODES);
+		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__SOURCE_NODE);
+		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__TARGET_NODE);
 
 		potentialEdgeConflictEClass = createEClass(POTENTIAL_EDGE_CONFLICT);
 		createEReference(potentialEdgeConflictEClass, POTENTIAL_EDGE_CONFLICT__RULE_BASE);
-		createEReference(potentialEdgeConflictEClass, POTENTIAL_EDGE_CONFLICT__EDGES);
+		createEReference(potentialEdgeConflictEClass, POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE);
+		createEReference(potentialEdgeConflictEClass, POTENTIAL_EDGE_CONFLICT__TARGET_EDGE);
 
 		potentialAttributeConflictEClass = createEClass(POTENTIAL_ATTRIBUTE_CONFLICT);
 		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE);
-		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__ATTRIBUTES);
+		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_ATTRIBUTE);
+		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_ATTRIBUTE);
+		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE);
+		createEReference(potentialAttributeConflictEClass, POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE);
 
 		// Create enums
 		potentialDependencyKindEEnum = createEEnum(POTENTIAL_DEPENDENCY_KIND);
@@ -1108,20 +1168,26 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEClass(potentialConflictEClass, PotentialConflict.class, "PotentialConflict", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPotentialConflict_PotentialConflictKind(), this.getPotentialConflictKind(), "potentialConflictKind", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPotentialConflict_Resolvable(), ecorePackage.getEBoolean(), "resolvable", null, 0, 1, PotentialConflict.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-		initEReference(getPotentialConflict_EditRules(), this.getEditRule(), null, "editRules", null, 2, 2, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialConflict_SourceRule(), this.getEditRule(), null, "sourceRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialConflict_TargetRule(), this.getEditRule(), null, "targetRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialConflict_ConflictResolution(), this.getPotentialDependency(), null, "conflictResolution", null, 0, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialNodeConflictEClass, PotentialNodeConflict.class, "PotentialNodeConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialNodeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialNodeConflicts(), "ruleBase", null, 0, 1, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPotentialNodeConflict_Nodes(), theHenshinPackage.getNode(), null, "nodes", null, 2, 2, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialNodeConflict_SourceNode(), theHenshinPackage.getNode(), null, "sourceNode", null, 1, 1, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialNodeConflict_TargetNode(), theHenshinPackage.getNode(), null, "targetNode", null, 1, 1, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialEdgeConflictEClass, PotentialEdgeConflict.class, "PotentialEdgeConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialEdgeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialEdgeConflicts(), "ruleBase", null, 0, 1, PotentialEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPotentialEdgeConflict_Edges(), theHenshinPackage.getEdge(), null, "edges", null, 2, 2, PotentialEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialEdgeConflict_SourceEdge(), theHenshinPackage.getEdge(), null, "sourceEdge", null, 1, 1, PotentialEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialEdgeConflict_TargetEdge(), theHenshinPackage.getEdge(), null, "targetEdge", null, 1, 1, PotentialEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialAttributeConflictEClass, PotentialAttributeConflict.class, "PotentialAttributeConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialAttributeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialAttributeConflicts(), "ruleBase", null, 0, 1, PotentialAttributeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPotentialAttributeConflict_Attributes(), theHenshinPackage.getAttribute(), null, "attributes", null, 2, 2, PotentialAttributeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialAttributeConflict_SourceAttribute(), theHenshinPackage.getAttribute(), null, "sourceAttribute", null, 1, 1, PotentialAttributeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialAttributeConflict_TargetAttribute(), theHenshinPackage.getAttribute(), null, "targetAttribute", null, 1, 1, PotentialAttributeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialAttributeConflict_SourceNode(), theHenshinPackage.getNode(), null, "sourceNode", null, 1, 1, PotentialAttributeConflict.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialAttributeConflict_TargetNode(), theHenshinPackage.getNode(), null, "targetNode", null, 1, 1, PotentialAttributeConflict.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(potentialDependencyKindEEnum, PotentialDependencyKind.class, "PotentialDependencyKind");

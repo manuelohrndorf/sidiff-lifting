@@ -63,7 +63,8 @@ public class PotentialConflictItemProvider
 
 			addPotentialConflictKindPropertyDescriptor(object);
 			addResolvablePropertyDescriptor(object);
-			addEditRulesPropertyDescriptor(object);
+			addSourceRulePropertyDescriptor(object);
+			addTargetRulePropertyDescriptor(object);
 			addConflictResolutionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -114,19 +115,41 @@ public class PotentialConflictItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Edit Rules feature.
+	 * This adds a property descriptor for the Source Rule feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addEditRulesPropertyDescriptor(Object object) {
+	protected void addSourceRulePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialConflict_editRules_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_editRules_feature", "_UI_PotentialConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_CONFLICT__EDIT_RULES,
+				 getString("_UI_PotentialConflict_sourceRule_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_sourceRule_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__SOURCE_RULE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Target Rule feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTargetRulePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialConflict_targetRule_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_targetRule_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__TARGET_RULE,
 				 true,
 				 false,
 				 true,
