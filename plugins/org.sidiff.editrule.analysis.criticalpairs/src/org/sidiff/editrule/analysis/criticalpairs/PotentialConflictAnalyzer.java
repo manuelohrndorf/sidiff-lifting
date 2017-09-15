@@ -44,6 +44,7 @@ import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleConflicts;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialConflictKind;
 import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
@@ -185,29 +186,41 @@ public abstract class PotentialConflictAnalyzer {
 		 *  Search node conflicts
 		 */
 		
-//		// Use-Delete
-//		if ((!predecessorPreserveNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
-//			Set<PotentialNodeDependency> useDeleteNodePotDeps = findUseDeletes_Node(
-//					predecessorPreserveNodes, successorDeleteNodes);
-//			
-//			for (PotentialNodeDependency pnd : useDeleteNodePotDeps) {
-//				pnd.setSourceRule(successorEditRule);
-//				pnd.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPNDs(useDeleteNodePotDeps);
-//		}
-//
-//		// Use-Delete (PAC)
-//		if ((!predecessorRequireNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
-//			Set<PotentialNodeDependency> useDeleteNodePotDepsPAC = findUseDeletes_Node_PAC(
-//					predecessorRequireNodes, successorDeleteNodes);
-//			
-//			for (PotentialNodeDependency pnd : useDeleteNodePotDepsPAC) {
-//				pnd.setSourceRule(successorEditRule);
-//				pnd.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPNDs(useDeleteNodePotDepsPAC);
-//		}
+		// Delete-Use (delete-delete)
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
+			Set<PotentialNodeConflict> deleteUseNodePotCons = findDeleteDelete_Node(
+					predecessorDeleteNodes, successorDeleteNodes);
+			
+			for (PotentialNodeConflict pnc : deleteUseNodePotCons) {
+				pnc.setSourceRule(successorEditRule);
+				pnc.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPNCs(deleteUseNodePotCons);
+		}
+		
+		// Delete-Use (delete-preserve)
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
+			Set<PotentialNodeConflict> deleteUseNodePotCons = findDeleteUse_Node(
+					predecessorDeleteNodes, successorPreserveNodes);
+			
+			for (PotentialNodeConflict pnc : deleteUseNodePotCons) {
+				pnc.setSourceRule(successorEditRule);
+				pnc.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPNCs(deleteUseNodePotCons);
+		}
+
+		// Delete-Use (PAC)
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
+			Set<PotentialNodeConflict> useDeleteNodePotConsPAC = findDeleteUse_Node_PAC(
+					predecessorDeleteNodes, successorPreserveNodes);
+			
+			for (PotentialNodeConflict pnc : useDeleteNodePotConsPAC) {
+				pnc.setSourceRule(successorEditRule);
+				pnc.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPNCs(useDeleteNodePotConsPAC);
+		}
 //		
 //		// Create-Use
 //		if ((!predecessorCreateNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
@@ -412,171 +425,194 @@ public abstract class PotentialConflictAnalyzer {
 		return potRuleCon;
 	}
 
-//	/*
-//	 * Nodes
-//	 */
-//
-//	/**
-//	 * Checks all nodes for Use-Delete dependencies.
-//	 * 
-//	 * @param predecessors
-//	 *            Edges on LHS and RHS (<< preserve >>).
-//	 * @param lhsSuccessors
-//	 *            Nodes on LHS only (<< delete >>).
-//	 * @return All potential dependencies.
-//	 */
-//	protected Set<PotentialNodeDependency> findUseDeletes_Node(
-//			Collection<NodePair> predecessors, Collection<Node> lhsSuccessors) {
-//
-//		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
-//
-//		for (NodePair predecessorNode : predecessors) {
-//			
-//			// Is transient potential dependences?
-//			boolean isTransient;
-//			
-//			if (isPreservedNodeSearchedInModelA(predecessorNode)) {
-//				isTransient = false;
-//				
-//				// Calculate non-transients? 
-//				if (!nonTransientPDs) {
-//					continue;
-//				}
-//			} else {
-//				isTransient = true;
-//				
-//				// Calculate transients? 
-//				if (!transientPDs) {
-//					continue;
-//				}
-//			}
-//			
-//			for (Node successorNode : lhsSuccessors) {
-//				
-//				if (isUseDeleteDependency(predecessorNode, successorNode)) {
-//					// Delete-Use dependence found
-//					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
-//
-//					potDep.setSourceNode(successorNode);
-//					potDep.setTargetNode(predecessorNode.getLhsNode());
-//					potDep.setKind(PotentialDependencyKind.USE_DELETE);
-//					potDep.setTransient(isTransient);
-//
-//					potDeps.add(potDep);
-//				}
-//			}
-//		}
-//		return potDeps;
-//	}
-//
-//	/**
-//	 * Checks two nodes for a Use-Delete dependency.
-//	 * 
-//	 * @param predecessor
-//	 *            Node is on LHS and RHS (<< preserve >>).
-//	 * @param lhsSuccessor
-//	 *            Node is on LHS only (<< delete >>).
-//	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-//	 */
-//	protected boolean isUseDeleteDependency(NodePair predecessor, Node lhsSuccessor) {
-//		
-//		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion Failed!";
-//		
-//		/*
-//		 * Preserve-Node-Type + Preserve-Node-Sub-Types + Preserve-Node-Super-Types == Delete-Node-Type
-//		 */
-//
-//		boolean superType = predecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
-//		boolean directType = predecessor.getType() == lhsSuccessor.getType();
-//		boolean subType = getSubTypes(predecessor.getType()).contains(lhsSuccessor.getType());
-//		
-//		if (directType || superType || subType) {
-//			return true;
-//		}
-//
-//		return false;
-//	}
-//	
-//	/**
-//	 * Checks all nodes for Use-Delete dependencies.
-//	 * 
-//	 * @param requirePredecessors
-//	 *            Edges from PACs (<< require >>).
-//	 * @param lhsSuccessors
-//	 *            Nodes on LHS only (<< delete >>).
-//	 * @return All potential dependencies.
-//	 */
-//	protected Set<PotentialNodeDependency> findUseDeletes_Node_PAC(
-//			Collection<Node> requirePredecessors, Collection<Node> lhsSuccessors) {
-//
-//		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
-//
-//		for (Node predecessorNode : requirePredecessors) {
-//			
-//			// Is transient potential dependences?
-//			boolean isTransient;
-//			
-//			if (isPrecondition(predecessorNode.getGraph())) {
-//				isTransient = false;
-//				
-//				// Calculate non-transients? 
-//				if (!nonTransientPDs) {
-//					continue;
-//				}
-//			} else {
-//				isTransient = true;
-//				
-//				// Calculate transients? 
-//				if (!transientPDs) {
-//					continue;
-//				}
-//			}
-//			
-//			for (Node successorNode : lhsSuccessors) {
-//				if (isUseDeleteDependency_PAC(predecessorNode, successorNode)) {
-//					// Delete-Use dependence found
-//					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
-//
-//					potDep.setSourceNode(successorNode);
-//					potDep.setTargetNode(predecessorNode);
-//					potDep.setKind(PotentialDependencyKind.USE_DELETE);
-//					potDep.setTransient(isTransient);
-//
-//					potDeps.add(potDep);
-//				}
-//			}
-//		}
-//		return potDeps;
-//	}
-//
-//	/**
-//	 * Checks two nodes for a Use-Delete dependency.
-//	 * 
-//	 * @param requirePredecessor
-//	 *            Node is in PAC (<< require >>).
-//	 * @param lhsSuccessor
-//	 *            Node is on LHS only (<< delete >>).
-//	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-//	 */
-//	protected boolean isUseDeleteDependency_PAC(Node requirePredecessor, Node lhsSuccessor) {
-//		
-//		assert(isRequireNode(requirePredecessor)) : "Input Assertion Failed!";
-//		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion Failed!";
-//		
-//		/*
-//		 * Preserve-Node-Type + Preserve-Node-Sub-Types + Preserve-Node-Super-Types == Delete-Node-Type
-//		 */
-//
-//		boolean superType = requirePredecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
-//		boolean directType = requirePredecessor.getType() == lhsSuccessor.getType();
-//		boolean subType = getSubTypes(requirePredecessor.getType()).contains(lhsSuccessor.getType());
-//		
-//		if (directType || superType || subType) {
-//			return true;
-//		}
-//
-//		return false;
-//	}
+	/*
+	 * Nodes
+	 */
+
+	/**
+	 * Checks all nodes for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Nodes on LHS only (<<delete>>).
+	 * @param lhsSuccessors
+	 *            Nodes on union(LHS, LHS and RHS)  (<< delete >> and <<preserve>>).
+	 * @return All potential node conflicts.
+	 */
+	protected Set<PotentialNodeConflict> findDeleteDelete_Node(
+			Collection<Node> lhsPredecessors, Collection<Node> lhsSuccessors) {
+
+		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
+
+		for (Node predecessorNode : lhsPredecessors) {
+			
+			for (Node successorNode : lhsSuccessors) {
+				
+				if (isDeleteDeleteConflict(predecessorNode, successorNode)) {
+					// Delete-Use conflict found
+					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
+
+					potCon.setSourceNode(successorNode);
+					potCon.setTargetNode(predecessorNode);
+					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks all nodes for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Nodes on LHS only (<<delete>>).
+	 * @param successors
+	 *            Nodes on LHS and RHS  ( <<preserve>>).
+	 * @return All potential node conflicts.
+	 */
+	protected Set<PotentialNodeConflict> findDeleteUse_Node(
+			Collection<Node> lhsPredecessors, Collection<NodePair> successors) {
+
+		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
+
+		for (Node predecessorNode : lhsPredecessors) {
+			
+			for (NodePair successorNode : successors) {
+				
+				if (isDeleteUseConflict(predecessorNode, successorNode)) {
+					// Delete-Use conflict found
+					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
+
+					potCon.setSourceNode(successorNode.getLhsNode());
+					potCon.setTargetNode(predecessorNode);
+					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+
+	/**
+	 * Checks two nodes for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 *            Node is on LHS (<<delete>>).
+	 * @param lhsSuccessor
+	 *            Node is LHS (<<delete>>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteDeleteConflict(Node lhsPredecessor, Node lhsSuccessor) {
+		
+		assert(isDeletionNode(lhsPredecessor)) : "Input Assertion Failed: Must be a delition node!";
+		assert(isDeletionNode(lhsSuccessor)): "Input Assertion Failed: Must be a delition node!";
+		
+		/*
+		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types == Delete-Node-Type
+		 */
+
+		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
+		boolean directType = lhsPredecessor.getType() == lhsSuccessor.getType();
+		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(lhsSuccessor.getType());
+		
+		if (directType || superType || subType) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Checks two nodes for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 *            Node is on LHS (<<delete>>).
+	 * @param successor
+	 *            Node is LHS and RHS (<<preserve>>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteUseConflict(Node lhsPredecessor, NodePair successor) {
+		
+		assert(isDeletionNode(lhsPredecessor)) : "Input Assertion Failed: Must be a delition node!";
+		assert(isPreservedNode((successor.getLhsNode()))): "Input Assertion Failed: Must be a preserved node!";
+		
+		/*
+		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types == Preserve-Node-Type
+		 */
+
+		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(successor.getType());
+		boolean directType = lhsPredecessor.getType() == successor.getType();
+		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(successor.getType());
+		
+		if (directType || superType || subType) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Checks all nodes for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Nodes on LHS only (<<delete>>).
+	 * @param requiredSuccessors
+	 *            Nodes from PAC  (<< require >>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialNodeConflict> findDeleteUse_Node_PAC(
+			Collection<Node> lhsPredecessors, Collection<NodePair> requiredSuccessors) {
+
+		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
+
+		for (Node predecessorNode : lhsPredecessors) {
+			
+			for (NodePair successorNode : requiredSuccessors) {
+				if (isDeleteUseConflict_PAC(predecessorNode, successorNode.getLhsNode())) {
+					// Delete-Use conflict found
+					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
+
+					potDep.setSourceNode(successorNode.getLhsNode());
+					potDep.setTargetNode(predecessorNode);
+					potDep.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+
+					potCons.add(potDep);
+				}
+			}
+		}
+		return potCons;
+	}
+
+	/**
+	 * Checks two nodes for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 *            Nodes on LHS only (<<delete>>).
+	 * @param requiredSuccessor
+	 *            Nodes from PAC  (<< require >>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteUseConflict_PAC(Node lhsPredecessor, Node requiredSuccessor) {
+		
+		assert(isRequireNode(lhsPredecessor)) : "Input Assertion Failed: Must be a delition node!";
+		assert(isDeletionNode(requiredSuccessor)) : "Input Assertion Failed: Must be a required node!";
+		
+		/*
+		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types == Require-Node-Type
+		 */
+
+		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(requiredSuccessor.getType());
+		boolean directType = lhsPredecessor.getType() == requiredSuccessor.getType();
+		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(requiredSuccessor.getType());
+		
+		if (directType || superType || subType) {
+			return true;
+		}
+
+		return false;
+	}
 //
 //	/**
 //	 * Checks all nodes for Create-Use dependencies.
