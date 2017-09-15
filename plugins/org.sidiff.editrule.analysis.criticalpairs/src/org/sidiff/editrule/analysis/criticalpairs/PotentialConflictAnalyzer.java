@@ -1,26 +1,11 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
-import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
-import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenAttribute;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenEdge;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireAttribute;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
-import static org.sidiff.editrule.analysis.conditions.EditRuleConditions.isPostcondition;
-import static org.sidiff.editrule.analysis.conditions.EditRuleConditions.isPrecondition;
-import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePostCondition;
-import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfiguration.isPreservedEdgePreCondition;
-import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
-import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,14 +26,10 @@ import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleConflicts;
-import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
 import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
-import org.sidiff.editrule.rulebase.PotentialDependencyKind;
-import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
+import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
-import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
@@ -274,29 +255,41 @@ public abstract class PotentialConflictAnalyzer {
 		 * Search edge conflicts		
 		 */
 		
-//		// Use-Delete
-//		if ((!predecessorPreserveEdges.isEmpty()) && (!successorDeleteEdges.isEmpty())) {
-//			Set<PotentialEdgeDependency> useDeleteEdgePotDeps = findUseDeletes_Edge(
-//					predecessorPreserveEdges, successorDeleteEdges, potRuleCon);
-//			
-//			for (PotentialEdgeDependency ped : useDeleteEdgePotDeps) {
-//				ped.setSourceRule(successorEditRule);
-//				ped.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPEDs(useDeleteEdgePotDeps);
-//		}
-//
-//		// Use-Delete (PAC)
-//		if ((!predecessorRequireEdges.isEmpty()) && (!successorDeleteEdges.isEmpty())) {
-//			Set<PotentialEdgeDependency> useDeleteEdgePotDepsPAC = findUseDeletes_Edge_PAC(
-//					predecessorRequireEdges, successorDeleteEdges, potRuleCon);
-//			
-//			for (PotentialEdgeDependency ped : useDeleteEdgePotDepsPAC) {
-//				ped.setSourceRule(successorEditRule);
-//				ped.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPEDs(useDeleteEdgePotDepsPAC);
-//		}
+		// Delete-Use (delete-delete)
+		if ((!predecessorDeleteEdges.isEmpty()) && (!successorDeleteEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> useDeleteEdgePotCons = findDeleteDelete_Edge(
+					predecessorDeleteEdges, successorDeleteEdges);
+			
+			for (PotentialEdgeConflict pec : useDeleteEdgePotCons) {
+				pec.setSourceRule(successorEditRule);
+				pec.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPECs(useDeleteEdgePotCons);
+		}
+		
+		// Delete-Use (delete-preserve)
+		if ((!predecessorDeleteEdges.isEmpty()) && (!successorPreserveEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> useDeleteEdgePotCons = findDeleteUse_Edge(predecessorDeleteEdges,
+					successorPreserveEdges);
+
+			for (PotentialEdgeConflict pec : useDeleteEdgePotCons) {
+				pec.setSourceRule(successorEditRule);
+				pec.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPECs(useDeleteEdgePotCons);
+		}
+
+		// Delete-Use (PAC)
+		if ((!predecessorDeleteEdges.isEmpty()) && (!successorRequireEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> useDeleteEdgePotConsPAC = findDeleteUse_Edge_PAC(
+					predecessorDeleteEdges, successorRequireEdges);
+			
+			for (PotentialEdgeConflict pec : useDeleteEdgePotConsPAC) {
+				pec.setSourceRule(successorEditRule);
+				pec.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPECs(useDeleteEdgePotConsPAC);
+		}
 //		
 //		// Create-Use
 //		if ((!predecessorCreateEdges.isEmpty()) && (!successorPreserveEdges.isEmpty())) {
@@ -928,178 +921,166 @@ public abstract class PotentialConflictAnalyzer {
 //		return false;
 //	}
 //	
-//	/*
-//	 * Edges
-//	 */
-//
-//	/**
-//	 * Checks all edges for Use-Delete dependencies.
-//	 * 
-//	 * @param predecessors
-//	 *            Edges on LHS and RHS (<< preserved >>).
-//	 * @param lhsSuccessors
-//	 *            Edges on LHS only (<< delete >>).
-//	 * @param potRuleDep
-//	 *            List of potential node dependencies. Contains at least all
-//	 *            potential node dependencies of the predecessor and successor
-//	 *            source and target nodes.
-//	 * @return All potential dependencies.
-//	 */
-//	protected Set<PotentialEdgeDependency> findUseDeletes_Edge(
-//			List<EdgePair> predecessors, List<Edge> lhsSuccessors, 
-//			PotentialRuleDependencies potRuleDep) {
-//		
-//		Set<PotentialEdgeDependency> potDeps = new HashSet<PotentialEdgeDependency>();
-//
-//		for (EdgePair predecessorEdge : predecessors) {
-//			
-//			// Is transient potential dependences?
-//			boolean isTransient;
-//			
-//			if (isPreservedEdgePreCondition()) {
-//				isTransient = false;
-//				
-//				// Calculate non-transients? 
-//				if (!nonTransientPDs) {
-//					continue;
-//				}
-//			} else {
-//				isTransient = true;
-//				
-//				// Calculate transients? 
-//				if (!transientPDs) {
-//					continue;
-//				}
-//			}
-//			
-//			for (Edge successorEdge : lhsSuccessors) {
-//				if (isUseDeleteDependency(predecessorEdge, successorEdge, potRuleDep)) {
-//					// Delete-Use dependence found
-//					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
-//
-//					potDep.setSourceEdge(successorEdge);
-//					potDep.setTargetEdge(predecessorEdge.getLhsEdge());
-//					potDep.setKind(PotentialDependencyKind.USE_DELETE);
-//					potDep.setTransient(isTransient);
-//					
-//					potDeps.add(potDep);
-//				}
-//			}
-//		}
-//		return potDeps;
-//	}
-//	
-//	/**
-//	 * Checks two edges for a Use-Delete dependency.
-//	 * 
-//	 * @param predecessor
-//	 *            Edge is on LHS and RHS (<< preserve >>).
-//	 * @param lhsSuccessor
-//	 *            Edge is on LHS only (<< delete >>).
-//	 * @param potRuleDep
-//	 *            List of potential node dependencies. Contains at least all
-//	 *            potential node dependencies of the predecessor and successor
-//	 *            source and target nodes.
-//	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-//	 */
-//	protected boolean isUseDeleteDependency(EdgePair predecessor, Edge lhsSuccessor, 
-//			PotentialRuleDependencies potRuleDep) {
-//		
-//		assert(isDeletionEdge(lhsSuccessor)) : "Input Assertion Failed!";
-//		
-//		if (predecessor.getType() == lhsSuccessor.getType()) {
-//			
-//				Node predecessorSrc = predecessor.getLhsEdge().getSource();
-//				Node predecessorTgt = predecessor.getLhsEdge().getTarget();
-//				Node succesorSrc = lhsSuccessor.getSource();
-//				Node succesorTgt = lhsSuccessor.getTarget();
-//				
-//				// Src
-//				boolean srcOK = false;
-//
-//				if (isDeletionNode(succesorSrc)) {
-//					srcOK = hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc);
-//				} else {
-//					assert isPreservedNode(succesorSrc) : "<< preserve >> predecessor source node expected!";
-//					srcOK = true;
-//				}
-//
-//				// Tgt
-//				boolean tgtOK = false;
-//
-//				if (isDeletionNode(succesorTgt)) {
-//					tgtOK = hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt);
-//				} else {
-//					assert isPreservedNode(predecessorTgt) : "<< preserve >> predecessor target node expected!";
-//					tgtOK = true;
-//				}
-//
-//				// Tgt & Src
-//				if (srcOK && tgtOK) {
-//					return true;
-//				} else {
-//					return false;
-//				}
-//		}
-//		return false;
-//	}
-//	
-//	/**
-//	 * Checks all edges for Use-Delete dependencies.
-//	 * 
-//	 * @param requirePredecessors
-//	 *            Edges from PACs (<< require >>).
-//	 * @param lhsSuccessors
-//	 *            Edges on LHS only (<< delete >>).
-//	 * @param potRuleDep
-//	 *            List of potential node dependencies. Contains at least all
-//	 *            potential node dependencies of the predecessor and successor
-//	 *            source and target nodes.
-//	 * @return All potential dependencies.
-//	 */
-//	protected Set<PotentialEdgeDependency> findUseDeletes_Edge_PAC(
-//			List<Edge> requirePredecessors, List<Edge> lhsSuccessors, 
-//			PotentialRuleDependencies potRuleDep) {
-//		
-//		Set<PotentialEdgeDependency> potDeps = new HashSet<PotentialEdgeDependency>();
-//
-//		for (Edge predecessorEdge : requirePredecessors) {
-//			
-//			// Is transient potential dependences?
-//			boolean isTransient;
-//			
-//			if (isPrecondition(predecessorEdge.getGraph())) {
-//				isTransient = false;
-//				
-//				// Calculate non-transients? 
-//				if (!nonTransientPDs) {
-//					continue;
-//				}
-//			} else {
-//				isTransient = true;
-//				
-//				// Calculate transients? 
-//				if (!transientPDs) {
-//					continue;
-//				}
-//			}
-//			
-//			for (Edge successorEdge : lhsSuccessors) {
-//				if (isUseDeleteDependency_PAC(predecessorEdge, successorEdge, potRuleDep)) {
-//					// Delete-Use dependence found
-//					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
-//
-//					potDep.setSourceEdge(successorEdge);
-//					potDep.setTargetEdge(predecessorEdge);
-//					potDep.setKind(PotentialDependencyKind.USE_DELETE);
-//					potDep.setTransient(isTransient);
-//					
-//					potDeps.add(potDep);
-//				}
-//			}
-//		}
-//		return potDeps;
-//	}
+	/*
+	 * Edges
+	 */
+
+	/**
+	 * Checks all edges for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Edges on LHS only (<<delete>>).
+	 * @param lhsSuccessors
+	 *            Edges on LHS only (<< delete >>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialEdgeConflict> findDeleteDelete_Edge(
+			List<Edge> lhsPredecessors, List<Edge> lhsSuccessors) {
+		
+		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
+
+		for (Edge predecessorEdge : lhsPredecessors) {
+			
+			for (Edge successorEdge : lhsSuccessors) {
+				if (isDeleteDeleteConflict(predecessorEdge, successorEdge)) {
+					// Delete-Use dependence found
+					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
+
+					potCon.setSourceEdge(successorEdge);
+					potCon.setTargetEdge(predecessorEdge);
+					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+					
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks two edges for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 *            Edge is on LHS only (<< delete >>)
+	 * @param lhsSuccessor
+	 *            Edge is on LHS only (<< delete >>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteDeleteConflict(Edge lhsPredecessor, Edge lhsSuccessor) {
+		
+		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
+		assert(isDeletionEdge(lhsSuccessor)) : "Input Assertion Failed: Must be a deletion edge!";
+		
+		if (lhsPredecessor.getType() == lhsSuccessor.getType()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks all edges for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Edges on LHS only (<<delete>>).
+	 * @param successors
+	 *            Edges on LHS and RHS only (<<preserve>>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialEdgeConflict> findDeleteUse_Edge(
+			List<Edge> lhsPredecessors, List<EdgePair> successors) {
+		
+		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
+
+		for (Edge predecessorEdge : lhsPredecessors) {
+			
+			for (EdgePair successorEdge : successors) {
+				if (isDeleteUseConflict(predecessorEdge, successorEdge)) {
+					// Delete-Use dependence found
+					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
+
+					potCon.setSourceEdge(successorEdge.getLhsEdge());
+					potCon.setTargetEdge(predecessorEdge);
+					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+					
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks two edges for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 * 			   Edge is on LHS only (<<delete>>).
+	 * @param successor
+	 *             Edge is on LHS and RHS (<<preserve>>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteUseConflict(Edge lhsPredecessor, EdgePair successor) {
+		
+		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
+		assert(isPreservedEdge(successor.getLhsEdge())) : "Input Assertion Failed: Must be a preserved edge!";
+		
+		if (lhsPredecessor.getType() == successor.getType()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks all edges for Delete-Use conflicts.
+	 * 
+	 * @param lhsPredecessors
+	 *            Edges on LHS only (<<delete>>).
+	 * @param requiredSuccessors
+	 *           
+	 *            Edges from PACs (<<require>>).
+	 * @return All potential dependencies.
+	 */
+	protected Set<PotentialEdgeConflict> findDeleteUse_Edge_PAC(
+			List<Edge> lhsPredecessors, List<Edge> requiredSuccessors) {
+		
+		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
+
+		for (Edge predecessorEdge : lhsPredecessors) {
+			
+			for (Edge successorEdge : requiredSuccessors) {
+				if (isDeleteUseConflict_PAC(predecessorEdge, successorEdge)) {
+					// Delete-Use conflict found
+					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
+
+					potCon.setSourceEdge(successorEdge);
+					potCon.setTargetEdge(predecessorEdge);
+					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
+					
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks two edges for a Delete-Use conflict.
+	 * 
+	 * @param lhsPredecessor
+	 * 			   Edge is on LHS only (<<delete>>).
+	 * @param successor
+	 *             Edge is from PAC (<<require>>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isDeleteUseConflict_PAC(Edge lhsPredecessor, Edge successor) {
+		
+		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
+		assert(isRequireEdge(successor)) : "Input Assertion Failed: Must be a required edge!";
+		
+		if (lhsPredecessor.getType() == successor.getType()) {
+			return true;
+		}
+		return false;
+	}
 //	
 //	/**
 //	 * Checks two edges for a Use-Delete dependency.
