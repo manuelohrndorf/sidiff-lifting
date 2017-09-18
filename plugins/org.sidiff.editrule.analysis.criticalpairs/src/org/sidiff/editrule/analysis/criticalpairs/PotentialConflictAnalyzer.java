@@ -1,11 +1,8 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionEdge;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedEdge;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
+import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
+
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,6 +24,7 @@ import org.sidiff.common.henshin.view.EdgePair;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleConflicts;
 import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
@@ -343,30 +341,30 @@ public abstract class PotentialConflictAnalyzer {
 		 *  Search attribute conflicts
 		 */
 		
-//		// Change-Use
-//		if ((!predecessorChangingAttributes.isEmpty()) && (!successorUsingAttributes.isEmpty())) {
-//			Set<PotentialAttributeDependency> changeUseAttributePotDeps = findChangeUses_Attribute(
-//					predecessorChangingAttributes, successorUsingAttributes);
-//			
-//			for (PotentialAttributeDependency pad : changeUseAttributePotDeps) {
-//				pad.setSourceRule(successorEditRule);
-//				pad.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPADs(changeUseAttributePotDeps);
-//		}
-//		
-//		// Change-Use (PAC)
-//		if ((!predecessorChangingAttributes.isEmpty()) && (!successorRequireAttributes.isEmpty())) {
-//			Set<PotentialAttributeDependency> changeUseAttributePotDepsPAC = findChangeUses_Attribute(
-//					predecessorChangingAttributes, successorRequireAttributes);
-//			
-//			for (PotentialAttributeDependency pad : changeUseAttributePotDepsPAC) {
-//				pad.setSourceRule(successorEditRule);
-//				pad.setTargetRule(predecessorEditRule);
-//			}
-//			potRuleCon.addAllPADs(changeUseAttributePotDepsPAC);
-//		}
-//		
+		// Change-Use
+		if ((!predecessorChangingAttributes.isEmpty()) && (!successorUsingAttributes.isEmpty())) {
+			Set<PotentialAttributeConflict> changeUseAttributePotCons = findChangeUses_Attribute(
+					predecessorChangingAttributes, successorUsingAttributes);
+			
+			for (PotentialAttributeConflict pad : changeUseAttributePotCons) {
+				pad.setSourceRule(successorEditRule);
+				pad.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPACs(changeUseAttributePotCons);
+		}
+		
+		// Change-Use (PAC)
+		if ((!predecessorChangingAttributes.isEmpty()) && (!successorRequireAttributes.isEmpty())) {
+			Set<PotentialAttributeConflict> changeUseAttributePotConsPAC = findChangeUses_Attribute(
+					predecessorChangingAttributes, successorRequireAttributes);
+			
+			for (PotentialAttributeConflict pac : changeUseAttributePotConsPAC) {
+				pac.setSourceRule(successorEditRule);
+				pac.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPACs(changeUseAttributePotConsPAC);
+		}
+		
 //		// Use-Change
 //		if ((!predecessorUsingAttributes.isEmpty()) && (!successorChangingAttributes.isEmpty())) {
 //			Set<PotentialAttributeDependency> useChangeAttributePotDeps = findUseChanges_Attribute(
@@ -1597,73 +1595,65 @@ public abstract class PotentialConflictAnalyzer {
 //	 * Attributes
 //	 */
 //
-//	/**
-//	 * Checks all attributes for Change-Use dependencies.
-//	 * 
-//	 * @param rhsPredecessors
-//	 *            Attributes on RHS only (<< create >>).
-//	 * @param lhsSuccessors
-//	 *            Attributes on LHS (<< delete / preserve >>) or from PACs (<<require>>).
-//	 * @return All potential dependencies.
-//	 */
-//	protected Set<PotentialAttributeDependency> findChangeUses_Attribute(
-//			Collection<Attribute> rhsPredecessors, Collection<Attribute> lhsSuccessors) {
-//		
-//		Set<PotentialAttributeDependency> potDeps = new HashSet<PotentialAttributeDependency>();
-//
-//		// Calculate non-transients? 
-//		if (!nonTransientPDs) {
-//			return potDeps;
-//		}
-//		
-//		for (Attribute rhsPredecessorAttribute : rhsPredecessors) {
-//			for (Attribute lhsSuccessorAttribute : lhsSuccessors) {
-//				if (isChangeUseDependency(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
-//					// Change-Use dependence found
-//					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
-//
-//					potDep.setSourceAttribute(lhsSuccessorAttribute);
-//					potDep.setTargetAttribute(rhsPredecessorAttribute);
-//					potDep.setKind(PotentialDependencyKind.CHANGE_USE);
-//					potDep.setTransient(false);
-//
-//					potDeps.add(potDep);
-//				}
-//			}
-//		}
-//		return potDeps;
-//	}
-//	
-//	/**
-//	 * Checks two attributes for a Change-Use dependency.
-//	 * 
-//	 * @param rhsPredecessor
-//	 *            Attribute is on RHS only (<< create >>).
-//	 * @param lhsSuccessor
-//	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
-//	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-//	 */
-//	protected boolean isChangeUseDependency(Attribute rhsPredecessor, Attribute lhsSuccessor) {
-//		
-//		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
-//		assert (isLHSAttribute(lhsSuccessor) || isRequireAttribute(lhsSuccessor)) : "Input Assertion Failed!";
-//
-//		// Attributes have the same type
-//		if (rhsPredecessor.getType().equals(lhsSuccessor.getType())){
-//			// Predecessor nodes is <<preserve>> ?
-//			if (isPreservedNode(rhsPredecessor.getNode())) {
-//				// is predecessor nodeType assignable to successor nodeType?
-//				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
-//					// Attribute case differentiation precondition is fulfilled?
-//					if (attributeCaseDifferentiation(rhsPredecessor, lhsSuccessor)) {
-//						return true;
-//					}
-//				}
-//			}
-//		}
-//		
-//		return false;
-//	}
+	/**
+	 * Checks all attributes for Change-Use conflicts.
+	 * 
+	 * @param rhsPredecessors
+	 *            Attributes on RHS only (<<create>>).
+	 * @param lhsSuccessors
+	 *            Attributes on LHS (<< delete / preserve >>) or from PACs (<<require>>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialAttributeConflict> findChangeUses_Attribute(
+			Collection<Attribute> rhsPredecessors, Collection<Attribute> lhsSuccessors) {
+		
+		Set<PotentialAttributeConflict> potConss = new HashSet<PotentialAttributeConflict>();
+
+		for (Attribute rhsPredecessorAttribute : rhsPredecessors) {
+			for (Attribute lhsSuccessorAttribute : lhsSuccessors) {
+				if (isChangeUseConflict(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
+					// Change-Use dependence found
+					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
+
+					potcon.setSourceAttribute(lhsSuccessorAttribute);
+					potcon.setTargetAttribute(rhsPredecessorAttribute);
+					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_USE);
+
+					potConss.add(potcon);
+				}
+			}
+		}
+		return potConss;
+	}
+	
+	/**
+	 * Checks two attributes for a Change-Use conflict.
+	 * 
+	 * @param rhsPredecessor
+	 *            Attribute is on RHS only (<< create >>).
+	 * @param lhsSuccessor
+	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isChangeUseConflict(Attribute rhsPredecessor, Attribute lhsSuccessor) {
+		
+		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isLHSAttribute(lhsSuccessor) || isRequireAttribute(lhsSuccessor)) : "Input Assertion Failed!";
+
+		// Attributes have the same type
+		if (rhsPredecessor.getType().equals(lhsSuccessor.getType())){
+			// Predecessor nodes is <<preserve>> ?
+			if (isPreservedNode(rhsPredecessor.getNode())) {
+				// is predecessor nodeType assignable to successor nodeType?
+				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
+					// Attribute case differentiation precondition is not fulfilled?
+					return !attributeCaseDifferentiation(rhsPredecessor, lhsSuccessor);
+				}
+			}
+		}
+		
+		return false;
+	}
 //	
 //	/**
 //	 * Checks all attributes for Use-Change dependencies.
@@ -1894,101 +1884,101 @@ public abstract class PotentialConflictAnalyzer {
 //		return false;
 //	}
 //	
-//	/**
-//	 * Tests if at least one of the attributes is a variable or if both
-//	 * attributes contain the same literal.
-//	 * 
-//	 * @param predecessor
-//	 *            The predecessor attribute, i.e. the target of dependencies.
-//	 * @param successor
-//	 *            The successor attribute, i.e. the source of dependencies
-//	 * @return <code>true</code> if at least one of the attributes is a variable
-//	 *         or if both attributes contain the same literal;
-//	 *         <code>false</code> otherwise.
-//	 */
-//	protected boolean attributeCaseDifferentiation(Attribute predecessor, Attribute successor) {
-//		
-//		// Test precondition: Values => 'equal literals' or 'at least one is variable' == true
-//		boolean isSufficiently = false;
-//		
-//		// Is literal?
-//		if (isLiteral(predecessor) && isLiteral(successor)) {
-//			// Literals are equal
-//			if (predecessor.getValue().equals(successor.getValue())) {
-//				isSufficiently = true;
-//			}
-//		}
-//		
-//		// Predecessor or successor is variable!
-//		else {
-//			isSufficiently = true;
-//		}
-//		
-//		return isSufficiently;
-//	}
-//	
-//	/*
-//	 * Utils
-//	 */
-//
-//	/**
-//	 * Checks if the attribute is a literal attribute.
-//	 * 
-//	 * @param attribute
-//	 *            The attribute to test.
-//	 * @return <code>true</code> if the attribute is a literal;
-//	 *         <code>false</code> if it is a variable or expression.
-//	 */
-//	protected boolean isLiteral(Attribute attribute) {
-//		String value = attribute.getValue();
-//
-//		/*
-//		 *  String
-//		 */
-//		if (value.startsWith("\"") && value.endsWith("\"")) {
-//			return true;
-//		}
-//		
-//		/*
-//		 * Boolean
-//		 */
-//		
-//		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-//			return true;
-//		}
-//		
-//		/*
-//		 * Value
-//		 */
-//		
-//		boolean isValue = false;
-//		
-//		// Integer
-//		try {
-//			Integer.valueOf(value);
-//			isValue = true;
-//		} catch (NumberFormatException e) {
-//			return false;
-//		}
-//		
-//		// Float
-//		try {
-//			Float.valueOf(value);
-//			isValue = true;
-//		} catch (NumberFormatException e) {
-//			return false;
-//		}
-//		
-//		// Double
-//		try {
-//			Double.valueOf(value);
-//			isValue = true;
-//		} catch (NumberFormatException e) {
-//			return false;
-//		}
-//
-//		return isValue;
-//	}
+	/**
+	 * Tests if at least one of the attributes is a variable or if both
+	 * attributes contain a different literal.
+	 * 
+	 * @param predecessor
+	 *            The predecessor attribute, i.e. the target of conflicts.
+	 * @param successor
+	 *            The successor attribute, i.e. the source of conflicts
+	 * @return <code>true</code> if at least one of the attributes is a variable
+	 *         or if both attributes contain different literal;
+	 *         <code>false</code> otherwise.
+	 */
+	protected boolean attributeCaseDifferentiation(Attribute predecessor, Attribute successor) {
+		
+		// Test precondition: Values => 'equal literals' or 'at least one is variable' == true
+		boolean isSufficiently = false;
+		
+		// Is literal?
+		if (isLiteral(predecessor) && isLiteral(successor)) {
+			// Literals are equal
+			if (predecessor.getValue().equals(successor.getValue())) {
+				isSufficiently = true;
+			}
+		}
+		
+		// Predecessor or successor is variable!
+		else {
+			isSufficiently = true;
+		}
+		
+		return isSufficiently;
+	}
+	
+	/*
+	 * Utils
+	 */
+
+	/**
+	 * Checks if the attribute is a literal attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is a literal;
+	 *         <code>false</code> if it is a variable or expression.
+	 */
+	protected boolean isLiteral(Attribute attribute) {
+		String value = attribute.getValue();
+
+		/*
+		 *  String
+		 */
+		if (value.startsWith("\"") && value.endsWith("\"")) {
+			return true;
+		}
+		
+		/*
+		 * Boolean
+		 */
+		
+		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+			return true;
+		}
+		
+		/*
+		 * Value
+		 */
+		
+		boolean isValue = false;
+		
+		// Integer
+		try {
+			Integer.valueOf(value);
+			isValue = true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		
+		// Float
+		try {
+			Float.valueOf(value);
+			isValue = true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		
+		// Double
+		try {
+			Double.valueOf(value);
+			isValue = true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		return isValue;
+	}
 	
 	/**
 	 * Tests if the given list contains a potential conflict between the two nodes.
