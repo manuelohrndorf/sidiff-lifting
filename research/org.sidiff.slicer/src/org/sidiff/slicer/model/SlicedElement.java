@@ -22,18 +22,12 @@ public class SlicedElement {
 	
 	private EObject copy;
 	
-	private Map<EReference, SlicedReference> slicedReferences;
+	private Map<EReference, Set<SlicedReference>> slicedReferences;
 	
 	public SlicedElement(EObject origin, boolean boundary){
 		this.origin = origin;
 		this.copy = EMFUtil.copyWithoutReferences(origin);
-		this.slicedReferences = new HashMap<EReference, SlicedReference>();
-	}
-
-	public SlicedElement(EObject origin, EObject copy, boolean boundary){
-		this.origin = origin;
-		this.copy = copy;
-		this.slicedReferences = new HashMap<EReference, SlicedReference>();
+		this.slicedReferences = new HashMap<EReference, Set<SlicedReference>>();
 	}
 	
 	public EObject getOrigin() {
@@ -45,26 +39,40 @@ public class SlicedElement {
 	}
 	
 	public void addSlicedReference(SlicedReference slicedReference){
-		this.slicedReferences.put(slicedReference.getType(), slicedReference);
+		if(!this.slicedReferences.containsKey(slicedReference.getType())){
+			this.slicedReferences.put(slicedReference.getType(), new HashSet<SlicedReference>());
+		}
+		this.slicedReferences.get(slicedReference.getType()).add(slicedReference);
 	}
 	
-	public void removeSlicedReference(EReference type){
+	public void removeSlicedReference(SlicedReference slicedReference){
+		this.slicedReferences.get(slicedReference.getType()).remove(slicedReference);
+	}
+	
+	public void removeAllSlicedReferences(EReference type){
 		this.slicedReferences.remove(type);
 	}
 	
-	public boolean contains(EReference type){
-		return this.slicedReferences.containsKey(type);
+	public boolean contains(EReference type, EObject tgt){
+		return this.slicedReferences.containsKey(type) && this.slicedReferences.get(type).contains(tgt);
 	}
 	
-	public SlicedReference getSlicedReference(EReference type){
-		return this.slicedReferences.get(type);
+	public Set<SlicedReference> getSlicedReference(EReference type){
+		if(this.slicedReferences.get(type) != null){
+			return Collections.unmodifiableSet(this.slicedReferences.get(type));
+		}else {
+			return Collections.unmodifiableSet(Collections.emptySet());
+		}
 	}
-	
-	public Set<SlicedReference> getSlicedReferences() throws UnsupportedOperationException {
-		return Collections.unmodifiableSet(new HashSet<SlicedReference>(this.slicedReferences.values()));
+	public Set<SlicedReference> getSlicedReferences(){
+		Set<SlicedReference> slicedReferences = new HashSet<SlicedReference>();
+		for(EReference eReference : this.slicedReferences.keySet()){
+			slicedReferences.addAll(this.slicedReferences.get(eReference));
+		}
+		return slicedReferences;
 	}
 	
 	public EClass getType(){
-		return this.origin != null ? this.origin.eClass() : null;
+		return this.origin.eClass();
 	}	
 }

@@ -49,22 +49,20 @@ public class ModelSlice {
 		for(SlicedElement slicedElement : this.slicedElements.values()){
 			for(SlicedReference slicedReference : slicedElement.getSlicedReferences()){
 				if (slicedReference.getType().isMany()) {
-					for(EObject tgt : slicedReference.getTgts()){
-						if (slicedReference.isInverse()) {
-							((Collection<EObject>) getSlicedElement(tgt).getCopy()
-								.eGet(slicedReference.getType())).add(slicedElement.getCopy());
-						} else {
-							((Collection<EObject>) slicedElement.getCopy().eGet(slicedReference.getType()))
-								.add(this.slicedElements.get(tgt).getCopy());
-						}
+					if (slicedReference.isInverse()) {
+						((Collection<EObject>) getSlicedElement(slicedReference.getTgt()).getCopy()
+							.eGet(slicedReference.getType())).add(slicedElement.getCopy());
+					} else {
+						((Collection<EObject>) slicedElement.getCopy().eGet(slicedReference.getType()))
+							.add(this.slicedElements.get(slicedReference.getTgt()).getCopy());
 					}
 				} else {
 					if (slicedReference.isInverse()) {
-						this.slicedElements.get(slicedReference.getTgts().iterator().next()).getCopy().eSet(slicedReference.getType(),
+						this.slicedElements.get(slicedReference.getTgt()).getCopy().eSet(slicedReference.getType(),
 								slicedElement.getCopy());
 					} else {
 						slicedElement.getCopy().eSet(slicedReference.getType(),
-								this.slicedElements.get(slicedReference.getTgts().iterator().next()).getCopy());
+								this.slicedElements.get(slicedReference.getTgt()).getCopy());
 					}
 				}
 			}

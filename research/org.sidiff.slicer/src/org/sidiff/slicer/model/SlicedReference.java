@@ -1,7 +1,5 @@
 package org.sidiff.slicer.model;
 
-import java.util.Set;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
@@ -12,7 +10,7 @@ import org.eclipse.emf.ecore.EReference;
  */
 public class SlicedReference {
 	
-	private Set<EObject> tgts;
+	private EObject tgt;
 	
 	private EReference type;
 	
@@ -20,15 +18,15 @@ public class SlicedReference {
 	
 	private boolean boundary;
 	
-	public SlicedReference(EReference type, Set<EObject> tgts, boolean inverse, boolean boundary){
-		this.tgts = tgts;
+	public SlicedReference(EReference type, EObject tgt, boolean inverse, boolean boundary){
+		this.tgt = tgt;
 		this.type = type;
 		this.inverse = inverse;
 		this.boundary = boundary;
 	}
 
-	public Set<EObject> getTgts() {
-		return this.tgts;
+	public EObject getTgt() {
+		return this.tgt;
 	}
 
 	public EReference getType() {
