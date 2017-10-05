@@ -10,9 +10,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
@@ -77,7 +77,6 @@ public class SergeWizard extends Wizard implements INewWizard {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				IWorkbenchWindow currentWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 				monitor.beginTask("Generating Edit Rules", 100);		
 
 				Serge serge = new Serge();
@@ -85,13 +84,25 @@ public class SergeWizard extends Wizard implements INewWizard {
 					serge.init(settings, new SubProgressMonitor(monitor, 20));
 					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
 				} catch (EditRuleGenerationException e) {
-					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
-					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
-							e.getMessage());
-				} catch (WrongSettingsInstanceException e){
-					//FIXME: the ActiveWorkbenchWindow gets lost with non-UI calls
-					MessageDialog.openError(currentWindow.getShell(), "An Error occurred during generation",
-							e.getMessage());
+					Display.getDefault().syncExec(new Runnable() {
+					    @Override
+					    public void run() {
+					    	MessageDialog.openError(
+					    			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					    			"An Error occurred during generation",
+					    			e.getMessage());
+					    }
+					});
+				} catch (WrongSettingsInstanceException e) {
+					Display.getDefault().syncExec(new Runnable() {
+					    @Override
+					    public void run() {
+					    	MessageDialog.openError(
+					    			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					    			"An Error occurred during generation",
+					    			e.getMessage());
+					    }
+					});
 				}
 				finally{
 					monitor.done();
@@ -108,7 +119,6 @@ public class SergeWizard extends Wizard implements INewWizard {
 		job.setUser(true);
 		job.schedule();
 		return true;
-		
 	}
 	
 	/**

@@ -13,6 +13,8 @@ public class SergeSettings extends EditRuleGenerationSettings{
 		super(generalSettings.getGenerator(),
 			  generalSettings.getOutputFolderPath(),
 			  generalSettings.getConfigPath(),
+			  generalSettings.isUseDefaultConfig(),
+			  generalSettings.getMetaModelNsUri(),
 			  generalSettings.isUseSubfolders()
 			  );
 		
@@ -20,7 +22,14 @@ public class SergeSettings extends EditRuleGenerationSettings{
 	
 	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
 		
-		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),outputFolderPath,configPath,useSubfolders);
+		super(
+				EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),
+				outputFolderPath,
+				configPath,
+				false,
+				null,
+				useSubfolders);
+		
 		this.deleteManualTransformations = false;
 		this.deleteGeneratedTransformations = true;
 		this.overwriteGeneratedTransformations = true;
@@ -36,7 +45,14 @@ public class SergeSettings extends EditRuleGenerationSettings{
 			boolean overwriteGeneratedTransformations,
 			boolean overwriteConfigInTargetFolder, boolean saveLogs,
 			boolean deleteLogs) {
-		super(EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),outputFolderPath, configPath, useSubfolders);
+		
+		super(
+				EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),
+				outputFolderPath, 
+				configPath,
+				false,
+				null,
+				useSubfolders);
 		this.deleteManualTransformations = deleteManualTransformations;
 		this.deleteGeneratedTransformations = deleteGeneratedTransformations;
 		this.overwriteGeneratedTransformations = overwriteGeneratedTransformations;

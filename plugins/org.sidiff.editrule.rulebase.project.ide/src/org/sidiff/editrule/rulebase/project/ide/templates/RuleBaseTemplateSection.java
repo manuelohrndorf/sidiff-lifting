@@ -38,7 +38,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	public RuleBaseTemplateSection() {
 		addOption(KEY_PACKAGE_NAME, RuleBaseTemplateSection.KEY_PACKAGE_NAME, (String) null, 0);
-		this.settings = new EditRuleGenerationSettings(null, "", null, true);
+		this.settings = new EditRuleGenerationSettings(null, "", null, false, null, true);
 		setPageCount(1);
 	}
 

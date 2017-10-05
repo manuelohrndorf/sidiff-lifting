@@ -42,13 +42,17 @@ public class EditRuleGenerationSettings {
 	 */
 	protected boolean useSubfolders;
 	
-	public EditRuleGenerationSettings(IEditRuleGenerator generator,String outputFolderPath, String configPath, Boolean useSubfolders){
+	public EditRuleGenerationSettings(IEditRuleGenerator generator, String outputFolderPath, String configPath,
+			boolean useDefaultConfig, String metaModelNsUri, boolean useSubfolders) {
+		super();
 		this.generator = generator;
 		this.outputFolderPath = outputFolderPath;
 		this.configPath = configPath;
+		this.useDefaultConfig = useDefaultConfig;
+		this.metaModelNsUri = metaModelNsUri;
 		this.useSubfolders = useSubfolders;
 	}
-	
+
 	public IEditRuleGenerator getGenerator() {
 		return generator;
 	}
