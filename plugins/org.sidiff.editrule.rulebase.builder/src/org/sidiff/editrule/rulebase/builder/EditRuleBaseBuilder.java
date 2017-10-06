@@ -250,7 +250,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 	
 	private String getRuleBaseClassFileJavaPackage() {
-		return getProject().getFullPath().toString().replaceAll("/", "");
+		return EditRuleBaseClassBuilder.getFormattedPackageName(getProject().getFullPath().toString().replaceAll("/", ""));
 	}
 	
 	private File getRuleBaseClassFilePath() {

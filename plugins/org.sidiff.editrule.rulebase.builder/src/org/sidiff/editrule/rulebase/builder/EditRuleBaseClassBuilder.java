@@ -9,11 +9,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Locale;
 import java.util.Set;
 
 public class EditRuleBaseClassBuilder {
 
 	private String classTemplate;
+	
+	public static String getFormattedPackageName(String pluginID) {
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < pluginID.length(); i++) {
+			char ch = pluginID.charAt(i);
+			if (buffer.length() == 0) {
+				if (Character.isJavaIdentifierStart(ch))
+					buffer.append(Character.toLowerCase(ch));
+			} else {
+				if (Character.isJavaIdentifierPart(ch) || ch == '.')
+					buffer.append(ch);
+			}
+		}
+		return buffer.toString().toLowerCase(Locale.ENGLISH);
+	}
 	
 	/**
 	 * @param jPackage

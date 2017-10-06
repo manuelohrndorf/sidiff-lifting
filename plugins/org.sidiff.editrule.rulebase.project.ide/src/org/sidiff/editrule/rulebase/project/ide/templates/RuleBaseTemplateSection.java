@@ -2,7 +2,6 @@ package org.sidiff.editrule.rulebase.project.ide.templates;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IProject;
@@ -25,6 +24,7 @@ import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseClassBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.project.ide.Activator;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
@@ -108,29 +108,14 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		// In a new project wizard, we don't know this yet - the
 		// model has not been created
 		String id = data.getId();
-		initializeOption(KEY_PACKAGE_NAME, getFormattedPackageName(id));
+		initializeOption(KEY_PACKAGE_NAME, EditRuleBaseClassBuilder.getFormattedPackageName(id));
 	}
 
 	public void initializeFields(IPluginModelBase model) {
 		// In the new extension wizard, the model exists so
 		// we can initialize directly from it
 		String pluginId = model.getPluginBase().getId();
-		initializeOption(KEY_PACKAGE_NAME, getFormattedPackageName(pluginId));
-	}
-
-	protected String getFormattedPackageName(String id) {
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < id.length(); i++) {
-			char ch = id.charAt(i);
-			if (buffer.length() == 0) {
-				if (Character.isJavaIdentifierStart(ch))
-					buffer.append(Character.toLowerCase(ch));
-			} else {
-				if (Character.isJavaIdentifierPart(ch) || ch == '.')
-					buffer.append(ch);
-			}
-		}
-		return buffer.toString().toLowerCase(Locale.ENGLISH);
+		initializeOption(KEY_PACKAGE_NAME, EditRuleBaseClassBuilder.getFormattedPackageName(pluginId));
 	}
 
 	private void addRuleBaseExtension() throws CoreException {
