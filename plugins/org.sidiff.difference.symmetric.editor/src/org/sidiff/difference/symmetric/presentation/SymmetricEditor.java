@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.symmetric.presentation;
 
@@ -44,9 +40,6 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -59,8 +52,13 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
+import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
@@ -72,22 +70,32 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.FileTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -108,8 +116,9 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.compareview.widgets.CompareViewToolbar;
-import org.sidiff.difference.symmetric.editor.SymmetricViewer;
+import org.sidiff.difference.symmetric.provider.AdapterToolTipLabelProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
+import org.sidiff.matching.model.provider.MatchingModelItemProviderAdapterFactory;
 
 
 /**
@@ -167,12 +176,58 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PropertySheetPage propertySheetPage;
+	protected List<PropertySheetPage> propertySheetPages = new ArrayList<PropertySheetPage>();
 
 	/**
-	 * TreeViewer + Toolbar
+	 * This is the viewer that shadows the selection in the content outline.
+	 * The parent relation must be correctly defined for this to work.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
-	protected SymmetricViewer symmetricViewer;
+	protected TreeViewer selectionViewer;
+
+	/**
+	 * This inverts the roll of parent and child in the content provider and show parents as a tree.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TreeViewer parentViewer;
+
+	/**
+	 * This shows how a tree view works.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TreeViewer treeViewer;
+
+	/**
+	 * This shows how a list view works.
+	 * A list viewer doesn't support icons.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ListViewer listViewer;
+
+	/**
+	 * This shows how a table view works.
+	 * A table can be used as a list with icons.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TableViewer tableViewer;
+
+	/**
+	 * This shows how a tree view with columns works.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected TreeViewer treeViewerWithColumns;
 
 	/**
 	 * This keeps track of the active viewer pane, in the book.
@@ -231,7 +286,6 @@ public class SymmetricEditor
 	 */
 	protected IPartListener partListener =
 		new IPartListener() {
-			@Override
 			public void partActivated(IWorkbenchPart p) {
 				if (p instanceof ContentOutline) {
 					if (((ContentOutline)p).getCurrentPage() == contentOutlinePage) {
@@ -241,7 +295,7 @@ public class SymmetricEditor
 					}
 				}
 				else if (p instanceof PropertySheet) {
-					if (((PropertySheet)p).getCurrentPage() == propertySheetPage) {
+					if (propertySheetPages.contains(((PropertySheet)p).getCurrentPage())) {
 						getActionBarContributor().setActiveEditor(SymmetricEditor.this);
 						handleActivate();
 					}
@@ -250,19 +304,15 @@ public class SymmetricEditor
 					handleActivate();
 				}
 			}
-			@Override
 			public void partBroughtToTop(IWorkbenchPart p) {
 				// Ignore.
 			}
-			@Override
 			public void partClosed(IWorkbenchPart p) {
 				// Ignore.
 			}
-			@Override
 			public void partDeactivated(IWorkbenchPart p) {
 				// Ignore.
 			}
-			@Override
 			public void partOpened(IWorkbenchPart p) {
 				// Ignore.
 			}
@@ -316,6 +366,8 @@ public class SymmetricEditor
 	 */
 	protected EContentAdapter problemIndicationAdapter =
 		new EContentAdapter() {
+			protected boolean dispatching;
+
 			@Override
 			public void notifyChanged(Notification notification) {
 				if (notification.getNotifier() instanceof Resource) {
@@ -331,22 +383,26 @@ public class SymmetricEditor
 							else {
 								resourceToDiagnosticMap.remove(resource);
 							}
-
-							if (updateProblemIndication) {
-								getSite().getShell().getDisplay().asyncExec
-									(new Runnable() {
-										 @Override
-										public void run() {
-											 updateProblemIndication();
-										 }
-									 });
-							}
+							dispatchUpdateProblemIndication();
 							break;
 						}
 					}
 				}
 				else {
 					super.notifyChanged(notification);
+				}
+			}
+
+			protected void dispatchUpdateProblemIndication() {
+				if (updateProblemIndication && !dispatching) {
+					dispatching = true;
+					getSite().getShell().getDisplay().asyncExec
+						(new Runnable() {
+							 public void run() {
+								 dispatching = false;
+								 updateProblemIndication();
+							 }
+						 });
 				}
 			}
 
@@ -358,6 +414,8 @@ public class SymmetricEditor
 			@Override
 			protected void unsetTarget(Resource target) {
 				basicUnsetTarget(target);
+				resourceToDiagnosticMap.remove(target);
+				dispatchUpdateProblemIndication();
 			}
 		};
 
@@ -369,7 +427,6 @@ public class SymmetricEditor
 	 */
 	protected IResourceChangeListener resourceChangeListener =
 		new IResourceChangeListener() {
-			@Override
 			public void resourceChanged(IResourceChangeEvent event) {
 				IResourceDelta delta = event.getDelta();
 				try {
@@ -378,7 +435,6 @@ public class SymmetricEditor
 						protected Collection<Resource> changedResources = new ArrayList<Resource>();
 						protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
-						@Override
 						public boolean visit(IResourceDelta delta) {
 							if (delta.getResource().getType() == IResource.FILE) {
 								if (delta.getKind() == IResourceDelta.REMOVED ||
@@ -393,6 +449,7 @@ public class SymmetricEditor
 										}
 									}
 								}
+								return false;
 							}
 
 							return true;
@@ -413,8 +470,7 @@ public class SymmetricEditor
 					if (!visitor.getRemovedResources().isEmpty()) {
 						getSite().getShell().getDisplay().asyncExec
 							(new Runnable() {
-								 @Override
-								public void run() {
+								 public void run() {
 									 removedResources.addAll(visitor.getRemovedResources());
 									 if (!isDirty()) {
 										 getSite().getPage().closeEditor(SymmetricEditor.this, false);
@@ -426,8 +482,7 @@ public class SymmetricEditor
 					if (!visitor.getChangedResources().isEmpty()) {
 						getSite().getShell().getDisplay().asyncExec
 							(new Runnable() {
-								 @Override
-								public void run() {
+								 public void run() {
 									 changedResources.addAll(visitor.getChangedResources());
 									 if (getSite().getPage().getActiveEditor() == SymmetricEditor.this) {
 										 handleActivate();
@@ -558,14 +613,11 @@ public class SymmetricEditor
 			}
 
 			if (markerHelper.hasMarkers(editingDomain.getResourceSet())) {
-				markerHelper.deleteMarkers(editingDomain.getResourceSet());
-				if (diagnostic.getSeverity() != Diagnostic.OK) {
-					try {
-						markerHelper.createMarkers(diagnostic);
-					}
-					catch (CoreException exception) {
-						SymmetricEditorPlugin.INSTANCE.log(exception);
-					}
+				try {
+					markerHelper.updateMarkers(diagnostic);
+				}
+				catch (CoreException exception) {
+					SymmetricEditorPlugin.INSTANCE.log(exception);
 				}
 			}
 		}
@@ -609,7 +661,7 @@ public class SymmetricEditor
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new SymmetricItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new MatchingModelItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.
@@ -620,12 +672,10 @@ public class SymmetricEditor
 		//
 		commandStack.addCommandStackListener
 			(new CommandStackListener() {
-				 @Override
-				public void commandStackChanged(final EventObject event) {
+				 public void commandStackChanged(final EventObject event) {
 					 getContainer().getDisplay().asyncExec
 						 (new Runnable() {
-							  @Override
-							public void run() {
+							  public void run() {
 								  firePropertyChange(IEditorPart.PROP_DIRTY);
 
 								  // Try to select the affected objects.
@@ -634,8 +684,14 @@ public class SymmetricEditor
 								  if (mostRecentCommand != null) {
 									  setSelectionToViewer(mostRecentCommand.getAffectedObjects());
 								  }
-								  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed()) {
-									  propertySheetPage.refresh();
+								  for (Iterator<PropertySheetPage> i = propertySheetPages.iterator(); i.hasNext(); ) {
+									  PropertySheetPage propertySheetPage = i.next();
+									  if (propertySheetPage.getControl().isDisposed()) {
+										  i.remove();
+									  }
+									  else {
+										  propertySheetPage.refresh();
+									  }
 								  }
 							  }
 						  });
@@ -671,7 +727,6 @@ public class SymmetricEditor
 		if (theSelection != null && !theSelection.isEmpty()) {
 			Runnable runnable =
 				new Runnable() {
-					@Override
 					public void run() {
 						// Try to select the items in the current content viewer of the editor.
 						//
@@ -692,7 +747,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EditingDomain getEditingDomain() {
 		return editingDomain;
 	}
@@ -759,7 +813,7 @@ public class SymmetricEditor
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setCurrentViewerPane(ViewerPane viewerPane) {
 		if (currentViewerPane != viewerPane) {
@@ -789,7 +843,6 @@ public class SymmetricEditor
 					new ISelectionChangedListener() {
 						// This just notifies those things that are affected by the section.
 						//
-						@Override
 						public void selectionChanged(SelectionChangedEvent selectionChangedEvent) {
 							setSelection(selectionChangedEvent.getSelection());
 						}
@@ -824,7 +877,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public Viewer getViewer() {
 		return currentViewer;
 	}
@@ -833,7 +885,7 @@ public class SymmetricEditor
 	 * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	protected void createContextMenuFor(StructuredViewer viewer) {
 		MenuManager contextMenu = new MenuManager("#PopUp");
@@ -842,15 +894,12 @@ public class SymmetricEditor
 		contextMenu.addMenuListener(this);
 		Menu menu= contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
-		// Global eclipse registry:
-//		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
-
-		// Drag'N'Drop:
-//		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-//		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
-//		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
-//		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
+		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
+		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
 	}
 
 	/**
@@ -860,7 +909,7 @@ public class SymmetricEditor
 	 * @generated
 	 */
 	public void createModel() {
-		URI resourceURI = EditUIUtil.getURI(getEditorInput());
+		URI resourceURI = EditUIUtil.getURI(getEditorInput(), editingDomain.getResourceSet().getURIConverter());
 		Exception exception = null;
 		Resource resource = null;
 		try {
@@ -888,10 +937,11 @@ public class SymmetricEditor
 	 * @generated
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
-		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
+		boolean hasErrors = !resource.getErrors().isEmpty();
+		if (hasErrors || !resource.getWarnings().isEmpty()) {
 			BasicDiagnostic basicDiagnostic =
 				new BasicDiagnostic
-					(Diagnostic.ERROR,
+					(hasErrors ? Diagnostic.ERROR : Diagnostic.WARNING,
 					 "org.sidiff.difference.symmetric.editor",
 					 0,
 					 getString("_UI_CreateModelError_message", resource.getURI()),
@@ -912,7 +962,7 @@ public class SymmetricEditor
 			return Diagnostic.OK_INSTANCE;
 		}
 	}
-
+	
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc -->
@@ -926,73 +976,263 @@ public class SymmetricEditor
 		createModel();
 
 		// Only creates the other pages if there is something that can be edited
-				//
-				if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
+		//
+		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
+			
+			// Get symmetric difference:
+			SymmetricDifference difference = null;
 
-					// Get symmetric difference:
-					SymmetricDifference difference = null;
+			for (Resource resource : editingDomain.getResourceSet().getResources()) {
+				Object root = resource.getContents().get(0);
 
-					for (Resource resource : editingDomain.getResourceSet().getResources()) {
-						Object root = resource.getContents().get(0);
-
-						if (root instanceof SymmetricDifference) {
-							difference = (SymmetricDifference) root;
-						}
-					}
-
-					// Create viewer:
-					ViewerPane viewerPane =
-							new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-								@Override
-								public Viewer createViewer(Composite composite) {
-									SymmetricViewer symmetricViewer = new SymmetricViewer(adapterFactory);
-									symmetricViewer.createControl(composite);
-									return symmetricViewer;
-								}
-
-								@Override
-								public void requestActivation() {
-									super.requestActivation();
-									setCurrentViewerPane(this);
-								}
-							};
-
-					viewerPane.createControl(getContainer());
-					symmetricViewer = (SymmetricViewer) viewerPane.getViewer();
-
-					if (difference != null) {
-						EcoreUtil.resolveAll(difference.eResource().getResourceSet());
-						symmetricViewer.setInput(difference);
-					}
-
-					// Toolbar:
-					CompareViewToolbar contribution = new CompareViewToolbar();
-					contribution.createItems(viewerPane.getToolBarManager().getControl());
-
-					// Add page to editor:
-					int pageIndex = addPage(viewerPane.getControl());
-					setPageText(pageIndex, "Difference Viewer");
-
-					// Create context menu:
-					createContextMenuFor(symmetricViewer.getTreeViewer());
-
-					// Set title:
-					String title =
-							"Compare: " +
-							difference.getModelA().getURI().lastSegment() +
-							" <-> " +
-							difference.getModelB().getURI().lastSegment();
-					viewerPane.setTitle(title, getTitleImage());
-
-					// Set focus to viewer:
-					getSite().getShell().getDisplay().asyncExec
-							(new Runnable() {
-								@Override
-								public void run() {
-									setActivePage(0);
-								}
-							});
+				if (root instanceof SymmetricDifference) {
+					difference = (SymmetricDifference) root;
 				}
+			}
+			
+			// Create a page for the selection tree view.
+			//
+			// Difference:
+			{
+				ViewerPane viewerPane =
+					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+						@Override
+						public Viewer createViewer(Composite composite) {
+							Tree tree = new Tree(composite, SWT.MULTI);
+							TreeViewer newTreeViewer = new TreeViewer(tree);
+							return newTreeViewer;
+						}
+						@Override
+						public void requestActivation() {
+							super.requestActivation();
+							selectionViewer = (TreeViewer) getViewer();
+							setCurrentViewerPane(this);
+						}
+					};
+				viewerPane.createControl(getContainer());
+
+				selectionViewer = (TreeViewer)viewerPane.getViewer();
+				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+				selectionViewer.setUseHashlookup(true);
+
+				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				selectionViewer.setInput(editingDomain.getResourceSet());
+				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+				viewerPane.setTitle(editingDomain.getResourceSet());
+
+				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+
+				createContextMenuFor(selectionViewer);
+				int pageIndex = addPage(viewerPane.getControl());
+				setPageText(pageIndex, "Difference");
+				
+				// Set title:
+				String title =
+						"Compare: " +
+						difference.getModelA().getURI().lastSegment() +
+						" <-> " +
+						difference.getModelB().getURI().lastSegment();
+				viewerPane.setTitle(title, getTitleImage());
+				
+				// Expand on double click:
+				selectionViewer.addDoubleClickListener(new IDoubleClickListener() {
+					@Override
+					public void doubleClick(DoubleClickEvent event) {
+						TreeViewer viewer = (TreeViewer) event.getViewer();
+						IStructuredSelection thisSelection = (IStructuredSelection) event.getSelection();
+						Object selectedNode = thisSelection.getFirstElement();
+						viewer.setExpandedState(selectedNode, !viewer.getExpandedState(selectedNode));
+					}
+				});
+				
+				// Set tool tip:
+				ColumnViewerToolTipSupport.enableFor(selectionViewer);
+				AdapterToolTipLabelProvider toolTip = new AdapterToolTipLabelProvider(adapterFactory);
+				selectionViewer.setLabelProvider(toolTip);
+				
+				// Toolbar:
+				CompareViewToolbar contribution = new CompareViewToolbar();
+				contribution.createItems(viewerPane.getToolBarManager().getControl());
+				
+				// Initial selection:
+				selectionViewer.setExpandedState(difference, true);
+				selectionViewer.setSelection(new StructuredSelection(difference));
+			}
+
+//			// Create a page for the parent tree view.
+//			//
+//			{
+//				ViewerPane viewerPane =
+//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+//						@Override
+//						public Viewer createViewer(Composite composite) {
+//							Tree tree = new Tree(composite, SWT.MULTI);
+//							TreeViewer newTreeViewer = new TreeViewer(tree);
+//							return newTreeViewer;
+//						}
+//						@Override
+//						public void requestActivation() {
+//							super.requestActivation();
+//							setCurrentViewerPane(this);
+//						}
+//					};
+//				viewerPane.createControl(getContainer());
+//
+//				parentViewer = (TreeViewer)viewerPane.getViewer();
+//				parentViewer.setAutoExpandLevel(30);
+//				parentViewer.setContentProvider(new ReverseAdapterFactoryContentProvider(adapterFactory));
+//				parentViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//
+//				createContextMenuFor(parentViewer);
+//				int pageIndex = addPage(viewerPane.getControl());
+//				setPageText(pageIndex, getString("_UI_ParentPage_label"));
+//			}
+
+//			// This is the page for the list viewer
+//			//
+//			{
+//				ViewerPane viewerPane =
+//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+//						@Override
+//						public Viewer createViewer(Composite composite) {
+//							return new ListViewer(composite);
+//						}
+//						@Override
+//						public void requestActivation() {
+//							super.requestActivation();
+//							setCurrentViewerPane(this);
+//						}
+//					};
+//				viewerPane.createControl(getContainer());
+//				listViewer = (ListViewer)viewerPane.getViewer();
+//				listViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+//				listViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//
+//				createContextMenuFor(listViewer);
+//				int pageIndex = addPage(viewerPane.getControl());
+//				setPageText(pageIndex, getString("_UI_TreePage_label"));
+//			}
+
+//			// This is the page for the tree viewer
+//			//
+//			{
+//				ViewerPane viewerPane =
+//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+//						@Override
+//						public Viewer createViewer(Composite composite) {
+//							return new TreeViewer(composite);
+//						}
+//						@Override
+//						public void requestActivation() {
+//							super.requestActivation();
+//							setCurrentViewerPane(this);
+//						}
+//					};
+//				viewerPane.createControl(getContainer());
+//				treeViewer = (TreeViewer)viewerPane.getViewer();
+//				treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+//				treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//
+//				new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
+//
+//				createContextMenuFor(treeViewer);
+//				int pageIndex = addPage(viewerPane.getControl());
+//				setPageText(pageIndex, getString("_UI_TreePage_label"));
+//			}
+
+//			// This is the page for the table viewer.
+//			//
+//			{
+//				ViewerPane viewerPane =
+//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+//						@Override
+//						public Viewer createViewer(Composite composite) {
+//							return new TableViewer(composite);
+//						}
+//						@Override
+//						public void requestActivation() {
+//							super.requestActivation();
+//							setCurrentViewerPane(this);
+//						}
+//					};
+//				viewerPane.createControl(getContainer());
+//				tableViewer = (TableViewer)viewerPane.getViewer();
+//
+//				Table table = tableViewer.getTable();
+//				TableLayout layout = new TableLayout();
+//				table.setLayout(layout);
+//				table.setHeaderVisible(true);
+//				table.setLinesVisible(true);
+//
+//				TableColumn objectColumn = new TableColumn(table, SWT.NONE);
+//				layout.addColumnData(new ColumnWeightData(3, 100, true));
+//				objectColumn.setText(getString("_UI_ObjectColumn_label"));
+//				objectColumn.setResizable(true);
+//
+//				TableColumn selfColumn = new TableColumn(table, SWT.NONE);
+//				layout.addColumnData(new ColumnWeightData(2, 100, true));
+//				selfColumn.setText(getString("_UI_SelfColumn_label"));
+//				selfColumn.setResizable(true);
+//
+//				tableViewer.setColumnProperties(new String [] {"a", "b"});
+//				tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+//				tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//
+//				createContextMenuFor(tableViewer);
+//				int pageIndex = addPage(viewerPane.getControl());
+//				setPageText(pageIndex, getString("_UI_TablePage_label"));
+//			}
+
+//			// This is the page for the table tree viewer.
+//			//
+//			{
+//				ViewerPane viewerPane =
+//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
+//						@Override
+//						public Viewer createViewer(Composite composite) {
+//							return new TreeViewer(composite);
+//						}
+//						@Override
+//						public void requestActivation() {
+//							super.requestActivation();
+//							setCurrentViewerPane(this);
+//						}
+//					};
+//				viewerPane.createControl(getContainer());
+//
+//				treeViewerWithColumns = (TreeViewer)viewerPane.getViewer();
+//
+//				Tree tree = treeViewerWithColumns.getTree();
+//				tree.setLayoutData(new FillLayout());
+//				tree.setHeaderVisible(true);
+//				tree.setLinesVisible(true);
+//
+//				TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
+//				objectColumn.setText(getString("_UI_ObjectColumn_label"));
+//				objectColumn.setResizable(true);
+//				objectColumn.setWidth(250);
+//
+//				TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
+//				selfColumn.setText(getString("_UI_SelfColumn_label"));
+//				selfColumn.setResizable(true);
+//				selfColumn.setWidth(200);
+//
+//				treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});
+//				treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+//				treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+//
+//				createContextMenuFor(treeViewerWithColumns);
+//				int pageIndex = addPage(viewerPane.getControl());
+//				setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));
+//			}
+
+			getSite().getShell().getDisplay().asyncExec
+				(new Runnable() {
+					 public void run() {
+						 setActivePage(0);
+					 }
+				 });
+		}
 
 		// Ensures that this editor will only display the page's tab
 		// area if there are more than one page
@@ -1012,8 +1252,7 @@ public class SymmetricEditor
 
 		getSite().getShell().getDisplay().asyncExec
 			(new Runnable() {
-				 @Override
-				public void run() {
+				 public void run() {
 					 updateProblemIndication();
 				 }
 			 });
@@ -1076,7 +1315,7 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class key) {
 		if (key.equals(IContentOutlinePage.class)) {
@@ -1097,7 +1336,7 @@ public class SymmetricEditor
 	 * This accesses a cached version of the content outliner.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public IContentOutlinePage getContentOutlinePage() {
 		if (contentOutlinePage == null) {
@@ -1112,6 +1351,7 @@ public class SymmetricEditor
 
 					// Set up the tree viewer.
 					//
+					contentOutlineViewer.setUseHashlookup(true);
 					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 					contentOutlineViewer.setInput(editingDomain.getResourceSet());
@@ -1120,11 +1360,11 @@ public class SymmetricEditor
 					//
 					createContextMenuFor(contentOutlineViewer);
 
-//					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
-//					  // Select the root object in the view.
-//					  //
-//					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-//					}
+					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
+					  // Select the root object in the view.
+					  //
+					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+					}
 				}
 
 				@Override
@@ -1148,8 +1388,7 @@ public class SymmetricEditor
 				(new ISelectionChangedListener() {
 					 // This ensures that we handle selections correctly.
 					 //
-					 @Override
-					public void selectionChanged(SelectionChangedEvent event) {
+					 public void selectionChanged(SelectionChangedEvent event) {
 						 handleContentOutlineSelection(event.getSelection());
 					 }
 				 });
@@ -1165,23 +1404,22 @@ public class SymmetricEditor
 	 * @generated
 	 */
 	public IPropertySheetPage getPropertySheetPage() {
-		if (propertySheetPage == null) {
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain) {
-					@Override
-					public void setSelectionToViewer(List<?> selection) {
-						SymmetricEditor.this.setSelectionToViewer(selection);
-						SymmetricEditor.this.setFocus();
-					}
+		PropertySheetPage propertySheetPage =
+			new ExtendedPropertySheetPage(editingDomain) {
+				@Override
+				public void setSelectionToViewer(List<?> selection) {
+					SymmetricEditor.this.setSelectionToViewer(selection);
+					SymmetricEditor.this.setFocus();
+				}
 
-					@Override
-					public void setActionBars(IActionBars actionBars) {
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-		}
+				@Override
+				public void setActionBars(IActionBars actionBars) {
+					super.setActionBars(actionBars);
+					getActionBarContributor().shareGlobalActions(this, actionBars);
+				}
+			};
+		propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+		propertySheetPages.add(propertySheetPage);
 
 		return propertySheetPage;
 	}
@@ -1190,7 +1428,7 @@ public class SymmetricEditor
 	 * This deals with how we want selection in the outliner to affect the other views.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public void handleContentOutlineSelection(ISelection selection) {
 		if (currentViewerPane != null && !selection.isEmpty() && selection instanceof IStructuredSelection) {
@@ -1200,27 +1438,27 @@ public class SymmetricEditor
 				//
 				Object selectedElement = selectedElements.next();
 
-//				// If it's the selection viewer, then we want it to select the same selection as this selection.
-//				//
-//				if (currentViewerPane.getViewer() == selectionViewer) {
-//					ArrayList<Object> selectionList = new ArrayList<Object>();
-//					selectionList.add(selectedElement);
-//					while (selectedElements.hasNext()) {
-//						selectionList.add(selectedElements.next());
-//					}
-//
-//					// Set the selection to the widget.
-//					//
-//					selectionViewer.setSelection(new StructuredSelection(selectionList));
-//				}
-//				else {
+				// If it's the selection viewer, then we want it to select the same selection as this selection.
+				//
+				if (currentViewerPane.getViewer() == selectionViewer) {
+					ArrayList<Object> selectionList = new ArrayList<Object>();
+					selectionList.add(selectedElement);
+					while (selectedElements.hasNext()) {
+						selectionList.add(selectedElements.next());
+					}
+
+					// Set the selection to the widget.
+					//
+					selectionViewer.setSelection(new StructuredSelection(selectionList));
+				}
+				else {
 					// Set the input to the widget.
 					//
 					if (currentViewerPane.getViewer().getInput() != selectedElement) {
 						currentViewerPane.getViewer().setInput(selectedElement);
-//						currentViewerPane.setTitle(selectedElement);
+						currentViewerPane.setTitle(selectedElement);
 					}
-//				}
+				}
 			}
 		}
 	}
@@ -1248,6 +1486,7 @@ public class SymmetricEditor
 		//
 		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+		saveOptions.put(Resource.OPTION_LINE_DELIMITER, Resource.OPTION_LINE_DELIMITER_UNSPECIFIED);
 
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
 		//
@@ -1260,7 +1499,9 @@ public class SymmetricEditor
 					// Save the resources to the file system.
 					//
 					boolean first = true;
-					for (Resource resource : editingDomain.getResourceSet().getResources()) {
+					List<Resource> resources = editingDomain.getResourceSet().getResources();
+					for (int i = 0; i < resources.size(); ++i) {
+						Resource resource = resources.get(i);
 						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
 							try {
 								long timeStamp = resource.getTimeStamp();
@@ -1371,22 +1612,10 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void gotoMarker(IMarker marker) {
-		try {
-			if (marker.getType().equals(EValidator.MARKER)) {
-				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-				if (uriAttribute != null) {
-					URI uri = URI.createURI(uriAttribute);
-					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-					if (eObject != null) {
-					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
-					}
-				}
-			}
-		}
-		catch (CoreException exception) {
-			SymmetricEditorPlugin.INSTANCE.log(exception);
+		List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
+		if (!targetObjects.isEmpty()) {
+			setSelectionToViewer(targetObjects);
 		}
 	}
 
@@ -1427,7 +1656,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
@@ -1438,7 +1666,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
@@ -1449,7 +1676,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public ISelection getSelection() {
 		return editorSelection;
 	}
@@ -1459,18 +1685,12 @@ public class SymmetricEditor
 	 * Calling this result will notify the listeners.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	@Override
 	public void setSelection(ISelection selection) {
 		editorSelection = selection;
 
-//		for (ISelectionChangedListener listener : selectionChangedListeners) {
-//			listener.selectionChanged(new SelectionChangedEvent(this, selection));
-//		}
-
-		for(int index = 0; index < selectionChangedListeners.size(); index++){
-			ISelectionChangedListener listener = ((ArrayList<ISelectionChangedListener>) selectionChangedListeners).get(index);
+		for (ISelectionChangedListener listener : selectionChangedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
 		setStatusLineManager(selection);
@@ -1536,7 +1756,6 @@ public class SymmetricEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void menuAboutToShow(IMenuManager menuManager) {
 		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
 	}
@@ -1587,7 +1806,7 @@ public class SymmetricEditor
 			getActionBarContributor().setActiveEditor(null);
 		}
 
-		if (propertySheetPage != null) {
+		for (PropertySheetPage propertySheetPage : propertySheetPages) {
 			propertySheetPage.dispose();
 		}
 

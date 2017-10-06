@@ -1,15 +1,14 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.sidiff.difference.symmetric.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
+
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
+
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
+
+import org.sidiff.matching.model.model.provider.MatchingModelEditPlugin;
 
 /**
  * This is the central singleton for the Symmetric editor plugin.
@@ -43,7 +42,7 @@ public final class SymmetricEditorPlugin extends EMFPlugin {
 	public SymmetricEditorPlugin() {
 		super
 			(new ResourceLocator [] {
-				EcoreEditPlugin.INSTANCE,
+				MatchingModelEditPlugin.INSTANCE,
 			});
 	}
 
