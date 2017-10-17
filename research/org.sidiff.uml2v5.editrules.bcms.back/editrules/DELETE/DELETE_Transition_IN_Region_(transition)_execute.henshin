@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hMQDUFtMEeesAqvk4oi7fQ" name="DELETE_Transition_IN_Region_(transition)" description="Deletes one Transition in Region">
+  <annotations xmi:id="_hMQDUVtMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_Transition_IN_Region_(transition)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hMQDUltMEeesAqvk4oi7fQ" name="deleteTransition_IN_Region" description="deletes one Transition in the context: Region">
+    <parameters xmi:id="_yscIILMmEeeVO7KYP9bjsA" name="r"/>
+    <parameters xmi:id="_yscII7MmEeeVO7KYP9bjsA" name="src"/>
+    <parameters xmi:id="_yscIJrMmEeeVO7KYP9bjsA" name="t"/>
+    <parameters xmi:id="_yscIKbMmEeeVO7KYP9bjsA" name="tgt"/>
+    <parameters xmi:id="_yscILLMmEeeVO7KYP9bjsA" name="tr"/>
+    <lhs xmi:id="_hMQDYFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hMQDYVtMEeesAqvk4oi7fQ" name="r" incoming="_hMQDbFtMEeesAqvk4oi7fQ _wI2gILMdEeerst7XiCxhuQ" outgoing="_hMQDa1tMEeesAqvk4oi7fQ _twoEgLMdEeerst7XiCxhuQ">
+        <annotations xmi:id="_hMQDYltMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_hMQDY1tMEeesAqvk4oi7fQ" name="t" incoming="_hMQDa1tMEeesAqvk4oi7fQ" outgoing="_hMQDbFtMEeesAqvk4oi7fQ _hMQDbVtMEeesAqvk4oi7fQ _hMQDbltMEeesAqvk4oi7fQ _b9C_ELMmEeeVO7KYP9bjsA">
+        <annotations xmi:id="_hMQDZFtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_hMQDXltMEeesAqvk4oi7fQ" name="tgt" incoming="_hMQDbVtMEeesAqvk4oi7fQ _twoEgLMdEeerst7XiCxhuQ" outgoing="_wI2gILMdEeerst7XiCxhuQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_hMQDaltMEeesAqvk4oi7fQ" name="src" incoming="_hMQDbltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_bMOmILMmEeeVO7KYP9bjsA" name="tr" incoming="_b9C_ELMmEeeVO7KYP9bjsA">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <edges xmi:id="_hMQDa1tMEeesAqvk4oi7fQ" source="_hMQDYVtMEeesAqvk4oi7fQ" target="_hMQDY1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/transition"/>
+      </edges>
+      <edges xmi:id="_hMQDbFtMEeesAqvk4oi7fQ" source="_hMQDY1tMEeesAqvk4oi7fQ" target="_hMQDYVtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/container"/>
+      </edges>
+      <edges xmi:id="_hMQDbVtMEeesAqvk4oi7fQ" source="_hMQDY1tMEeesAqvk4oi7fQ" target="_hMQDXltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/target"/>
+      </edges>
+      <edges xmi:id="_hMQDbltMEeesAqvk4oi7fQ" source="_hMQDY1tMEeesAqvk4oi7fQ" target="_hMQDaltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_twoEgLMdEeerst7XiCxhuQ" source="_hMQDYVtMEeesAqvk4oi7fQ" target="_hMQDXltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/subvertex"/>
+      </edges>
+      <edges xmi:id="_wI2gILMdEeerst7XiCxhuQ" source="_hMQDXltMEeesAqvk4oi7fQ" target="_hMQDYVtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
+      </edges>
+      <edges xmi:id="_b9C_ELMmEeeVO7KYP9bjsA" source="_hMQDY1tMEeesAqvk4oi7fQ" target="_bMOmILMmEeeVO7KYP9bjsA">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/trigger"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hMQDW1tMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hMQDXFtMEeesAqvk4oi7fQ" name="r">
+        <annotations xmi:id="_hMQDXVtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_hMQDX1tMEeesAqvk4oi7fQ" name="src">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hMQDb1tMEeesAqvk4oi7fQ" origin="_hMQDYVtMEeesAqvk4oi7fQ" image="_hMQDXFtMEeesAqvk4oi7fQ"/>
+    <mappings xmi:id="_hMQDcVtMEeesAqvk4oi7fQ" origin="_hMQDaltMEeesAqvk4oi7fQ" image="_hMQDX1tMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hMQDcltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hMQDUltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_yscIIbMmEeeVO7KYP9bjsA" name="r"/>
+    <parameters xmi:id="_yscIJLMmEeeVO7KYP9bjsA" name="src"/>
+    <parameters xmi:id="_yscIJ7MmEeeVO7KYP9bjsA" name="t"/>
+    <parameters xmi:id="_yscIKrMmEeeVO7KYP9bjsA" name="tgt"/>
+    <parameters xmi:id="_yscILbMmEeeVO7KYP9bjsA" name="tr"/>
+    <parameterMappings xmi:id="_yscIIrMmEeeVO7KYP9bjsA" source="_yscIIbMmEeeVO7KYP9bjsA" target="_yscIILMmEeeVO7KYP9bjsA"/>
+    <parameterMappings xmi:id="_yscIJbMmEeeVO7KYP9bjsA" source="_yscIJLMmEeeVO7KYP9bjsA" target="_yscII7MmEeeVO7KYP9bjsA"/>
+    <parameterMappings xmi:id="_yscIKLMmEeeVO7KYP9bjsA" source="_yscIJ7MmEeeVO7KYP9bjsA" target="_yscIJrMmEeeVO7KYP9bjsA"/>
+    <parameterMappings xmi:id="_yscIK7MmEeeVO7KYP9bjsA" source="_yscIKrMmEeeVO7KYP9bjsA" target="_yscIKbMmEeeVO7KYP9bjsA"/>
+    <parameterMappings xmi:id="_yscILrMmEeeVO7KYP9bjsA" source="_yscILbMmEeeVO7KYP9bjsA" target="_yscILLMmEeeVO7KYP9bjsA"/>
+  </units>
+</henshin:Module>
