@@ -2,16 +2,14 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hxNKlltMEeesAqvk4oi7fQ" name="CREATE_Pseudostate_IN_Region_(subvertex)" description="Creates one Pseudostate in Region">
   <annotations xmi:id="_hxNKl1tMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_Pseudostate_IN_Region_(subvertex)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_hxNKmFtMEeesAqvk4oi7fQ" name="createPseudostate_IN_Region" description="creates one Pseudostate in the context: Region">
-    <parameters xmi:id="_hxNKmVtMEeesAqvk4oi7fQ" name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_hxNKmFtMEeesAqvk4oi7fQ" name="createPseudostate" description="creates one Pseudostate in the context: Region">
+    <parameters xmi:id="_MnP40LTeEee9absCW2d7ew" name="r">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters xmi:id="_hxNKmltMEeesAqvk4oi7fQ" name="New">
+    <parameters xmi:id="_MnQf4LTeEee9absCW2d7ew" name="p">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters xmi:id="_hxNKm1tMEeesAqvk4oi7fQ" name="Name">
-      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
-    </parameters>
+    <parameters xmi:id="_hxNKm1tMEeesAqvk4oi7fQ" name="Name"/>
     <parameters xmi:id="_hxNKnFtMEeesAqvk4oi7fQ" name="Visibility">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
@@ -19,17 +17,17 @@
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
     <lhs xmi:id="_hxNKnltMEeesAqvk4oi7fQ" name="Lhs">
-      <nodes xmi:id="_hxNKn1tMEeesAqvk4oi7fQ" name="Selected">
+      <nodes xmi:id="_hxNKn1tMEeesAqvk4oi7fQ" name="r">
         <annotations xmi:id="_hxNKoFtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
     </lhs>
     <rhs xmi:id="_hxNKoVtMEeesAqvk4oi7fQ" name="Rhs">
-      <nodes xmi:id="_hxNKoltMEeesAqvk4oi7fQ" name="Selected" incoming="_hxNKqltMEeesAqvk4oi7fQ" outgoing="_hxNKqVtMEeesAqvk4oi7fQ">
+      <nodes xmi:id="_hxNKoltMEeesAqvk4oi7fQ" name="r" incoming="_hxNKqltMEeesAqvk4oi7fQ" outgoing="_hxNKqVtMEeesAqvk4oi7fQ">
         <annotations xmi:id="_hxNKo1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes xmi:id="_hxNKpFtMEeesAqvk4oi7fQ" name="New" incoming="_hxNKqVtMEeesAqvk4oi7fQ" outgoing="_hxNKqltMEeesAqvk4oi7fQ">
+      <nodes xmi:id="_hxNKpFtMEeesAqvk4oi7fQ" name="p" incoming="_hxNKqVtMEeesAqvk4oi7fQ" outgoing="_hxNKqltMEeesAqvk4oi7fQ">
         <annotations xmi:id="_hxNKpVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
         <attributes xmi:id="_hxNKpltMEeesAqvk4oi7fQ" value="Name">
@@ -69,8 +67,6 @@
     <parameters xmi:id="_hxNKs1tMEeesAqvk4oi7fQ" name="Kind">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
-    <parameterMappings xmi:id="_hxNKtFtMEeesAqvk4oi7fQ" source="_hxNKrVtMEeesAqvk4oi7fQ" target="_hxNKmVtMEeesAqvk4oi7fQ"/>
-    <parameterMappings xmi:id="_hxNKtVtMEeesAqvk4oi7fQ" source="_hxNKmltMEeesAqvk4oi7fQ" target="_hxNKr1tMEeesAqvk4oi7fQ"/>
     <parameterMappings xmi:id="_hxNKtltMEeesAqvk4oi7fQ" source="_hxNKsVtMEeesAqvk4oi7fQ" target="_hxNKm1tMEeesAqvk4oi7fQ"/>
     <parameterMappings xmi:id="_hxNKt1tMEeesAqvk4oi7fQ" source="_hxNKsltMEeesAqvk4oi7fQ" target="_hxNKnFtMEeesAqvk4oi7fQ"/>
     <parameterMappings xmi:id="_hxNKuFtMEeesAqvk4oi7fQ" source="_hxNKs1tMEeesAqvk4oi7fQ" target="_hxNKnVtMEeesAqvk4oi7fQ"/>

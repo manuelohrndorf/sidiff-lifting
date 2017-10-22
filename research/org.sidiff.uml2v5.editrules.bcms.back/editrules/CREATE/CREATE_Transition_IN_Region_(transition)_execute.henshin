@@ -2,18 +2,18 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hMQDUFtMEeesAqvk4oi7fQ" name="CREATE_Transition_IN_Region_(transition)" description="Creates one Transition in Region">
   <annotations xmi:id="_hMQDUVtMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_Transition_IN_Region_(transition)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_hMQDUltMEeesAqvk4oi7fQ" name="createTransition_IN_Region" description="creates one Transition in the context: Region">
+  <units xsi:type="henshin:Rule" xmi:id="_hMQDUltMEeesAqvk4oi7fQ" name="createStateWithTransition" description="creates one Transition in the context: Region">
     <parameters xmi:id="_q670ZbMeEeerst7XiCxhuQ" name="r"/>
     <parameters xmi:id="_q670aLMeEeerst7XiCxhuQ" name="src"/>
-    <parameters xmi:id="_q670XLMeEeerst7XiCxhuQ" name="tgt_Name"/>
-    <parameters xmi:id="_q670U7MeEeerst7XiCxhuQ" name="tgt_IsLeaf"/>
-    <parameters xmi:id="_q670YrMeEeerst7XiCxhuQ" name="tgt_Visibility"/>
-    <parameters xmi:id="_q670WbMeEeerst7XiCxhuQ" name="t_Name"/>
-    <parameters xmi:id="_q670ULMeEeerst7XiCxhuQ" name="t_IsLeaf"/>
-    <parameters xmi:id="_q670VrMeEeerst7XiCxhuQ" name="t_Kind"/>
-    <parameters xmi:id="_q670X7MeEeerst7XiCxhuQ" name="t_Visibility"/>
-    <parameters xmi:id="_r8qXE7MeEeerst7XiCxhuQ" name="tgt"/>
     <parameters xmi:id="_r8qXELMeEeerst7XiCxhuQ" name="t"/>
+    <parameters xmi:id="_r8qXE7MeEeerst7XiCxhuQ" name="tgt"/>
+    <parameters xmi:id="_q670WbMeEeerst7XiCxhuQ" name="t_Name"/>
+    <parameters xmi:id="_q670XLMeEeerst7XiCxhuQ" name="tgt_Name"/>
+    <parameters xmi:id="_q670ULMeEeerst7XiCxhuQ" name="t_IsLeaf"/>
+    <parameters xmi:id="_q670U7MeEeerst7XiCxhuQ" name="tgt_IsLeaf"/>
+    <parameters xmi:id="_q670X7MeEeerst7XiCxhuQ" name="t_Visibility"/>
+    <parameters xmi:id="_q670YrMeEeerst7XiCxhuQ" name="tgt_Visibility"/>
+    <parameters xmi:id="_q670VrMeEeerst7XiCxhuQ" name="t_Kind"/>
     <parameters xmi:id="_SQZ6oLMmEeeVO7KYP9bjsA" name="tr"/>
     <parameters xmi:id="_RLUh4LMmEeeVO7KYP9bjsA" name="tr_Name"/>
     <parameters xmi:id="_RLUh47MmEeeVO7KYP9bjsA" name="tr_Visibility"/>
@@ -31,7 +31,7 @@
         <annotations xmi:id="_hMQDYltMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes xmi:id="_hMQDY1tMEeesAqvk4oi7fQ" name="t" incoming="_hMQDa1tMEeesAqvk4oi7fQ" outgoing="_hMQDbFtMEeesAqvk4oi7fQ _hMQDbVtMEeesAqvk4oi7fQ _hMQDbltMEeesAqvk4oi7fQ _Dp49MLMmEeeVO7KYP9bjsA">
+      <nodes xmi:id="_hMQDY1tMEeesAqvk4oi7fQ" name="t" incoming="_hMQDa1tMEeesAqvk4oi7fQ" outgoing="_hMQDbFtMEeesAqvk4oi7fQ _hMQDbVtMEeesAqvk4oi7fQ _hMQDbltMEeesAqvk4oi7fQ">
         <annotations xmi:id="_hMQDZFtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
         <attributes xmi:id="_hMQDZVtMEeesAqvk4oi7fQ" value="t_Name">
@@ -62,15 +62,6 @@
       <nodes xmi:id="_hMQDaltMEeesAqvk4oi7fQ" name="src" incoming="_hMQDbltMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
       </nodes>
-      <nodes xmi:id="__XsvQLMlEeeVO7KYP9bjsA" name="tr" incoming="_Dp49MLMmEeeVO7KYP9bjsA">
-        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
-        <attributes xmi:id="_I-8WULMmEeeVO7KYP9bjsA" value="tr_Name">
-          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
-        </attributes>
-        <attributes xmi:id="_L9tNgLMmEeeVO7KYP9bjsA" value="tr_Visibility">
-          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
-        </attributes>
-      </nodes>
       <edges xmi:id="_hMQDa1tMEeesAqvk4oi7fQ" source="_hMQDYVtMEeesAqvk4oi7fQ" target="_hMQDY1tMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/transition"/>
       </edges>
@@ -88,9 +79,6 @@
       </edges>
       <edges xmi:id="_wI2gILMdEeerst7XiCxhuQ" source="_hMQDXltMEeesAqvk4oi7fQ" target="_hMQDYVtMEeesAqvk4oi7fQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
-      </edges>
-      <edges xmi:id="_Dp49MLMmEeeVO7KYP9bjsA" source="_hMQDY1tMEeesAqvk4oi7fQ" target="__XsvQLMlEeeVO7KYP9bjsA">
-        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/trigger"/>
       </edges>
     </rhs>
     <mappings xmi:id="_hMQDb1tMEeesAqvk4oi7fQ" origin="_hMQDXFtMEeesAqvk4oi7fQ" image="_hMQDYVtMEeesAqvk4oi7fQ"/>
