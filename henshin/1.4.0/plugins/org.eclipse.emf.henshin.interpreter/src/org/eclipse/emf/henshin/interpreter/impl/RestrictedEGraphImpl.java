@@ -113,8 +113,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	 * @return A set of {@link EObject}s compatible with the type.
 	 */
 	public List<EObject> getDomain(EClass type, boolean strict, Variable variable) {
-		Node node = ruleInfo.getVariableInfo().getVariableForNode(variable);
-		Collection<? extends EObject> restricedDomain = restrictedDomainMap.get(node);
+		Collection<? extends EObject> restricedDomain = restrictedDomainMap.get(variable);
 		
 		if (restricedDomain != null) {
 			return new ArrayList<EObject>(restricedDomain);
@@ -137,8 +136,7 @@ public class RestrictedEGraphImpl implements EGraph {
 	 * @return The size of the domain.
 	 */
 	public int getDomainSize(EClass type, boolean strict, Variable variable) {
-		Node node = ruleInfo.getVariableInfo().getVariableForNode(variable);
-		Collection<? extends EObject> restricedDomain = restrictedDomainMap.get(node);
+		Collection<? extends EObject> restricedDomain = restrictedDomainMap.get(variable);
 		
 		if (restricedDomain != null) {
 			return restricedDomain.size();
