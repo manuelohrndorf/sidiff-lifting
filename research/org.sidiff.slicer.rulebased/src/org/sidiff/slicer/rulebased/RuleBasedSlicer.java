@@ -353,7 +353,7 @@ public class RuleBasedSlicer{
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
 		if(DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
 			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), EMFStorage.uriToPath(completeResource.getURI()).replace(completeResource.getURI().lastSegment(),  ""), "diff");
-			throw new UncoveredChangesException();
+			//throw new UncoveredChangesException();
 		}
 		return asymDiff;
 	}

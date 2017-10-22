@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.BaseArgumentManager;
@@ -67,4 +68,21 @@ public class SlicingArgumentManager extends BaseArgumentManager {
 		return correspondences;
 	}
 
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 }

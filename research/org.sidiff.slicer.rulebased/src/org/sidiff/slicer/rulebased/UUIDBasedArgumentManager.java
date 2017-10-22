@@ -324,4 +324,19 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 		}
 	}
 	
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
