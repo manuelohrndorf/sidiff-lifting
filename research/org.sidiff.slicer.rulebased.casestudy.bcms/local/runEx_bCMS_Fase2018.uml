@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_1MmhamndEeWZOoTCcU_ksg" name="BCMS" URI="" viewpoint="">
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_1Mnt4GndEeWZOoTCcU_ksg" name="SM-PSCSystem">
+    <region xmi:id="_25hZ8KEYEeW-btv3BzkPdA" name="Region2"/>
+    <region xmi:id="_1Mnt4WndEeWZOoTCcU_ksg" name="Region1">
+      <transition xmi:id="_1Mnt8GndEeWZOoTCcU_ksg" name="initial-->Idle" source="_1Mnuo2ndEeWZOoTCcU_ksg" target="_1MnuM2ndEeWZOoTCcU_ksg"/>
+      <transition xmi:id="_1Mnt7GndEeWZOoTCcU_ksg" name="Idle-reqComFSC(Trigger)/receiveFScoordinatorCall->Authorising" source="_1MnuM2ndEeWZOoTCcU_ksg" target="_1Mnt9WndEeWZOoTCcU_ksg">
+        <trigger xmi:id="_6W0qAKGWEeWOH5kx_G3ggA" name="reqComFSC(Trigger)"/>
+      </transition>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnuo2ndEeWZOoTCcU_ksg" name="initial"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1MnuM2ndEeWZOoTCcU_ksg" name="Idle"/>
+      <subvertex xmi:type="uml:State" xmi:id="_1Mnt9WndEeWZOoTCcU_ksg" name="Authorising">
+        <region xmi:id="_K6P9UKEZEeW-btv3BzkPdA" name="Region1">
+          <transition xmi:id="_1Mnt92ndEeWZOoTCcU_ksg" name="initial-->S.1.0.0" source="_1Mnt-2ndEeWZOoTCcU_ksg" target="_1Mnt-mndEeWZOoTCcU_ksg"/>
+          <transition xmi:id="_1Mnt-GndEeWZOoTCcU_ksg" name="S.1.0.0-sendPScoordinatorCredentials(Trigger)/authPSC->S.1.0.1" source="_1Mnt-mndEeWZOoTCcU_ksg" target="_1Mnt_WndEeWZOoTCcU_ksg">
+            <trigger xmi:id="_1JPDcKGZEeWOH5kx_G3ggA" name="sendPScoordinatorCredentials(Trigger)"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnt-2ndEeWZOoTCcU_ksg" name="initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt-mndEeWZOoTCcU_ksg" name="S.1.0.0"/>
+          <subvertex xmi:type="uml:State" xmi:id="_1Mnt_WndEeWZOoTCcU_ksg" name="S.1.0.1"/>
+        </region>
+      </subvertex>
+    </region>
+  </packagedElement>
+</uml:Model>
