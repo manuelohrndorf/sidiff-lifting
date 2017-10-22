@@ -25,6 +25,14 @@ import org.sidiff.patching.settings.PatchMode;
  */
 public interface IArgumentManager {
 
+	String EXTENSION_POINT_ID = "org.sidiff.patching.arguments.manager";
+	
+	String EXTENSION_POINT_ATTRIBUTE = "manager";
+
+	public String getKey();
+	
+	public String getName();
+	
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, IModifiedDetector modifiedDetector);
 
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode);
@@ -117,5 +125,13 @@ public interface IArgumentManager {
 	 * @return
 	 */
 	public boolean isModified(EObject targetObject);
+	
+	/**
+	 * Returns whether this argument manager can resolve arguments for the given models.
+	 * 
+	 * @return
+	 */
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel);
+	
 
 }

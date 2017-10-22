@@ -25,26 +25,30 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/parameterMappings"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/executions"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/symmetricDifference"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference Asymmetric.ecore#//AsymmetricDifference/ruleBases"/>
-      <genOperations ecoreOperation="Asymmetric.ecore#//AsymmetricDifference/initRuleBases"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//AsymmetricDifference/uriOriginModel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//AsymmetricDifference/uriChangedModel"/>
     </genClasses>
     <genClasses ecoreClass="Asymmetric.ecore#//OperationInvocation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//OperationInvocation/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//OperationInvocation/editRuleName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//OperationInvocation/apply"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/parameterBindings"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/outgoing"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/incoming"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//OperationInvocation/apply"/>
       <genFeatures notify="false" children="true" createChild="false" propertySortChoices="true"
           ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/changeSet"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/editRule"/>
-      <genOperations ecoreOperation="Asymmetric.ecore#//OperationInvocation/resolveEditRule"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Asymmetric.ecore#//OperationInvocation/asymmetricDifference"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Asymmetric.ecore#//ParameterBinding">
-      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference Asymmetric.ecore#//ParameterBinding/formalParameter"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//ParameterBinding/formalName"/>
+      <genOperations ecoreOperation="Asymmetric.ecore#//ParameterBinding/isDefaultValue"/>
     </genClasses>
     <genClasses ecoreClass="Asymmetric.ecore#//ObjectParameterBinding">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/actualA"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/actualB"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/outgoing"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Asymmetric.ecore#//ObjectParameterBinding/incoming"/>
+      <genOperations ecoreOperation="Asymmetric.ecore#//ObjectParameterBinding/isMappingTarget"/>
     </genClasses>
     <genClasses ecoreClass="Asymmetric.ecore#//ValueParameterBinding">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Asymmetric.ecore#//ValueParameterBinding/actual"/>

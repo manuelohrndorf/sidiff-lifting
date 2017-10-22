@@ -3,11 +3,15 @@ package org.sidiff.patching.arguments;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.ExternalReferenceCalculator;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
+import org.silift.difference.symboliclink.SymboliclinkPackage;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentManager {
@@ -92,5 +96,16 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	 */
 	protected Map<SymbolicLinkObject, EObject> getLinkResolvingB() {
 		return linkResolvingB;
+	}
+	
+
+	@Override
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+		Resource originModel = asymmetricDifference.getOriginModel();
+		if(EMFModelAccess.getCharacteristicDocumentType(originModel).equals(SymboliclinkPackage.eNS_URI)){
+			SymbolicLinks symbolicLinks = (SymbolicLinks) originModel.getContents().get(0);
+			return EMFModelAccess.getCharacteristicDocumentType(targetModel).equals(symbolicLinks.getDocType());
+		}
+		return false;
 	}
 }

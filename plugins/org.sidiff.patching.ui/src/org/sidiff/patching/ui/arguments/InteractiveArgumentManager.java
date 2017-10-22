@@ -132,4 +132,14 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 		}
 	}
 
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
 }

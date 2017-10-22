@@ -138,4 +138,14 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 		}
 	}
 
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+	
 }

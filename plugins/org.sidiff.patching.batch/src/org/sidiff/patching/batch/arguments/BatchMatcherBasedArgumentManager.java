@@ -41,5 +41,17 @@ public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgume
 	public void addTargetObject(EObject targetObject) {
 		// Not needed in batch mode.
 	}
+	
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
+
 
 }

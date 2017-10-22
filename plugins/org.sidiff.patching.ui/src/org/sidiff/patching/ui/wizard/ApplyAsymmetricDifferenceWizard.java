@@ -29,15 +29,13 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.correspondences.CorrespondencesUtil;
-import org.sidiff.deltamodeling.superimposition.SuperimposedModel;
-import org.sidiff.deltamodeling.superimposition.signature.util.SignatureCalculatorUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.adapter.superimposition.ArgumentManager;
+import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -223,11 +221,8 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager;
-					if(asymmetricDifference.getOriginModel().getContents().get(0) instanceof SuperimposedModel){
-						SuperimposedModel superimposedModel = (SuperimposedModel) asymmetricDifference.getOriginModel().getContents().get(0);
-						argumentManager = new ArgumentManager(SignatureCalculatorUtil.getDefaultSignatureCalculator());
-					} else {
+					IArgumentManager argumentManager = PatchingUtils.getArgumentManager(("org.sidiff.patching.adapter.superimposition.ArgumentManager"));
+					if(argumentManager == null || !argumentManager.canResolveArguments(asymmetricDifference, resourceResult.get())){
 						argumentManager = new InteractiveArgumentManager(
 								settings.getMatcher());
 					}

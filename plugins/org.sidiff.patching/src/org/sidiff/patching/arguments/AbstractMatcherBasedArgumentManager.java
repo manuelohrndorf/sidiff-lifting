@@ -6,10 +6,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFResourceUtil;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.EObjectLocation;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
@@ -138,6 +140,10 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 		return null;
 	}
 	
-	
+
+	@Override
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+		return EMFModelAccess.getCharacteristicDocumentType(targetModel).equals(EMFModelAccess.getCharacteristicDocumentType(asymmetricDifference.getOriginModel()));
+	}
 	
 }

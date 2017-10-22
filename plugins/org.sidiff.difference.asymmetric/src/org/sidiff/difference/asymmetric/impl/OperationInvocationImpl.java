@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -664,13 +665,19 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		//TODO 29-08-2017 cpietsch: this is just a workaround, another solution must be found
 		String documentType = null;
 		Set<String> docTypes = new HashSet<String>();
-		EObject eObject = difference.getOriginModel().getContents().get(0);
-		if(eObject.eClass().getEStructuralFeature("docType") != null){
-			Object object = eObject.eGet(eObject.eClass().getEStructuralFeature("docType"));
-			if(object instanceof EList<?>){
-				docTypes = new HashSet<String>((Collection<? extends String>) object);
+		for (Iterator<EObject> iterator =difference.getOriginModel().getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			if(eObject.eClass().getName().equals("SuperimposedModel")){
+				Object object = eObject.eGet(eObject.eClass().getEStructuralFeature("docType"));
+				if(object instanceof EList<?>){
+					docTypes = new HashSet<String>((Collection<? extends String>) object);
+					break;
+				}
 			}
-		}else{
+			
+		}
+			
+		if(docTypes.isEmpty()){
 			documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
 			if(documentType != null){
 				docTypes.add(documentType);
