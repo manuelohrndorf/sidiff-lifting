@@ -3,17 +3,19 @@
   <annotations xmi:id="_hxNKl1tMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_Pseudostate_IN_Region_(subvertex)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
   <units xsi:type="henshin:Rule" xmi:id="_hxNKmFtMEeesAqvk4oi7fQ" name="createPseudostate" description="creates one Pseudostate in the context: Region">
-    <parameters xmi:id="_MnP40LTeEee9absCW2d7ew" name="r">
+    <parameters xmi:id="_MnP40LTeEee9absCW2d7ew" name="r" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters xmi:id="_MnQf4LTeEee9absCW2d7ew" name="p">
+    <parameters xmi:id="_MnQf4LTeEee9absCW2d7ew" name="p" kind="OUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters xmi:id="_hxNKm1tMEeesAqvk4oi7fQ" name="Name"/>
-    <parameters xmi:id="_hxNKnFtMEeesAqvk4oi7fQ" name="Visibility">
+    <parameters xmi:id="_hxNKm1tMEeesAqvk4oi7fQ" name="Name" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hxNKnFtMEeesAqvk4oi7fQ" name="Visibility" kind="IN">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters xmi:id="_hxNKnVtMEeesAqvk4oi7fQ" name="Kind">
+    <parameters xmi:id="_hxNKnVtMEeesAqvk4oi7fQ" name="Kind" kind="IN">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
     <lhs xmi:id="_hxNKnltMEeesAqvk4oi7fQ" name="Lhs">
@@ -50,25 +52,27 @@
     <mappings xmi:id="_hxNKq1tMEeesAqvk4oi7fQ" origin="_hxNKn1tMEeesAqvk4oi7fQ" image="_hxNKoltMEeesAqvk4oi7fQ"/>
   </units>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_hxNKrFtMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hxNKmFtMEeesAqvk4oi7fQ">
-    <parameters xmi:id="_hxNKrVtMEeesAqvk4oi7fQ" name="selectedEObject">
+    <parameters xmi:id="_hxNKrVtMEeesAqvk4oi7fQ" name="selectedEObject" kind="IN">
       <annotations xmi:id="_hxNKrltMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters xmi:id="_hxNKr1tMEeesAqvk4oi7fQ" name="New">
+    <parameters xmi:id="_hxNKr1tMEeesAqvk4oi7fQ" name="New" kind="OUT">
       <annotations xmi:id="_hxNKsFtMEeesAqvk4oi7fQ" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters xmi:id="_hxNKsVtMEeesAqvk4oi7fQ" name="Name">
+    <parameters xmi:id="_hxNKsVtMEeesAqvk4oi7fQ" name="Name" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters xmi:id="_hxNKsltMEeesAqvk4oi7fQ" name="Visibility">
+    <parameters xmi:id="_hxNKsltMEeesAqvk4oi7fQ" name="Visibility" kind="IN">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters xmi:id="_hxNKs1tMEeesAqvk4oi7fQ" name="Kind">
+    <parameters xmi:id="_hxNKs1tMEeesAqvk4oi7fQ" name="Kind" kind="IN">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
     <parameterMappings xmi:id="_hxNKtltMEeesAqvk4oi7fQ" source="_hxNKsVtMEeesAqvk4oi7fQ" target="_hxNKm1tMEeesAqvk4oi7fQ"/>
     <parameterMappings xmi:id="_hxNKt1tMEeesAqvk4oi7fQ" source="_hxNKsltMEeesAqvk4oi7fQ" target="_hxNKnFtMEeesAqvk4oi7fQ"/>
     <parameterMappings xmi:id="_hxNKuFtMEeesAqvk4oi7fQ" source="_hxNKs1tMEeesAqvk4oi7fQ" target="_hxNKnVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings source="_hxNKrVtMEeesAqvk4oi7fQ" target="_MnP40LTeEee9absCW2d7ew"/>
+    <parameterMappings source="_MnQf4LTeEee9absCW2d7ew" target="_hxNKr1tMEeesAqvk4oi7fQ"/>
   </units>
 </henshin:Module>
