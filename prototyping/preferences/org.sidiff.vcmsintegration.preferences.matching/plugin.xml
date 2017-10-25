@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.vcmsintegration.preferences.enginePipelineStep">
+      <client
+            class="org.sidiff.vcmsintegration.preferences.matching.Matching">
+      </client>
+   </extension>
+   <extension
+         point="org.sidiff.vcmsintegration.preferences.settingsFactory">
+      <client
+            class="org.sidiff.vcmsintegration.preferences.matching.factory.MatchingSettingsFactory">
+      </client>
+   </extension>
+   <extension
+         point="org.sidiff.vcmsintegration.preferences.validationPipelineStep">
+      <client
+            class="org.sidiff.vcmsintegration.preferences.matching.ValidationMatching">
+      </client>
+   </extension>
+
+</plugin>
