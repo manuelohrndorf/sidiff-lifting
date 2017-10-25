@@ -16,13 +16,13 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
+import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
-import org.sidiff.patching.PatchEngine;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
@@ -106,11 +106,6 @@ public class RuleBasedSlicer{
 	 * {@link #extend_remSlicingCriteria} = extend({@link #slicingCriteria_old} - extend({@link #slicingCriteria_new})
 	 */
 	private Set<EObject> extend_remSlicingCriteria;
-
-	/**
-	 * The {@link PatchEngine} for applying the {@link #asymDiff}
-	 */
-	private PatchEngine patchEngine;
 	
 	/**
 	 * flag that indicates if the slicer is initialized
@@ -148,7 +143,7 @@ public class RuleBasedSlicer{
 		this.slicingCriteria_old = new HashSet<EObject>();
 		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
-		editScript_create = generateEditScript(emtpyResource, completeResource);
+		editScript_create = generateEditScript(emtpyResource, completeResource, EditScriptDirection.CREATION);
 		
 		opInvsCreate = new HashMap<EObject, OperationInvocation>();
 		for (OperationInvocation opInv : editScript_create.getOperationInvocations()) {
@@ -176,7 +171,7 @@ public class RuleBasedSlicer{
 		
 		config.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(postProcessorElements));
 		
-		editScript_delete = generateEditScript(completeResource, emtpyResource);
+		editScript_delete = generateEditScript(completeResource, emtpyResource, EditScriptDirection.DELETION);
 		
 		opInvsDelete = new HashMap<EObject, OperationInvocation>();
 		for (OperationInvocation opInv : editScript_delete.getOperationInvocations()) {
@@ -187,13 +182,7 @@ public class RuleBasedSlicer{
 				}
 			}
 		}
-//		EcoreUtil.resolveAll(originResource);
-//		for(Resource resource : originResource.getResourceSet().getResources()){
-//			if(resource != originResource){
-//				Resource r = EMFStorage.eLoad(resource.getURI()).eResource();
-//				this.targetResource.getResourceSet().getResources().add(r);
-//			}
-//		}
+
 		this.initialized = true;
 	}
 
@@ -208,6 +197,7 @@ public class RuleBasedSlicer{
 	 * @throws NotInitializedException 
 	 * @throws ExtendedSlicingCriteriaIntersectionException 
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public AsymmetricDifference slice(Set<EObject> slicingCriteria) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
 
 		if(initialized){
@@ -340,21 +330,24 @@ public class RuleBasedSlicer{
 	 * in {@link #correspondences}
 	 * @param originModel
 	 * @param changedModel
-	 * @param correspondences
+	 * @param direction
 	 * @return an {@link AsymmetricDifference}
 	 * @throws UncoveredChangesException 
 	 * @throws NoCorrespondencesException 
 	 * @throws InvalidModelException 
 	 */
-	private AsymmetricDifference generateEditScript(Resource originModel, Resource changedModel) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
+	private AsymmetricDifference generateEditScript(Resource originModel, Resource changedModel, EditScriptDirection direction) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
 				
-		AsymmetricDifference asymDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(originModel, changedModel, this.slicingConfiguration.getLiftingSettings()).getAsymmetric();
+		Difference diff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(originModel, changedModel, this.slicingConfiguration.getLiftingSettings());
+		AsymmetricDifference asymDiff = diff.getAsymmetric(); 
 		asymDiff.setUriOriginModel(originModel.getURI().toString());
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
 		if(DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
 			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), EMFStorage.uriToPath(completeResource.getURI()).replace(completeResource.getURI().lastSegment(),  ""), "diff");
-			//throw new UncoveredChangesException();
+			throw new UncoveredChangesException();
 		}
+		String path = EMFStorage.uriToPath(originModel.getURI()).replace(originModel.getURI().lastSegment(), "");
+		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, "editScript_"+direction);
 		return asymDiff;
 	}
 	
@@ -373,31 +366,6 @@ public class RuleBasedSlicer{
 		return mergedAsymDiff;
 	}
 	
-//	private void initPatchEngine(AsymmetricDifference asymDiff, Map<EObject,EObject> correspondences){
-//		IArgumentManager argumentManager = new SlicingArgumentManager(correspondences);
-//		PatchingSettings settings = new PatchingSettings(slicingConfiguration.getLiftingSettings().getScope(), false,
-//				slicingConfiguration.getLiftingSettings().getMatcher(),
-//				slicingConfiguration.getLiftingSettings().getCandidatesService(),
-//				slicingConfiguration.getLiftingSettings().getCorrespondencesService(),
-//				slicingConfiguration.getLiftingSettings().getTechBuilder(), null,
-//				argumentManager,
-//				new BatchInterruptHandler(),
-//				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
-//				null, ExecutionMode.BATCH,
-//				PatchMode.PATCHING, 100, ValidationMode.NO_VALIDATION);
-//		
-//		patchEngine = new PatchEngine(asymDiff, slicedResource, settings);
-//	}
-	
-//	/**
-//	 * applies an edit script onto a target model and adds new created model
-//	 * elements to {@link #correspondences}
-//	 */
-//	private void applyEditScript(AsymmetricDifference asymDiff){
-//		patchEngine.applyPatch(true);
-//		updateCorrespondences(asymDiff);
-//	}
-	
 	/**
 	 * 
 	 * @return
@@ -405,15 +373,23 @@ public class RuleBasedSlicer{
 	public boolean isInitialized() {
 		return initialized;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public PatchEngine getPatchEngine() {
-		return patchEngine;
-	}
 	
+	public Set<EObject> getSlicingCriteria_old() {
+		return slicingCriteria_old;
+	}
+
+	public Set<EObject> getSlicingCriteria_new() {
+		return slicingCriteria_new;
+	}
+
+	public Set<EObject> getAddSlicingCriteria() {
+		return addSlicingCriteria;
+	}
+
+	public Set<EObject> getRemSlicingCriteria() {
+		return remSlicingCriteria;
+	}
+
 	public Set<EObject> getExtendedAddSlicingCriteria(){
 		Set<EObject> extendSlicingCriteria = new HashSet<EObject>(extend_addSlicingCriteria);
 		extendSlicingCriteria.removeAll(addSlicingCriteria);
@@ -424,5 +400,10 @@ public class RuleBasedSlicer{
 		Set<EObject> extendSlicingCriteria = new HashSet<EObject>(remSlicingCriteria);
 		extendSlicingCriteria.removeAll(extend_remSlicingCriteria);
 		return extendSlicingCriteria;
+	}
+	
+	private enum EditScriptDirection{
+		CREATION,
+		DELETION
 	}
 }

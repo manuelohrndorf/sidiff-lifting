@@ -232,4 +232,14 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 	public Scope getScope() {
 		return scope;
 	}
+
+	@Override
+	public String getKey() {
+		return "HenshinTransformationEngine";
+	}
+
+	@Override
+	public String getName() {
+		return "Henshin Transformation Engine";
+	}
 }

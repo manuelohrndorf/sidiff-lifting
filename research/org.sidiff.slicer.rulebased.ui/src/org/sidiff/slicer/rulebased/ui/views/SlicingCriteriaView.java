@@ -56,7 +56,6 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.settings.ExecutionMode;
@@ -78,6 +77,10 @@ import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
 import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
+import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
+import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
+import org.sidiff.vcmsintegration.preferences.util.PreferenceUtil;
+import org.sidiff.vcmsintegration.preferences.util.SettingsFactory;
 
 /**
  * 
@@ -151,7 +154,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 */
 	private EContentAdapter eContentAdapter;
 	
-	
 
 	// ---------- UI Elements ----------
 	
@@ -163,12 +165,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	/**
 	 * 
 	 */
-	
 	private SlicingCriteriaLabelProvider labelProvider;
-	/**
-	 * 
-	 */
-//	private TreeViewer treeViewer;
 	
 	/**
 	 * 
@@ -210,8 +207,10 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * loads the origin resource and shows the content in the {@link #checkboxTreeViewer}
 	 * @param input
 	 * 			the {@link IFile} representing the origin resource
+	 * @throws UnsupportedFeatureLevelException 
+	 * @throws InvalidSettingsException 
 	 */
-	public void init(IFile input){
+	public void init(IFile input) throws InvalidSettingsException, UnsupportedFeatureLevelException{
 		
 		
 		this.remoteResourceComplete = new UUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString()), new ResourceSetImpl());
@@ -229,8 +228,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			EMFUtil.setXmiId(copies.get(origin), id);
 		}
 		
-		this.config.setLiftingSettings(new LiftingSettings(EMFModelAccess.getDocumentTypes(this.remoteResourceComplete, Scope.RESOURCE)));
-		this.config.getLiftingSettings().setMatcher(MatcherUtil.getMatcher("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
+		this.config.setLiftingSettings((LiftingSettings) SettingsFactory.getInstance().getLiftingSettingsFactory(EMFModelAccess.getCharacteristicDocumentType(remoteResourceComplete), PreferenceUtil.getInstance().getPluginPreferenceStore()).getSettings());
 		
 		this.mergeSettings = new PatchingSettings(config.getLiftingSettings().getScope(), false,
 				config.getLiftingSettings().getMatcher(),
@@ -352,7 +350,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							}
 							labelProvider.setRemElements(slicer.getExtendedRemSlicingCriteria());
 							checkboxTreeViewer.refresh();
-//							treeViewer.setInput(currentSlice.getResourceSet());
 					
 							IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localModifiedSlicedResource);
 							IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localModifiedSlicedResource.getURI());
@@ -401,7 +398,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 						}
 					}
 					
-					if(true){
+					if(conflicting){
 						OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
 						ModelAdapter adapter = new ModelAdapter(
 								resourceResult.get());
@@ -460,7 +457,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				}else {
 					checkboxTreeViewer.setChecked(obj, true);
 				}
-//				showMessage("Double-click detected on "+obj.toString());
 			}
 		};
 		//end doubleClickAction
@@ -507,8 +503,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		manager.add(collapseAllAction);
 	}
 
-	
-
 	private void hookDoubleClickAction() {
 		checkboxTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
@@ -517,14 +511,6 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		});
 	}
 	
-	
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			checkboxTreeViewer.getControl().getShell(),
-			"Slicing Criteria view",
-			message);
-	}
-
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */

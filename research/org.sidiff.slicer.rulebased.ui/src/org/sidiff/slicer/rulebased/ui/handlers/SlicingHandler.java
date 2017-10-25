@@ -4,6 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -11,6 +12,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.slicer.rulebased.ui.views.SlicingCriteriaView;
+import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
+import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -37,9 +40,8 @@ public class SlicingHandler extends AbstractHandler {
 						try {
 							view = (SlicingCriteriaView) HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().showView(SlicingCriteriaView.ID);
 							view.init(file);
-						} catch (PartInitException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						} catch (PartInitException | InvalidSettingsException | UnsupportedFeatureLevelException e) {
+							MessageDialog.openError(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "Error", e.getMessage());
 						}
 						
 					}

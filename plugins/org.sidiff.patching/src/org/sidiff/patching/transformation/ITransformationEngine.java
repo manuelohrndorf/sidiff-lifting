@@ -49,5 +49,9 @@ public interface ITransformationEngine {
 	 * @throws OperationNotUndoableException
 	 */
 	public void undo(OperationInvocation operationInvocation) throws OperationNotUndoableException;
+	
+	public String getKey();
+	
+	public String getName();
 
 }
