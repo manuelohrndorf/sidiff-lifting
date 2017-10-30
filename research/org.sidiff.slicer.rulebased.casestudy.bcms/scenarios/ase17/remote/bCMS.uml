@@ -32,6 +32,14 @@ Comment:.&#xD;
         <effect xmi:type="uml:OpaqueBehavior" xmi:id="_xZdbgKGYEeWOH5kx_G3ggA" name="standAloneResolution"/>
         <trigger xmi:type="uml:Trigger" xmi:id="_uE4sYKGYEeWOH5kx_G3ggA" name="comTimout(Trigger)" event="_eEr_MKGYEeWOH5kx_G3ggA"/>
       </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_1Mnt-WndEeWZOoTCcU_ksg" name="S.1.0.1-->ExchangingCrisisDetails" visibility="public" source="_1Mnt_WndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mH25gKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_hIbyIKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_1MnuAWndEeWZOoTCcU_ksg" name="S.1.1.1-->ExchangingCrisisDetails" visibility="public" source="_1MnuBWndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_spVCcKGaEeWOH5kx_G3ggA" name="authPSC"/>
+        <trigger xmi:type="uml:Trigger" xmi:id="_rRRDUKGaEeWOH5kx_G3ggA" name="sendPCcoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
+      </transition>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnuo2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
       <subvertex xmi:type="uml:State" xmi:id="_1Mnt9WndEeWZOoTCcU_ksg" name="Authorising" visibility="public">
         <region xmi:type="uml:Region" xmi:id="_K6P9UKEZEeW-btv3BzkPdA" name="Region1">
@@ -39,10 +47,6 @@ Comment:.&#xD;
           <transition xmi:type="uml:Transition" xmi:id="_1Mnt-GndEeWZOoTCcU_ksg" name="S.1.0.0-->S.1.0.1" visibility="public" source="_1Mnt-mndEeWZOoTCcU_ksg" target="_1Mnt_WndEeWZOoTCcU_ksg">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_3c0PoKGZEeWOH5kx_G3ggA" name="authPSC"/>
             <trigger xmi:type="uml:Trigger" xmi:id="_1JPDcKGZEeWOH5kx_G3ggA" name="sendPScoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_1Mnt-WndEeWZOoTCcU_ksg" name="S.1.0.1-->ExchangingCrisisDetails" visibility="public" source="_1Mnt_WndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mH25gKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials"/>
-            <trigger xmi:type="uml:Trigger" xmi:id="_hIbyIKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
           </transition>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_1Mnt-2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
           <subvertex xmi:type="uml:State" xmi:id="_1Mnt-mndEeWZOoTCcU_ksg" name="S.1.0.0" visibility="public"/>
@@ -53,10 +57,6 @@ Comment:.&#xD;
           <transition xmi:type="uml:Transition" xmi:id="_1MnuAGndEeWZOoTCcU_ksg" name="S.1.1.0-->S.1.1.1" visibility="public" source="_1MnuAmndEeWZOoTCcU_ksg" target="_1MnuBWndEeWZOoTCcU_ksg">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_X-r_YKGaEeWOH5kx_G3ggA" name="receiveFScoordinatorCredentials"/>
             <trigger xmi:type="uml:Trigger" xmi:id="_T0LGwKGaEeWOH5kx_G3ggA" name="authFSC(Trigger)" event="_TpzCwKGaEeWOH5kx_G3ggA"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_1MnuAWndEeWZOoTCcU_ksg" name="S.1.1.1-->ExchangingCrisisDetails" visibility="public" source="_1MnuBWndEeWZOoTCcU_ksg" target="_1MnupGndEeWZOoTCcU_ksg">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_spVCcKGaEeWOH5kx_G3ggA" name="authPSC"/>
-            <trigger xmi:type="uml:Trigger" xmi:id="_rRRDUKGaEeWOH5kx_G3ggA" name="sendPCcoordinatorCredentials(Trigger)" event="_MRpIkJjKEeWO1Z0hulOgIQ"/>
           </transition>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_1MnuA2ndEeWZOoTCcU_ksg" name="initial" visibility="public"/>
           <subvertex xmi:type="uml:State" xmi:id="_1MnuAmndEeWZOoTCcU_ksg" name="S.1.1.0" visibility="public"/>
