@@ -190,9 +190,9 @@ public abstract class PotentialConflictAnalyzer {
 		}
 
 		// Delete-Use (PAC)
-		if ((!predecessorDeleteNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorRequireNodes.isEmpty())) {
 			Set<PotentialNodeConflict> useDeleteNodePotConsPAC = findDeleteUse_Node_PAC(
-					predecessorDeleteNodes, successorPreserveNodes);
+					predecessorDeleteNodes, successorRequireNodes);
 			
 			for (PotentialNodeConflict pnc : useDeleteNodePotConsPAC) {
 				pnc.setSourceRule(successorEditRule);
@@ -554,18 +554,18 @@ public abstract class PotentialConflictAnalyzer {
 	 * @return All potential conflicts.
 	 */
 	protected Set<PotentialNodeConflict> findDeleteUse_Node_PAC(
-			Collection<Node> lhsPredecessors, Collection<NodePair> requiredSuccessors) {
+			Collection<Node> lhsPredecessors, Collection<Node> requiredSuccessors) {
 
 		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
 
 		for (Node predecessorNode : lhsPredecessors) {
 			
-			for (NodePair successorNode : requiredSuccessors) {
-				if (isDeleteUseConflict_PAC(predecessorNode, successorNode.getLhsNode())) {
+			for (Node successorNode : requiredSuccessors) {
+				if (isDeleteUseConflict_PAC(predecessorNode, successorNode)) {
 					// Delete-Use conflict found
 					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
 
-					potDep.setSourceNode(successorNode.getLhsNode());
+					potDep.setSourceNode(successorNode);
 					potDep.setTargetNode(predecessorNode);
 					potDep.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 
