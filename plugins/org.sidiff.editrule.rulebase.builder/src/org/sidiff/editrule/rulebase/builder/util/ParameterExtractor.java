@@ -1,4 +1,4 @@
-package org.sidiff.editrule.analysis.parameters;
+package org.sidiff.editrule.rulebase.builder.util;
 
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -10,6 +10,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
+
 
 /**
  * This class extracts the formal parameters from the executeMainUnit of an
