@@ -8,7 +8,6 @@ package org.sidiff.difference.symmetric;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.editrule.rulebase.EditRule;
 
 /**
  * <!-- begin-user-doc -->
@@ -397,7 +396,5 @@ public interface SemanticChangeSet extends EObject {
 	 * @generated
 	 */
 	void setRecognitionRName(String value);
-	
-	EditRule resolveEditRule();
 
 } // SemanticChangeSet
