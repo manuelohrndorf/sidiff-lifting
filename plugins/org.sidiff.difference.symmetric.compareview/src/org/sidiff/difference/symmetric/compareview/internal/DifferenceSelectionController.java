@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,8 +52,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.access.HighlightableElement;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -61,6 +61,7 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.compareview.ChangeType;
+import org.sidiff.difference.symmetric.compareview.ISelectionAdapter;
 import org.sidiff.difference.symmetric.compareview.XtextMarker;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
@@ -97,6 +98,8 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 	private boolean highlightEnabled = false;
 	private ISelection lastSelection = null;
 	private IWorkbenchPart lastPart = null;
+	
+	private List<ISelectionAdapter> selectionAdapters = new LinkedList<ISelectionAdapter>();
 
 	private DifferenceSelectionController() {
 		selected = new ArrayList<EObject>();
@@ -126,6 +129,35 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			instance = new DifferenceSelectionController();
 		}
 		return instance;
+	}
+	
+	public boolean addSelectionAdapter(ISelectionAdapter selectionAdapter) {
+		if (!containsSelectionAdapter(selectionAdapter)) {
+			selectionAdapters.add(selectionAdapter);
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean containsSelectionAdapter(ISelectionAdapter selectionAdapter) {
+		for (ISelectionAdapter existingSelectionAdapter : selectionAdapters) {
+			if (existingSelectionAdapter.getClass() == selectionAdapter.getClass()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean removeSelectionAdapter(ISelectionAdapter selectionAdapter) {
+		for (Iterator<ISelectionAdapter> iterator = selectionAdapters.iterator(); iterator.hasNext();) {
+			ISelectionAdapter existingSelectionAdapter = iterator.next();
+			
+			if (existingSelectionAdapter.getClass() == selectionAdapter.getClass()) {
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<EObject> getSelected() {
@@ -191,8 +223,10 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 			correspondentElements.clear();
 			contextElements.clear();
 			eObjecToResourceURI.clear();
+			
 			if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 				IStructuredSelection _selection = (IStructuredSelection) selection;
+				
 				if (_selection.getFirstElement() instanceof SemanticChangeSet) {
 					SemanticChangeSet semanticChangeSet = (SemanticChangeSet) _selection.getFirstElement();
 					if(correspondencesAB.isEmpty() && correspondencesBA.isEmpty()){
@@ -224,29 +258,30 @@ public class DifferenceSelectionController implements ISelectionListener, INullS
 					
 					eObjecToResourceURI.put(eObjectA, ((Matching) corr.eContainer()).getEResourceA().getURI());
 					eObjecToResourceURI.put(eObjectB, ((Matching) corr.eContainer()).getEResourceB().getURI());
-				} else if (_selection.getFirstElement() instanceof OperationInvocation) {
-					OperationInvocation operationInvocation = (OperationInvocation) _selection.getFirstElement();
-					SemanticChangeSet semanticChangeSet = operationInvocation.getChangeSet();
-
-					for (Change change : semanticChangeSet.getChanges()) {
-						handleChange(change);
-					}
-				} else if (_selection.getFirstElement() instanceof ObjectParameterBinding) {
-					ObjectParameterBinding objectParameter = (ObjectParameterBinding) _selection.getFirstElement();
-
-					if (objectParameter.getActualA() != null) {
-						selected.add(objectParameter.getActualA());
-					}
-
-					if (objectParameter.getActualB() != null) {
-						selected.add(objectParameter.getActualB());
-					}
 				} else if (_selection.getFirstElement() instanceof EObject) {
 					EObject eObject = (EObject) _selection.getFirstElement();
 					selected.add(eObject);
 				} else if (_selection.getFirstElement() instanceof HighlightableElement) {
 					HighlightableElement highlightableElement = (HighlightableElement) _selection.getFirstElement();
 					selected.addAll(highlightableElement.getElements());
+				}
+			}
+			
+			// Check selection adapters:
+			for (ISelectionAdapter selectionAdapter : selectionAdapters) {
+				
+				// Changes:
+				Iterator<Change> changes = selectionAdapter.getChanges(selection);
+				
+				while (changes.hasNext()) {
+					handleChange(changes.next());
+				}
+				
+				// Model elements:
+				Iterator<EObject> highlightableElements = selectionAdapter.getHighlightableElements(selection);
+				
+				while (highlightableElements.hasNext()) {
+					selected.add(highlightableElements.next());
 				}
 			}
 

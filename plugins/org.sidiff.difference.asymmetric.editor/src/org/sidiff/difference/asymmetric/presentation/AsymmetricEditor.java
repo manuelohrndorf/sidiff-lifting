@@ -109,6 +109,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.editor.AsymmetricViewer;
 import org.sidiff.difference.asymmetric.provider.AsymmetricItemProviderAdapterFactory;
+import org.sidiff.difference.asymmetric.util.AsymmetricDifferenceHighlightingAdapter;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.compareview.widgets.CompareViewToolbar;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
@@ -998,7 +999,7 @@ public class AsymmetricEditor
 
 			// Toolbar:
 			CompareViewToolbar contribution = new CompareViewToolbar();
-			contribution.createItems(viewerPane.getToolBarManager().getControl());
+			contribution.createItems(viewerPane.getToolBarManager().getControl(), AsymmetricDifferenceHighlightingAdapter.getInstance());
 
 			// Add page to editor:
 			int pageIndex = addPage(viewerPane.getControl());

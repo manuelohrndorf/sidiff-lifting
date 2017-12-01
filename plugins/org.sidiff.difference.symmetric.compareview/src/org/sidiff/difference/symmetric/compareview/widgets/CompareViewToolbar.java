@@ -16,21 +16,25 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.services.IEvaluationService;
 import org.eclipse.ui.services.IServiceLocator;
-import org.sidiff.common.ui.widgets.IToolbarContribution;
 import org.sidiff.difference.symmetric.compareview.Activator;
+import org.sidiff.difference.symmetric.compareview.ISelectionAdapter;
+import org.sidiff.difference.symmetric.compareview.internal.DifferenceSelectionController;
 import org.sidiff.difference.symmetric.compareview.internal.handler.CollapseCompareViewHandler;
 import org.sidiff.difference.symmetric.compareview.internal.handler.LayoutCompareViewHandler;
 import org.sidiff.difference.symmetric.compareview.internal.handler.ToggleHighlightHandler;
 
-public class CompareViewToolbar implements IToolbarContribution {
+public class CompareViewToolbar {
 
 	public static final String CMD_LAYOUT_COMPARE_VIEW = "org.sidiff.difference.symmetric.compareview.initCompareView";
 	public static final String CMD_COLLAPSE_COMPARE_VIEW = "org.sidiff.difference.symmetric.compareview.collapseAll";
 	public static final String CMD_TOGGLE_HIGHTLIGHT = "org.sidiff.difference.symmetric.compareview.toggleHightlight";
 
-	@Override
-	public void createItems(ToolBar toolBar) {
+	public void createItems(ToolBar toolBar, ISelectionAdapter selectionAdapter) {
 		
+		// Set selection adapter
+		if (selectionAdapter != null) {
+			DifferenceSelectionController.getInstance().addSelectionAdapter(selectionAdapter);
+		}
 		
 		// Arrange Compare View
 		ToolItem tool_compareViewLayout = new ToolItem(toolBar, SWT.NONE);

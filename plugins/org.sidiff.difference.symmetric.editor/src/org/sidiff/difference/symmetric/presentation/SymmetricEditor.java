@@ -1052,7 +1052,7 @@ public class SymmetricEditor
 				
 				// Toolbar:
 				CompareViewToolbar contribution = new CompareViewToolbar();
-				contribution.createItems(viewerPane.getToolBarManager().getControl());
+				contribution.createItems(viewerPane.getToolBarManager().getControl(), null);
 				
 				// Initial selection:
 				selectionViewer.setExpandedState(difference, true);
