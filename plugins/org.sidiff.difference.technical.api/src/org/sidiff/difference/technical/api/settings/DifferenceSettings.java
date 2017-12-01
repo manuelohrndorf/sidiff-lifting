@@ -1,9 +1,9 @@
 package org.sidiff.difference.technical.api.settings;
 
 import java.util.Set;
-
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
+import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.technical.MergeImports;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
@@ -39,11 +39,13 @@ public class DifferenceSettings extends MatchingSettings{
 	public DifferenceSettings(){
 		super();
 		techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
+		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
 	
 	public DifferenceSettings(Set<String> documentTypes) {
 		super(documentTypes);
 		techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
+		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
 	
 	@Override
