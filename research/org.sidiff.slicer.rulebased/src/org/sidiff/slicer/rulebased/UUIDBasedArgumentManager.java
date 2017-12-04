@@ -194,7 +194,7 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 
 	@Override
 	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
-		EObject originObject = binding.getActualA();
+		EObject originObject = binding.getActualA() != null ? binding.getActualA() : binding.getActualB();
 		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
 
 		// from target model.

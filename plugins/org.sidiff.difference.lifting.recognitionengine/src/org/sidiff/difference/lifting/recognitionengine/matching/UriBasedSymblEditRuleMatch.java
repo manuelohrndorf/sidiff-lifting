@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -8,9 +9,11 @@ import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinkAttribute;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinkReference;
+import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
  * 
@@ -20,7 +23,7 @@ import org.silift.difference.symboliclink.SymbolicLinkReference;
 public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {	
 	
 	public UriBasedSymblEditRuleMatch(SemanticChangeSet scs) {
-		super(scs);
+		super(scs, Collections.singleton(SymboliclinkUtil.resolveCharacteristicDocumentType(((SymmetricDifference) scs.eContainer()).getModelA())));
 	}
 	
 	@Override

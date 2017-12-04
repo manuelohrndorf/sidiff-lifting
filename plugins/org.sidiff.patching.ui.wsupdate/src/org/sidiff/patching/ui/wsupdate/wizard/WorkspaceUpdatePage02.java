@@ -22,7 +22,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;

@@ -6,7 +6,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.technical.ModelImports;
+import org.sidiff.difference.symmetric.mergeimports.ModelImports;
 
 public class RecognitionEngineSetup {
 

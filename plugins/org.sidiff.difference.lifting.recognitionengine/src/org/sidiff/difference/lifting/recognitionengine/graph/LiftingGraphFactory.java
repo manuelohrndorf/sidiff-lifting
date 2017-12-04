@@ -20,7 +20,7 @@ import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.technical.ModelImports;
+import org.sidiff.difference.symmetric.mergeimports.ModelImports;
 
 /**
  * Factory that creates a Henshin graph which contains all model element (of

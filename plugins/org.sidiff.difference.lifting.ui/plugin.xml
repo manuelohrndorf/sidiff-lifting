@@ -3,10 +3,6 @@
 <plugin>
    <extension
          point="org.eclipse.ui.commands">
-      <category
-            id="org.sidiff.difference.ui.category.silift"
-            name="SiLift">
-      </category>
       <command
             categoryId="org.sidiff.difference.ui.category.silift"
             id="org.sidiff.difference.lifting.ui.createLifting"
@@ -41,23 +37,6 @@
    </extension>
    <extension point="org.eclipse.ui.menus">
   <menuContribution
-        locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-     <menu
-           id="org.silift.menu"
-           label="SiLift">
-        <separator
-              name="header"
-              visible="false">
-        </separator>
-        <visibleWhen
-                  checkEnabled="false">
-           <reference
-                 definitionId="org.silift.menu.definition.visibility">
-           </reference>
-            </visibleWhen>
-     </menu>
-  </menuContribution>
-  <menuContribution
         locationURI="popup:org.silift.menu?after=header">
      <command
            commandId="org.sidiff.difference.lifting.ui.createDiffLifting"
@@ -76,7 +55,7 @@
            visible="true">
      </separator>
   </menuContribution>
-</extension>
+   </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
       <propertyTester
@@ -123,22 +102,6 @@
                		 forcePluginActivation="true"
                      property="org.sidiff.difference.lifting.ui.properties.difference">
                </test>
-            </iterate>
-         </with>
-      </definition>
-      <definition
-            id="org.silift.menu.definition.visibility">
-         <with
-               variable="selection">
-            <iterate>
-               <or>
-                  <instanceof
-                        value="org.eclipse.core.resources.IFile">
-                  </instanceof>
-                  <instanceof
-                        value="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem">
-                  </instanceof>
-               </or>
             </iterate>
          </with>
       </definition>

@@ -1,13 +1,18 @@
 package org.sidiff.difference.technical.api.settings;
 
 import java.util.Set;
+
+import org.sidiff.candidates.ICandidates;
+import org.sidiff.common.emf.access.Scope;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
+import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
-public class DifferenceSettings extends MatchingSettings{
+public class DifferenceSettings extends MatchingSettings {
 
 	/**
 	 * Enables/disables the internal mergeImports function (more specifically
@@ -38,16 +43,25 @@ public class DifferenceSettings extends MatchingSettings{
 	 */
 	public DifferenceSettings(){
 		super();
-		techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
+		this.techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
 		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
 	
 	public DifferenceSettings(Set<String> documentTypes) {
 		super(documentTypes);
-		techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
+		this.techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
 		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
 	
+	public DifferenceSettings(
+			Scope scope, boolean validate, 
+			IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, 
+			ITechnicalDifferenceBuilder techBuilder) {
+		
+		super(scope, validate, matcher, candidatesService, correspondenceService);
+		this.techBuilder = techBuilder;
+	}
+
 	@Override
 	public boolean validateSettings() {
 		return super.validateSettings()
@@ -147,65 +161,4 @@ public class DifferenceSettings extends MatchingSettings{
 			this.notifyListeners(DifferenceSettingsItem.TECH_BUILDER);
 		}
 	}
-
-// TODO: Implement symbolic links for the symmetric/technical difference!
-//	
-//		/**
-//		 * The Symbolic Link Handler for calculating symbolic links.
-//		 */
-//		private ISymbolicLinkHandler symbolicLinkHandler;
-//	
-//		/**
-//		 * Setup the settings.
-//		 * 
-//		 * @param scope
-//		 *            {@link DifferenceSettings#setScope(Scope)}
-//		 * @param matcher
-//		 *            {@link DifferenceSettings#setMatcher(IMatcher)}
-//		 * @param symbolicLinkHandler
-//		 * 			  {@link ISymbolicLinkHandler}
-//		 */
-//		public DifferenceSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler) {
-//			super(scope, validate, matcher, candidatesService, correspondenceService);
-//			this.techBuilder = techBuilder;
-//			
-//			this.symbolicLinkHandler = symbolicLinkHandler;
-//		}
-//
-//		/**
-//		 * 
-//		 * @return <code>true</code>, if the {@link #symbolicLinkHandler} is set
-//		 * 			otherwise <code>false</code>.
-//		 */
-//		public boolean useSymbolicLinks(){
-//			if(symbolicLinkHandler != null){
-//				return true;
-//			}else{
-//				return false;
-//			}
-//		}
-//	
-//	/**
-//	 * 
-//	 * @return The Symbolic Link Handler for symbolic link generation.
-//	 */
-//	public ISymbolicLinkHandler getSymbolicLinkHandler() {
-//		return symbolicLinkHandler;
-//	}
-//
-//	/**
-//	 * 
-//	 * @param symbolicLinkHandler
-//	 * 						The Symbolic Link Handler for symbolic link generation.
-//	 */
-//	public void setSymbolicLinkHandler(ISymbolicLinkHandler symbolicLinkHandler) {
-//		if(symbolicLinkHandler == null && this.symbolicLinkHandler != null){
-//			this.symbolicLinkHandler = null;
-//			this.notifyListeners(DifferenceSettingsItem.SYMBOLIC_LINK_HANDLER);
-//		}else
-//		if(this.symbolicLinkHandler == null || !this.symbolicLinkHandler.getName().equals(symbolicLinkHandler.getName())){
-//			this.symbolicLinkHandler = symbolicLinkHandler;
-//			this.notifyListeners(DifferenceSettingsItem.SYMBOLIC_LINK_HANDLER);
-//		}
-//	}	
 }

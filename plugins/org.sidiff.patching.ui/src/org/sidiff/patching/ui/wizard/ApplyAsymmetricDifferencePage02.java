@@ -15,7 +15,7 @@ import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;

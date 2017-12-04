@@ -23,7 +23,7 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.difference.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
