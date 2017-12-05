@@ -18,7 +18,6 @@ import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
 import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 import org.sidiff.matcher.IMatcher;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 public class LiftingSettings extends DifferenceSettings {
 
@@ -104,16 +103,22 @@ public class LiftingSettings extends DifferenceSettings {
 	private Comparator<SemanticChangeSet> comparator;
 	
 	/**
-	 * The Symbolic Link Handler for calculating symbolic links.
-	 */
-	private ISymbolicLinkHandler symbolicLinkHandler;
-
-	/**
 	 * Setup the lifting settings.
 	 */
 	public LiftingSettings() {
 		super();
 
+		// Default: Use the default RecognitionRuleSorter
+		Set<String> genericDocumentTypes = new HashSet<String>();
+		genericDocumentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
+
+		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(genericDocumentTypes);
+	}
+	
+	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
+			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder) {
+		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
+		
 		// Default: Use the default RecognitionRuleSorter
 		Set<String> genericDocumentTypes = new HashSet<String>();
 		genericDocumentTypes.add(EMFModelAccess.GENERIC_DOCUMENT_TYPE);
@@ -186,13 +191,6 @@ public class LiftingSettings extends DifferenceSettings {
 				ruleBases, rrsorter);
 		this.calculateEditRuleMatch = calculateEditRuleMatch;
 		this.serializeEditRuleMatch = serializeEditRuleMatch;
-	}
-
-	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
-			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
-			ISymbolicLinkHandler symbolicLinkHandler) {
-		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
-		this.symbolicLinkHandler = symbolicLinkHandler;
 	}
 
 	@Override
@@ -515,49 +513,12 @@ public class LiftingSettings extends DifferenceSettings {
 		this.detectSplitJoins = detectSplitJoins;
 	}
 
-	/**
-	 * 
-	 * @return <code>true</code>, if the {@link #symbolicLinkHandler} is set
-	 *         otherwise <code>false</code>.
-	 */
-	public boolean useSymbolicLinks() {
-		if (symbolicLinkHandler != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public Comparator<SemanticChangeSet> getComparator() {
 		return comparator;
 	}
 
 	public void setComparator(Comparator<SemanticChangeSet> comparator) {
 		this.comparator = comparator;
-	}
-
-	/**
-	 * 
-	 * @return The Symbolic Link Handler for symbolic link generation.
-	 */
-	public ISymbolicLinkHandler getSymbolicLinkHandler() {
-		return symbolicLinkHandler;
-	}
-
-	/**
-	 * 
-	 * @param symbolicLinkHandler
-	 *            The Symbolic Link Handler for symbolic link generation.
-	 */
-	public void setSymbolicLinkHandler(ISymbolicLinkHandler symbolicLinkHandler) {
-		if (symbolicLinkHandler == null && this.symbolicLinkHandler != null) {
-			this.symbolicLinkHandler = null;
-			this.notifyListeners(LiftingSettingsItem.SYMBOLIC_LINK_HANDLER);
-		} else if (this.symbolicLinkHandler == null
-				|| !this.symbolicLinkHandler.getName().equals(symbolicLinkHandler.getName())) {
-			this.symbolicLinkHandler = symbolicLinkHandler;
-			this.notifyListeners(LiftingSettingsItem.SYMBOLIC_LINK_HANDLER);
-		}
 	}
 
 	/**

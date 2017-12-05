@@ -1,4 +1,4 @@
-package org.sidiff.difference.lifting.recognitionengine.matching;
+package org.sidiff.difference.asymmetric.api.matching;
 
 import java.util.Collections;
 import java.util.Set;
@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
+import org.sidiff.difference.lifting.recognitionengine.matching.UriBasedEditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinkAttribute;

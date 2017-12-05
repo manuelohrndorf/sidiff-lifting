@@ -17,11 +17,11 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.api.LiftingFacade;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
@@ -33,7 +33,6 @@ public class PatchCreator {
 	public static final String FOLDER_MODEL_B = "modelB";
 
 	private Patch patch;
-	private LiftingSettings settings;
 	private Collection<SymbolicLinks> symbolicLinksSet;
 	private Resource resourceA;
 	private Resource resourceB;
@@ -60,11 +59,20 @@ public class PatchCreator {
 
 	private String symmetricDiff_name;
 	private String asymmetricDiff_name;
+	
+	private boolean useSymbolicLinks;
+	private IMatcher matcher;
+	private ISymbolicLinkHandler symbolicLinkHandler;
 
-	public PatchCreator(AsymmetricDifference asymmetricDifference,
-			LiftingSettings settings) {
+	public PatchCreator(AsymmetricDifference asymmetricDifference, 
+			IMatcher matcher, boolean useSymbolicLinks, ISymbolicLinkHandler symbolicLinkHandler) {
+		
 		this.patch = PatchFactory.eINSTANCE.createPatch();
-		this.settings = settings;
+		
+		this.useSymbolicLinks = useSymbolicLinks;
+		this.matcher = matcher;
+		this.symbolicLinkHandler = symbolicLinkHandler;
+		
 		this.resourceA = asymmetricDifference.getOriginModel();
 		modelAOriginalUri = resourceA.getURI();
 		this.resourceB = asymmetricDifference.getChangedModel();
@@ -110,7 +118,7 @@ public class PatchCreator {
 			savePath = s_path + filename;
 		}
 
-		if (!settings.useSymbolicLinks()) {
+		if (!useSymbolicLinks) {
 			String modelADir = savePath + separator + FOLDER_MODEL_A;
 			String modelBDir = savePath + separator + FOLDER_MODEL_B;
 
@@ -154,15 +162,14 @@ public class PatchCreator {
 			symmetricDifference.setUriModelB(relativeResBSavePath);
 			asymmetricDifference.setUriOriginModel(relativeResASavePath);
 			asymmetricDifference.setUriChangedModel(relativeResBSavePath);
-			patch.getSettings().put("matcher", settings.getMatcher().getName());
+			patch.getSettings().put("matcher", matcher.getName());
 		} else {
-			ISymbolicLinkHandler handler = settings.getSymbolicLinkHandler();
-			symbolicLinksSet = handler.generateSymbolicLinks(
+			symbolicLinksSet = symbolicLinkHandler.generateSymbolicLinks(
 					asymmetricDifference, false);
 			SymbolicLinkHandlerUtil.serializeSymbolicLinks(symbolicLinksSet,
 					asymmetricDifference, savePath);
 			patch.getSettings().put("symbolicLinkHandler",
-					settings.getSymbolicLinkHandler().getName());
+					symbolicLinkHandler.getName());
 		}
 
 		for (OperationInvocation op : asymmetricDifference

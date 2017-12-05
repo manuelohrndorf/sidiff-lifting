@@ -23,10 +23,10 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.PatchingFacade;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.Activator;
 
 public class CreatePatchWizard extends Wizard {
@@ -35,13 +35,13 @@ public class CreatePatchWizard extends Wizard {
 	private CreatePatchPage02 createPatchPage02;
 
 	private InputModels inputModels;
-	private LiftingSettings settings;
+	private PatchingSettings settings;
 
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Patch Wizard");
 
 		inputModels = new InputModels(new IFile[]{fileA, fileB});
-		settings = new LiftingSettings(inputModels.getDocumentTypes());
+		settings = new PatchingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
 	}
@@ -84,7 +84,7 @@ public class CreatePatchWizard extends Wizard {
 		return true;
 	}
 	
-	private boolean finish(LiftingSettings settings) {
+	private boolean finish(PatchingSettings settings) {
 
 		/*
 		 *  Start calculation:

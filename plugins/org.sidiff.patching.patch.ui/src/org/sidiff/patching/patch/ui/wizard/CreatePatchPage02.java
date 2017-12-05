@@ -18,12 +18,12 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 
 public class CreatePatchPage02 extends WizardPage implements IPageChangedListener{
@@ -40,12 +40,12 @@ public class CreatePatchPage02 extends WizardPage implements IPageChangedListene
 
 	private InputModels inputModels;
 	
-	private LiftingSettings settings;
+	private PatchingSettings settings;
 	
 	private String mode;
 
 	public CreatePatchPage02(InputModels inputModels,
-			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings, Mode mode) {
+			String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings, Mode mode) {
 		super(pageName, title, titleImage);
 
 		this.inputModels = inputModels;
