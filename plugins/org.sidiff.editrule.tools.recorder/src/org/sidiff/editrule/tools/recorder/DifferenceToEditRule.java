@@ -1,4 +1,4 @@
-package org.sidiff.difference.symmetric.editrule;
+package org.sidiff.editrule.tools.recorder;
 
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.createCreateNode;

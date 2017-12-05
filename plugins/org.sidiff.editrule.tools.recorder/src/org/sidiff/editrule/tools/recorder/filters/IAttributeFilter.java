@@ -1,4 +1,4 @@
-package org.sidiff.difference.symmetric.editrule.filters;
+package org.sidiff.editrule.tools.recorder.filters;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;

@@ -1,11 +1,11 @@
-package org.sidiff.difference.symmetric.editrule;
+package org.sidiff.editrule.tools.recorder;
 
 import java.util.Collection;
 
 import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.editrule.filters.IAttributeFilter;
-import org.sidiff.difference.symmetric.editrule.filters.IObjectFilter;
-import org.sidiff.difference.symmetric.editrule.filters.IReferenceFilter;
+import org.sidiff.editrule.tools.recorder.filters.IAttributeFilter;
+import org.sidiff.editrule.tools.recorder.filters.IObjectFilter;
+import org.sidiff.editrule.tools.recorder.filters.IReferenceFilter;
 import org.sidiff.matching.model.Correspondence;
 
 public class TransformationSetup {

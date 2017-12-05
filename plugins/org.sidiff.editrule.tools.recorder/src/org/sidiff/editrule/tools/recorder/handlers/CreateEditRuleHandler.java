@@ -1,4 +1,4 @@
-package org.sidiff.difference.symmetric.editrule.handlers;
+package org.sidiff.editrule.tools.recorder.handlers;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,8 +15,8 @@ import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.editrule.DifferenceToEditRule;
-import org.sidiff.difference.symmetric.editrule.TransformationSetup;
+import org.sidiff.editrule.tools.recorder.DifferenceToEditRule;
+import org.sidiff.editrule.tools.recorder.TransformationSetup;
 import org.sidiff.editrule.tools.util.EditRuleUtil;
 import org.sidiff.editrule.tools.util.HenshinDiagramUtil;
 import org.sidiff.matching.model.Correspondence;
