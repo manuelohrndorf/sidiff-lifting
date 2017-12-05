@@ -19,9 +19,12 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.editrule.consistency.fixing.EditRuleFixer;
 
 /**
  * Cleans up unused Henshin rule parameters.
@@ -103,9 +106,92 @@ public class CleanUpParametersHandler extends AbstractHandler {
 		editRule.eAllContents().forEachRemaining(element -> {
 			if (element instanceof Node) {
 				if (isCreationNode((Node) element)) {
-					EditRuleFixer.fix_mappedAllCreateNodes(editRule, (Node) element);
+					fix_mappedAllCreateNodes(editRule, (Node) element);
 				}
 			}
 		});
 	}
+	
+	/**** /org.sidiff.editrule.consistency.fixing/src/org/sidiff/editrule/consistency/fixing/EditRuleFixer.java ****/
+	
+	/**
+	 * A new rule parameter (if required) and a new mainUnit OUT-parameter with
+	 * the same name and the same type is created. If the node is part of a
+	 * multi-rule, we create the parameter also for all kernel rules, following
+	 * the path to the root kernel rule.<br/>
+	 * Please note that if a parameter with this name already exists for some
+	 * unit following the path up to the mainUnit, no fix will be triggered.
+	 * 
+	 * 
+	 * @param node
+	 */
+	public static void fix_mappedAllCreateNodes(Module module, Node node) {
+		// mainUnit
+		Unit mainUnit = module.getUnit(INamingConventions.MAIN_UNIT);
+
+		// Path to mainUnit
+		Rule rule = node.getGraph().getRule();
+		List<Unit> pathToMainUnit = getPathToMainUnit(rule);
+
+		// Parameter name
+		String parameterName = null;
+		if (node.getName() != null && !node.getName().equals("")) {
+			parameterName = node.getName();
+		} else {
+			parameterName = "New_" + node.getType().getName();
+		}
+
+		// Fix allowed?
+		// (Parameter with that name must not already exist in the mainUnit)
+		if (mainUnit.getParameter(parameterName) != null) {
+			return;
+		}
+
+		// Fix problem....
+
+		// First rule
+		Parameter ruleParameter = rule.getParameter(parameterName);
+		if (ruleParameter == null) {
+			ruleParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
+			ruleParameter.setName(parameterName);
+			rule.getParameters().add(ruleParameter);
+			node.setName(parameterName);
+		}
+
+		// Path to mainUnit
+		for (int i = 1; i < pathToMainUnit.size() - 1; i++) {
+			ruleParameter = pathToMainUnit.get(i).getParameter(parameterName);
+			if (ruleParameter == null) {
+				ruleParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
+				ruleParameter.setName(parameterName);
+				pathToMainUnit.get(i).getParameters().add(ruleParameter);
+			}
+		}
+
+		// Main unit: Create and map unit parameter
+		Parameter unitParameter = HenshinFactoryImpl.eINSTANCE.createParameter();
+		unitParameter.setName(ruleParameter.getName());
+		unitParameter.setType(ruleParameter.getType());
+		mainUnit.getParameters().add(unitParameter);
+		ParameterMapping mapping = HenshinFactoryImpl.eINSTANCE.createParameterMapping();
+		mapping.setSource(ruleParameter);
+		mapping.setTarget(unitParameter);
+		mainUnit.getParameterMappings().add(mapping);
+	}
+	
+	private static List<Unit> getPathToMainUnit(Rule rule) {
+		List<Unit> res = new ArrayList<Unit>();
+		res.add(rule);
+		Rule current = rule;
+		while (current.getKernelRule() != null) {
+			res.add(current.getKernelRule());
+			current = current.getKernelRule();
+		}
+
+		// Finally add mainUnit
+		res.add(current.getModule().getUnit(INamingConventions.MAIN_UNIT));
+
+		return res;
+	}
+
 }

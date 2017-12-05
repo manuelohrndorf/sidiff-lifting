@@ -16,11 +16,13 @@ import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.asymmetric.dependencies.real.DependencyAnalyzer;
 import org.sidiff.difference.asymmetric.dependencies.real.EngineBasedDependencyAnalyzer;
+import org.sidiff.difference.asymmetric.mergeimports.AsymmetricMergeImports;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterMapper;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.matching.input.InputModels;
 
 /**
@@ -58,7 +60,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
 		
 		// Merge imports:
-		mergeImports(symmetricDifference, settings);
+		mergeImports(symmetricDifference, asymmetricDifference, settings);
 		
 		// Lifting:
 		liftMeUp(symmetricDifference, settings);
@@ -151,6 +153,29 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 			return deriveLiftedAsymmetricDifference(models.getResources().get(0), models.getResources().get(1), settings);
 		} else {
 			throw new RuntimeException("Exactly two models are required.");
+		}
+	}
+	
+	protected static AsymmetricMergeImports mergeImports(SymmetricDifference symmetricDifference, AsymmetricDifference asymmetricDifference, DifferenceSettings settings) {
+		
+		if ((settings.getImports() == null) && settings.isEnabled_MergeImports()){
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
+			AsymmetricMergeImports importMerger = new AsymmetricMergeImports(symmetricDifference, asymmetricDifference, settings.getScope(), true);
+			importMerger.merge();
+			
+			settings.setImports(importMerger);
+			return importMerger;
+		}
+		
+		return null;
+	}
+	
+	protected static void unmergeImports(DifferenceSettings settings) {
+		
+		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
+			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			settings.getImports().unmerge();
+			settings.setImports(null);
 		}
 	}
 
