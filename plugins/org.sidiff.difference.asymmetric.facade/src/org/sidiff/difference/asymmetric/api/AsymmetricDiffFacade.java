@@ -56,6 +56,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
+		settings.getImports().setAsymmetricDifference(asymmetricDifference);
 		
 		// Merge imports:
 		mergeImports(symmetricDifference, settings);
