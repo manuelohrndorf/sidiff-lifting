@@ -4,7 +4,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;

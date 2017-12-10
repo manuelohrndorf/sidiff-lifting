@@ -10,7 +10,7 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
-import org.sidiff.difference.ui.widgets.MatchingEngineWidget;
+import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matching.input.InputModels;
 
 public class AdvancedCompareSettingsPage extends AbstractWizardPage{

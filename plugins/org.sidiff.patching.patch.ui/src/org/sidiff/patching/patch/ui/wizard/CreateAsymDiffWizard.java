@@ -27,11 +27,11 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.Activator;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -43,13 +43,13 @@ public class CreateAsymDiffWizard extends Wizard {
 	private CreatePatchPage02 createPatchPage02;
 
 	private InputModels inputModels;
-	private LiftingSettings settings;
+	private PatchingSettings settings;
 
 	public CreateAsymDiffWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Asymmetric Difference Wizard");
 
 		inputModels = new InputModels(new IFile[]{fileA, fileB});
-		settings = new LiftingSettings(inputModels.getDocumentTypes());
+		settings = new PatchingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
 	}
@@ -92,7 +92,7 @@ public class CreateAsymDiffWizard extends Wizard {
 		return true;
 	}
 	
-	private boolean finish(LiftingSettings settings) {
+	private boolean finish(PatchingSettings settings) {
 
 		/*
 		 *  Start calculation:

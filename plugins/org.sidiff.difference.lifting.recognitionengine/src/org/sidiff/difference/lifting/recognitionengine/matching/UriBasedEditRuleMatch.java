@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,13 +12,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
+import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
 
 public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 
@@ -32,7 +36,13 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	private Map<Attribute, Set<Field>> attributeOccurrencesB = new HashMap<Attribute, Set<Field>>();
 	
 	public UriBasedEditRuleMatch(SemanticChangeSet scs) {
-		EditRule editRule = scs.resolveEditRule();
+		this(scs, Collections.singleton(EMFModelAccess.getDocumentType(((SymmetricDifference) scs.eContainer()).getModelA())));
+	}
+	
+	public UriBasedEditRuleMatch(SemanticChangeSet scs, Set<String> docTypes) {
+
+		EditRule editRule =  RuleBaseProjectUtil.resolveEditRule(docTypes, scs.getEditRName());
+		
 		assert (editRule != null) : "EditRule for SemanticChangeSet " + scs + " cannot be resolved!";
 		assert (editRule.eResource() != null) : "editRule " + editRule + " is not contained in a resource!";
 

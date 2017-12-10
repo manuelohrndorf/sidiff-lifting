@@ -21,12 +21,13 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener{
 
-	private DifferenceSettings settings;
+	private PatchingSettings settings;
 	private SortedMap<String, ISymbolicLinkHandler> symbolicLinkHandlers;
 	private Composite container;
 	private Button use_symbolicLinks;
@@ -170,7 +171,7 @@ public class SymbolicLinkHandlerWidget implements IWidget, IWidgetSelection, IWi
 		return settings;
 	}
 
-	public void setSettings(DifferenceSettings settings) {
+	public void setSettings(PatchingSettings settings) {
 		this.settings = settings;
 	}
 

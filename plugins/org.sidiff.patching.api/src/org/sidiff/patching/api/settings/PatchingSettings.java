@@ -1,18 +1,21 @@
 package org.sidiff.patching.api.settings;
 
+import java.util.Set;
+
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public class PatchingSettings extends DifferenceSettings {
+public class PatchingSettings extends LiftingSettings {
 
 	/**
 	 * 
@@ -53,17 +56,28 @@ public class PatchingSettings extends DifferenceSettings {
 	 * 
 	 */
 	private ValidationMode validationMode;
+	
+	/**
+	 * The Symbolic Link Handler for calculating symbolic links.
+	 */
+	private ISymbolicLinkHandler symbolicLinkHandler;
 
 	public PatchingSettings() {
 		super();
 	}
+	
+	public PatchingSettings(Set<String> documentTypes) {
+		super(documentTypes);
+	}
 
-	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
+	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
+			ICandidates candidatesService, ICorrespondences correspondenceService, 
+			ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
 			IArgumentManager argumentManager, IPatchInterruptHandler interruptHandler,
-			ITransformationEngine transformationEngine, IModifiedDetector modifiedDetector, ExecutionMode executionMode,
-			PatchMode patchMode, int minReliability, ValidationMode validationMode) {
+			ITransformationEngine transformationEngine, IModifiedDetector modifiedDetector, 
+			ExecutionMode executionMode, PatchMode patchMode, int minReliability, ValidationMode validationMode) {
 		
-		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder, symbolicLinkHandler);
+		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
 		this.argumentManager = argumentManager;
 		this.interruptHandler = interruptHandler;
 		this.transformationEngine = transformationEngine;
@@ -74,8 +88,14 @@ public class PatchingSettings extends DifferenceSettings {
 		this.validationMode = validationMode;
 	}
 
-	
-	
+	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
+			ICandidates candidatesService, ICorrespondences correspondenceService, 
+			ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler) {
+		
+		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
+		this.symbolicLinkHandler = symbolicLinkHandler;
+	}
+
 	@Override
 	public boolean validateSettings() {
 		// TODO CPietsch (2016-02-08)
@@ -178,6 +198,43 @@ public class PatchingSettings extends DifferenceSettings {
 		if (this.validationMode == null || !this.validationMode.equals(validationMode)) {
 			this.validationMode = validationMode;
 			notifyListeners(PatchingSettingsItem.VALIDATION_MODE);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return The Symbolic Link Handler for symbolic link generation.
+	 */
+	public ISymbolicLinkHandler getSymbolicLinkHandler() {
+		return symbolicLinkHandler;
+	}
+
+	/**
+	 * 
+	 * @param symbolicLinkHandler
+	 *            The Symbolic Link Handler for symbolic link generation.
+	 */
+	public void setSymbolicLinkHandler(ISymbolicLinkHandler symbolicLinkHandler) {
+		if (symbolicLinkHandler == null && this.symbolicLinkHandler != null) {
+			this.symbolicLinkHandler = null;
+			this.notifyListeners(LiftingSettingsItem.SYMBOLIC_LINK_HANDLER);
+		} else if (this.symbolicLinkHandler == null
+				|| !this.symbolicLinkHandler.getName().equals(symbolicLinkHandler.getName())) {
+			this.symbolicLinkHandler = symbolicLinkHandler;
+			this.notifyListeners(LiftingSettingsItem.SYMBOLIC_LINK_HANDLER);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return <code>true</code>, if the {@link #symbolicLinkHandler} is set
+	 *         otherwise <code>false</code>.
+	 */
+	public boolean useSymbolicLinks() {
+		if (symbolicLinkHandler != null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	

@@ -22,7 +22,6 @@ import org.sidiff.editrule.analysis.classification.IClassificator;
 import org.sidiff.editrule.analysis.classification.util.ClassificatorUtil;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialConflictAnalyzer;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
-import org.sidiff.editrule.analysis.parameters.ParameterExtractor;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialConflict;
@@ -30,6 +29,7 @@ import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
+import org.sidiff.editrule.rulebase.builder.util.ParameterExtractor;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 

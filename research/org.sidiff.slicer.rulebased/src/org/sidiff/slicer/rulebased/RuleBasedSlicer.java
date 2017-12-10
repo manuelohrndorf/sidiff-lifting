@@ -1,11 +1,16 @@
 package org.sidiff.slicer.rulebased;
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -337,17 +342,36 @@ public class RuleBasedSlicer{
 	 * @throws InvalidModelException 
 	 */
 	private AsymmetricDifference generateEditScript(Resource originModel, Resource changedModel, EditScriptDirection direction) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
+		String path = EMFStorage.uriToPath(originModel.getURI()).replace(originModel.getURI().lastSegment(), "");
+		String fileName = "editScript_" + direction;
+		String asymmetricDifferencePath = path + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
+		
+		// Try to load an existing patch:
+		if (new File(asymmetricDifferencePath).exists()) {
+			try {
+				URI asymmetricDifferenceURI = EMFStorage.pathToUri(asymmetricDifferencePath);
+				Resource asymmetricDifferenceResource = originModel.getResourceSet().getResource(asymmetricDifferenceURI, true);
+				AsymmetricDifference asymmetricDifference = (AsymmetricDifference) asymmetricDifferenceResource.getContents().get(0);
 				
+				return asymmetricDifference;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Create new patch:
 		Difference diff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(originModel, changedModel, this.slicingConfiguration.getLiftingSettings());
 		AsymmetricDifference asymDiff = diff.getAsymmetric(); 
 		asymDiff.setUriOriginModel(originModel.getURI().toString());
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
-		if(DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
+		
+		if (DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
 			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), EMFStorage.uriToPath(completeResource.getURI()).replace(completeResource.getURI().lastSegment(),  ""), "diff");
 			throw new UncoveredChangesException();
 		}
-		String path = EMFStorage.uriToPath(originModel.getURI()).replace(originModel.getURI().lastSegment(), "");
-		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, "editScript_"+direction);
+		
+		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);
+
 		return asymDiff;
 	}
 	

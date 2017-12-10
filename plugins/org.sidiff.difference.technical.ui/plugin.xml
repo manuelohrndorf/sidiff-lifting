@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="SiLift"
+            id="org.sidiff.difference.ui.category.silift"
+            name="SiLift">
+      </category>
+   </extension>
+  <extension point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+        <menu
+              id="org.silift.menu"
+              label="SiLift">
+           <separator
+                 name="header"
+                 visible="false">
+           </separator>
+           <visibleWhen
+                     checkEnabled="false">
+              <reference
+                   definitionId="org.silift.menu.definition.visibility">
+              </reference>
+               </visibleWhen>
+        </menu>
+     </menuContribution>
+  </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.sidiff.difference.ui.category.silift"
+            id="org.sidiff.difference.technical.ui.createDiff"
+            name="Create technical difference">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.sidiff.difference.technical.ui.handler.DifferenceHandler"
+            commandId="org.sidiff.difference.technical.ui.createDiff">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.difference.technical.ui.definition.modelFiles">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="popup:org.silift.menu?after=header">
+        <command
+              commandId="org.sidiff.difference.technical.ui.createDiff"
+                 label="Create Technical Difference"
+              style="push"
+              tooltip="Compares to models with each other">
+        </command>
+     </menuContribution>
+   </extension>
+ <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.difference.technical.ui.definition.modelFiles">
+         <with
+               variable="selection">
+            <count
+                  value="2">
+            </count>
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="org.silift.menu.definition.visibility">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.eclipse.core.resources.IFile">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+</plugin>

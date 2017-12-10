@@ -117,8 +117,9 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 				return false;
 			}
 			if (element instanceof ObjectParameterBinding) {
-				ObjectParameterBinding binding = (ObjectParameterBinding) element;
-				return !binding.isMappingTarget();
+//				ObjectParameterBinding binding = (ObjectParameterBinding) element;
+//				return !binding.isMappingTarget();
+				return true;
 			}
 			else if (element instanceof ValueParameterBinding){
 				return true;
