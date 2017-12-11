@@ -58,6 +58,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
+		((AsymmetricMergeImports)settings.getImports()).setAsymmetricDifference(asymmetricDifference);
 		
 		// Merge imports:
 		mergeImports(symmetricDifference, asymmetricDifference, settings);
@@ -163,12 +164,12 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 
 		if (settings.isEnabled_MergeImports()) {
 			if (settings.getImports() == null) {
-				LogUtil.log(LogEvent.NOTICE, "Merge imports");
 				AsymmetricMergeImports importMerger = new AsymmetricMergeImports(settings.getScope(), true);
 				settings.setImports(importMerger);
 			}
 			((AsymmetricMergeImports) settings.getImports()).setSymmetricDifference(symmetricDifference);
 			((AsymmetricMergeImports) settings.getImports()).setAsymmetricDifference(asymmetricDifference);
+			LogUtil.log(LogEvent.NOTICE, "Merge imports");
 			settings.getImports().merge();
 		}
 
