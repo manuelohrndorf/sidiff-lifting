@@ -20,24 +20,24 @@ public class AsymmetricMergeImports extends MergeImports {
 
 	private AsymmetricDifference asymmetricDifference;
 
-	private AsymmetricPackageRegistryAdapter registryAdapter;
 
 	public AsymmetricMergeImports(
-			SymmetricDifference symmetricDifference, 
-			AsymmetricDifference asymmetricDifference,
 			Scope scope, boolean relink) {
 
-		super(symmetricDifference, scope, relink);
-		this.asymmetricDifference = asymmetricDifference;
+		super(scope, relink);
+	}
+
+	public AsymmetricDifference getAsymmetricDifference() {
+		return asymmetricDifference;
 	}
 
 	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
 		this.asymmetricDifference = asymmetricDifference;
-		registryAdapter.setAsymmetricDifference(asymmetricDifference);
+		((AsymmetricPackageRegistryAdapter)registryAdapter).setAsymmetricDifference(asymmetricDifference);
 	}
 
 	public AsymmetricPackageRegistryAdapter getRegistryAdapter() {
-		return registryAdapter;
+		return (AsymmetricPackageRegistryAdapter)registryAdapter;
 	}
 
 	protected void initRegistryAdapter() {

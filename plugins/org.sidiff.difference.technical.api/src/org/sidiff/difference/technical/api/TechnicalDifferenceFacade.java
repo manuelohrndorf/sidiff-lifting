@@ -149,18 +149,19 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		return (SymmetricDifference) TechnicalDifferenceUtils.loadModel(path);
 	}
 	
-	protected static MergeImports mergeImports(SymmetricDifference symmetricDifference, DifferenceSettings settings) {
+	protected static void mergeImports(SymmetricDifference symmetricDifference, DifferenceSettings settings) {
 		
-		if ((settings.getImports() == null) && settings.isEnabled_MergeImports()){
+		if (settings.isEnabled_MergeImports()){
+			if(settings.getImports() == null) {
+				MergeImports mergeImports = new MergeImports(settings.getScope(), true);
+				settings.setImports(mergeImports);
+			}
+			settings.getImports().setSymmetricDifference(symmetricDifference);
 			LogUtil.log(LogEvent.NOTICE, "Merge imports");
-			MergeImports importMerger = new MergeImports(symmetricDifference, settings.getScope(), true);
-			importMerger.merge();
-			
-			settings.setImports(importMerger);
-			return importMerger;
-		}
+			settings.getImports().merge();
 		
-		return null;
+		}
+
 	}
 	
 	protected static void unmergeImports(DifferenceSettings settings) {

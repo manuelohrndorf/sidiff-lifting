@@ -58,7 +58,6 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		// Create empty asymmetric difference
 		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
-		settings.getImports().setAsymmetricDifference(asymmetricDifference);
 		
 		// Merge imports:
 		mergeImports(symmetricDifference, asymmetricDifference, settings);
@@ -124,6 +123,8 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 				CorrespondencesUtil.getAvailableCorrespondencesService(
 						MatchingModelCorrespondences.SERVICE_ID));
 		
+		settings.setImports(new AsymmetricMergeImports(settings.getScope(), true));
+		
 		// Calculate model difference:
 		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
@@ -157,18 +158,20 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		}
 	}
 	
-	protected static AsymmetricMergeImports mergeImports(SymmetricDifference symmetricDifference, AsymmetricDifference asymmetricDifference, DifferenceSettings settings) {
-		
-		if ((settings.getImports() == null) && settings.isEnabled_MergeImports()){
-			LogUtil.log(LogEvent.NOTICE, "Merge imports");
-			AsymmetricMergeImports importMerger = new AsymmetricMergeImports(symmetricDifference, asymmetricDifference, settings.getScope(), true);
-			importMerger.merge();
-			
-			settings.setImports(importMerger);
-			return importMerger;
+	protected static void mergeImports(SymmetricDifference symmetricDifference,
+			AsymmetricDifference asymmetricDifference, DifferenceSettings settings) {
+
+		if (settings.isEnabled_MergeImports()) {
+			if (settings.getImports() == null) {
+				LogUtil.log(LogEvent.NOTICE, "Merge imports");
+				AsymmetricMergeImports importMerger = new AsymmetricMergeImports(settings.getScope(), true);
+				settings.setImports(importMerger);
+			}
+			((AsymmetricMergeImports) settings.getImports()).setSymmetricDifference(symmetricDifference);
+			((AsymmetricMergeImports) settings.getImports()).setAsymmetricDifference(asymmetricDifference);
+			settings.getImports().merge();
 		}
-		
-		return null;
+
 	}
 	
 	protected static void unmergeImports(DifferenceSettings settings) {
