@@ -208,13 +208,15 @@ public class Serge implements IEditRuleGenerator {
 		monitor.worked(5);
 
 		// Generate Annotations
-		monitor.subTask("Generate Annotations");
-		AnnotationApplicator annotationApplicator = new AnnotationApplicator();
-		annotationApplicator.applyOn(allModules);		
-		// Remove internal Annotations
-		for (Set<Module> modules : allModules.values()) {
-			for (Module m : modules) {
-				InternalAnnotationsRemover.removeInternalAnnotations(m);
+		if (config.enable_annotations) {
+			monitor.subTask("Generate Annotations");
+			AnnotationApplicator annotationApplicator = new AnnotationApplicator();
+			annotationApplicator.applyOn(allModules);		
+			// Remove internal Annotations
+			for (Set<Module> modules : allModules.values()) {
+				for (Module m : modules) {
+					InternalAnnotationsRemover.removeInternalAnnotations(m);
+				}
 			}
 		}
 		monitor.worked(5);

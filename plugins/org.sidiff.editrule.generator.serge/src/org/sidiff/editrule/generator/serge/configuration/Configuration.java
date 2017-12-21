@@ -35,6 +35,7 @@ public class Configuration {
 	public boolean enable_execution_check_filter = true;
 	public boolean enable_name_mapper = false;
 	public boolean enable_inner_containment_cycle_detection = false;
+	public boolean enable_annotations = false;
 	
 	// consistency-level configurations
 	public final Set<OperationType> create = new HashSet<>();

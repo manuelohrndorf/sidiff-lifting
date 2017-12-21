@@ -250,14 +250,18 @@ public class ModuleInternalsApplicator {
 				// create <<preserve>> nodes for context
 				String selectedName = getFreeNodeName(GlobalConstants.SEL, rule);
 				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, selectedName, (EClass) targetA);
-				Graph rhs = nodePair.getRhsNode().getGraph();
-				nodePair.getLhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
-				nodePair.getRhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
+				Graph rhs = nodePair.getRhsNode().getGraph();				
+				if(Configuration.getInstance().enable_annotations) {
+					nodePair.getLhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
+					nodePair.getRhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
+				}
 				
 				// Add new eClass to RHS
 				String newName = getFreeNodeName(GlobalConstants.NEW, rule);
 				Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
-				newNode.getAnnotations().add(createAnnotation("SERGE_", "FOCUS"));
+				if(Configuration.getInstance().enable_annotations) {
+					newNode.getAnnotations().add(createAnnotation("SERGE_", "FOCUS"));
+				}
 				
 				// Add necessary attributes to the new eClass node
 				createAttributes((EClass) eClassifier, newNode, rule);
