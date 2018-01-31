@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
 
 /**
  * Contains a LHS and its corresponding RHS Henshin attribute.
@@ -49,7 +48,7 @@ public class AttributePair {
 	 * @return <code>true</code> if the attribute is the LHS or RHS attribute of the attribute pair; 
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean contains(Edge attribute) {
+	public boolean contains(Attribute attribute) {
 		return ((lhsAttribute != null) && lhsAttribute.equals(attribute)) 
 				|| ((rhsAttribute != null) && rhsAttribute.equals(attribute));
 	}
