@@ -109,11 +109,13 @@ public class ElementFilter {
 		EClassifierInfo eInf = ECM.getEClassifierInfo(eClassifier);
 		boolean requiredByStereotypes = hasRequiredOrAllowedStereotype_Focus(eClassifier);
 		boolean isElementOfRequiredMetamodels = isElementOfRequiredMetamodels(eClassifier);
-		boolean defaultGeneration_ALWAYS = InclusionType.ALWAYS.equals(CIC.getDefaultDanglingInclusionType());
-		boolean undefinedFocusTypes = CIC.getFocusClassifierInclusionTypes().isEmpty();
-		// TODO [LM@22.11.2015] Check this considering stereotypes
+		boolean defaultModuleGeneration_ALWAYS = InclusionType.ALWAYS.equals(CIC.getDefaultDanglingInclusionType());		
+		boolean specifiedModuleGeneration_NEVER = false;
+		if(CIC.getFocusInclusionType(eClassifier)!=null) {
+			specifiedModuleGeneration_NEVER = InclusionType.NEVER.equals(CIC.getFocusInclusionType(eClassifier));
+		}
 		boolean includeBySettings = (InclusionType.ALWAYS.equals(CIC.getFocusInclusionType(eClassifier))
-				|| (defaultGeneration_ALWAYS && undefinedFocusTypes)
+				|| (defaultModuleGeneration_ALWAYS && !specifiedModuleGeneration_NEVER)
 				|| (InclusionType.IF_REQUIRED.equals(CIC.getFocusInclusionType(eClassifier))
 						&& (requiredByStereotypes || CIC.getRequiredDanglings().contains(eClassifier))));
 
