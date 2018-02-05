@@ -86,6 +86,7 @@ public class PatchingSettings extends LiftingSettings {
 		this.patchMode = patchMode;
 		this.minReliability = minReliability;
 		this.validationMode = validationMode;
+		this.symbolicLinkHandler = symbolicLinkHandler;
 	}
 
 	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
