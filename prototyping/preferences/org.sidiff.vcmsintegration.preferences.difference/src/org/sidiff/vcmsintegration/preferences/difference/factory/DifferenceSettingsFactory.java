@@ -93,7 +93,7 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 		if (matcherList.size() == 1) {
 			
 			if (technicalDifferenceBuilderList.size() == 1) {
-				settings = new DifferenceSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), symbolicLinkHandler);
+				settings = new DifferenceSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0));
 				
 				if (!settings.validateSettings()) throw new InvalidSettingsException();
 				settings.setMergeImports(mergeImports);
@@ -101,7 +101,7 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 			}
 			
 			else {
-				settings = new DifferenceSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), symbolicLinkHandler);
+				settings = new DifferenceSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList));
 				
 				if (!settings.validateSettings()) throw new InvalidSettingsException();
 				settings.setMergeImports(mergeImports);
@@ -115,7 +115,7 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 			
 			if (technicalDifferenceBuilderList.size() == 1) {
 				IncrementalMatcher incMatcher = new IncrementalMatcher(matcherList);
-				settings = new DifferenceSettings(scope, validate, incMatcher, candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), symbolicLinkHandler);
+				settings = new DifferenceSettings(scope, validate, incMatcher, candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0));
 				
 				if (!settings.validateSettings()) throw new InvalidSettingsException();
 				settings.setMergeImports(mergeImports);
@@ -124,7 +124,7 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 			
 			else {
 				IncrementalMatcher incMatcher = new IncrementalMatcher(matcherList);
-				settings = new DifferenceSettings(scope, validate, incMatcher, candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), symbolicLinkHandler);
+				settings = new DifferenceSettings(scope, validate, incMatcher, candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList));
 				
 				if (!settings.validateSettings()) throw new InvalidSettingsException();
 				settings.setMergeImports(mergeImports);

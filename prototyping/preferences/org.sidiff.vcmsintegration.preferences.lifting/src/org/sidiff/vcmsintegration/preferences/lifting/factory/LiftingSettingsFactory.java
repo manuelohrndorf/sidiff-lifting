@@ -148,7 +148,7 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 		if (matcherList.size() == 1) {
 				
 				if (technicalDifferenceBuilderList.size() == 1) {
-					settings = new LiftingSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), symbolicLinkHandler, ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
+					settings = new LiftingSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
 					
 					if (!settings.validateSettings()) throw new InvalidSettingsException();
 					settings.setMergeImports(mergeImports);
@@ -157,7 +157,7 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 				}
 				
 				else {
-					settings = new LiftingSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), symbolicLinkHandler, ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
+					settings = new LiftingSettings(scope, validate, matcherList.get(0), candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
 					
 					if (!settings.validateSettings()) throw new InvalidSettingsException();
 					settings.setMergeImports(mergeImports);
@@ -172,7 +172,7 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 				
 				if (technicalDifferenceBuilderList.size() == 1) {
 					IncrementalMatcher incMatcher = new IncrementalMatcher(matcherList);
-					settings = new LiftingSettings(scope, validate, incMatcher, candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), symbolicLinkHandler, ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
+					settings = new LiftingSettings(scope, validate, incMatcher, candidatesService, correspondencesService, technicalDifferenceBuilderList.get(0), ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
 					
 					if (!settings.validateSettings()) throw new InvalidSettingsException();
 					settings.setMergeImports(mergeImports);
@@ -182,7 +182,7 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 				
 				else {
 					IncrementalMatcher incMatcher = new IncrementalMatcher(matcherList);
-					settings = new LiftingSettings(scope, validate, incMatcher, candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), symbolicLinkHandler, ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
+					settings = new LiftingSettings(scope, validate, incMatcher, candidatesService, correspondencesService, new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList), ruleBases, rrsorter, calculateEditRuleMatch, calculateEditRuleMatch);
 					
 					if (!settings.validateSettings()) throw new InvalidSettingsException();
 					settings.setMergeImports(mergeImports);

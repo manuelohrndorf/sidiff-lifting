@@ -1,7 +1,5 @@
 package org.sidiff.vcmsintegration.preferences.patching.factory;
 
-import javax.sound.midi.Patch;
-
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
