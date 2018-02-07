@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.sidiff.slicer.configuration.project.runtime.extension_point" name="SiDiff - Slicing Configuration Project Runtime" schema="schema/org.sidiff.slicer.configuration.project.runtime.extension_point.exsd"/>
+
+   <extension
+         id="builder"
+         name="Slicing Configuration Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.sidiff.slicer.configuration.project.builder.SlicingConfigurationProjectBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="nature"
+         name="Slicing Configuration Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.sidiff.slicer.configuration.project.builder.SlicingConfigurationProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.sidiff.slicer.configuration.project.builder">
+      </builder>
+   </extension>
+   <extension
+         id="xmlProblem"
+         name="XML Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>

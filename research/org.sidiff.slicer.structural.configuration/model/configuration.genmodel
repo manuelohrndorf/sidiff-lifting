@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.sidiff.slicer.structural.configuration/src"
+    modelPluginID="org.sidiff.slicer.structural.configuration" modelName="Configuration"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>configuration.ecore</foreignModel>
+  <genPackages prefix="Configuration" basePackage="org.sidiff.slicer.structural" disposableProviderFactory="true"
+      fileExtensions="scfg" ecorePackage="configuration.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="configuration.ecore#//SlicingMode">
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//SlicingMode/FORWARD"/>
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//SlicingMode/BACKWARD"/>
+      <genEnumLiterals ecoreEnumLiteral="configuration.ecore#//SlicingMode/BIDIRECTIONAL"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="configuration.ecore#//IConstraintInterpreter"/>
+    <genClasses ecoreClass="configuration.ecore#//SlicingConfiguration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/description"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/documentTypes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicingConfiguration/imports"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/slicingMode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicingConfiguration/slicedEClasses"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/oppositeSlicedEClassType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/checkMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/constraintInterpreterID"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicingConfiguration/constraintInterpreter"/>
+    </genClasses>
+    <genClasses ecoreClass="configuration.ecore#//SlicedEClass">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/slicingConfiguration"/>
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/constraint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEClass/slicedEReferences"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute configuration.ecore#//SlicedEClass/oppositeSlicedEReferenceType"/>
+    </genClasses>
+    <genClasses ecoreClass="configuration.ecore#//Constraint">
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute configuration.ecore#//Constraint/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="configuration.ecore#//SlicedEReference">
+      <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEReference/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEReference/slicedEClass"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEReference/constraint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference configuration.ecore#//SlicedEReference/overwrite"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

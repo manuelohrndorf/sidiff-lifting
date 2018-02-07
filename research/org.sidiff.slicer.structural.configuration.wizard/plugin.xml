@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.pde.ui.pluginContent">
+      <wizard
+            class="org.sidiff.slicer.structural.configuration.wizard.ConfigurationProjectWizard"
+            icon="icons/full/obj16/newexprj_wiz.gif"
+            id="org.sidiff.slicer.structural.configuration.wizard.ConfigurationProjectWizardID"
+            name="%_UI_ProjectWizard_title">
+         <description>
+            %_UI_ProjectWizard_description
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.pde.ui.templates">
+      <template
+            class="org.sidiff.slicer.structural.configuration.wizard.templates.ConfigurationProjectTemplateSection"
+            contributingId="org.sidiff.slicer.configuration.project.runtime.extension_point"
+            id="org.sidiff.slicer.structural.configuration.wizard.ConfigurationProjectTemplateID"
+            name="%_UI_ProjectWizard_title"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.sidiff.slicer.structural.configuration.wizard.WizardCategory"
+            class="org.sidiff.slicer.structural.configuration.wizard.ConfigurationModelWizard"
+            icon="icons/full/obj16/ConfigurationModelFile.gif"
+            id="org.sidiff.slicer.structural.configuration.wizard.ConfigurationModelWizardID"
+            name="%_UI_ConfigurationModelWizard_label">
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+         <description>
+            %_UI_ConfigurationModelWizard_description
+         </description>
+      </wizard>
+      <category
+            id="org.sidiff.slicer.structural.configuration.wizard.WizardCategory"
+            name="%_UI_Wizard_category">
+      </category>
+   </extension>
+
+</plugin>
