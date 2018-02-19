@@ -8,14 +8,12 @@ import java.util.Set;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -48,14 +46,14 @@ public class RuleBasedSlicer{
 	// ############### inner accessed fields ###############
 	
 	/**
-	 * The {@link Resource} of the complete model
+	 * The {@link UUIDResource} of the complete model
 	 */
-	private Resource completeResource;
+	private UUIDResource completeResource;
 	
 	/**
-	 * The {@link Resource} of the 'empty' model containing only the root elements
+	 * The {@link UUIDResource} of the 'empty' model containing only the root elements
 	 */
-	private Resource emptyResource;
+	private UUIDResource emptyResource;
 	
 	/**
 	 * Mapping between correspondence elements in {@link #completeResource} and {@link #emptyResource}
@@ -129,7 +127,7 @@ public class RuleBasedSlicer{
 	 * @throws InvalidModelException 
 	 * @throws UncoveredChangesException 
 	 */
-	public void init(SlicingConfiguration config, Resource completeResource, Resource emtpyResource) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
+	public void init(SlicingConfiguration config, UUIDResource completeResource, UUIDResource emtpyResource) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
 		
 		this.slicingConfiguration = config;
 		

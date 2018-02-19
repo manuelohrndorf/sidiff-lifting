@@ -200,6 +200,18 @@ public abstract class PotentialConflictAnalyzer {
 			}
 			potRuleCon.addAllPNCs(useDeleteNodePotConsPAC);
 		}
+		
+		// Create-Forbid (NAC)
+		if ((!predecessorCreateNodes.isEmpty()) && (!successorForbidNodes.isEmpty())) {
+			Set<PotentialNodeConflict> createForbidNodePotConsPAC = findCreateForbid_Node_NAC(
+					predecessorCreateNodes, successorForbidNodes);
+			
+			for (PotentialNodeConflict pnc : createForbidNodePotConsPAC) {
+				pnc.setSourceRule(successorEditRule);
+				pnc.setTargetRule(predecessorEditRule);
+			}
+			potRuleCon.addAllPNCs(createForbidNodePotConsPAC);
+		}
 //		
 //		// Create-Use
 //		if ((!predecessorCreateNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
@@ -604,6 +616,69 @@ public abstract class PotentialConflictAnalyzer {
 
 		return false;
 	}
+	
+	/**
+	 * Checks all nodes for a Create-Forbid conflict.
+	 * 
+	 * @param rhsPredecessors
+	 * 			Nodes on RHS only (<< create >>)
+	 * @param forbiddenSuccessors
+	 * 			Nodes from NAC (<< forbid >>)
+	 * @return All potential Create-Forbid conflicts.
+	 */
+	protected Set<PotentialNodeConflict> findCreateForbid_Node_NAC(
+			Collection<Node> rhsPredecessors, Collection<Node> forbiddenSuccessors) {
+		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
+		
+		for (Node predecessorNode : rhsPredecessors) {
+			
+			for (Node successorNode : forbiddenSuccessors) {
+				if (isCreateForbidConflict_NAC(predecessorNode, successorNode)) {
+					// Create-Forbid conflict found
+					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
+
+					potDep.setSourceNode(successorNode);
+					potDep.setTargetNode(predecessorNode);
+					potDep.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID);
+
+					potCons.add(potDep);
+				}
+			}
+		}
+
+		return potCons;
+	}
+	
+	
+	/**
+	 * Checks tow nodes for a Create-Forbid conflict.
+	 * 
+	 * @param rhsPredecessors
+	 * 			Nodes on RHS only (<< create >>)
+	 * @param forbiddenSuccessors
+	 * 			Nodes from NAC (<< forbid >>)
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isCreateForbidConflict_NAC(Node rhsPredecessor, Node forbiddenSuccessor) {
+		
+		assert(isCreationNode(rhsPredecessor)) : "Input Assertion Failed: Must be a creation node!";
+		assert(isForbiddenNode(forbiddenSuccessor)) : "Input Assertion Failed: Must be a forbidden node!";
+		
+		/*
+		 * Forbid-Node-Type + Forbid-Node-Sub-Types + Forbid-Node-Super-Types == Create-Node-Type
+		 */
+
+		boolean superType = forbiddenSuccessor.getType().getEAllSuperTypes().contains(rhsPredecessor.getType());
+		boolean directType = forbiddenSuccessor.getType() == rhsPredecessor.getType();
+		boolean subType = getSubTypes(forbiddenSuccessor.getType()).contains(rhsPredecessor.getType());
+		
+		if (directType || superType || subType) {
+			return true;
+		}
+
+		return false;
+	}
+	
 //
 //	/**
 //	 * Checks all nodes for Create-Use dependencies.

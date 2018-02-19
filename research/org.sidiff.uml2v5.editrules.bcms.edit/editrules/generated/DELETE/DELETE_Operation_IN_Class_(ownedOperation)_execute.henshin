@@ -1,48 +1,47 @@
-<?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Operation_IN_Class_(ownedOperation)" description="Deletes one Operation in Class">
-  <annotations key="INVERSE" value="CREATE_Operation_IN_Class_(ownedOperation)"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_6oBnUNs2Eee_jZJ4fWRNAQ" name="DELETE_Operation_IN_Class_(ownedOperation)" description="Deletes one Operation in Class">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteOperation_IN_Class" description="deletes one Operation in the context: Class">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_6oBnUts2Eee_jZJ4fWRNAQ" name="deleteOperation_IN_Class" description="deletes one Operation in the context: Class">
+    <parameters xmi:id="_6oBnU9s2Eee_jZJ4fWRNAQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_6oBnVNs2Eee_jZJ4fWRNAQ" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_6oBnVds2Eee_jZJ4fWRNAQ" name="LHS">
+      <nodes xmi:id="_6oBnVts2Eee_jZJ4fWRNAQ" name="Selected" incoming="_6oBnW9s2Eee_jZJ4fWRNAQ" outgoing="_6oBnWts2Eee_jZJ4fWRNAQ">
+        <annotations xmi:id="_6oBnV9s2Eee_jZJ4fWRNAQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_6oBnWNs2Eee_jZJ4fWRNAQ" name="ToBeDeleted" incoming="_6oBnWts2Eee_jZJ4fWRNAQ" outgoing="_6oBnW9s2Eee_jZJ4fWRNAQ">
+        <annotations xmi:id="_6oBnWds2Eee_jZJ4fWRNAQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_6oBnWts2Eee_jZJ4fWRNAQ" source="_6oBnVts2Eee_jZJ4fWRNAQ" target="_6oBnWNs2Eee_jZJ4fWRNAQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/ownedOperation"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_6oBnW9s2Eee_jZJ4fWRNAQ" source="_6oBnWNs2Eee_jZJ4fWRNAQ" target="_6oBnVts2Eee_jZJ4fWRNAQ">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/class"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_6oBnXNs2Eee_jZJ4fWRNAQ" name="RHS">
+      <nodes xmi:id="_6oBnXds2Eee_jZJ4fWRNAQ" name="Selected">
+        <annotations xmi:id="_6oBnXts2Eee_jZJ4fWRNAQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_6oBnX9s2Eee_jZJ4fWRNAQ" origin="_6oBnVts2Eee_jZJ4fWRNAQ" image="_6oBnXds2Eee_jZJ4fWRNAQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_6oBnYNs2Eee_jZJ4fWRNAQ" name="mainUnit" subUnits="_6oBnUts2Eee_jZJ4fWRNAQ">
+    <parameters xmi:id="_6oBnYds2Eee_jZJ4fWRNAQ" name="selectedEObject">
+      <annotations xmi:id="_6oBnYts2Eee_jZJ4fWRNAQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_6oCOYNs2Eee_jZJ4fWRNAQ" name="ToBeDeleted">
+      <annotations xmi:id="_6oCOYds2Eee_jZJ4fWRNAQ" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_6oCOYts2Eee_jZJ4fWRNAQ" source="_6oBnYds2Eee_jZJ4fWRNAQ" target="_6oBnU9s2Eee_jZJ4fWRNAQ"/>
+    <parameterMappings xmi:id="_6oCOY9s2Eee_jZJ4fWRNAQ" source="_6oCOYNs2Eee_jZJ4fWRNAQ" target="_6oBnVNs2Eee_jZJ4fWRNAQ"/>
   </units>
 </henshin:Module>

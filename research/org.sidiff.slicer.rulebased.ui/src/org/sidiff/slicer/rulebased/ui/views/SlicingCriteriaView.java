@@ -97,24 +97,24 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	public static final String ID = "org.sidiff.slicer.rulebased.ui.views.SlicingCriteriaView";
 	
 	/**
-	 * The remote complete @link Resource}
+	 * The remote complete @link UUIDResource}
 	 */
-	private Resource remoteResourceComplete;
+	private UUIDResource remoteResourceComplete;
 	
 	/**
-	 * The remote empty {@link Resource}
+	 * The remote empty {@link UUIDResource}
 	 */
-	private Resource remoteResourceEmpty;
+	private UUIDResource remoteResourceEmpty;
 	
 	/**
-	 * The local sliced {@link Resource}
+	 * The local sliced {@link UUIDResource}
 	 */
-	private Resource localSlicedResource;
+	private UUIDResource localSlicedResource;
 	
 	/**
-	 * The local modified sliced {@link Resource}
+	 * The local modified sliced {@link UUIDResource}
 	 */
-	private Resource localModifiedSlicedResource;
+	private UUIDResource localModifiedSlicedResource;
 	
 	/**
 	 * The {@link AsymmetricDifference} for propagating the slice to the {@link #localSlicedResource}
