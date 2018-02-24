@@ -2,7 +2,6 @@ package org.sidiff.slicer.structural.configuration.commands;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -214,12 +213,11 @@ public class RunSlicerActionHandler extends AbstractHandler
 			// run slicer
 			slicer.init((SlicingConfiguration)cfg);
 			slicer.slice(contextIdentifiers);
-			Collection<EObject> modelSlice = slicer.getModelSlice().export();
-			SlicerUtil.serializeSlicedModel(modelSlice, saveURI, false);
+			slicer.exportSlicedModel(saveURI);
 
 			URI graphURI = saveURI.appendFileExtension(ConfigurationEditorPlugin.getSubstitutedString("_UI_RunSlicer_GraphFileExt")); //$NON-NLS-1$
 			OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter().createOutputStream(graphURI);
-			graphOutput.write(GraphUtil.getOutput().getBytes());
+			graphOutput.write(GraphUtil.get(slicer).getOutput().getBytes());
 			graphOutput.close();
 
 			// show status message

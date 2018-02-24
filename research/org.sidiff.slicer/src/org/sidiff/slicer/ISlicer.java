@@ -3,9 +3,11 @@ package org.sidiff.slicer;
 import java.util.Collection;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.slicer.model.ModelSlice;
+import org.sidiff.slicer.slice.ModelSlice;
+
 public interface ISlicer {
 
 	String EXTENSION_POINT_ID = "org.sidiff.slicer.extensionpoint";
@@ -24,7 +26,11 @@ public interface ISlicer {
 	
 	public void slice(Collection<EObject> input) throws Exception;
 	
+	// TODO: method is unused; remove it?
 	public void setModelSlice(ModelSlice modelSlice);
 	
+	// TODO: method is unused; remove it?
 	public ModelSlice getModelSlice();
+	
+	public void exportSlicedModel(URI outputURI) throws Exception;
 }
