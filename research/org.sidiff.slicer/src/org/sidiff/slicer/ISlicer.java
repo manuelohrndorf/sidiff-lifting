@@ -11,26 +11,24 @@ import org.sidiff.slicer.slice.ModelSlice;
 public interface ISlicer {
 
 	String EXTENSION_POINT_ID = "org.sidiff.slicer.extensionpoint";
-	
+
 	public String getKey();
-	
+
 	public String getName();
-	
+
 	public Set<String> getDocumentTypes();
 
 	public boolean canHandleDocTypes(Set<String> documentTypes);
-	
+
 	public boolean canHandleModels(Collection<Resource> models);
-	
+
 	public void init(ISlicingConfiguration config) throws Exception;
-	
+
 	public void slice(Collection<EObject> input) throws Exception;
-	
-	// TODO: method is unused; remove it?
+
 	public void setModelSlice(ModelSlice modelSlice);
-	
-	// TODO: method is unused; remove it?
+
 	public ModelSlice getModelSlice();
-	
+
 	public void exportSlicedModel(URI outputURI) throws Exception;
 }

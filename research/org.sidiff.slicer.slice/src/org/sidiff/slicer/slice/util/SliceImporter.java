@@ -26,12 +26,27 @@ import org.sidiff.slicer.slice.SlicedElement;
  * @author rmueller
  *
  */
-public class SliceImporter extends EntitiesImporter {
-	
+public class SliceImporter extends EntitiesImporter
+{
+	/**
+	 * The model slice that is being created by this importer.
+	 */
 	protected ModelSlice modelSlice;
 
+	/**
+	 * Create a SliceImporter to import a new {@link ModelSlice}.
+	 */
+	public SliceImporter()
+	{
+		this.modelSlice = SliceFactory.eINSTANCE.createModelSlice();
+		this.uuidIndex = new HashMap<>();
+		this.signatureIndex = new HashMap<>();
+		this.eObject2Element = new HashMap<>();
+	}
+
 	@Override
-	protected String computeSignature(Entity entity) {
+	protected String computeSignature(Entity entity)
+	{
 		if(entity instanceof SlicedElement)
 		{
 			return computeEObjectSignature(((SlicedElement)entity).getObject());
@@ -56,9 +71,12 @@ public class SliceImporter extends EntitiesImporter {
 	private String computeEObjectSignature(EObject object)
 	{
 		String name;
-		try {
+		try
+		{
 			name = object.eGet(object.eClass().getEStructuralFeature("name")).toString();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			name = object.eClass().getName();
 		}
 
@@ -70,24 +88,9 @@ public class SliceImporter extends EntitiesImporter {
 	}
 
 	@Override
-	protected Element createElement() {
-		return SliceFactory.eINSTANCE.createSlicedElement();
-	}
-
-	public void init(ModelSlice modelSlice)
+	protected Element createElement()
 	{
-		this.modelSlice = modelSlice;
-		this.uuidIndex = new HashMap<String, Element>();
-		this.signatureIndex = new HashMap<String, Set<Entity>>();
-		this.eObject2Element = new HashMap<EObject, Element>();
-		for(SlicedElement element : this.modelSlice.getSlicedElements()) {
-			this.uuidIndex.put(element.getUuid(), element);
-			if(this.signatureIndex.get(element.getSignature()) == null) {
-				this.signatureIndex.put(element.getSignature(), new HashSet<Entity>());
-			}
-			this.signatureIndex.get(element.getSignature()).add(element);
-			this.eObject2Element.put(element.getObject(), element);
-		}
+		return SliceFactory.eINSTANCE.createSlicedElement();
 	}
 
 	@Override
@@ -100,7 +103,8 @@ public class SliceImporter extends EntitiesImporter {
 
 	@Override
 	public Reference importEReference(EReference eReference, EObject srcEObject, EObject tgtEObject)
-			throws ImportFailedException {
+			throws ImportFailedException
+	{
 		Reference reference = super.importEReference(eReference, srcEObject, tgtEObject);
 		SlicedElement srcElement = (SlicedElement)eObject2Element.get(srcEObject);
 		srcElement.getSlicedReferences().add(reference);
@@ -108,7 +112,8 @@ public class SliceImporter extends EntitiesImporter {
 	}
 
 	@Override
-	public Attribute importEAttribute(EAttribute eAttribute, EObject eObject) throws ImportFailedException {
+	public Attribute importEAttribute(EAttribute eAttribute, EObject eObject) throws ImportFailedException
+	{
 		Attribute attribute = super.importEAttribute(eAttribute, eObject);
 		SlicedElement element = (SlicedElement)eObject2Element.get(eObject);
 		element.getSlicedAttributes().add(attribute);
@@ -126,34 +131,68 @@ public class SliceImporter extends EntitiesImporter {
 		Map<SlicedElement,EObject> objectCopies = new HashMap<>();
 
 		// create a copy of the object of every sliced element
-		for(SlicedElement slicedElement : modelSlice.getSlicedElements()) {
+		for(SlicedElement slicedElement : modelSlice.getSlicedElements())
+		{
 			EObject copy = EMFUtil.copyWithoutReferences(slicedElement.getObject());
 			objectCopies.put(slicedElement, copy);
 		}
 
 		// set references for the copied objects
-		for(SlicedElement slicedElement : modelSlice.getSlicedElements()) {
-			for(Reference slicedReference : slicedElement.getSlicedReferences()) {
-				if(slicedReference.getType().isMany()) {
+		for(SlicedElement slicedElement : modelSlice.getSlicedElements())
+		{
+			for(Reference slicedReference : slicedElement.getSlicedReferences())
+			{
+				EReference type = slicedReference.getType();
+				if(type.isChangeable())
+				{
 					EObject src = objectCopies.get(slicedReference.getSource());
 					EObject tgt = objectCopies.get(slicedReference.getTarget());
-					((EList<EObject>)src.eGet(slicedReference.getType())).add(tgt);
-				} else {
-					EObject src = objectCopies.get(slicedReference.getSource());
-					EObject tgt = objectCopies.get(slicedReference.getTarget());
-					src.eSet(slicedReference.getType(), tgt);
+					if(type.isMany())
+					{
+						((EList<EObject>)src.eGet(type)).add(tgt);
+					}
+					else
+					{
+						src.eSet(type, tgt);
+					}
 				}
 			}
 		}
 
 		// resolve the top-most container for every copied object
 		Set<EObject> containers = new HashSet<EObject>();
-		for(EObject slicedElement : objectCopies.values()) {
-			while(slicedElement.eContainer() != null) {
+		for(EObject slicedElement : objectCopies.values())
+		{
+			while(slicedElement.eContainer() != null)
+			{
 				slicedElement = slicedElement.eContainer();
 			}
 			containers.add(slicedElement);
 		}
 		return containers;
+	}
+
+	public ModelSlice getModelSlice()
+	{
+		return modelSlice;
+	}
+
+	public void setModelSlice(ModelSlice modelSlice)
+	{
+		this.modelSlice = modelSlice;
+
+		// update the indices
+		this.uuidIndex.clear();
+		this.signatureIndex.clear();
+		this.eObject2Element.clear();
+		for(SlicedElement element : this.modelSlice.getSlicedElements())
+		{
+			this.uuidIndex.put(element.getUuid(), element);
+			if(this.signatureIndex.get(element.getSignature()) == null) {
+				this.signatureIndex.put(element.getSignature(), new HashSet<Entity>());
+			}
+			this.signatureIndex.get(element.getSignature()).add(element);
+			this.eObject2Element.put(element.getObject(), element);
+		}
 	}
 }
