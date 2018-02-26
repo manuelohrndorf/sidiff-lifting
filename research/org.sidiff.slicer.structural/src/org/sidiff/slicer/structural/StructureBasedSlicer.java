@@ -53,19 +53,19 @@ public class StructureBasedSlicer implements ISlicer {
 	private SlicingConfiguration slicingConfiguration;
 
 	// ############### inner accessed fields ###############
-	
+
 	/**
 	 * A {@link Map} for an efficient access to a given {@link SlicedEClass}
 	 * referring to the respective {@link EClass}
 	 */
 	private Map<EClass, SlicedEClass> slicedEClasses;
-	
+
 	/**
 	 * A {@link Map} for an efficient access to a given ordered list of
 	 * {@link SlicedEReference}s referring to the respective {@link EReference}
 	 */
 	private Map<EReference, List<SlicedEReference>> slicedEReferences;
-	
+
 	/**
 	 * elements which do not meet any slicing condition but are needed to fulfill
 	 * a multiplicity constraint of the respective modeling language
@@ -96,20 +96,21 @@ public class StructureBasedSlicer implements ISlicer {
 
 	@Override
 	public Set<String> getDocumentTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		if(slicingConfiguration == null) {
+			throw new IllegalStateException("slicer is not initialized; call init first");
+		}
+		return new HashSet<>(slicingConfiguration.getDocumentTypes());
 	}
 
 	@Override
 	public boolean canHandleDocTypes(Set<String> documentTypes) {
-		// TODO Auto-generated method stub
-		return false;
+		return getDocumentTypes().containsAll(documentTypes);
 	}
 
 	@Override
 	public boolean canHandleModels(Collection<Resource> models) {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO: check the document type of the models
+		return true;
 	}
 
 	@Override
@@ -152,7 +153,7 @@ public class StructureBasedSlicer implements ISlicer {
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
 
 		// iterate over all the slicing criteria
-		// new criteria will be added add the end of the list during
+		// new criteria will be added add the end of the list
 		// the called methods must ensure that no existing element is added
 		List<EObject> criteria = new LinkedList<>(initialCriteria);
 		for(int i = 0; i < criteria.size(); i++) {
@@ -162,16 +163,13 @@ public class StructureBasedSlicer implements ISlicer {
 			GraphUtil.get(this).addNode(slicedElement.getObject());
 			LogUtil.log(LogEvent.MESSAGE, "Sliced EClass: " + StringUtil.resolve(slicingCriterion));
 
-			if(slicingConfiguration.getSlicingMode().equals(SlicingMode.FORWARD)
-					|| slicingConfiguration.getSlicingMode().equals(SlicingMode.BIDIRECTIONAL)) {
+			SlicingMode slicingMode = slicingConfiguration.getSlicingMode();
+			if(slicingMode == SlicingMode.FORWARD || slicingMode == SlicingMode.BIDIRECTIONAL) {
 				addForwardElements(criteria, slicedElement);
 			}
-
-			if(slicingConfiguration.getSlicingMode().equals(SlicingMode.BACKWARD)
-					|| slicingConfiguration.getSlicingMode().equals(SlicingMode.BIDIRECTIONAL)) {
+			if(slicingMode == SlicingMode.BACKWARD || slicingMode == SlicingMode.BIDIRECTIONAL) {
 				addBackwardElements(criteria, slicedElement);
 			}
-
 			if(slicingConfiguration.isCheckMultiplicity()) {
 				addMandatoryNeighbours(criteria, slicedElement);
 			}
@@ -292,11 +290,11 @@ public class StructureBasedSlicer implements ISlicer {
 						size++;
 
 						GraphUtil.get(this).addEdge(eReference, src, tgt);
-						LogUtil.log(LogEvent.MESSAGE, "Sliced boundary EReference: " + StringUtil.resolve(tgt)
-							+ " <---[" + eReference.getName() + "]---> " + StringUtil.resolve(src));
+						LogUtil.log(LogEvent.MESSAGE, "Sliced boundary EReference: " + StringUtil.resolve(src)
+							+ " ---[" + eReference.getName() + "]---> " + StringUtil.resolve(tgt));
 					}
 				}
-			}			
+			}
 		}
 		// TODO handle containment feature as outgoing reference with lower bound 1
 //		EObject container = slicedElement.getOrigin().eContainer();
@@ -397,7 +395,13 @@ public class StructureBasedSlicer implements ISlicer {
 		}
 		return validReferences;
 	}
-	
+
+	/**
+	 * Evaluates the constraint for the element using the constraint interpreter of the slicing configuration.
+	 * @param constraint the constraint
+	 * @param element the context element
+	 * @return result of the constraint evaluation (boolean and object)
+	 */
 	private IConstraintResult evaluateConstraint(Constraint constraint, EObject element)
 	{
 		return slicingConfiguration.getConstraintInterpreter().evaluate(constraint, element);
