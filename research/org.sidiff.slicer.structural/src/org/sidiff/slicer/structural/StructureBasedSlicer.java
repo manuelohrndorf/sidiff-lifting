@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StringUtil;
@@ -109,7 +110,13 @@ public class StructureBasedSlicer implements ISlicer {
 
 	@Override
 	public boolean canHandleModels(Collection<Resource> models) {
-		// TODO: check the document type of the models
+		Set<String> docTypes = getDocumentTypes();
+		for(Resource model : models) {
+			String docType = EMFModelAccess.getCharacteristicDocumentType(model);
+			if(docType == null || !docTypes.contains(docType)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -239,18 +246,10 @@ public class StructureBasedSlicer implements ISlicer {
 			if(checkSlicingCondition(src)) {
 				for(EReference eReference : src.eClass().getEAllReferences()) {
 					if(!eReference.isDerived()) {
-						Collection<EObject> srcTargets = computeSlicedReferenceTargets(src, eReference);
-						Collection<EObject> tgtTargets = Collections.emptyList();
-						if(eReference.getEOpposite() != null) {
-							tgtTargets = computeSlicedReferenceTargets(tgt, eReference.getEOpposite());
-						}
-
-						if(srcTargets.contains(tgt) || tgtTargets.contains(src))
+						Collection<EObject> targets = computeSlicedReferenceTargets(src, eReference);
+						if(targets.contains(tgt))
 						{
 							importer.importEReference(eReference, src, tgt);
-							if(eReference.getEOpposite() != null) {
-								importer.importEReference(eReference.getEOpposite(), tgt, src);
-							}
 							if(!list.contains(src)) {
 								list.add(src);
 							}
