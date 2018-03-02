@@ -299,7 +299,8 @@ public class StructureBasedSlicer implements ISlicer {
 	 * @return
 	 */
 	private Set<EObject> getIncomingNeighbours(EObject eObject) {
-		if(!eObject.eResource().getResourceSet().eAdapters().contains(adapter)) {
+		if(eObject.eResource() != null && eObject.eResource().getResourceSet() != null
+				&& !eObject.eResource().getResourceSet().eAdapters().contains(adapter)) {
 			eObject.eResource().getResourceSet().eAdapters().add(adapter);
 		}
 		Set<EObject> incomingNeighbours = new HashSet<EObject>();
