@@ -15,6 +15,7 @@ import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.structural.StructureBasedSlicer;
 import org.sidiff.slicer.structural.StructureBasedSlicerUtil;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
+import org.sidiff.slicer.util.SlicerUtil;
 import org.sidiff.slicing.util.visualization.GraphUtil;
 
 public class SiDiffSlicingApplication implements IApplication{
@@ -70,7 +71,7 @@ public class SiDiffSlicingApplication implements IApplication{
 		final long timerSlice = System.currentTimeMillis();
 		System.out.println("Slicing: " + (timerSlice - timeSlicerInit) + "ms");
 		URI saveURI = StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration)slicing_config);
-		slicer.exportSlicedModel(saveURI);
+		SlicerUtil.serializeModelSlice(saveURI, slicer.getModelSlice().export());
 		String gv_path = loadModelURI.path().replace(loadModelURI.lastSegment(), "graph.dot");
 		FileOperations.writeFile(gv_path, GraphUtil.get(slicer).getOutput());
 

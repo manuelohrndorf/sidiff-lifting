@@ -3,7 +3,6 @@ package org.sidiff.slicer;
 import java.util.Collection;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.slicer.slice.ModelSlice;
@@ -29,6 +28,4 @@ public interface ISlicer {
 	public void setModelSlice(ModelSlice modelSlice);
 
 	public ModelSlice getModelSlice();
-
-	public void exportSlicedModel(URI outputURI) throws Exception;
 }

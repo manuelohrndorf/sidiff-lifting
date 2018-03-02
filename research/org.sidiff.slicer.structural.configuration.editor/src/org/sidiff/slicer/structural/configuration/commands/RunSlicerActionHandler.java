@@ -213,7 +213,7 @@ public class RunSlicerActionHandler extends AbstractHandler
 			// run slicer
 			slicer.init((SlicingConfiguration)cfg);
 			slicer.slice(contextIdentifiers);
-			slicer.exportSlicedModel(saveURI);
+			SlicerUtil.serializeModelSlice(saveURI, slicer.getModelSlice().export());
 
 			URI graphURI = saveURI.appendFileExtension(ConfigurationEditorPlugin.getSubstitutedString("_UI_RunSlicer_GraphFileExt")); //$NON-NLS-1$
 			OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter().createOutputStream(graphURI);

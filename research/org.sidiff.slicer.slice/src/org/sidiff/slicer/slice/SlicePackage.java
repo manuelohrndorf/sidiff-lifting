@@ -3,6 +3,7 @@
 package org.sidiff.slicer.slice;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -39,7 +40,7 @@ public interface SlicePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.example.org/Slice";
+	String eNS_URI = "http://www.sidiff.org/slice/model/1.0";
 
 	/**
 	 * The package namespace name.
@@ -47,7 +48,7 @@ public interface SlicePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "Slice";
+	String eNS_PREFIX = "slice";
 
 	/**
 	 * The singleton instance of the package.
@@ -95,13 +96,22 @@ public interface SlicePackage extends EPackage {
 	int MODEL_SLICE_FEATURE_COUNT = 2;
 
 	/**
+	 * The operation id for the '<em>Export</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_SLICE___EXPORT = 0;
+
+	/**
 	 * The number of operations of the '<em>Model Slice</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_SLICE_OPERATION_COUNT = 0;
+	int MODEL_SLICE_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.slicer.slice.impl.SlicedElementImpl <em>Sliced Element</em>}' class.
@@ -281,6 +291,16 @@ public interface SlicePackage extends EPackage {
 	EReference getModelSlice_Type();
 
 	/**
+	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#export() <em>Export</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Export</em>' operation.
+	 * @see org.sidiff.slicer.slice.ModelSlice#export()
+	 * @generated
+	 */
+	EOperation getModelSlice__Export();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicer.slice.SlicedElement <em>Sliced Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,6 +380,14 @@ public interface SlicePackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODEL_SLICE__TYPE = eINSTANCE.getModelSlice_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Export</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MODEL_SLICE___EXPORT = eINSTANCE.getModelSlice__Export();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.slicer.slice.impl.SlicedElementImpl <em>Sliced Element</em>}' class.

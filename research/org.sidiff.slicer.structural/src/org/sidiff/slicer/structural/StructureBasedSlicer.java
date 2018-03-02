@@ -1,6 +1,5 @@
 package org.sidiff.slicer.structural;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,14 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
@@ -183,14 +179,6 @@ public class StructureBasedSlicer implements ISlicer {
 		}
 
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
-	}
-
-	@Override
-	public void exportSlicedModel(URI outputURI) throws IOException {
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.createResource(outputURI);
-		resource.getContents().addAll(importer.export());
-		resource.save(Collections.EMPTY_MAP);
 	}
 
 	// ############### getter/setter methods ###############

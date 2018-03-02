@@ -1,16 +1,11 @@
 package org.sidiff.slicer.slice.util;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.entities.Attribute;
 import org.sidiff.entities.Element;
 import org.sidiff.entities.Entity;
@@ -118,58 +113,6 @@ public class SliceImporter extends EntitiesImporter
 		SlicedElement element = (SlicedElement)eObject2Element.get(eObject);
 		element.getSlicedAttributes().add(attribute);
 		return attribute;
-	}
-
-	/**
-	 * Export the model slice. The objects of all sliced elements are copied
-	 * and references are created for the corresponding sliced references.
-	 * @return collections of all containers necessary to contain all sliced objects
-	 */
-	@SuppressWarnings("unchecked")
-	public Collection<EObject> export()
-	{
-		Map<SlicedElement,EObject> objectCopies = new HashMap<>();
-
-		// create a copy of the object of every sliced element
-		for(SlicedElement slicedElement : modelSlice.getSlicedElements())
-		{
-			EObject copy = EMFUtil.copyWithoutReferences(slicedElement.getObject());
-			objectCopies.put(slicedElement, copy);
-		}
-
-		// set references for the copied objects
-		for(SlicedElement slicedElement : modelSlice.getSlicedElements())
-		{
-			for(Reference slicedReference : slicedElement.getSlicedReferences())
-			{
-				EReference type = slicedReference.getType();
-				if(type.isChangeable())
-				{
-					EObject src = objectCopies.get(slicedReference.getSource());
-					EObject tgt = objectCopies.get(slicedReference.getTarget());
-					if(type.isMany())
-					{
-						((EList<EObject>)src.eGet(type)).add(tgt);
-					}
-					else
-					{
-						src.eSet(type, tgt);
-					}
-				}
-			}
-		}
-
-		// resolve the top-most container for every copied object
-		Set<EObject> containers = new HashSet<EObject>();
-		for(EObject slicedElement : objectCopies.values())
-		{
-			while(slicedElement.eContainer() != null)
-			{
-				slicedElement = slicedElement.eContainer();
-			}
-			containers.add(slicedElement);
-		}
-		return containers;
 	}
 
 	public ModelSlice getModelSlice()
