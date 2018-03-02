@@ -64,12 +64,6 @@ public class StructureBasedSlicer implements ISlicer {
 	private Map<EReference, List<SlicedEReference>> slicedEReferences;
 
 	/**
-	 * elements which do not meet any slicing condition but are needed to fulfill
-	 * a multiplicity constraint of the respective modeling language
-	 */
-	private Set<EObject> bounderyElements;
-
-	/**
 	 * An {@link ECrossReferenceAdapter} for inversive navigation of
 	 * {@link EReference}
 	 */
@@ -128,7 +122,6 @@ public class StructureBasedSlicer implements ISlicer {
 		// (re-)initialize inner accessed fields
 		this.slicedEClasses = new HashMap<>();
 		this.slicedEReferences = new HashMap<>();
-		this.bounderyElements = new HashSet<>();
 
 		for(SlicedEClass slicedEClass : this.slicingConfiguration.getSlicedEClasses()) {
 			this.slicedEClasses.put(slicedEClass.getType(), slicedEClass);
@@ -259,18 +252,17 @@ public class StructureBasedSlicer implements ISlicer {
 	 * @throws ImportFailedException 
 	 */
 	private void addMandatoryNeighbours(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+		EObject src = slicedElement.getObject();
 		for(EReference eReference : slicedElement.getType().getEAllReferences()) {
 			if(!eReference.isDerived() && eReference.getLowerBound() > 0) {
 				int size = slicedElement.getReferences(eReference).size();
 				if(size < eReference.getLowerBound()) {
-					EObject src = slicedElement.getObject();
 					Collection<EObject> tgts = getReferenceTargets(src, eReference);
 					Iterator<EObject> iterator = tgts.iterator();
 					while(size < eReference.getLowerBound() && iterator.hasNext()) {
 						EObject tgt = iterator.next();
 						importer.importEReference(eReference, src, tgt);
 
-						bounderyElements.add(tgt);
 						if(!list.contains(tgt)) {
 							list.add(tgt);
 						}
@@ -283,14 +275,21 @@ public class StructureBasedSlicer implements ISlicer {
 				}
 			}
 		}
-		// TODO handle containment feature as outgoing reference with lower bound 1
-//		EObject container = slicedElement.getOrigin().eContainer();
-//		if(container != null){
-//			EReference eReference = slicedElement.getOrigin().eContainmentFeature();
-//			if(!modelSlice.contains(container)){
-//				this.bounderyElements.add(container);
-//			}
-//		}
+
+		// handle containment feature as outgoing reference with lower bound 1
+		EObject container = src.eContainer();
+		if(container != null) {
+			EReference eReference = src.eContainmentFeature();
+			importer.importEReference(eReference, container, src);
+
+			if(!list.contains(container)) {
+				list.add(container);
+			}
+
+			GraphUtil.get(this).addEdge(eReference, container, src);
+			LogUtil.log(LogEvent.MESSAGE, "Sliced containment EReference: " + StringUtil.resolve(container)
+				+ " ---[" + eReference.getName() + "]---> " + StringUtil.resolve(src));
+		}
 	}
 
 	/**
