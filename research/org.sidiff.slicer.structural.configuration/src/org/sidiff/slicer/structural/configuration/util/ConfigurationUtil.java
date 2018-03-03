@@ -315,12 +315,12 @@ public class ConfigurationUtil
 
 	/**
 	 * Returns whether the specified {@link EReference} can be sliced.
-	 * A reference can be sliced if it is changeable, not derived, not transient and not volatile.
+	 * A reference can be sliced if it is changeable, not derived, and not transient.
 	 * @param reference the reference
-	 * @return <code>true</code> if the reference is changeable, not derived, not transient and not volatile; <code>false</code> otherwise
+	 * @return <code>true</code> if the reference is changeable, not derived, and not transient; <code>false</code> otherwise
 	 */
 	public static boolean isSliceable(EReference reference)
 	{
-		return reference.isChangeable() && !reference.isDerived() && !reference.isTransient() && !reference.isVolatile();
+		return reference.isChangeable() && !reference.isDerived() && !reference.isTransient();
 	}
 }
