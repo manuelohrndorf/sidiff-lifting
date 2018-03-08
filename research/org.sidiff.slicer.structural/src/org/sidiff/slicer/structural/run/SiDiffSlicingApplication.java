@@ -1,6 +1,5 @@
 package org.sidiff.slicer.structural.run;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -12,9 +11,11 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.slicer.ISlicer;
+import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.structural.StructureBasedSlicer;
 import org.sidiff.slicer.structural.StructureBasedSlicerUtil;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
+import org.sidiff.slicer.util.SlicerUtil;
 import org.sidiff.slicing.util.visualization.GraphUtil;
 
 public class SiDiffSlicingApplication implements IApplication{
@@ -63,17 +64,16 @@ public class SiDiffSlicingApplication implements IApplication{
 		System.out.println("Load model: " + (timeLoad - timeStart) + "ms");
 	
 		ISlicer slicer = new StructureBasedSlicer();
-		slicer.init((SlicingConfiguration)slicing_config);
+		slicer.init((ISlicingConfiguration)slicing_config);
 		final long timeSlicerInit = System.currentTimeMillis();
 		System.out.println("Init slicer: " + (timeSlicerInit - timeLoad) + "ms");
 		slicer.slice(contexts);
 		final long timerSlice = System.currentTimeMillis();
 		System.out.println("Slicing: " + (timerSlice - timeSlicerInit) + "ms");
-		Collection<EObject> modelSlice = slicer.getModelSlice().export();
-		System.out.println(modelSlice);
-		StructureBasedSlicerUtil.serializeSlicedModel(modelSlice, StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration) slicing_config), false);	
+		URI saveURI = StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration)slicing_config);
+		SlicerUtil.serializeModelSlice(saveURI, slicer.getModelSlice().export());
 		String gv_path = loadModelURI.path().replace(loadModelURI.lastSegment(), "graph.dot");
-		FileOperations.writeFile(gv_path, GraphUtil.getOutput());
+		FileOperations.writeFile(gv_path, GraphUtil.get(slicer).getOutput());
 
 		// String command = "cmd /c start C:\\\"Program Files (x86)\"\\Graphviz2.38\\bin\\gvedit.exe " + gv_path;
 		// Runtime runtime = Runtime.getRuntime();

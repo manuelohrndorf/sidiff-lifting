@@ -5,26 +5,27 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.slicer.model.ModelSlice;
+import org.sidiff.slicer.slice.ModelSlice;
+
 public interface ISlicer {
 
 	String EXTENSION_POINT_ID = "org.sidiff.slicer.extensionpoint";
-	
+
 	public String getKey();
-	
+
 	public String getName();
-	
+
 	public Set<String> getDocumentTypes();
 
 	public boolean canHandleDocTypes(Set<String> documentTypes);
-	
+
 	public boolean canHandleModels(Collection<Resource> models);
-	
+
 	public void init(ISlicingConfiguration config) throws Exception;
-	
+
 	public void slice(Collection<EObject> input) throws Exception;
-	
+
 	public void setModelSlice(ModelSlice modelSlice);
-	
+
 	public ModelSlice getModelSlice();
 }

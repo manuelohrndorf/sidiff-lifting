@@ -3,6 +3,7 @@
 package org.sidiff.slicer.slice.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -66,7 +67,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link SlicePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -81,10 +82,9 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 			return (SlicePackage) EPackage.Registry.INSTANCE.getEPackage(SlicePackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredSlicePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		SlicePackageImpl theSlicePackage = registeredSlicePackage instanceof SlicePackageImpl
-				? (SlicePackageImpl) registeredSlicePackage
-				: new SlicePackageImpl();
+		SlicePackageImpl theSlicePackage = (SlicePackageImpl) (EPackage.Registry.INSTANCE
+				.get(eNS_URI) instanceof SlicePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
+						: new SlicePackageImpl());
 
 		isInited = true;
 
@@ -131,6 +131,15 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 */
 	public EReference getModelSlice_Type() {
 		return (EReference) modelSliceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getModelSlice__Export() {
+		return modelSliceEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -192,6 +201,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		modelSliceEClass = createEClass(MODEL_SLICE);
 		createEReference(modelSliceEClass, MODEL_SLICE__SLICED_ELEMENTS);
 		createEReference(modelSliceEClass, MODEL_SLICE__TYPE);
+		createEOperation(modelSliceEClass, MODEL_SLICE___EXPORT);
 
 		slicedElementEClass = createEClass(SLICED_ELEMENT);
 		createEReference(slicedElementEClass, SLICED_ELEMENT__SLICED_REFERENCES);
@@ -242,6 +252,8 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		initEReference(getModelSlice_Type(), ecorePackage.getEPackage(), null, "type", null, 1, -1, ModelSlice.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getModelSlice__Export(), ecorePackage.getEObject(), "export", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(slicedElementEClass, SlicedElement.class, "SlicedElement", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);

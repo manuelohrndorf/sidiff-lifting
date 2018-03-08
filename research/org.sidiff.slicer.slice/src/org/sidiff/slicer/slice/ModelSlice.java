@@ -57,4 +57,12 @@ public interface ModelSlice extends EObject {
 	 */
 	EList<EPackage> getType();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<EObject> export();
+
 } // ModelSlice

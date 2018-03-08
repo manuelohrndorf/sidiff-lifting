@@ -2,6 +2,7 @@ package org.sidiff.slicer.structural;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,16 +17,19 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.util.StringUtil;
+import org.sidiff.entities.util.ImportFailedException;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.exception.WrongConfigurationException;
-import org.sidiff.slicer.model.ModelSlice;
-import org.sidiff.slicer.model.SlicedElement;
-import org.sidiff.slicer.model.SlicedReference;
+import org.sidiff.slicer.slice.ModelSlice;
+import org.sidiff.slicer.slice.SlicedElement;
+import org.sidiff.slicer.slice.util.SliceImporter;
 import org.sidiff.slicer.structural.configuration.Constraint;
+import org.sidiff.slicer.structural.configuration.IConstraintResult;
 import org.sidiff.slicer.structural.configuration.SlicedEClass;
 import org.sidiff.slicer.structural.configuration.SlicedEReference;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
@@ -44,43 +48,31 @@ public class StructureBasedSlicer implements ISlicer {
 	 * constraints for the elements to be sliced
 	 */
 	private SlicingConfiguration slicingConfiguration;
-	
-	/**
-	 * The {@link ModelSlice} containing all sliced elements
-	 * and their sliced references
-	 */
-	private ModelSlice modelSlice;
-	
+
 	// ############### inner accessed fields ###############
-	
+
 	/**
 	 * A {@link Map} for an efficient access to a given {@link SlicedEClass}
 	 * referring to the respective {@link EClass}
 	 */
 	private Map<EClass, SlicedEClass> slicedEClasses;
-	
+
 	/**
 	 * A {@link Map} for an efficient access to a given ordered list of
 	 * {@link SlicedEReference}s referring to the respective {@link EReference}
 	 */
-	private Map<EReference, ArrayList<SlicedEReference>> slicedEReferences;
-	
-	/**
-	 * elements which do not meet any slicing condition but are needed to fulfill
-	 * a multiplicity constraint of the respective modeling language
-	 */
-	private Set<EObject> bounderyElements;
-	
+	private Map<EReference, List<SlicedEReference>> slicedEReferences;
+
 	/**
 	 * An {@link ECrossReferenceAdapter} for inversive navigation of
 	 * {@link EReference}
 	 */
 	private ECrossReferenceAdapter adapter;
-	
+
 	/**
-	 * control variable determining the depth of a recursion
+	 * Importer used to import model slices, sliced elements, references and attributes.
 	 */
-	private int recursionDepth;
+	private SliceImporter importer;
 
 	// ############### ISlicer ###############
 	@Override
@@ -95,231 +87,228 @@ public class StructureBasedSlicer implements ISlicer {
 
 	@Override
 	public Set<String> getDocumentTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		if(slicingConfiguration == null) {
+			throw new IllegalStateException("slicer is not initialized; call init first");
+		}
+		return new HashSet<>(slicingConfiguration.getDocumentTypes());
 	}
 
 	@Override
 	public boolean canHandleDocTypes(Set<String> documentTypes) {
-		// TODO Auto-generated method stub
-		return false;
+		return getDocumentTypes().containsAll(documentTypes);
 	}
 
 	@Override
 	public boolean canHandleModels(Collection<Resource> models) {
-		// TODO Auto-generated method stub
-		return false;
+		Set<String> docTypes = getDocumentTypes();
+		for(Resource model : models) {
+			String docType = EMFModelAccess.getCharacteristicDocumentType(model);
+			if(docType == null || !docTypes.contains(docType)) {
+				return false;
+			}
+		}
+		return true;
 	}
-	
+
 	@Override
 	public void init(ISlicingConfiguration config) throws WrongConfigurationException {
-		if(config instanceof SlicingConfiguration){
-			
-			this.slicingConfiguration = (SlicingConfiguration) config;
-			this.modelSlice = new ModelSlice();
-			
-			// (re-)initialize inner accessed fields
-			this.slicedEClasses = new HashMap<EClass, SlicedEClass>();
-			this.slicedEReferences = new HashMap<EReference, ArrayList<SlicedEReference>>();
-			this.bounderyElements = new HashSet<EObject>();
-			
-			for(SlicedEClass slicedEClass : this.slicingConfiguration.getSlicedEClasses()){
-				this.slicedEClasses.put(slicedEClass.getType(), slicedEClass);
-				for(SlicedEReference slicedEReference : slicedEClass.getSlicedEReferences()){
-					if(this.slicedEReferences.get(slicedEReference.getType()) == null){
-						ArrayList<SlicedEReference> slicedEReferencesValue =  new ArrayList<SlicedEReference>();
-						slicedEReferencesValue.add(slicedEReference);
-						this.slicedEReferences.put(slicedEReference.getType(),slicedEReferencesValue);
-					}else{
-						ArrayList<SlicedEReference> slicedEReferencesValue = this.slicedEReferences.get(slicedEReference.getType());
-						if(slicedEReference.getOverwrite() != null && slicedEReferencesValue.contains(slicedEReference.getOverwrite())){
-							int index = slicedEReferencesValue.indexOf(slicedEReference.getOverwrite());
-							slicedEReferencesValue.add(index, slicedEReference);
-						}else{
-							this.slicedEReferences.get(slicedEReference.getType()).add(slicedEReference);
-						}
-					}
-				}
-			}
-			this.adapter = new ECrossReferenceAdapter();
-			
-			this.recursionDepth = 0;
-			
-			GraphUtil.init();
-		}else{
+		if(!(config instanceof SlicingConfiguration)) {
 			throw new WrongConfigurationException();
 		}
+
+		this.slicingConfiguration = (SlicingConfiguration)config;
+		this.importer = new SliceImporter();
+
+		// (re-)initialize inner accessed fields
+		this.slicedEClasses = new HashMap<>();
+		this.slicedEReferences = new HashMap<>();
+
+		for(SlicedEClass slicedEClass : this.slicingConfiguration.getSlicedEClasses()) {
+			this.slicedEClasses.put(slicedEClass.getType(), slicedEClass);
+			for(SlicedEReference slicedEReference : slicedEClass.getSlicedEReferences()) {
+				if(this.slicedEReferences.get(slicedEReference.getType()) == null) {
+					ArrayList<SlicedEReference> slicedEReferencesValue =  new ArrayList<SlicedEReference>();
+					slicedEReferencesValue.add(slicedEReference);
+					this.slicedEReferences.put(slicedEReference.getType(), slicedEReferencesValue);
+				} else {
+					List<SlicedEReference> slicedEReferencesValue = this.slicedEReferences.get(slicedEReference.getType());
+					if(slicedEReference.getOverwrite() != null && slicedEReferencesValue.contains(slicedEReference.getOverwrite())) {
+						int index = slicedEReferencesValue.indexOf(slicedEReference.getOverwrite());
+						slicedEReferencesValue.add(index, slicedEReference);
+					} else {
+						slicedEReferencesValue.add(slicedEReference);
+					}
+				}
+			}
+		}
+		this.adapter = new ECrossReferenceAdapter();
 	}
 
 	@Override
-	public void slice(Collection<EObject> slicingCriteria) {
-		if(this.recursionDepth == 0){
-			LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
+	public void slice(Collection<EObject> initialCriteria) throws ImportFailedException {
+		LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
+
+		// iterate over all the slicing criteria
+		// new criteria will be added add the end of the list
+		// the called methods must ensure that no existing element is added
+		List<EObject> criteria = new LinkedList<>(initialCriteria);
+		for(int i = 0; i < criteria.size(); i++) {
+			EObject slicingCriterion = criteria.get(i);
+			SlicedElement slicedElement = importer.importEObject(slicingCriterion);
+
+			GraphUtil.get(this).addNode(slicedElement.getObject());
+			LogUtil.log(LogEvent.MESSAGE, "Sliced EClass: " + StringUtil.resolve(slicingCriterion));
+
+			SlicingMode slicingMode = slicingConfiguration.getSlicingMode();
+			if(slicingMode == SlicingMode.FORWARD || slicingMode == SlicingMode.BIDIRECTIONAL) {
+				addForwardElements(criteria, slicedElement);
+			}
+			if(slicingMode == SlicingMode.BACKWARD || slicingMode == SlicingMode.BIDIRECTIONAL) {
+				addBackwardElements(criteria, slicedElement);
+			}
+			if(slicingConfiguration.isCheckMultiplicity()) {
+				addMandatoryNeighbours(criteria, slicedElement);
+			}
 		}
-		
-		this.recursionDepth++;
-		
-		for(EObject slicingCriterion : slicingCriteria){
-			if(!this.modelSlice.contains(slicingCriterion)){
-				
-				SlicedElement slicedElement = new SlicedElement(slicingCriterion, bounderyElements.contains(slicingCriterion));
-				this.modelSlice.addSlicedElement(slicedElement);
-				
-				GraphUtil.addNode(slicedElement.getOrigin());
-				LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0","*") + " " + "Sliced EClass: " + StringUtil.resolve(slicingCriterion));
-				
-				Set<EObject> nextSlicingCriteria = new HashSet<EObject>();
-					
-				if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.FORWARD)
-						|| this.slicingConfiguration.getSlicingMode().equals(SlicingMode.BIDIRECTIONAL)){
-					nextSlicingCriteria.addAll(getForwardElements(slicedElement));
-				}
-				
-				if(this.slicingConfiguration.getSlicingMode().equals(SlicingMode.BACKWARD)
-						|| this.slicingConfiguration.getSlicingMode().equals(SlicingMode.BIDIRECTIONAL)){
-					nextSlicingCriteria.addAll(getBackwardElements(slicedElement));
-				}
-				
-				if(this.slicingConfiguration.isCheckMultiplicity()){
-					nextSlicingCriteria.addAll(getMandatoryNeighbours(slicedElement));
-				}				
-				
-				slice(nextSlicingCriteria);
-			}	
-		}
-			
-		if(--recursionDepth == 0){
-			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
-		}
+
+		LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 	}
-	
+
 	// ############### getter/setter methods ###############
-	
-	public void setModelSlice(ModelSlice modelSlice){
-		this.modelSlice = modelSlice;
+
+	@Override
+	public void setModelSlice(ModelSlice modelSlice) {
+		importer.setModelSlice(modelSlice);
 	}
-	
+
 	@Override
 	public ModelSlice getModelSlice() {
-		return this.modelSlice;
+		return importer.getModelSlice();
 	}
-	
+
 	// ############### inner accessed methods ###############
-	
+
 	/**
 	 * 
+	 * @param list
 	 * @param slicedElement
-	 * @return
+	 * @throws ImportFailedException 
 	 */
-	private Set<EObject> getForwardElements(SlicedElement slicedElement){
-		Set<EObject> elements = new HashSet<EObject>();
-		for(EReference eReference : slicedElement.getType().getEAllReferences()){
-			if(!eReference.isDerived()){
-				Collection<EObject> tgts = checkSlicingCondition(slicedElement.getOrigin(), eReference);
-				for(EObject tgt : tgts){
-					if(checkSlicingCondition(tgt, tgt.eClass())){
-						
-						slicedElement.addSlicedReference(new SlicedReference(eReference, tgt, false, false));
-						elements.add(tgt);
-						
-						GraphUtil.addEdge(eReference, slicedElement.getOrigin(), tgt);
-						LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0", "*")
-								+ " " + "Sliced EReferences: " + eReference.getName() + ": "
-								+ StringUtil.resolve(slicedElement.getOrigin()) + "--->" + StringUtil.resolve(tgt));
+	private void addForwardElements(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+		for(EReference eReference : slicedElement.getType().getEAllReferences()) {
+			if(!eReference.isDerived()) {
+				EObject src = slicedElement.getObject();
+				Collection<EObject> tgts = computeSlicedReferenceTargets(src, eReference);
+				for(EObject tgt : tgts) {
+					if(checkSlicingCondition(tgt)) {
+						importer.importEReference(eReference, src, tgt);
+						if(!list.contains(tgt)) {
+							list.add(tgt);
+						}
+
+						GraphUtil.get(this).addEdge(eReference, src, tgt);
+						LogUtil.log(LogEvent.MESSAGE, "Sliced EReference: " + StringUtil.resolve(src)
+							+ " ---[" + eReference.getName() + "]---> " + StringUtil.resolve(tgt));
 					}
 				}
 			}
 		}
-		return elements;
 	}
 
 	/**
 	 * 
+	 * @param list
 	 * @param slicedElement
-	 * @return
+	 * @throws ImportFailedException 
 	 */
-	private Set<EObject> getBackwardElements(SlicedElement slicedElement){
-		Set<EObject> elements = new HashSet<EObject>();
-		for(EObject src : getIncomingNeighbours(slicedElement.getOrigin())){
-			if(checkSlicingCondition(src, src.eClass())){
-				for(EReference eReference : src.eClass().getEAllReferences()){
-					if(!eReference.isDerived()){
-						Collection<EObject> tgts = checkSlicingCondition(src, eReference);
-						if(tgts.contains(slicedElement.getOrigin())){
-							slicedElement.addSlicedReference(new SlicedReference(eReference, src, true, false));
-							elements.add(src);
-							
-							GraphUtil.addEdge(eReference, src, slicedElement.getOrigin());
-							LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0", "*")
-									+ " " + "Sliced (inversed) EReferences: " + eReference.getName() + ": "
-									+ StringUtil.resolve(src) + "--->" + StringUtil.resolve(slicedElement.getOrigin()));
+	private void addBackwardElements(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+		EObject tgt = slicedElement.getObject();
+		for(EObject src : getIncomingNeighbours(tgt)) {
+			if(checkSlicingCondition(src)) {
+				for(EReference eReference : src.eClass().getEAllReferences()) {
+					if(!eReference.isDerived()) {
+						Collection<EObject> targets = computeSlicedReferenceTargets(src, eReference);
+						if(targets.contains(tgt))
+						{
+							importer.importEReference(eReference, src, tgt);
+							if(!list.contains(src)) {
+								list.add(src);
+							}
+
+							GraphUtil.get(this).addEdge(eReference, src, tgt);
+							LogUtil.log(LogEvent.MESSAGE, "Sliced inversed EReference: " + StringUtil.resolve(tgt)
+								+ " <---[" + eReference.getName() + "]--- " + StringUtil.resolve(src));
 						}
 					}
 				}
 			}
 		}
-		return elements;
 	}
 
 	/**
 	 * 
+	 * @param list
 	 * @param slicedElement
-	 * @return
+	 * @throws ImportFailedException 
 	 */
-	private Set<EObject> getMandatoryNeighbours(SlicedElement slicedElement) {
-		Set<EObject> elements = new HashSet<EObject>();
-		for(EReference eReference : slicedElement.getType().getEAllReferences()){
-			if(!eReference.isDerived() && eReference.getLowerBound() > 0){
-				int size = slicedElement.getSlicedReference(eReference).size();
-				if (size < eReference.getLowerBound()) {
-					Collection<EObject> tgts = getReferenceTargets(slicedElement.getOrigin(), eReference);
+	private void addMandatoryNeighbours(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+		EObject src = slicedElement.getObject();
+		for(EReference eReference : slicedElement.getType().getEAllReferences()) {
+			if(!eReference.isDerived() && eReference.getLowerBound() > 0) {
+				int size = slicedElement.getReferences(eReference).size();
+				if(size < eReference.getLowerBound()) {
+					Collection<EObject> tgts = getReferenceTargets(src, eReference);
 					Iterator<EObject> iterator = tgts.iterator();
-					while (size < eReference.getLowerBound() && iterator.hasNext()) {
+					while(size < eReference.getLowerBound() && iterator.hasNext()) {
 						EObject tgt = iterator.next();
-						if (!slicedElement.contains(eReference, tgt)) {
-							SlicedReference boundaryReference = new SlicedReference(eReference, tgt, false, true);
-							slicedElement.addSlicedReference(boundaryReference);
-							this.bounderyElements.add(tgt);
-							elements.add(tgt);
-							size++;
-							
-							GraphUtil.addEdge(eReference, slicedElement.getOrigin(), tgt);
-							LogUtil.log(LogEvent.MESSAGE, String.format("%0" + recursionDepth + "d", 0).replace("0", "*")
-									+ " " + "Sliced boundary EReferences: " + eReference.getName() + ": "
-									+ StringUtil.resolve(slicedElement.getOrigin()) + "--->" + StringUtil.resolve(tgt));
+						importer.importEReference(eReference, src, tgt);
+
+						if(!list.contains(tgt)) {
+							list.add(tgt);
 						}
+						size++;
+
+						GraphUtil.get(this).addEdge(eReference, src, tgt);
+						LogUtil.log(LogEvent.MESSAGE, "Sliced boundary EReference: " + StringUtil.resolve(src)
+							+ " ---[" + eReference.getName() + "]---> " + StringUtil.resolve(tgt));
 					}
 				}
-			}			
+			}
 		}
-		// TODO handle containment feature as outgoing reference with lower bound 1
-//		EObject container = slicedElement.getOrigin().eContainer();
-//		if(container != null){
-//			EReference eReference = slicedElement.getOrigin().eContainmentFeature();
-//			if(!modelSlice.contains(container)){
-//				this.bounderyElements.add(container);
-//			}
-//		}
-		return elements;
+
+		// handle containment feature as outgoing reference with lower bound 1
+		EObject container = src.eContainer();
+		if(container != null) {
+			EReference eReference = src.eContainmentFeature();
+			importer.importEReference(eReference, container, src);
+
+			if(!list.contains(container)) {
+				list.add(container);
+			}
+
+			GraphUtil.get(this).addEdge(eReference, container, src);
+			LogUtil.log(LogEvent.MESSAGE, "Sliced containment EReference: " + StringUtil.resolve(container)
+				+ " ---[" + eReference.getName() + "]---> " + StringUtil.resolve(src));
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param eObject
 	 * @return
 	 */
-	private Set<EObject> getIncomingNeighbours(EObject eObject){
-		Set<EObject> incomingNeighbours = new HashSet<EObject>();
-		if(!eObject.eResource().getResourceSet().eAdapters().contains(this.adapter)){
-			eObject.eResource().getResourceSet().eAdapters().add(this.adapter);
+	private Set<EObject> getIncomingNeighbours(EObject eObject) {
+		if(eObject.eResource() != null && eObject.eResource().getResourceSet() != null
+				&& !eObject.eResource().getResourceSet().eAdapters().contains(adapter)) {
+			eObject.eResource().getResourceSet().eAdapters().add(adapter);
 		}
-		Collection<Setting> settings = this.adapter.getInverseReferences(eObject, true);
-		for(Setting setting : settings){
+		Set<EObject> incomingNeighbours = new HashSet<EObject>();
+		for(Setting setting : adapter.getInverseReferences(eObject, true)) {
 			incomingNeighbours.add(setting.getEObject());
 		}
 		return incomingNeighbours;
 	}
-	
+
 	/**
 	 * 
 	 * @param eObject
@@ -327,20 +316,22 @@ public class StructureBasedSlicer implements ISlicer {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private Collection<EObject> getReferenceTargets(EObject eObject, EReference eReference){
-		Collection<EObject> elements = new ArrayList<EObject>();
-		if(eObject.eGet(eReference)!=null){
-			Collection<EObject> tgts = new ArrayList<EObject>();
-			if(eReference.isMany()){
-				tgts.addAll((Collection<? extends EObject>) eObject.eGet(eReference));
-			}else{
-				tgts.add((EObject) eObject.eGet(eReference));
-			}
-			elements.addAll(tgts);
+	private Collection<EObject> getReferenceTargets(EObject eObject, EReference eReference) {
+		Object target = eObject.eGet(eReference);
+		if(target == null) {
+			return Collections.emptySet();
+		} else if(eReference.isMany()) {
+			return (Collection<EObject>)target;
+		} else {
+			return Collections.singleton((EObject)target);
 		}
-		return elements;
 	}
-	
+
+	private boolean checkSlicingCondition(EObject element)
+	{
+		return checkSlicingCondition(element, element.eClass());
+	}
+
 	/**
 	 * checks the slicing condition for an element
 	 * @param element
@@ -348,52 +339,58 @@ public class StructureBasedSlicer implements ISlicer {
 	 * @return
 	 */
 	private boolean checkSlicingCondition(EObject element, EClass eClass) {
-		
-		boolean isValid = false;
+		if(slicedEClasses.containsKey(eClass)) {
+			Constraint constraint = slicedEClasses.get(eClass).getConstraint();
+			return constraint == null || evaluateConstraint(constraint, element).getBoolean();
+		}
 
-		
-		if (this.slicedEClasses.containsKey(eClass)) {
-			Constraint constraint = this.slicedEClasses.get(eClass).getConstraint();
-			isValid = constraint == null
-					|| this.slicingConfiguration.getConstraintInterpreter().evaluate(constraint, element).getBoolean();
-
-		} else {
-			for (EClass superEClass : eClass.getESuperTypes()) {
-				isValid = checkSlicingCondition(element, superEClass);
-				break;
+		// check the slicing condition for the super types recursively
+		for(EClass superEClass : eClass.getESuperTypes()) {
+			if(checkSlicingCondition(element, superEClass)) {
+				return true;
 			}
 		}
-		
-		return isValid;
+		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param element
 	 * @param eReference
 	 * @return
 	 */
-	private Collection<EObject> checkSlicingCondition(EObject element, EReference eReference){
-		
+	private Collection<EObject> computeSlicedReferenceTargets(EObject element, EReference eReference) {
+		List<SlicedEReference> references = slicedEReferences.get(eReference);
+		if(references == null) {
+			return Collections.emptyList();
+		}
+
+		List<EClass> superTypes = new LinkedList<EClass>();
+		superTypes.add(element.eClass());
+		superTypes.addAll(element.eClass().getEAllSuperTypes());
+
 		Collection<EObject> validReferences = new ArrayList<EObject>();
-		
-		if (this.slicedEReferences.containsKey(eReference)) {
-			
-			List<EClass> superTypes = new LinkedList<EClass>();
-			superTypes.add(element.eClass());
-			superTypes.addAll(element.eClass().getEAllSuperTypes());
-			
-			for (SlicedEReference slicedEReference : this.slicedEReferences.get(eReference)) {
-				if (superTypes.contains(slicedEReference.getSlicedEClass().getType())) {
-					Constraint constraint = slicedEReference.getConstraint();
-					if (constraint != null) {
-						validReferences.addAll(slicingConfiguration.getConstraintInterpreter().evaluate(constraint, element).getEObjects());
-					}else{
-						validReferences.addAll(getReferenceTargets(element, eReference));
-					}
+		for(SlicedEReference slicedEReference : references) {
+			if(superTypes.contains(slicedEReference.getSlicedEClass().getType())) {
+				Constraint constraint = slicedEReference.getConstraint();
+				if(constraint != null) {
+					validReferences.addAll(evaluateConstraint(constraint, element).getEObjects());
+				} else {
+					validReferences.addAll(getReferenceTargets(element, eReference));
 				}
 			}
 		}
 		return validReferences;
+	}
+
+	/**
+	 * Evaluates the constraint for the element using the constraint interpreter of the slicing configuration.
+	 * @param constraint the constraint
+	 * @param element the context element
+	 * @return result of the constraint evaluation (boolean and object)
+	 */
+	private IConstraintResult evaluateConstraint(Constraint constraint, EObject element)
+	{
+		return slicingConfiguration.getConstraintInterpreter().evaluate(constraint, element);
 	}
 }
