@@ -132,37 +132,9 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 					grid.marginHeight = 0;
 					config_container.setLayout(grid);
 				}
-				//TODO DR 08.12.2015
-				/*
-				 * This shall be done in own widgets, one for @see{IConfigurable} similar to
-				 * this code and one for @see{IConfigurationCapable} which is responsible for selecting one
-				 * of the available configurations
-				 */
 				
-				if(compabilityMode && getSelection() instanceof IConfigurable){
-					final IConfigurable configurableMatcher = (IConfigurable)getSelection();
-					for(String option : configurableMatcher.getConfigurationOptions().keySet()){
-						
-						final String key = option;
-						// use a checkbox for boolean values 
-						if(configurableMatcher.getConfigurationOptions().get(option) instanceof Boolean){
-							final Button button = new Button(config_container, SWT.CHECK);
-							button.setText(option);
-							button.addSelectionListener(new SelectionAdapter() {
-								@Override
-								public void widgetSelected(SelectionEvent e) {
-									if(button.getSelection()){
-										configurableMatcher.setConfigurationOption(key, true);
-									}else{
-										configurableMatcher.setConfigurationOption(key, false);
-									}
-								}
-							});
-						}
-					}
-					
-				}
-
+				createConfigurationWidget();
+				
 				container.getParent().layout();
 			}
 		});
@@ -211,7 +183,43 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 		}		
 		settings.setMatcher(this.getSelection());
 
+		createConfigurationWidget();
+		
 		return container;
+	}
+	
+	public void createConfigurationWidget() {
+		// TODO DR 08.12.2015
+		/*
+		 * This shall be done in own widgets, one for @see{IConfigurable} similar to
+		 * this code and one for @see{IConfigurationCapable} which is responsible for
+		 * selecting one of the available configurations
+		 */
+
+		if (compabilityMode && getSelection() instanceof IConfigurable) {
+			final IConfigurable configurableMatcher = (IConfigurable) getSelection();
+			for (String option : configurableMatcher.getConfigurationOptions().keySet()) {
+
+				final String key = option;
+				// use a checkbox for boolean values
+				if (configurableMatcher.getConfigurationOptions().get(option) instanceof Boolean) {
+					final Button button = new Button(config_container, SWT.CHECK);
+					button.setText(option);
+					button.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							if (button.getSelection()) {
+								configurableMatcher.setConfigurationOption(key, true);
+							} else {
+								configurableMatcher.setConfigurationOption(key, false);
+							}
+						}
+					});
+				}
+			}
+
+		}
+
 	}
 
 	@Override
