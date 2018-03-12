@@ -275,99 +275,102 @@ public class LiftingGraphFactory {
 	 */
 	protected EGraph createSingleEGraph() {
 
-		// Initialize Henshin graph
-		EGraph graph = new EGraphImpl();
-
-		// Build Henshin graph (filter duplicated)
-		Set<EObject> rootObjects = new HashSet<EObject>();
-
-		// Add Difference-Model to graph
-		rootObjects.add(difference);
-		LogUtil.log(LogEvent.DEBUG, "[Root] Difference: " + difference);
-
-//		// Add Ecore to the graph
-//		rootObjects.add(EcorePackage.eINSTANCE);
-//		LogUtil.log(LogEvent.DEBUG, "[Root] Ecore: " + EcorePackage.eINSTANCE);
-
-		// Add the required types from the meta-model to the graph
-		for (Change change : difference.getChanges()) {
-			EStructuralFeature type = null;
-			if (change instanceof AddReference) {
-				type = ((AddReference) change).getType();
-			}
-			if (change instanceof RemoveReference) {
-				type = ((RemoveReference) change).getType();
-			}
-			if (type != null) {
-				boolean added = graph.add(type);
-				if (added)
-					LogUtil.log(LogEvent.DEBUG, "       Metamodel: " + type);
-			}
-		}
-
-		// Add model A to graph
-		for (EObject rootObj : difference.getModelA().getContents()) {
-			rootObjects.add(rootObj);
-			LogUtil.log(LogEvent.DEBUG, "[Root] Model A: " + rootObj);
-		}
-
-		// Add all resources of resource set A if mode = "complete resource set"
-		if (scope == Scope.RESOURCE_SET) {
-			for (Resource r : difference.getModelA().getResourceSet().getResources()) {
-				if (r == difference.getModelA()) {
-					continue;
-				}
-				for (EObject rootObj : r.getContents()) {
-					rootObjects.add(rootObj);
-					LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set A: " + rootObj);
-				}
-			}
-		}
-
-		// Add model B to graph
-		for (EObject rootObj : difference.getModelB().getContents()) {
-			rootObjects.add(rootObj);
-			LogUtil.log(LogEvent.DEBUG, "[Root] Model B: " + rootObj);
-		}
-
-		// Add all resources of resource set B if mode = "complete resource set"
-		if (scope == Scope.RESOURCE_SET) {
-			for (Resource r : difference.getModelB().getResourceSet().getResources()) {
-				if (r == difference.getModelB()) {
-					continue;
-				}
-				for (EObject rootObj : r.getContents()) {
-					rootObjects.add(rootObj);
-					LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set B: " + rootObj);
-				}
-			}
-		}
-
-		// Add root objects (and all their contents) to graph
-		for (EObject root : rootObjects) {
-			addEObjectToGraph(root, graph);
-			for (Iterator<EObject> iterator = root.eAllContents(); iterator.hasNext();) {
-				EObject eObject = iterator.next();
-				addEObjectToGraph(eObject, graph);
-			}
-		}
-
-		// Add imports to graph
-		if (imports != null) {
-			
-			// A:
-			for (Iterator<EObject> iterator = imports.getIteratorImportsModelA(); iterator.hasNext();) {
-				EObject eObject = (EObject) iterator.next();
-				addEObjectToGraph(eObject, graph);
-			}
-			
-			// B:
-			for (Iterator<EObject> iterator = imports.getIteratorImportsModelB(); iterator.hasNext();) {
-				EObject eObject = (EObject) iterator.next();
-				addEObjectToGraph(eObject, graph);
-			}
-		}
-		return graph;
+		// FIXME: Add full meta model -> optional AVC -> type node in kernel!
+		throw new UnsupportedOperationException();
+		
+//		// Initialize Henshin graph
+//		EGraph graph = new EGraphImpl();
+//
+//		// Build Henshin graph (filter duplicated)
+//		Set<EObject> rootObjects = new HashSet<EObject>();
+//
+//		// Add Difference-Model to graph
+//		rootObjects.add(difference);
+//		LogUtil.log(LogEvent.DEBUG, "[Root] Difference: " + difference);
+//
+////		// Add Ecore to the graph
+////		rootObjects.add(EcorePackage.eINSTANCE);
+////		LogUtil.log(LogEvent.DEBUG, "[Root] Ecore: " + EcorePackage.eINSTANCE);
+//
+//		// Add the required types from the meta-model to the graph
+//		for (Change change : difference.getChanges()) {
+//			EStructuralFeature type = null;
+//			if (change instanceof AddReference) {
+//				type = ((AddReference) change).getType();
+//			}
+//			if (change instanceof RemoveReference) {
+//				type = ((RemoveReference) change).getType();
+//			}
+//			if (type != null) {
+//				boolean added = graph.add(type);
+//				if (added)
+//					LogUtil.log(LogEvent.DEBUG, "       Metamodel: " + type);
+//			}
+//		}
+//
+//		// Add model A to graph
+//		for (EObject rootObj : difference.getModelA().getContents()) {
+//			rootObjects.add(rootObj);
+//			LogUtil.log(LogEvent.DEBUG, "[Root] Model A: " + rootObj);
+//		}
+//
+//		// Add all resources of resource set A if mode = "complete resource set"
+//		if (scope == Scope.RESOURCE_SET) {
+//			for (Resource r : difference.getModelA().getResourceSet().getResources()) {
+//				if (r == difference.getModelA()) {
+//					continue;
+//				}
+//				for (EObject rootObj : r.getContents()) {
+//					rootObjects.add(rootObj);
+//					LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set A: " + rootObj);
+//				}
+//			}
+//		}
+//
+//		// Add model B to graph
+//		for (EObject rootObj : difference.getModelB().getContents()) {
+//			rootObjects.add(rootObj);
+//			LogUtil.log(LogEvent.DEBUG, "[Root] Model B: " + rootObj);
+//		}
+//
+//		// Add all resources of resource set B if mode = "complete resource set"
+//		if (scope == Scope.RESOURCE_SET) {
+//			for (Resource r : difference.getModelB().getResourceSet().getResources()) {
+//				if (r == difference.getModelB()) {
+//					continue;
+//				}
+//				for (EObject rootObj : r.getContents()) {
+//					rootObjects.add(rootObj);
+//					LogUtil.log(LogEvent.DEBUG, "[Root] Res.Set B: " + rootObj);
+//				}
+//			}
+//		}
+//
+//		// Add root objects (and all their contents) to graph
+//		for (EObject root : rootObjects) {
+//			addEObjectToGraph(root, graph);
+//			for (Iterator<EObject> iterator = root.eAllContents(); iterator.hasNext();) {
+//				EObject eObject = iterator.next();
+//				addEObjectToGraph(eObject, graph);
+//			}
+//		}
+//
+//		// Add imports to graph
+//		if (imports != null) {
+//			
+//			// A:
+//			for (Iterator<EObject> iterator = imports.getIteratorImportsModelA(); iterator.hasNext();) {
+//				EObject eObject = (EObject) iterator.next();
+//				addEObjectToGraph(eObject, graph);
+//			}
+//			
+//			// B:
+//			for (Iterator<EObject> iterator = imports.getIteratorImportsModelB(); iterator.hasNext();) {
+//				EObject eObject = (EObject) iterator.next();
+//				addEObjectToGraph(eObject, graph);
+//			}
+//		}
+//		return graph;
 	}
 	
 	/**

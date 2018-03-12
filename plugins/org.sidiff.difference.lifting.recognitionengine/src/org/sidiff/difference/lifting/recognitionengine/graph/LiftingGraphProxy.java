@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -56,6 +58,11 @@ public class LiftingGraphProxy implements EGraph {
 	 */
 	private LiftingGraphDomainMap liftingGraphDomainMap;
 	
+	/**
+	 * All meta model types.
+	 */
+	private List<EObject> types = new ArrayList<EObject>();
+	
 	public LiftingGraphProxy(Rule recognitionRule, RecognitionRuleBlueprint recognitionRuleBlueprint,
 			EGraph modelAGraph, EGraph modelBGraph, LiftingGraphDomainMap liftingGraphDomainMap) {
 		super();
@@ -68,6 +75,19 @@ public class LiftingGraphProxy implements EGraph {
 		// Add multi-rules to the blueprint:
 		// TODO: Reuse or copy the blueprint for multi-rules!?
 		recognitionRuleBlueprint.appendMultiRules();
+		
+		// Search for meta model types in recognition rule:
+		for (EAttribute metaAttribute : recognitionRuleBlueprint.attributeValueChange.keySet()) {
+			types.add(metaAttribute);
+		}
+		
+		for (EReference metaReference : recognitionRuleBlueprint.removeReference.keySet()) {
+			types.add(metaReference);
+		}
+		
+		for (EReference metaReference : recognitionRuleBlueprint.addReference.keySet()) {
+			types.add(metaReference);
+		}
 	}
 	
 	@Override
@@ -112,7 +132,7 @@ public class LiftingGraphProxy implements EGraph {
 			// Meta-model type node:
 			// TODO: Set types as partial match!
 			if ((type == EcorePackage.eINSTANCE.getEReference()) || (type == EcorePackage.eINSTANCE.getEAttribute())) {
-				result.addAll(liftingGraphDomainMap.getTypeNodes());
+				result.addAll(types);
 			}
 
 			return result;
