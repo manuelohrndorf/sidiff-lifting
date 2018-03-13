@@ -1,13 +1,18 @@
 package org.sidiff.remote.application;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
 import org.sidiff.remote.common.Session;
 
-
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class SiDiffRemoteApplication {
 
 	private IWorkspace workspace;
@@ -37,6 +42,7 @@ public class SiDiffRemoteApplication {
 		if(!session_folder.exists()) {
 			session_folder.mkdir();
 		}
+		this.modelIndexer = new ModelIndexer(session, session_folder);
 		
 		this.session_temp_folder = new File(session_temp_path);
 		if(!session_temp_folder.exists()) {
@@ -50,4 +56,12 @@ public class SiDiffRemoteApplication {
 		System.out.println(this.session_folder.getPath());
 	}
 	
+	public List<File> browseModelFiles() {
+		this.modelIndexer.index();
+		return this.modelIndexer.getModel_files();
+	}
+	
+	public Session getSession() {
+		return session;
+	}
 }

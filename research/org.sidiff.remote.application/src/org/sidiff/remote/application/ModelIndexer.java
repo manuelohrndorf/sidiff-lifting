@@ -8,6 +8,11 @@ import java.util.Set;
 
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class ModelIndexer {
 	
 	private Session session;
@@ -50,4 +55,8 @@ public class ModelIndexer {
         }
         else return "";
     }
+	
+	public List<File> getModel_files() {
+		return model_files;
+	}
 }

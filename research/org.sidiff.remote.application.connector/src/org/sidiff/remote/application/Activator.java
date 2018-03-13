@@ -7,13 +7,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.sidiff.remote.application.connector.ConnectionHandler;
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class Activator extends Plugin {
 
 	@Override
@@ -23,8 +28,8 @@ public class Activator extends Plugin {
 		
 		// get the root of the workspace
 		//
-		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
-		String session_path = workspace.getLocation().toOSString() + File.separator + Session.SESSION_EXT;
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator + Session.SESSION_EXT;
 		
 		File session_file = new File(session_path);
 		Session session = null;
@@ -34,7 +39,7 @@ public class Activator extends Plugin {
 			session = new Session("localhost", 1904, "cpietsch");
 			writeSession(session_file, session);
 		}
-		ConnectionHandler.getInstance().init(session);
+		ConnectionHandler.getInstance().init(session, workspace);
 	}
 
 	private static void writeSession(File file, Session session) throws IOException {

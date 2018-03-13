@@ -1,57 +1,72 @@
 package org.sidiff.remote.application.connector;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.SequenceInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.sidiff.remote.common.Command;
+import org.sidiff.remote.common.ContentType;
+import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class ConnectionHandler {
 
 	private static ConnectionHandler connectionHandler;
 	
+	private IWorkspace workspace;
+	
 	private Session session;
+	
+	private ProtocolHandler protocolHandler;
 	
 	private ConnectionHandler() {
 		
 	}
 	
-	public void init(Session session) {
+	public void init(Session session, IWorkspace workspace) {
+		this.workspace = workspace;
 		this.session = session;
+		this.protocolHandler = new ProtocolHandler(this.workspace.getRoot().getLocation().toOSString());
 	}
 	
 	
-	public Object handleCommand(String command){
+	public Object handleCommand(Command command, Object content) throws IOException, ClassNotFoundException{
 		Socket server = null;
-		try {
-			
-			server = new Socket(session.getUrl(), session.getPort());
-
-			PrintWriter print_out = new PrintWriter(server.getOutputStream());
-			print_out.write(command);
-			print_out.close();
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeObject(session);
-
-			Scanner in = new Scanner(server.getInputStream());
+		InputStream in = null;
+		OutputStream out = null;
 		
-		} catch(IOException e) {
+		Object object = null;
+				
+		try {
+			server = new Socket(this.session.getUrl(), this.session.getPort());
+			in = server.getInputStream();
+			out = server.getOutputStream();
+			switch(command) {
+			case BROWSE_MODEL_FILES: 
+				this.protocolHandler.write(out, this.session, Command.BROWSE_MODEL_FILES, ContentType.NONE, null);
+				this.protocolHandler.read(in);
+				object = this.protocolHandler.getContent();
+				break;
+			default:
+				
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
+		}finally {
 			if(server != null) {
-				try {
-					server.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				server.close();
 			}
 		}
-		return command;
+		
+		return object;
 	}
 	
 	public static ConnectionHandler getInstance() {

@@ -1,18 +1,15 @@
 package org.sidiff.remote.application;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.SequenceInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,9 +17,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
+import org.sidiff.remote.common.Command;
+import org.sidiff.remote.common.ContentType;
 import org.sidiff.remote.common.ProtocolHandler;
-import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class SiDiffRemoteApplicationServer implements IApplication {
 		
 	private ServerSocket server;
@@ -82,7 +85,6 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		this.protocolHandler.read(in);
 		
-//		PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 		SiDiffRemoteApplication app = client_sessions.get(this.protocolHandler.getSession().getSessionID());
 		if(app == null) {
 			app = new SiDiffRemoteApplication(this.workspace, this.protocolHandler.getSession());
@@ -90,7 +92,29 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			
 		}
 		System.out.println("client session:" + this.protocolHandler.getSession().getSessionID());
-//		app.handle(input);
+		
+		switch(this.protocolHandler.getCommand()) {
+		case BROWSE_MODEL_FILES:
+			List<File> files = app.browseModelFiles();
+			List<String> file_paths = new ArrayList<String>();
+			
+			for(File file : files) {
+				String path = "";
+				File f = file;
+				while(!f.getName().equals(app.getSession().getSessionID())) {
+					path = f.getName() + "/" + path;
+					f = f.getParentFile();
+				}
+				file_paths.add(path);
+			}
+			String content = "";
+			for(String path : file_paths) {
+				content += path + "\n";
+			}
+			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL_FILES, ContentType.TEXT, content);
+			break;
+		default:
+		}
 	}
 
 }

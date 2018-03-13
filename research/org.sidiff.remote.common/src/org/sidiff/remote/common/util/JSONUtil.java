@@ -19,6 +19,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class JSONUtil {
 	
 	public static JsonArray convertEMFResoruce(UUIDResource resource) {
@@ -35,13 +40,13 @@ public class JSONUtil {
 		return reader.read().asJsonArray();
 	}
 	
-	public static StringWriter write(JsonArray jsonArray) {
+	public static String write(JsonArray jsonArray) {
 		Map<String, Boolean> config = new HashMap<String, Boolean>();
 		config.put( JsonGenerator.PRETTY_PRINTING, true );
 		JsonWriterFactory writerFactory = Json.createWriterFactory(config);
 		StringWriter out = new StringWriter();
 		writerFactory.createWriter(out).write(jsonArray);
-		return out; 
+		return out.toString(); 
 	}
 	
 	private static JsonObject transform(EObject eObject){

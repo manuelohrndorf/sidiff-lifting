@@ -31,7 +31,7 @@ public class test {
 			Session session = new Session("localhost", 1904, "cpietsch");
 			File file = new File("D:\\Workspaces\\SiLift\\research\\slicing\\runtime\\client\\sample.ecore");
 			ProtocolHandler handler = new ProtocolHandler("");
-			handler.write(server.getOutputStream(), session, Command.BROWSE, ContentType.FILE, file);
+			handler.write(server.getOutputStream(), session, Command.BROWSE_MODEL, ContentType.FILE, file);
 			
 //			int size =(int) file.length();
 //			out = new ObjectOutputStream(server.getOutputStream());
