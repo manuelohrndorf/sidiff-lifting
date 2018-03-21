@@ -50,10 +50,14 @@ public class ConnectionHandler {
 			out = server.getOutputStream();
 			switch(command) {
 			case BROWSE_MODEL_FILES: 
-				this.protocolHandler.write(out, this.session, Command.BROWSE_MODEL_FILES, ContentType.NONE, null);
+				this.protocolHandler.write(out, this.session, command, ContentType.NONE, null);
 				this.protocolHandler.read(in);
 				object = this.protocolHandler.getContent();
 				break;
+			case BROWSE_MODEL:
+				this.protocolHandler.write(out, this.session, command, ContentType.TEXT, content);
+				this.protocolHandler.read(in);
+				object = this.protocolHandler.getContent();
 			default:
 				
 			}
@@ -61,6 +65,7 @@ public class ConnectionHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
+			this.protocolHandler.close();
 			if(server != null) {
 				server.close();
 			}

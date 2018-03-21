@@ -14,7 +14,13 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
+
+import org.sidiff.common.emf.modelstorage.UUIDResource;
+import org.sidiff.remote.common.tree.TreeModel;
+import org.sidiff.remote.common.util.JSONUtil;
+
 
 /**
  * Handler for the following protocol:
@@ -24,7 +30,7 @@ import java.util.Scanner;
  * {@link ContentType} : filename? : file-size?
  * file | text
  * 
- * @author piets
+ * @author cpietsch
  *
  */
 public class ProtocolHandler {
@@ -41,6 +47,14 @@ public class ProtocolHandler {
 	
 	private DateFormat formatter;
 	
+	private ObjectInputStream ois;
+	
+	private Scanner scanner;
+	
+	private ObjectOutputStream oos;
+	
+	private PrintWriter printWriter;
+	
 	public ProtocolHandler(String path) {
 		this.path = path;
 		this.formatter = new SimpleDateFormat("yyyy'-'MM'-'d'_'H'-'m'-'s");
@@ -48,25 +62,29 @@ public class ProtocolHandler {
 
 	public void read(InputStream inputStream) throws IOException, ClassNotFoundException {
 		
-		//we asume a session object
-		ObjectInputStream ois = new ObjectInputStream(inputStream);
-		this.session = (Session) ois.readObject();
+		this.ois = new ObjectInputStream(inputStream);
+		this.session = (Session) this.ois.readObject();
 		
-		Scanner sc = new Scanner(inputStream);
+		this.scanner = new Scanner(this.ois);
 		
-		this.command = Command.valueOf(sc.nextLine());
+		this.command = Command.valueOf(this.scanner.nextLine());
 			
-		String[] metadata = sc.nextLine().split(":");
+		String[] metadata = this.scanner.nextLine().split(":");
 		
 		this.type = ContentType.valueOf(metadata[0]);
 		
-		if(this.type.equals(ContentType.TEXT)) {
+		if(this.type.equals(ContentType.JSON)||this.type.equals(ContentType.TEXT)) {
 			String text = "";
-			while(sc.hasNextLine()) {
-				text += sc.nextLine();
+			while(!text.endsWith("#####")) {
+				text += scanner.nextLine();
 			}
-			
-			content = text;
+			text = text.substring(0, text.lastIndexOf("#####"));
+			if(this.type.equals(ContentType.JSON)) {
+				TreeModel treeModel = JSONUtil.convertJson(text);
+				content = treeModel;
+			}else {
+				content = text;
+			}
 		}else if(this.type.equals(ContentType.FILE)) {
 
 			String name = metadata[1];
@@ -92,32 +110,42 @@ public class ProtocolHandler {
 			bos.close();
 			this.content = file;
 		}
-		sc.close();
+		
 	}
 	
+
+	@SuppressWarnings("unchecked")
 	public void write(OutputStream outputStream, Session session, Command command, ContentType type, Object content) throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-		oos.writeObject(session);
+		this.oos = new ObjectOutputStream(outputStream);
+		this.oos.writeObject(session);
 		
-		PrintWriter pw = new PrintWriter(outputStream, true);
-		pw.println(command);
-		pw.print(type);
-		if(type.equals(ContentType.TEXT)) {
-			pw.println();
-			pw.println(content);
+		this.printWriter = new PrintWriter(this.oos, true);
+		this.printWriter.println(command);
+		this.printWriter.print(type);
+		if(type.equals(ContentType.JSON) || type.equals(ContentType.TEXT) || type.equals(ContentType.NONE)) {
+			this.printWriter.println();
+			if(type.equals(ContentType.JSON)) {
+				if(content instanceof List && !((List<?>)content).isEmpty() && ((List<?>)content).get(0) instanceof File) {
+					this.printWriter.println(JSONUtil.convertFileList((List<File>) content, session.getSessionID()));
+				}else if(content instanceof UUIDResource) {
+					this.printWriter.println(JSONUtil.convertEMFResoruce((UUIDResource)content));
+				}
+			}else if(type.equals(ContentType.TEXT)) {
+				this.printWriter.println();
+				this.printWriter.println(content);
+			}
+			this.printWriter.println("#####");
 		}else if(type.equals(ContentType.FILE)) {
 			
 			File file = (File) content;
 			int size = (int) file.length();
-			pw.println(':' + file.getName() + ':' + size);
+			this.printWriter.println(':' + file.getName() + ':' + size);
 			byte[] bytes = new byte[size];
 			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
 			bis.read(bytes);
 			outputStream.write(bytes);
 			bis.close();
-		}
-		pw.close();
-		
+		}		
 	}
 
 	public Session getSession() {
@@ -134,5 +162,12 @@ public class ProtocolHandler {
 
 	public Object getContent() {
 		return content;
+	}
+	
+	public void close() {
+		if(this.scanner != null)
+			this.scanner.close();
+		if(this.printWriter != null)
+			this.printWriter.close();
 	}
 }

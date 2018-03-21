@@ -28,10 +28,12 @@ public class ModelIndexer {
 		this.session_folder = session_folder;
 		this.file_ext = new HashSet<String>();
 		this.file_ext.add("ecore");
+		this.file_ext.add("uml");
 		this.model_files = new ArrayList<File>();
 	}
 	
 	public void index() {
+		this.model_files.clear();
 		this.model_files.addAll(searchModelFiles(session_folder));
 	}
 	

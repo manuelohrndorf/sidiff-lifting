@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.sidiff.remote.application.ui.connector.preferences.RemoteConnectorPreferencePage"
+            id="org.sidiff.remote.application.ui.connector.preferences.RemoteConnectorPreferencePage"
+            name="SiDiff Remote Application Connector Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.sidiff.remote.application.ui.connector.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.sidiff.remote.application.ui.connector"
+            name="SiDiff">
+      </category>
+      <view
+            category="org.sidiff.remote.application.ui.connector"
+            class="org.sidiff.remote.application.ui.connector.views.SiDiffModelRepositoryView"
+            icon="icons/sample.png"
+            id="org.sidiff.remote.application.ui.connector.views.SiDiffModelRepositoryView"
+            inject="true"
+            name="SiDiff Model Repository">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="org.sidiff.remote.application.ui.connector.views.SiDiffModelRepositoryView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>

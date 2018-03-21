@@ -5,6 +5,10 @@ Bundle-SymbolicName: org.sidiff.remote.common
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.13.0",
- org.eclipse.core.resources,
- org.sidiff.common.emf
-Export-Package: org.sidiff.remote.common
+ org.eclipse.core.resources;bundle-version="3.12.0";visibility:=reexport,
+ org.sidiff.common.emf;bundle-version="1.2.0";visibility:=reexport
+Export-Package: org.sidiff.remote.common,
+ org.sidiff.remote.common.tree,
+ org.sidiff.remote.common.util
+Bundle-ClassPath: lib/javax.json-1.1.jar,
+ .

@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
 import org.sidiff.remote.common.Command;
 import org.sidiff.remote.common.ContentType;
@@ -67,6 +67,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {
+				this.protocolHandler.close();
 				client.close();
 			}
 		}
@@ -96,23 +97,13 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		switch(this.protocolHandler.getCommand()) {
 		case BROWSE_MODEL_FILES:
 			List<File> files = app.browseModelFiles();
-			List<String> file_paths = new ArrayList<String>();
 			
-			for(File file : files) {
-				String path = "";
-				File f = file;
-				while(!f.getName().equals(app.getSession().getSessionID())) {
-					path = f.getName() + "/" + path;
-					f = f.getParentFile();
-				}
-				file_paths.add(path);
-			}
-			String content = "";
-			for(String path : file_paths) {
-				content += path + "\n";
-			}
-			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL_FILES, ContentType.TEXT, content);
+			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL_FILES, ContentType.JSON, files);
 			break;
+			
+		case BROWSE_MODEL:
+			UUIDResource resource = app.browseModel(this.protocolHandler.getContent().toString());
+			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL, ContentType.JSON, resource);
 		default:
 		}
 	}

@@ -6,6 +6,10 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.common.Session;
 
 /**
@@ -29,6 +33,7 @@ public class SiDiffRemoteApplication {
 	
 	public SiDiffRemoteApplication(IWorkspace workspace, Session session) throws CoreException {
 		this.workspace = workspace;
+		this.session = session;
 		String ws_path = this.workspace.getRoot().getLocation().toOSString();
 		String	user_path= ws_path + File.separator + session.getUser();
 		String session_path = user_path + File.separator + session.getSessionID();
@@ -54,6 +59,13 @@ public class SiDiffRemoteApplication {
 		System.out.println(args.get("Command"));
 		System.out.println(this.user_folder.getPath());
 		System.out.println(this.session_folder.getPath());
+	}
+	
+	public UUIDResource browseModel(String path) {
+		String absolute_path = user_folder + File.separator + path;
+		ResourceSet resourceSet = new ResourceSetImpl();
+		UUIDResource uuidResource = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
+		return uuidResource;
 	}
 	
 	public List<File> browseModelFiles() {
