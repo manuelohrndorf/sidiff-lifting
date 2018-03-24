@@ -1,13 +1,11 @@
 package org.sidiff.remote.application;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -17,9 +15,12 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
-import org.sidiff.remote.common.Command;
-import org.sidiff.remote.common.ContentType;
 import org.sidiff.remote.common.ProtocolHandler;
+import org.sidiff.remote.common.commands.BrowseModelFilesReply;
+import org.sidiff.remote.common.commands.BrowseModelReply;
+import org.sidiff.remote.common.commands.BrowseModelRequest;
+import org.sidiff.remote.common.commands.Command;
+import org.sidiff.remote.common.tree.TreeModel;
 
 /**
  * 
@@ -67,7 +68,6 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {
-				this.protocolHandler.close();
 				client.close();
 			}
 		}
@@ -84,26 +84,46 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
-		this.protocolHandler.read(in);
+		Command command = this.protocolHandler.read(in);
 		
-		SiDiffRemoteApplication app = client_sessions.get(this.protocolHandler.getSession().getSessionID());
+		SiDiffRemoteApplication app = client_sessions.get(command.getSession().getSessionID());
 		if(app == null) {
-			app = new SiDiffRemoteApplication(this.workspace, this.protocolHandler.getSession());
-			client_sessions.put(this.protocolHandler.getSession().getSessionID(), app);
+			app = new SiDiffRemoteApplication(this.workspace, command.getSession());
+			client_sessions.put(command.getSession().getSessionID(), app);
 			
 		}
-		System.out.println("client session:" + this.protocolHandler.getSession().getSessionID());
-		
-		switch(this.protocolHandler.getCommand()) {
-		case BROWSE_MODEL_FILES:
-			List<File> files = app.browseModelFiles();
-			
-			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL_FILES, ContentType.JSON, files);
+		app.setSession(command.getSession());
+		System.out.println("client session:" + command.getSession().getSessionID());
+		UUIDResource resource = null;
+		switch(command.getECommand()) {
+		case BROWSE_MODEL_FILES_REQUEST:
+			TreeModel modelFiles = app.browseModelFiles();
+			BrowseModelFilesReply browseModelFilesReply = new BrowseModelFilesReply(app.getSession(), modelFiles, null);
+			this.protocolHandler.write(out, browseModelFilesReply, null);
 			break;
 			
-		case BROWSE_MODEL:
-			UUIDResource resource = app.browseModel(this.protocolHandler.getContent().toString());
-			this.protocolHandler.write(out, app.getSession(), Command.BROWSE_MODEL, ContentType.JSON, resource);
+		case BROWSE_MODEL_REQUEST:
+			BrowseModelRequest browseModelRequest = (BrowseModelRequest) command;
+			TreeModel model = app.browseModel(browseModelRequest.getRemoteModelPath());
+			BrowseModelReply browseModelReply = new BrowseModelReply(app.getSession(), model, null);
+			this.protocolHandler.write(out, browseModelReply, null);
+			break;
+			
+		case CHECKOUT_SUB_MODEL_REQUEST:
+			
+//			String[] output = this.protocolHandler.getContent().toString().split("\\n");
+//			String localPath = output[0];
+//			String remotePath= output[1];
+//			String[] elementIDs = new String[output.length-2];
+//			for(int i = 2; i < output.length; i++) {
+//				if(i == 0) {
+//					elementIDs[i-2] = output[i];
+//				}
+//			}
+//			resource = app.checkoutModel(remotePath, elementIDs);
+//			this.protocolHandler.getSession().addModel(localPath, remotePath);
+//			this.protocolHandler.write(out, app.getSession(), Command.CHECKOUT, ContentType.FILE, resource);
+			break;
 		default:
 		}
 	}

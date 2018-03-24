@@ -1,4 +1,4 @@
-package org.sidiff.remote.application;
+package org.sidiff.remote.application.connector;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
-import org.sidiff.remote.application.connector.ConnectionHandler;
 import org.sidiff.remote.common.Session;
 
 /**
@@ -19,7 +18,7 @@ import org.sidiff.remote.common.Session;
  * @author cpietsch
  *
  */
-public class Activator extends Plugin {
+public class ConnectorPlugin extends Plugin {
 
 	@Override
 	public void start(BundleContext context) throws Exception {

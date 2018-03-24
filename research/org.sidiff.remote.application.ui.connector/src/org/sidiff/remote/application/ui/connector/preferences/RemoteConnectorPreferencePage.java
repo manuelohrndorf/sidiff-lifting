@@ -3,7 +3,7 @@ package org.sidiff.remote.application.ui.connector.preferences;
 import org.eclipse.jface.preference.*;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
-import org.sidiff.remote.application.ui.connector.Activator;
+import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 
 /**
  * This class represents a preference page that
@@ -25,7 +25,7 @@ public class RemoteConnectorPreferencePage
 
 	public RemoteConnectorPreferencePage() {
 		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setPreferenceStore(ConnectorUIPlugin.getDefault().getPreferenceStore());
 		setDescription("A demonstration of a preference page implementation");
 	}
 	

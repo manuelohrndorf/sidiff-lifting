@@ -44,13 +44,14 @@ public class JSONUtil {
 	 * @param resource
 	 * @return
 	 */
-	public static JsonArray convertEMFResoruce(UUIDResource resource) {
+	public static String convertEMFResoruce(UUIDResource resource) {
 		
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 		for (EObject eObject : resource.getContents()) {
 			jsonArrayBuilder.add(transform(eObject));			
 		}
-		return jsonArrayBuilder.build();
+		return write(jsonArrayBuilder.build());
+		
 	}
 	
 	private static JsonObject transform(EObject eObject){

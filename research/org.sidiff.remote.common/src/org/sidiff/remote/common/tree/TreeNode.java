@@ -1,5 +1,6 @@
 package org.sidiff.remote.common.tree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,12 @@ import java.util.List;
  * @author cpietsch
  *
  */
-public class TreeNode {
+public class TreeNode implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7346986002681957935L;
 
 	protected String label;
 	
@@ -28,10 +34,10 @@ public class TreeNode {
 		this.children = new ArrayList<TreeNode>();
 	}
 	
-	public TreeNode(String label, String id, String type, TreeNode parent, List<TreeNode> children) {
+	public TreeNode(String label, String id, String type, TreeNode parent) {
 		this(label, id, type);
 		this.parent = parent;
-		this.children = children;
+		this.parent.getChildren().add(this);
 	}
 	
 	public boolean hasChildren() {

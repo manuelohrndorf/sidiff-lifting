@@ -1,0 +1,20 @@
+package org.sidiff.remote.common;
+
+/**
+ * 
+ * @author cpietsch
+ *
+ */
+public enum ECommand {
+	BROWSE_MODEL_FILES_REQUEST,
+	
+	BROWSE_MODEL_FILES_REPLY,
+	
+	BROWSE_MODEL_REQUEST,
+	
+	BROWSE_MODEL_REPLY,
+	
+	CHECKOUT_SUB_MODEL_REQUEST,
+	
+	CHECKOUT_SUB_MODEL_REPLY,
+}

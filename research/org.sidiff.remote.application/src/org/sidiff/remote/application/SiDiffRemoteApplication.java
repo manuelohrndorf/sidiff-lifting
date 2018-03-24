@@ -11,6 +11,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.common.Session;
+import org.sidiff.remote.common.tree.TreeModel;
+import org.sidiff.remote.common.util.JSONUtil;
+import org.sidiff.remote.common.util.TreeModelUtil;
 
 /**
  * 
@@ -61,19 +64,33 @@ public class SiDiffRemoteApplication {
 		System.out.println(this.session_folder.getPath());
 	}
 	
-	public UUIDResource browseModel(String path) {
+	public TreeModel browseModel(String path) {
 		String absolute_path = user_folder + File.separator + path;
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource uuidResource = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
-		return uuidResource;
+		TreeModel treeModel = TreeModelUtil.convertEMFResource(uuidResource);
+		return treeModel;
 	}
 	
-	public List<File> browseModelFiles() {
-		this.modelIndexer.index();
-		return this.modelIndexer.getModel_files();
+	public UUIDResource checkoutModel(String path, String[] elementIDs) {
+		String absolute_path = user_folder + File.separator + path;
+		return null;
 	}
+	
+	public TreeModel browseModelFiles() {
+		this.modelIndexer.index();
+		List<File> files = this.modelIndexer.getModel_files();
+		TreeModel treeModel = TreeModelUtil.convertFileList(files, session.getSessionID());
+		return treeModel;
+	}
+	
 	
 	public Session getSession() {
 		return session;
 	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+	
 }

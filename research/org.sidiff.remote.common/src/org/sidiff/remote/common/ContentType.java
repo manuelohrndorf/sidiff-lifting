@@ -10,5 +10,6 @@ public enum ContentType {
 	NONE,
 	TEXT,
 	JSON,
-	FILE
+	FILE,
+	OBJECT
 }
