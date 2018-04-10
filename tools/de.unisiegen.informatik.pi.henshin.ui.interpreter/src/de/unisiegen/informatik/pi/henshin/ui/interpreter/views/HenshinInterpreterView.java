@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.henshin.model.Module;
@@ -316,6 +317,11 @@ public class HenshinInterpreterView extends ViewPart {
 								// FIXME: Determine the right resource if there are multiple
 								resource = iter.next();
 							}
+						}else if(editorPart instanceof IEditingDomainProvider) {
+							IEditingDomainProvider iEditingDomainProvider = (IEditingDomainProvider) editorPart;
+							editingDomain = iEditingDomainProvider.getEditingDomain();
+							// FIXME: Determine the right resource if there are multiple
+							resource = editingDomain.getResourceSet().getResources().get(0);
 						}
 					}
 					} catch (PartInitException e) {
