@@ -120,6 +120,8 @@ public class HenshinInterpreterView extends ViewPart {
 	private Map<EClass,List<EObject>> argumentCandidates;
 	
 	private EditingDomain editingDomain;
+	
+	private Resource resource;
 
 	/**
 	 * The {@link ComposedAdapterFactory} used to determine the default content and
@@ -302,8 +304,6 @@ public class HenshinInterpreterView extends ViewPart {
 					
 					IFile file = files[0];
 					
-					Resource resource = null;
-					
 					try {
 					IEditorPart editorPart = openDiagram(file);
 					
@@ -334,20 +334,7 @@ public class HenshinInterpreterView extends ViewPart {
 					}
 					
 					argumentCandidates = new HashMap<EClass, List<EObject>>();
-					for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
-						EObject eObject = iterator.next();
-						if(argumentCandidates.get(eObject.eClass()) == null) {
-							argumentCandidates.put(eObject.eClass(), new ArrayList<EObject>());
-						}
-						argumentCandidates.get(eObject.eClass()).add(eObject);
-						for(EClass eClass : eObject.eClass().getESuperTypes()) {
-							if(argumentCandidates.get(eClass) == null) {
-								argumentCandidates.put(eClass, new ArrayList<EObject>());
-							}
-							argumentCandidates.get(eClass).add(eObject);
-						}
-						
-					}
+					updateArgumentCandidates();
 					
 					interpreter.setModelResource(resource);
 				}
@@ -394,7 +381,7 @@ public class HenshinInterpreterView extends ViewPart {
 						}else {
 							command.execute();
 						}
-						
+						updateArgumentCandidates();
 						if(!command.isSuccess()) {
 							MessageDialog.openError(rule_viewer.getControl().getShell(), "Error", unit.getName() + " couldn't be applied!");
 						}
@@ -492,9 +479,8 @@ public class HenshinInterpreterView extends ViewPart {
 				
 				// select the first representation
 				DRepresentation representation = null;
-				if (representations.size() < 1)
-					return null;
-				representation = representations.get(0);
+				if (!representations.isEmpty())
+					representation = representations.get(0);
 				if (representation != null) {
 					return DialectUIManager.INSTANCE.openEditor(session,
 							representation, new NullProgressMonitor());
@@ -507,5 +493,23 @@ public class HenshinInterpreterView extends ViewPart {
 		
 		return page.openEditor(input, "org.eclipse.emf.ecore.presentation.EcoreEditorID");
 		
+	}
+	
+	private void updateArgumentCandidates() {
+		argumentCandidates.clear();
+		for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			if(argumentCandidates.get(eObject.eClass()) == null) {
+				argumentCandidates.put(eObject.eClass(), new ArrayList<EObject>());
+			}
+			argumentCandidates.get(eObject.eClass()).add(eObject);
+			for(EClass eClass : eObject.eClass().getESuperTypes()) {
+				if(argumentCandidates.get(eClass) == null) {
+					argumentCandidates.put(eClass, new ArrayList<EObject>());
+				}
+				argumentCandidates.get(eClass).add(eObject);
+			}
+			
+		}
 	}
 }
