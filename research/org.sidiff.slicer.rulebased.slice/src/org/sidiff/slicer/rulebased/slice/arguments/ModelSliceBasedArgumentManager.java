@@ -1,4 +1,4 @@
-package org.sidiff.slicer.rulebased;
+package org.sidiff.slicer.rulebased.slice.arguments;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.ExternalReferenceCalculator;
 import org.sidiff.common.emf.access.EMFMetaAccess;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
@@ -31,28 +32,26 @@ import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.slicer.slice.ModelSlice;
+import org.sidiff.slicer.slice.SlicedElement;
 
-public class UUIDBasedArgumentManager implements IArgumentManager {
+/**
+ * 
+ * @author cpietsch
+ *
+ */
+public class ModelSliceBasedArgumentManager implements IArgumentManager {
 
 	/**
 	 * Reliability threshold.
 	 */
 	private float minReliability;
 
-	/**
-	 * The patch which is to be applied.
-	 */
-	private AsymmetricDifference patch;
 
 	/**
 	 * The origin model.
 	 */
 	private Resource originModel;
-	
-	/**
-	 * The changed model.
-	 */
-	private Resource changedModel;
 
 	/**
 	 * The target model.
@@ -90,9 +89,7 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 	
 	@Override
 	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
-		this.patch = patch;
 		this.originModel = patch.getOriginModel();
-		this.changedModel = patch.getChangedModel();
 		this.targetModel = targetModel;
 		this.scope = scope;
 		this.patchMode = patchMode;
@@ -111,9 +108,9 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 					EObject targetObject = null;
 					String id_origin = null;
 					if (objBinding.getActualA() != null) {
-						id_origin = EMFUtil.getXmiId(objBinding.getActualA());
+						id_origin = ((SlicedElement)objBinding.getActualA()).getUuid();
 					}else if(objBinding.getActualB() != null){
-						id_origin = EMFUtil.getXmiId(objBinding.getActualB());
+						id_origin = ((SlicedElement)objBinding.getActualB()).getUuid();
 					}
 					assert id_origin != null : "no id";
 					for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
@@ -146,9 +143,9 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 						EObject targetObject = null;
 						String id_origin = null;
 						if (objBinding.getActualA() != null) {
-							id_origin = EMFUtil.getXmiId(objBinding.getActualA());
+							id_origin = ((SlicedElement)objBinding.getActualA()).getUuid();
 						}else if(objBinding.getActualB() != null){
-							id_origin = EMFUtil.getXmiId(objBinding.getActualB());
+							id_origin = ((SlicedElement)objBinding.getActualB()).getUuid();
 						}
 						assert id_origin != null : "no id";
 						for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
@@ -318,7 +315,7 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 		// Otherwise, we only check type compatibility
 		for (Iterator<EObject> it = resource.getAllContents(); it.hasNext();) {
 			EObject obj = it.next();
-			if (EMFMetaAccess.isAssignableTo(obj.eClass(), originObject.eClass())) {
+			if (EMFMetaAccess.isAssignableTo(obj.eClass(), ((SlicedElement)originObject).getType())) {
 				args.add(obj);
 			}
 		}
@@ -336,7 +333,10 @@ public class UUIDBasedArgumentManager implements IArgumentManager {
 
 	@Override
 	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
-		// TODO Auto-generated method stub
-		return false;
+		return EMFModelAccess.getCharacteristicDocumentType(targetModel).equals(((ModelSlice)asymmetricDifference.getOriginModel().getContents().get(0)).getType().get(0).getNsURI());
+	}
+	
+	public PatchMode getPatchMode() {
+		return patchMode;
 	}
 }

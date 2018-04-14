@@ -6,6 +6,7 @@ import java.util.HashSet;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.entities.Attribute;
 import org.sidiff.entities.Element;
 import org.sidiff.entities.Entity;
@@ -18,7 +19,7 @@ import org.sidiff.slicer.slice.SlicedElement;
 
 /**
  * 
- * @author rmueller
+ * @author rmueller, cpietsch
  *
  */
 public class SliceImporter extends EntitiesImporter
@@ -91,7 +92,15 @@ public class SliceImporter extends EntitiesImporter
 	@Override
 	public SlicedElement importEObject(EObject eObject) throws ImportFailedException
 	{
-		SlicedElement element = (SlicedElement)super.importEObject(eObject);
+		SlicedElement element = null;
+		String uuid = EMFUtil.getXmiId(eObject);
+		if(uuidIndex.containsKey(uuid)) {
+			element = (SlicedElement) uuidIndex.get(uuid);
+			eObject2Element.put(eObject, element);
+		}else {
+			element = (SlicedElement)super.importEObject(eObject);
+		}
+		modelSlice.getType().add(eObject.eClass().getEPackage());
 		modelSlice.getSlicedElements().add(element);
 		return element;
 	}
