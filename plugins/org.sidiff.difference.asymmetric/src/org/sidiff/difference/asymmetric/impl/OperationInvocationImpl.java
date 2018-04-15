@@ -10,21 +10,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -36,7 +34,6 @@ import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.ParameterDirection;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
-import org.silift.difference.symboliclink.util.SymboliclinkUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -662,29 +659,9 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 		// Try to derive the EditRule via the available rulebases:
 		AsymmetricDifference difference = (AsymmetricDifference) this.eContainer();
-		//TODO 29-08-2017 cpietsch: this is just a workaround, another solution must be found
-		String documentType = null;
-		Set<String> docTypes = new HashSet<String>();
-		for (Iterator<EObject> iterator =difference.getOriginModel().getAllContents(); iterator.hasNext();) {
-			EObject eObject = iterator.next();
-			if(eObject.eClass().getName().equals("SuperimposedModel")){
-				Object object = eObject.eGet(eObject.eClass().getEStructuralFeature("docType"));
-				if(object instanceof EList<?>){
-					docTypes = new HashSet<String>((Collection<? extends String>) object);
-					break;
-				}
-			}
-			
-		}
-			
-		if(docTypes.isEmpty()){
-			documentType = SymboliclinkUtil.resolveCharacteristicDocumentType(difference.getOriginModel());
-			if(documentType != null){
-				docTypes.add(documentType);
-			}
-		}
+		List<String> docTypes = EMFDocumentTypeUtil.resolve(difference.getOriginModel());
 		 
-		this.editRule = RuleBaseProjectUtil.resolveEditRule(docTypes, this.getEditRuleName());
+		this.editRule = RuleBaseProjectUtil.resolveEditRule(new HashSet<String>(docTypes), this.getEditRuleName());
 
 		return this.editRule;
 	}
