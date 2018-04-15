@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated RuleBasedSlice -->
+      <package
+            uri="http://www.example.org/RuleBasedSlice"
+            class="org.sidiff.slicer.rulebased.slice.RuleBasedSlicePackage"
+            genModel="model/RuleBasedSlice.genmodel"/>
+   </extension>
+   <extension
+         point="org.sidiff.common.emf.doctype.document_type_resolver">
+      <document_type_resolver
+            class="org.sidiff.slicer.rulebased.slice.util.ModelSliceDocumentTypeResolver">
+      </document_type_resolver>
+   </extension>
+
+</plugin>
