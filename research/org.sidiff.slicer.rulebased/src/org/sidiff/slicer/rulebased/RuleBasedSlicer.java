@@ -16,7 +16,6 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
@@ -24,18 +23,14 @@ import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
-import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
-import org.sidiff.matching.model.Matching;
-import org.sidiff.matching.model.MatchingModelFactory;
 import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
-import org.sidiff.slicer.rulebased.slice.RuleBasedSlice;
-import org.sidiff.slicer.rulebased.util.ModelSliceOperationCopier;
+import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
+import org.sidiff.slicer.rulebased.util.ExecutableModelSliceCreator;
 
 /**
  * 
@@ -43,22 +38,6 @@ import org.sidiff.slicer.rulebased.util.ModelSliceOperationCopier;
  *
  */
 public class RuleBasedSlicer{
-
-	// ############### static fields ###############
-	/**
-	 * 
-	 */
-	private static MatchingModelFactory matchingModelFactory = MatchingModelFactory.eINSTANCE;
-	
-	/**
-	 * 
-	 */
-	private static SymmetricFactory symmetricFactory = SymmetricFactory.eINSTANCE;
-	
-	/**
-	 * 
-	 */
-	private static AsymmetricFactory asymmetricFactory = AsymmetricFactory.eINSTANCE;
 
 	/**
 	 * The {@link SlicingConfiguration}
@@ -214,7 +193,7 @@ public class RuleBasedSlicer{
 	 * @throws ExtendedSlicingCriteriaIntersectionException 
 	 */
 	@SuppressWarnings("unlikely-arg-type")
-	public RuleBasedSlice slice(Set<EObject> slicingCriteria) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
+	public ExecutableModelSlice slice(Set<EObject> slicingCriteria) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
 
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
@@ -321,11 +300,11 @@ public class RuleBasedSlicer{
 			ignoredOpInvs.removeAll(extendOpInvsCreate);
 			ignoredOpInvs.removeAll(extendOpInvsDelete);
 			
-			RuleBasedSlice slicingScript = generateRuleBasedSlice(extendOpInvsCreate, extendOpInvsDelete, ignoredOpInvs);
+			ExecutableModelSlice executableModelSlice = new ExecutableModelSliceCreator().createExecutableModelSlice(extendOpInvsCreate, extendOpInvsDelete, ignoredOpInvs);
 			
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 			
-			return  slicingScript;
+			return  executableModelSlice;
 			
 		}else{
 			throw new NotInitializedException();
@@ -379,41 +358,6 @@ public class RuleBasedSlicer{
 		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);
 
 		return asymDiff;
-	}
-	
-	private RuleBasedSlice generateRuleBasedSlice(Set<OperationInvocation> extendOpInvsCreate, Set<OperationInvocation> extendOpInvsDelete, Set<OperationInvocation> ignoredOpInvs) {
-		
-		Matching matching = matchingModelFactory.createMatching();
-		SymmetricDifference symmetricDifference = symmetricFactory.createSymmetricDifference();
-		symmetricDifference.setMatching(matching);
-		AsymmetricDifference asymmetricDifference = asymmetricFactory.createAsymmetricDifference();
-		asymmetricDifference.setSymmetricDifference(symmetricDifference);
-		
-		ModelSliceOperationCopier copier = new ModelSliceOperationCopier();
-		copier.setIgnoredOpInvs(ignoredOpInvs);
-		
-		for(OperationInvocation opInv : extendOpInvsCreate) {
-			copier.copyOperationInvocation(opInv);
-		}
-		
-		for(OperationInvocation opInv : extendOpInvsDelete) {
-			copier.copyOperationInvocation(opInv);
-		}
-		
-		copier.calculateCorrespondences();
-		
-		matching.getCorrespondences().addAll(copier.getCorrespondenceCopies().values());
-		
-		symmetricDifference.getChanges().addAll(copier.getChangeCopies().values());
-		symmetricDifference.getChangeSets().addAll(copier.getScsCopies().values());
-		
-		asymmetricDifference.getOperationInvocations().addAll(copier.getOpInvCopies().values());
-		asymmetricDifference.getParameterMappings().addAll(copier.getPmCopies().values());
-		asymmetricDifference.getDepContainers().addAll(copier.getDepConCopies().values());
-		
-		RuleBasedSlice slicingScript = new RuleBasedSlice(asymmetricDifference, copier.getModelSlice());
-		
-		return slicingScript;
 	}
 	
 	/**
