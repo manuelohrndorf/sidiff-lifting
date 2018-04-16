@@ -25,6 +25,12 @@ import org.sidiff.slicer.slice.*;
  */
 public class SliceAdapterFactory extends AdapterFactoryImpl {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -58,7 +64,7 @@ public class SliceAdapterFactory extends AdapterFactoryImpl {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject) object).eClass().getEPackage() == modelPackage;
+			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -70,36 +76,31 @@ public class SliceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected SliceSwitch<Adapter> modelSwitch = new SliceSwitch<Adapter>() {
-		@Override
-		public Adapter caseModelSlice(ModelSlice object) {
-			return createModelSliceAdapter();
-		}
-
-		@Override
-		public Adapter caseSlicedElement(SlicedElement object) {
-			return createSlicedElementAdapter();
-		}
-
-		@Override
-		public Adapter caseEntity(Entity object) {
-			return createEntityAdapter();
-		}
-
-		@Override
-		public Adapter caseIdentifiableEntity(IdentifiableEntity object) {
-			return createIdentifiableEntityAdapter();
-		}
-
-		@Override
-		public Adapter caseElement(Element object) {
-			return createElementAdapter();
-		}
-
-		@Override
-		public Adapter defaultCase(EObject object) {
-			return createEObjectAdapter();
-		}
-	};
+			@Override
+			public Adapter caseModelSlice(ModelSlice object) {
+				return createModelSliceAdapter();
+			}
+			@Override
+			public Adapter caseSlicedElement(SlicedElement object) {
+				return createSlicedElementAdapter();
+			}
+			@Override
+			public Adapter caseEntity(Entity object) {
+				return createEntityAdapter();
+			}
+			@Override
+			public Adapter caseIdentifiableEntity(IdentifiableEntity object) {
+				return createIdentifiableEntityAdapter();
+			}
+			@Override
+			public Adapter caseElement(Element object) {
+				return createElementAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -111,7 +112,7 @@ public class SliceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject) target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 	/**

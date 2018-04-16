@@ -54,7 +54,6 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
@@ -72,11 +71,12 @@ import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
-import org.sidiff.slicer.rulebased.UUIDBasedArgumentManager;
-import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
+import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
+import org.sidiff.slicer.rulebased.slice.arguments.ModelSliceBasedArgumentManager;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
 import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
 import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
@@ -132,9 +132,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	private Set<EObject> slicingCriteria;
 	
 	/**
-	 * The {@link SlicingConfiguration}
+	 * The {@link RuleBasedSlicingConfiguration}
 	 */
-	private SlicingConfiguration config;
+	private RuleBasedSlicingConfiguration config;
 	
 	/**
 	 * The {@link PatchEngine} merging {@link #remoteSlicedResource} into {@link #localSlicedResource}
@@ -201,7 +201,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	public SlicingCriteriaView() {
 		this.slicer = new RuleBasedSlicer();
 		this.slicingCriteria = new HashSet<EObject>();
-		this.config = new SlicingConfiguration(new LiftingSettings());
+		this.config = new RuleBasedSlicingConfiguration();
+		this.config.setLiftingSettings(new LiftingSettings());
 		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 	}
 
@@ -222,6 +223,15 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 
 		this.localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
 		
+		Map<EObject, EObject> copies_empty = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
+		
+		this.remoteResourceEmpty.getContents().addAll(copies_empty.values());
+		
+		for(EObject origin : copies_empty.keySet()){
+			String id = EMFUtil.getXmiId(origin);
+			EMFUtil.setXmiId(copies_empty.get(origin), id);
+		}
+		
 		Map<EObject, EObject> copies = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
 		
 		this.localSlicedResource.getContents().addAll(copies.values());
@@ -238,7 +248,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				config.getLiftingSettings().getCandidatesService(),
 				config.getLiftingSettings().getCorrespondencesService(),
 				config.getLiftingSettings().getTechBuilder(), null,
-				new UUIDBasedArgumentManager(),
+				new ModelSliceBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
 				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
 				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE,
@@ -247,7 +257,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		this.checkboxTreeViewer.setInput(this.remoteResourceComplete.getResourceSet());
 		this.checkboxTreeViewer.refresh();
 		try {
-			this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty);
+			this.config.setEmtpyResource(this.remoteResourceEmpty);
+			this.config.setEmtpyResource(this.remoteResourceComplete);
+			this.slicer.init(this.config);
 			this.remoteResourceEmpty.save(null);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException | IOException e) {
 			MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
@@ -342,7 +354,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							}
 							
 							updateSlicingCriteria();
-							asymDiff = slicer.slice(slicingCriteria);
+							ExecutableModelSlice slicingScript = (ExecutableModelSlice) slicer.slice(slicingCriteria);
+							slicingScript.serialize(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace(remoteResourceComplete.getURI().lastSegment(), ""), false);
 							for (EObject eObject : slicer.getExtendedAddSlicingCriteria()) {
 								checkboxTreeViewer.setChecked(eObject, true);								
 							}

@@ -27,6 +27,13 @@ import org.sidiff.entities.EntitiesPackage;
  */
 public interface SlicePackage extends EPackage {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -105,13 +112,22 @@ public interface SlicePackage extends EPackage {
 	int MODEL_SLICE___EXPORT = 0;
 
 	/**
+	 * The operation id for the '<em>Serialize</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_SLICE___SERIALIZE__STRING = 1;
+
+	/**
 	 * The number of operations of the '<em>Model Slice</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_SLICE_OPERATION_COUNT = 1;
+	int MODEL_SLICE_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.slicer.slice.impl.SlicedElementImpl <em>Sliced Element</em>}' class.
@@ -301,6 +317,16 @@ public interface SlicePackage extends EPackage {
 	EOperation getModelSlice__Export();
 
 	/**
+	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#serialize(java.lang.String) <em>Serialize</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Serialize</em>' operation.
+	 * @see org.sidiff.slicer.slice.ModelSlice#serialize(java.lang.String)
+	 * @generated
+	 */
+	EOperation getModelSlice__Serialize__String();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicer.slice.SlicedElement <em>Sliced Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -388,6 +414,14 @@ public interface SlicePackage extends EPackage {
 		 * @generated
 		 */
 		EOperation MODEL_SLICE___EXPORT = eINSTANCE.getModelSlice__Export();
+
+		/**
+		 * The meta object literal for the '<em><b>Serialize</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MODEL_SLICE___SERIALIZE__STRING = eINSTANCE.getModelSlice__Serialize__String();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.slicer.slice.impl.SlicedElementImpl <em>Sliced Element</em>}' class.

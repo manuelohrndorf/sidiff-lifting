@@ -145,7 +145,7 @@ public class StructureBasedSlicer implements ISlicer {
 	}
 
 	@Override
-	public void slice(Collection<EObject> initialCriteria) throws ImportFailedException {
+	public ModelSlice slice(Collection<EObject> initialCriteria) throws ImportFailedException {
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
 
 		// iterate over all the slicing criteria
@@ -172,18 +172,8 @@ public class StructureBasedSlicer implements ISlicer {
 		}
 
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
-	}
-
-	// ############### getter/setter methods ###############
-
-	@Override
-	public void setModelSlice(ModelSlice modelSlice) {
-		importer.setModelSlice(modelSlice);
-	}
-
-	@Override
-	public ModelSlice getModelSlice() {
-		return importer.getModelSlice();
+		
+		return this.importer.getModelSlice();
 	}
 
 	// ############### inner accessed methods ###############

@@ -2,13 +2,25 @@
  */
 package org.sidiff.slicer.rulebased.slice.impl;
 
+import java.io.IOException;
+
+import java.net.URL;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
+import org.eclipse.emf.ecore.resource.Resource;
+
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 
@@ -20,7 +32,6 @@ import org.sidiff.formula.FormulaPackage;
 
 import org.sidiff.matching.model.MatchingModelPackage;
 
-import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
 import org.sidiff.slicer.rulebased.slice.RuleBasedSliceFactory;
 import org.sidiff.slicer.rulebased.slice.RuleBasedSlicePackage;
 
@@ -33,6 +44,20 @@ import org.sidiff.slicer.slice.SlicePackage;
  * @generated
  */
 public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBasedSlicePackage {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected String packageFilename = "slice.ecore";
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,19 +99,14 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
-	 * @see #createPackageContents()
-	 * @see #initializePackageContents()
 	 * @generated
 	 */
 	public static RuleBasedSlicePackage init() {
-		if (isInited)
-			return (RuleBasedSlicePackage) EPackage.Registry.INSTANCE.getEPackage(RuleBasedSlicePackage.eNS_URI);
+		if (isInited) return (RuleBasedSlicePackage)EPackage.Registry.INSTANCE.getEPackage(RuleBasedSlicePackage.eNS_URI);
 
 		// Obtain or create and register package
 		Object registeredRuleBasedSlicePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		RuleBasedSlicePackageImpl theRuleBasedSlicePackage = registeredRuleBasedSlicePackage instanceof RuleBasedSlicePackageImpl
-				? (RuleBasedSlicePackageImpl) registeredRuleBasedSlicePackage
-				: new RuleBasedSlicePackageImpl();
+		RuleBasedSlicePackageImpl theRuleBasedSlicePackage = registeredRuleBasedSlicePackage instanceof RuleBasedSlicePackageImpl ? (RuleBasedSlicePackageImpl)registeredRuleBasedSlicePackage : new RuleBasedSlicePackageImpl();
 
 		isInited = true;
 
@@ -99,11 +119,11 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 		SlicePackage.eINSTANCE.eClass();
 		SymmetricPackage.eINSTANCE.eClass();
 
-		// Create package meta-data objects
-		theRuleBasedSlicePackage.createPackageContents();
+		// Load packages
+		theRuleBasedSlicePackage.loadPackage();
 
-		// Initialize created meta-data
-		theRuleBasedSlicePackage.initializePackageContents();
+		// Fix loaded packages
+		theRuleBasedSlicePackage.fixPackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theRuleBasedSlicePackage.freeze();
@@ -119,6 +139,9 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * @generated
 	 */
 	public EClass getExecutableModelSlice() {
+		if (executableModelSliceEClass == null) {
+			executableModelSliceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(RuleBasedSlicePackage.eNS_URI).getEClassifiers().get(0);
+		}
 		return executableModelSliceEClass;
 	}
 
@@ -128,7 +151,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * @generated
 	 */
 	public EReference getExecutableModelSlice_AsymmetricDifference() {
-		return (EReference) executableModelSliceEClass.getEStructuralFeatures().get(0);
+        return (EReference)getExecutableModelSlice().getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -137,7 +160,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * @generated
 	 */
 	public EOperation getExecutableModelSlice__Serialize__String_boolean() {
-		return executableModelSliceEClass.getEOperations().get(0);
+        return getExecutableModelSlice().getEOperations().get(0);
 	}
 
 	/**
@@ -146,7 +169,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * @generated
 	 */
 	public RuleBasedSliceFactory getRuleBasedSliceFactory() {
-		return (RuleBasedSliceFactory) getEFactoryInstance();
+		return (RuleBasedSliceFactory)getEFactoryInstance();
 	}
 
 	/**
@@ -154,76 +177,66 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private boolean isCreated = false;
+	private boolean isLoaded = false;
 
 	/**
-	 * Creates the meta-model objects for the package.  This method is
-	 * guarded to have no affect on any invocation but its first.
+	 * Laods the package and any sub-packages from their serialized form.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void createPackageContents() {
-		if (isCreated)
-			return;
-		isCreated = true;
+	public void loadPackage() {
+		if (isLoaded) return;
+		isLoaded = true;
 
-		// Create classes and their features
-		executableModelSliceEClass = createEClass(EXECUTABLE_MODEL_SLICE);
-		createEReference(executableModelSliceEClass, EXECUTABLE_MODEL_SLICE__ASYMMETRIC_DIFFERENCE);
-		createEOperation(executableModelSliceEClass, EXECUTABLE_MODEL_SLICE___SERIALIZE__STRING_BOOLEAN);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private boolean isInitialized = false;
-
-	/**
-	 * Complete the initialization of the package and its meta-model.  This
-	 * method is guarded to have no affect on any invocation but its first.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void initializePackageContents() {
-		if (isInitialized)
-			return;
-		isInitialized = true;
-
-		// Initialize package
-		setName(eNAME);
-		setNsPrefix(eNS_PREFIX);
-		setNsURI(eNS_URI);
-
-		// Obtain other dependent packages
-		SlicePackage theSlicePackage = (SlicePackage) EPackage.Registry.INSTANCE.getEPackage(SlicePackage.eNS_URI);
-		AsymmetricPackage theAsymmetricPackage = (AsymmetricPackage) EPackage.Registry.INSTANCE
-				.getEPackage(AsymmetricPackage.eNS_URI);
-
-		// Create type parameters
-
-		// Set bounds for type parameters
-
-		// Add supertypes to classes
-		executableModelSliceEClass.getESuperTypes().add(theSlicePackage.getModelSlice());
-
-		// Initialize classes, features, and operations; add parameters
-		initEClass(executableModelSliceEClass, ExecutableModelSlice.class, "ExecutableModelSlice", !IS_ABSTRACT,
-				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExecutableModelSlice_AsymmetricDifference(), theAsymmetricPackage.getAsymmetricDifference(),
-				null, "asymmetricDifference", null, 1, 1, ExecutableModelSlice.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		EOperation op = initEOperation(getExecutableModelSlice__Serialize__String_boolean(), null, "serialize", 0, 1,
-				IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "path", 1, 1, IS_UNIQUE, !IS_ORDERED);
-		addEParameter(op, ecorePackage.getEBoolean(), "zip", 1, 1, IS_UNIQUE, IS_ORDERED);
-
-		// Create resource
+		URL url = getClass().getResource(packageFilename);
+		if (url == null) {
+			throw new RuntimeException("Missing serialized package: " + packageFilename);
+		}
+		URI uri = URI.createURI(url.toString());
+		Resource resource = new EcoreResourceFactoryImpl().createResource(uri);
+		try {
+			resource.load(null);
+		}
+		catch (IOException exception) {
+			throw new WrappedException(exception);
+		}
+		initializeFromLoadedEPackage(this, (EPackage)resource.getContents().get(0));
 		createResource(eNS_URI);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private boolean isFixed = false;
+
+	/**
+	 * Fixes up the loaded package, to make it appear as if it had been programmatically built.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void fixPackageContents() {
+		if (isFixed) return;
+		isFixed = true;
+		fixEClassifiers();
+	}
+
+	/**
+	 * Sets the instance class on the given classifier.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected void fixInstanceClass(EClassifier eClassifier) {
+		if (eClassifier.getInstanceClassName() == null) {
+			eClassifier.setInstanceClassName("org.sidiff.slicer.rulebased.slice." + eClassifier.getName());
+			setGeneratedClassName(eClassifier);
+		}
 	}
 
 } //RuleBasedSlicePackageImpl

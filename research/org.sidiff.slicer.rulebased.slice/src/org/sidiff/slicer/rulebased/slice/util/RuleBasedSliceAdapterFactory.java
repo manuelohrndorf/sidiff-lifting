@@ -23,6 +23,12 @@ import org.sidiff.slicer.slice.ModelSlice;
  */
 public class RuleBasedSliceAdapterFactory extends AdapterFactoryImpl {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,7 +62,7 @@ public class RuleBasedSliceAdapterFactory extends AdapterFactoryImpl {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject) object).eClass().getEPackage() == modelPackage;
+			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -67,22 +73,21 @@ public class RuleBasedSliceAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RuleBasedSliceSwitch<Adapter> modelSwitch = new RuleBasedSliceSwitch<Adapter>() {
-		@Override
-		public Adapter caseExecutableModelSlice(ExecutableModelSlice object) {
-			return createExecutableModelSliceAdapter();
-		}
-
-		@Override
-		public Adapter caseModelSlice(ModelSlice object) {
-			return createModelSliceAdapter();
-		}
-
-		@Override
-		public Adapter defaultCase(EObject object) {
-			return createEObjectAdapter();
-		}
-	};
+	protected RuleBasedSliceSwitch<Adapter> modelSwitch =
+		new RuleBasedSliceSwitch<Adapter>() {
+			@Override
+			public Adapter caseExecutableModelSlice(ExecutableModelSlice object) {
+				return createExecutableModelSliceAdapter();
+			}
+			@Override
+			public Adapter caseModelSlice(ModelSlice object) {
+				return createModelSliceAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -94,8 +99,9 @@ public class RuleBasedSliceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject) target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
+
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.sidiff.slicer.rulebased.slice.ExecutableModelSlice <em>Executable Model Slice</em>}'.

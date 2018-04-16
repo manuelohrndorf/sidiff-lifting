@@ -28,6 +28,12 @@ import org.sidiff.slicer.slice.*;
  */
 public class SliceSwitch<T> extends Switch<T> {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -70,28 +76,22 @@ public class SliceSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-		case SlicePackage.MODEL_SLICE: {
-			ModelSlice modelSlice = (ModelSlice) theEObject;
-			T result = caseModelSlice(modelSlice);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
-		case SlicePackage.SLICED_ELEMENT: {
-			SlicedElement slicedElement = (SlicedElement) theEObject;
-			T result = caseSlicedElement(slicedElement);
-			if (result == null)
-				result = caseElement(slicedElement);
-			if (result == null)
-				result = caseEntity(slicedElement);
-			if (result == null)
-				result = caseIdentifiableEntity(slicedElement);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
-		default:
-			return defaultCase(theEObject);
+			case SlicePackage.MODEL_SLICE: {
+				ModelSlice modelSlice = (ModelSlice)theEObject;
+				T result = caseModelSlice(modelSlice);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SlicePackage.SLICED_ELEMENT: {
+				SlicedElement slicedElement = (SlicedElement)theEObject;
+				T result = caseSlicedElement(slicedElement);
+				if (result == null) result = caseElement(slicedElement);
+				if (result == null) result = caseEntity(slicedElement);
+				if (result == null) result = caseIdentifiableEntity(slicedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
 		}
 	}
 

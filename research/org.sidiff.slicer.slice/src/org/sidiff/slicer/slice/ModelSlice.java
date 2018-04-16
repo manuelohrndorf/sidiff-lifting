@@ -26,6 +26,13 @@ import org.eclipse.emf.ecore.EPackage;
  */
 public interface ModelSlice extends EObject {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * Returns the value of the '<em><b>Sliced Elements</b></em>' containment reference list.
 	 * The list contents are of type {@link org.sidiff.slicer.slice.SlicedElement}.
 	 * <!-- begin-user-doc -->
@@ -64,5 +71,13 @@ public interface ModelSlice extends EObject {
 	 * @generated
 	 */
 	EList<EObject> export();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body='ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }'"
+	 * @generated
+	 */
+	void serialize(String path);
 
 } // ModelSlice

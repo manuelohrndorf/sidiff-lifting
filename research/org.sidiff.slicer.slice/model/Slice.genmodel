@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
-    modelDirectory="/org.sidiff.slicer.slice/src" creationIcons="false"
-    editDirectory="/org.sidiff.slicer.slice.edit/src-gen" editorDirectory="/org.sidiff.slicer.slice.editor/src-gen"
-    modelPluginID="org.sidiff.slicer.slice" modelName="Slice" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
-    copyrightFields="false" usedGenPackages="../../org.sidiff.entities/model/EntitiesModel.genmodel#//entities ../../org.sidiff.formula/model/Formula.genmodel#//formula"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved"
+    modelDirectory="/org.sidiff.slicer.slice/src" modelPluginID="org.sidiff.slicer.slice"
+    modelName="Slice" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" usedGenPackages="../../org.sidiff.entities/model/EntitiesModel.genmodel#//entities ../../org.sidiff.formula/model/Formula.genmodel#//formula"
     operationReflection="true" importOrganizing="true">
   <foreignModel>Slice.ecore</foreignModel>
-  <testsDirectory xsi:nil="true"/>
   <genPackages prefix="Slice" basePackage="org.sidiff.slicer" disposableProviderFactory="true"
       ecorePackage="Slice.ecore#/">
     <genClasses ecoreClass="Slice.ecore#//ModelSlice">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference Slice.ecore#//ModelSlice/slicedElements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Slice.ecore#//ModelSlice/slicedElements"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Slice.ecore#//ModelSlice/type"/>
       <genOperations ecoreOperation="Slice.ecore#//ModelSlice/export"/>
+      <genOperations ecoreOperation="Slice.ecore#//ModelSlice/serialize" body="ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }">
+        <genParameters ecoreParameter="Slice.ecore#//ModelSlice/serialize/path"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Slice.ecore#//SlicedElement">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference Slice.ecore#//SlicedElement/slicedReferences"/>
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference Slice.ecore#//SlicedElement/slicedAttributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Slice.ecore#//SlicedElement/slicedReferences"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Slice.ecore#//SlicedElement/slicedAttributes"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -27,6 +27,13 @@ import org.sidiff.slicer.slice.SlicePackage;
  */
 public interface RuleBasedSlicePackage extends EPackage {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String copyright = "(c), Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -120,6 +127,15 @@ public interface RuleBasedSlicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
+	int EXECUTABLE_MODEL_SLICE___SERIALIZE__STRING = SlicePackage.MODEL_SLICE___SERIALIZE__STRING;
+
+	/**
+	 * The operation id for the '<em>Serialize</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
 	int EXECUTABLE_MODEL_SLICE___SERIALIZE__STRING_BOOLEAN = SlicePackage.MODEL_SLICE_OPERATION_COUNT + 0;
 
 	/**
@@ -130,6 +146,7 @@ public interface RuleBasedSlicePackage extends EPackage {
 	 * @ordered
 	 */
 	int EXECUTABLE_MODEL_SLICE_OPERATION_COUNT = SlicePackage.MODEL_SLICE_OPERATION_COUNT + 1;
+
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicer.rulebased.slice.ExecutableModelSlice <em>Executable Model Slice</em>}'.
@@ -201,8 +218,7 @@ public interface RuleBasedSlicePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXECUTABLE_MODEL_SLICE__ASYMMETRIC_DIFFERENCE = eINSTANCE
-				.getExecutableModelSlice_AsymmetricDifference();
+		EReference EXECUTABLE_MODEL_SLICE__ASYMMETRIC_DIFFERENCE = eINSTANCE.getExecutableModelSlice_AsymmetricDifference();
 
 		/**
 		 * The meta object literal for the '<em><b>Serialize</b></em>' operation.
@@ -210,8 +226,7 @@ public interface RuleBasedSlicePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation EXECUTABLE_MODEL_SLICE___SERIALIZE__STRING_BOOLEAN = eINSTANCE
-				.getExecutableModelSlice__Serialize__String_boolean();
+		EOperation EXECUTABLE_MODEL_SLICE___SERIALIZE__STRING_BOOLEAN = eINSTANCE.getExecutableModelSlice__Serialize__String_boolean();
 
 	}
 

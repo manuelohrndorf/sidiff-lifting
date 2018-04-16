@@ -20,6 +20,13 @@ import org.sidiff.slicer.rulebased.slice.*;
  */
 public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBasedSliceFactory {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -27,12 +34,12 @@ public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBased
 	 */
 	public static RuleBasedSliceFactory init() {
 		try {
-			RuleBasedSliceFactory theRuleBasedSliceFactory = (RuleBasedSliceFactory) EPackage.Registry.INSTANCE
-					.getEFactory(RuleBasedSlicePackage.eNS_URI);
+			RuleBasedSliceFactory theRuleBasedSliceFactory = (RuleBasedSliceFactory)EPackage.Registry.INSTANCE.getEFactory(RuleBasedSlicePackage.eNS_URI);
 			if (theRuleBasedSliceFactory != null) {
 				return theRuleBasedSliceFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new RuleBasedSliceFactoryImpl();
@@ -56,10 +63,9 @@ public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBased
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-		case RuleBasedSlicePackage.EXECUTABLE_MODEL_SLICE:
-			return createExecutableModelSlice();
-		default:
-			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+			case RuleBasedSlicePackage.EXECUTABLE_MODEL_SLICE: return createExecutableModelSlice();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -79,7 +85,7 @@ public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBased
 	 * @generated
 	 */
 	public RuleBasedSlicePackage getRuleBasedSlicePackage() {
-		return (RuleBasedSlicePackage) getEPackage();
+		return (RuleBasedSlicePackage)getEPackage();
 	}
 
 	/**

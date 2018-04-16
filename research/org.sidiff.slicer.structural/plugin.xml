@@ -2,12 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.sidiff.slicer.extensionpoint">
-      <client
-            class="org.sidiff.slicer.structural.StructureBasedSlicer">
-      </client>
-   </extension>
-   <extension
          id="org.sidiff.slicer.structural.run.SiDiffSlicingApplication"
          name="SiDiff Slicing Application"
          point="org.eclipse.core.runtime.applications">
@@ -19,6 +13,12 @@
                class="org.sidiff.slicer.structural.run.SiDiffSlicingApplication">
          </run>
       </application>
+   </extension>
+   <extension
+         point="org.sidiff.slicer.instantiation">
+      <instantiation
+            class="org.sidiff.slicer.structural.StructureBasedSlicer">
+      </instantiation>
    </extension>
 
 </plugin>

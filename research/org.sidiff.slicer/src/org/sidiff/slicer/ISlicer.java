@@ -23,9 +23,5 @@ public interface ISlicer {
 
 	public void init(ISlicingConfiguration config) throws Exception;
 
-	public void slice(Collection<EObject> input) throws Exception;
-
-	public void setModelSlice(ModelSlice modelSlice);
-
-	public ModelSlice getModelSlice();
+	public ModelSlice slice(Collection<EObject> input) throws Exception;
 }

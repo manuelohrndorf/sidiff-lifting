@@ -34,12 +34,23 @@ public class SliceImporter extends EntitiesImporter
 	 */
 	public SliceImporter()
 	{
-		this.modelSlice = SliceFactory.eINSTANCE.createModelSlice();
 		this.uuidIndex = new HashMap<>();
 		this.signatureIndex = new HashMap<>();
 		this.eObject2Element = new HashMap<>();
 	}
 
+	public void init(ModelSlice modelSlice) {
+		this.modelSlice = modelSlice;
+		for(SlicedElement element : modelSlice.getSlicedElements()) {
+			this.uuidIndex.put(element.getUuid(), element);
+			if(this.signatureIndex.get(element.getSignature()) == null){
+				this.signatureIndex.put(element.getSignature(), new HashSet<Entity>());
+			}
+			this.signatureIndex.get(element.getSignature()).add(element);
+			this.eObject2Element.put(element.getObject(), element);
+		}
+	}
+	
 	@Override
 	protected String computeSignature(Entity entity)
 	{

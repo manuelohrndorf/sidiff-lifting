@@ -20,6 +20,13 @@ import org.sidiff.slicer.slice.*;
  */
 public class SliceFactoryImpl extends EFactoryImpl implements SliceFactory {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -27,11 +34,12 @@ public class SliceFactoryImpl extends EFactoryImpl implements SliceFactory {
 	 */
 	public static SliceFactory init() {
 		try {
-			SliceFactory theSliceFactory = (SliceFactory) EPackage.Registry.INSTANCE.getEFactory(SlicePackage.eNS_URI);
+			SliceFactory theSliceFactory = (SliceFactory)EPackage.Registry.INSTANCE.getEFactory(SlicePackage.eNS_URI);
 			if (theSliceFactory != null) {
 				return theSliceFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new SliceFactoryImpl();
@@ -55,12 +63,10 @@ public class SliceFactoryImpl extends EFactoryImpl implements SliceFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-		case SlicePackage.MODEL_SLICE:
-			return createModelSlice();
-		case SlicePackage.SLICED_ELEMENT:
-			return createSlicedElement();
-		default:
-			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+			case SlicePackage.MODEL_SLICE: return createModelSlice();
+			case SlicePackage.SLICED_ELEMENT: return createSlicedElement();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -90,7 +96,7 @@ public class SliceFactoryImpl extends EFactoryImpl implements SliceFactory {
 	 * @generated
 	 */
 	public SlicePackage getSlicePackage() {
-		return (SlicePackage) getEPackage();
+		return (SlicePackage)getEPackage();
 	}
 
 	/**

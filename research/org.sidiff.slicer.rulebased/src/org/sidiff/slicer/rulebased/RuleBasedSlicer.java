@@ -1,5 +1,6 @@
 package org.sidiff.slicer.rulebased;
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,24 +26,27 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
-import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.ISlicer;
+import org.sidiff.slicer.ISlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
 import org.sidiff.slicer.rulebased.util.ExecutableModelSliceCreator;
+import org.sidiff.slicer.slice.ModelSlice;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class RuleBasedSlicer{
+public class RuleBasedSlicer implements ISlicer{
 
 	/**
-	 * The {@link SlicingConfiguration}
+	 * The {@link RuleBasedSlicingConfiguration}
 	 */
-	private SlicingConfiguration slicingConfiguration;
+	private RuleBasedSlicingConfiguration slicingConfiguration;
 	
 	// ############### inner accessed fields ###############
 	
@@ -109,7 +113,7 @@ public class RuleBasedSlicer{
 	/**
 	 * initializes the slicer
 	 * @param config
-	 * 			the {@link SlicingConfiguration}
+	 * 			the {@link RuleBasedSlicingConfiguration}
 	 * @param completeResource
 	 * 			the {@link #completeResource}
 	 * @param slicedResource
@@ -118,16 +122,20 @@ public class RuleBasedSlicer{
 	 * @throws InvalidModelException 
 	 * @throws UncoveredChangesException 
 	 */
-	public void init(SlicingConfiguration config, UUIDResource completeResource, UUIDResource emtpyResource) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
+	@Override
+	public void init(ISlicingConfiguration config) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
 		
-		this.slicingConfiguration = config;
+		this.slicingConfiguration = (RuleBasedSlicingConfiguration) config;
+		
+		UUIDResource emptyResource = this.slicingConfiguration.getEmtpyResource();
+		UUIDResource completeResource = this.slicingConfiguration.getCompleteResource();
 		
 		this.complete2emptyResource = new HashMap<EObject, EObject>();
-		for (Iterator<EObject> iterator_empty = emtpyResource.getAllContents(); iterator_empty.hasNext();) {
+		for (Iterator<EObject> iterator_empty = emptyResource.getAllContents(); iterator_empty.hasNext();) {
 			EObject eObject_empty = iterator_empty.next();
 			for (Iterator<EObject> iterator_complete = completeResource.getAllContents(); iterator_complete.hasNext();) {
 				EObject eObject_complete  =  iterator_complete.next();
-				if(emtpyResource.getID(eObject_empty).equals(completeResource.getID(eObject_complete))){
+				if(emptyResource.getID(eObject_empty).equals(completeResource.getID(eObject_complete))){
 					this.complete2emptyResource.put(eObject_complete, eObject_empty);
 					break;
 				}
@@ -138,7 +146,7 @@ public class RuleBasedSlicer{
 		this.slicingCriteria_old = new HashSet<EObject>();
 		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
-		editScript_create = generateEditScript(emtpyResource, completeResource, EditScriptDirection.CREATION);
+		editScript_create = generateEditScript(emptyResource, completeResource, EditScriptDirection.CREATION);
 		
 		opInvsCreate = new HashMap<EObject, OperationInvocation>();
 		for (OperationInvocation opInv : editScript_create.getOperationInvocations()) {
@@ -164,9 +172,9 @@ public class RuleBasedSlicer{
 			}
 		}
 		
-		config.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(postProcessorElements));
+		this.slicingConfiguration.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(postProcessorElements));
 		
-		editScript_delete = generateEditScript(completeResource, emtpyResource, EditScriptDirection.DELETION);
+		editScript_delete = generateEditScript(completeResource, emptyResource, EditScriptDirection.DELETION);
 		
 		opInvsDelete = new HashMap<EObject, OperationInvocation>();
 		for (OperationInvocation opInv : editScript_delete.getOperationInvocations()) {
@@ -193,13 +201,14 @@ public class RuleBasedSlicer{
 	 * @throws ExtendedSlicingCriteriaIntersectionException 
 	 */
 	@SuppressWarnings("unlikely-arg-type")
-	public ExecutableModelSlice slice(Set<EObject> slicingCriteria) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
+	@Override
+	public ModelSlice slice(Collection<EObject> input) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
 
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
 			
 			this.slicingCriteria_old = new HashSet<EObject>(this.slicingCriteria_new);
-			this.slicingCriteria_new = new HashSet<EObject>(slicingCriteria);
+			this.slicingCriteria_new = new HashSet<EObject>(input);
 			
 			addSlicingCriteria = new HashSet<EObject>(slicingCriteria_new);
 			addSlicingCriteria.removeAll(this.slicingCriteria_old);
@@ -399,5 +408,33 @@ public class RuleBasedSlicer{
 	private enum EditScriptDirection{
 		CREATION,
 		DELETION
+	}
+
+	@Override
+	public String getKey() {
+		return this.getClass().getName();
+	}
+
+	@Override
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public Set<String> getDocumentTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canHandleDocTypes(Set<String> documentTypes) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canHandleModels(Collection<Resource> models) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

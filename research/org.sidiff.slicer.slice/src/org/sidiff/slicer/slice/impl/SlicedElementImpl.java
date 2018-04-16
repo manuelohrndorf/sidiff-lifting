@@ -38,6 +38,13 @@ import org.sidiff.slicer.slice.SlicedElement;
  */
 public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * The cached value of the '{@link #getSlicedReferences() <em>Sliced References</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -83,8 +90,7 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	 */
 	public EList<Reference> getSlicedReferences() {
 		if (slicedReferences == null) {
-			slicedReferences = new EObjectContainmentEList<Reference>(Reference.class, this,
-					SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES);
+			slicedReferences = new EObjectContainmentEList<Reference>(Reference.class, this, SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES);
 		}
 		return slicedReferences;
 	}
@@ -96,8 +102,7 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	 */
 	public EList<Attribute> getSlicedAttributes() {
 		if (slicedAttributes == null) {
-			slicedAttributes = new EObjectContainmentEList<Attribute>(Attribute.class, this,
-					SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES);
+			slicedAttributes = new EObjectContainmentEList<Attribute>(Attribute.class, this, SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES);
 		}
 		return slicedAttributes;
 	}
@@ -110,10 +115,10 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
-			return ((InternalEList<?>) getSlicedReferences()).basicRemove(otherEnd, msgs);
-		case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
-			return ((InternalEList<?>) getSlicedAttributes()).basicRemove(otherEnd, msgs);
+			case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
+				return ((InternalEList<?>)getSlicedReferences()).basicRemove(otherEnd, msgs);
+			case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
+				return ((InternalEList<?>)getSlicedAttributes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -126,10 +131,10 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
-			return getSlicedReferences();
-		case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
-			return getSlicedAttributes();
+			case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
+				return getSlicedReferences();
+			case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
+				return getSlicedAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -143,14 +148,14 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
-			getSlicedReferences().clear();
-			getSlicedReferences().addAll((Collection<? extends Reference>) newValue);
-			return;
-		case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
-			getSlicedAttributes().clear();
-			getSlicedAttributes().addAll((Collection<? extends Attribute>) newValue);
-			return;
+			case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
+				getSlicedReferences().clear();
+				getSlicedReferences().addAll((Collection<? extends Reference>)newValue);
+				return;
+			case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
+				getSlicedAttributes().clear();
+				getSlicedAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -163,12 +168,12 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
-			getSlicedReferences().clear();
-			return;
-		case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
-			getSlicedAttributes().clear();
-			return;
+			case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
+				getSlicedReferences().clear();
+				return;
+			case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
+				getSlicedAttributes().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -181,10 +186,10 @@ public class SlicedElementImpl extends ElementImpl implements SlicedElement {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
-			return slicedReferences != null && !slicedReferences.isEmpty();
-		case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
-			return slicedAttributes != null && !slicedAttributes.isEmpty();
+			case SlicePackage.SLICED_ELEMENT__SLICED_REFERENCES:
+				return slicedReferences != null && !slicedReferences.isEmpty();
+			case SlicePackage.SLICED_ELEMENT__SLICED_ATTRIBUTES:
+				return slicedAttributes != null && !slicedAttributes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

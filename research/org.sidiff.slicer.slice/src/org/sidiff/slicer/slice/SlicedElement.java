@@ -27,6 +27,13 @@ import org.sidiff.entities.Reference;
  */
 public interface SlicedElement extends Element {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+
+	/**
 	 * Returns the value of the '<em><b>Sliced References</b></em>' containment reference list.
 	 * The list contents are of type {@link org.sidiff.entities.Reference}.
 	 * <!-- begin-user-doc -->

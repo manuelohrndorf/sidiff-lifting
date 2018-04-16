@@ -12,6 +12,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
+import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.structural.StructureBasedSlicer;
 import org.sidiff.slicer.structural.StructureBasedSlicerUtil;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
@@ -67,11 +68,11 @@ public class SiDiffSlicingApplication implements IApplication{
 		slicer.init((ISlicingConfiguration)slicing_config);
 		final long timeSlicerInit = System.currentTimeMillis();
 		System.out.println("Init slicer: " + (timeSlicerInit - timeLoad) + "ms");
-		slicer.slice(contexts);
+		ModelSlice modelSlice = slicer.slice(contexts);
 		final long timerSlice = System.currentTimeMillis();
 		System.out.println("Slicing: " + (timerSlice - timeSlicerInit) + "ms");
 		URI saveURI = StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration)slicing_config);
-		SlicerUtil.serializeModelSlice(saveURI, slicer.getModelSlice().export());
+		SlicerUtil.serializeModelSlice(saveURI, modelSlice.export());
 		String gv_path = loadModelURI.path().replace(loadModelURI.lastSegment(), "graph.dot");
 		FileOperations.writeFile(gv_path, GraphUtil.get(slicer).getOutput());
 

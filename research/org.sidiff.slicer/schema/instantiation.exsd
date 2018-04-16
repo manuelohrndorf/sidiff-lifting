@@ -3,7 +3,7 @@
 <schema targetNamespace="org.sidiff.slicer" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.sidiff.slicer" id="org.sidiff.slicer.extensionpoint" name="Slicer"/>
+         <meta.schema plugin="org.sidiff.slicer" id="instantiation" name="Slicer Instantiation"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="client"/>
+            <element ref="instantiation"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="client">
+   <element name="instantiation">
       <complexType>
          <attribute name="class" type="string">
             <annotation>

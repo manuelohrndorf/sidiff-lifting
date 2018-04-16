@@ -26,6 +26,12 @@ import org.sidiff.slicer.slice.ModelSlice;
  */
 public class RuleBasedSliceSwitch<T> extends Switch<T> {
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final String copyright = "(c), Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -68,17 +74,14 @@ public class RuleBasedSliceSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-		case RuleBasedSlicePackage.EXECUTABLE_MODEL_SLICE: {
-			ExecutableModelSlice executableModelSlice = (ExecutableModelSlice) theEObject;
-			T result = caseExecutableModelSlice(executableModelSlice);
-			if (result == null)
-				result = caseModelSlice(executableModelSlice);
-			if (result == null)
-				result = defaultCase(theEObject);
-			return result;
-		}
-		default:
-			return defaultCase(theEObject);
+			case RuleBasedSlicePackage.EXECUTABLE_MODEL_SLICE: {
+				ExecutableModelSlice executableModelSlice = (ExecutableModelSlice)theEObject;
+				T result = caseExecutableModelSlice(executableModelSlice);
+				if (result == null) result = caseModelSlice(executableModelSlice);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
 		}
 	}
 
