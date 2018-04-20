@@ -20,29 +20,37 @@ import org.sidiff.remote.common.Session;
  */
 public class ConnectorPlugin extends Plugin {
 
+	// The plug-in ID
+	public static final String PLUGIN_ID = "org.sidiff.remote.application.connector"; //$NON-NLS-1$
+		
+	private static ConnectorPlugin plugin;
+	
+	private File session_file;
+	
 	@Override
 	public void start(BundleContext context) throws Exception {
 		// TODO Auto-generated method stub
 		super.start(context);
+		plugin = this;
 		
 		// get the root of the workspace
 		//
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator + Session.SESSION_EXT;
 		
-		File session_file = new File(session_path);
+		this.session_file = new File(session_path);
 		Session session = null;
 		if(session_file.exists()) {
 			session = readSession(session_file);
 		}else {
 			session = new Session("localhost", 1904, "cpietsch");
-			writeSession(session_file, session);
+			writeSession(session);
 		}
 		ConnectionHandler.getInstance().init(session, workspace);
 	}
 
-	private static void writeSession(File file, Session session) throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+	public void writeSession(Session session) throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(session_file));
 		oos.writeObject(session);
 		oos.close();
 	}
@@ -55,11 +63,14 @@ public class ConnectorPlugin extends Plugin {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static Session readSession(File file) throws IOException, ClassNotFoundException {
+	public Session readSession(File file) throws IOException, ClassNotFoundException {
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
 		Session session = (Session)ois.readObject();
 		ois.close();
 		return session;
 	}
 	
+	public static ConnectorPlugin getInstance() {
+		return plugin;
+	}
 }

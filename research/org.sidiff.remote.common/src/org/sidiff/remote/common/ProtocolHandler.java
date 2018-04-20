@@ -45,16 +45,8 @@ public class ProtocolHandler {
 		
 		if(request.isAttached()) {
 			
-//			String temp_folder_path = this.path + File.separator + this.session.getUser() + File.separator
-//					+ this.session.getSessionID() + File.separator + "temp" + File.separator + this.formatter.format(new Date());
-//			
-//			String file_path = temp_folder_path + File.separator + name;
 			File file = new File(request.getAttachmentName());
 			
-			
-			if(!file.getParentFile().exists()) {
-				file.getParentFile().mkdirs();
-			}
 			
 			byte[] bytes = new byte[request.getAttachmentSize()];
 			FileOutputStream fos = new FileOutputStream(file);

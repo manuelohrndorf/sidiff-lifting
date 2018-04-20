@@ -15,6 +15,11 @@ public class SelectTargetFolderWidget extends SelectResourceWidget<IFolder> impl
 	}
 
 	@Override
+	public void selectionHook() {
+		this.settings.setTargetPath(resource.getLocation());
+	}
+
+	@Override
 	public void settingsChanged(Enum<?> item) {
 		// TODO Auto-generated method stub
 		

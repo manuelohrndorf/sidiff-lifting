@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import org.eclipse.core.resources.IWorkspace;
+import org.sidiff.remote.application.connector.exception.ConnectionExceptionWrapper;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.commands.Command;
@@ -37,7 +38,7 @@ public class ConnectionHandler {
 	}
 	
 	
-	public Command handleRequest(Command request, File attachment) throws IOException, ClassNotFoundException{
+	public Command handleRequest(Command request, File attachment) throws ConnectionExceptionWrapper{
 		Socket server = null;
 		InputStream in = null;
 		OutputStream out = null;
@@ -51,13 +52,19 @@ public class ConnectionHandler {
 			
 			this.protocolHandler.write(out, request, attachment);
 			reply = this.protocolHandler.read(in);
+			this.session = reply.getSession();
+			ConnectorPlugin.getInstance().writeSession(session);
 				
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | ClassNotFoundException e) {
+			throw new ConnectionExceptionWrapper(e);
 		}finally {
 			if(server != null) {
-				server.close();
+				try {
+					server.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		

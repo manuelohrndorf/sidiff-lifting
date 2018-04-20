@@ -8,6 +8,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -39,6 +45,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectionHandler;
+import org.sidiff.remote.application.connector.exception.ConnectionExceptionWrapper;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelContentProvider;
@@ -49,6 +56,7 @@ import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
 import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
+import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.tree.TreeLeaf;
 import org.sidiff.remote.common.tree.TreeModel;
@@ -262,7 +270,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) connectionHandler.handleRequest(browseModelFilesRequest, null);
 					treeViewer.setInput(browseModelFilesReply.getModelFiles());
 					checkboxTreeViewer.setInput(null);
-				} catch (ClassNotFoundException | IOException e) {
+				} catch (ConnectionExceptionWrapper e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
@@ -282,7 +290,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					try {
 						BrowseModelReply browseModelReply = (BrowseModelReply) connectionHandler.handleRequest(browseModelRequest, null);
 						checkboxTreeViewer.setInput(browseModelReply.getModel());
-					} catch (ClassNotFoundException | IOException e) {
+					} catch (ConnectionExceptionWrapper e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}
 				} else {
@@ -335,24 +343,23 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 						new CheckoutSubModelWizard(settings));
 				wizardDialog.setBlockOnOpen(true);
 				wizardDialog.open();
-				
-				String local_model_path = settings.getTargetPath() + File.separator + treeViewer_selection.getLabel();
+				String local_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
 				String remote_model_path = treeViewer_selection.getId();
 				List<String> elementIds = new ArrayList<String>();
 				for(Object element : checkboxTreeViewer.getCheckedElements()) {
 					TreeNode treeNode = (TreeNode) element;
 					elementIds.add(treeNode.getId());
 				}
-//				CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(remote_model_path, local_model_path, elementIds);		
-//				
-//				try {
-//					
-//					Object object = connectionHandler.handleCommand(ECommand.CHECKOUT, checkoutCommand);
-//					File resource_file = (File) object;
-//					resource_file.renameTo(new File(settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel()));
-//				} catch (ClassNotFoundException | IOException e) {
-//					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
-//				}
+				CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(connectionHandler.getSession(), remote_model_path, local_model_path, elementIds, null);		
+				
+				try {
+					
+					CheckoutSubModelReply reply = (CheckoutSubModelReply) connectionHandler.handleRequest(checkoutCommand, null);
+					File resource_file = reply.getAttachment();
+					resource_file.renameTo(new File(local_model_path));
+				} catch (ConnectionExceptionWrapper e) {
+					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				}
 			}
 		};
 		this.checkoutAction.setToolTipText("Check out new (sub-) model");

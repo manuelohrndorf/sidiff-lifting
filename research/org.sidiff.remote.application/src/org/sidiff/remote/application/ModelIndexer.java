@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.sidiff.remote.common.Session;
-
 /**
  * 
  * @author cpietsch
@@ -15,16 +13,13 @@ import org.sidiff.remote.common.Session;
  */
 public class ModelIndexer {
 	
-	private Session session;
-	
 	private File session_folder;
 	
 	private Set<String> file_ext;
 	
 	private List<File> model_files;
 	
-	public ModelIndexer(Session session, File session_folder) {
-		this.session = session;
+	public ModelIndexer(File session_folder) {
 		this.session_folder = session_folder;
 		this.file_ext = new HashSet<String>();
 		this.file_ext.add("ecore");

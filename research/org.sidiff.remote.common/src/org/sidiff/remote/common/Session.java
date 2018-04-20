@@ -73,4 +73,16 @@ public class Session implements Serializable{
 	public Map<String, String> getModels() {
 		return models;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("user: " + user + "\n");
+		stringBuilder.append("session: " + sessionID + "\n");
+		stringBuilder.append("local -> remote models:\n");
+		for(String local : models.keySet()) {
+			stringBuilder.append("\t" + local + " -> " + models.get(local) + "\n");
+		}
+		return stringBuilder.toString();
+	}
 }

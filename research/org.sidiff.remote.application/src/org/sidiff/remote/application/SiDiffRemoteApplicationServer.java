@@ -1,11 +1,13 @@
 package org.sidiff.remote.application;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -13,14 +15,21 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
+import org.sidiff.remote.common.commands.CheckoutSubModelReply;
+import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.Command;
 import org.sidiff.remote.common.tree.TreeModel;
+import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
+import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
+import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
 
 /**
  * 
@@ -64,7 +73,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				System.out.println("processing request");
 				handleRequest(client);
-			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException e) {
+			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally {
@@ -80,7 +89,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 
 	}
 	
-	private void handleRequest(Socket client) throws CoreException, UnsupportedProtocolException, IOException, ClassNotFoundException  {
+	private void handleRequest(Socket client) throws CoreException, UnsupportedProtocolException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException  {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
@@ -94,7 +103,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		}
 		app.setSession(command.getSession());
 		System.out.println("client session:" + command.getSession().getSessionID());
-		UUIDResource resource = null;
+		File attachment = null;
 		switch(command.getECommand()) {
 		case BROWSE_MODEL_FILES_REQUEST:
 			TreeModel modelFiles = app.browseModelFiles();
@@ -110,7 +119,14 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			break;
 			
 		case CHECKOUT_SUB_MODEL_REQUEST:
-			
+			CheckoutSubModelRequest checkoutSubModelRequest = (CheckoutSubModelRequest) command;
+			String localPath = checkoutSubModelRequest.getLocalModelPath();
+			String remotePath = checkoutSubModelRequest.getRemoteModelPath();
+			List<String> elementIds = checkoutSubModelRequest.getElementIds();
+			attachment = app.checkoutModel(remotePath, elementIds);
+			app.getSession().addModel(localPath, remotePath);
+			CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(app.getSession(), attachment);
+			this.protocolHandler.write(out, checkoutSubModelReply, attachment);
 //			String[] output = this.protocolHandler.getContent().toString().split("\\n");
 //			String localPath = output[0];
 //			String remotePath= output[1];

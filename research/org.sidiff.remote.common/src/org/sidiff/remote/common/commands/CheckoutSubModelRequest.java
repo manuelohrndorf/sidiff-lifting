@@ -3,6 +3,8 @@ package org.sidiff.remote.common.commands;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
 
@@ -23,8 +25,9 @@ public class CheckoutSubModelRequest extends Command{
 	public CheckoutSubModelRequest(Session session, String remote_model_path, String local_model_path, List<String> elementIds, File attachment) {
 		super(session, attachment);
 		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REQUEST;
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
 		this.remote_model_path = remote_model_path;
-		this.local_model_path = local_model_path;
 		this.elementIds = elementIds;
 	}
 
