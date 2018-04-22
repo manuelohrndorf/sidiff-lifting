@@ -95,16 +95,10 @@ public class PatchingSettingsFactory extends DifferenceSettingsFactory {
 
 		validationMode = ValidationMode.valueOf(store.getString("validationMode"));
 
-		//FIXME Abfrage der TEngine nach Key ist noch nicht möglich!
-		for (ITransformationEngine engine : TransformationEngineUtil.getAvailableTransformationEngines(documentType)) {
-			// TODO: is this check correct?
-			if (engine.getKey().equals(store.getString(documentType.concat("transformationEngine")))) {
-				transformationEngine = engine;
-			}
-		}
-		
-		modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(store.getString(documentType.concat("modifiedDetector")));
-		
+		transformationEngine = TransformationEngineUtil.getTransformationEngine(store.getString(documentType + "transformationEngine"));
+
+		modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(store.getString(documentType + "modifiedDetector"));
+
 		useInteractivePatching = store.getBoolean("useInteractivePatching");
 	}
 

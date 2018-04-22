@@ -92,8 +92,8 @@ public class MatchingSettingsFactory implements ISiDiffSettingsFactory {
 
 		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(store.getString("similaritiesServices"));
 
-		// TODO: this is just the first one and not the one selected in the settings
-		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationServiceInstance();
+		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationService(
+				store.getString("similaritiesCalculationServices"));
 	}
 
 	/**
