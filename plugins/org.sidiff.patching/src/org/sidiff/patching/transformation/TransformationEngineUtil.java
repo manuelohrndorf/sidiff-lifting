@@ -35,6 +35,29 @@ public class TransformationEngineUtil {
 	}
 
 	/**
+	 * Returns the registered {@link ITransformationEngine} with the given key.
+	 * @param key the key of the transformation engine
+	 * @return transformation engine with the specified key, <code>null</code> if none was found
+	 * @author Robert Müller
+	 */
+	public static ITransformationEngine getTransformationEngine(String key) {
+		IConfigurationElement[] configurationElements =
+				Platform.getExtensionRegistry().getConfigurationElementsFor(ITransformationEngine.EXTENSION_POINT_ID);
+		for (IConfigurationElement configurationElement : configurationElements) {
+			try {
+				ITransformationEngine transformationEngine =
+						(ITransformationEngine)configurationElement.createExecutableExtension(ITransformationEngine.EXECUTEBALE);
+				if(transformationEngine.getKey().equals(key)) {
+					return transformationEngine;
+				}
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Returns first matching PatchCorrespondence
 	 * 
 	 * @param documentType
