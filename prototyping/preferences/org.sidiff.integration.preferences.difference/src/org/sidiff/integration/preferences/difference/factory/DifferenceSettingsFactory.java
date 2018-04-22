@@ -50,25 +50,12 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 	public void doSetFields(String documentType, IPreferenceStore store) {
 		super.doSetFields(documentType, store);
 
-		String techDiffBuilders = store.getString(documentType.concat("technicalDifferenceBuilderOrder"));
-		String[] techDiffBuilders2 = techDiffBuilders.split(";");
-
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
-		
-		for (String techDiffBuilderKey : techDiffBuilders2) {
-			
+		for (String techDiffBuilderKey : store.getString(documentType + "technicalDifferenceBuilderOrder").split(";")) {
 			technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey));
 		}
 
-		//You can only get all handlers, not one by key?
-		//symbolicLinkHandler = SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers().iterator().next();
-
-		//FIXED Iterate over all SymbolicLinkHandlers and get the selected from the settings
-
-		for (ISymbolicLinkHandler handler : SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers()) {
-			
-			if (handler.getKey().equals(store.getString("symbolicLinkHandlers"))) symbolicLinkHandler = handler;
-		}
+		symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(store.getString("symbolicLinkHandlers"));
 
 		mergeImports = store.getBoolean("mergeImports");
 	}

@@ -41,7 +41,6 @@ public class DomainDifferencePreferenceTab extends AbstractDomainPreferenceTab {
 	 */
 	@Override
 	public Iterable<PreferenceField> getTabContent() {
-		
 		fieldList = new ArrayList<PreferenceField>();
 
 		techDiffBuilderField = OrderListSelectField.create(

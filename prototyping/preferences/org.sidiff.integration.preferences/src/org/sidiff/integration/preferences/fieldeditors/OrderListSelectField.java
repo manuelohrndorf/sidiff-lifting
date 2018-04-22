@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,7 +39,8 @@ public class OrderListSelectField<T> extends PreferenceField {
 	private org.eclipse.swt.widgets.List left, right;
 	private Composite buttonBox;
 	private Button up, down, add, remove;
-	
+	private SelectionListener selectionListener;
+
 	/**
 	 * @param preferenceName the name of the preference in the store 
 	 * @param title The title shown above the control
@@ -71,16 +71,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 */
 	@Override
 	public void doLoad(IPreferenceStore store, String preferenceName) {
-		notSelected.addAll(selected);
-		selected.clear();
-		if (left != null) {
-            String[] array = parseString(store.getString(preferenceName));
-            for (int i = 0; i < array.length; i++) {
-                addString(array[i]);
-            }
-        }
-		reloadLists();
-		firePropertyChanged(new String[0], getSelectedKeys());
+		addInitialElements(store.getString(preferenceName).split(";"));
 	}
 
 	/**
@@ -88,15 +79,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 */
 	@Override
 	public void doLoadDefault(IPreferenceStore store, String preferenceName) {
-		if (left != null) {
-            left.removeAll();
-            String[] array = parseString(store.getDefaultString(preferenceName));
-            for (int i = 0; i < array.length; i++) {
-            	addString(array[i]);
-            }
-        }
-		reloadLists();
-		firePropertyChanged(new String[0], getSelectedKeys());
+		addInitialElements(store.getDefaultString(preferenceName).split(";"));
 	}
 
 	/**
@@ -104,10 +87,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 */
 	@Override
 	public void doSave(IPreferenceStore store, String preferenceName) {
-		String s = createList();
-        if (s != null) {
-        	store.setValue(preferenceName, s);
-		}
+		store.setValue(preferenceName, createList());
 	}
 
 	/**
@@ -117,15 +97,19 @@ public class OrderListSelectField<T> extends PreferenceField {
 	public void doCreateControls(Group parent, String title) {
 		parent.setText(title);
 		parent.setLayout(new GridLayout(3, false));
-		
-		left = getListControl(parent, true);
-		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		
-        buttonBox = getButtonBox(parent);
-        buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-        
-        right = getListControl(parent, false);
-        right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+
+		left = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+		left.setFont(parent.getFont());
+		left.addSelectionListener(getSelectionListener());
+		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		buttonBox = getButtonBox(parent);
+		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+
+		right = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+		right.setFont(parent.getFont());
+		right.addSelectionListener(getSelectionListener());
+		right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	/**
@@ -148,58 +132,61 @@ public class OrderListSelectField<T> extends PreferenceField {
 	/**
 	 * helper method to create a button
 	 * @param parent the composite into which the button will be created
-	 * @param key the key from which the buttons label will be loaded
+	 * @param text the button label
 	 * @return the button
 	 */
-	private Button createButton(Composite parent, String key) {
+	private Button createButton(Composite parent, String text) {
         Button button = new Button(parent, SWT.PUSH);
-        button.setText(JFaceResources.getString(key));
+        button.setText(text);
         button.addSelectionListener(getSelectionListener());
+        button.setEnabled(false); // button defaults to disabled state and is enabled when items are selected
         return button;
     }
-
 
 	/**
 	 * helper method to create a selection listener for the buttons
 	 * @return a SelectionListener for the buttons
 	 */
 	private SelectionListener getSelectionListener() {
-		return new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-                Widget widget = event.widget;
-                if (widget == add) {
-                    addPressed();
-                } else if (widget == remove) {
-                    removePressed();
-                } else if (widget == up) {
-                    upPressed();
-                } else if (widget == down) {
-                    downPressed();
-                } else if (widget == left) {
-                    selectionChanged(true);
-                } else if (widget == right) {
-                    selectionChanged(false);
-                }
-            }
-		};
+		if(selectionListener == null) {
+			selectionListener = new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+	                Widget widget = event.widget;
+	                if (widget == add) {
+	                    addPressed();
+	                } else if (widget == remove) {
+	                    removePressed();
+	                } else if (widget == up) {
+	                    upPressed();
+	                } else if (widget == down) {
+	                    downPressed();
+	                }
+
+	                // all actions update the button states
+	                updateButtonStates();
+	            }
+			};
+		}
+		return selectionListener;
 	}
 
 	/**
 	 * enables/disables the buttons according to the current selection
 	 * (e.g. disable 'up'-button if the first element is selected)
-	 * @param left true if the selection on the left side has changed
 	 */
-	protected void selectionChanged(boolean left) {
-		if (left) {
-			int index = this.left.getSelectionIndex();
-	        int size = this.left.getItemCount();
-	
-	        remove.setEnabled(size >= 0);
-	        up.setEnabled(size > 1 && index > 0);
-	        down.setEnabled(size > 1 && index >= 0 && index < size - 1);
-		} else {
-			add.setEnabled(right.getItemCount() > 0);
+	protected void updateButtonStates() {
+		// left side buttons
+		{
+			int index = left.getSelectionIndex();
+	        remove.setEnabled(index != -1);
+	        up.setEnabled(index > 0);
+	        down.setEnabled(index >= 0 && index < left.getItemCount() - 1);
+		}
+
+		// right side buttons
+		{
+			add.setEnabled(right.getSelectionIndex() != -1);
 		}
 	}
 
@@ -220,30 +207,32 @@ public class OrderListSelectField<T> extends PreferenceField {
 		swap(false);
 		firePropertyChanged(previous, getSelectedKeys());
 	}
-	
+
 	/**
 	 * swap currently selected element upward/downward
 	 * @param down true if element is swapped downward
 	 */
 	protected void swap(boolean down)  {
 		int index = left.getSelectionIndex();
-        int target = down ? index + 1 : index - 1;
+		if(index == -1)
+			return;
 
-        if (index >= 0) {
-        	T current = selected.get(index);
-        	selected.remove(current);
-        	selected.add(target, current);
-            reloadLists(target);
-        }
-        selectionChanged(true);
+        int target = index + (down ? 1 : -1);
+    	T current = selected.get(index);
+    	selected.remove(current);
+    	selected.add(target, current);
+        reloadLists(target);
 	}
 
 	/**
 	 * called when 'remove' is pressed
 	 */
 	protected void removePressed() {
-		String[] previous = getSelectedKeys();
 		int index = left.getSelectionIndex();
+		if(index == -1)
+			return;
+
+		String[] previous = getSelectedKeys();
 		T current = selected.get(index);
 		selected.remove(current);
 		notSelected.add(current);
@@ -255,22 +244,25 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 * called when 'add' is pressed
 	 */
 	protected void addPressed() {
-		String[] previous = getSelectedKeys();
 		int index = right.getSelectionIndex();
+		if(index == -1)
+			return;
+
+		String[] previous = getSelectedKeys();
 		T current = notSelected.get(index);
 		notSelected.remove(current);
 		selected.add(current);
 		reloadLists();
 		firePropertyChanged(previous, getSelectedKeys());
 	}
-	
+
 	/**
 	 * reloads both lists, retaining their currently selected elements
 	 */
 	private void reloadLists() {
 		reloadLists(-1, -1);
 	}
-	
+
 	/**
 	 * reloads both lists, retaining their currently selected elements
 	 * @param selectionLeft currently selected element index on the left
@@ -300,7 +292,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 		}
 		right.setSelection(selectionRight);
 	}
-	
+
 	/**
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
 	 */
@@ -308,73 +300,47 @@ public class OrderListSelectField<T> extends PreferenceField {
 	public void setEnabled(boolean enabled) {
 		left.setEnabled(enabled);
 		buttonBox.setEnabled(enabled);
-		up.setEnabled(enabled);
-		down.setEnabled(enabled);
-		add.setEnabled(enabled);
-		remove.setEnabled(enabled);
 		right.setEnabled(enabled);
+		updateButtonStates();
 	}
 
 	/**
-	 * helper method to create a list control
-	 * @param parent the composite into which the list will be created
-	 * @param left true, if the left list should be created
-	 * @return a new List
+	 * Adds all elements in the given array from the right side to the left side.
+	 * Elements not found on the right side are ignored.
+	 * @param keys the keys of the elements
 	 */
-	private org.eclipse.swt.widgets.List getListControl(Composite parent, boolean left) {
-		if(left && this.left == null) {
-			this.left = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL
-	                | SWT.H_SCROLL);
-			this.left.setFont(parent.getFont());
-			this.left.addSelectionListener(getSelectionListener());
-		} else if(right == null) {
-			right = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL
-	                | SWT.H_SCROLL);
-			right.setFont(parent.getFont());
-			right.addSelectionListener(getSelectionListener());
-		}
-        return left? this.left : right;
-	}
-
-	/**
-	 * removes an element from the not selected list and adds it to the selected list
-	 * @param key the key of the element
-	 */
-	private void addString(String key) {
+	private void addInitialElements(String keys[]) {
 		String[] previous = getSelectedKeys();
-		for(int i = 0; i < notSelected.size(); i++) {
-			T kv = notSelected.get(i);
-			if(valueConverter.getValue(kv).equals(key)) {
-				notSelected.remove(i);
-				selected.add(kv);
-				firePropertyChanged(previous, getSelectedKeys());
-				return;
+		notSelected.addAll(selected);
+		selected.clear();
+
+		for(String key : keys) {
+			for(int i = 0; i < notSelected.size(); i++) {
+				T item = notSelected.get(i);
+				if(valueConverter.getValue(item).equals(key)) {
+					notSelected.remove(i);
+					selected.add(item);
+					break; // continue with outer for-loop
+				}
 			}
 		}
+
+		reloadLists();
+		firePropertyChanged(previous, getSelectedKeys());
 	}
-	
+
 	/**
 	 * creates a string, that can be saved into the preference store
 	 * @return semicolon separated list of currently selected values, in order
 	 */
 	private String createList() {
 		StringBuilder list = new StringBuilder();
-		boolean first = true;
 		for(T s : selected) {
-			if(first) first = false;
-			else list.append(";");
+			if(list.length() > 0)
+				list.append(";");
 			list.append(valueConverter.getValue(s));
 		}
 		return list.toString();
-	}
-
-	/**
-	 * parses a list of semicolon separated list of currently selected values 
-	 * @param stringList the currently selected settings
-	 * @return a list of selected keys
-	 */
-	private String[] parseString(String stringList) {
-		return stringList.split(";");
 	}
 
 	/**

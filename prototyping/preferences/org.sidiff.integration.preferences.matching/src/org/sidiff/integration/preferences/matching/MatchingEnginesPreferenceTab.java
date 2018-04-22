@@ -87,8 +87,6 @@ public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab
 	public Iterable<PreferenceField> getTabContent() {
 		fieldList = new ArrayList<PreferenceField>();
 		
-		matcherOptions = new HashMap<String, PreferenceField>();
-		
 		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
 		matchingOrder = OrderListSelectField.create(
 				"matchingOrder",
@@ -106,16 +104,16 @@ public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab
 				});
 		fieldList.add(matchingOrder);
 
+		// TODO: matcher options are untested
+		matcherOptions = new HashMap<String, PreferenceField>();
 		for(IMatcher matcher : matchers) {
 			if(matcher instanceof IConfigurable) {
-				Map<String, Object> options = ((IConfigurable) matcher).getConfigurationOptions();
-				PreferenceField matcherOptions = CheckListSelectField.create(
-						matcher.getKey(),
-						matcher.getName(),
-						options.keySet(),
+				PreferenceField matcherOption = CheckListSelectField.create(
+						matcher.getKey(), matcher.getName(),
+						((IConfigurable)matcher).getConfigurationOptions().keySet(),
 						new IdentityPreferenceValueConverter());
-				fieldList.add(matcherOptions);
-				this.matcherOptions.put(matcher.getKey(), matcherOptions);
+				fieldList.add(matcherOption);
+				matcherOptions.put(matcher.getKey(), matcherOption);
 			}
 		}
 
@@ -129,29 +127,29 @@ public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab
 				return value.getClass().getSimpleName();
 			}
 		};
-		
+
 		candidatesServices = RadioBoxPreferenceField.create("candidatesServices", "Candidates Services",
 				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
 		fieldList.add(candidatesServices);
-		
+
 		correspondencesServices = RadioBoxPreferenceField.create("correspondencesServices", "Correspondences Services",
 				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
 		fieldList.add(correspondencesServices);
-		
+
 		similaritiesServices = RadioBoxPreferenceField.create("similaritiesServices", "Similarities Services",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(), serviceValueConverter);
 		fieldList.add(similaritiesServices);
-		
+
 		similaritiesCalculationServices = RadioBoxPreferenceField.create("similaritiesCalculationServices",
 				"Similarities Calculation Services",
 				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
 				serviceValueConverter);
 		fieldList.add(similaritiesCalculationServices);
-		
+
 		for (PreferenceField field : fieldList) {
 			field.setPreferenceStore(store);
 		}
-		
+
 		return fieldList;
 	}
 

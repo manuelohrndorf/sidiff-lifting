@@ -50,7 +50,6 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 	public Iterable<PreferenceField> getTabContent() {
 		fieldList = new ArrayList<PreferenceField>();
 
-		// TODO: preference name is probably not correct
 		ruleBasesField = CheckListSelectField.create(
 				getDocumentType(),
 				"Rule Bases",

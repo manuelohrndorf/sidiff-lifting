@@ -1,6 +1,7 @@
 package org.sidiff.integration.preferences.lifting;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -26,7 +27,7 @@ public class LiftingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab 
 	/**
 	 * List to hold all {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField}
 	 */
-	private ArrayList<PreferenceField> fieldList;
+	private List<PreferenceField> fieldList;
 	
 	/**
 	 * The {@link PreferenceField} for the recognition engine mode selection
@@ -62,7 +63,6 @@ public class LiftingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab 
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-
 	}
 
 	/**
@@ -70,7 +70,6 @@ public class LiftingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab 
 	 */
 	@Override
 	public Iterable<PreferenceField> getTabContent() {
-		
 		fieldList = new ArrayList<PreferenceField>();
 
 		recognitionEngineModes = RadioBoxPreferenceField.create("recognitionEngineModes", "Recognition Engine Modes Services",

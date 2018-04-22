@@ -18,7 +18,7 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 
 /**
  * 
- * @author Felix Breitweiser
+ * @author Felix Breitweiser, Robert Müller
  *
  */
 public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPage implements IPropertyChangeListener {
@@ -47,7 +47,7 @@ public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPag
 	@Override
 	protected Control doCreateContents(Composite parent) {
 		tabFolder = new TabFolder(parent, SWT.TOP);
-        
+
 		createPreferenceFields();
 		
 		initialize();
@@ -124,23 +124,19 @@ public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPag
 	public TabItem createTab(int tab) {
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
 		item.setText(tabTitles.get(tab));
-		
+
 		Composite content = new Composite(tabFolder, SWT.NONE);
-		RowLayout layout = new RowLayout(SWT.VERTICAL);
-		content.setLayout(layout);
-		
+		content.setLayout(new RowLayout(SWT.VERTICAL));
+
 		item.setControl(content);
         return item;
 	}
-	
+
 	public Group getPreferenceFieldParent(TabItem tab) {
-		Group parent = new Group((Composite) tab.getControl(), SWT.NONE);
-		FillLayout layout = new FillLayout(SWT.HORIZONTAL);
-		parent.setLayout(layout);
+		Group parent = new Group((Composite)tab.getControl(), SWT.NONE);
+		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		return parent;
 	}
-	
-	
 
 	protected abstract void createPreferenceFields();
 

@@ -27,7 +27,7 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  * Factory class for {@link org.sidiff.matching.api.settings.MatchingSettings}
  * @author Daniel Roedder, Robert Müller
  */
-public class MatchingSettingsFactory implements ISiDiffSettingsFactory{
+public class MatchingSettingsFactory implements ISiDiffSettingsFactory {
 
 	/**
 	 * The {@link Scope} to be used
@@ -70,32 +70,29 @@ public class MatchingSettingsFactory implements ISiDiffSettingsFactory{
 	public void doSetFields(String documentType, IPreferenceStore store) {
 		scope = Scope.valueOf(store.getString("scope"));
 		validate = store.getBoolean("validateModels");
-		
-		String matchers = store.getString("matchingOrder");
-		String[] matchers2 = matchers.split(";");
-		
+
 		matcherList = new ArrayList<IMatcher>();
-		
-		for (String matcherKey : matchers2) {
+		for (String matcherKey : store.getString("matchingOrder").split(";")) {
 			IMatcher matcher = MatcherUtil.getMatcher(matcherKey);
-			
+
+			// TODO: matcher options are untested
 			if (matcher instanceof IConfigurable) {
-				Map<String, Object> matcherOptions = ((IConfigurable) matcher).getConfigurationOptions();
-				
+				Map<String, Object> matcherOptions = ((IConfigurable)matcher).getConfigurationOptions();
 				for (String optionKey : matcherOptions.keySet()) {
-					((IConfigurable) matcher).setConfigurationOption(optionKey, store.getBoolean(matcherKey + ":" + optionKey));
+					((IConfigurable)matcher).setConfigurationOption(optionKey, store.getBoolean(matcherKey + ":" + optionKey));
 				}
 			}
-			
+
 			matcherList.add(matcher);
 		}
-		
+
 		candidatesService = CandidatesUtil.getAvailableCandidatesService(store.getString("candidatesServices"));
-		
+
 		correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService(store.getString("correspondencesServices"));
-		
-		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService("similaritiesServices");
-		
+
+		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(store.getString("similaritiesServices"));
+
+		// TODO: this is just the first one and not the one selected in the settings
 		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationServiceInstance();
 	}
 

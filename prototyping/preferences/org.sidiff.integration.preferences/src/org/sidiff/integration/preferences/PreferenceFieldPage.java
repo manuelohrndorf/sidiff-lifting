@@ -92,6 +92,7 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
+
 		if(isPropertiesPage()) {
 			createOverrideControls(parent);
 		}
