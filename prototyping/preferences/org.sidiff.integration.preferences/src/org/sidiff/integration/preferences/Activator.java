@@ -3,7 +3,6 @@ package org.sidiff.integration.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.sidiff.integration.preferences.util.PreferenceUtil;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -49,14 +48,14 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 		return plugin;
 	}
-	
+
 	/**
 	 * Sets the default settings for the preference pages
 	 * Includes matching, difference, lifting and patching settings (also for the domains Ecore and UML)
 	 */
 	private void setDefaultPreferenceValues() {
-		IPreferenceStore store = PreferenceUtil.getInstance().getPluginPreferenceStore();
-		
+		IPreferenceStore store = getPreferenceStore();
+
 		// TODO: use preference initializer to initialize the preferences
 		// TODO: split up these definitions over the respective plugins that contribute the setting
 		// TODO: create classes with constants for the preference names / functions for retrieving them

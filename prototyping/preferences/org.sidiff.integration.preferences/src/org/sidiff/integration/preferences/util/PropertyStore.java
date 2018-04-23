@@ -9,6 +9,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.util.SafeRunnable;
+import org.sidiff.integration.preferences.SiDiffPreferences;
 
 // TODO: rename class to something more descriptive 
 // TODO: class needs to be tested
@@ -32,20 +33,14 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	 * the preference store for the global settings
 	 */
 	private IPreferenceStore workbenchStore;
-	
-	/**
-	 * the qualifier to identify resouce specific settings in the Resource
-	 */
-	private String qualifier; 
-	
+
 	/**
 	 * the resource from which resource specific settings will be loaded (and saved) 
 	 */
 	private IResource resource;
 	
-	public PropertyStore(IResource resource, IPreferenceStore workbenchStore, String pageId) {
+	public PropertyStore(IResource resource, IPreferenceStore workbenchStore) {
 		this.workbenchStore = workbenchStore;
-		this.qualifier = pageId;
 		this.resource = resource;
 		try {
 			this.useResourceSettings = 
@@ -60,7 +55,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	 * convienience Method: creates a qualifiedName from the pageId and a name
 	 */
 	private QualifiedName key(String name) {
-		return new QualifiedName(qualifier, name);
+		return new QualifiedName(SiDiffPreferences.QUALIFIER, name);
 	}
 	
 	/**

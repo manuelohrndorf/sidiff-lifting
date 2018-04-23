@@ -21,7 +21,7 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
  * @author Felix Breitweiser, Robert Müller
  *
  */
-public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPage implements IPropertyChangeListener {
+public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage implements IPropertyChangeListener {
 
 	private TabFolder tabFolder;
 	private List<List<PreferenceField>> tabs;

@@ -116,7 +116,7 @@ public class SettingsFactory {
 	 */
 	public ISiDiffSettingsFactory getMatchingSettingsFactory(String documentType, IPreferenceStore store, IResource resource) throws UnsupportedFeatureLevelException {
 		if (matchingFactory != null) {
-			if (resource != null) matchingFactory.doSetFields(documentType, new PropertyStore(resource, store, PreferenceUtil.getInstance().getPropertyQualifier()));
+			if (resource != null) matchingFactory.doSetFields(documentType, new PropertyStore(resource, store));
 			else matchingFactory.doSetFields(documentType, store);
 			return matchingFactory;
 		}
@@ -147,7 +147,7 @@ public class SettingsFactory {
 	 */
 	public ISiDiffSettingsFactory getDifferenceSettingsFactory(String documentType, IPreferenceStore store, IResource resource) throws UnsupportedFeatureLevelException {
 		if (differenceFactory != null) {
-			if (resource != null) differenceFactory.doSetFields(documentType, new PropertyStore(resource, store, PreferenceUtil.getInstance().getPropertyQualifier()));
+			if (resource != null) differenceFactory.doSetFields(documentType, new PropertyStore(resource, store));
 			else differenceFactory.doSetFields(documentType, store);
 			return differenceFactory;
 		}
@@ -178,7 +178,7 @@ public class SettingsFactory {
 	 */
 	public ISiDiffSettingsFactory getLiftingSettingsFactory(String documentType, IPreferenceStore store, IResource resource) throws UnsupportedFeatureLevelException {
 		if (liftingFactory != null) {
-			if (resource != null) liftingFactory.doSetFields(documentType, new PropertyStore(resource, store, PreferenceUtil.getInstance().getPropertyQualifier()));
+			if (resource != null) liftingFactory.doSetFields(documentType, new PropertyStore(resource, store));
 			else liftingFactory.doSetFields(documentType, store);
 			return liftingFactory;
 		}
@@ -209,7 +209,7 @@ public class SettingsFactory {
 	 */
 	public ISiDiffSettingsFactory getPatchingSettingsFactory(String documentType, IPreferenceStore store, IResource resource) throws UnsupportedFeatureLevelException {
 		if (patchingFactory != null) {
-			if (resource != null) patchingFactory.doSetFields(documentType, new PropertyStore(resource, store, PreferenceUtil.getInstance().getPropertyQualifier()));
+			if (resource != null) patchingFactory.doSetFields(documentType, new PropertyStore(resource, store));
 			else patchingFactory.doSetFields(documentType, store);
 			return patchingFactory;
 		}

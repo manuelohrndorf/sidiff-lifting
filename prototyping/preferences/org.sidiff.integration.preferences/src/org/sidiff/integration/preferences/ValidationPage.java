@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.interfaces.ISiDiffOrderableTab;
 import org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab;
-import org.sidiff.integration.preferences.util.PreferenceUtil;
 
 /**
  * Preference subpage for validation settings.
@@ -51,7 +50,7 @@ public class ValidationPage extends TabbedPreferenceFieldPage implements IWorkbe
 				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffValidationPreferenceTab.EXTENSION_POINT_ID)) {
 			try {
 				ISiDiffValidationPreferenceTab tab = ((ISiDiffValidationPreferenceTab) element.createExecutableExtension("class"));
-				tab.setPreferenceStore(PreferenceUtil.getInstance().getPluginPreferenceStore());
+				tab.setPreferenceStore(Activator.getDefault().getPreferenceStore());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
 				e.printStackTrace();

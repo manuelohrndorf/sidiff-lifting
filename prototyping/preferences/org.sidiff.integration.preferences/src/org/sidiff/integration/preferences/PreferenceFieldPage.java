@@ -62,7 +62,6 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	} 
 	
 	protected abstract Iterable<PreferenceField> getAllFields();
-	protected abstract String getQualifier();
 	protected abstract Control doCreateContents(Composite parent);
 	
 	/**
@@ -222,7 +221,7 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	public IPreferenceStore getPreferenceStore() {
 		if(store == null) {
 			if(isPropertiesPage()) {
-				store = new PropertyStore(resource, super.getPreferenceStore(), getQualifier());
+				store = new PropertyStore(resource, super.getPreferenceStore());
 			} else {
 				store = super.getPreferenceStore();
 			}
