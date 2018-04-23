@@ -53,7 +53,7 @@ public class SiDiffRemoteApplication {
 		String ws_path = this.workspace.getRoot().getLocation().toOSString();
 		String	user_path= ws_path + File.separator + session.getUser();
 		String session_path = user_path + File.separator + session.getSessionID();
-		String session_temp_path = session_path + File.separator + ".sidiff";
+		String session_temp_path = session_path + File.separator + ServerConfiguration.METADATA;
 		
 		this.user_folder = new File(user_path);
 		if(!user_folder.exists()) {
@@ -81,10 +81,10 @@ public class SiDiffRemoteApplication {
 		return treeModel;
 	}
 	
-	public File checkoutModel(String path, List<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	public File checkoutModel(String remotePath, String localPath, List<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		
-		String absolute_origin_path = user_folder + File.separator + path;
-		String absolute_copy_path = session_temp_folder + File.separator + path;
+		String absolute_origin_path = user_folder + File.separator + remotePath;
+		String absolute_copy_path = session_temp_folder + File.separator + localPath;
 		FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -127,10 +127,34 @@ public class SiDiffRemoteApplication {
 		return this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
 	}
 	
-	public TreeModel browseModelFiles() {
+	public TreeModel getRequestedModelElements(String localPath) {
+		String absolute_copy_path = session_temp_folder + File.separator + localPath;
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		
+		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
+
+		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
+		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		
+		TreeModel treeModel = TreeModelUtil.convertEMFResource(completeModel);
+		
+		for(String id: slicedModel.getIDToEObjectMap().keySet()) {
+			treeModel.getTreeNode(id).setSelected(true);
+		}
+		
+		return treeModel;
+	}
+	
+	public TreeModel browseModelFiles(String localModelPath) {
 		this.modelIndexer.index();
 		List<File> files = this.modelIndexer.getModel_files();
 		TreeModel treeModel = TreeModelUtil.convertFileList(files, session.getSessionID());
+		if(localModelPath != null) {
+			String remoteModelPath = this.session.getModels().get(localModelPath);
+			treeModel.getTreeNode(remoteModelPath).setSelected(true);
+		}
 		return treeModel;
 	}
 	

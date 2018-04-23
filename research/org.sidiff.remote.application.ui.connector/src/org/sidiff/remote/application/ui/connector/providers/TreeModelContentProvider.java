@@ -8,12 +8,15 @@ public class TreeModelContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		TreeModel treeModel = (TreeModel) inputElement;
-		return treeModel.getRoot().getChildren().toArray();
+		return getChildren(inputElement);
 	}
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
+		if(parentElement instanceof TreeModel) {
+			TreeModel treeModel = (TreeModel) parentElement;
+			return treeModel.getRoot().getChildren().toArray();
+		}
 		if(parentElement instanceof TreeNode) {
 			return ((TreeNode)parentElement).getChildren().toArray();
 		}

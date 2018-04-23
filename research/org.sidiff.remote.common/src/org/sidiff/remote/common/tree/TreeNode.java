@@ -22,6 +22,8 @@ public class TreeNode implements Serializable {
 	
 	protected String type;
 	
+	protected boolean selected;
+	
 	protected TreeNode parent;
 		
 	protected List<TreeNode> children;
@@ -30,6 +32,7 @@ public class TreeNode implements Serializable {
 		this.label = label;
 		this.id = id;
 		this.type = type;
+		this.selected = false;
 		this.parent = null;
 		this.children = new ArrayList<TreeNode>();
 	}
@@ -66,6 +69,14 @@ public class TreeNode implements Serializable {
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 	
 	public TreeNode getParent() {

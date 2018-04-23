@@ -3,20 +3,21 @@ package org.sidiff.remote.common.commands;
 import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.tree.TreeModel;
 
-public class BrowseModelReply extends Command {
+public class GetRequestedModelElementsReply extends Command {
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5691413751211948004L;
+	private static final long serialVersionUID = 3678236069606016169L;
 	
 	private TreeModel model;
 	
-	public BrowseModelReply(Session session, TreeModel model) {
+	public GetRequestedModelElementsReply(Session session, TreeModel model) {
 		super(session, null);
 		this.model = model;
 	}
-
+	
 	public TreeModel getModel() {
 		return model;
 	}

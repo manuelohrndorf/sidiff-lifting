@@ -35,7 +35,7 @@ public class ModelIndexer {
 	private List<File> searchModelFiles(File parent){
 		List<File> files = new ArrayList<File>();
 		for(File file : parent.listFiles()) {
-			if(file.isDirectory()) {
+			if(file.isDirectory() && !file.getName().equals(ServerConfiguration.METADATA)) {
 				files.addAll(searchModelFiles(file));
 			}else if(file_ext.contains(getFileExtension(file))) {
 				files.add(file);

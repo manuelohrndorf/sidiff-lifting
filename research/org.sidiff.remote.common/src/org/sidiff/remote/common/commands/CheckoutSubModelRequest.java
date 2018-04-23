@@ -22,8 +22,8 @@ public class CheckoutSubModelRequest extends Command{
 	private List<String> elementIds;
 
 	
-	public CheckoutSubModelRequest(Session session, String remote_model_path, String local_model_path, List<String> elementIds, File attachment) {
-		super(session, attachment);
+	public CheckoutSubModelRequest(Session session, String remote_model_path, String local_model_path, List<String> elementIds) {
+		super(session, null);
 		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REQUEST;
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");

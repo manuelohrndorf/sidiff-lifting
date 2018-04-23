@@ -1,19 +1,12 @@
 package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -28,10 +21,12 @@ import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -40,8 +35,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectionHandler;
@@ -51,17 +48,17 @@ import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelContentProvider;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvider;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
-import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
 import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
+import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
+import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.tree.TreeLeaf;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.tree.TreeNode;
-import org.sidiff.remote.common.util.JSONUtil;
 
 
 /**
@@ -69,7 +66,7 @@ import org.sidiff.remote.common.util.JSONUtil;
  * @author cpietsch
  * 
  */
-public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateListener {
+public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateListener, ISelectionListener {
 
 	public static final ImageDescriptor IMG_BROWSE_FILES = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh_remote.gif");
 	public static final ImageDescriptor IMG_BROWSE_MODEL = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh.gif");
@@ -112,6 +109,9 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	 */
 	private TreeViewer treeViewer;
 	
+	/**
+	 * 
+	 */
 	private TreeLeaf treeViewer_selection;
 	
 	/**
@@ -199,6 +199,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		// Create the help context id for the viewer's control
 		workbench.getHelpSystem().setHelp(treeViewer.getControl(), "org.sidiff.remote.application.ui.connector.viewer");
 		getSite().setSelectionProvider(treeViewer);
+		getSite().getPage().addSelectionListener(this);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -286,7 +287,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 				
 				Object object = selection.getFirstElement();
 				if (object instanceof TreeLeaf) {
-					BrowseModelRequest browseModelRequest = new BrowseModelRequest(connectionHandler.getSession(), ((TreeLeaf) object).getId(), null);
+					BrowseModelRequest browseModelRequest = new BrowseModelRequest(connectionHandler.getSession(), ((TreeLeaf) object).getId());
 					try {
 						BrowseModelReply browseModelReply = (BrowseModelReply) connectionHandler.handleRequest(browseModelRequest, null);
 						checkboxTreeViewer.setInput(browseModelReply.getModel());
@@ -350,7 +351,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					TreeNode treeNode = (TreeNode) element;
 					elementIds.add(treeNode.getId());
 				}
-				CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(connectionHandler.getSession(), remote_model_path, local_model_path, elementIds, null);		
+				CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(connectionHandler.getSession(), remote_model_path, local_model_path, elementIds);		
 				
 				try {
 					
@@ -400,5 +401,59 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		}else if(!event.getChecked()){
 			this.checkboxTreeViewer.setSubtreeChecked(element, false);
 		}
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if(selection instanceof IStructuredSelection) {
+			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+			if(structuredSelection.size() == 1 && structuredSelection.getFirstElement() instanceof IFile) {
+				IFile file = (IFile) structuredSelection.getFirstElement();
+
+				try {
+					updateRequestedModelElements(file.getLocation().toOSString());
+				} catch (ConnectionExceptionWrapper e) {
+					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				}
+				
+			}
+		}
+	}
+	
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionExceptionWrapper {
+		
+		BrowseModelFilesRequest browseModelFilesRequest = new BrowseModelFilesRequest(connectionHandler.getSession(), localModelPath);
+		BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) connectionHandler.handleRequest(browseModelFilesRequest, null);
+		treeViewer.setInput(browseModelFilesReply.getModelFiles());
+		
+		TreeModel modelFiles =  browseModelFilesReply.getModelFiles();
+		TreeNode selectedModelFile = modelFiles.getSelectedElements()[0];
+		List<TreeNode> visibleModelFilesNodes = new ArrayList<TreeNode>();
+		TreeNode parent = selectedModelFile.getParent();
+		while(!parent.equals(modelFiles.getRoot())){
+			visibleModelFilesNodes.add(0, parent);
+			parent = parent.getParent();
+		}
+		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
+		treeViewer.setSelection(new StructuredSelection(selectedModelFile), true);
+		
+		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(connectionHandler.getSession(), localModelPath);
+		GetRequestedModelElementsReply getRequestedModelElementsReply = (GetRequestedModelElementsReply) connectionHandler.handleRequest(getRequestedModelElementsRequest, null);
+	
+		checkboxTreeViewer.setInput(getRequestedModelElementsReply.getModel());
+		
+		TreeModel model = getRequestedModelElementsReply.getModel();
+		TreeNode[] selectedModelElements = model.getSelectedElements();
+		List<TreeNode> visibleModelElements = new ArrayList<TreeNode>();
+		
+		for(TreeNode selectedModelElement : selectedModelElements) {
+			TreeNode parentElement = selectedModelElement.getParent();
+			while(!parentElement.equals(model.getRoot())){
+				visibleModelElements.add(0, parentElement);
+				parentElement = parentElement.getParent();
+			}
+		}
+		checkboxTreeViewer.setExpandedElements(visibleModelElements.toArray());
+		checkboxTreeViewer.setCheckedElements(selectedModelElements);		
 	}
 }

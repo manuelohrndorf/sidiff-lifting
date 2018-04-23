@@ -17,15 +17,17 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
+import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
 import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.Command;
+import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
+import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
@@ -37,7 +39,9 @@ import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
  *
  */
 public class SiDiffRemoteApplicationServer implements IApplication {
-		
+	
+	private ServerConfiguration config;
+	
 	private ServerSocket server;
 	
 	private Map<String, SiDiffRemoteApplication> client_sessions;
@@ -56,7 +60,9 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		Integer port = arg_port == null || arg_port.isEmpty() ? 2345 : Integer.parseInt(arg_port);
 		
-		this.server = new ServerSocket(port);
+		this.config = new ServerConfiguration(port);
+		
+		this.server = new ServerSocket(config.PORT);
 		
 		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();
 		
@@ -106,15 +112,17 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		File attachment = null;
 		switch(command.getECommand()) {
 		case BROWSE_MODEL_FILES_REQUEST:
-			TreeModel modelFiles = app.browseModelFiles();
+			BrowseModelFilesRequest browseModelFilesRequest = (BrowseModelFilesRequest) command;
+			String local_model_path = browseModelFilesRequest.getLocalModelPath();
+			TreeModel modelFiles = app.browseModelFiles(local_model_path);
 			BrowseModelFilesReply browseModelFilesReply = new BrowseModelFilesReply(app.getSession(), modelFiles, null);
 			this.protocolHandler.write(out, browseModelFilesReply, null);
 			break;
 			
 		case BROWSE_MODEL_REQUEST:
 			BrowseModelRequest browseModelRequest = (BrowseModelRequest) command;
-			TreeModel model = app.browseModel(browseModelRequest.getRemoteModelPath());
-			BrowseModelReply browseModelReply = new BrowseModelReply(app.getSession(), model, null);
+			TreeModel treeModel = app.browseModel(browseModelRequest.getRemoteModelPath());
+			BrowseModelReply browseModelReply = new BrowseModelReply(app.getSession(), treeModel);
 			this.protocolHandler.write(out, browseModelReply, null);
 			break;
 			
@@ -123,7 +131,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			String localPath = checkoutSubModelRequest.getLocalModelPath();
 			String remotePath = checkoutSubModelRequest.getRemoteModelPath();
 			List<String> elementIds = checkoutSubModelRequest.getElementIds();
-			attachment = app.checkoutModel(remotePath, elementIds);
+			attachment = app.checkoutModel(remotePath, localPath, elementIds);
 			app.getSession().addModel(localPath, remotePath);
 			CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(app.getSession(), attachment);
 			this.protocolHandler.write(out, checkoutSubModelReply, attachment);
@@ -139,6 +147,14 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 //			resource = app.checkoutModel(remotePath, elementIDs);
 //			this.protocolHandler.getSession().addModel(localPath, remotePath);
 //			this.protocolHandler.write(out, app.getSession(), Command.CHECKOUT, ContentType.FILE, resource);
+			break;
+			
+		case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
+			GetRequestedModelElementsRequest getRequestedModelElementsRequest = (GetRequestedModelElementsRequest) command;
+			String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
+			TreeModel treeModelRME = app.getRequestedModelElements(localPathRME);
+			GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(app.getSession(), treeModelRME);
+			this.protocolHandler.write(out, getRequestedModelElementsReply, null);
 			break;
 		default:
 		}

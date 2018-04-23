@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.application.connector.exception.ConnectionExceptionWrapper;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.Session;
