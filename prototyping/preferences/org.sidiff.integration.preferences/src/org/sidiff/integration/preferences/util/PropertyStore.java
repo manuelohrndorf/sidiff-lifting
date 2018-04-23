@@ -10,6 +10,9 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.util.SafeRunnable;
 
+// TODO: rename class to something more descriptive 
+// TODO: class needs to be tested
+// TODO: EventManager should not be used in favor of ListenerList
 /**
  * 
  * Handles correct delegation of loading and setting properties 
@@ -319,6 +322,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 				return;
 			}
 		} catch(CoreException e) {}
+		// TODO: why are the workbenchStore functions also called when useResourceSettings is true?
 		workbenchStore.setToDefault(name);
 	}
 

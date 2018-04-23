@@ -9,6 +9,7 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.integration.preferences.FeatureLevel;
 import org.sidiff.integration.preferences.difference.factory.DifferenceSettingsFactory;
 import org.sidiff.integration.preferences.exceptions.InvalidSettingsException;
 
@@ -85,8 +86,8 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 	 * @see org.sidiff.integration.preferences.difference.factory.DifferenceSettingsFactory#getFeatureLevel()
 	 */
 	@Override
-	public String getFeatureLevel() {
-		return "Lifting";
+	public FeatureLevel getFeatureLevel() {
+		return FeatureLevel.LIFTING;
 	}
 
 	/**

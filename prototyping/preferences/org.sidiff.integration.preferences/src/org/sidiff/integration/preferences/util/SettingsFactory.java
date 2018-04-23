@@ -1,21 +1,21 @@
 package org.sidiff.integration.preferences.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.sidiff.integration.preferences.FeatureLevel;
 import org.sidiff.integration.preferences.exceptions.UnsupportedFeatureLevelException;
 import org.sidiff.integration.preferences.interfaces.ISiDiffSettingsFactory;
 
+// TODO: rename this class
+// TODO: test this class
 /**
  * 
  * Main settings factory class. Determines the installed plugins and handles delegation of
  * settings creation to the appropriate factory classes.
- * @author Daniel Roedder
+ * @author Daniel Roedder, Robert Müller
  */
 public class SettingsFactory {
 
@@ -61,46 +61,38 @@ public class SettingsFactory {
 	 * them to the corresponding fields.
 	 */
 	private SettingsFactory() {
-		List<ISiDiffSettingsFactory> extensionClassList = new ArrayList<ISiDiffSettingsFactory>();
-
 		//Create executable class for each registered SettingsFactory
 		IConfigurationElement[] extensionList =
 				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffSettingsFactory.EXTENSION_POINT_ID);
 		for (IConfigurationElement element : extensionList) {
 			try {
-				extensionClassList.add((ISiDiffSettingsFactory)element.createExecutableExtension("class"));
-			} 
+				ISiDiffSettingsFactory factory = ((ISiDiffSettingsFactory)element.createExecutableExtension("class"));
+				switch(factory.getFeatureLevel()) {
+					case DIFFERENCE:
+						this.differenceFactory = factory;
+						break;
+	
+					case LIFTING:
+						this.liftingFactory = factory;
+						break;
+	
+					case MATCHING:
+						this.matchingFactory = factory;
+						break;
+	
+					case PATCHING:
+						this.patchingFactory = factory;
+						break;
+				}
+			}
 			catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		// Search for all factories and save them
-		for (ISiDiffSettingsFactory factory : extensionClassList) {
-			
-			//Find "Matching" Factory and save it
-			if (factory.getFeatureLevel().equals("Matching")) {
-				this.matchingFactory = factory;
-			}
-			
-			//Find "Difference" Factory and save it
-			if (factory.getFeatureLevel().equals("Difference")) {
-				this.differenceFactory = factory;
-			}
-			
-			//Find "Lifting" Factory and save it
-			if (factory.getFeatureLevel().equals("Lifting")) {
-				this.liftingFactory = factory;
-			}
-			
-			//Find "Patching" Factory and save it
-			if (factory.getFeatureLevel().equals("Patching")) {
-				this.patchingFactory = factory;
-			}
-		}
 	}
 	
-
+	// TODO: the preference store should probably not be passed to these functions as an argument, as all are stored in the main plugin's preference store anyway
+	
 	/**
 	 * Checks if the required plugins are installed and returns a {@link org.sidiff.integration.preferences.matching.factory.MatchingSettingsFactory}.
 	 * @param documentType Document Type {@link String} of the model to be processed.
@@ -129,7 +121,7 @@ public class SettingsFactory {
 			return matchingFactory;
 		}
 		else {
-			throw new UnsupportedFeatureLevelException("Matching");
+			throw new UnsupportedFeatureLevelException(FeatureLevel.MATCHING);
 		}
 	}
 	
@@ -160,7 +152,7 @@ public class SettingsFactory {
 			return differenceFactory;
 		}
 		else {
-			throw new UnsupportedFeatureLevelException("Difference");
+			throw new UnsupportedFeatureLevelException(FeatureLevel.DIFFERENCE);
 		}
 	}
 	
@@ -191,7 +183,7 @@ public class SettingsFactory {
 			return liftingFactory;
 		}
 		else {
-			throw new UnsupportedFeatureLevelException("Lifting");
+			throw new UnsupportedFeatureLevelException(FeatureLevel.LIFTING);
 		}
 	}
 	
@@ -222,7 +214,7 @@ public class SettingsFactory {
 			return patchingFactory;
 		}
 		else {
-			throw new UnsupportedFeatureLevelException("Patching");
+			throw new UnsupportedFeatureLevelException(FeatureLevel.PATCHING);
 		}
 	}
 }

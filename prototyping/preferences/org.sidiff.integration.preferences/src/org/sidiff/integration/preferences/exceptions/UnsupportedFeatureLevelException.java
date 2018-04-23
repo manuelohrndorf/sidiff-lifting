@@ -3,30 +3,31 @@
  */
 package org.sidiff.integration.preferences.exceptions;
 
+import org.sidiff.integration.preferences.FeatureLevel;
+
 /**
  * 
  * Exception class to indicate that the user did not install the required set of plugins.
- * @author Daniel Roedder
+ * @author Daniel Roedder, Robert Müller
  *
  */
 public class UnsupportedFeatureLevelException extends Exception {
 
-
 	private static final long serialVersionUID = -5174416058072155491L;
-	
+
 	/**
 	 * String to hold the required feature level for the operation that caused this exception
 	 */
-	private String featureLevelRequired;
+	private FeatureLevel featureLevelRequired;
 
 	/**
 	 * Constructor for the exception object.
 	 * @param featureLevelRequired The required feature level als string, e.g. 'Patching'
 	 */
-	public UnsupportedFeatureLevelException(String featureLevelRequired) {
+	public UnsupportedFeatureLevelException(FeatureLevel featureLevelRequired) {
 		this.featureLevelRequired = featureLevelRequired;
 	}
-	
+
 	/**
 	 * @see java.lang.Throwable#getMessage()
 	 */
@@ -43,7 +44,4 @@ public class UnsupportedFeatureLevelException extends Exception {
 	public String toString() {
 		return getMessage();
 	}
-
-	
-	
 }

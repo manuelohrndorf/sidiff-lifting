@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.patching.factory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
+import org.sidiff.integration.preferences.FeatureLevel;
 import org.sidiff.integration.preferences.difference.factory.DifferenceSettingsFactory;
 import org.sidiff.integration.preferences.exceptions.InvalidSettingsException;
 import org.sidiff.matcher.IMatcher;
@@ -76,8 +77,8 @@ public class PatchingSettingsFactory extends DifferenceSettingsFactory {
 	 * @see org.sidiff.integration.preferences.difference.factory.DifferenceSettingsFactory#getFeatureLevel()
 	 */
 	@Override
-	public String getFeatureLevel() {
-		return "Patching";
+	public FeatureLevel getFeatureLevel() {
+		return FeatureLevel.PATCHING;
 	}
 
 	/**

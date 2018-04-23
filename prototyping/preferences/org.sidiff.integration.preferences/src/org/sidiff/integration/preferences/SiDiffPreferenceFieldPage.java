@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.integration.preferences.util.PreferenceUtil;
 
+// TODO: remove this class
 /**
  * 
  * @author Felix Breitweiser

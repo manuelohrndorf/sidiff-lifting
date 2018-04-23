@@ -1,14 +1,11 @@
 package org.sidiff.integration.preferences.domains.difference;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.integration.preferences.domains.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -17,11 +14,6 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  * @author Daniel Roedder, cpietsch, Robert Müller
  */
 public class DomainDifferencePreferenceTab extends AbstractDomainPreferenceTab {
-
-	/**
-	 * List to hold all {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField}
-	 */
-	private List<PreferenceField> fieldList;
 
 	/**
 	 * {@link org.sidiff.integration.preferences.fieldeditors.OrderListSelectField} for the {@link ITechnicalDifferenceBuilder}s
@@ -36,13 +28,8 @@ public class DomainDifferencePreferenceTab extends AbstractDomainPreferenceTab {
 		return "Difference";
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab#getTabContent()
-	 */
 	@Override
-	public Iterable<PreferenceField> getTabContent() {
-		fieldList = new ArrayList<PreferenceField>();
-
+	protected void createPreferenceFields() {
 		techDiffBuilderField = OrderListSelectField.create(
 				getDocumentType() + "technicalDifferenceBuilderOrder",
 				"Technical Difference Builder Order",
@@ -57,9 +44,7 @@ public class DomainDifferencePreferenceTab extends AbstractDomainPreferenceTab {
 						return value.getName();
 					}
 				});
-
-		fieldList.add(techDiffBuilderField);
-		return fieldList;
+		addField(techDiffBuilderField);
 	}
 
 	@Override

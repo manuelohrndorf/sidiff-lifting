@@ -22,11 +22,11 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
  *
  */
 public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPage implements IPropertyChangeListener {
-	
-	TabFolder tabFolder;
-	List<List<PreferenceField>> tabs;
-	List<String> tabTitles;
-	
+
+	private TabFolder tabFolder;
+	private List<List<PreferenceField>> tabs;
+	private List<String> tabTitles;
+
 	public TabbedPreferenceFieldPage() {
 		tabs = new ArrayList<List<PreferenceField>>();
 		tabTitles = new ArrayList<String>();
@@ -82,7 +82,7 @@ public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPag
 	@Override
 	protected void performDefaults() {
 		for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf :  tab) {
+			for(PreferenceField pf : tab) {
 				pf.loadDefault();
 			}
 		}
@@ -92,7 +92,7 @@ public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPag
 	@Override
 	public boolean performOk() {
 		for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf :  tab) {
+			for(PreferenceField pf : tab) {
 				pf.save();
 			}
 		}
@@ -103,7 +103,7 @@ public abstract class TabbedPreferenceFieldPage extends SiDiffPreferenceFieldPag
 	public void dispose() {
         super.dispose();
         for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf :  tab) {
+			for(PreferenceField pf : tab) {
 				pf.removePropertyChangeListener(this);
 			}
 		}

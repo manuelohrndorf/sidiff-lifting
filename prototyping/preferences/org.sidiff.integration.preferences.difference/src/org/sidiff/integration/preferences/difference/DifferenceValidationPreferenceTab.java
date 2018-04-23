@@ -1,27 +1,13 @@
 package org.sidiff.integration.preferences.difference;
 
-import java.util.ArrayList;
+import org.sidiff.integration.preferences.AbstractValidationPreferenceTab;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab;
 /**
  * Class for the validation difference settings.
- * @author Daniel Roedder
+ * @author Daniel Roedder, Robert Müller
  *
  */
-public class DifferenceValidationPreferenceTab implements ISiDiffValidationPreferenceTab {
-	
-	/**
-	 * List to hold all {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField}
-	 */
-	private ArrayList<PreferenceField> fieldList;
-	
-	/**
-	 * The {@link IPreferenceStore} to be used
-	 */
-	private IPreferenceStore store;
+public class DifferenceValidationPreferenceTab extends AbstractValidationPreferenceTab {
 
 	/**
 	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffOrderableTab#getStepInPipeline()
@@ -39,32 +25,8 @@ public class DifferenceValidationPreferenceTab implements ISiDiffValidationPrefe
 		return "Difference";
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
-	 */
 	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab#getTabContent()
-	 */
-	@Override
-	public Iterable<PreferenceField> getTabContent() {
-		fieldList = new ArrayList<PreferenceField>();
-		
-		
-		for (PreferenceField field : fieldList) {
-			field.setPreferenceStore(store);
-		}
-		return fieldList;
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab#setPreferenceStore(org.eclipse.jface.preference.IPreferenceStore)
-	 */
-	@Override
-	public void setPreferenceStore(IPreferenceStore store) {
-		this.store = store;
+	protected void createPreferenceFields() {
+		// tab is currently empty
 	}
 }

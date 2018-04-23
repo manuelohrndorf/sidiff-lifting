@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.domains;
 
+import org.sidiff.integration.preferences.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab;
 
 /**
@@ -7,7 +8,7 @@ import org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPrefer
  * @author Robert Müller
  *
  */
-public abstract class AbstractDomainPreferenceTab implements ISiDiffDomainPreferenceTab {
+public abstract class AbstractDomainPreferenceTab extends AbstractPreferenceTab implements ISiDiffDomainPreferenceTab {
 
 	private String documentType;
 

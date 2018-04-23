@@ -11,6 +11,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.integration.preferences.FeatureLevel;
 import org.sidiff.integration.preferences.exceptions.InvalidSettingsException;
 import org.sidiff.integration.preferences.interfaces.ISiDiffSettingsFactory;
 import org.sidiff.matcher.IMatcher;
@@ -117,7 +118,7 @@ public class MatchingSettingsFactory implements ISiDiffSettingsFactory {
 	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffSettingsFactory#getFeatureLevel()
 	 */
 	@Override
-	public String getFeatureLevel() {
-		return "Matching";
+	public FeatureLevel getFeatureLevel() {
+		return FeatureLevel.MATCHING;
 	}
 }

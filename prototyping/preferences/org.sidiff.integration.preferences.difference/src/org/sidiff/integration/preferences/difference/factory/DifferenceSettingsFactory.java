@@ -8,6 +8,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.integration.preferences.FeatureLevel;
 import org.sidiff.integration.preferences.exceptions.InvalidSettingsException;
 import org.sidiff.integration.preferences.matching.factory.MatchingSettingsFactory;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -39,8 +40,8 @@ public class DifferenceSettingsFactory extends MatchingSettingsFactory {
 	 * @see org.sidiff.integration.preferences.matching.factory.MatchingSettingsFactory#getFeatureLevel()
 	 */
 	@Override
-	public String getFeatureLevel() {
-		return "Difference";
+	public FeatureLevel getFeatureLevel() {
+		return FeatureLevel.DIFFERENCE;
 	}
 
 	/**

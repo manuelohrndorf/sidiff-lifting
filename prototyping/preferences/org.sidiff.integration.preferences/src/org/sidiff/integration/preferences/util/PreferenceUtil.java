@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.util;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.integration.preferences.Activator;
 
+// TODO: this class is not needed
 /**
  * 
  * Util class to get the general {@link org.eclipse.jface.preference.IPreferenceStore} used by the main settings plugin.

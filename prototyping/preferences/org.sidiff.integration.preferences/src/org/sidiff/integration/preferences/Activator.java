@@ -57,6 +57,10 @@ public class Activator extends AbstractUIPlugin {
 	private void setDefaultPreferenceValues() {
 		IPreferenceStore store = PreferenceUtil.getInstance().getPluginPreferenceStore();
 		
+		// TODO: use preference initializer to initialize the preferences
+		// TODO: split up these definitions over the respective plugins that contribute the setting
+		// TODO: create classes with constants for the preference names / functions for retrieving them
+		// TODO: some of these default values are probably no longer correct with the other changes
 		store.setDefault("matchingOrder", "org.sidiff.matcher.signature.name.NamedElementMatcher");
 		store.setDefault("candidatesServices", "InterModelTypeCandidates");
 		store.setDefault("correspondencesServices", "MatchingModelCorrespondences");

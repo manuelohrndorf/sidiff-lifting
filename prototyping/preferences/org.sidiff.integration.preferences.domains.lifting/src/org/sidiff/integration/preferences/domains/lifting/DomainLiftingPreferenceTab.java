@@ -1,15 +1,12 @@
 package org.sidiff.integration.preferences.domains.lifting;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.domains.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
@@ -19,11 +16,6 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  * @author Daniel Roedder, cpietsch, Robert Müller
  */
 public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
-
-	/**
-	 * List to hold all {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField}
-	 */
-	private List<PreferenceField> fieldList;
 
 	/**
 	 * The {@link CheckListSelectField} for the available {@link IRuleBase}s
@@ -43,13 +35,8 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 		return "Lifting";
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab#getTabContent()
-	 */
 	@Override
-	public Iterable<PreferenceField> getTabContent() {
-		fieldList = new ArrayList<PreferenceField>();
-
+	protected void createPreferenceFields() {
 		ruleBasesField = CheckListSelectField.create(
 				getDocumentType(),
 				"Rule Bases",
@@ -64,7 +51,7 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 						return value.getName();
 					}
 				});
-		fieldList.add(ruleBasesField);
+		addField(ruleBasesField);
 
 		recognitionRuleSorterField = RadioBoxPreferenceField.create(
 				getDocumentType() + "recognitionRuleSorter", "Recognition Rule Sorter",
@@ -79,9 +66,7 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 						return value.getName();
 					}
 				});
-		fieldList.add(recognitionRuleSorterField);
-
-		return fieldList;
+		addField(recognitionRuleSorterField);
 	}
 
 	@Override
