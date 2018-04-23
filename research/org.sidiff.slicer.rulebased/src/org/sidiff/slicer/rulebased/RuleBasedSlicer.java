@@ -143,8 +143,10 @@ public class RuleBasedSlicer implements ISlicer{
 		}
 		
 		
-		this.slicingCriteria_old = new HashSet<EObject>();
-		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
+		this.slicingCriteria_old = this.slicingConfiguration.getOldSlicingCriteria();
+		
+		
+//		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
 		editScript_create = generateEditScript(emptyResource, completeResource, EditScriptDirection.CREATION);
 		
@@ -207,7 +209,6 @@ public class RuleBasedSlicer implements ISlicer{
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
 			
-			this.slicingCriteria_old = new HashSet<EObject>(this.slicingCriteria_new);
 			this.slicingCriteria_new = new HashSet<EObject>(input);
 			
 			addSlicingCriteria = new HashSet<EObject>(slicingCriteria_new);
