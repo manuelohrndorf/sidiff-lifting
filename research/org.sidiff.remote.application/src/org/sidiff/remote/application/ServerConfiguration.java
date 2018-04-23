@@ -9,4 +9,12 @@ public class ServerConfiguration {
 	public ServerConfiguration(int port) {
 		this.PORT = port;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Configuration:\n");
+		stringBuilder.append("\t*port: "+ PORT);
+		return stringBuilder.toString();
+	}
 }

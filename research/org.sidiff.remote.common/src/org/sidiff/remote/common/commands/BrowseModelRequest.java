@@ -34,4 +34,11 @@ public class BrowseModelRequest extends Command {
 	public String getRemoteModelPath() {
 		return remote_model_path;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder(super.toString());
+		stringBuilder.append("model path: " + this.remote_model_path);
+		return stringBuilder.toString();
+	}
 }

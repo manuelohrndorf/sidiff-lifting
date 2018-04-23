@@ -42,4 +42,13 @@ public class CheckoutSubModelRequest extends Command{
 	public List<String> getElementIds() {
 		return elementIds;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder(super.toString());
+		stringBuilder.append("local model path: " + local_model_path);
+		stringBuilder.append("remote model path: " + remote_model_path);
+		stringBuilder.append("element IDs: " + elementIds);
+		return stringBuilder.toString();
+	}
 }

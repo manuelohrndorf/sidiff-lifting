@@ -124,4 +124,11 @@ public abstract class Command implements Serializable {
 	public void setAttachment(File attachment) {
 		this.attachment = attachment; 
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Command: " + eCommand + "(session ID: " + session.getSessionID() + ")\n");
+		return stringBuilder.toString();
+	}
 }

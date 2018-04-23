@@ -68,6 +68,7 @@ import org.sidiff.remote.common.tree.TreeNode;
  */
 public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateListener, ISelectionListener {
 
+	public static final ImageDescriptor IMG_SYNC_SELECTION = ConnectorUIPlugin.getImageDescriptor("full/obj16/synced.gif");
 	public static final ImageDescriptor IMG_BROWSE_FILES = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh_remote.gif");
 	public static final ImageDescriptor IMG_BROWSE_MODEL = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh.gif");
 	public static final ImageDescriptor IMG_CHECKOUT = ConnectorUIPlugin.getImageDescriptor("full/obj16/checkout.gif");
@@ -118,6 +119,11 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	 * The {@link CheckboxTreeViewer} for selecting elements of a remote model
 	 */
 	private CheckboxTreeViewer checkboxTreeViewer; 
+	
+	/**
+	 * Action for en-/disabling selection listening
+	 */
+	private Action syncSelection_action;
 	
 	/**
 	 * Action for browsing the remote model files
@@ -199,7 +205,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		// Create the help context id for the viewer's control
 		workbench.getHelpSystem().setHelp(treeViewer.getControl(), "org.sidiff.remote.application.ui.connector.viewer");
 		getSite().setSelectionProvider(treeViewer);
-		getSite().getPage().addSelectionListener(this);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -256,6 +261,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(this.syncSelection_action);
 		manager.add(this.expandAllAction);
 		manager.add(this.collapseAllAction);
 		manager.add(this.browseFiles_action);
@@ -264,6 +270,15 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	}
 
 	private void makeActions() {
+		this.syncSelection_action = new Action("Syncronize Selection", Action.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				doListen(syncSelection_action.isChecked());
+			}
+		};
+		this.syncSelection_action.setToolTipText("Syncronize view with selection");
+		this.syncSelection_action.setImageDescriptor(IMG_SYNC_SELECTION);
+		
 		this.browseFiles_action = new Action() {
 			public void run() {
 				try {
@@ -417,6 +432,14 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 				}
 				
 			}
+		}
+	}
+	
+	private void doListen(boolean b) {
+		if(b) {
+			getSite().getPage().addSelectionListener(this);
+		}else {
+			getSite().getPage().removeSelectionListener(this);
 		}
 	}
 	

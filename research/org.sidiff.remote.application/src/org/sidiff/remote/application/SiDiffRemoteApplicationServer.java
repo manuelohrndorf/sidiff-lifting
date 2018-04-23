@@ -9,6 +9,10 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -49,11 +53,15 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	private IWorkspace workspace;
 	
 	private ProtocolHandler protocolHandler;
-
+	
+	private Logger log;
+	
 	@Override
 	public Object start(IApplicationContext context) throws IOException {
 		
-		System.out.println("/ Sidiff Remote Application is starting");
+		this.workspace = ResourcesPlugin.getWorkspace();
+		
+		initializeLogger();
 				
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		String arg_port = args[0];
@@ -66,22 +74,20 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();
 		
-		this.workspace = ResourcesPlugin.getWorkspace();
-		
+		log.log(Level.INFO, "Sidiff Remote Application Server is starting");
 		this.protocolHandler = new ProtocolHandler(this.workspace.getRoot().getLocation().toOSString());
-		System.out.println("port: " + port);
-		System.out.println("workspace: " + workspace.getRoot().getLocation().toOSString());
-		System.out.println("Sidiff Remote Application is running");
+		log.log(Level.INFO, config.toString());
+		log.log(Level.INFO, "Localization: " + workspace.getRoot().getLocation().toOSString());
 		
 		while(true) {
-			System.out.println("waiting for request");
+			log.log(Level.INFO, "waiting for request");
 			Socket client = server.accept();
 			try {
-				System.out.println("processing request");
+				log.log(Level.INFO, "processing request:");
 				handleRequest(client);
 			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.log(Level.SEVERE, e.getMessage(), e);
+				handleException(client, e);
 			}finally {
 				client.close();
 			}
@@ -101,14 +107,17 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		Command command = this.protocolHandler.read(in);
 		
+		log.log(Level.INFO, command.toString());
+		
 		SiDiffRemoteApplication app = client_sessions.get(command.getSession().getSessionID());
 		if(app == null) {
+			log.log(Level.INFO, "create new remote session");
 			app = new SiDiffRemoteApplication(this.workspace, command.getSession());
 			client_sessions.put(command.getSession().getSessionID(), app);
 			
 		}
 		app.setSession(command.getSession());
-		System.out.println("client session:" + command.getSession().getSessionID());
+
 		File attachment = null;
 		switch(command.getECommand()) {
 		case BROWSE_MODEL_FILES_REQUEST:
@@ -158,6 +167,17 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			break;
 		default:
 		}
+	}
+	
+	private void handleException(Socket client, Exception e) throws IOException {
+		this.log.log(Level.SEVERE, "An error occured", e);
+	}
+	
+	private void initializeLogger() throws SecurityException, IOException {
+		this.log = Logger.getLogger(this.getClass().getName());
+		Handler errorHandler = new FileHandler(this.workspace.getRoot().getLocation().toOSString() + File.separator + "error.log");
+		errorHandler.setLevel(Level.SEVERE);
+		this.log.addHandler(errorHandler);
 	}
 
 }
