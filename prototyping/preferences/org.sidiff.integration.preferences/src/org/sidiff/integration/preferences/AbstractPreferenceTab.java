@@ -35,7 +35,7 @@ public abstract class AbstractPreferenceTab implements ISiDiffPreferenceTab {
 	}
 
 	@Override
-	public Iterable<PreferenceField> getTabContent() {
+	public List<PreferenceField> getTabContent() {
 		if(fieldList == null) {
 			fieldList = new ArrayList<PreferenceField>();
 			createPreferenceFields();

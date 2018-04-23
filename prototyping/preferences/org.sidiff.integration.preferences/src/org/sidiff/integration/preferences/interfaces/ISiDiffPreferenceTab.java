@@ -1,5 +1,7 @@
 package org.sidiff.integration.preferences.interfaces;
 
+import java.util.List;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
@@ -23,10 +25,10 @@ public interface ISiDiffPreferenceTab extends ISiDiffOrderableTab {
 	void propertyChange(PropertyChangeEvent event);
 
 	/**
-	 * Returns an {@link Iterable} with all fields present in the tab.
-	 * @return The {@link Iterable} with the fields.
+	 * Returns a {@link List} with all fields present in the tab.
+	 * @return The {@link List} with the fields.
 	 */
-	Iterable<PreferenceField> getTabContent();
+	List<PreferenceField> getTabContent();
 
 	/**
 	 * Sets the {@link IPreferenceStore} for all fields in the tab.

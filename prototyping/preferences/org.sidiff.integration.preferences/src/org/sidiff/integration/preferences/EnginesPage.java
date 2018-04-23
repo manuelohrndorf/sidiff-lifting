@@ -56,10 +56,12 @@ public class EnginesPage extends TabbedPreferenceFieldPage implements IWorkbench
 
 		extensionClassList.sort(ISiDiffOrderableTab.COMPARATOR);
 
-		// TODO: hide empty tabs
 		for (ISiDiffEnginesPreferenceTab tab : extensionClassList) {
+			List<PreferenceField> contents = tab.getTabContent();
+			if(contents.isEmpty())
+				continue; // empty tabs are skipped
 			int tabNumber = this.addTab(tab.getTitle());
-			for (PreferenceField field : tab.getTabContent()) {
+			for (PreferenceField field : contents) {
 				this.addField(field, tabNumber);
 			}
 		}

@@ -60,6 +60,9 @@ public class ValidationPage extends TabbedPreferenceFieldPage implements IWorkbe
 		extensionClassList.sort(ISiDiffOrderableTab.COMPARATOR);
 
 		for (ISiDiffValidationPreferenceTab tab : extensionClassList) {
+			List<PreferenceField> contents = tab.getTabContent();
+			if(contents.isEmpty())
+				continue; // empty tabs are skipped
 			int tabNumber = this.addTab(tab.getTitle());
 			for (PreferenceField field : tab.getTabContent()) {
 				this.addField(field, tabNumber);
