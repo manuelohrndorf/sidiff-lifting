@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.lifting.factory;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -104,17 +105,15 @@ public class LiftingSettingsFactory extends DifferenceSettingsFactory {
 			}
 		}
 
-		Set<String> documentTypes = new HashSet<String>();
-		rrsorters = PipelineUtils.getAvailableRecognitionRuleSorters(documentTypes);
-		rrsorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
-		for (IRecognitionRuleSorter sorter : rrsorters) {
-			if (sorter.getKey().equals(store.getString(documentType.concat("recognitionRuleSorter")))) rrsorter = sorter;
+		rrsorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(store.getString(documentType + "recognitionRuleSorter"));
+		if(rrsorter == null) {
+			rrsorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(Collections.singleton(documentType));
 		}
-		
+
 		calculateEditRuleMatch = store.getBoolean("calculateEditRuleMatch");
 		serializeEditRuleMatch = store.getBoolean("serializeEditRuleMatch");
 
-		//Advanced Settings
+		// Advanced Settings
 		useThreadPool = store.getBoolean("useThreadPool");
 		numberOfThreads = store.getInt("numberOfThreads");
 		rulesPerThread = store.getInt("rulesPerThread");
