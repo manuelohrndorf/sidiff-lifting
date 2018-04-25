@@ -1,11 +1,16 @@
 package org.sidiff.remote.common;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import org.sidiff.remote.common.util.ChecksumUtil;
 
 /**
  * 
@@ -33,6 +38,8 @@ public class Session implements Serializable{
 	
 	private Map<String, String> models;
 	
+	private Map<String, String> modelChecksum;
+	
 	public Session(String url, int port, String user) {
 		this.sessionID = UUID.randomUUID().toString();
 		this.url = url;
@@ -40,6 +47,7 @@ public class Session implements Serializable{
 		this.user = user;
 		this.repositories = new HashSet<String>();
 		this.models = new HashMap<String, String>();
+		this.modelChecksum = new HashMap<String, String>();
 	}
 
 	public void addRepository(String repository) {
@@ -48,6 +56,11 @@ public class Session implements Serializable{
 	
 	public void addModel(String localPath, String remotePath) {
 		this.models.put(localPath, remotePath);
+	}
+	
+	public void addModelChecksum(String localPath, File file) throws NoSuchAlgorithmException, IOException {
+		String checksum = ChecksumUtil.getFileChecksum(file);
+		this.modelChecksum.put(localPath, checksum);
 	}
 
 	public String getSessionID() {
@@ -74,6 +87,10 @@ public class Session implements Serializable{
 		return models;
 	}
 	
+	public Map<String, String> getModelChecksum() {
+		return modelChecksum;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -81,7 +98,7 @@ public class Session implements Serializable{
 		stringBuilder.append("session: " + sessionID + "\n");
 		stringBuilder.append("local -> remote models:\n");
 		for(String local : models.keySet()) {
-			stringBuilder.append("\t" + local + " -> " + models.get(local) + "\n");
+			stringBuilder.append("\t" + local + " -> " + models.get(local) + " (" + modelChecksum.get(local) + ")\n");
 		}
 		return stringBuilder.toString();
 	}

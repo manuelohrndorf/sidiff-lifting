@@ -33,7 +33,7 @@ public class ProtocolHandler {
 	
 	private ObjectOutputStream oos;
 	
-	public ProtocolHandler(String path) {
+	public ProtocolHandler() {
 //		this.path = path;
 //		this.formatter = new SimpleDateFormat("yyyy'-'MM'-'d'_'H'-'m'-'s");
 	}

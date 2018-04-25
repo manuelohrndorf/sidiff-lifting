@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.runtime.CoreException;
@@ -81,7 +82,7 @@ public class SiDiffRemoteApplication {
 		return treeModel;
 	}
 	
-	public File checkoutModel(String remotePath, String localPath, List<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	public File checkoutModel(String remotePath, String localPath, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		
 		String absolute_origin_path = user_folder + File.separator + remotePath;
 		String absolute_copy_path = session_temp_folder + File.separator + localPath;
@@ -164,6 +165,26 @@ public class SiDiffRemoteApplication {
 
 	public void setSession(Session session) {
 		this.session = session;
+	}
+
+	public File updateSubModel(String localPath, Set<String> elementIds) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+		String absolute_copy_path = session_temp_folder + File.separator + localPath;
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		
+		URI emptydModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
+
+		ResourceSet emptyModelResourceSet = new ResourceSetImpl();
+		UUIDResource emptyModel = new UUIDResource(emptydModelURI, emptyModelResourceSet);
+		
+		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
+
+		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
+		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		
+		return this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
+		
 	}
 	
 }

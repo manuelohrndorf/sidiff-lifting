@@ -78,6 +78,33 @@ public class ExtractionEngine {
 		return new File(EMFStorage.uriToPath(slicedModel.getURI()));
 	}
 	
+	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
+		config.setCompleteResource(completeModel);
+		config.setEmtpyResource(emptyModel);
+		Set<EObject> oldEObjects = new HashSet<EObject>();
+		for(String id : slicedModel.getIDToEObjectMap().keySet()) {
+			oldEObjects.add(completeModel.getIDToEObjectMap().get(id));
+		}
+		config.setOldSlicingCriteria(oldEObjects);
+		Set<EObject> eObjects = new HashSet<EObject>();
+		
+		initSettings(completeModel);
+		config.setLiftingSettings(liftingSettings);
+		
+		for(String uuid : uuids) {
+			eObjects.add(completeModel.getIDToEObjectMap().get(uuid));	
+		}
+		
+		RuleBasedSlicer slicer = new RuleBasedSlicer();
+		slicer.init(config);
+		ExecutableModelSlice modelSlice = (ExecutableModelSlice) slicer.slice(eObjects);
+		String path = EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "");
+		String file_path = modelSlice.serialize(path, true);
+		
+		return new File(file_path);
+	}
+	
 	private void initSettings(UUIDResource completeModel) {
 		this.liftingSettings = new LiftingSettings();
 		

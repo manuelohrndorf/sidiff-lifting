@@ -6,9 +6,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -32,6 +33,8 @@ import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.Command;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.UpdateSubModelReply;
+import org.sidiff.remote.common.commands.UpdateSubModelRequest;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
@@ -75,7 +78,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();
 		
 		log.log(Level.INFO, "Sidiff Remote Application Server is starting");
-		this.protocolHandler = new ProtocolHandler(this.workspace.getRoot().getLocation().toOSString());
+		this.protocolHandler = new ProtocolHandler();
 		log.log(Level.INFO, config.toString());
 		log.log(Level.INFO, "Localization: " + workspace.getRoot().getLocation().toOSString());
 		
@@ -85,7 +88,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				log.log(Level.INFO, "processing request:");
 				handleRequest(client);
-			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException e) {
+			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException | NoSuchAlgorithmException e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 				handleException(client, e);
 			}finally {
@@ -101,7 +104,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 
 	}
 	
-	private void handleRequest(Socket client) throws CoreException, UnsupportedProtocolException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException  {
+	private void handleRequest(Socket client) throws CoreException, UnsupportedProtocolException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, NoSuchAlgorithmException  {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
@@ -139,23 +142,13 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			CheckoutSubModelRequest checkoutSubModelRequest = (CheckoutSubModelRequest) command;
 			String localPath = checkoutSubModelRequest.getLocalModelPath();
 			String remotePath = checkoutSubModelRequest.getRemoteModelPath();
-			List<String> elementIds = checkoutSubModelRequest.getElementIds();
+			Set<String> elementIds = checkoutSubModelRequest.getElementIds();
 			attachment = app.checkoutModel(remotePath, localPath, elementIds);
 			app.getSession().addModel(localPath, remotePath);
+			app.getSession().addModelChecksum(localPath, attachment);
+			
 			CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(app.getSession(), attachment);
 			this.protocolHandler.write(out, checkoutSubModelReply, attachment);
-//			String[] output = this.protocolHandler.getContent().toString().split("\\n");
-//			String localPath = output[0];
-//			String remotePath= output[1];
-//			String[] elementIDs = new String[output.length-2];
-//			for(int i = 2; i < output.length; i++) {
-//				if(i == 0) {
-//					elementIDs[i-2] = output[i];
-//				}
-//			}
-//			resource = app.checkoutModel(remotePath, elementIDs);
-//			this.protocolHandler.getSession().addModel(localPath, remotePath);
-//			this.protocolHandler.write(out, app.getSession(), Command.CHECKOUT, ContentType.FILE, resource);
 			break;
 			
 		case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
@@ -164,6 +157,15 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			TreeModel treeModelRME = app.getRequestedModelElements(localPathRME);
 			GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(app.getSession(), treeModelRME);
 			this.protocolHandler.write(out, getRequestedModelElementsReply, null);
+			break;
+			
+		case UPDATE_SUBMODEL_REQUEST:
+			UpdateSubModelRequest updateSubModelRequest = (UpdateSubModelRequest) command;
+			String localPathSubModel = updateSubModelRequest.getLocalModelPath();
+			Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
+			File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
+			UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(app.getSession(), modelSliceZip);
+			this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
 			break;
 		default:
 		}
