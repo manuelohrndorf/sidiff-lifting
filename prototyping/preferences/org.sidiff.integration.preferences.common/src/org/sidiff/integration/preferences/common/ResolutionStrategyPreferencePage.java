@@ -7,7 +7,6 @@ import org.sidiff.integration.preferences.Activator;
 import org.sidiff.integration.preferences.TabbedPreferenceFieldPage;
 import org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 
 /**
  * 

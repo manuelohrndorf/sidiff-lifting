@@ -7,7 +7,6 @@ import org.sidiff.integration.preferences.fieldeditors.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingsSettingsAdapter;
-import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 
 /**
  * 
