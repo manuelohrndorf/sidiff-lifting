@@ -2,9 +2,10 @@ package org.sidiff.integration.preferences.fieldeditors;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * PreferenceField for a number spinner
@@ -50,9 +51,12 @@ public class NumberPreferenceField extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	protected void doCreateControls(Group parent, String title) {
-		new Text(parent, SWT.NULL).setText(title);
-		spinner = new Spinner(parent, SWT.NULL);
+	protected void doCreateControls(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(title);
+		group.setLayout(new RowLayout(SWT.VERTICAL));
+
+		spinner = new Spinner(group, SWT.NULL);
 	}
 
 	/**

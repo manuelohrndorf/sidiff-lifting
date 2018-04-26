@@ -15,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
@@ -86,20 +87,21 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Group parent, String title) {
-		parent.setLayout(new RowLayout(SWT.VERTICAL));
-		parent.setText(title);
+	public void doCreateControls(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(title);
+		group.setLayout(new RowLayout(SWT.VERTICAL));
 
 		buttons = new HashMap<String, Button>();
 		for(T input : inputs) {
-			Button b = new Button(parent, SWT.RADIO);
+			Button b = new Button(group, SWT.RADIO);
 			b.addSelectionListener(createSelectionListener(valueConverter.getValue(input)));
 			b.setText(valueConverter.getLabel(input));
 			buttons.put(valueConverter.getValue(input), b);
 		}
 
 		if(inputs.isEmpty()) {
-			Label label = new Label(parent, SWT.NONE);
+			Label label = new Label(group, SWT.NONE);
 			label.setText("None available");
 		}
 	}

@@ -94,20 +94,20 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Group parent, String title) {
-		parent.setText(title);
-		parent.setLayout(new GridLayout(3, false));
+	public void doCreateControls(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		group.setText(title);
+		group.setLayout(new GridLayout(3, false));
 
-		left = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
-		left.setFont(parent.getFont());
+		left = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		left.addSelectionListener(getSelectionListener());
 		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		buttonBox = getButtonBox(parent);
+		buttonBox = getButtonBox(group);
 		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
-		right = new org.eclipse.swt.widgets.List(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
-		right.setFont(parent.getFont());
+		right = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		right.addSelectionListener(getSelectionListener());
 		right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}

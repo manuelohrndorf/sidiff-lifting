@@ -7,11 +7,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
@@ -55,13 +53,13 @@ public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage impl
 		
 		return tabFolder;
 	}
-	
+
 	private void initialize() {
 		for(int tab = 0; tab < tabs.size(); tab++) {
 			List<PreferenceField> fields = tabs.get(tab);
 			TabItem tabItem = createTab(tab);
 			for(PreferenceField pf : fields) {
-				pf.createControls(getPreferenceFieldParent(tabItem));
+				pf.createControls((Composite)tabItem.getControl());
 				pf.addPropertyChangeListener(this);
 				pf.addPropertyChangeListener(getPropertyChangeListener());
 				pf.setPreferenceStore(getPreferenceStore());
@@ -69,7 +67,7 @@ public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage impl
 			}
 		}
 	}
-	
+
 	private IPropertyChangeListener getPropertyChangeListener() {
 		return new IPropertyChangeListener() {			
 			@Override
@@ -126,16 +124,10 @@ public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage impl
 		item.setText(tabTitles.get(tab));
 
 		Composite content = new Composite(tabFolder, SWT.NONE);
-		content.setLayout(new RowLayout(SWT.VERTICAL));
+		content.setLayout(new GridLayout(1, true));
 
 		item.setControl(content);
         return item;
-	}
-
-	public Group getPreferenceFieldParent(TabItem tab) {
-		Group parent = new Group((Composite)tab.getControl(), SWT.NONE);
-		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		return parent;
 	}
 
 	protected abstract void createPreferenceFields();

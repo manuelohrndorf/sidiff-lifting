@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * PreferenceField for use in a PreferenceFieldPage
@@ -31,9 +31,9 @@ public abstract class PreferenceField {
 	private String title;
 	
 	/**
-	 * Groupt into which controls can be created
+	 * Composite into which controls can be created
 	 */
-	private Group parent;
+	private Composite parent;
 	
 	/**
 	 * true, if the preference can be changed
@@ -90,41 +90,41 @@ public abstract class PreferenceField {
 	
 	/**
 	 * creates the controls for this field
-	 * @param parent groutp into which controls can be created
+	 * @param parent composite into which controls can be created
 	 */
-	public void createControls(Group parent) {
+	public void createControls(Composite parent) {
 		this.parent = parent;
 		doCreateControls(parent, title);
 		updateEnabledState();
 	}
 	
 	/**
-	 * sublcasses should implement this to load the preference into their control
+	 * subclasses should implement this to load the preference into their control
 	 * @param store the store to be used
 	 * @param preferenceName the name of the preference to be loaded
 	 */
 	protected abstract void doLoad(IPreferenceStore store, String preferenceName);
 	
 	/**
-	 * sublcasses should implement this to load the default preference into their control
+	 * subclasses should implement this to load the default preference into their control
 	 * @param store the store to be used
 	 * @param preferenceName the name of the preference to be loaded
 	 */
 	protected abstract void doLoadDefault(IPreferenceStore store, String preferenceName);
 	
 	/**
-	 * sublcasses should implement this to save the preference from their control
+	 * subclasses should implement this to save the preference from their control
 	 * @param store the store to be used
 	 * @param preferenceName the name of the preference to be stored
 	 */
 	protected abstract void doSave(IPreferenceStore store, String preferenceName);
 	
 	/**
-	 * sublcasses should implement this to create all their fields
-	 * @param parent the Group, into which controls can be created
+	 * subclasses should implement this to create all their fields
+	 * @param parent the Composite, into which controls can be created
 	 * @param title human readable title to be used
 	 */
-	protected abstract void doCreateControls(Group parent, String title);
+	protected abstract void doCreateControls(Composite parent, String title);
 	
 	/**
 	 * enables/disables the field 
