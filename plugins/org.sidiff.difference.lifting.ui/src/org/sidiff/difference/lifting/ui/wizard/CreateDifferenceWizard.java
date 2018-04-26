@@ -26,6 +26,7 @@ import org.sidiff.difference.lifting.ui.pages.AdvancedCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.pages.BasicCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.integration.preferences.ui.pages.SettingsSourceWizardPage;
 import org.sidiff.matching.input.InputModels;
 
 public class CreateDifferenceWizard extends Wizard {
@@ -46,7 +47,12 @@ public class CreateDifferenceWizard extends Wizard {
 	private String diffSavePath;
 	
 	// ---------- UI Elements ----------
-	
+
+	/**
+	 * The {@link SettingsSourceWizardPage}
+	 */
+	private SettingsSourceWizardPage useGlobalSettingsPage;
+
 	/**
 	 * The {@link BasicCompareSettingsPage}
 	 */
@@ -69,9 +75,12 @@ public class CreateDifferenceWizard extends Wizard {
 	}
 
 	// ---------- Wizard ----------
-	
+
 	@Override
 	public void addPages() {
+		useGlobalSettingsPage = new SettingsSourceWizardPage("Select Settings Source Page", "Compare models with each other", inputModels, settings);
+		addPage(useGlobalSettingsPage);
+
 		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page","Compare models with each other",inputModels, settings);
 		addPage(basicCompareSettingsPage);
 
