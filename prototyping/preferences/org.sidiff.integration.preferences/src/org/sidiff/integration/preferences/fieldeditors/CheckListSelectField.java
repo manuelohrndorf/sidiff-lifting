@@ -10,6 +10,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -93,6 +94,11 @@ public class CheckListSelectField extends PreferenceField {
 					CheckListSelectField.this.firePropertyChanged(event.getOldValue(), event.getNewValue());
 				}
 			});
+		}
+
+		if(fields.isEmpty()) {
+			Label label = new Label(parent, SWT.NONE);
+			label.setText("None available");
 		}
 	}
 	

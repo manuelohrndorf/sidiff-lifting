@@ -16,6 +16,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
@@ -95,6 +96,11 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 			b.addSelectionListener(createSelectionListener(valueConverter.getValue(input)));
 			b.setText(valueConverter.getLabel(input));
 			buttons.put(valueConverter.getValue(input), b);
+		}
+
+		if(inputs.isEmpty()) {
+			Label label = new Label(parent, SWT.NONE);
+			label.setText("None available");
 		}
 	}
 
