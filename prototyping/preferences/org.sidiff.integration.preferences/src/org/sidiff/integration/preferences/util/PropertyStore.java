@@ -50,7 +50,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	 * @param name the name of the key
 	 * convienience Method: creates a qualifiedName from the pageId and a name
 	 */
-	private QualifiedName key(String name) {
+	private static QualifiedName key(String name) {
 		return new QualifiedName(SiDiffPreferences.QUALIFIER, name);
 	}
 
@@ -452,5 +452,13 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
 		super.removeListenerObject(listener);
+	}
+
+	public static boolean hasResourceSpecificSettings(IResource resource) {
+		try {
+			return Boolean.valueOf(resource.getPersistentProperty(key(USE_RESOURCE_SETTINGS)));
+		} catch(CoreException e) {
+			return false;
+		}
 	}
 }

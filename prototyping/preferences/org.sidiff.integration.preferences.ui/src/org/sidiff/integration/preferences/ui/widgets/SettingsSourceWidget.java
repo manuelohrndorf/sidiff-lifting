@@ -22,6 +22,7 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.integration.preferences.util.PropertyStore;
 import org.sidiff.integration.preferences.util.SettingsAdapterUtil;
 
 /**
@@ -80,10 +81,11 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioGlobal.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.GLOBAL, radioGlobal);
 
-		// TODO: only show this button if the project has settings
+		boolean hasProjectSpecific = PropertyStore.hasResourceSpecificSettings(project);
 		Button radioProject = new Button(group, SWT.RADIO);
 		radioProject.setText("Use settings of project");
 		radioProject.addSelectionListener(getButtonSelectionListener());
+		radioProject.setEnabled(hasProjectSpecific);
 		buttons.put(Source.PROJECT, radioProject);
 
 		Button radioCustom = new Button(group, SWT.RADIO);
@@ -91,8 +93,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioCustom.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.CUSTOM, radioCustom);
 
-		// TODO: set default based on available settings?
-		setSource(Source.CUSTOM);
+		setSource(hasProjectSpecific ? Source.PROJECT : Source.CUSTOM);
 		return container;
 	}
 
@@ -117,8 +118,9 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		updateSettings();
 
 		for(SelectionListener listener : selectionListeners) {
-			// event details don't matter
-			listener.widgetSelected(new SelectionEvent(new Event()));
+			Event e = new Event();
+			e.widget = buttons.get(source);
+			listener.widgetSelected(new SelectionEvent(e));
 		}
 	}
 
