@@ -3,14 +3,14 @@ package org.sidiff.integration.preferences.domains.patching;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.domains.AbstractDomainPreferenceTab;
-import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
+import org.sidiff.integration.preferences.domains.patching.settingsadapter.DomainPatchingSettingsAdapter;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 
 /**
- * Abstract class for the domain specific {@link org.sidiff.patching.settings.PatchingSettings}
+ * Class for the domain specific {@link org.sidiff.patching.settings.PatchingSettings}
  * @author Daniel Roedder, Robert Müller
  * 
  */
@@ -25,12 +25,7 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 	 * The {@link RadioBoxPreferenceField} for the modified detector setting
 	 */
 	private RadioBoxPreferenceField<?> modifiedDetectorField;
-	
-	/**
-	 * The {@link CheckBoxPreferenceField} for the use interactive patching setting
-	 */
-	private CheckBoxPreferenceField useInteractivePatching;
-	
+
 	/**
 	 * @see org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab#getTitle()
 	 */
@@ -42,7 +37,7 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 	@Override
 	protected void createPreferenceFields() {
 		transformationEngineField = RadioBoxPreferenceField.create(
-				getDocumentType() + "transformationEngine",
+				DomainPatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
 				TransformationEngineUtil.getAvailableTransformationEngines(getDocumentType()),
 				new IPreferenceValueConverter<ITransformationEngine>() {
@@ -58,7 +53,7 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 		addField(transformationEngineField);
 
 		modifiedDetectorField = RadioBoxPreferenceField.create(
-				getDocumentType() + "modifiedDetector",
+				DomainPatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),
 				new IPreferenceValueConverter<IModifiedDetector>() {
@@ -72,9 +67,6 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 					}
 				});
 		addField(modifiedDetectorField);
-
-		useInteractivePatching = new CheckBoxPreferenceField("useInteractivePatching", "Use interactive patching");
-		addField(useInteractivePatching);
 	}
 
 	@Override

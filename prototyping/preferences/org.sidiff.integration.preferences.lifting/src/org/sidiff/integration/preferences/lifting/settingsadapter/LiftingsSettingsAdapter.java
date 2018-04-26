@@ -1,0 +1,90 @@
+package org.sidiff.integration.preferences.lifting.settingsadapter;
+
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
+
+/**
+ * 
+ * @author Robert Müller
+ *
+ */
+public class LiftingsSettingsAdapter implements ISettingsAdapter {
+
+	public static final String KEY_RECOGNITION_ENGINE_MODE = "recognitionEngineMode";
+	public static final String KEY_CALCULATE_EDIT_RULE_MATCH = "calculateEditRuleMatch";
+	public static final String KEY_SERIALIZE_EDIT_RULE_MATCH = "serializeEditRuleMatch";
+	public static final String KEY_USE_THREAD_POOL = "useThreadPool";
+	public static final String KEY_NUMBER_OF_THREADS = "numberOfThreads";
+	public static final String KEY_RULES_PER_THREAD = "rulesPerThread";
+	public static final String KEY_SORT_RECOGNITION_RULE_NODES = "sortRecognitionRuleNodes";
+	public static final String KEY_RULESET_REDUCTION = "rulesetReduction";
+	public static final String KEY_BUILD_GRAPH_PER_RULE = "buildGraphPerRule";
+	public static final String KEY_DETECT_SPLIT_JOINS = "detectSplitJoins";
+
+	private RecognitionEngineMode recognitionEngineMode;
+	private boolean calculateEditRuleMatch;
+	private boolean serializeEditRuleMatch;
+	private boolean useThreadPool;
+	private int numberOfThreads;
+	private int rulesPerThread;
+	private boolean sortRecognitionRuleNodes;
+	private boolean rulesetReduction;
+	private boolean buildGraphPerRule;
+	private boolean detectSplitJoins;
+
+	@Override
+	public boolean canAdapt(AbstractSettings settings) {
+		return settings instanceof LiftingSettings;
+	}
+
+	@Override
+	public void adapt(AbstractSettings settings) {
+		LiftingSettings liftingSettings = (LiftingSettings)settings;
+		liftingSettings.setRecognitionEngineMode(recognitionEngineMode);
+		liftingSettings.setCalculateEditRuleMatch(calculateEditRuleMatch);
+		liftingSettings.setSerializeEditRuleMatch(serializeEditRuleMatch);
+		liftingSettings.setUseThreadPool(useThreadPool);
+		liftingSettings.setNumberOfThreads(numberOfThreads);
+		liftingSettings.setRulesPerThread(rulesPerThread);
+		liftingSettings.setSortRecognitionRuleNodes(sortRecognitionRuleNodes);
+		liftingSettings.setRuleSetReduction(rulesetReduction);
+		liftingSettings.setBuildGraphPerRule(buildGraphPerRule);
+		liftingSettings.setDetectSplitJoins(detectSplitJoins);
+	}
+
+	@Override
+	public void load(IPreferenceStore store) {
+		recognitionEngineMode = RecognitionEngineMode.valueOf(store.getString(KEY_RECOGNITION_ENGINE_MODE));
+		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
+		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
+		useThreadPool = store.getBoolean(KEY_USE_THREAD_POOL);
+		numberOfThreads = store.getInt(KEY_NUMBER_OF_THREADS);
+		rulesPerThread = store.getInt(KEY_RULES_PER_THREAD);
+		sortRecognitionRuleNodes = store.getBoolean(KEY_SORT_RECOGNITION_RULE_NODES);
+		rulesetReduction = store.getBoolean(KEY_RULESET_REDUCTION);
+		buildGraphPerRule = store.getBoolean(KEY_BUILD_GRAPH_PER_RULE);
+		detectSplitJoins = store.getBoolean(KEY_DETECT_SPLIT_JOINS);
+	}
+
+	@Override
+	public void initializeDefaults(IPreferenceStore store) {
+		store.setDefault(KEY_RECOGNITION_ENGINE_MODE, RecognitionEngineMode.LIFTING_AND_POST_PROCESSING.name());
+		store.setDefault(KEY_CALCULATE_EDIT_RULE_MATCH, true);
+		store.setDefault(KEY_SERIALIZE_EDIT_RULE_MATCH, true);
+		store.setDefault(KEY_USE_THREAD_POOL, true);
+		store.setDefault(KEY_NUMBER_OF_THREADS, 32);
+		store.setDefault(KEY_RULES_PER_THREAD, 10);
+		store.setDefault(KEY_SORT_RECOGNITION_RULE_NODES, true);
+		store.setDefault(KEY_RULESET_REDUCTION, true);
+		store.setDefault(KEY_BUILD_GRAPH_PER_RULE, true);
+		store.setDefault(KEY_DETECT_SPLIT_JOINS, false);
+	}
+
+	@Override
+	public int getPosition() {
+		return 30;
+	}
+}

@@ -16,6 +16,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -150,5 +151,18 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	public static <T> RadioBoxPreferenceField<T> create(String preferenceName, String title,
 			T[] inputs, IPreferenceValueConverter<T> valueConverter) {
 		return new RadioBoxPreferenceField<T>(preferenceName, title, Arrays.asList(inputs), valueConverter);
+	}
+
+	/**
+	 * Creates a new RadioBoxPreferenceField for an Enum-type. Uses the {@link EnumPreferenceValueConverter}.
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the preference field
+	 * @param enumClass the class of the Enum
+	 * @return the newly created RadioBoxPreferenceField
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E extends Enum<E>> RadioBoxPreferenceField<E> create(String preferenceName, String title, Class<E> enumClass) {
+		return (RadioBoxPreferenceField<E>)create(preferenceName, title,
+				enumClass.getEnumConstants(), new EnumPreferenceValueConverter());
 	}
 }

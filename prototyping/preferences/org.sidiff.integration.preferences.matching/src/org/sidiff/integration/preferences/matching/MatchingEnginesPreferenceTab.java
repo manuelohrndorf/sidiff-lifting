@@ -15,6 +15,7 @@ import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
@@ -33,27 +34,27 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 	/**
 	 * The {@link OrderListSelectField} for the order the {@link IMatcher}s are used
 	 */
-	private OrderListSelectField<?> matchingOrder;
+	private OrderListSelectField<?> matchersField;
 
 	/**
 	 * The {@link RadioBoxPreferenceField} for the candidate service
 	 */
-	private RadioBoxPreferenceField<?> candidatesServices;
+	private RadioBoxPreferenceField<?> candidatesServiceField;
 
 	/**
 	 * The {@link PreferenceField} for the correspondences service
 	 */
-	private PreferenceField correspondencesServices;
+	private PreferenceField correspondencesServiceField;
 
 	/**
 	 * The {@link PreferenceField} for the similarities services
 	 */
-	private PreferenceField similaritiesServices;
+	private PreferenceField similaritiesServiceField;
 
 	/**
 	 * The {@link PreferenceField} for the similarities calculation services
 	 */
-	private PreferenceField similaritiesCalculationServices;
+	private PreferenceField similaritiesCalculationServiceField;
 
 	/**
 	 * The {@link HashMap} for the matcher options fields
@@ -71,9 +72,9 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 	@Override
 	protected void createPreferenceFields() {
 		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
-		matchingOrder = OrderListSelectField.create(
-				"matchingOrder",
-				"Matching Order",
+		matchersField = OrderListSelectField.create(
+				MatchingSettingsAdapter.KEY_MATCHERS,
+				"Matchers",
 				matchers,
 				new IPreferenceValueConverter<IMatcher>() {
 					@Override
@@ -85,14 +86,14 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 						return value.getName();
 					}
 				});
-		addField(matchingOrder);
+		addField(matchersField);
 
-		// TODO: matcher options are untested
 		matcherOptions = new HashMap<String, PreferenceField>();
 		for(IMatcher matcher : matchers) {
 			if(matcher instanceof IConfigurable) {
 				PreferenceField matcherOption = CheckListSelectField.create(
-						matcher.getKey(), matcher.getName(),
+						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
+						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
 						new IdentityPreferenceValueConverter());
 				addField(matcherOption);
@@ -111,23 +112,26 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 			}
 		};
 
-		candidatesServices = RadioBoxPreferenceField.create("candidatesServices", "Candidates Services",
+		candidatesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
 				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
-		addField(candidatesServices);
+		addField(candidatesServiceField);
 
-		correspondencesServices = RadioBoxPreferenceField.create("correspondencesServices", "Correspondences Services",
+		correspondencesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
 				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
-		addField(correspondencesServices);
+		addField(correspondencesServiceField);
 
-		similaritiesServices = RadioBoxPreferenceField.create("similaritiesServices", "Similarities Services",
+		similaritiesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(), serviceValueConverter);
-		addField(similaritiesServices);
+		addField(similaritiesServiceField);
 
-		similaritiesCalculationServices = RadioBoxPreferenceField.create(
-				"similaritiesCalculationServices", "Similarities Calculation Services",
+		similaritiesCalculationServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
 				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
 				serviceValueConverter);
-		addField(similaritiesCalculationServices);
+		addField(similaritiesCalculationServiceField);
 	}
 
 	/**
@@ -136,8 +140,8 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getSource() == matchingOrder) {
-			List<String> newValue = Arrays.asList((String[]) event.getNewValue());
+		if(event.getSource() == matchersField) {
+			List<String> newValue = Arrays.asList((String[])event.getNewValue());
 			for(Entry<String, PreferenceField> matcherOptions : this.matcherOptions.entrySet()) {
 				if(newValue.contains(matcherOptions.getKey())) {
 					matcherOptions.getValue().enable();

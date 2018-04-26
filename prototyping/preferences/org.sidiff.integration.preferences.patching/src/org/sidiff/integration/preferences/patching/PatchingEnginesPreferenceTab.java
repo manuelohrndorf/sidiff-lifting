@@ -1,12 +1,16 @@
 package org.sidiff.integration.preferences.patching;
 
 import org.sidiff.integration.preferences.AbstractEnginePreferenceTab;
+import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
+import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
+import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.patching.settings.ExecutionMode;
 import org.sidiff.patching.settings.PatchMode;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
+import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
  * 
@@ -31,6 +35,16 @@ public class PatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 	private PreferenceField minReliability;
 
 	/**
+	 * The {@link CheckBoxPreferenceField} for the use interactive patching setting
+	 */
+	private CheckBoxPreferenceField useInteractivePatching;
+
+	/**
+	 * The {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField} for the symbolic link handlers
+	 */
+	private PreferenceField symbolicLinkHandlers;
+
+	/**
 	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTitle()
 	 */
 	@Override
@@ -40,16 +54,43 @@ public class PatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 
 	@Override
 	protected void createPreferenceFields() {
-		executionMode = RadioBoxPreferenceField.create("executionMode", "Execution Mode",
-				ExecutionMode.values(), new EnumPreferenceValueConverter());
+		executionMode = RadioBoxPreferenceField.create(
+				PatchingSettingsAdapter.KEY_EXECUTION_MODE,
+				"Execution Mode",
+				ExecutionMode.class);
 		addField(executionMode);
 
-		patchMode = RadioBoxPreferenceField.create("patchMode", "Patch Mode",
-				PatchMode.values(), new EnumPreferenceValueConverter());
+		patchMode = RadioBoxPreferenceField.create(
+				PatchingSettingsAdapter.KEY_PATCH_MODE,
+				"Patch Mode",
+				PatchMode.class);
 		addField(patchMode);
 
-		minReliability = new NumberPreferenceField("minReliability", "Minimum Reliability");
+		minReliability = new NumberPreferenceField(
+				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
+				"Minimum reliability");
 		addField(minReliability);
+
+		useInteractivePatching = new CheckBoxPreferenceField(
+				PatchingSettingsAdapter.KEY_USE_INTERACTIVE_PATCHING,
+				"Use interactive patching");
+		addField(useInteractivePatching);
+
+		symbolicLinkHandlers = RadioBoxPreferenceField.create(
+				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,
+				"Symbolic Link Handler",
+				SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers(),
+				new IPreferenceValueConverter<ISymbolicLinkHandler>() {
+					@Override
+					public String getValue(ISymbolicLinkHandler value) {
+						return value.getKey();
+					}
+					@Override
+					public String getLabel(ISymbolicLinkHandler value) {
+						return value.getName();
+					}
+				});
+		addField(symbolicLinkHandlers);
 	}
 
 	/**

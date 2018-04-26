@@ -70,7 +70,7 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	private void createOverrideControls(Composite parent) {
 		use = new Button(parent, SWT.CHECK);
 		use.setText("Use Properties");
-		use.setSelection(getPropertyStore().useResourceSettings());
+		use.setSelection(getPropertyStore().isUseResourceSettings());
 		use.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -99,14 +99,14 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 		Control c = doCreateContents(parent);
 		
 		if(isPropertiesPage()) {
-			useResourceSettings(getPropertyStore().useResourceSettings());
+			useResourceSettings(getPropertyStore().isUseResourceSettings());
 		}
 		return c;
 	}
 	
 	/**
 	 * @param use whether or not to use resource specific settings
-	 * if this represents a property page this method enables/disables resouce specific settings
+	 * if this represents a property page this method enables/disables resource specific settings
 	 * upon disabling, existing resource settings get saved to the resource
 	 * All controls will be disabled and preference store settings will be loaded
 	 * this is done for all other preference pages equally  
@@ -128,12 +128,14 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	private boolean doUseResourceSettings(boolean use) {
 		if(isPropertiesPage()) {
 			this.use.setSelection(use);
-			if(getPropertyStore().useResourceSettings() && !use) {
+			if(getPropertyStore().isUseResourceSettings() && !use) {
 				for(PreferenceField pf : getAllFields()) {
 					pf.save();
 				}
 			}
-			use = getPropertyStore().useResourceSettings(use);
+			getPropertyStore().setUseResourceSettings(use);
+
+			use = getPropertyStore().isUseResourceSettings(); // update the value, as the last operation may have failed
 			for(PreferenceField pf : getAllFields()) {
 				if(!use) {
 					pf.disable();

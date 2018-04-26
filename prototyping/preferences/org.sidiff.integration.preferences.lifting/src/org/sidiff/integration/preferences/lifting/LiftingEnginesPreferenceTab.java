@@ -6,6 +6,7 @@ import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingsSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 
 /**
@@ -15,10 +16,12 @@ import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueCon
  */
 public class LiftingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 
+	// TODO: add setting for IRecognitionEngine?
+
 	/**
 	 * The {@link PreferenceField} for the recognition engine mode selection
 	 */
-	private PreferenceField recognitionEngineModes;
+	private PreferenceField recognitionEngineMode;
 
 	/**
 	 * The {@link PreferenceField} for the calculate edit rule match setting
@@ -29,11 +32,6 @@ public class LiftingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 	 * The {@link PreferenceField} for the serialize edit rule match setting
 	 */
 	private PreferenceField serializeEditRuleMatch;
-
-	/**
-	 * The {@link PreferenceField} for the merge imports setting
-	 */
-	private PreferenceField mergeImports;
 
 	/**
 	 * {@link PreferenceField} for the use thread pool setting
@@ -80,40 +78,44 @@ public class LiftingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 
 	@Override
 	protected void createPreferenceFields() {
-		recognitionEngineModes = RadioBoxPreferenceField.create(
-				"recognitionEngineModes", "Recognition Engine Modes Services",
-				RecognitionEngineMode.values(), new EnumPreferenceValueConverter());
-		addField(recognitionEngineModes);
+		recognitionEngineMode = RadioBoxPreferenceField.create(
+				LiftingsSettingsAdapter.KEY_RECOGNITION_ENGINE_MODE,
+				"Recognition Engine Mode",
+				RecognitionEngineMode.class);
+		addField(recognitionEngineMode);
 
-		calculateEditRuleMatch = new CheckBoxPreferenceField("calculateEditRuleMatch", "Calculate Edit Rule Match");
+		calculateEditRuleMatch = new CheckBoxPreferenceField(
+				LiftingsSettingsAdapter.KEY_CALCULATE_EDIT_RULE_MATCH,
+				"Calculate Edit Rule Match");
 		addField(calculateEditRuleMatch);
 
-		serializeEditRuleMatch = new CheckBoxPreferenceField("serializeEditRuleMatch", "Serialize Edit Rule Match");
+		serializeEditRuleMatch = new CheckBoxPreferenceField(
+				LiftingsSettingsAdapter.KEY_SERIALIZE_EDIT_RULE_MATCH,
+				"Serialize Edit Rule Match");
 		addField(serializeEditRuleMatch);
 
-		mergeImports = new CheckBoxPreferenceField("mergeImports", "Merge Imports");
-		addField(mergeImports);
-
 		// advanced settings
-		useThreadPool = new CheckBoxPreferenceField("useThreadPool", "Use Thread Pool");
+		useThreadPool = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_USE_THREAD_POOL, "Use Thread Pool");
 		addField(useThreadPool);
 
-		numberOfThreads = new NumberPreferenceField("numberOfThreads", "Number of Threads");
+		numberOfThreads = new NumberPreferenceField(LiftingsSettingsAdapter.KEY_NUMBER_OF_THREADS, "Number of Threads");
 		addField(numberOfThreads);
 
-		rulesPerThread = new NumberPreferenceField("rulesPerThread", "Rules per Thread");
+		rulesPerThread = new NumberPreferenceField(LiftingsSettingsAdapter.KEY_RULES_PER_THREAD, "Rules per Thread");
 		addField(rulesPerThread);
 
-		sortRecognitionRuleNodes = new CheckBoxPreferenceField("sortRecognitionRuleNodes", "Sort Recognition Rule Nodes");
+		sortRecognitionRuleNodes = new CheckBoxPreferenceField(
+				LiftingsSettingsAdapter.KEY_SORT_RECOGNITION_RULE_NODES,
+				"Sort Recognition Rule Nodes");
 		addField(sortRecognitionRuleNodes);
 
-		rulesetReduction = new CheckBoxPreferenceField("rulesetReduction", "Ruleset Reduction");
+		rulesetReduction = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_RULESET_REDUCTION, "Ruleset Reduction");
 		addField(rulesetReduction);
 
-		buildGraphPerRule = new CheckBoxPreferenceField("buildGraphPerRule", "Build Graph per Rule");
+		buildGraphPerRule = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_BUILD_GRAPH_PER_RULE, "Build Graph per Rule");
 		addField(buildGraphPerRule);
 
-		detectSplitJoins = new CheckBoxPreferenceField("detectSplitJoins", "Detect Split Joins");
+		detectSplitJoins = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_DETECT_SPLIT_JOINS, "Detect Split Joins");
 		addField(detectSplitJoins);
 	}
 

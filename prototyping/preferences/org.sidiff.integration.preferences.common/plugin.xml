@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.integration.preferences.validationPipelineStep">
+      <client
+            class="org.sidiff.integration.preferences.common.GeneralValidationPreferenceTab">
+      </client>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.sidiff.integration.preferences.mainPage"
+            class="org.sidiff.integration.preferences.common.ResolutionStrategyPreferencePage"
+            id="org.sidiff.integration.preferences.resStratPage"
+            name="Resolution Strategy">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="org.sidiff.integration.properties.mainPage"
+            class="org.sidiff.integration.preferences.common.ResolutionStrategyPreferencePage"
+            id="org.sidiff.integration.properties.resStratPage"
+            name="Resolution Strategy"
+            objectClass="org.eclipse.core.resources.IProject">
+      </page>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter">
+      </adapter>
+   </extension>
+</plugin>

@@ -6,13 +6,14 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.domains.AbstractDomainPreferenceTab;
+import org.sidiff.integration.preferences.domains.lifting.settingsadapter.DomainLiftingSettingsAdapter;
 import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * 
- * Abstract class for the domain specific lifting settings.
+ * Class for the domain specific lifting settings.
  * @author Daniel Roedder, cpietsch, Robert Müller
  */
 public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
@@ -38,12 +39,13 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 	@Override
 	protected void createPreferenceFields() {
 		ruleBasesField = CheckListSelectField.create(
-				getDocumentType(),
-				"Rule Bases",
+				DomainLiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
+				"Rulebases",
 				PipelineUtils.getAvailableRulebases(getDocumentType()),
 				new IPreferenceValueConverter<ILiftingRuleBase>() {
 					@Override
 					public String getValue(ILiftingRuleBase value) {
+						// TODO: this is not a good value to permanently save
 						return value.getName();
 					}
 					@Override
@@ -54,7 +56,8 @@ public class DomainLiftingPreferenceTab extends AbstractDomainPreferenceTab {
 		addField(ruleBasesField);
 
 		recognitionRuleSorterField = RadioBoxPreferenceField.create(
-				getDocumentType() + "recognitionRuleSorter", "Recognition Rule Sorter",
+				DomainLiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
+				"Recognition Rule Sorter",
 				PipelineUtils.getAvailableRecognitionRuleSorters(Collections.singleton(getDocumentType())),
 				new IPreferenceValueConverter<IRecognitionRuleSorter>() {
 					@Override

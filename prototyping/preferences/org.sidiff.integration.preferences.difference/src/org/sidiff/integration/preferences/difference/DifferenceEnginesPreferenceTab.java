@@ -1,11 +1,9 @@
 package org.sidiff.integration.preferences.difference;
 
 import org.sidiff.integration.preferences.AbstractEnginePreferenceTab;
+import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter;
+import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
-import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
  * 
@@ -15,9 +13,14 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 public class DifferenceEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 
 	/**
-	 * The {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField} for the symbolic link handlers
+	 * The {@link PreferenceField} for the merge imports setting
 	 */
-	private PreferenceField symbolicLinkHandlers;
+	private PreferenceField mergeImports;
+	
+	/**
+	 * The {@link PreferenceField} for the unmerge imports setting
+	 */
+	private PreferenceField unmergeImports;
 
 	/**
 	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTitle()
@@ -29,21 +32,11 @@ public class DifferenceEnginesPreferenceTab extends AbstractEnginePreferenceTab 
 
 	@Override
 	protected void createPreferenceFields() {
-		symbolicLinkHandlers = RadioBoxPreferenceField.create(
-				"symbolicLinkHandlers",
-				"Symbolic Link Handlers",
-				SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers(),
-				new IPreferenceValueConverter<ISymbolicLinkHandler>() {
-					@Override
-					public String getValue(ISymbolicLinkHandler value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(ISymbolicLinkHandler value) {
-						return value.getName();
-					}
-				});
-		addField(symbolicLinkHandlers);
+		mergeImports = new CheckBoxPreferenceField(DifferenceSettingsAdapter.KEY_MERGE_IMPORTS, "Merge Imports");
+		addField(mergeImports);
+
+		unmergeImports = new CheckBoxPreferenceField(DifferenceSettingsAdapter.KEY_UNMERGE_IMPORTS, "Unmerge Imports");
+		addField(unmergeImports);
 	}
 
 	/**

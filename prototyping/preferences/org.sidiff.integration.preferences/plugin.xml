@@ -2,8 +2,8 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.sidiff.integration.preferences.enginePipelineStep" name="SiDiff Engine Pipeline Step" schema="schema/org.sidiff.integration.preferences.enginesPipelineStep.exsd"/>
-   <extension-point id="org.sidiff.integration.preferences.settingsFactory" name="SiDiff Settings Factory" schema="schema/org.sidiff.integration.preferences.settingsFactory.exsd"/>
    <extension-point id="org.sidiff.integration.preferences.validationPipelineStep" name="SiDiff Validation Pipeline Step" schema="schema/org.sidiff.integration.preferences.validationPipelineStep.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.settingsAdapter" name="SiDiff Settings Adapter" schema="schema/org.sidiff.integration.preferences.settingsAdapter.exsd"/>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -19,15 +19,6 @@
             class="org.sidiff.integration.preferences.EnginesPage"
             id="org.sidiff.integration.preferences.enginesPage"
             name="Engines">
-      </page>
-   </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="org.sidiff.integration.preferences.mainPage"
-            class="org.sidiff.integration.preferences.ResolutionStrategyPreferencePage"
-            id="org.sidiff.integration.preferences.resStratPage"
-            name="Resolution Strategy">
       </page>
    </extension>
    <extension
@@ -67,16 +58,6 @@
             objectClass="org.eclipse.core.resources.IProject">
       </page>
    </extension>
-	<extension
-         point="org.eclipse.ui.propertyPages">
-      <page
-            category="org.sidiff.integration.properties.mainPage"
-            class="org.sidiff.integration.preferences.ResolutionStrategyPreferencePage"
-            id="org.sidiff.integration.properties.resStratPage"
-            name="Resolution Strategy"
-            objectClass="org.eclipse.core.resources.IProject">
-      </page>
-   </extension>
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
@@ -98,9 +79,9 @@
       </page>
    </extension>
    <extension
-         point="org.sidiff.integration.preferences.validationPipelineStep">
-      <client
-            class="org.sidiff.integration.preferences.GeneralValidationPreferenceTab">
-      </client>
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.sidiff.integration.preferences.SettingsAdapterPreferenceInitializer">
+      </initializer>
    </extension>
 </plugin>

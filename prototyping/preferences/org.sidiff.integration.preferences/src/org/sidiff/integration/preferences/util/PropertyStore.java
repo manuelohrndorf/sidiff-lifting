@@ -11,24 +11,21 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.util.SafeRunnable;
 import org.sidiff.integration.preferences.SiDiffPreferences;
 
-// TODO: rename class to something more descriptive 
-// TODO: class needs to be tested
-// TODO: EventManager should not be used in favor of ListenerList
 /**
  * 
  * Handles correct delegation of loading and setting properties 
  * on a resource or preferenceStore, depending on user settings
- * @author Felix Breitweiser
+ * @author Felix Breitweiser, Robert Müller
  */
 public class PropertyStore extends EventManager implements IPreferenceStore {
-	
+
 	private static final String USE_RESOURCE_SETTINGS = "USE_RESOURCE_SETTINGS";
-	
+
 	/**
 	 * true, if the resource specific settings should be used
 	 */
 	private boolean useResourceSettings;
-	
+
 	/**
 	 * the preference store for the global settings
 	 */
@@ -43,13 +40,12 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 		this.workbenchStore = workbenchStore;
 		this.resource = resource;
 		try {
-			this.useResourceSettings = 
-					Boolean.valueOf(resource.getPersistentProperty(key(USE_RESOURCE_SETTINGS)));
+			this.useResourceSettings = Boolean.valueOf(resource.getPersistentProperty(key(USE_RESOURCE_SETTINGS)));
 		} catch(CoreException e) {
 			this.useResourceSettings = false;
 		}
 	}
-	
+
 	/**
 	 * @param name the name of the key
 	 * convienience Method: creates a qualifiedName from the pageId and a name
@@ -57,27 +53,39 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	private QualifiedName key(String name) {
 		return new QualifiedName(SiDiffPreferences.QUALIFIER, name);
 	}
-	
+
+	/**
+	 * Returns whether the resource has a property with the given name.
+	 * @param name the name of the property
+	 * @return <code>true</code> if the resource has a property with the name, <code>false</code> otherwise
+	 */
+	private boolean hasProp(String name) {
+		try {
+			return resource.getPersistentProperties().containsKey(key(name));
+		} catch (CoreException e) {
+			return false;
+		}
+	}
+
 	/**
 	 * @param use whether or not to use resource specific settings
 	 * used to enable/disable usage of resource specific settings
 	 * @return Returns whether or not to use resource specific settings
 	 */
-	public boolean useResourceSettings(boolean use) {
+	public void setUseResourceSettings(boolean use) {
 		try {
 			resource.setPersistentProperty(key(USE_RESOURCE_SETTINGS), Boolean.toString(use));
 			useResourceSettings = use;
 		} catch (CoreException e) {}
-		return useResourceSettings;
 	}
-	
+
 	/**
 	 * @return true if resrouce specific settings will be used
 	 */
-	public boolean useResourceSettings() {
+	public boolean isUseResourceSettings() {
 		return useResourceSettings;
 	}
-	
+
 	/**
 	 * @see org.eclipse.jface.preference.IPreferenceStore#getDefaultString(java.lang.String)
 	 */
@@ -134,8 +142,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public String getString(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return resource.getPersistentProperty(key(name));
 			}
 		} catch (CoreException e) {}
@@ -151,8 +158,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public boolean getBoolean(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return Boolean.valueOf(resource.getPersistentProperty(key(name)));
 			}
 		} catch (CoreException e) {}
@@ -167,8 +173,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public double getDouble(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return Double.valueOf(resource.getPersistentProperty(key(name)));
 			}
 		} catch (CoreException e) {}
@@ -183,8 +188,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public float getFloat(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return Float.valueOf(resource.getPersistentProperty(key(name)));
 			}
 		} catch (CoreException e) {}
@@ -199,8 +203,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public int getInt(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return Integer.valueOf(resource.getPersistentProperty(key(name)));
 			}
 		} catch (CoreException e) {}
@@ -215,8 +218,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	@Override
 	public long getLong(String name) {
 		try {
-			boolean has = resource.getPersistentProperties().containsKey(key(name));
-			if(useResourceSettings && has) {
+			if(useResourceSettings && hasProp(name)) {
 				return Long.valueOf(resource.getPersistentProperty(key(name)));
 			}
 		} catch (CoreException e) {}
@@ -228,10 +230,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 	 */
 	@Override
 	public boolean isDefault(String name) {
-		try {
-			return !resource.getPersistentProperties().containsKey(key(name)) && workbenchStore.isDefault(name);
-		} catch (CoreException e) {}
-		return workbenchStore.isDefault(name);
+		return !hasProp(name) && workbenchStore.isDefault(name);
 	}
 
 	/**
@@ -254,7 +253,7 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 				resource.setPersistentProperty(key(name), value);
 				return;
 			}
-		}catch(CoreException e) {}
+		} catch(CoreException e) {}
 		workbenchStore.putValue(name, value);
 	}
 
@@ -317,7 +316,6 @@ public class PropertyStore extends EventManager implements IPreferenceStore {
 				return;
 			}
 		} catch(CoreException e) {}
-		// TODO: why are the workbenchStore functions also called when useResourceSettings is true?
 		workbenchStore.setToDefault(name);
 	}
 

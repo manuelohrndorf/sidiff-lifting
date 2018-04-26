@@ -148,4 +148,12 @@ public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage impl
 		}
 		return all;
 	}
+
+	/**
+	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
+	 * Default implementation does nothing
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+	}
 }

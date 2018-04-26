@@ -3,6 +3,7 @@
  */
 package org.sidiff.integration.preferences.exceptions;
 
+// TODO: remove this class?
 /**
  * 
  * Exception class to indicate that the settings set by the user are not valid.
