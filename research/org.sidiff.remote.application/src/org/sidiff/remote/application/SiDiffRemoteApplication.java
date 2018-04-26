@@ -21,6 +21,7 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.common.Session;
+import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.util.TreeModelUtil;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
@@ -74,18 +75,38 @@ public class SiDiffRemoteApplication {
 		this.extractionEngine = new ExtractionEngine();
 	}
 	
-	public TreeModel browseModel(String path) {
-		String absolute_path = user_folder + File.separator + path;
+	/**
+	 * 
+	 * @param sessionID
+	 * @return
+	 */
+	public TreeModel browseModel(String sessionID) {
+		String absolute_path = user_folder + File.separator + sessionID;
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource uuidResource = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
 		TreeModel treeModel = TreeModelUtil.convertEMFResource(uuidResource);
 		return treeModel;
 	}
 	
-	public File checkoutModel(String remotePath, String localPath, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	/**
+	 * 
+	 * @param remote_model_path
+	 * 				session based model path
+	 * @param local_model_path
+	 * 				project relative local model path
+	 * @param elementIds
+	 * @return
+	 * @throws IOException
+	 * @throws UncoveredChangesException
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 * @throws NotInitializedException
+	 * @throws ExtendedSlicingCriteriaIntersectionException
+	 */
+	public File checkoutModel(String remote_model_path, String local_model_path, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		
-		String absolute_origin_path = user_folder + File.separator + remotePath;
-		String absolute_copy_path = session_temp_folder + File.separator + localPath;
+		String absolute_origin_path = user_folder + File.separator + remote_model_path;
+		String absolute_copy_path = session_temp_folder + File.separator + local_model_path;
 		FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -128,8 +149,14 @@ public class SiDiffRemoteApplication {
 		return this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
 	}
 	
-	public TreeModel getRequestedModelElements(String localPath) {
-		String absolute_copy_path = session_temp_folder + File.separator + localPath;
+	/**
+	 * 
+	 * @param local_model_path
+	 * 				project relative local model path
+	 * @return
+	 */
+	public TreeModel getRequestedModelElements(String local_model_path) {
+		String absolute_copy_path = session_temp_folder + File.separator + local_model_path;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
@@ -148,25 +175,36 @@ public class SiDiffRemoteApplication {
 		return treeModel;
 	}
 	
-	public TreeModel browseModelFiles(String localModelPath) {
+	/**
+	 * 
+	 * @param localModelPath
+	 * 				project relative local model path
+	 * @return
+	 * @throws ModelNotVersionedException
+	 */
+	public TreeModel browseModelFiles(String localModelPath) throws ModelNotVersionedException {
 		this.modelIndexer.index();
 		List<File> files = this.modelIndexer.getModel_files();
 		TreeModel treeModel = TreeModelUtil.convertFileList(files, session.getSessionID());
 		if(localModelPath != null) {
-			String remoteModelPath = this.session.getModels().get(localModelPath);
+			String remoteModelPath = session.getRemoteModelPath(localModelPath);
 			treeModel.getTreeNode(remoteModelPath).setSelected(true);
 		}
 		return treeModel;
 	}
 	
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-
+	/**
+	 * 
+	 * @param localPath
+	 * 				project relative local model path
+	 * @param elementIds
+	 * @return
+	 * @throws UncoveredChangesException
+	 * @throws InvalidModelException
+	 * @throws NoCorrespondencesException
+	 * @throws NotInitializedException
+	 * @throws ExtendedSlicingCriteriaIntersectionException
+	 */
 	public File updateSubModel(String localPath, Set<String> elementIds) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		String absolute_copy_path = session_temp_folder + File.separator + localPath;
 		
@@ -185,6 +223,14 @@ public class SiDiffRemoteApplication {
 		
 		return this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
 		
+	}
+	
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 	
 }

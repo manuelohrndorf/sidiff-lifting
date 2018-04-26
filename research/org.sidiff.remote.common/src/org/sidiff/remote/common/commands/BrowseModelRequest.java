@@ -3,6 +3,11 @@ package org.sidiff.remote.common.commands;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class BrowseModelRequest extends Command {
 
 	/**
@@ -11,7 +16,7 @@ public class BrowseModelRequest extends Command {
 	private static final long serialVersionUID = -593012555492766304L;
 	
 	/**
-	 * 
+	 * session based relative model path
 	 */
 	private String remote_model_path;
 
@@ -19,6 +24,7 @@ public class BrowseModelRequest extends Command {
 	 * 
 	 * @param session
 	 * @param remote_model_path
+	 * 				session based relative model path
 	 * @param attachment
 	 */
 	public BrowseModelRequest(Session session, String remote_model_path) {
@@ -28,8 +34,9 @@ public class BrowseModelRequest extends Command {
 	}
 
 	/**
-	 * 
+	 * session based relative path
 	 * @return
+	 * 		session based relative model path
 	 */
 	public String getRemoteModelPath() {
 		return remote_model_path;
@@ -38,7 +45,7 @@ public class BrowseModelRequest extends Command {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder(super.toString());
-		stringBuilder.append("model path: " + this.remote_model_path);
+		stringBuilder.append("remote model path: " + this.remote_model_path);
 		return stringBuilder.toString();
 	}
 }

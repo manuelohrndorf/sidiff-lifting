@@ -1,7 +1,6 @@
 package org.sidiff.remote.common.commands;
 
 import java.io.File;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
@@ -9,6 +8,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class CheckoutSubModelRequest extends Command{
 
 	/**
@@ -16,13 +20,30 @@ public class CheckoutSubModelRequest extends Command{
 	 */
 	private static final long serialVersionUID = -6012399804807240975L;
 
+	/**
+	 * session based relative model path
+	 */
 	private String remote_model_path;
 	
+	/**
+	 * project relative model path
+	 */
 	private String local_model_path;
 	
+	/**
+	 * 
+	 */
 	private Set<String> elementIds;
 
-	
+	/**
+	 * 
+	 * @param session
+	 * @param remote_model_path
+	 * 			session based relative model path
+	 * @param local_model_path
+	 * 			absolute local location path that will be converted into a project relative path
+	 * @param elementIds2
+	 */
 	public CheckoutSubModelRequest(Session session, String remote_model_path, String local_model_path, Set<String> elementIds2) {
 		super(session, null);
 		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REQUEST;
@@ -32,14 +53,28 @@ public class CheckoutSubModelRequest extends Command{
 		this.elementIds = elementIds2;
 	}
 
+	/**
+	 * session based relative model path
+	 * @return
+	 * 		session based relative model path
+	 */
 	public String getRemoteModelPath() {
 		return remote_model_path;
 	}
 
+	/**
+	 * project relative model path
+	 * @return
+	 * 		project relative model path
+	 */
 	public String getLocalModelPath() {
 		return local_model_path;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Set<String> getElementIds() {
 		return elementIds;
 	}

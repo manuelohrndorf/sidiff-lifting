@@ -7,6 +7,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class BrowseModelFilesRequest extends Command {
 
 	/**
@@ -14,13 +19,17 @@ public class BrowseModelFilesRequest extends Command {
 	 */
 	private static final long serialVersionUID = -1057205512420394166L;
 
+	/**
+	 * absolute os-based location path of the model file
+	 */
 	private String local_model_path;
 	
 	/**
 	 * 
 	 * @param session
-	 * @param eCommand
-	 * @param attachment
+	 * 			The current {@link Session}
+	 * @param local_model_path
+	 * 			absolute os-based location path of the model file that will be converted into a project relative path, can be <code>null</code>
 	 */
 	public BrowseModelFilesRequest(Session session, String local_model_path) {
 		super(session, null);
@@ -31,6 +40,11 @@ public class BrowseModelFilesRequest extends Command {
 		}
 	}
 	
+	/**
+	 * project relative path of the model file, can be <code>null</code>
+	 * @return
+	 * 		project relative path of the model file or  <code>null</code>
+	 */
 	public String getLocalModelPath() {
 		return local_model_path;
 	}

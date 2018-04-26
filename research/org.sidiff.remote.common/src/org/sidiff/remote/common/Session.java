@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.util.ChecksumUtil;
 
 /**
@@ -17,8 +16,11 @@ import org.sidiff.remote.common.util.ChecksumUtil;
  * @author cpietsch
  *
  */
-public class Session implements Serializable{
+public class Session implements Serializable {
 	
+	/**
+	 * the file extension of the serialized session object
+	 */
 	public static final String SESSION_EXT = ".session";
 	
 	/**
@@ -26,69 +28,205 @@ public class Session implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 */
 	private String sessionID;
 	
+	/**
+	 * 
+	 */
 	private String url;
 	
+	/**
+	 * 
+	 */
 	private int port;
 	
+	/**
+	 * 
+	 */
 	private String user;
 	
+	/**
+	 * 
+	 */
 	private Set<String> repositories;
 	
-	private Map<String, String> models;
+	/**
+	 * 
+	 */
+	private Set<ModelInfo> modelInfos;
 	
-	private Map<String, String> modelChecksum;
-	
+	/**
+	 * 
+	 * @param url
+	 * 			url of the sidiff remote application server
+	 * @param port
+	 * 			url of the sidiff remote application server
+	 * @param user
+	 * 			username
+	 */
 	public Session(String url, int port, String user) {
 		this.sessionID = UUID.randomUUID().toString();
 		this.url = url;
 		this.port = port;
 		this.user = user;
 		this.repositories = new HashSet<String>();
-		this.models = new HashMap<String, String>();
-		this.modelChecksum = new HashMap<String, String>();
+		this.modelInfos = new HashSet<Session.ModelInfo>();
 	}
 
-	public void addRepository(String repository) {
-		this.repositories.add(repository);
+	/**
+	 * 
+	 * @param repository_url
+	 * 				the url of the cms
+	 */
+	public void addRepository(String repository_url) {
+		this.repositories.add(repository_url);
 	}
 	
-	public void addModel(String localPath, String remotePath) {
-		this.models.put(localPath, remotePath);
-	}
-	
-	public void addModelChecksum(String localPath, File file) throws NoSuchAlgorithmException, IOException {
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @param remote_path
+	 * 				session based relative model path
+	 * @param file
+	 * @throws NoSuchAlgorithmException
+	 * @throws IOException
+	 */
+	public void addModel(String local_path, String remote_path, File file) throws NoSuchAlgorithmException, IOException {
 		String checksum = ChecksumUtil.getFileChecksum(file);
-		this.modelChecksum.put(localPath, checksum);
+		this.modelInfos.add(new ModelInfo(local_path, remote_path, checksum));
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getSessionID() {
 		return sessionID;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getPort() {
 		return port;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getUser() {
 		return user;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Set<String> getRepositories() {
 		return repositories;
 	}
-
-	public Map<String, String> getModels() {
-		return models;
+	
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @return
+	 */
+	public boolean isVersioned(String local_path) {
+		for(ModelInfo modelInfo : modelInfos) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	public Map<String, String> getModelChecksum() {
-		return modelChecksum;
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @return
+	 * @throws ModelNotVersionedException
+	 */
+	public String getRemoteModelPath(String local_path) throws ModelNotVersionedException {
+		for(ModelInfo modelInfo : modelInfos) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
+				return modelInfo.getRemotePath();
+			}
+		}
+		throw new ModelNotVersionedException(local_path);
+	}
+	
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @return
+	 * @throws ModelNotVersionedException
+	 */
+	public String getModelChecksum(String local_path) throws ModelNotVersionedException {
+		for(ModelInfo modelInfo : modelInfos) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
+				return modelInfo.checksum;
+			}
+		}
+		throw new ModelNotVersionedException(local_path);
+	}
+	
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @return
+	 * @throws ModelNotVersionedException
+	 */
+	public boolean isModified(String local_path) throws ModelNotVersionedException {
+		for(ModelInfo modelInfo : modelInfos) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
+				return modelInfo.isModified();
+			}
+		}
+		throw new ModelNotVersionedException(local_path);
+	}
+	
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @param modified
+	 * 			<code>true|false</code>
+	 * @throws ModelNotVersionedException
+	 */
+	public void setModified(String local_path, boolean modified) throws ModelNotVersionedException {
+		for(ModelInfo modelInfo : modelInfos) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
+				modelInfo.setModified(modified);
+			}
+		}
+		throw new ModelNotVersionedException(local_path);
+	}
+	
+	
+	public Set<String> getLocalModelPaths(){
+		Set<String> paths = new HashSet<String>();
+		for(ModelInfo modelInfo : modelInfos) {
+			paths.add(modelInfo.getLocalPath());
+		}
+		return paths;
 	}
 	
 	@Override
@@ -97,9 +235,76 @@ public class Session implements Serializable{
 		stringBuilder.append("user: " + user + "\n");
 		stringBuilder.append("session: " + sessionID + "\n");
 		stringBuilder.append("local -> remote models:\n");
-		for(String local : models.keySet()) {
-			stringBuilder.append("\t" + local + " -> " + models.get(local) + " (" + modelChecksum.get(local) + ")\n");
+		for(ModelInfo modelInfo : modelInfos) {
+			stringBuilder.append(modelInfo.toString() + ")\n");
 		}
 		return stringBuilder.toString();
+	}
+	
+	public class ModelInfo implements Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2379314679219934237L;
+
+		/**
+		 * project relative path
+		 */
+		private String local_path;
+		
+		/**
+		 * session based relative model path
+		 */
+		private String remote_path;
+		
+		/**
+		 * md5 hash
+		 */
+		private String checksum;
+		
+		/**
+		 * state of the versioned model
+		 */
+		private boolean modified;
+
+		public ModelInfo(String local_path, String remote_path, String checksum) {
+			this.local_path = local_path;
+			this.remote_path = remote_path;
+			this.checksum = checksum;
+			this.modified = false;
+		}
+		
+		public String getLocalPath() {
+			return local_path;
+		}
+		
+		public String getRemotePath() {
+			return remote_path;
+		}
+		
+		public String getChecksum() {
+			return checksum;
+		}
+		
+		public boolean isModified() {
+			return modified;
+		}
+		
+		public void setModified(boolean modified) {
+			this.modified = modified;
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("Model info:\n");
+			stringBuilder.append("\t local path: " + local_path + "\n"); 
+			stringBuilder.append("\t remote path: " + remote_path + "\n");
+			stringBuilder.append("\t checksum: " + checksum + "\n");
+			stringBuilder.append("\t is modified: " + modified + "\n");
+			
+			return stringBuilder.toString();
+		}
 	}
 }
