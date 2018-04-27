@@ -12,7 +12,7 @@ import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
  * Page that contains all installed domains
- * @author Daniel Roedder
+ * @author Daniel Roedder, Robert Müller
  *
  */
 public class DomainsPage extends PreferencePage implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
@@ -21,11 +21,11 @@ public class DomainsPage extends PreferencePage implements IWorkbenchPreferenceP
 	 * The textfield on the page
 	 */
 	private Text textField;
-	
+
 	/**
 	 * Creates the Content of the domain page.
 	 * @param parent Parent-Composite
-	 * @return null
+	 * @return the control
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
@@ -33,7 +33,7 @@ public class DomainsPage extends PreferencePage implements IWorkbenchPreferenceP
 		textField = new Text(parent, SWT.INHERIT_FORCE);
 		textField.setBackground(parent.getBackground());
 		textField.setText("Expand the Domain tree to view all installed domains");
-		return null;
+		return textField;
 	}
 
 	/**
@@ -41,9 +41,8 @@ public class DomainsPage extends PreferencePage implements IWorkbenchPreferenceP
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
-	
+
 	/**
 	 * Superclass method, not needed here
 	 * @see org.eclipse.ui.IWorkbenchPropertyPage#getElement()

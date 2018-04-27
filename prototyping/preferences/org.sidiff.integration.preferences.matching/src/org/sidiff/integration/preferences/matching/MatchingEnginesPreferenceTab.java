@@ -143,11 +143,7 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 		if(event.getSource() == matchersField) {
 			List<String> newValue = Arrays.asList((String[])event.getNewValue());
 			for(Entry<String, PreferenceField> matcherOptions : this.matcherOptions.entrySet()) {
-				if(newValue.contains(matcherOptions.getKey())) {
-					matcherOptions.getValue().enable();
-				} else {
-					matcherOptions.getValue().disable();
-				}
+				matcherOptions.getValue().setEnabled(newValue.contains(matcherOptions.getKey()));
 			}
 		}
 	}

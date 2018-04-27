@@ -103,17 +103,14 @@ public class CheckListSelectField extends PreferenceField {
 			label.setText("None available");
 		}
 	}
-	
+
 	/**
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
 	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		for(CheckBoxPreferenceField f : fields) {
-			if(enabled) 
-				f.enable();
-			else
-				f.disable();
+			f.setEnabled(enabled);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class ValidationPage extends TabbedPreferenceFieldPage implements IWorkbe
 				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffValidationPreferenceTab.EXTENSION_POINT_ID)) {
 			try {
 				ISiDiffValidationPreferenceTab tab = ((ISiDiffValidationPreferenceTab) element.createExecutableExtension("class"));
-				tab.setPreferenceStore(Activator.getDefault().getPreferenceStore());
+				tab.setPreferenceStore(getPreferenceStore());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
 				e.printStackTrace();

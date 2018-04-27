@@ -30,6 +30,7 @@ public abstract class AbstractSidiffDomainSettingsPluginPage extends TabbedPrefe
 				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffDomainPreferenceTab.EXTENSION_POINT_ID)) {
 			try {
 				ISiDiffDomainPreferenceTab tab = (ISiDiffDomainPreferenceTab)element.createExecutableExtension("class");
+				tab.setPreferenceStore(getPreferenceStore());
 				tab.setDocumentType(getDocumentType());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {

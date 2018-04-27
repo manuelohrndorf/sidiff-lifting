@@ -36,11 +36,11 @@ public class SettingsAdapterUtil {
 	}
 
 	public static void adaptSettingsGlobal(AbstractSettings settings, String documentType) {
-		adaptSettings(settings, Activator.getDefault().getPreferenceStore(), documentType);
+		adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(), documentType);
 	}
 
 	public static void adaptSettingsProject(AbstractSettings settings, IProject project, String documentType) {
-		adaptSettings(settings, new PropertyStore(project, Activator.getDefault().getPreferenceStore()), documentType);
+		adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project), documentType);
 	}
 
 	private static void adaptSettings(AbstractSettings settings, IPreferenceStore store, String documentType) {
@@ -57,7 +57,7 @@ public class SettingsAdapterUtil {
 
 	public static void initializeDefaults() {
 		for(ISettingsAdapter adapter : getAllAvailableSettingsAdapters()) {
-			adapter.initializeDefaults(Activator.getDefault().getPreferenceStore());
+			adapter.initializeDefaults(PreferenceStoreUtil.getPreferenceStore());
 		}
 	}
 }

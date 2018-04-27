@@ -29,17 +29,7 @@ public abstract class PreferenceField {
 	 * human readable title of the preference 
 	 */
 	private String title;
-	
-	/**
-	 * Composite into which controls can be created
-	 */
-	private Composite parent;
-	
-	/**
-	 * true, if the preference can be changed
-	 */
-	private boolean enabled;
-	
+
 	/**
 	 * all registered IPropertyChangeListener
 	 */
@@ -53,7 +43,6 @@ public abstract class PreferenceField {
 		this.preferenceName = preferenceName;
 		this.title = title;
 		listeners = new ArrayList<IPropertyChangeListener>();
-		enabled = true;
 	}
 	
 	/**
@@ -87,17 +76,15 @@ public abstract class PreferenceField {
 		if(store == null) return;
 		doSave(store, preferenceName);
 	}
-	
+
 	/**
 	 * creates the controls for this field
 	 * @param parent composite into which controls can be created
 	 */
 	public void createControls(Composite parent) {
-		this.parent = parent;
 		doCreateControls(parent, title);
-		updateEnabledState();
 	}
-	
+
 	/**
 	 * subclasses should implement this to load the preference into their control
 	 * @param store the store to be used
@@ -180,31 +167,4 @@ public abstract class PreferenceField {
 	protected String getTitle() {
 		return title;
 	}
-	
-	/**
-	 * disables the PreferenceField
-	 */
-	public void disable() {
-		enabled = false;
-		updateEnabledState();
-	}
-	
-	/**
-	 * enables the PreferenceField
-	 */
-	public void enable() {
-		enabled = true;
-		updateEnabledState();
-	}
-	
-	/**
-	 * refreshes the controls enbale state
-	 */
-	public void updateEnabledState() {
-		if(parent != null) {
-			parent.setEnabled(enabled);
-			setEnabled(enabled);
-		}
-	}
-
 }

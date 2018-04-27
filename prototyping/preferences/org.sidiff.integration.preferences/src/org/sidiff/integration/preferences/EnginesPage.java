@@ -47,7 +47,7 @@ public class EnginesPage extends TabbedPreferenceFieldPage implements IWorkbench
 				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffEnginesPreferenceTab.EXTENSION_POINT_ID)) {
 			try {
 				ISiDiffEnginesPreferenceTab tab = ((ISiDiffEnginesPreferenceTab)element.createExecutableExtension("class"));
-				tab.setPreferenceStore(Activator.getDefault().getPreferenceStore());
+				tab.setPreferenceStore(getPreferenceStore());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
 				e.printStackTrace();

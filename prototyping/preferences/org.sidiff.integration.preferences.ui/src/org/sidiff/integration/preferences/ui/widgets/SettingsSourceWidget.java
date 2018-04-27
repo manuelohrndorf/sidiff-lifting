@@ -22,7 +22,7 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.integration.preferences.util.PropertyStore;
+import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.preferences.util.SettingsAdapterUtil;
 
 /**
@@ -81,7 +81,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioGlobal.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.GLOBAL, radioGlobal);
 
-		boolean hasProjectSpecific = PropertyStore.hasResourceSpecificSettings(project);
+		boolean hasProjectSpecific = PreferenceStoreUtil.hasSpecificSettings(project);
 		Button radioProject = new Button(group, SWT.RADIO);
 		radioProject.setText("Use settings of project");
 		radioProject.addSelectionListener(getButtonSelectionListener());

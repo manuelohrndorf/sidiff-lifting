@@ -12,7 +12,7 @@ import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
  * Preference MainPage that refers to Subpages
- * @author Daniel Roedder
+ * @author Daniel Roedder, Robert Müller
  */
 public class MainPage extends PreferencePage implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
 
@@ -20,11 +20,11 @@ public class MainPage extends PreferencePage implements IWorkbenchPreferencePage
 	 * The textfield for the text on the page
 	 */
 	private Text textField;
-	
+
 	/**
 	 * Creates the Content of the MainPage
 	 * @param parent Parent-Composite
-	 * @return null, the {@link Control} is not needed elsewhere
+	 * @return the control
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
@@ -32,7 +32,7 @@ public class MainPage extends PreferencePage implements IWorkbenchPreferencePage
 		textField = new Text(parent, SWT.INHERIT_FORCE);
 		textField.setBackground(parent.getBackground());
 		textField.setText("Expand the tree to view options");
-		return null;
+		return textField;
 	}
 
 	/**
@@ -40,7 +40,6 @@ public class MainPage extends PreferencePage implements IWorkbenchPreferencePage
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
 
 	/**

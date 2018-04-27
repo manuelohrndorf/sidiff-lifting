@@ -310,7 +310,6 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 * @param keys the keys of the elements
 	 */
 	private void addInitialElements(String keys[]) {
-		String[] previous = getSelectedKeys();
 		notSelected.addAll(selected);
 		selected.clear();
 
@@ -326,7 +325,6 @@ public class OrderListSelectField<T> extends PreferenceField {
 		}
 
 		reloadLists();
-		firePropertyChanged(previous, getSelectedKeys());
 	}
 
 	/**
