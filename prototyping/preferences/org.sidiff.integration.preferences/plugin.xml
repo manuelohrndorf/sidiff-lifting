@@ -35,8 +35,12 @@
       <page
             class="org.sidiff.integration.preferences.MainPage"
             id="org.sidiff.integration.properties.SiDiffSettings"
-            name="SiDiff Settings"
-            objectClass="org.eclipse.core.resources.IProject">
+            name="SiDiff Settings">
+         <enabledWhen>
+            <reference
+                  definitionId="org.sidiff.integration.preferences.showPropertiesDefinition">
+            </reference>
+         </enabledWhen>
       </page>
    </extension>
    <extension
@@ -45,8 +49,12 @@
             category="org.sidiff.integration.properties.SiDiffSettings"
             class="org.sidiff.integration.preferences.EnginesPage"
             id="org.sidiff.integration.properties.SiDiffSettings.engines"
-            name="Engines"
-            objectClass="org.eclipse.core.resources.IProject">
+            name="Engines">
+         <enabledWhen>
+            <reference
+                  definitionId="org.sidiff.integration.preferences.showPropertiesDefinition">
+            </reference>
+         </enabledWhen>
       </page>
    </extension>
    <extension
@@ -55,8 +63,12 @@
             category="org.sidiff.integration.properties.SiDiffSettings"
             class="org.sidiff.integration.preferences.ValidationPage"
             id="org.sidiff.integration.properties.SiDiffSettings.validation"
-            name="Validation"
-            objectClass="org.eclipse.core.resources.IProject">
+            name="Validation">
+         <enabledWhen>
+            <reference
+                  definitionId="org.sidiff.integration.preferences.showPropertiesDefinition">
+            </reference>
+         </enabledWhen>
       </page>
    </extension>
    <extension
@@ -64,5 +76,14 @@
       <initializer
             class="org.sidiff.integration.preferences.SettingsAdapterPreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.integration.preferences.showPropertiesDefinition">
+         <adapt
+               type="org.eclipse.core.resources.IProject">
+         </adapt>
+      </definition>
    </extension>
 </plugin>

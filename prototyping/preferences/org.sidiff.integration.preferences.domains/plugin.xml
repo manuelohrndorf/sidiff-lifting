@@ -18,8 +18,12 @@
             category="org.sidiff.integration.properties.SiDiffSettings"
             class="org.sidiff.integration.preferences.domains.DomainSettingsIndexPage"
             id="org.sidiff.integration.properties.SiDiffSettings.domains"
-            name="Domains"
-            objectClass="org.eclipse.core.resources.IProject">
+            name="Domains">
+         <enabledWhen>
+            <reference
+                  definitionId="org.sidiff.integration.preferences.showPropertiesDefinition">
+            </reference>
+         </enabledWhen>
       </page>
    </extension>
 </plugin>
