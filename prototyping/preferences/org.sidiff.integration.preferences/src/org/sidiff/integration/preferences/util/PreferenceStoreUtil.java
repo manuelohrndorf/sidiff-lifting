@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
@@ -34,7 +33,7 @@ public class PreferenceStoreUtil {
 	 */
 	public static IPreferenceStore getPreferenceStore(IProject project) {
 		ScopedPreferenceStore store = new ScopedPreferenceStore(new ProjectScope(project), Activator.PLUGIN_ID);
-		store.setSearchContexts(new IScopeContext[] { new ProjectScope(project), InstanceScope.INSTANCE });
+		SettingsAdapterUtil.initializeDefaults(store);
 		return store;
 	}
 

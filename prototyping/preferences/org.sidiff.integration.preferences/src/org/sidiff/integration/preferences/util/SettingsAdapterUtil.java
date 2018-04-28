@@ -55,9 +55,9 @@ public class SettingsAdapterUtil {
 		}
 	}
 
-	public static void initializeDefaults() {
+	public static void initializeDefaults(IPreferenceStore preferenceStore) {
 		for(ISettingsAdapter adapter : getAllAvailableSettingsAdapters()) {
-			adapter.initializeDefaults(PreferenceStoreUtil.getPreferenceStore());
+			adapter.initializeDefaults(preferenceStore);
 		}
 	}
 }

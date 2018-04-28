@@ -14,11 +14,19 @@ import org.sidiff.integration.preferences.interfaces.ISiDiffOrderableTab;
 
 /**
  * 
- * Abstract class to create the {@link org.sidiff.integration.preferences.TabbedPreferenceFieldPage} for a specific domain.
+ * Class to create the {@link org.sidiff.integration.preferences.TabbedPreferenceFieldPage} for a specific domain.
  * @author Daniel Roedder, Robert Müller
  */
-public abstract class AbstractSidiffDomainSettingsPluginPage extends TabbedPreferenceFieldPage 
-															implements IWorkbenchPreferencePage {
+public class DomainSpecificSettingsPage extends TabbedPreferenceFieldPage implements IWorkbenchPreferencePage {
+
+	private String documentType;
+
+	public DomainSpecificSettingsPage(String title, String documentType) {
+		super(title);
+		super.noDefaultAndApplyButton();
+		setMessage(title + " - " + documentType);
+		this.documentType = documentType;
+	}
 
 	/**
 	 * @see org.sidiff.integration.preferences.TabbedPreferenceFieldPage#createPreferenceFields()
@@ -31,7 +39,7 @@ public abstract class AbstractSidiffDomainSettingsPluginPage extends TabbedPrefe
 			try {
 				ISiDiffDomainPreferenceTab tab = (ISiDiffDomainPreferenceTab)element.createExecutableExtension("class");
 				tab.setPreferenceStore(getPreferenceStore());
-				tab.setDocumentType(getDocumentType());
+				tab.setDocumentType(documentType);
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
 				e.printStackTrace();
@@ -50,11 +58,4 @@ public abstract class AbstractSidiffDomainSettingsPluginPage extends TabbedPrefe
 			}
 		}
 	}
-
-	/**
-	 * Used to return the document type string of the concrete domain settings page.
-	 * Subclasses must implement.
-	 * @return The document type as String
-	 */
-	protected abstract String getDocumentType();
 }

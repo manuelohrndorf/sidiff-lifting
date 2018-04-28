@@ -2,4 +2,24 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.sidiff.integration.preferences.domains.pipelineStep" name="SiDiff Domain Pipeline Step" schema="schema/org.sidiff.integration.preferences.domains.pipelineStep.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.domains.significance" name="SiDiff Preference Domain Significance" schema="schema/org.sidiff.integration.preferences.domains.significance.exsd"/>
+	<extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.sidiff.integration.preferences.SiDiffSettings"
+            class="org.sidiff.integration.preferences.domains.DomainSettingsIndexPage"
+            id="org.sidiff.integration.preferences.SiDiffSettings.domains"
+            name="Domains">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="org.sidiff.integration.properties.SiDiffSettings"
+            class="org.sidiff.integration.preferences.domains.DomainSettingsIndexPage"
+            id="org.sidiff.integration.properties.SiDiffSettings.domains"
+            name="Domains"
+            objectClass="org.eclipse.core.resources.IProject">
+      </page>
+   </extension>
 </plugin>

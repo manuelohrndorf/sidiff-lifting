@@ -122,7 +122,7 @@ public abstract class PreferenceFieldPage extends PreferencePage implements IWor
 	 * @return
 	 */
 	private boolean doUseResourceSettings(boolean use) {
-		if(isPropertiesPage()) {
+		if(isPropertiesPage() && useButton != null) {
 			useButton.setSelection(use);
 			if(PreferenceStoreUtil.hasSpecificSettings(project) && !use) {
 				for(PreferenceField pf : getAllFields()) {
