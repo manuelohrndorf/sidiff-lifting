@@ -50,7 +50,8 @@ public class EnginesPage extends TabbedPreferenceFieldPage implements IWorkbench
 				tab.setPreferenceStore(getPreferenceStore());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				PreferencesPlugin.logWarning("Failed to create ISiDiffEnginesPreferenceTab contributed by "
+						+ element.getDeclaringExtension().getContributor().getName(), e);
 			}
 		}
 

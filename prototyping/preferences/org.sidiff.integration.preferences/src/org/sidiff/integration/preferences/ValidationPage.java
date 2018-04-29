@@ -53,7 +53,8 @@ public class ValidationPage extends TabbedPreferenceFieldPage implements IWorkbe
 				tab.setPreferenceStore(getPreferenceStore());
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				PreferencesPlugin.logWarning("Failed to create ISiDiffEnginesPreferenceTab contributed by "
+											+ element.getDeclaringExtension().getContributor().getName(), e);
 			}
 		}
 

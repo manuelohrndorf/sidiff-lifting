@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.TabbedPreferenceFieldPage;
 import org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
@@ -42,7 +43,8 @@ public class DomainSpecificSettingsPage extends TabbedPreferenceFieldPage implem
 				tab.setDocumentType(documentType);
 				extensionClassList.add(tab);
 			} catch (CoreException e) {
-				e.printStackTrace();
+				PreferencesPlugin.logWarning("Failed to create ISiDiffDomainPreferenceTab contributed by "
+											+ element.getDeclaringExtension().getContributor().getName(), e);
 			}
 		}
 

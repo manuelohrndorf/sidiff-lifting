@@ -7,10 +7,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
-import org.sidiff.integration.preferences.Activator;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
 
 /**
@@ -27,8 +26,8 @@ public class SettingsAdapterUtil {
 			try {
 				settingsAdapters.add((ISettingsAdapter)element.createExecutableExtension(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE));
 			} catch(CoreException e) {
-				Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID,
-						"Executable extension for settings adapter could not be created", e));
+				PreferencesPlugin.logWarning("Failed to create ISettingsAdapter contributed by "
+											+ element.getDeclaringExtension().getContributor().getName(), e);
 			}
 		}
 		settingsAdapters.sort(ISettingsAdapter.COMPARATOR);

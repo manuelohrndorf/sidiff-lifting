@@ -6,9 +6,8 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EPackage;
-import org.sidiff.integration.preferences.domains.Activator;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.domains.interfaces.IPreferenceDomainSignificanceProvider;
 
 /**
@@ -29,8 +28,8 @@ public class DomainSignificanceUtil {
 				try {
 					providers.add((IPreferenceDomainSignificanceProvider)element.createExecutableExtension(IPreferenceDomainSignificanceProvider.EXTENSION_POINT_ATTRIBUTE));
 				} catch(CoreException e) {
-					Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID,
-							"Executable extension for domain significance provider could not be created", e));
+					PreferencesPlugin.logWarning("Failed to create IPreferenceDomainSignificanceProvider contributed by "
+												+ element.getDeclaringExtension().getContributor().getName(), e);
 				}
 			}
 		}

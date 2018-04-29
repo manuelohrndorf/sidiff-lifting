@@ -7,8 +7,7 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.sidiff.integration.preferences.Activator;
-import org.sidiff.integration.preferences.SiDiffPreferences;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Contains utility functions for retrieving the global and project specific preference store for the SiDiff settings
@@ -23,7 +22,7 @@ public class PreferenceStoreUtil {
 	 * @return global preference store
 	 */
 	public static IPreferenceStore getPreferenceStore() {
-		return new ScopedPreferenceStore(InstanceScope.INSTANCE, Activator.PLUGIN_ID);
+		return new ScopedPreferenceStore(InstanceScope.INSTANCE, PreferencesPlugin.PREFERENCE_QUALIFIER);
 	}
 
 	/**
@@ -32,13 +31,13 @@ public class PreferenceStoreUtil {
 	 * @return project specific preference store
 	 */
 	public static IPreferenceStore getPreferenceStore(IProject project) {
-		ScopedPreferenceStore store = new ScopedPreferenceStore(new ProjectScope(project), Activator.PLUGIN_ID);
+		ScopedPreferenceStore store = new ScopedPreferenceStore(new ProjectScope(project), PreferencesPlugin.PREFERENCE_QUALIFIER);
 		SettingsAdapterUtil.initializeDefaults(store);
 		return store;
 	}
 
 	private static final QualifiedName KEY_USE_RESOURCE_SETTINGS =
-			new QualifiedName(SiDiffPreferences.QUALIFIER, "USE_RESOURCE_SETTINGS");
+			new QualifiedName(PreferencesPlugin.PREFERENCE_QUALIFIER, "USE_RESOURCE_SETTINGS");
 
 	/**
 	 * Returns whether the given project has project specific settings attached.
