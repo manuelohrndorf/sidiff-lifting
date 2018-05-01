@@ -6,13 +6,13 @@ package org.sidiff.integration.preferences;
 import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 
 /**
- * Preference subpage for validation settings.
+ * Preference subpage for general settings.
  * @author Daniel Roedder, Robert Müller
  *
  */
-public class ValidationPage extends AbstractPreferenceTabPage {
+public class GeneralPage extends AbstractPreferenceTabPage {
 
-	public ValidationPage() {
-		super(IPreferenceTab.TabPage.VALIDATION);
+	public GeneralPage() {
+		super(IPreferenceTab.TabPage.GENERAL);
 	}
 }

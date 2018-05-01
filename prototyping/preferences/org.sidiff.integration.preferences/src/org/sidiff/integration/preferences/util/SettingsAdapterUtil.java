@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.integration.preferences.PreferencesPlugin;
+import org.sidiff.integration.preferences.interfaces.IOrderableStep;
 import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
 
 /**
@@ -30,7 +31,7 @@ public class SettingsAdapterUtil {
 											+ element.getDeclaringExtension().getContributor().getName(), e);
 			}
 		}
-		settingsAdapters.sort(ISettingsAdapter.COMPARATOR);
+		settingsAdapters.sort(IOrderableStep.COMPARATOR);
 		return settingsAdapters;
 	}
 

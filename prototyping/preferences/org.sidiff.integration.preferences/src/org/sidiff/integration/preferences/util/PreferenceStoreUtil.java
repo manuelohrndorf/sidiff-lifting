@@ -1,5 +1,8 @@
 package org.sidiff.integration.preferences.util;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
@@ -36,15 +39,19 @@ public class PreferenceStoreUtil {
 		return store;
 	}
 
+
 	private static final QualifiedName KEY_USE_RESOURCE_SETTINGS =
 			new QualifiedName(PreferencesPlugin.PREFERENCE_QUALIFIER, "USE_RESOURCE_SETTINGS");
 
+	private static List<ProjectSpecificSettingsListener> projectSpecificListeners =
+			new LinkedList<ProjectSpecificSettingsListener>();
+
 	/**
-	 * Returns whether the given project has project specific settings attached.
+	 * Returns whether the given project has project specific settings attached that should be used.
 	 * @param project the project
-	 * @return <code>true</code>, if the project has project specific settings, <code>false</code> otherwise
+	 * @return <code>true</code>, if project specific settings should be used, <code>false</code> otherwise
 	 */
-	public static boolean hasSpecificSettings(IProject project) {
+	public static boolean useSpecificSettings(IProject project) {
 		try {
 			return Boolean.valueOf(project.getPersistentProperty(KEY_USE_RESOURCE_SETTINGS));
 		} catch(CoreException e) {
@@ -53,12 +60,36 @@ public class PreferenceStoreUtil {
 	}
 
 	/**
-	 * Sets the flag of the given project to enable project specific settings.
+	 * Enable/disable project specific settings for the given project.
+	 * Notifies the {@link ProjectSpecificSettingsListener}s.
 	 * @param project the project
 	 * @param use whether to enable project specific settings
-	 * @throws CoreException if the setting of the flag failed
+	 * @throws CoreException changing property failed, see {@link IProject#setPersistentProperty(QualifiedName, String)}
 	 */
 	public static void setUseSpecificSettings(IProject project, boolean use) throws CoreException {
 		project.setPersistentProperty(KEY_USE_RESOURCE_SETTINGS, Boolean.toString(use));
+
+		for(ProjectSpecificSettingsListener listener : projectSpecificListeners) {
+			listener.useProjectSpecificSettingsChanged(project, use);
+		}
+	}
+
+	/**
+	 * Adds the listener to the list of listeners that will be notified,
+	 * when project specific settings are enabled/disabled.
+	 * @param listener the listener
+	 */
+	public static void addProjectSpecificSettingsListener(ProjectSpecificSettingsListener listener) {
+		projectSpecificListeners.add(listener);
+	}
+
+	/**
+	 * Removes the listener from then list of listeners that will be notified,
+	 * when the project specific settings are enabled/disabled.
+	 * Does nothing, if the listener was not previously added.
+	 * @param listener the listener.
+	 */
+	public static void removeProjectSpecificSettingsListener(ProjectSpecificSettingsListener listener) {
+		projectSpecificListeners.remove(listener);
 	}
 }

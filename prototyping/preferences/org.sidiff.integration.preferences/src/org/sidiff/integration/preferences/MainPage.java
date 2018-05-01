@@ -5,7 +5,7 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
@@ -17,11 +17,6 @@ import org.eclipse.ui.IWorkbenchPropertyPage;
 public class MainPage extends PreferencePage implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
 
 	/**
-	 * The textfield for the text on the page
-	 */
-	private Text textField;
-
-	/**
 	 * Creates the Content of the MainPage
 	 * @param parent Parent-Composite
 	 * @return the control
@@ -29,10 +24,9 @@ public class MainPage extends PreferencePage implements IWorkbenchPreferencePage
 	@Override
 	protected Control createContents(Composite parent) {
 		super.noDefaultAndApplyButton();
-		textField = new Text(parent, SWT.INHERIT_FORCE);
-		textField.setBackground(parent.getBackground());
-		textField.setText("Expand the tree to view options");
-		return textField;
+		Label label = new Label(parent, SWT.NONE);
+		label.setText("Expand the tree to edit preferences for a specific feature.");
+		return label;
 	}
 
 	/**
@@ -56,5 +50,6 @@ public class MainPage extends PreferencePage implements IWorkbenchPreferencePage
 	 * @see org.eclipse.ui.IWorkbenchPropertyPage#setElement(org.eclipse.core.runtime.IAdaptable)
 	 */
 	@Override
-	public void setElement(IAdaptable element) {}
+	public void setElement(IAdaptable element) {
+	}
 }

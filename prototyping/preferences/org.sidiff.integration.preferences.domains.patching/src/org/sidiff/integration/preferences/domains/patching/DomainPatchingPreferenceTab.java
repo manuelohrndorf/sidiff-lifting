@@ -1,9 +1,12 @@
 package org.sidiff.integration.preferences.domains.patching;
 
+import java.util.List;
+
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.domains.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.domains.patching.settingsadapter.DomainPatchingSettingsAdapter;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -16,26 +19,21 @@ import org.sidiff.patching.transformation.TransformationEngineUtil;
  */
 public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 
-	/**
-	 * The {@link RadioBoxPreferenceField} for the transformation Engine setting
-	 */
 	private RadioBoxPreferenceField<?> transformationEngineField;
-	
-	/**
-	 * The {@link RadioBoxPreferenceField} for the modified detector setting
-	 */
 	private RadioBoxPreferenceField<?> modifiedDetectorField;
 
-	/**
-	 * @see org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab#getTitle()
-	 */
 	@Override
 	public String getTitle() {
 		return "Patching";
 	}
 
 	@Override
-	protected void createPreferenceFields() {
+	public int getPosition() {
+		return 40;
+	}
+
+	@Override
+	public void createPreferenceFields(List<PreferenceField> list) {
 		transformationEngineField = RadioBoxPreferenceField.create(
 				DomainPatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
@@ -50,7 +48,7 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 						return value.getName();
 					}
 				});
-		addField(transformationEngineField);
+		list.add(transformationEngineField);
 
 		modifiedDetectorField = RadioBoxPreferenceField.create(
 				DomainPatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
@@ -66,11 +64,6 @@ public class DomainPatchingPreferenceTab extends AbstractDomainPreferenceTab {
 						return value.getName();
 					}
 				});
-		addField(modifiedDetectorField);
-	}
-
-	@Override
-	public int getStepInPipeline() {
-		return 3;
+		list.add(modifiedDetectorField);
 	}
 }

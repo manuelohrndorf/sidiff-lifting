@@ -11,15 +11,10 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * PreferenceField for use in a PreferenceFieldPage
  * responsible for storing and loading a preference as well as creating controls for changing the preference
- * @author Felix Breitweiser
+ * @author Felix Breitweiser, Robert Müller
  */
 public abstract class PreferenceField {
-	
-	/**
-	 * all preferences will be saved into/loaded from this store 
-	 */
-	private IPreferenceStore store;
-	
+
 	/**
 	 * name of the preference in the store
 	 */
@@ -42,38 +37,27 @@ public abstract class PreferenceField {
 	public PreferenceField(String preferenceName, String title) {
 		this.preferenceName = preferenceName;
 		this.title = title;
-		listeners = new ArrayList<IPropertyChangeListener>();
+		this.listeners = new ArrayList<IPropertyChangeListener>();
 	}
-	
-	/**
-	 * changes the preference store to be used
-	 * @param store the preference store to use
-	 */
-	public void setPreferenceStore(IPreferenceStore store) {
-		this.store = store;
-	}
-	
+
 	/**
 	 * load preference from store into the field
 	 */
-	public void load() {
-		if(store == null) return;
+	public void load(IPreferenceStore store) {
 		doLoad(store, preferenceName);
 	}
 	
 	/**
 	 * load default preference from store into the field
 	 */
-	public void loadDefault() {
-		if(store == null) return;
+	public void loadDefault(IPreferenceStore store) {
 		doLoadDefault(store, preferenceName);
 	}
 	
 	/**
 	 * save current preference into store
 	 */
-	public void save() {
-		if(store == null) return;
+	public void save(IPreferenceStore store) {
 		doSave(store, preferenceName);
 	}
 

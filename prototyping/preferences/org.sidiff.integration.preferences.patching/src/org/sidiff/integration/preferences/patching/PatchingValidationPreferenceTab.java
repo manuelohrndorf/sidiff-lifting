@@ -1,8 +1,10 @@
 package org.sidiff.integration.preferences.patching;
 
-import org.sidiff.integration.preferences.AbstractValidationPreferenceTab;
+import java.util.List;
+
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 
@@ -11,35 +13,31 @@ import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
  * @author Daniel Roedder, Robert Müller
  *
  */
-public class PatchingValidationPreferenceTab extends AbstractValidationPreferenceTab {
+public class PatchingValidationPreferenceTab implements IPreferenceTab {
 
-	/**
-	 * The {@link PreferenceField} for the validation mode setting
-	 */
 	private PreferenceField validationMode;
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffOrderableTab#getStepInPipeline()
-	 */
 	@Override
-	public int getStepInPipeline() {
-		return 4;
+	public TabPage getPage() {
+		return TabPage.VALIDATION;
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab#getTitle()
-	 */
 	@Override
 	public String getTitle() {
 		return "Patching";
 	}
 
 	@Override
-	protected void createPreferenceFields() {
+	public int getPosition() {
+		return 40;
+	}
+
+	@Override
+	public void createPreferenceFields(List<PreferenceField> list) {
 		validationMode = RadioBoxPreferenceField.create(
 				PatchingSettingsAdapter.KEY_VALIDATION_MODE,
 				"Validation Mode",
 				ValidationMode.class);
-		addField(validationMode);
+		list.add(validationMode);
 	}
 }

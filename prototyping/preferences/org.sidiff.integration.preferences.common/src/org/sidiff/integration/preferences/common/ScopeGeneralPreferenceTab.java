@@ -2,28 +2,29 @@ package org.sidiff.integration.preferences.common;
 
 import java.util.List;
 
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter;
-import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 
 /**
- * Class for general validation settings
+ * Class for general scope settings
  * @author Daniel Roedder, Robert Müller
  *
  */
-public class GeneralValidationPreferenceTab implements IPreferenceTab {
+public class ScopeGeneralPreferenceTab implements IPreferenceTab {
 
-	private CheckBoxPreferenceField validateModelsField;
+	private RadioBoxPreferenceField<?> scopeField;
 
 	@Override
 	public TabPage getPage() {
-		return TabPage.VALIDATION;
+		return TabPage.GENERAL;
 	}
 
 	@Override
 	public String getTitle() {
-		return "General";
+		return "Scope settings";
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class GeneralValidationPreferenceTab implements IPreferenceTab {
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {
-		validateModelsField = new CheckBoxPreferenceField(BaseSettingsAdapter.KEY_VALIDATE_MODELS, "Validate Models");
-		list.add(validateModelsField);
+		scopeField = RadioBoxPreferenceField.create(BaseSettingsAdapter.KEY_SCOPE, "Scope", Scope.class);
+		list.add(scopeField);
 	}
 }

@@ -15,113 +15,116 @@ import org.eclipse.swt.widgets.TabItem;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 
 /**
- * 
+ * Abstract superclass for preference/property pages that contain tabs containing preference fields.
  * @author Felix Breitweiser, Robert Müller
  *
  */
-public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage implements IPropertyChangeListener {
+public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePage {
 
 	private TabFolder tabFolder;
-	private List<List<PreferenceField>> tabs;
-	private List<String> tabTitles;
+	private List<Tab> tabs;
+	private IPropertyChangeListener propertyChangeListener;
 
 	public TabbedPreferenceFieldPage() {
-		tabs = new ArrayList<List<PreferenceField>>();
-		tabTitles = new ArrayList<String>();
+		super();
+		tabs = new ArrayList<Tab>();
 	}
 
 	public TabbedPreferenceFieldPage(String title) {
 		super(title);
-		tabs = new ArrayList<List<PreferenceField>>();
-		tabTitles = new ArrayList<String>();
+		tabs = new ArrayList<Tab>();
 	}
 
 	public TabbedPreferenceFieldPage(String title, ImageDescriptor image) {
 		super(title, image);
-		tabs = new ArrayList<List<PreferenceField>>();
-		tabTitles = new ArrayList<String>();
+		tabs = new ArrayList<Tab>();
 	}
+
+	/**
+	 * Creates all preference tabs and their corresponding fields using {@link #addTab(String, List)}.
+	 */
+	protected abstract void createPreferenceFields();
 
 	@Override
 	protected Control doCreateContents(Composite parent) {
 		tabFolder = new TabFolder(parent, SWT.TOP);
 
 		createPreferenceFields();
-		
-		initialize();
-		checkState();
-		
+		createPreferenceFieldControls();
+		validatePreferences();
+
 		return tabFolder;
 	}
 
-	private void initialize() {
-		for(int tab = 0; tab < tabs.size(); tab++) {
-			List<PreferenceField> fields = tabs.get(tab);
+	@Override
+	protected void savePreferences() {
+		for(Tab tab : tabs) {
+			for(PreferenceField field : tab.fields) {
+				field.save(getPreferenceStore());
+			}
+		}
+	}
+
+	@Override
+	protected void reloadPreferences() {
+		for(Tab tab : tabs) {
+			for(PreferenceField field : tab.fields) {
+				field.load(getPreferenceStore());
+			}
+		}
+	}
+
+	@Override
+	protected void defaultPreferences() {
+		for(Tab tab : tabs) {
+			for(PreferenceField field : tab.fields) {
+				field.loadDefault(getPreferenceStore());
+			}
+		}
+	}
+
+	@Override
+	protected void validatePreferences() {
+		for(Tab tab : tabs) {
+			for(PreferenceField field : tab.fields) {
+				if(!field.isValid()) {
+					setValid(false);
+					return;
+				}
+			}
+		}
+		setValid(true);
+	}
+
+	private void createPreferenceFieldControls() {
+		for(Tab tab : tabs) {
 			TabItem tabItem = createTab(tab);
-			for(PreferenceField pf : fields) {
-				pf.createControls((Composite)tabItem.getControl());
-				pf.addPropertyChangeListener(this);
-				pf.addPropertyChangeListener(getPropertyChangeListener());
-				pf.setPreferenceStore(getPreferenceStore());
-				pf.load();
+			for(PreferenceField field : tab.fields) {
+				field.createControls((Composite)tabItem.getControl());
+				field.addPropertyChangeListener(getPropertyChangeListener());
 			}
 		}
 	}
 
 	private IPropertyChangeListener getPropertyChangeListener() {
-		return new IPropertyChangeListener() {			
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				checkState();				
-			}
-		};
+		if(propertyChangeListener == null) {
+			propertyChangeListener = new IPropertyChangeListener() {			
+				@Override
+				public void propertyChange(PropertyChangeEvent event) {
+					validatePreferences();			
+				}
+			};
+		}
+		return propertyChangeListener;
 	}
 
-	@Override
-	protected void performDefaults() {
-		for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf : tab) {
-				pf.loadDefault();
-			}
-		}
-		super.performDefaults();
+	protected void addTab(String title, List<PreferenceField> fields) {
+		tabs.add(new Tab(title, fields));
 	}
-	
-	@Override
-	public boolean performOk() {
-		for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf : tab) {
-				pf.save();
-			}
-		}
-        return true;
-    }
-	
-	@Override
-	public void dispose() {
-        super.dispose();
-        for(List<PreferenceField> tab : tabs) {
-			for(PreferenceField pf : tab) {
-				pf.removePropertyChangeListener(this);
-			}
-		}
-    }
-	
-	public int addTab(String title) {
-		tabs.add(new ArrayList<PreferenceField>());
-		tabTitles.add(title);
-        return tabs.size() - 1;
-	}
-	
-	public void addField(PreferenceField editor, int tab) {
-		if(tabs.size() > tab) {
-			tabs.get(tab).add(editor);
-		}
-	}
-	
-	public TabItem createTab(int tab) {
+
+	protected TabItem createTab(Tab tab) {
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
-		item.setText(tabTitles.get(tab));
+		item.setText(tab.title);
 
 		Composite content = new Composite(tabFolder, SWT.NONE);
 		content.setLayout(new GridLayout(1, true));
@@ -130,22 +133,13 @@ public abstract class TabbedPreferenceFieldPage extends PreferenceFieldPage impl
         return item;
 	}
 
-	protected abstract void createPreferenceFields();
+	private class Tab {
+		private final String title;
+		private final List<PreferenceField> fields;
 
-	@Override
-	protected Iterable<PreferenceField> getAllFields() {
-		List<PreferenceField> all = new ArrayList<PreferenceField>();
-		for(List<PreferenceField> tab : tabs) {
-			all.addAll(tab);
+		private Tab(String title, List<PreferenceField> fields) {
+			this.title = title;
+			this.fields = fields;
 		}
-		return all;
-	}
-
-	/**
-	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
-	 * Default implementation does nothing
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
 	}
 }

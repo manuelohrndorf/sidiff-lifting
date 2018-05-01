@@ -81,11 +81,11 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioGlobal.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.GLOBAL, radioGlobal);
 
-		boolean hasProjectSpecific = PreferenceStoreUtil.hasSpecificSettings(project);
+		boolean useProjectSpecific = PreferenceStoreUtil.useSpecificSettings(project);
 		Button radioProject = new Button(group, SWT.RADIO);
 		radioProject.setText("Use settings of project");
 		radioProject.addSelectionListener(getButtonSelectionListener());
-		radioProject.setEnabled(hasProjectSpecific);
+		radioProject.setEnabled(useProjectSpecific);
 		buttons.put(Source.PROJECT, radioProject);
 
 		Button radioCustom = new Button(group, SWT.RADIO);
@@ -93,7 +93,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioCustom.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.CUSTOM, radioCustom);
 
-		setSource(hasProjectSpecific ? Source.PROJECT : Source.CUSTOM);
+		setSource(useProjectSpecific ? Source.PROJECT : Source.CUSTOM);
 		return container;
 	}
 

@@ -1,7 +1,5 @@
 package org.sidiff.integration.preferences.interfaces;
 
-import java.util.Comparator;
-
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 
@@ -11,7 +9,7 @@ import org.sidiff.common.settings.AbstractSettings;
  * @author Robert Müller
  *
  */
-public interface ISettingsAdapter {
+public interface ISettingsAdapter extends IOrderableStep {
 
 	String EXTENSION_POINT_ID = "org.sidiff.integration.preferences.settingsAdapter";
 	String EXTENSION_POINT_ATTRIBUTE = "class";
@@ -42,15 +40,6 @@ public interface ISettingsAdapter {
 	void initializeDefaults(IPreferenceStore store);
 
 	/**
-	 * Returns the position of the given settings adapter. The position determines the order in which settings are adapted.
-	 * Settings adapters with lower positions are called first. Positions are not required to be unique.
-	 * The adaptation-order of adapters with equal positions is undefined.
-	 * @return position of this settings adapter
-	 */
-	int getPosition();
-	
-
-	/**
 	 * This interface may also be implemented by classes implementing {@link ISettingsAdapter},
 	 * when the preferences managed by it depend on the current domain.
 	 */
@@ -62,15 +51,4 @@ public interface ISettingsAdapter {
 		 */
 		void setDocumentType(String documentType);
 	}
-
-
-	/**
-	 * Comparator to sort {@link ISettingsAdapter}s by their {@link #getPosition() position} in ascending order.
-	 */
-	Comparator<ISettingsAdapter> COMPARATOR = new Comparator<ISettingsAdapter>() {
-		@Override
-		public int compare(ISettingsAdapter o1, ISettingsAdapter o2) {
-			return o1.getPosition() - o2.getPosition();
-		}
-	};
 }

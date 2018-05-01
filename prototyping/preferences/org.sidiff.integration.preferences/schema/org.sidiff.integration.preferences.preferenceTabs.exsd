@@ -3,7 +3,7 @@
 <schema targetNamespace="org.sidiff.integration.preferences" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.sidiff.integration.preferences" id="org.sidiff.integration.preferences.validationPipelineStep" name="SiDiff Validation Pipeline Step"/>
+         <meta.schema plugin="org.sidiff.integration.preferences" id="org.sidiff.integration.preferences.preferenceTabs" name="SiDiff Preference Tabs"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="client"/>
+            <element ref="tab"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,15 +47,15 @@
       </complexType>
    </element>
 
-   <element name="client">
+   <element name="tab">
       <complexType>
-         <attribute name="class" type="string">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.sidiff.integration.preferences.interfaces.ISiDiffValidationPreferenceTab"/>
+                  <meta.attribute kind="java" basedOn=":org.sidiff.integration.preferences.interfaces.IPreferenceTab"/>
                </appinfo>
             </annotation>
          </attribute>

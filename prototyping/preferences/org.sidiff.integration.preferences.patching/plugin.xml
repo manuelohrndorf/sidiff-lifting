@@ -2,21 +2,18 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.sidiff.integration.preferences.enginePipelineStep">
-      <client
-            class="org.sidiff.integration.preferences.patching.PatchingEnginesPreferenceTab">
-      </client>
-   </extension>
-   <extension
-         point="org.sidiff.integration.preferences.validationPipelineStep">
-      <client
-            class="org.sidiff.integration.preferences.patching.PatchingValidationPreferenceTab">
-      </client>
-   </extension>
-   <extension
          point="org.sidiff.integration.preferences.settingsAdapter">
       <adapter
             class="org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter">
       </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
+            class="org.sidiff.integration.preferences.patching.PatchingEnginesPreferenceTab">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.patching.PatchingValidationPreferenceTab">
+      </tab>
    </extension>
 </plugin>

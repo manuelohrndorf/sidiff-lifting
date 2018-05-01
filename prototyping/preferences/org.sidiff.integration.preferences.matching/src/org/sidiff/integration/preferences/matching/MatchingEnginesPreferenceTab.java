@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
-import org.sidiff.integration.preferences.AbstractEnginePreferenceTab;
 import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
@@ -29,48 +30,32 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  * Class for the matching settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
+public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 
-	/**
-	 * The {@link OrderListSelectField} for the order the {@link IMatcher}s are used
-	 */
 	private OrderListSelectField<?> matchersField;
-
-	/**
-	 * The {@link RadioBoxPreferenceField} for the candidate service
-	 */
+	private Map<String, PreferenceField> matcherOptions;
 	private RadioBoxPreferenceField<?> candidatesServiceField;
-
-	/**
-	 * The {@link PreferenceField} for the correspondences service
-	 */
 	private PreferenceField correspondencesServiceField;
-
-	/**
-	 * The {@link PreferenceField} for the similarities services
-	 */
 	private PreferenceField similaritiesServiceField;
-
-	/**
-	 * The {@link PreferenceField} for the similarities calculation services
-	 */
 	private PreferenceField similaritiesCalculationServiceField;
 
-	/**
-	 * The {@link HashMap} for the matcher options fields
-	 */
-	private Map<String, PreferenceField> matcherOptions;
+	@Override
+	public TabPage getPage() {
+		return TabPage.ENGINES;
+	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTitle()
-	 */
 	@Override
 	public String getTitle() {
 		return "Matching";
 	}
 
 	@Override
-	protected void createPreferenceFields() {
+	public int getPosition() {
+		return 10;
+	}
+
+	@Override
+	public void createPreferenceFields(List<PreferenceField> list) {
 		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
 		matchersField = OrderListSelectField.create(
 				MatchingSettingsAdapter.KEY_MATCHERS,
@@ -86,7 +71,16 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 						return value.getName();
 					}
 				});
-		addField(matchersField);
+		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				List<String> newValue = Arrays.asList((String[])event.getNewValue());
+				for(Entry<String, PreferenceField> matcherOptions : matcherOptions.entrySet()) {
+					matcherOptions.getValue().setEnabled(newValue.contains(matcherOptions.getKey()));
+				}
+			}
+		});
+		list.add(matchersField);
 
 		matcherOptions = new HashMap<String, PreferenceField>();
 		for(IMatcher matcher : matchers) {
@@ -96,7 +90,7 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
 						new IdentityPreferenceValueConverter());
-				addField(matcherOption);
+				list.add(matcherOption);
 				matcherOptions.put(matcher.getKey(), matcherOption);
 			}
 		}
@@ -115,44 +109,22 @@ public class MatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 		candidatesServiceField = RadioBoxPreferenceField.create(
 				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
 				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
-		addField(candidatesServiceField);
+		list.add(candidatesServiceField);
 
 		correspondencesServiceField = RadioBoxPreferenceField.create(
 				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
 				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
-		addField(correspondencesServiceField);
+		list.add(correspondencesServiceField);
 
 		similaritiesServiceField = RadioBoxPreferenceField.create(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(), serviceValueConverter);
-		addField(similaritiesServiceField);
+		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = RadioBoxPreferenceField.create(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
 				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
 				serviceValueConverter);
-		addField(similaritiesCalculationServiceField);
-	}
-
-	/**
-	 * Superclass method, used to enable / disable matcher specific options if the matcher is enabled / disabled
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getSource() == matchersField) {
-			List<String> newValue = Arrays.asList((String[])event.getNewValue());
-			for(Entry<String, PreferenceField> matcherOptions : this.matcherOptions.entrySet()) {
-				matcherOptions.getValue().setEnabled(newValue.contains(matcherOptions.getKey()));
-			}
-		}
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getStepInPipeline()
-	 */
-	@Override
-	public int getStepInPipeline() {
-		return 0;
+		list.add(similaritiesCalculationServiceField);
 	}
 }

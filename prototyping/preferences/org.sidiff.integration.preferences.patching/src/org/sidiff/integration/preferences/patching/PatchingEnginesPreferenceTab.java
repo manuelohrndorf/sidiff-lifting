@@ -1,10 +1,12 @@
 package org.sidiff.integration.preferences.patching;
 
-import org.sidiff.integration.preferences.AbstractEnginePreferenceTab;
+import java.util.List;
+
 import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.patching.settings.ExecutionMode;
@@ -17,64 +19,52 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
  * Class for the patching settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class PatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
+public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 
-	/**
-	 * The {@link PreferenceField} for the execution Mode setting
-	 */
 	private PreferenceField executionMode;
-	
-	/**
-	 * The {@link PreferenceField} for the patch mode setting
-	 */
 	private PreferenceField patchMode;
-	
-	/**
-	 * The {@link PreferenceField} for the minimum reliability setting
-	 */
 	private PreferenceField minReliability;
-
-	/**
-	 * The {@link CheckBoxPreferenceField} for the use interactive patching setting
-	 */
 	private CheckBoxPreferenceField useInteractivePatching;
-
-	/**
-	 * The {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField} for the symbolic link handlers
-	 */
 	private PreferenceField symbolicLinkHandlers;
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTitle()
-	 */
+	@Override
+	public TabPage getPage() {
+		return TabPage.ENGINES;
+	}
+
 	@Override
 	public String getTitle() {
 		return "Patching";
 	}
 
 	@Override
-	protected void createPreferenceFields() {
+	public int getPosition() {
+		return 40;
+	}
+
+	@Override
+	public void createPreferenceFields(List<PreferenceField> list) {
 		executionMode = RadioBoxPreferenceField.create(
 				PatchingSettingsAdapter.KEY_EXECUTION_MODE,
 				"Execution Mode",
 				ExecutionMode.class);
-		addField(executionMode);
+		list.add(executionMode);
 
 		patchMode = RadioBoxPreferenceField.create(
 				PatchingSettingsAdapter.KEY_PATCH_MODE,
 				"Patch Mode",
 				PatchMode.class);
-		addField(patchMode);
+		list.add(patchMode);
 
 		minReliability = new NumberPreferenceField(
 				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
 				"Minimum reliability");
-		addField(minReliability);
+		list.add(minReliability);
 
 		useInteractivePatching = new CheckBoxPreferenceField(
 				PatchingSettingsAdapter.KEY_USE_INTERACTIVE_PATCHING,
 				"Use interactive patching");
-		addField(useInteractivePatching);
+		list.add(useInteractivePatching);
 
 		symbolicLinkHandlers = RadioBoxPreferenceField.create(
 				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,
@@ -90,14 +80,6 @@ public class PatchingEnginesPreferenceTab extends AbstractEnginePreferenceTab {
 						return value.getName();
 					}
 				});
-		addField(symbolicLinkHandlers);
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getStepInPipeline()
-	 */
-	@Override
-	public int getStepInPipeline() {
-		return 3;
+		list.add(symbolicLinkHandlers);
 	}
 }

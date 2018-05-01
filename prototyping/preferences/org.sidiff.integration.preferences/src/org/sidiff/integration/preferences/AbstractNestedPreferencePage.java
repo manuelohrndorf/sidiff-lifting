@@ -18,14 +18,14 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
- * 
+ * Abstract superclass for preference pages that contain tabs containing other preference pages.
  * @author Robert Müller
  *
  */
 public abstract class AbstractNestedPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
 
 	private TabFolder tabFolder;
-	private List<PreferenceFieldPage> settingsPages;
+	private List<PropertyAndPreferencePage> settingsPages;
 	private IAdaptable element;
 
 	@Override
@@ -41,20 +41,20 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 			}
 		});
 
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			createTab(page);
 		}
 		return tabFolder;
 	}
 
-	protected List<PreferenceFieldPage> getSettingsPages() {
+	protected List<PropertyAndPreferencePage> getSettingsPages() {
 		if(settingsPages == null) {
 			settingsPages = createSubPages();
 		}
 		return settingsPages;
 	}
 
-	private void createTab(PreferenceFieldPage page) {
+	private void createTab(PropertyAndPreferencePage page) {
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
 		item.setText(page.getTitle());
 
@@ -67,14 +67,14 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 
 	@Override
 	public void init(IWorkbench workbench) {
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			page.init(workbench);
 		}
 	}
 
 	@Override
 	public void dispose() {
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			page.dispose();
 		}
 		super.dispose();
@@ -83,7 +83,7 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 	@Override
 	public boolean performOk() {
 		boolean result = true;
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			result &= page.performOk();
 		}
 		return result;
@@ -91,7 +91,7 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 
 	@Override
 	protected void performDefaults() {
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			page.performDefaults();
 		}
 	}
@@ -105,7 +105,7 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 	public void setElement(IAdaptable element) {
 		this.element = element;
 
-		for(PreferenceFieldPage page : getSettingsPages()) {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			page.setElement(element);
 		}
 	}
@@ -118,6 +118,6 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 		return settingsPages.get(index).getPreferenceStore();
 	}
 
-	protected abstract List<PreferenceFieldPage> createSubPages();
+	protected abstract List<PropertyAndPreferencePage> createSubPages();
 	protected abstract void onPageChanged(int newIndex);
 }

@@ -1,63 +1,18 @@
 package org.sidiff.integration.preferences.domains;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.sidiff.integration.preferences.PreferencesPlugin;
-import org.sidiff.integration.preferences.TabbedPreferenceFieldPage;
-import org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.interfaces.ISiDiffOrderableTab;
+import org.sidiff.integration.preferences.AbstractPreferenceTabPage;
 
 /**
  * 
- * Class to create the {@link org.sidiff.integration.preferences.TabbedPreferenceFieldPage} for a specific domain.
+ * Preference page for a specific domain.
  * @author Daniel Roedder, Robert Müller
  */
-public class DomainSpecificSettingsPage extends TabbedPreferenceFieldPage implements IWorkbenchPreferencePage {
-
-	private String documentType;
+public class DomainSpecificSettingsPage extends AbstractPreferenceTabPage {
 
 	public DomainSpecificSettingsPage(String title, String documentType) {
-		super(title);
+		super(documentType);
 		super.noDefaultAndApplyButton();
+		setTitle(title);
 		setMessage(title + " - " + documentType);
-		this.documentType = documentType;
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.TabbedPreferenceFieldPage#createPreferenceFields()
-	 */
-	@Override
-	protected void createPreferenceFields() {
-		List<ISiDiffDomainPreferenceTab> extensionClassList = new ArrayList<ISiDiffDomainPreferenceTab>();
-		for (IConfigurationElement element :
-				Platform.getExtensionRegistry().getConfigurationElementsFor(ISiDiffDomainPreferenceTab.EXTENSION_POINT_ID)) {
-			try {
-				ISiDiffDomainPreferenceTab tab = (ISiDiffDomainPreferenceTab)element.createExecutableExtension("class");
-				tab.setPreferenceStore(getPreferenceStore());
-				tab.setDocumentType(documentType);
-				extensionClassList.add(tab);
-			} catch (CoreException e) {
-				PreferencesPlugin.logWarning("Failed to create ISiDiffDomainPreferenceTab contributed by "
-											+ element.getDeclaringExtension().getContributor().getName(), e);
-			}
-		}
-
-		extensionClassList.sort(ISiDiffOrderableTab.COMPARATOR);
-
-		for (ISiDiffDomainPreferenceTab tab : extensionClassList) {
-			List<PreferenceField> contents = tab.getTabContent();
-			if(contents.isEmpty())
-				continue; // empty tabs are skipped
-			int tabNumber = this.addTab(tab.getTitle());
-			for (PreferenceField field : tab.getTabContent()) {
-				this.addField(field, tabNumber);
-			}
-		}
 	}
 }

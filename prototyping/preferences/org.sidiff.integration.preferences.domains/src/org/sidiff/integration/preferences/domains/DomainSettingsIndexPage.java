@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.integration.preferences.AbstractNestedPreferencePage;
-import org.sidiff.integration.preferences.PreferenceFieldPage;
+import org.sidiff.integration.preferences.PropertyAndPreferencePage;
 import org.sidiff.integration.preferences.domains.util.DomainSignificanceUtil;
 
 /**
@@ -18,8 +18,8 @@ public class DomainSettingsIndexPage extends AbstractNestedPreferencePage {
 	private List<String> siginficantDocumentTypes;
 
 	@Override
-	protected List<PreferenceFieldPage> createSubPages() {
-		List<PreferenceFieldPage> pages = new LinkedList<PreferenceFieldPage>();
+	protected List<PropertyAndPreferencePage> createSubPages() {
+		List<PropertyAndPreferencePage> pages = new LinkedList<PropertyAndPreferencePage>();
 		siginficantDocumentTypes = DomainSignificanceUtil.getSignificantDocumentTypes();
 		for(String documentType : siginficantDocumentTypes) {
 			pages.add(new DomainSpecificSettingsPage(

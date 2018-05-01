@@ -2,38 +2,18 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.sidiff.integration.preferences.validationPipelineStep">
-      <client
-            class="org.sidiff.integration.preferences.common.GeneralValidationPreferenceTab">
-      </client>
-   </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            category="org.sidiff.integration.preferences.SiDiffSettings"
-            class="org.sidiff.integration.preferences.common.ResolutionStrategyPreferencePage"
-            id="org.sidiff.integration.preferences.SiDiffSettings.resolutionstrategy"
-            name="Resolution Strategy">
-      </page>
-   </extension>
-   <extension
-         point="org.eclipse.ui.propertyPages">
-      <page
-            category="org.sidiff.integration.properties.SiDiffSettings"
-            class="org.sidiff.integration.preferences.common.ResolutionStrategyPreferencePage"
-            id="org.sidiff.integration.properties.SiDiffSettings.resolutionstrategy"
-            name="Resolution Strategy">
-         <enabledWhen>
-            <reference
-                  definitionId="org.sidiff.integration.preferences.showPropertiesDefinition">
-            </reference>
-         </enabledWhen>
-      </page>
-   </extension>
-   <extension
          point="org.sidiff.integration.preferences.settingsAdapter">
       <adapter
             class="org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter">
       </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
+            class="org.sidiff.integration.preferences.common.GeneralValidationPreferenceTab">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.common.ScopeGeneralPreferenceTab">
+      </tab>
    </extension>
 </plugin>
