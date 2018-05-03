@@ -1,13 +1,13 @@
 package org.sidiff.integration.preferences.domains;
 
-import org.sidiff.integration.preferences.domains.interfaces.ISiDiffDomainPreferenceTab;
+import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 
 /**
  * 
  * @author Robert Müller
  *
  */
-public abstract class AbstractDomainPreferenceTab implements ISiDiffDomainPreferenceTab {
+public abstract class AbstractDomainPreferenceTab implements IPreferenceTab, IPreferenceTab.DomainSpecific {
 
 	private String documentType;
 
@@ -18,5 +18,10 @@ public abstract class AbstractDomainPreferenceTab implements ISiDiffDomainPrefer
 	@Override
 	public void setDocumentType(String documentType) {
 		this.documentType = documentType;
+	}
+
+	@Override
+	public TabPage getPage() {
+		return TabPage.DOMAINS;
 	}
 }

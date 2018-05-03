@@ -2,22 +2,16 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.sidiff.integration.preferences.enginePipelineStep">
-      <client
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
             class="org.sidiff.integration.preferences.difference.DifferenceEnginesPreferenceTab">
-      </client>
-   </extension>
-   <extension
-         point="org.sidiff.integration.preferences.settingsFactory">
-      <client
-            class="org.sidiff.integration.preferences.difference.factory.DifferenceSettingsFactory">
-      </client>
-   </extension>
-   <extension
-         point="org.sidiff.integration.preferences.validationPipelineStep">
-      <client
-            class="org.sidiff.integration.preferences.difference.DifferenceValidationPreferenceTab">
-      </client>
+      </tab>
    </extension>
 
 </plugin>

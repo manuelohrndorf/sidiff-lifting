@@ -15,7 +15,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -84,16 +87,22 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Group parent, String title) {
-		parent.setLayout(new RowLayout(SWT.VERTICAL));
-		parent.setText(title);
+	public void doCreateControls(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(title);
+		group.setLayout(new RowLayout(SWT.VERTICAL));
 
 		buttons = new HashMap<String, Button>();
 		for(T input : inputs) {
-			Button b = new Button(parent, SWT.RADIO);
+			Button b = new Button(group, SWT.RADIO);
 			b.addSelectionListener(createSelectionListener(valueConverter.getValue(input)));
 			b.setText(valueConverter.getLabel(input));
 			buttons.put(valueConverter.getValue(input), b);
+		}
+
+		if(inputs.isEmpty()) {
+			Label label = new Label(group, SWT.NONE);
+			label.setText("None available");
 		}
 	}
 
@@ -150,5 +159,18 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	public static <T> RadioBoxPreferenceField<T> create(String preferenceName, String title,
 			T[] inputs, IPreferenceValueConverter<T> valueConverter) {
 		return new RadioBoxPreferenceField<T>(preferenceName, title, Arrays.asList(inputs), valueConverter);
+	}
+
+	/**
+	 * Creates a new RadioBoxPreferenceField for an Enum-type. Uses the {@link EnumPreferenceValueConverter}.
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the preference field
+	 * @param enumClass the class of the Enum
+	 * @return the newly created RadioBoxPreferenceField
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E extends Enum<E>> RadioBoxPreferenceField<E> create(String preferenceName, String title, Class<E> enumClass) {
+		return (RadioBoxPreferenceField<E>)create(preferenceName, title,
+				enumClass.getEnumConstants(), new EnumPreferenceValueConverter());
 	}
 }

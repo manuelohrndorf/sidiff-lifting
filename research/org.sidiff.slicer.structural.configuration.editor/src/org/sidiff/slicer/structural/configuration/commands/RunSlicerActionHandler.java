@@ -38,6 +38,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.slicer.ISlicer;
+import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
 import org.sidiff.slicer.structural.configuration.presentation.ConfigurationEditor;
 import org.sidiff.slicer.structural.configuration.presentation.ConfigurationEditorPlugin;
@@ -212,8 +213,8 @@ public class RunSlicerActionHandler extends AbstractHandler
 		{
 			// run slicer
 			slicer.init((SlicingConfiguration)cfg);
-			slicer.slice(contextIdentifiers);
-			SlicerUtil.serializeModelSlice(saveURI, slicer.getModelSlice().export());
+			ModelSlice slice = slicer.slice(contextIdentifiers);
+			SlicerUtil.serializeModelSlice(saveURI, slice.export());
 
 			URI graphURI = saveURI.appendFileExtension(ConfigurationEditorPlugin.getSubstitutedString("_UI_RunSlicer_GraphFileExt")); //$NON-NLS-1$
 			OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter().createOutputStream(graphURI);

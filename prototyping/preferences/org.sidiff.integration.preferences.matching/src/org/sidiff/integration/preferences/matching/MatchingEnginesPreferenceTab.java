@@ -1,13 +1,12 @@
 package org.sidiff.integration.preferences.matching;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.configuration.IConfigurable;
@@ -16,7 +15,8 @@ import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab;
+import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
+import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
@@ -30,67 +30,36 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  * Class for the matching settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab{
-	
-	/**
-	 * List to hold all {@link org.sidiff.integration.preferences.fieldeditors.PreferenceField}
-	 */
-	private List<PreferenceField> fieldList;
-	
-	/**
-	 * The {@link OrderListSelectField} for the order the {@link IMatcher}s are used
-	 */
-	private OrderListSelectField<?> matchingOrder;
-	
-	/**
-	 * The {@link RadioBoxPreferenceField} for the candidate service
-	 */
-	private RadioBoxPreferenceField<?> candidatesServices;
-	
-	/**
-	 * The {@link PreferenceField} for the correspondences service
-	 */
-	private PreferenceField correspondencesServices;
-	
-	/**
-	 * The {@link PreferenceField} for the similarities services
-	 */
-	private PreferenceField similaritiesServices;
-	
-	/**
-	 * The {@link PreferenceField} for the similarities calculation services
-	 */
-	private PreferenceField similaritiesCalculationServices;
-	
-	/**
-	 * The {@link HashMap} for the matcher options fields
-	 */
+public class MatchingEnginesPreferenceTab implements IPreferenceTab {
+
+	private OrderListSelectField<?> matchersField;
 	private Map<String, PreferenceField> matcherOptions;
-	
-	/**
-	 * The {@link IPreferenceStore} to be used
-	 */
-	private IPreferenceStore store;
-	
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTitle()
-	 */
+	private RadioBoxPreferenceField<?> candidatesServiceField;
+	private PreferenceField correspondencesServiceField;
+	private PreferenceField similaritiesServiceField;
+	private PreferenceField similaritiesCalculationServiceField;
+
+	@Override
+	public TabPage getPage() {
+		return TabPage.ENGINES;
+	}
+
 	@Override
 	public String getTitle() {
 		return "Matching";
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getTabContent()
-	 */
 	@Override
-	public Iterable<PreferenceField> getTabContent() {
-		fieldList = new ArrayList<PreferenceField>();
-		
+	public int getPosition() {
+		return 10;
+	}
+
+	@Override
+	public void createPreferenceFields(List<PreferenceField> list) {
 		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
-		matchingOrder = OrderListSelectField.create(
-				"matchingOrder",
-				"Matching Order",
+		matchersField = OrderListSelectField.create(
+				MatchingSettingsAdapter.KEY_MATCHERS,
+				"Matchers",
 				matchers,
 				new IPreferenceValueConverter<IMatcher>() {
 					@Override
@@ -102,17 +71,26 @@ public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab
 						return value.getName();
 					}
 				});
-		fieldList.add(matchingOrder);
+		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				List<String> newValue = Arrays.asList((String[])event.getNewValue());
+				for(Entry<String, PreferenceField> matcherOptions : matcherOptions.entrySet()) {
+					matcherOptions.getValue().setEnabled(newValue.contains(matcherOptions.getKey()));
+				}
+			}
+		});
+		list.add(matchersField);
 
-		// TODO: matcher options are untested
 		matcherOptions = new HashMap<String, PreferenceField>();
 		for(IMatcher matcher : matchers) {
 			if(matcher instanceof IConfigurable) {
 				PreferenceField matcherOption = CheckListSelectField.create(
-						matcher.getKey(), matcher.getName(),
+						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
+						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
 						new IdentityPreferenceValueConverter());
-				fieldList.add(matcherOption);
+				list.add(matcherOption);
 				matcherOptions.put(matcher.getKey(), matcherOption);
 			}
 		}
@@ -128,63 +106,25 @@ public class MatchingEnginesPreferenceTab implements ISiDiffEnginesPreferenceTab
 			}
 		};
 
-		candidatesServices = RadioBoxPreferenceField.create("candidatesServices", "Candidates Services",
+		candidatesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
 				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
-		fieldList.add(candidatesServices);
+		list.add(candidatesServiceField);
 
-		correspondencesServices = RadioBoxPreferenceField.create("correspondencesServices", "Correspondences Services",
+		correspondencesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
 				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
-		fieldList.add(correspondencesServices);
+		list.add(correspondencesServiceField);
 
-		similaritiesServices = RadioBoxPreferenceField.create("similaritiesServices", "Similarities Services",
+		similaritiesServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(), serviceValueConverter);
-		fieldList.add(similaritiesServices);
+		list.add(similaritiesServiceField);
 
-		similaritiesCalculationServices = RadioBoxPreferenceField.create("similaritiesCalculationServices",
-				"Similarities Calculation Services",
+		similaritiesCalculationServiceField = RadioBoxPreferenceField.create(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
 				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
 				serviceValueConverter);
-		fieldList.add(similaritiesCalculationServices);
-
-		for (PreferenceField field : fieldList) {
-			field.setPreferenceStore(store);
-		}
-
-		return fieldList;
-	}
-
-	/**
-	 * Superclass method, used to enable / disable matcher specific options if the matcher is enabled / disabled
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getSource() == matchingOrder) {
-			List<String> newValue = Arrays.asList((String[]) event.getNewValue());
-			for(Entry<String, PreferenceField> matcherOptions : this.matcherOptions.entrySet()) {
-				if(newValue.contains(matcherOptions.getKey())) {
-					matcherOptions.getValue().enable();
-				} else {
-					matcherOptions.getValue().disable();
-				}
-			}
-		}
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#setPreferenceStore(org.eclipse.jface.preference.IPreferenceStore)
-	 */
-	@Override
-	public void setPreferenceStore(IPreferenceStore store) {
-		this.store = store;
-		
-	}
-
-	/**
-	 * @see org.sidiff.integration.preferences.interfaces.ISiDiffEnginesPreferenceTab#getStepInPipeline()
-	 */
-	@Override
-	public int getStepInPipeline() {
-		return 0;
+		list.add(similaritiesCalculationServiceField);
 	}
 }

@@ -2,9 +2,21 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.sidiff.integration.preferences.domains.pipelineStep">
-      <client
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.domains.lifting.settingsadapter.DomainLiftingSettingsAdapter">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.domains.significance">
+      <significanceProvider
+            class="org.sidiff.integration.preferences.domains.lifting.LiftingPreferenceSignificanceProvider">
+      </significanceProvider>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
             class="org.sidiff.integration.preferences.domains.lifting.DomainLiftingPreferenceTab">
-      </client>
+      </tab>
    </extension>
 </plugin>

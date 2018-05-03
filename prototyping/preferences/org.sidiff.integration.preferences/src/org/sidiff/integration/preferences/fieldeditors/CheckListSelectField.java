@@ -9,7 +9,9 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -81,12 +83,13 @@ public class CheckListSelectField extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Group parent, String title) {
-		parent.setLayout(new RowLayout(SWT.VERTICAL));
-		parent.setText(title);
+	public void doCreateControls(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(title);
+		group.setLayout(new RowLayout(SWT.VERTICAL));
 
 		for(CheckBoxPreferenceField f : fields) {
-			f.createControls(parent);
+			f.createControls(group);
 			f.addPropertyChangeListener(new IPropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent event) {
@@ -94,18 +97,20 @@ public class CheckListSelectField extends PreferenceField {
 				}
 			});
 		}
+
+		if(fields.isEmpty()) {
+			Label label = new Label(group, SWT.NONE);
+			label.setText("None available");
+		}
 	}
-	
+
 	/**
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
 	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		for(CheckBoxPreferenceField f : fields) {
-			if(enabled) 
-				f.enable();
-			else
-				f.disable();
+			f.setEnabled(enabled);
 		}
 	}
 
