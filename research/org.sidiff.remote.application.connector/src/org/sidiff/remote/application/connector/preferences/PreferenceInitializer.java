@@ -19,8 +19,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = ConnectorUIPlugin.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_URL, "localhost");	
 		store.setDefault(PreferenceConstants.P_Port, "1904");
-		store.setDefault(PreferenceConstants.P_USER, "");
-		store.setDefault(PreferenceConstants.P_PASSWORD, "");
 	}
 
 }
