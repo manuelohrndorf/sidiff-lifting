@@ -7,6 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -128,6 +129,7 @@ public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePag
 
 		Composite content = new Composite(tabFolder, SWT.NONE);
 		content.setLayout(new GridLayout(1, true));
+		content.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 		item.setControl(content);
         return item;

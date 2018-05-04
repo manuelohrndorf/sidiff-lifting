@@ -76,7 +76,7 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 			public void propertyChange(PropertyChangeEvent event) {
 				List<String> newValue = Arrays.asList((String[])event.getNewValue());
 				for(Entry<String, PreferenceField> matcherOptions : matcherOptions.entrySet()) {
-					matcherOptions.getValue().setEnabled(newValue.contains(matcherOptions.getKey()));
+					matcherOptions.getValue().setVisible(newValue.contains(matcherOptions.getKey()));
 				}
 			}
 		});
