@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.sidiff.remote.common.exceptions.InvalidSessionException;
 import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.util.ChecksumUtil;
 
@@ -92,12 +93,16 @@ public class Session implements Serializable {
 	 * @param remote_path
 	 * 				session based relative model path
 	 * @param file
-	 * @throws NoSuchAlgorithmException
-	 * @throws IOException
+	 * @throws InvalidSessionException 
 	 */
-	public void addModel(String local_path, String remote_path, File file) throws NoSuchAlgorithmException, IOException {
-		String checksum = ChecksumUtil.getFileChecksum(file);
-		this.modelInfos.add(new ModelInfo(local_path, remote_path, checksum));
+	public void addModel(String local_path, String remote_path, File file) throws InvalidSessionException {
+		try {
+			String checksum = ChecksumUtil.getFileChecksum(file);
+			this.modelInfos.add(new ModelInfo(local_path, remote_path, checksum));
+		} catch (NoSuchAlgorithmException | IOException e) {
+			throw new InvalidSessionException(e);
+		}
+		
 	}
 	
 	/**
@@ -116,12 +121,20 @@ public class Session implements Serializable {
 		return url;
 	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public int getPort() {
 		return port;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 	/**
@@ -132,6 +145,10 @@ public class Session implements Serializable {
 		return user;
 	}
 
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -306,5 +323,14 @@ public class Session implements Serializable {
 			
 			return stringBuilder.toString();
 		}
+	}
+	
+	public boolean validate() {
+		boolean b_sessionID = this.sessionID != null && !this.sessionID.isEmpty();
+		boolean b_url = this.url != null && !this.url.isEmpty();
+		boolean b_port = this.port > 0;
+		boolean b_user = this.user != null && !this.user.isEmpty();
+		
+		return b_sessionID && b_url && b_port && b_user;
 	}
 }

@@ -6,6 +6,11 @@ package org.sidiff.remote.common;
  *
  */
 public enum ECommand {
+	
+	ADD_REPOSITORY_REQUEST,
+	
+	ADD_REPOSITORY_REPLY,
+	
 	BROWSE_MODEL_FILES_REQUEST,
 	
 	BROWSE_MODEL_FILES_REPLY,
