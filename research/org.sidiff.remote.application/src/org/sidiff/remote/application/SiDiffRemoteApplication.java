@@ -43,7 +43,6 @@ public class SiDiffRemoteApplication {
 	
 	private File session_folder;
 	
-	private File session_temp_folder;
 	
 	private ModelIndexer modelIndexer;
 	
@@ -55,7 +54,6 @@ public class SiDiffRemoteApplication {
 		String ws_path = this.workspace.getRoot().getLocation().toOSString();
 		String	user_path= ws_path + File.separator + session.getUser();
 		String session_path = user_path + File.separator + session.getSessionID();
-		String session_temp_path = session_path + File.separator + ServerConfiguration.METADATA;
 		
 		this.user_folder = new File(user_path);
 		if(!user_folder.exists()) {
@@ -66,11 +64,6 @@ public class SiDiffRemoteApplication {
 			session_folder.mkdir();
 		}
 		this.modelIndexer = new ModelIndexer(session_folder);
-		
-		this.session_temp_folder = new File(session_temp_path);
-		if(!session_temp_folder.exists()) {
-			session_temp_folder.mkdir();
-		}
 		
 		this.extractionEngine = new ExtractionEngine();
 	}
@@ -106,7 +99,7 @@ public class SiDiffRemoteApplication {
 	public File checkoutModel(String remote_model_path, String local_model_path, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		
 		String absolute_origin_path = user_folder + File.separator + remote_model_path;
-		String absolute_copy_path = session_temp_folder + File.separator + local_model_path;
+		String absolute_copy_path = session_folder + File.separator + local_model_path;
 		FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -156,7 +149,7 @@ public class SiDiffRemoteApplication {
 	 * @return
 	 */
 	public TreeModel getRequestedModelElements(String local_model_path) {
-		String absolute_copy_path = session_temp_folder + File.separator + local_model_path;
+		String absolute_copy_path = session_folder + File.separator + local_model_path;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
@@ -173,6 +166,11 @@ public class SiDiffRemoteApplication {
 		}
 		
 		return treeModel;
+	}
+	
+	public void addRepository(String url, int port, String user, char[] passowrd) {
+		//TODO connect to repository and clone/checkout branches
+		
 	}
 	
 	/**
@@ -206,7 +204,7 @@ public class SiDiffRemoteApplication {
 	 * @throws ExtendedSlicingCriteriaIntersectionException
 	 */
 	public File updateSubModel(String localPath, Set<String> elementIds) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
-		String absolute_copy_path = session_temp_folder + File.separator + localPath;
+		String absolute_copy_path = session_folder + File.separator + localPath;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);

@@ -24,6 +24,7 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.remote.application.exception.UnsupportedProtocolException;
 import org.sidiff.remote.common.ProtocolHandler;
+import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
 import org.sidiff.remote.common.commands.BrowseModelReply;
@@ -68,11 +69,12 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		initializeLogger();
 				
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
-		String arg_port = args[0];
+		String arg_url = args[0];
+		String arg_port = args[1];
 		
 		Integer port = arg_port == null || arg_port.isEmpty() ? 2345 : Integer.parseInt(arg_port);
 		
-		this.config = new ServerConfiguration(port);
+		this.config = new ServerConfiguration(arg_url, port);
 		
 		this.server = new ServerSocket(config.PORT);
 		
@@ -124,6 +126,10 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 
 		File attachment = null;
 		switch(command.getECommand()) {
+		case ADD_REPOSITORY_REQUEST:
+			AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
+			app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
+			break;
 		case BROWSE_MODEL_FILES_REQUEST:
 			BrowseModelFilesRequest browseModelFilesRequest = (BrowseModelFilesRequest) command;
 			String local_model_path = browseModelFilesRequest.getLocalModelPath();

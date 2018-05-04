@@ -6,11 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.sidiff.remote.application.connector.exception.ConnectionExceptionWrapper;
+import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.common.ProtocolHandler;
-import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.commands.Command;
 
 /**
@@ -20,26 +17,29 @@ import org.sidiff.remote.common.commands.Command;
  */
 public class ConnectionHandler {
 
+	/**
+	 * The singleton instance
+	 */
 	private static ConnectionHandler connectionHandler;
 	
-	private IWorkspace workspace;
-	
-	private Session session;
-	
+	/**
+	 * The {@link ProtocolHandler}
+	 */
 	private ProtocolHandler protocolHandler;
 	
 	private ConnectionHandler() {
-		
-	}
+		this.protocolHandler = new ProtocolHandler();
+	}	
 	
-	public void init(Session session, IWorkspace workspace) {
-		this.workspace = workspace;
-		this.session = session;
-		this.protocolHandler = new ProtocolHandler(this.workspace.getRoot().getLocation().toOSString());
-	}
-	
-	
-	public Command handleRequest(Command request, File attachment) throws ConnectionExceptionWrapper{
+	/**
+	 * handles a given {@link Command}
+	 * 
+	 * @param request
+	 * @param attachment
+	 * @return
+	 * @throws ConnectionException
+	 */
+	public Command handleRequest(Command request, File attachment) throws ConnectionException {
 		Socket server = null;
 		InputStream in = null;
 		OutputStream out = null;
@@ -47,23 +47,20 @@ public class ConnectionHandler {
 		Command reply = null;
 				
 		try {
-			server = new Socket(this.session.getUrl(), this.session.getPort());
+			server = new Socket(request.getSession().getUrl(), request.getSession().getPort());
 			in = server.getInputStream();
 			out = server.getOutputStream();
 			
 			this.protocolHandler.write(out, request, attachment);
 			reply = this.protocolHandler.read(in);
-			this.session = reply.getSession();
-			ConnectorPlugin.getInstance().writeSession(session);
 				
 		} catch (IOException | ClassNotFoundException e) {
-			throw new ConnectionExceptionWrapper(e);
+			throw new ConnectionException(e);
 		}finally {
 			if(server != null) {
 				try {
 					server.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -72,14 +69,15 @@ public class ConnectionHandler {
 		return reply;
 	}
 	
+	/**
+	 * gets the singleton instance
+	 * 
+	 * @return
+	 */
 	public static ConnectionHandler getInstance() {
 		if(ConnectionHandler.connectionHandler == null) {
 			ConnectionHandler.connectionHandler = new ConnectionHandler();
 		}
 		return ConnectionHandler.connectionHandler;
-	}
-	
-	public Session getSession() {
-		return session;
 	}
 }

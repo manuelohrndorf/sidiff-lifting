@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class ModelIndexer {
 	
-	private File session_folder;
+	private File user_folder;
 	
 	private Set<String> file_ext;
 	
 	private List<File> model_files;
 	
-	public ModelIndexer(File session_folder) {
-		this.session_folder = session_folder;
+	public ModelIndexer(File user_folder) {
+		this.user_folder = user_folder;
 		this.file_ext = new HashSet<String>();
 		this.file_ext.add("ecore");
 		this.file_ext.add("uml");
@@ -29,13 +29,13 @@ public class ModelIndexer {
 	
 	public void index() {
 		this.model_files.clear();
-		this.model_files.addAll(searchModelFiles(session_folder));
+		this.model_files.addAll(searchModelFiles(user_folder));
 	}
 	
 	private List<File> searchModelFiles(File parent){
 		List<File> files = new ArrayList<File>();
 		for(File file : parent.listFiles()) {
-			if(file.isDirectory() && !file.getName().equals(ServerConfiguration.METADATA)) {
+			if(file.isDirectory()) {
 				files.addAll(searchModelFiles(file));
 			}else if(file_ext.contains(getFileExtension(file))) {
 				files.add(file);

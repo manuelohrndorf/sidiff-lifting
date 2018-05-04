@@ -68,7 +68,7 @@ public class ExtractionEngine {
 		slicer.init(config);
 		ExecutableModelSlice modelSlice = (ExecutableModelSlice) slicer.slice(eObjects);
 		String path = EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "");
-		String file_path = modelSlice.serialize(path, true);
+		modelSlice.serialize(path, true);
 		
 		this.patchEngine = new PatchEngine(modelSlice.getAsymmetricDifference(), slicedModel, patchingSettings);
 		

@@ -1,12 +1,13 @@
 package org.sidiff.remote.application;
 
 public class ServerConfiguration {
-
-	public static final String METADATA = ".metadata";
+	
+	public final String URL;
 	
 	public final int PORT;
 	
-	public ServerConfiguration(int port) {
+	public ServerConfiguration(String url, int port) {
+		this.URL = url;
 		this.PORT = port;
 	}
 	
@@ -14,6 +15,7 @@ public class ServerConfiguration {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Configuration:\n");
+		stringBuilder.append("\t*port: " + URL);
 		stringBuilder.append("\t*port: "+ PORT);
 		return stringBuilder.toString();
 	}
