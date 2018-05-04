@@ -34,6 +34,16 @@ public abstract class PreferenceField {
 	private List<IPropertyChangeListener> listeners;
 
 	/**
+	 * The created control
+	 */
+	private Control control;
+
+	/**
+	 * The layout data of the control. Must be {@link GridData} for {@link #setVisible(boolean)} to work.
+	 */
+	private GridData layoutData;
+
+	/**
 	 * @param preferenceName name of the preference in the store 
 	 * @param title human readable title of the preference
 	 */
@@ -48,8 +58,18 @@ public abstract class PreferenceField {
 	 * @param parent composite into which controls can be created
 	 */
 	public void createControls(Composite parent) {
-		Control control = doCreateControls(parent, title);
-		control.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		control = doCreateControls(parent, title);
+		layoutData = createLayoutData();
+		control.setLayoutData(layoutData);
+	}
+
+	/**
+	 * Creates layout data for the control created by {@link #doCreateControls(Composite, String)}.
+	 * The default layout data will let the control fill the horizontal space.
+	 * @return grid data
+	 */
+	protected GridData createLayoutData() {
+		return new GridData(SWT.FILL, SWT.TOP, true, false);
 	}
 
 	/**
@@ -83,6 +103,16 @@ public abstract class PreferenceField {
 	 * @param enabled true if the field is enabled
 	 */
 	public abstract void setEnabled(boolean enabled);
+
+	/**
+	 * Makes the preferences field visible/invisible. When it is invisible, it takes up no space.
+	 * @param visible <code>true</code> to make it visible, <code>false</code> to hide it
+	 */
+	public void setVisible(boolean visible) {
+		control.setVisible(visible);
+		layoutData.exclude = !visible;
+		control.pack();
+	}
 
 	/**
 	 * sublcasses may override this if the need to check for validity before saving
