@@ -14,6 +14,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Widget;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -36,6 +37,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 
 	private IPreferenceValueConverter<T> valueConverter;
 
+	private Group group;
 	private org.eclipse.swt.widgets.List left, right;
 	private Composite buttonBox;
 	private Button up, down, add, remove;
@@ -94,9 +96,8 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Composite parent, String title) {
-		Group group = new Group(parent, SWT.NONE);
-		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+	public Control doCreateControls(Composite parent, String title) {
+		group = new Group(parent, SWT.NONE);
 		group.setText(title);
 		group.setLayout(new GridLayout(3, false));
 
@@ -110,6 +111,8 @@ public class OrderListSelectField<T> extends PreferenceField {
 		right = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		right.addSelectionListener(getSelectionListener());
 		right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		return group;
 	}
 
 	/**
@@ -291,6 +294,11 @@ public class OrderListSelectField<T> extends PreferenceField {
 			right.add(valueConverter.getLabel(item));
 		}
 		right.setSelection(selectionRight);
+
+		// update the size of the lists
+		left.pack();
+		right.pack();
+		group.requestLayout();
 	}
 
 	/**

@@ -8,8 +8,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -83,10 +84,10 @@ public class CheckListSelectField extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Composite parent, String title) {
+	public Control doCreateControls(Composite parent, String title) {
 		Group group = new Group(parent, SWT.NONE);
 		group.setText(title);
-		group.setLayout(new RowLayout(SWT.VERTICAL));
+		group.setLayout(new GridLayout(1, true));
 
 		for(CheckBoxPreferenceField f : fields) {
 			f.createControls(group);
@@ -102,6 +103,8 @@ public class CheckListSelectField extends PreferenceField {
 			Label label = new Label(group, SWT.NONE);
 			label.setText("None available");
 		}
+
+		return group;
 	}
 
 	/**

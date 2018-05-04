@@ -6,7 +6,10 @@ import java.util.List;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * PreferenceField for use in a PreferenceFieldPage
@@ -66,7 +69,8 @@ public abstract class PreferenceField {
 	 * @param parent composite into which controls can be created
 	 */
 	public void createControls(Composite parent) {
-		doCreateControls(parent, title);
+		Control control = doCreateControls(parent, title);
+		control.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 	}
 
 	/**
@@ -94,8 +98,9 @@ public abstract class PreferenceField {
 	 * subclasses should implement this to create all their fields
 	 * @param parent the Composite, into which controls can be created
 	 * @param title human readable title to be used
+	 * @return the created control
 	 */
-	protected abstract void doCreateControls(Composite parent, String title);
+	protected abstract Control doCreateControls(Composite parent, String title);
 	
 	/**
 	 * enables/disables the field 

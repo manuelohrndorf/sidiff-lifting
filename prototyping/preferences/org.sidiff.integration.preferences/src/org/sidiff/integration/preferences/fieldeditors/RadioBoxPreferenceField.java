@@ -13,9 +13,10 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
@@ -87,10 +88,10 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Composite parent, String title) {
+	public Control doCreateControls(Composite parent, String title) {
 		Group group = new Group(parent, SWT.NONE);
 		group.setText(title);
-		group.setLayout(new RowLayout(SWT.VERTICAL));
+		group.setLayout(new GridLayout(1, true));
 
 		buttons = new HashMap<String, Button>();
 		for(T input : inputs) {
@@ -104,6 +105,8 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 			Label label = new Label(group, SWT.NONE);
 			label.setText("None available");
 		}
+
+		return group;
 	}
 
 	/**

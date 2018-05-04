@@ -6,6 +6,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * PreferenceField for one CheckBox with a label
@@ -51,7 +52,7 @@ public class CheckBoxPreferenceField extends PreferenceField {
 	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
 	 */
 	@Override
-	public void doCreateControls(Composite parent, String title) {
+	public Control doCreateControls(Composite parent, String title) {
 		checkBox = new Button(parent, SWT.CHECK);
 		checkBox.setText(title);
 		checkBox.addSelectionListener(new SelectionListener() {
@@ -64,6 +65,7 @@ public class CheckBoxPreferenceField extends PreferenceField {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
+		return checkBox;
 	}
 	
 	/**
