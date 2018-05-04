@@ -7,6 +7,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -82,7 +83,7 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void modifyText(ModifyEvent e) {
 				settings.setUserName(name_text.getText());
-				
+				name_text.notifyListeners(SWT.Selection, new Event());
 			}
 		});
 		
@@ -97,6 +98,7 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 			public void modifyText(ModifyEvent e) {
 				char[] password = password_text.getTextChars();
 				settings.setPassword(password);
+				password_text.notifyListeners(SWT.Selection, new Event());
 				
 			}
 		});

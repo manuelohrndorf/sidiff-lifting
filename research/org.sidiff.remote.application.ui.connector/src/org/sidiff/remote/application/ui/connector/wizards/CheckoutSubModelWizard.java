@@ -56,7 +56,7 @@ public class CheckoutSubModelWizard extends Wizard implements INewWizard {
 	protected IWorkbench workbench;
 	
 	/**
-	 * Holds the delta module settings page
+	 * Holds the checkout sub model settings settings page
 	 */
 	protected CheckoutDestinationPage projectSelectionPage;
 	

@@ -2,11 +2,18 @@ package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -41,21 +48,16 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.sidiff.remote.application.connector.ConnectionHandler;
-import org.sidiff.remote.application.connector.exception.ConnectionExceptionWrapper;
+import org.sidiff.remote.application.connector.ConnectorFacade;
+import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
+import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelContentProvider;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvider;
+import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
-import org.sidiff.remote.common.commands.BrowseModelFilesReply;
-import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
-import org.sidiff.remote.common.commands.BrowseModelReply;
-import org.sidiff.remote.common.commands.BrowseModelRequest;
-import org.sidiff.remote.common.commands.CheckoutSubModelReply;
-import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
-import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
-import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.exceptions.InvalidSessionException;
 import org.sidiff.remote.common.tree.TreeLeaf;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.tree.TreeNode;
@@ -68,10 +70,12 @@ import org.sidiff.remote.common.tree.TreeNode;
  */
 public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateListener, ISelectionListener {
 
+	public static final ImageDescriptor IMG_ADD_REPOSITORY = ConnectorUIPlugin.getImageDescriptor("full/obj16/add_repo.png");
 	public static final ImageDescriptor IMG_SYNC_SELECTION = ConnectorUIPlugin.getImageDescriptor("full/obj16/synced.gif");
 	public static final ImageDescriptor IMG_BROWSE_FILES = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh_remote.gif");
 	public static final ImageDescriptor IMG_BROWSE_MODEL = ConnectorUIPlugin.getImageDescriptor("full/obj16/refresh.gif");
 	public static final ImageDescriptor IMG_CHECKOUT = ConnectorUIPlugin.getImageDescriptor("full/obj16/checkout.gif");
+	public static final ImageDescriptor IMG_UPDATE = ConnectorUIPlugin.getImageDescriptor("full/obj16/update.gif");
 	public static final ImageDescriptor IMG_SYNCH = ConnectorUIPlugin.getImageDescriptor("full/obj16/synch.gif");
 	public static final ImageDescriptor IMG_EXPANDALL = ConnectorUIPlugin.getImageDescriptor("full/obj16/expandall.gif");
 	public static final ImageDescriptor IMG_COLLAPSEALL = ConnectorUIPlugin.getImageDescriptor("full/obj16/collapseall.gif");
@@ -82,8 +86,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	public static final String ID = "org.sidiff.remote.application.ui.connector.views.SiDiffModelRepositoryView";
 	
 	@Inject IWorkbench workbench;
-	
-	private static ConnectionHandler connectionHandler = ConnectionHandler.getInstance();
 	
 	/**
 	 * {@link ComposedAdapterFactory} used for determining a respective label provider for model elements
@@ -119,6 +121,11 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	 * The {@link CheckboxTreeViewer} for selecting elements of a remote model
 	 */
 	private CheckboxTreeViewer checkboxTreeViewer; 
+	
+	/**
+	 * Action for adding a repository
+	 */
+	private Action addRepository_action;
 	
 	/**
 	 * Action for en-/disabling selection listening
@@ -158,8 +165,14 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	/**
 	 * 
 	 */
+	private Action updateAction;
+	
+	/**
+	 * 
+	 */
 	private Action doubleClickAction;
-	 
+	
+	private String selected_model_path;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -261,15 +274,33 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(this.addRepository_action);
 		manager.add(this.syncSelection_action);
 		manager.add(this.expandAllAction);
 		manager.add(this.collapseAllAction);
 		manager.add(this.browseFiles_action);
 		manager.add(this.checkoutAction);
+		manager.add(this.updateAction);
 		manager.add(new Separator());
 	}
 
 	private void makeActions() {
+		
+		this.addRepository_action = new Action("Add Repository", Action.AS_PUSH_BUTTON) {
+			@Override
+			public void run() {
+				RepositorySettings settings = new RepositorySettings();
+				
+				WizardDialog wizardDialog = new WizardDialog(PlatformUI
+						.getWorkbench().getActiveWorkbenchWindow().getShell(),
+						new AddRepositoryLocationWizard(settings));
+				wizardDialog.setBlockOnOpen(true);
+				wizardDialog.open();
+			}
+		};
+		this.addRepository_action.setToolTipText("Adds a repository");
+		this.addRepository_action.setImageDescriptor(IMG_ADD_REPOSITORY);
+		
 		this.syncSelection_action = new Action("Syncronize Selection", Action.AS_CHECK_BOX) {
 			@Override
 			public void run() {
@@ -282,11 +313,10 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		this.browseFiles_action = new Action() {
 			public void run() {
 				try {
-					BrowseModelFilesRequest browseModelFilesRequest = new BrowseModelFilesRequest(connectionHandler.getSession(), null);
-					BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) connectionHandler.handleRequest(browseModelFilesRequest, null);
-					treeViewer.setInput(browseModelFilesReply.getModelFiles());
+					TreeModel models = ConnectorFacade.browseModelFiles(null);
+					treeViewer.setInput(models);
 					checkboxTreeViewer.setInput(null);
-				} catch (ConnectionExceptionWrapper e) {
+				} catch (ConnectionException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
@@ -302,11 +332,11 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 				
 				Object object = selection.getFirstElement();
 				if (object instanceof TreeLeaf) {
-					BrowseModelRequest browseModelRequest = new BrowseModelRequest(connectionHandler.getSession(), ((TreeLeaf) object).getId());
 					try {
-						BrowseModelReply browseModelReply = (BrowseModelReply) connectionHandler.handleRequest(browseModelRequest, null);
-						checkboxTreeViewer.setInput(browseModelReply.getModel());
-					} catch (ConnectionExceptionWrapper e) {
+						String remote_model_path = ((TreeLeaf)object).getId();
+						TreeModel model = ConnectorFacade.browseModelElements(remote_model_path);
+						checkboxTreeViewer.setInput(model);
+					} catch (ConnectionException | InvalidSessionException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}
 				} else {
@@ -359,28 +389,41 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 						new CheckoutSubModelWizard(settings));
 				wizardDialog.setBlockOnOpen(true);
 				wizardDialog.open();
-				String local_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
+				String target_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
 				String remote_model_path = treeViewer_selection.getId();
-				List<String> elementIds = new ArrayList<String>();
-				for(Object element : checkboxTreeViewer.getCheckedElements()) {
-					TreeNode treeNode = (TreeNode) element;
-					elementIds.add(treeNode.getId());
-				}
-				CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(connectionHandler.getSession(), remote_model_path, local_model_path, elementIds);		
-				
+				Set<String> elementIds = getSelectedElementIDs();
 				try {
-					
-					CheckoutSubModelReply reply = (CheckoutSubModelReply) connectionHandler.handleRequest(checkoutCommand, null);
-					File resource_file = reply.getAttachment();
-					resource_file.renameTo(new File(local_model_path));
-				} catch (ConnectionExceptionWrapper e) {
+					File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds);
+					IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
+					resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				} catch (ConnectionException | CoreException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
 		};
+		this.checkoutAction.setText("Check out (Sub-) Model");
 		this.checkoutAction.setToolTipText("Check out new (sub-) model");
 		this.checkoutAction.setImageDescriptor(IMG_CHECKOUT);
 
+		this.updateAction = new Action() {
+			@Override
+			public void run() {
+				try {
+					Set<String> elementIds = getSelectedElementIDs();
+					File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds);
+					IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
+					resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+					
+				} catch (ConnectionException | CoreException | InvalidSessionException e) {
+					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				}
+				super.run();
+			}
+		};
+		this.updateAction.setText("Update (Sub-) Model");
+		this.updateAction.setToolTipText("Update local (sub-) model");
+		this.updateAction.setImageDescriptor(IMG_UPDATE);
+		
 		this.doubleClickAction = new Action() {
 			public void run() {
 				//TODO
@@ -426,13 +469,24 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 				IFile file = (IFile) structuredSelection.getFirstElement();
 
 				try {
-					updateRequestedModelElements(file.getLocation().toOSString());
-				} catch (ConnectionExceptionWrapper e) {
+					String local_model_path = file.getLocation().toOSString();
+					updateRequestedModelElements(local_model_path);
+					selected_model_path = local_model_path;
+				} catch (ConnectionException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				
 			}
 		}
+	}
+	
+	private Set<String> getSelectedElementIDs(){
+		Set<String> elementIds = new HashSet<String>();
+		for(Object element : checkboxTreeViewer.getCheckedElements()) {
+			TreeNode treeNode = (TreeNode) element;
+			elementIds.add(treeNode.getId());
+		}
+		return elementIds;
 	}
 	
 	private void doListen(boolean b) {
@@ -443,29 +497,25 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		}
 	}
 	
-	private void updateRequestedModelElements(String localModelPath) throws ConnectionExceptionWrapper {
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException {
 		
-		BrowseModelFilesRequest browseModelFilesRequest = new BrowseModelFilesRequest(connectionHandler.getSession(), localModelPath);
-		BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) connectionHandler.handleRequest(browseModelFilesRequest, null);
-		treeViewer.setInput(browseModelFilesReply.getModelFiles());
+		TreeModel files = ConnectorFacade.browseModelFiles(localModelPath);
 		
-		TreeModel modelFiles =  browseModelFilesReply.getModelFiles();
-		TreeNode selectedModelFile = modelFiles.getSelectedElements()[0];
+		treeViewer.setInput(files);
+	
+		TreeNode selectedModelFile = files.getSelectedElements()[0];
 		List<TreeNode> visibleModelFilesNodes = new ArrayList<TreeNode>();
 		TreeNode parent = selectedModelFile.getParent();
-		while(!parent.equals(modelFiles.getRoot())){
+		while(!parent.equals(files.getRoot())){
 			visibleModelFilesNodes.add(0, parent);
 			parent = parent.getParent();
 		}
 		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
 		treeViewer.setSelection(new StructuredSelection(selectedModelFile), true);
 		
-		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(connectionHandler.getSession(), localModelPath);
-		GetRequestedModelElementsReply getRequestedModelElementsReply = (GetRequestedModelElementsReply) connectionHandler.handleRequest(getRequestedModelElementsRequest, null);
-	
-		checkboxTreeViewer.setInput(getRequestedModelElementsReply.getModel());
+		TreeModel model = ConnectorFacade.getRequestedModelElements(localModelPath);
+		checkboxTreeViewer.setInput(model);
 		
-		TreeModel model = getRequestedModelElementsReply.getModel();
 		TreeNode[] selectedModelElements = model.getSelectedElements();
 		List<TreeNode> visibleModelElements = new ArrayList<TreeNode>();
 		

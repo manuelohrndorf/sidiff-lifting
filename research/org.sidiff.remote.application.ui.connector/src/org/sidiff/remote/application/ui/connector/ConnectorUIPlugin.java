@@ -3,6 +3,9 @@ package org.sidiff.remote.application.ui.connector;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.sidiff.integration.preferences.connector.ConnectorPreferencesConstants;
+import org.sidiff.integration.preferences.connector.ConnectorPreferencesPlugin;
+import org.sidiff.remote.application.connector.ConnectorPlugin;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -28,6 +31,10 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		String url = ConnectorPreferencesPlugin.getDefault().getPreferenceStore().getString(ConnectorPreferencesConstants.P_URL);
+		int port = ConnectorPreferencesPlugin.getDefault().getPreferenceStore().getInt(ConnectorPreferencesConstants.P_Port);
+		String user = ConnectorPreferencesPlugin.getDefault().getPreferenceStore().getString(ConnectorPreferencesConstants.P_USER);
+		ConnectorPlugin.getInstance().initSession(url, port, user);
 	}
 
 	/*
