@@ -46,21 +46,15 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 		this.valueConverter = valueConverter;
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoad(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoad(IPreferenceStore store, String preferenceName) {
-		current = store.getString(preferenceName);
+	public void load(IPreferenceStore store) {
+		current = store.getString(getPreferenceName());
 		updateButton();
 	}
 
-	/** 
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoadDefault(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoadDefault(IPreferenceStore store, String preferenceName) {
-		current = store.getDefaultString(preferenceName);
+	public void loadDefault(IPreferenceStore store) {
+		current = store.getDefaultString(getPreferenceName());
 		updateButton();
 	}
 
@@ -76,17 +70,11 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 			buttons.get(current).setSelection(true);
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doSave(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doSave(IPreferenceStore store, String preferenceName) {
-		store.setValue(preferenceName, current);
+	public void save(IPreferenceStore store) {
+		store.setValue(getPreferenceName(), current);
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
-	 */
 	@Override
 	public Control doCreateControls(Composite parent, String title) {
 		Group group = new Group(parent, SWT.NONE);
@@ -128,9 +116,6 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 		};
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
-	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		for(Entry<String, Button> entry : buttons.entrySet()) {

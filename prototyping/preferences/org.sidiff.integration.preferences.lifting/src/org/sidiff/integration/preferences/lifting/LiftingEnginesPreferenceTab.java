@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.ExpandableCompositeField;
 import org.sidiff.integration.preferences.fieldeditors.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
@@ -17,7 +18,6 @@ import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingsSettin
  */
 public class LiftingEnginesPreferenceTab implements IPreferenceTab {
 
-	// TODO: add setting for IRecognitionEngine?
 	private PreferenceField recognitionEngineMode;
 	private PreferenceField calculateEditRuleMatch;
 	private PreferenceField serializeEditRuleMatch;
@@ -52,38 +52,41 @@ public class LiftingEnginesPreferenceTab implements IPreferenceTab {
 				RecognitionEngineMode.class);
 		list.add(recognitionEngineMode);
 
+		// advanced settings
+		ExpandableCompositeField compositeField = new ExpandableCompositeField("Advanced settings");
+		list.add(compositeField);
+
 		calculateEditRuleMatch = new CheckBoxPreferenceField(
 				LiftingsSettingsAdapter.KEY_CALCULATE_EDIT_RULE_MATCH,
 				"Calculate Edit Rule Match");
-		list.add(calculateEditRuleMatch);
+		compositeField.addField(calculateEditRuleMatch);
 
 		serializeEditRuleMatch = new CheckBoxPreferenceField(
 				LiftingsSettingsAdapter.KEY_SERIALIZE_EDIT_RULE_MATCH,
 				"Serialize Edit Rule Match");
-		list.add(serializeEditRuleMatch);
+		compositeField.addField(serializeEditRuleMatch);
 
-		// advanced settings
 		useThreadPool = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_USE_THREAD_POOL, "Use Thread Pool");
-		list.add(useThreadPool);
+		compositeField.addField(useThreadPool);
 
 		numberOfThreads = new NumberPreferenceField(LiftingsSettingsAdapter.KEY_NUMBER_OF_THREADS, "Number of Threads");
-		list.add(numberOfThreads);
+		compositeField.addField(numberOfThreads);
 
 		rulesPerThread = new NumberPreferenceField(LiftingsSettingsAdapter.KEY_RULES_PER_THREAD, "Rules per Thread");
-		list.add(rulesPerThread);
+		compositeField.addField(rulesPerThread);
 
 		sortRecognitionRuleNodes = new CheckBoxPreferenceField(
 				LiftingsSettingsAdapter.KEY_SORT_RECOGNITION_RULE_NODES,
 				"Sort Recognition Rule Nodes");
-		list.add(sortRecognitionRuleNodes);
+		compositeField.addField(sortRecognitionRuleNodes);
 
 		rulesetReduction = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_RULESET_REDUCTION, "Ruleset Reduction");
-		list.add(rulesetReduction);
+		compositeField.addField(rulesetReduction);
 
 		buildGraphPerRule = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_BUILD_GRAPH_PER_RULE, "Build Graph per Rule");
-		list.add(buildGraphPerRule);
+		compositeField.addField(buildGraphPerRule);
 
 		detectSplitJoins = new CheckBoxPreferenceField(LiftingsSettingsAdapter.KEY_DETECT_SPLIT_JOINS, "Detect Split Joins");
-		list.add(detectSplitJoins);
+		compositeField.addField(detectSplitJoins);
 	}
 }

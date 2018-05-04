@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Spinner;
 public class NumberPreferenceField extends PreferenceField {
 
 	private Spinner spinner;
-	
+
 	/**
 	 * @param preferenceName the name of the preference in the store 
 	 * @param title The title shown beside the spinner
@@ -24,33 +24,21 @@ public class NumberPreferenceField extends PreferenceField {
 		super(preferenceName, title);
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoad(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	protected void doLoad(IPreferenceStore store, String preferenceName) {
-		spinner.setSelection(store.getInt(preferenceName));
+	public void load(IPreferenceStore store) {
+		spinner.setSelection(store.getInt(getPreferenceName()));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoadDefault(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	protected void doLoadDefault(IPreferenceStore store, String preferenceName) {
-		spinner.setSelection(store.getDefaultInt(preferenceName));
+	public void loadDefault(IPreferenceStore store) {
+		spinner.setSelection(store.getDefaultInt(getPreferenceName()));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doSave(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	protected void doSave(IPreferenceStore store, String preferenceName) {
-		store.setValue(preferenceName, spinner.getSelection());
+	public void save(IPreferenceStore store) {
+		store.setValue(getPreferenceName(), spinner.getSelection());
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
-	 */
 	@Override
 	protected Control doCreateControls(Composite parent, String title) {
 		Group group = new Group(parent, SWT.NONE);
@@ -62,12 +50,8 @@ public class NumberPreferenceField extends PreferenceField {
 		return group;
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
-	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		spinner.setEnabled(enabled);	
 	}
-
 }

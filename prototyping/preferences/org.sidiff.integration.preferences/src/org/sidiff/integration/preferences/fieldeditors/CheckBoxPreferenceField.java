@@ -2,8 +2,8 @@ package org.sidiff.integration.preferences.fieldeditors;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -13,9 +13,9 @@ import org.eclipse.swt.widgets.Control;
  * @author Felix Breitweiser, Robert Müller
  */
 public class CheckBoxPreferenceField extends PreferenceField {
-	
+
 	private Button checkBox;
-	
+
 	/**
 	 * @param preferenceName the name of the preference in the store 
 	 * @param title The title shown beside the checkbox
@@ -24,53 +24,34 @@ public class CheckBoxPreferenceField extends PreferenceField {
 		super(preferenceName, title);
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoad(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoad(IPreferenceStore store, String preferenceName) {
-		checkBox.setSelection(store.getBoolean(preferenceName));
+	public void load(IPreferenceStore store) {
+		checkBox.setSelection(store.getBoolean(getPreferenceName()));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoadDefault(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoadDefault(IPreferenceStore store, String preferenceName) {
-		checkBox.setSelection(store.getDefaultBoolean(preferenceName));
+	public void loadDefault(IPreferenceStore store) {
+		checkBox.setSelection(store.getDefaultBoolean(getPreferenceName()));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doSave(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doSave(IPreferenceStore store, String preferenceName) {
-		store.setValue(preferenceName, checkBox.getSelection());
+	public void save(IPreferenceStore store) {
+		store.setValue(getPreferenceName(), checkBox.getSelection());
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
-	 */
 	@Override
 	public Control doCreateControls(Composite parent, String title) {
 		checkBox = new Button(parent, SWT.CHECK);
 		checkBox.setText(title);
-		checkBox.addSelectionListener(new SelectionListener() {
-			
+		checkBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				firePropertyChanged(!checkBox.getSelection(), checkBox.getSelection());
 			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		return checkBox;
 	}
-	
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
-	 */
+
 	@Override
 	public void setEnabled(boolean enabled) {
 		checkBox.setEnabled(enabled);

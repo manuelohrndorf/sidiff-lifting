@@ -68,33 +68,21 @@ public class OrderListSelectField<T> extends PreferenceField {
 		return selectedValues;
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoad(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoad(IPreferenceStore store, String preferenceName) {
-		addInitialElements(store.getString(preferenceName).split(";"));
+	public void load(IPreferenceStore store) {
+		addInitialElements(store.getString(getPreferenceName()).split(";"));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doLoadDefault(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doLoadDefault(IPreferenceStore store, String preferenceName) {
-		addInitialElements(store.getDefaultString(preferenceName).split(";"));
+	public void loadDefault(IPreferenceStore store) {
+		addInitialElements(store.getDefaultString(getPreferenceName()).split(";"));
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doSave(org.eclipse.jface.preference.IPreferenceStore, java.lang.String)
-	 */
 	@Override
-	public void doSave(IPreferenceStore store, String preferenceName) {
-		store.setValue(preferenceName, createList());
+	public void save(IPreferenceStore store) {
+		store.setValue(getPreferenceName(), createList());
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#doCreateControls(org.eclipse.swt.widgets.Group, java.lang.String)
-	 */
 	@Override
 	public Control doCreateControls(Composite parent, String title) {
 		group = new Group(parent, SWT.NONE);
@@ -301,9 +289,6 @@ public class OrderListSelectField<T> extends PreferenceField {
 		group.requestLayout();
 	}
 
-	/**
-	 * @see org.sidiff.integration.preferences.fieldeditors.PreferenceField#setEnabled(boolean)
-	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		left.setEnabled(enabled);
