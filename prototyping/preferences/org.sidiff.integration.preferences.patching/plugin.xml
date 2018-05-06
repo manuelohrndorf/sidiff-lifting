@@ -6,14 +6,34 @@
       <adapter
             class="org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter">
       </adapter>
+      <adapter
+            class="org.sidiff.integration.preferences.patching.settingsadapter.DomainPatchingSettingsAdapter">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.patching.pipelineStep"
+            position="40"
+            title="Patching">
+      </pipelineStep>
    </extension>
    <extension
          point="org.sidiff.integration.preferences.preferenceTabs">
       <tab
-            class="org.sidiff.integration.preferences.patching.PatchingEnginesPreferenceTab">
+            class="org.sidiff.integration.preferences.patching.tabs.PatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.patching.pipelineStep">
       </tab>
       <tab
-            class="org.sidiff.integration.preferences.patching.PatchingValidationPreferenceTab">
+            class="org.sidiff.integration.preferences.patching.tabs.PatchingValidationPreferenceTab"
+            page="validation"
+            pipelineStep="org.sidiff.integration.preferences.patching.pipelineStep">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.patching.tabs.DomainPatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.patching.pipelineStep">
       </tab>
    </extension>
 </plugin>

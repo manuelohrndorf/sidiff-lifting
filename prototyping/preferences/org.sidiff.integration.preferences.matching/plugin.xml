@@ -8,9 +8,19 @@
       </adapter>
    </extension>
    <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.matching.pipelineStep"
+            position="10"
+            title="Matching">
+      </pipelineStep>
+   </extension>
+   <extension
          point="org.sidiff.integration.preferences.preferenceTabs">
       <tab
-            class="org.sidiff.integration.preferences.matching.MatchingEnginesPreferenceTab">
+            class="org.sidiff.integration.preferences.matching.tabs.MatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
       </tab>
    </extension>
 </plugin>

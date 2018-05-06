@@ -3,7 +3,7 @@
 <schema targetNamespace="org.sidiff.integration.preferences" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.sidiff.integration.preferences" id="org.sidiff.integration.preferences.preferenceTabs" name="SiDiff Preference Tabs"/>
+         <meta.schema plugin="org.sidiff.integration.preferences" id="org.sidiff.integration.preferences.pipelineSteps" name="SiDiff Preference Pipeline Steps"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="tab"/>
+            <element ref="pipelineStep"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,43 +47,30 @@
       </complexType>
    </element>
 
-   <element name="tab">
+   <element name="pipelineStep">
       <complexType>
-         <attribute name="page" use="required">
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="general">
-                  </enumeration>
-                  <enumeration value="engines">
-                  </enumeration>
-                  <enumeration value="validation">
-                  </enumeration>
-               </restriction>
-            </simpleType>
          </attribute>
-         <attribute name="pipelineStep" type="string" use="required">
+         <attribute name="title" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier" basedOn="org.sidiff.integration.preferences.pipelineSteps/pipelineStep/@id"/>
+                  <meta.attribute translatable="true"/>
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="position" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.sidiff.integration.preferences.interfaces.IPreferenceTab"/>
-               </appinfo>
             </annotation>
          </attribute>
       </complexType>

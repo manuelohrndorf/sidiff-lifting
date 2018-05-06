@@ -8,12 +8,24 @@
       </adapter>
    </extension>
    <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.common.pipelineStep"
+            position="0"
+            title="General">
+      </pipelineStep>
+   </extension>
+   <extension
          point="org.sidiff.integration.preferences.preferenceTabs">
       <tab
-            class="org.sidiff.integration.preferences.common.GeneralValidationPreferenceTab">
+            class="org.sidiff.integration.preferences.common.tabs.GeneralValidationPreferenceTab"
+            page="validation"
+            pipelineStep="org.sidiff.integration.preferences.common.pipelineStep">
       </tab>
       <tab
-            class="org.sidiff.integration.preferences.common.ScopeGeneralPreferenceTab">
+            class="org.sidiff.integration.preferences.common.tabs.ScopeGeneralPreferenceTab"
+            page="general"
+            pipelineStep="org.sidiff.integration.preferences.common.pipelineStep">
       </tab>
    </extension>
 </plugin>

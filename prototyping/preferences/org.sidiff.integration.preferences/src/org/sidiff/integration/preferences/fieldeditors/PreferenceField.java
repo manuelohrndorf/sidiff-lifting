@@ -115,7 +115,7 @@ public abstract class PreferenceField {
 	}
 
 	/**
-	 * sublcasses may override this if the need to check for validity before saving
+	 * subclasses may override this if the need to check for validity before saving
 	 * @return true if the field contains a valid value
 	 */
 	public boolean isValid() { return true; }

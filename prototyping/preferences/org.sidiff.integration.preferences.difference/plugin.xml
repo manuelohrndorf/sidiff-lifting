@@ -6,11 +6,29 @@
       <adapter
             class="org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter">
       </adapter>
+      <adapter
+            class="org.sidiff.integration.preferences.difference.settingsadapter.DomainDifferenceSettingsAdapter">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.difference.pipelineStep"
+            position="20"
+            title="Difference">
+      </pipelineStep>
    </extension>
    <extension
          point="org.sidiff.integration.preferences.preferenceTabs">
       <tab
-            class="org.sidiff.integration.preferences.difference.DifferenceEnginesPreferenceTab">
+            class="org.sidiff.integration.preferences.difference.tabs.DifferenceEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.difference.pipelineStep">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.difference.tabs.DomainDifferenceEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.difference.pipelineStep">
       </tab>
    </extension>
 
