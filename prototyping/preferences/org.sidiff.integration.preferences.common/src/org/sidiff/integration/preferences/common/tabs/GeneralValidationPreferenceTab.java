@@ -14,7 +14,7 @@ import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
  */
 public class GeneralValidationPreferenceTab implements IPreferenceTab {
 
-	private CheckBoxPreferenceField validateModelsField;
+	private PreferenceField validateModelsField;
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {

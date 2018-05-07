@@ -4,14 +4,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.common.settings.BaseSettings;
-import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
+import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 
 /**
  * 
  * @author Robert Müller
  *
  */
-public class BaseSettingsAdapter implements ISettingsAdapter {
+public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 
 	public static final String KEY_SCOPE = "scope";
 	public static final String KEY_VALIDATE_MODELS = "validateModels";
@@ -41,10 +41,5 @@ public class BaseSettingsAdapter implements ISettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_SCOPE, Scope.RESOURCE.name());
 		store.setDefault(KEY_VALIDATE_MODELS, true);
-	}
-
-	@Override
-	public int getPosition() {
-		return 0;
 	}
 }

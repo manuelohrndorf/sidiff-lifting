@@ -32,9 +32,9 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  */
 public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 
-	private OrderListSelectField<?> matchersField;
+	private PreferenceField matchersField;
 	private Map<String, PreferenceField> matcherOptions;
-	private RadioBoxPreferenceField<?> candidatesServiceField;
+	private PreferenceField candidatesServiceField;
 	private PreferenceField correspondencesServiceField;
 	private PreferenceField similaritiesServiceField;
 	private PreferenceField similaritiesCalculationServiceField;
@@ -80,7 +80,7 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 			}
 		}
 
-		IPreferenceValueConverter<IService> serviceValueConverter = new IPreferenceValueConverter<IService>() {
+		final IPreferenceValueConverter<IService> serviceValueConverter = new IPreferenceValueConverter<IService>() {
 			@Override
 			public String getValue(IService value) {
 				return value.getServiceID();

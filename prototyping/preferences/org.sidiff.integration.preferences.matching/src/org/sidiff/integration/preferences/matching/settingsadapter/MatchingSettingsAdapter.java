@@ -11,7 +11,7 @@ import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
+import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.MatcherUtil;
@@ -26,7 +26,7 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  * @author Robert Müller
  *
  */
-public class MatchingSettingsAdapter implements ISettingsAdapter {
+public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	public static final String KEY_MATCHERS = "matchers";
 	public static String KEY_MATCHER_OPTIONS(String matcher) {
@@ -98,10 +98,5 @@ public class MatchingSettingsAdapter implements ISettingsAdapter {
 		store.setDefault(KEY_CORRESPONDENCES_SERVICE, "MatchingModelCorrespondences");
 		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilaritiesService");
 		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "DefaultSimilaritiesCalculationService");
-	}
-
-	@Override
-	public int getPosition() {
-		return 10;
 	}
 }

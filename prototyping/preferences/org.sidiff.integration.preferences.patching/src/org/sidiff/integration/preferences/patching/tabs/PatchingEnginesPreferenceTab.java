@@ -24,7 +24,7 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 	private PreferenceField executionMode;
 	private PreferenceField patchMode;
 	private PreferenceField minReliability;
-	private CheckBoxPreferenceField useInteractivePatching;
+	private PreferenceField useInteractivePatching;
 	private PreferenceField symbolicLinkHandlers;
 
 	@Override

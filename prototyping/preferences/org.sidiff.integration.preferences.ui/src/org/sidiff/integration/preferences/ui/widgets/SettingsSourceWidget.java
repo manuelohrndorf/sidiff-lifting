@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
@@ -48,16 +49,16 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	// inputs
 	private AbstractSettings settings;
 	private IProject project;
-	private String documentType;
+	private Set<String> documentTypes;
 
 	// outputs
 	private Source source;
 	private ValidationMessage message;
 
-	public SettingsSourceWidget(AbstractSettings settings, IProject project, String documentType) {
+	public SettingsSourceWidget(AbstractSettings settings, IProject project, Set<String> documentTypes) {
 		this.settings = settings;
 		this.project = project;
-		this.documentType = documentType;
+		this.documentTypes = documentTypes;
 		this.selectionListeners = new LinkedList<SelectionListener>();
 	}
 
@@ -131,11 +132,11 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	private void updateSettings() {
 		switch(source) {	
 			case GLOBAL:
-				SettingsAdapterUtil.adaptSettingsGlobal(settings, documentType);
+				SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes);
 				break;
 
 			case PROJECT:
-				SettingsAdapterUtil.adaptSettingsProject(settings, project, documentType);
+				SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
 				break;
 
 			case CUSTOM:

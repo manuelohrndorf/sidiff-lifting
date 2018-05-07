@@ -1,18 +1,31 @@
 package org.sidiff.integration.preferences.lifting.settingsadapter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
-import org.sidiff.integration.preferences.interfaces.ISettingsAdapter;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 
 /**
  * 
  * @author Robert Müller
  *
  */
-public class LiftingsSettingsAdapter implements ISettingsAdapter {
+public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 
+	public static String KEY_RULE_BASES(String documentType) {
+		return "ruleBases[" + documentType + "]";
+	}
+	public static String KEY_RECOGNITION_RULE_SORTER(String documentType) {
+		return "recognitionRuleSorter[" + documentType + "]";
+	}
 	public static final String KEY_RECOGNITION_ENGINE_MODE = "recognitionEngineMode";
 	public static final String KEY_CALCULATE_EDIT_RULE_MATCH = "calculateEditRuleMatch";
 	public static final String KEY_SERIALIZE_EDIT_RULE_MATCH = "serializeEditRuleMatch";
@@ -24,6 +37,8 @@ public class LiftingsSettingsAdapter implements ISettingsAdapter {
 	public static final String KEY_BUILD_GRAPH_PER_RULE = "buildGraphPerRule";
 	public static final String KEY_DETECT_SPLIT_JOINS = "detectSplitJoins";
 
+	private Set<ILiftingRuleBase> ruleBases;
+	private IRecognitionRuleSorter rrSorter;
 	private RecognitionEngineMode recognitionEngineMode;
 	private boolean calculateEditRuleMatch;
 	private boolean serializeEditRuleMatch;
@@ -43,6 +58,8 @@ public class LiftingsSettingsAdapter implements ISettingsAdapter {
 	@Override
 	public void adapt(AbstractSettings settings) {
 		LiftingSettings liftingSettings = (LiftingSettings)settings;
+		liftingSettings.setRuleBases(ruleBases);
+		liftingSettings.setRrSorter(rrSorter);
 		liftingSettings.setRecognitionEngineMode(recognitionEngineMode);
 		liftingSettings.setCalculateEditRuleMatch(calculateEditRuleMatch);
 		liftingSettings.setSerializeEditRuleMatch(serializeEditRuleMatch);
@@ -57,6 +74,23 @@ public class LiftingsSettingsAdapter implements ISettingsAdapter {
 
 	@Override
 	public void load(IPreferenceStore store) {
+		ruleBases = new HashSet<ILiftingRuleBase>();
+		for(String documentType : getDocumentTypes()) {
+			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentType)) {
+				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + rbase.getName())) {
+					ruleBases.add(rbase);
+				}
+			}
+
+			// the first recognition rule sorter is used
+			if(rrSorter == null) {
+				rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(store.getString(KEY_RECOGNITION_RULE_SORTER(documentType)));
+			}
+		}
+		if(rrSorter == null) {
+			rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(getDocumentTypes());
+		}
+
 		recognitionEngineMode = RecognitionEngineMode.valueOf(store.getString(KEY_RECOGNITION_ENGINE_MODE));
 		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
 		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
@@ -71,6 +105,12 @@ public class LiftingsSettingsAdapter implements ISettingsAdapter {
 
 	@Override
 	public void initializeDefaults(IPreferenceStore store) {
+		store.setDefault(KEY_RECOGNITION_RULE_SORTER("http://www.eclipse.org/emf/2002/Ecore"), "EcoreRRSorter");
+		store.setDefault(KEY_RECOGNITION_RULE_SORTER("http://www.eclipse.org/uml2/5.0.0/UML"), "GenericRRSorter");
+		// TODO: these are not correct as the rulebases have no good permanently saveable value
+		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/emf/2002/Ecore") + ":" + "Ecore Atomic", true);
+		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/uml2/5.0.0/UML") + ":" + "UML_2v4_Atomic", true);
+
 		store.setDefault(KEY_RECOGNITION_ENGINE_MODE, RecognitionEngineMode.LIFTING_AND_POST_PROCESSING.name());
 		store.setDefault(KEY_CALCULATE_EDIT_RULE_MATCH, true);
 		store.setDefault(KEY_SERIALIZE_EDIT_RULE_MATCH, true);
@@ -81,10 +121,5 @@ public class LiftingsSettingsAdapter implements ISettingsAdapter {
 		store.setDefault(KEY_RULESET_REDUCTION, true);
 		store.setDefault(KEY_BUILD_GRAPH_PER_RULE, true);
 		store.setDefault(KEY_DETECT_SPLIT_JOINS, false);
-	}
-
-	@Override
-	public int getPosition() {
-		return 30;
 	}
 }

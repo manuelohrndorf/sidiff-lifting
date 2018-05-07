@@ -1,5 +1,7 @@
 package org.sidiff.integration.preferences.ui.pages;
 
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.sidiff.common.settings.AbstractSettings;
@@ -18,7 +20,7 @@ public class SettingsSourceWizardPage extends AbstractWizardPage {
 	private SettingsSourceWidget settingsSourceWidget;
 
 	private IProject project;
-	private String documentType;
+	private Set<String> documentTypes;
 	private AbstractSettings settings;
 
 	public SettingsSourceWizardPage(String pageName, String title, InputModels inputModels, AbstractSettings settings) {
@@ -31,13 +33,13 @@ public class SettingsSourceWizardPage extends AbstractWizardPage {
 				PreferencesPlugin.logWarning("Input models are not in the same project.");
 			}
 		}
-		this.documentType = inputModels.getCharacteristicDocumentType();
+		this.documentTypes = inputModels.getDocumentTypes();
 		this.settings = settings;
 	}
 
 	@Override
 	protected void createWidgets() {
-		settingsSourceWidget = new SettingsSourceWidget(settings, project, documentType);
+		settingsSourceWidget = new SettingsSourceWidget(settings, project, documentTypes);
 		addWidget(container, settingsSourceWidget);
 	}
 

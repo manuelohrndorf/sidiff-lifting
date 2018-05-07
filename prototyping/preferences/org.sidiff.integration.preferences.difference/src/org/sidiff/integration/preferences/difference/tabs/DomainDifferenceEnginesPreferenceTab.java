@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
-import org.sidiff.integration.preferences.difference.settingsadapter.DomainDifferenceSettingsAdapter;
+import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter;
 import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
@@ -18,12 +18,12 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  */
 public class DomainDifferenceEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private OrderListSelectField<?> techDiffBuilderField;
+	private PreferenceField techDiffBuilderField;
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {
 		techDiffBuilderField = OrderListSelectField.create(
-				DomainDifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS(getDocumentType()),
+				DifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS(getDocumentType()),
 				"Technical Difference Builders",
 				TechnicalDifferenceUtils.getAvailableTechnicalDifferenceBuilders(Collections.singleton(getDocumentType())),
 				new IPreferenceValueConverter<ITechnicalDifferenceBuilder>() {

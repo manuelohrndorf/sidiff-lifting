@@ -9,7 +9,7 @@ import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.lifting.settingsadapter.DomainLiftingSettingsAdapter;
+import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingSettingsAdapter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
@@ -20,13 +20,13 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  */
 public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private CheckListSelectField ruleBasesField;
-	private RadioBoxPreferenceField<?> recognitionRuleSorterField;
+	private PreferenceField ruleBasesField;
+	private PreferenceField recognitionRuleSorterField;
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {
 		ruleBasesField = CheckListSelectField.create(
-				DomainLiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
+				LiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
 				"Rulebases",
 				PipelineUtils.getAvailableRulebases(getDocumentType()),
 				new IPreferenceValueConverter<ILiftingRuleBase>() {
@@ -43,7 +43,7 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 		list.add(ruleBasesField);
 
 		recognitionRuleSorterField = RadioBoxPreferenceField.create(
-				DomainLiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
+				LiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
 				"Recognition Rule Sorter",
 				PipelineUtils.getAvailableRecognitionRuleSorters(Collections.singleton(getDocumentType())),
 				new IPreferenceValueConverter<IRecognitionRuleSorter>() {

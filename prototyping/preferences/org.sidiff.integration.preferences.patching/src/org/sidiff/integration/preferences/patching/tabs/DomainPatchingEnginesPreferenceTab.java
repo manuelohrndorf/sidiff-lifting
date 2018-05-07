@@ -6,7 +6,7 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.patching.settingsadapter.DomainPatchingSettingsAdapter;
+import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -19,13 +19,13 @@ import org.sidiff.patching.transformation.TransformationEngineUtil;
  */
 public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private RadioBoxPreferenceField<?> transformationEngineField;
-	private RadioBoxPreferenceField<?> modifiedDetectorField;
+	private PreferenceField transformationEngineField;
+	private PreferenceField modifiedDetectorField;
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {
 		transformationEngineField = RadioBoxPreferenceField.create(
-				DomainPatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
+				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
 				TransformationEngineUtil.getAvailableTransformationEngines(getDocumentType()),
 				new IPreferenceValueConverter<ITransformationEngine>() {
@@ -41,7 +41,7 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 		list.add(transformationEngineField);
 
 		modifiedDetectorField = RadioBoxPreferenceField.create(
-				DomainPatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
+				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),
 				new IPreferenceValueConverter<IModifiedDetector>() {

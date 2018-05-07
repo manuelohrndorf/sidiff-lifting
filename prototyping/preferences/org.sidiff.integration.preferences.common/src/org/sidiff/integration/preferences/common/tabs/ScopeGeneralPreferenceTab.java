@@ -15,7 +15,7 @@ import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
  */
 public class ScopeGeneralPreferenceTab implements IPreferenceTab {
 
-	private RadioBoxPreferenceField<?> scopeField;
+	private PreferenceField scopeField;
 
 	@Override
 	public void createPreferenceFields(List<PreferenceField> list) {
