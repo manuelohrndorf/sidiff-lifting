@@ -3,7 +3,7 @@ package org.sidiff.integration.preferences.tabs;
 import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 
 /**
- * 
+ * Abstract superclass for domain specific preference tabs.
  * @author Robert Müller
  *
  */
@@ -11,6 +11,10 @@ public abstract class AbstractDomainPreferenceTab implements IPreferenceTab, IPr
 
 	private String documentType;
 
+	/**
+	 * Returns the document type of the current domain.
+	 * @return the document type
+	 */
 	public String getDocumentType() {
 		return documentType;
 	}

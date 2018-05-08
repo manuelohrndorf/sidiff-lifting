@@ -3,31 +3,25 @@ package org.sidiff.integration.preferences.pages;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
  * Abstract superclass for preference pages that contain tabs containing other preference pages.
  * @author Robert Müller
  *
  */
-public abstract class AbstractNestedPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
+public abstract class AbstractNestedPreferencePage extends PropertyAndPreferencePage {
 
 	private TabFolder tabFolder;
 	private List<PropertyAndPreferencePage> settingsPages;
-	private IAdaptable element;
 
 	@Override
-	protected Control createContents(Composite parent) {
+	protected Control doCreateContents(Composite parent) {
 		tabFolder = new TabFolder(parent, SWT.TOP);
 		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			createTab(page);
@@ -35,9 +29,40 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 		return tabFolder;
 	}
 
+	@Override
+	protected void reloadPreferences() {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
+			page.reloadPreferences();
+		}
+	}
+
+	@Override
+	protected void defaultPreferences() {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
+			page.defaultPreferences();;
+		}
+	}
+
+	@Override
+	protected void savePreferences() {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
+			page.savePreferences();
+		}
+	}
+
+	@Override
+	protected void validatePreferences() {
+		for(PropertyAndPreferencePage page : getSettingsPages()) {
+			page.validatePreferences();
+		}
+	}
+
 	protected List<PropertyAndPreferencePage> getSettingsPages() {
 		if(settingsPages == null) {
 			settingsPages = createSubPages();
+			for(PropertyAndPreferencePage page : settingsPages) {
+				page.setParentPage(this);
+			}
 		}
 		return settingsPages;
 	}
@@ -48,63 +73,34 @@ public abstract class AbstractNestedPreferencePage extends PreferencePage implem
 
 		Composite content = new Composite(tabFolder, SWT.NONE);
 		content.setLayout(new FillLayout(SWT.HORIZONTAL));
-		page.createControl(content);
+		page.createContents(content);
 
 		item.setControl(content);
 	}
 
 	@Override
-	public void init(IWorkbench workbench) {
-		for(PropertyAndPreferencePage page : getSettingsPages()) {
-			page.init(workbench);
-		}
-	}
-
-	@Override
 	public void dispose() {
-		for(PropertyAndPreferencePage page : getSettingsPages()) {
-			page.dispose();
+		if(settingsPages != null) {
+			for(PropertyAndPreferencePage page : settingsPages) {
+				page.dispose();
+			}
+			settingsPages = null;
 		}
 		super.dispose();
 	}
 
 	@Override
-	public boolean performOk() {
-		boolean result = true;
-		for(PropertyAndPreferencePage page : getSettingsPages()) {
-			result &= page.performOk();
-		}
-		return result;
-	}
-
-	@Override
-	protected void performDefaults() {
-		for(PropertyAndPreferencePage page : getSettingsPages()) {
-			page.performDefaults();
-		}
-	}
-
-	@Override
-	public IAdaptable getElement() {
-		return element;
-	}
-
-	@Override
 	public void setElement(IAdaptable element) {
-		this.element = element;
-
+		super.setElement(element);
 		for(PropertyAndPreferencePage page : getSettingsPages()) {
 			page.setElement(element);
 		}
 	}
 
-	@Override
-	public IPreferenceStore getPreferenceStore() {
-		int index = tabFolder.getSelectionIndex();
-		if(index < 0 || index >= settingsPages.size())
-			return null;
-		return settingsPages.get(index).getPreferenceStore();
-	}
-
+	/**
+	 * Creates and returns the pages that are nested within this one.
+	 * A tab is created for each page, using the title of the page as the tab's title.
+	 * @return list of pages that are nested within this one
+	 */
 	protected abstract List<PropertyAndPreferencePage> createSubPages();
 }

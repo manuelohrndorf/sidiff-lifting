@@ -10,12 +10,18 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
 
 /**
- * 
+ * Contains utility functions for retrieving {@link IPreferenceTab}s.
  * @author Robert Müller
  *
  */
 public class PreferenceTabUtil {
 
+	/**
+	 * Returns all {@link IPreferenceTab}s whose extension specifies the given page and pipeline step.
+	 * @param page the page
+	 * @param pipelineStepId the pipeline step
+	 * @return preference tabs
+	 */
 	public static List<IPreferenceTab> getPreferenceTabs(String page, String pipelineStepId) {
 		List<IPreferenceTab> tabs = new ArrayList<IPreferenceTab>();
 		for(IConfigurationElement element :

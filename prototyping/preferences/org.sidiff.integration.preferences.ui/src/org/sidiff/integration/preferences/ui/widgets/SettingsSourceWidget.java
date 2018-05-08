@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -23,8 +26,10 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.preferences.util.SettingsAdapterUtil;
+import org.sidiff.matching.input.InputModels;
 
 /**
  * 
@@ -55,10 +60,16 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	private Source source;
 	private ValidationMessage message;
 
-	public SettingsSourceWidget(AbstractSettings settings, IProject project, Set<String> documentTypes) {
+	public SettingsSourceWidget(AbstractSettings settings, InputModels inputModels) {
+		for(IFile file : inputModels.getFiles()) {
+			if(this.project == null) {
+				this.project = file.getProject();
+			} else if(!this.project.equals(file.getProject())) {
+				PreferencesPlugin.logWarning("Input models are not in the same project. Using project specific settings of first one.");
+			}
+		}
+		this.documentTypes = inputModels.getDocumentTypes();
 		this.settings = settings;
-		this.project = project;
-		this.documentTypes = documentTypes;
 		this.selectionListeners = new LinkedList<SelectionListener>();
 	}
 
@@ -82,11 +93,16 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioGlobal.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.GLOBAL, radioGlobal);
 
-		boolean useProjectSpecific = PreferenceStoreUtil.useSpecificSettings(project);
 		Button radioProject = new Button(group, SWT.RADIO);
-		radioProject.setText("Use settings of project");
 		radioProject.addSelectionListener(getButtonSelectionListener());
-		radioProject.setEnabled(useProjectSpecific);
+		try {
+			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project));
+			radioProject.setText("Use settings of project");
+		} catch (CoreException e) {
+			radioProject.setEnabled(false);
+			radioProject.setText("Use settings of project [not possible: " + e.getMessage() + "]");
+			PreferencesPlugin.logWarning("Checking if project specific settings exist failed.", e);
+		}
 		buttons.put(Source.PROJECT, radioProject);
 
 		Button radioCustom = new Button(group, SWT.RADIO);
@@ -94,7 +110,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioCustom.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.CUSTOM, radioCustom);
 
-		setSource(useProjectSpecific ? Source.PROJECT : Source.CUSTOM);
+		setSource(radioProject.isEnabled() ? Source.PROJECT : Source.CUSTOM);
 		return container;
 	}
 
@@ -136,7 +152,11 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 				break;
 
 			case PROJECT:
-				SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
+				try {
+					SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
+				} catch (CoreException e) {
+					ErrorDialog.openError(container.getShell(), "Using project specific settings failed", null, e.getStatus());
+				}
 				break;
 
 			case CUSTOM:
@@ -165,7 +185,9 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	@Override
 	public boolean validate() {
 		if(source != Source.CUSTOM && !settings.validateSettings()) {
-			message = new ValidationMessage(ValidationType.ERROR, "The settings are not valid.");
+			message = new ValidationMessage(ValidationType.ERROR,
+					source == Source.GLOBAL ? "The global settings are not valid."
+							: "The project specific settings are not valid.");
 			return false;
 		}
 

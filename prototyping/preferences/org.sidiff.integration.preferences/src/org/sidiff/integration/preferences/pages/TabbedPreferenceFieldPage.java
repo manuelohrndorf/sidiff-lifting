@@ -119,6 +119,12 @@ public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePag
 		return propertyChangeListener;
 	}
 
+	/**
+	 * Adds a tab to this page with the given title, tooltip and preference fields.
+	 * @param title the title of the tab
+	 * @param tooltip the tooltip of the tab (or <code>null</code>)
+	 * @param fields the preferences fields of the tab
+	 */
 	protected void addTab(String title, String tooltip, List<PreferenceField> fields) {
 		tabs.add(new Tab(title, tooltip, fields));
 	}

@@ -7,14 +7,14 @@ import org.sidiff.integration.preferences.util.PipelineStepUtil;
 import org.sidiff.integration.preferences.util.PipelineStepUtil.PipelineStep;
 
 /**
- * 
+ * Abstract superclass for the main preferences pages (General, Engines, Validation, etc.)
+ * containing a nested page for each pipeline step if settings for that step are available.
  * @author Robert Müller
  *
  */
 public abstract class AbstractPreferenceIndexPage extends AbstractNestedPreferencePage {
 
 	private String page;
-	private List<PropertyAndPreferencePage> subPages;
 
 	public AbstractPreferenceIndexPage(String page) {
 		this.page = page;
@@ -22,7 +22,7 @@ public abstract class AbstractPreferenceIndexPage extends AbstractNestedPreferen
 
 	@Override
 	protected List<PropertyAndPreferencePage> createSubPages() {
-		subPages = new ArrayList<PropertyAndPreferencePage>();
+		List<PropertyAndPreferencePage> subPages = new ArrayList<PropertyAndPreferencePage>();
 		for(PipelineStep step : PipelineStepUtil.getAllAvailablePipelineSteps().values()) {
 			PipelineStepPreferencePage subPage = PipelineStepPreferencePage.create(page, step);
 			if(subPage != null) {

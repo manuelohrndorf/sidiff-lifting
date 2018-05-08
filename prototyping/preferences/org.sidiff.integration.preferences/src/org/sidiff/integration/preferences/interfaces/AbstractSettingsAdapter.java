@@ -16,6 +16,10 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 		this.documentTypes = documentTypes;
 	}
 
+	/**
+	 * Returns the document types that were previously set by the framework.
+	 * @return the document types that this settings adapter should use
+	 */
 	public Set<String> getDocumentTypes() {
 		return documentTypes;
 	}

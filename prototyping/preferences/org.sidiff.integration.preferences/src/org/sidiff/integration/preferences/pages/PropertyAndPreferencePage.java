@@ -4,6 +4,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -20,6 +22,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
+import org.osgi.service.prefs.BackingStoreException;
+import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
 
@@ -32,7 +36,9 @@ import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
 public abstract class PropertyAndPreferencePage extends PreferencePage
 					implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
 
+	private PropertyAndPreferencePage parentPage;
 	private IProject project;
+	private boolean useSpecificSettings;
 	private Button useSpecificSettingsButton;
 	private Control preferenceControl;
 	private ControlEnableState enableState;
@@ -84,46 +90,64 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		container.setLayout(new GridLayout(1, true));
 
 		if(isPropertiesPage()) {
-			createControlButton(container);
+			if(isTopLevelPage()) {
+				createControlButton(container);
+			} else {
+				useSpecificSettings = parentPage.useSpecificSettings();
+			}
+			registerSpecificSettingsListener();
 		}
 
 		preferenceControl = doCreateContents(container);
 		preferenceControl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		reloadPreferences();
 
-		if(isPropertiesPage()) {
+		if(isPropertiesPage() && isTopLevelPage()) {
 			updateEnabledState();
 		}
 
 		return container;
 	}
-	
+
 	private void createControlButton(Composite container) {
 		useSpecificSettingsButton = new Button(container, SWT.CHECK);
-		useSpecificSettingsButton.setText("Use project specific settings");
-		useSpecificSettingsButton.setSelection(PreferenceStoreUtil.useSpecificSettings(project));
-		useSpecificSettingsButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		useSpecificSettingsButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					setUseSpecificSettings(useSpecificSettingsButton.getSelection());
-				} catch (CoreException e) {
-					event.doit = false;
-					ErrorDialog.openError(getShell(), "Enabling resource specific settings failed", null, e.getStatus());
+		try {
+			useSpecificSettings = PreferenceStoreUtil.useSpecificSettings(project);
+			useSpecificSettingsButton.setSelection(useSpecificSettings);
+			useSpecificSettingsButton.setText("Use project specific settings");
+			useSpecificSettingsButton.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					try {
+						setUseSpecificSettings(useSpecificSettingsButton.getSelection());
+					} catch (CoreException e) {
+						ErrorDialog.openError(getShell(), "Enabling/disabling resource specific settings failed", null, e.getStatus());
+						useSpecificSettingsButton.setSelection(!useSpecificSettingsButton.getSelection());
+					}
 				}
-			}
-		});
+			});
+		} catch (CoreException e) {
+			useSpecificSettingsButton.setEnabled(false);
+			useSpecificSettingsButton.setText("Use project specific settings [not possible: " + e.getMessage() + "]");
+		}
+		useSpecificSettingsButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+	}
 
+	private void registerSpecificSettingsListener() {
 		projectSpecificSettingsListener = new ProjectSpecificSettingsListener() {
 			@Override
 			public void useProjectSpecificSettingsChanged(IProject project, boolean use) {
 				if(getElement() != project)
 					return;
-				useSpecificSettingsButton.setSelection(use);
+				useSpecificSettings = use;
+				if(useSpecificSettingsButton != null) {
+					useSpecificSettingsButton.setSelection(use);
+				}
 				setPreferenceStore(null); // update preference store
 				reloadPreferences();
-				updateEnabledState();
+				if(isTopLevelPage()) {
+					updateEnabledState();
+				}
 			}
 		};
 		PreferenceStoreUtil.addProjectSpecificSettingsListener(projectSpecificSettingsListener);
@@ -136,11 +160,19 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	}
 
 	protected boolean useSpecificSettings() {
-		return isPropertiesPage() && useSpecificSettingsButton.getSelection();
+		return isPropertiesPage() && useSpecificSettings;
+	}
+
+	protected void setParentPage(PropertyAndPreferencePage parentPage) {
+		this.parentPage = parentPage;
+	}
+
+	protected boolean isTopLevelPage() {
+		return parentPage == null;
 	}
 
 	private void updateEnabledState() {
-		if(useSpecificSettingsButton.getSelection()) {
+		if(useSpecificSettings) {
 			if(enableState != null) {
 				enableState.restore();
 				enableState = null;
@@ -151,7 +183,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 			}
 		}
 	}
-	
+
 	@Override
 	public IAdaptable getElement() {
 		return project;
@@ -189,7 +221,13 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		validatePreferences();
 		if(isValid()) {
 			savePreferences();
-			return true;
+			try {
+				PreferenceStoreUtil.flushPreferenceStores();
+				return true;
+			} catch (BackingStoreException e) {
+				ErrorDialog.openError(getShell(), "Saving preferences failed", null,
+						new Status(IStatus.ERROR, PreferencesPlugin.PLUGIN_ID, "Preference store could not be saved", e));
+			}
 		}
 		return false;
 	}

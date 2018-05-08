@@ -11,7 +11,9 @@ import org.sidiff.integration.preferences.util.PipelineStepUtil.PipelineStep;
 import org.sidiff.integration.preferences.util.PreferenceTabUtil;
 
 /**
- * 
+ * Preference page that contains {@link IPreferenceTab}s.
+ * For each domain independent preference tab, a tab is created.
+ * Afterwards, for each domain specific preference tab, a tab is created for each significant document type.
  * @author Robert Müller
  *
  */
@@ -52,6 +54,13 @@ public class PipelineStepPreferencePage extends TabbedPreferenceFieldPage {
 		}
 	}
 
+	/**
+	 * Creates a {@link PipelineStepPreferencePage} for the given preference page and pipeline step.
+	 * @param page the page
+	 * @param pipelineStep the pipeline step
+	 * @return new {@link PipelineStepPreferencePage} containing preference tabs
+	 * for the given page and pipeline step, <code>null</code> if no preference tabs for this page exist
+	 */
 	public static PipelineStepPreferencePage create(String page, PipelineStep pipelineStep) {
 		List<IPreferenceTab> tabs = PreferenceTabUtil.getPreferenceTabs(page, pipelineStep.getId());
 		if(tabs.isEmpty())

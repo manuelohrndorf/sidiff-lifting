@@ -1,15 +1,19 @@
 package org.sidiff.integration.preferences.util;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
@@ -20,12 +24,18 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
  */
 public class PreferenceStoreUtil {
 
+	private static ScopedPreferenceStore globalPreferenceStore;
+	private static Map<IProject,ScopedPreferenceStore> specificPreferenceStores;
+
 	/**
 	 * Returns the preference store for global SiDiff settings.
 	 * @return global preference store
 	 */
 	public static IPreferenceStore getPreferenceStore() {
-		return new ScopedPreferenceStore(InstanceScope.INSTANCE, PreferencesPlugin.PREFERENCE_QUALIFIER);
+		if(globalPreferenceStore == null) {
+			globalPreferenceStore = new ScopedPreferenceStore(InstanceScope.INSTANCE, PreferencesPlugin.PREFERENCE_QUALIFIER);
+		}
+		return globalPreferenceStore;
 	}
 
 	/**
@@ -34,11 +44,31 @@ public class PreferenceStoreUtil {
 	 * @return project specific preference store
 	 */
 	public static IPreferenceStore getPreferenceStore(IProject project) {
-		ScopedPreferenceStore store = new ScopedPreferenceStore(new ProjectScope(project), PreferencesPlugin.PREFERENCE_QUALIFIER);
-		SettingsAdapterUtil.initializeDefaults(store);
+		if(specificPreferenceStores == null) {
+			specificPreferenceStores = new HashMap<IProject, ScopedPreferenceStore>();
+		}
+		ScopedPreferenceStore store = specificPreferenceStores.get(project);
+		if(store == null) {
+			store = new ScopedPreferenceStore(new ProjectScope(project), PreferencesPlugin.PREFERENCE_QUALIFIER);
+			SettingsAdapterUtil.initializeDefaults(store);
+			specificPreferenceStores.put(project, store);
+		}
 		return store;
 	}
 
+	/**
+	 * Flushes all preference stores previously returned by {@link #getPreferenceStore()} and {@link #getPreferenceStore(IProject)},
+	 * storing all non-default preference values persistently.
+	 * @throws BackingStoreException if flushing the preferences failed
+	 */
+	public static void flushPreferenceStores() throws BackingStoreException {
+		InstanceScope.INSTANCE.getNode(PreferencesPlugin.PREFERENCE_QUALIFIER).flush();
+		for(ScopedPreferenceStore store : specificPreferenceStores.values()) {
+			for(IEclipsePreferences prefs : store.getPreferenceNodes(false)) {
+				prefs.flush();
+			}
+		}
+	}
 
 	private static final QualifiedName KEY_USE_RESOURCE_SETTINGS =
 			new QualifiedName(PreferencesPlugin.PREFERENCE_QUALIFIER, "USE_RESOURCE_SETTINGS");
@@ -50,13 +80,11 @@ public class PreferenceStoreUtil {
 	 * Returns whether the given project has project specific settings attached that should be used.
 	 * @param project the project
 	 * @return <code>true</code>, if project specific settings should be used, <code>false</code> otherwise
+	 * @throws CoreException if retrieving the property failed
+	 * @see IProject#getPersistentProperty(QualifiedName)
 	 */
-	public static boolean useSpecificSettings(IProject project) {
-		try {
-			return Boolean.valueOf(project.getPersistentProperty(KEY_USE_RESOURCE_SETTINGS));
-		} catch(CoreException e) {
-			return false;
-		}
+	public static boolean useSpecificSettings(IProject project) throws CoreException {
+		return Boolean.valueOf(project.getPersistentProperty(KEY_USE_RESOURCE_SETTINGS));
 	}
 
 	/**
@@ -64,7 +92,8 @@ public class PreferenceStoreUtil {
 	 * Notifies the {@link ProjectSpecificSettingsListener}s.
 	 * @param project the project
 	 * @param use whether to enable project specific settings
-	 * @throws CoreException changing property failed, see {@link IProject#setPersistentProperty(QualifiedName, String)}
+	 * @throws CoreException if changing the property failed
+	 * @see IProject#setPersistentProperty(QualifiedName, String)
 	 */
 	public static void setUseSpecificSettings(IProject project, boolean use) throws CoreException {
 		project.setPersistentProperty(KEY_USE_RESOURCE_SETTINGS, Boolean.toString(use));
