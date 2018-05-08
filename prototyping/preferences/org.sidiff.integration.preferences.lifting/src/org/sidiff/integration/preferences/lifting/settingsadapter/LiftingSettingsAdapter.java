@@ -84,14 +84,23 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 
 			// the first recognition rule sorter is used
 			if(rrSorter == null) {
-				rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(store.getString(KEY_RECOGNITION_RULE_SORTER(documentType)));
+				String key = store.getString(KEY_RECOGNITION_RULE_SORTER(documentType));
+				rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
+				if(rrSorter == null) {
+					addWarning("Recognition Rule Sorter with key '" + key + "' was not found.");
+				}
 			}
 		}
 		if(rrSorter == null) {
 			rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(getDocumentTypes());
 		}
 
-		recognitionEngineMode = RecognitionEngineMode.valueOf(store.getString(KEY_RECOGNITION_ENGINE_MODE));
+		String recognitionEngineModeValue = store.getString(KEY_RECOGNITION_ENGINE_MODE);
+		try {
+			recognitionEngineMode = RecognitionEngineMode.valueOf(recognitionEngineModeValue);
+		} catch (IllegalArgumentException e) {
+			addError("Invalid value for Recognition Engine Mode: '" + recognitionEngineModeValue + "'", e);
+		}
 		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
 		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
 		useThreadPool = store.getBoolean(KEY_USE_THREAD_POOL);

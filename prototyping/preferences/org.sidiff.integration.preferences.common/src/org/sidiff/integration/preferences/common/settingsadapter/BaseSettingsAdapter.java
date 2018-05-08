@@ -33,7 +33,13 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	public void load(IPreferenceStore store) {
-		scope = Scope.valueOf(store.getString(KEY_SCOPE));
+		String scopeValue = store.getString(KEY_SCOPE);
+		try {
+			scope = Scope.valueOf(scopeValue);
+		} catch (IllegalArgumentException e) {
+			addError("Invalid value for Scope: '" + scopeValue + "'", e);
+		}
+
 		validate = store.getBoolean(KEY_VALIDATE_MODELS);
 	}
 

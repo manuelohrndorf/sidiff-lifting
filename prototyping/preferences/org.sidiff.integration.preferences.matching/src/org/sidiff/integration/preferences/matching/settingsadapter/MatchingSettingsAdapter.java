@@ -61,28 +61,51 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void load(IPreferenceStore store) {
 		matchers = new ArrayList<IMatcher>();
-		for (String matcherKey : store.getString(KEY_MATCHERS).split(";")) {
-			IMatcher matcher = MatcherUtil.getMatcher(matcherKey);
-
-			if (matcher instanceof IConfigurable) {
-				Map<String, Object> matcherOptions = ((IConfigurable)matcher).getConfigurationOptions();
-				for (String optionKey : matcherOptions.keySet()) {
-					((IConfigurable)matcher).setConfigurationOption(optionKey,
-							store.getBoolean(KEY_MATCHER_OPTIONS(matcherKey) + ":" + optionKey));
-				}
+		for(String matcherKey : store.getString(KEY_MATCHERS).split(";")) {
+			if(matcherKey.isEmpty()) {
+				continue;
 			}
-
-			matchers.add(matcher);
+			IMatcher matcher = MatcherUtil.getMatcher(matcherKey);
+			if(matcher != null) {
+				if(matcher instanceof IConfigurable) {
+					Map<String, Object> matcherOptions = ((IConfigurable)matcher).getConfigurationOptions();
+					for(String optionKey : matcherOptions.keySet()) {
+						((IConfigurable)matcher).setConfigurationOption(optionKey,
+								store.getBoolean(KEY_MATCHER_OPTIONS(matcherKey) + ":" + optionKey));
+					}
+				}
+				matchers.add(matcher);
+			} else {
+				addWarning("Matcher with key '" + matcherKey + "' was not found.");
+			}
+		}
+		if(matchers.isEmpty()) {
+			addError("No Matchers were specified.");
 		}
 
-		candidatesService = CandidatesUtil.getAvailableCandidatesService(store.getString(KEY_CANDIDATES_SERVICE));
+		String candidatesServiceId = store.getString(KEY_CANDIDATES_SERVICE);
+		candidatesService = CandidatesUtil.getAvailableCandidatesService(candidatesServiceId);
+		if(candidatesService == null) {
+			addError("Candidates Service with id '" + candidatesServiceId + "' was not found.");
+		}
 
-		correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService(store.getString(KEY_CORRESPONDENCES_SERVICE));
+		String correspondencesServiceId = store.getString(KEY_CORRESPONDENCES_SERVICE);
+		correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService(correspondencesServiceId);
+		if(correspondencesService == null) {
+			addError("Correspondences Service with id '" + correspondencesServiceId + "' was not found.");
+		}
 
-		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(store.getString(KEY_SIMILARITIES_SERVICE));
+		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
+		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(similaritiesServiceId);
+		if(similaritiesService == null) {
+			addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
+		}
 
-		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationService(
-				store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE));
+		String similaritiesCalculationServiceId = store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE);
+		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationService(similaritiesCalculationServiceId);
+		if(similaritiesCalculationService == null) {
+			addError("Similarities Calculation Service with id '" + similaritiesCalculationServiceId + "' was not found.");
+		}
 	}
 
 	private IMatcher createMatcher() {
@@ -96,7 +119,7 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		store.setDefault(KEY_MATCHERS, "org.sidiff.matcher.signature.name.NamedElementMatcher");
 		store.setDefault(KEY_CANDIDATES_SERVICE, "InterModelTypeCandidates");
 		store.setDefault(KEY_CORRESPONDENCES_SERVICE, "MatchingModelCorrespondences");
-		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilaritiesService");
+		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilarities");
 		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "DefaultSimilaritiesCalculationService");
 	}
 }

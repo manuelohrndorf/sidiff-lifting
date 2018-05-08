@@ -60,7 +60,21 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
-			technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey));
+			if(techDiffBuilderKey.isEmpty()) {
+				continue;
+			} else if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
+				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
+			} else {
+				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);
+				if(techBuilder != null) {
+					technicalDifferenceBuilderList.add(techBuilder);
+				} else {
+					addWarning("Technical Difference Builder with key '" + techDiffBuilderKey + "' was not found.");
+				}
+			}
+		}
+		if(technicalDifferenceBuilderList.isEmpty()) {
+			addError("No Technical Difference Builders were specified.");
 		}
 
 		mergeImports = store.getBoolean(KEY_MERGE_IMPORTS);

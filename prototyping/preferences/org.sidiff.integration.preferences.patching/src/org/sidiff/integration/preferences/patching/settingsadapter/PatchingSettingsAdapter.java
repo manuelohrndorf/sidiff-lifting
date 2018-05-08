@@ -74,19 +74,58 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		for(String documentType : getDocumentTypes()) {
 			// the first transformation engine is used
 			if(transformationEngine == null) {
-				transformationEngine = TransformationEngineUtil.getTransformationEngine(store.getString(KEY_TRANSFORMATION_ENGINE(documentType)));
+				String key = store.getString(KEY_TRANSFORMATION_ENGINE(documentType));
+				transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
+				if(transformationEngine == null) {
+					addWarning("Transformation Engine with key '" + key + "' was not found.");
+				}
 			}
 			// the first modified detector is used
 			if(modifiedDetector == null) {
-				modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(store.getString(KEY_MODIFIED_DETECTOR(documentType)));
+				String key = store.getString(KEY_MODIFIED_DETECTOR(documentType));
+				modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(key);
+				if(modifiedDetector == null) {
+					addWarning("Modified Detector with key '" + key + "' was not found.");
+				}
 			}
 		}
-		executionMode = ExecutionMode.valueOf(store.getString(KEY_EXECUTION_MODE));
-		patchMode = PatchMode.valueOf(store.getString(KEY_PATCH_MODE));
+		if(transformationEngine == null) {
+			addError("No Transformation Engine was specified.");
+		}
+		if(modifiedDetector == null) {
+			addError("No Modified Detector was specified.");
+		}
+
+		String executionModeValue = store.getString(KEY_EXECUTION_MODE);
+		try {
+			executionMode = ExecutionMode.valueOf(executionModeValue);
+		} catch (IllegalArgumentException e) {
+			addError("Invalid value for Execution Mode: '" + executionModeValue + "'", e);
+		}
+
+		String patchModeValue = store.getString(KEY_PATCH_MODE);
+		try {
+			patchMode = PatchMode.valueOf(patchModeValue);
+		} catch (IllegalArgumentException e) {
+			addError("Invalid value for Patch Mode: '" + patchModeValue + "'", e);
+		}
+
 		minReliability = store.getInt(KEY_MIN_RELIABILITY);
-		validationMode = ValidationMode.valueOf(store.getString(KEY_VALIDATION_MODE));
+
+		String validationModeValue = store.getString(KEY_VALIDATION_MODE);
+		try {
+			validationMode = ValidationMode.valueOf(validationModeValue);
+		} catch (IllegalArgumentException e) {
+			addError("Invalid value for Validation Mode: '" + validationModeValue + "'", e);
+		}
+
 		useInteractivePatching = store.getBoolean(KEY_USE_INTERACTIVE_PATCHING);
-		symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(store.getString(KEY_SYMBOLIC_LINK_HANDLER));
+
+		String symbolicLinkHandlerKey = store.getString(KEY_SYMBOLIC_LINK_HANDLER);
+		symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(symbolicLinkHandlerKey);
+		if(symbolicLinkHandler == null) {
+			addError("Symbolic Link Handler with key '" + symbolicLinkHandlerKey + "' was not found.");
+		}
 	}
 
 	private IPatchInterruptHandler createPatchInterruptHandler() {

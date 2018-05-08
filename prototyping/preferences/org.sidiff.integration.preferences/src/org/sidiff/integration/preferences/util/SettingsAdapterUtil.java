@@ -10,9 +10,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.integration.preferences.PreferencesPlugin;
@@ -66,9 +66,10 @@ public class SettingsAdapterUtil {
 	 * Uses the preferences from the global preference store.
 	 * @param settings the settings to adapt
 	 * @param documentTypes the document types that the adapters should use
+	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
-	public static void adaptSettingsGlobal(AbstractSettings settings, Set<String> documentTypes) {
-		adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(), documentTypes);
+	public static Diagnostic adaptSettingsGlobal(AbstractSettings settings, Set<String> documentTypes) {
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(), documentTypes);
 	}
 
 	/**
@@ -77,27 +78,38 @@ public class SettingsAdapterUtil {
 	 * @param settings the settings to adapt
 	 * @param project the project whose specific preference store should be used
 	 * @param documentTypes the document types that the adapters should use
-	 * @throws CoreException if project specific settings cannot be used
+	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
-	public static void adaptSettingsProject(AbstractSettings settings, IProject project, Set<String> documentTypes) throws CoreException {
-		if(!PreferenceStoreUtil.useSpecificSettings(project)) {
-			throw new CoreException(new Status(IStatus.ERROR, PreferencesPlugin.PLUGIN_ID,
-					"Project specific settings are not enabled for this project."));
+	public static Diagnostic adaptSettingsProject(AbstractSettings settings, IProject project, Set<String> documentTypes) {
+		try {
+			if(!PreferenceStoreUtil.useSpecificSettings(project)) {
+				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+						"Project specific settings are not enabled for this project.", null);
+			}
+		} catch (CoreException e) {
+			return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+					"Project specific cannot be used for this project.", new Object[] { e });
 		}
-		adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project), documentTypes);
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project), documentTypes);
 	}
 
-	private static void adaptSettings(AbstractSettings settings, IPreferenceStore store, Set<String> documentTypes) {
+	protected static Diagnostic adaptSettings(AbstractSettings settings, IPreferenceStore store, Set<String> documentTypes) {
 		Assert.isNotNull(settings);
 		Assert.isNotNull(store);
 		Assert.isNotNull(documentTypes);
+
+		BasicDiagnostic diagnostic = new BasicDiagnostic(PreferencesPlugin.PLUGIN_ID, 0,
+				"Settings were validated. See detailed messages below.", null);
 		for(ISettingsAdapter adapter : getAllAvailableSettingsAdapters()) {
 			if(adapter.canAdapt(settings)) {
+				adapter.setDiagnosticChain(diagnostic);
 				adapter.setDocumentTypes(documentTypes);
 				adapter.load(store);
 				adapter.adapt(settings);
 			}
 		}
+		diagnostic.recomputeSeverity();
+		return diagnostic;
 	}
 
 	public static void initializeDefaults(IPreferenceStore preferenceStore) {

@@ -2,6 +2,7 @@ package org.sidiff.integration.preferences.interfaces;
 
 import java.util.Set;
 
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 
@@ -19,6 +20,7 @@ public interface ISettingsAdapter {
 
 	/**
 	 * Returns whether the given {@link AbstractSettings settings} can be adapted by this settings adapter.
+	 * No further methods will be called if this method returns <code>false</code>.
 	 * @param settings the settings
 	 * @return <code>true</code>, if the settings can be adapted by this adapter, <code>false</code> otherwise
 	 */
@@ -38,6 +40,7 @@ public interface ISettingsAdapter {
 
 	/**
 	 * Sets default values for all preferences managed by this adapter using the given preference store.
+	 * Called independently of all other methods.
 	 * @param store the preference store
 	 */
 	void initializeDefaults(IPreferenceStore store);
@@ -47,4 +50,10 @@ public interface ISettingsAdapter {
 	 * @param documentTypes the document types' nsURI
 	 */
 	void setDocumentTypes(Set<String> documentTypes);
+
+	/**
+	 * Sets the diagnostic chain to add diagnostics to.
+	 * @param diagnosticChain the diagnostic chain
+	 */
+	void setDiagnosticChain(DiagnosticChain diagnosticChain);
 }

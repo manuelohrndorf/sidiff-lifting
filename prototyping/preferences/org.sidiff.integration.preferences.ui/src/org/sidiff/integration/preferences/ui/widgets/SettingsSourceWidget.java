@@ -10,7 +10,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.AbstractSettings;
@@ -59,6 +61,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	// outputs
 	private Source source;
 	private ValidationMessage message;
+	private Diagnostic diagnostic;
 
 	public SettingsSourceWidget(AbstractSettings settings, InputModels inputModels) {
 		for(IFile file : inputModels.getFiles()) {
@@ -110,7 +113,10 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		radioCustom.addSelectionListener(getButtonSelectionListener());
 		buttons.put(Source.CUSTOM, radioCustom);
 
+		// set default selection and show dialog with settings validation result
 		setSource(radioProject.isEnabled() ? Source.PROJECT : Source.CUSTOM);
+		showDiagnosticDialog();
+
 		return container;
 	}
 
@@ -126,14 +132,20 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 
 	public void setSource(Source source) {
 		Assert.isNotNull(source);
+		if(this.source == source) {
+			return;
+		}
 		this.source = source;
 
+		// update state of all radio buttons
 		for(Map.Entry<Source, Button> entry : buttons.entrySet()) {
 			entry.getValue().setSelection(entry.getKey() == source);
 		}
 
+		// adapt the settings using the changed settings source
 		updateSettings();
 
+		// notify listeners
 		for(SelectionListener listener : selectionListeners) {
 			Event e = new Event();
 			e.widget = buttons.get(source);
@@ -148,21 +160,29 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	private void updateSettings() {
 		switch(source) {	
 			case GLOBAL:
-				SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes);
+				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes);
 				break;
 
 			case PROJECT:
-				try {
-					SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
-				} catch (CoreException e) {
-					ErrorDialog.openError(container.getShell(), "Using project specific settings failed", null, e.getStatus());
-				}
+				diagnostic = SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
 				break;
 
 			case CUSTOM:
 				// settings are not changed
+				diagnostic = null;
 				break;
 		}
+	}
+
+	private void showDiagnosticDialog() {
+		if(diagnostic == null || diagnostic.getSeverity() == Diagnostic.OK) {
+			return;
+		}
+		Display.getCurrent().asyncExec(new Runnable() {
+			public void run() {
+				DiagnosticDialog.open(container.getShell(), "Validation of settings", null, diagnostic);
+			}
+		});
 	}
 
 	private SelectionListener getButtonSelectionListener() {
@@ -171,8 +191,9 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					for(Map.Entry<Source, Button> entry : buttons.entrySet()) {
-						if(entry.getValue() == e.getSource()) {
+						if(entry.getValue() == e.getSource() && entry.getValue().getSelection()) {
 							setSource(entry.getKey());
+							showDiagnosticDialog();
 							break;
 						}
 					}
@@ -184,13 +205,13 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 
 	@Override
 	public boolean validate() {
-		if(source != Source.CUSTOM && !settings.validateSettings()) {
+		if(source != Source.CUSTOM && (!settings.validateSettings()
+				|| (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR))) {
 			message = new ValidationMessage(ValidationType.ERROR,
 					source == Source.GLOBAL ? "The global settings are not valid."
-							: "The project specific settings are not valid.");
+								: "The project specific settings are not valid.");
 			return false;
 		}
-
 		message = new ValidationMessage(ValidationType.OK, "");
 		return true;
 	}

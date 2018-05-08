@@ -22,6 +22,7 @@ import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValu
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.service.IService;
+import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similarities.SimilaritiesServiceUtil;
 import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
 
@@ -102,8 +103,19 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 		list.add(correspondencesServiceField);
 
 		similaritiesServiceField = RadioBoxPreferenceField.create(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
-				SimilaritiesServiceUtil.getAvailableSimilaritiesService(), serviceValueConverter);
+				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
+				"Similarities Service",
+				SimilaritiesServiceUtil.getAvailableSimilaritiesService(),
+				new IPreferenceValueConverter<ISimilarities>() {
+					@Override
+					public String getValue(ISimilarities value) {
+						return value.getSimilaritiesServiceID();
+					}
+					@Override
+					public String getLabel(ISimilarities value) {
+						return value.getDescription();
+					}
+				});
 		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = RadioBoxPreferenceField.create(
