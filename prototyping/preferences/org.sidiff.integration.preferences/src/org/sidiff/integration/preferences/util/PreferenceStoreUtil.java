@@ -63,9 +63,11 @@ public class PreferenceStoreUtil {
 	 */
 	public static void flushPreferenceStores() throws BackingStoreException {
 		InstanceScope.INSTANCE.getNode(PreferencesPlugin.PREFERENCE_QUALIFIER).flush();
-		for(ScopedPreferenceStore store : specificPreferenceStores.values()) {
-			for(IEclipsePreferences prefs : store.getPreferenceNodes(false)) {
-				prefs.flush();
+		if(specificPreferenceStores != null) {
+			for(ScopedPreferenceStore store : specificPreferenceStores.values()) {
+				for(IEclipsePreferences prefs : store.getPreferenceNodes(false)) {
+					prefs.flush();
+				}
 			}
 		}
 	}
