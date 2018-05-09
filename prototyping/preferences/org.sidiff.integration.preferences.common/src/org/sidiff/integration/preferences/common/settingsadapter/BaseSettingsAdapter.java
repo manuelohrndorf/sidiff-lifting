@@ -27,7 +27,9 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(AbstractSettings settings) {
 		BaseSettings baseSettings = (BaseSettings)settings;
-		baseSettings.setScope(scope);
+		if(scope != null) {
+			baseSettings.setScope(scope);
+		}
 		baseSettings.setValidate(validate);
 	}
 

@@ -39,7 +39,10 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(AbstractSettings settings) {
 		DifferenceSettings diffSettings = (DifferenceSettings)settings;
-		diffSettings.setTechBuilder(createTechBuilder());
+		ITechnicalDifferenceBuilder techBuilder = createTechBuilder();
+		if(techBuilder != null) {
+			diffSettings.setTechBuilder(techBuilder);
+		}
 		diffSettings.setMergeImports(mergeImports);
 		diffSettings.setUnmergeImports(unmergeImports);
 	}
@@ -82,9 +85,11 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 	}
 
 	protected ITechnicalDifferenceBuilder createTechBuilder() {
-		if(technicalDifferenceBuilderList.size() == 1)
-			return technicalDifferenceBuilderList.get(0);
-		return new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList);
+		switch(technicalDifferenceBuilderList.size()) {
+			case 0: return null;
+			case 1: return technicalDifferenceBuilderList.get(0);
+			default: return new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilderList);
+		}
 	}
 
 	@Override

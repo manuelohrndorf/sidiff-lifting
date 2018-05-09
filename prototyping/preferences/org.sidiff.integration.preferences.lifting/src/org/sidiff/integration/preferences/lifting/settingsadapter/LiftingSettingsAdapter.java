@@ -60,7 +60,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		LiftingSettings liftingSettings = (LiftingSettings)settings;
 		liftingSettings.setRuleBases(ruleBases);
 		liftingSettings.setRrSorter(rrSorter);
-		liftingSettings.setRecognitionEngineMode(recognitionEngineMode);
+		if(recognitionEngineMode != null) {
+			liftingSettings.setRecognitionEngineMode(recognitionEngineMode);
+		}
 		liftingSettings.setCalculateEditRuleMatch(calculateEditRuleMatch);
 		liftingSettings.setSerializeEditRuleMatch(serializeEditRuleMatch);
 		liftingSettings.setUseThreadPool(useThreadPool);

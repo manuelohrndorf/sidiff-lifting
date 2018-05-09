@@ -59,14 +59,31 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(AbstractSettings settings) {
 		PatchingSettings patchingSettings = (PatchingSettings)settings;
-		patchingSettings.setTransformationEngine(transformationEngine);
-		patchingSettings.setModifiedDetector(modifiedDetector);
-		patchingSettings.setExecutionMode(executionMode);
-		patchingSettings.setPatchMode(patchMode);
+		if(transformationEngine != null) {
+			patchingSettings.setTransformationEngine(transformationEngine);
+		}
+		if(modifiedDetector != null) {
+			patchingSettings.setModifiedDetector(modifiedDetector);
+		}
+		if(executionMode != null) {
+			patchingSettings.setExecutionMode(executionMode);
+		}
+		if(patchMode != null) {
+			patchingSettings.setPatchMode(patchMode);
+		}
 		patchingSettings.setMinReliability(minReliability);
-		patchingSettings.setValidationMode(validationMode);
-		patchingSettings.setInterruptHandler(createPatchInterruptHandler());
-		patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
+		if(validationMode != null) {
+			patchingSettings.setValidationMode(validationMode);
+		}
+		IPatchInterruptHandler patchInterruptHandler = createPatchInterruptHandler();
+		if(patchInterruptHandler != null) {
+			patchingSettings.setInterruptHandler(patchInterruptHandler);
+		}
+		if(patchingSettings.getMatcher() != null) {
+			patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
+		} else {
+			addWarning("Matcher is not specified. Cannot set ArgumentManager.");
+		}
 	}
 
 	@Override

@@ -51,11 +51,22 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(AbstractSettings settings) {
 		MatchingSettings matchingSettings = (MatchingSettings)settings;
-		matchingSettings.setMatcher(createMatcher());
-		matchingSettings.setCandidatesService(candidatesService);
-		matchingSettings.setCorrespondencesService(correspondencesService);
-		matchingSettings.setSimilaritiesService(similaritiesService);
-		matchingSettings.setSimilaritiesCalculationService(similaritiesCalculationService);
+		IMatcher matcher = createMatcher();
+		if(matcher != null) {
+			matchingSettings.setMatcher(matcher);
+		}
+		if(candidatesService != null) {
+			matchingSettings.setCandidatesService(candidatesService);
+		}
+		if(correspondencesService != null) {
+			matchingSettings.setCorrespondencesService(correspondencesService);
+		}
+		if(similaritiesService != null) {
+			matchingSettings.setSimilaritiesService(similaritiesService);
+		}
+		if(similaritiesCalculationService != null) {
+			matchingSettings.setSimilaritiesCalculationService(similaritiesCalculationService);
+		}
 	}
 
 	@Override
@@ -109,9 +120,11 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	}
 
 	private IMatcher createMatcher() {
-		if(matchers.size() == 1)
-			return matchers.get(0);
-		return new IncrementalMatcher(matchers);
+		switch(matchers.size()) {
+			case 0: return null;
+			case 1: return matchers.get(0);
+			default: return new IncrementalMatcher(matchers);
+		}
 	}
 
 	@Override
