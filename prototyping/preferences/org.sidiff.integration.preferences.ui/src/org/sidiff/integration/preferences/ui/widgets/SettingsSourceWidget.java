@@ -1,6 +1,7 @@
 package org.sidiff.integration.preferences.ui.widgets;
 
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,8 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 				PreferencesPlugin.logWarning("Input models are not in the same project. Using project specific settings of first one.");
 			}
 		}
-		this.documentTypes = inputModels.getDocumentTypes();
+		// some other widgets change the original set, so a local copy is created here
+		this.documentTypes = new HashSet<String>(inputModels.getDocumentTypes());
 		this.settings = settings;
 		this.selectionListeners = new LinkedList<SelectionListener>();
 	}
@@ -207,7 +209,8 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 	public boolean validate() {
 		if(source != Source.CUSTOM && (!settings.validateSettings()
 				|| (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR))) {
-			message = new ValidationMessage(ValidationType.ERROR,
+			// WARNING instead of ERROR so other validation messages take precedence over this one, as it is pretty vague
+			message = new ValidationMessage(ValidationType.WARNING,
 					source == Source.GLOBAL ? "The global settings are not valid."
 								: "The project specific settings are not valid.");
 			return false;

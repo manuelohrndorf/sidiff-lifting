@@ -7,6 +7,7 @@ import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
@@ -22,6 +23,11 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	private InputModels inputModels;
 	
 	// ---------- UI Elements ----------
+	
+	/**
+	 * The {@link SettingsSourceWidget} for loading global and project specific settings.
+	 */
+	private SettingsSourceWidget settingsSourceWidget;
 	
 	/**
 	 * The {@link InputModelsWidget} for loading the models being compared.
@@ -63,6 +69,10 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	
 	@Override
 	protected void createWidgets() {
+		// Settings Source:
+		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		addWidget(container, settingsSourceWidget);
+
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
 		sourceWidget.setSettings(this.settings);
