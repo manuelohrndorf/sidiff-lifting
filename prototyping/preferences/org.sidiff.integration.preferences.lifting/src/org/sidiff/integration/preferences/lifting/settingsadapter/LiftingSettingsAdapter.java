@@ -77,6 +77,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void load(IPreferenceStore store) {
 		ruleBases = new HashSet<ILiftingRuleBase>();
+		rrSorter = null;
 		for(String documentType : getDocumentTypes()) {
 			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentType)) {
 				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + rbase.getName())) {
@@ -101,6 +102,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		try {
 			recognitionEngineMode = RecognitionEngineMode.valueOf(recognitionEngineModeValue);
 		} catch (IllegalArgumentException e) {
+			recognitionEngineMode = null;
 			addError("Invalid value for Recognition Engine Mode: '" + recognitionEngineModeValue + "'", e);
 		}
 		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);

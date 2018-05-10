@@ -88,6 +88,8 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	public void load(IPreferenceStore store) {
+		transformationEngine = null;
+		modifiedDetector = null;
 		for(String documentType : getDocumentTypes()) {
 			// the first transformation engine is used
 			if(transformationEngine == null) {
@@ -117,6 +119,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		try {
 			executionMode = ExecutionMode.valueOf(executionModeValue);
 		} catch (IllegalArgumentException e) {
+			executionMode = null;
 			addError("Invalid value for Execution Mode: '" + executionModeValue + "'", e);
 		}
 
@@ -124,6 +127,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		try {
 			patchMode = PatchMode.valueOf(patchModeValue);
 		} catch (IllegalArgumentException e) {
+			patchMode = null;
 			addError("Invalid value for Patch Mode: '" + patchModeValue + "'", e);
 		}
 
@@ -133,6 +137,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		try {
 			validationMode = ValidationMode.valueOf(validationModeValue);
 		} catch (IllegalArgumentException e) {
+			validationMode = null;
 			addError("Invalid value for Validation Mode: '" + validationModeValue + "'", e);
 		}
 
