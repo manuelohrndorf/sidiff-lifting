@@ -1,6 +1,7 @@
 package org.sidiff.remote.application;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -22,7 +24,9 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.remote.application.exception.UnsupportedProtocolException;
+import org.sidiff.remote.application.exception.AuthenticationException;
+import org.sidiff.remote.common.Credentials;
+import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
@@ -31,9 +35,10 @@ import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
-import org.sidiff.remote.common.commands.Command;
+import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
 import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
@@ -69,21 +74,18 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		initializeLogger();
 				
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
-		String arg_url = args[0];
-		String arg_port = args[1];
 		
-		Integer port = arg_port == null || arg_port.isEmpty() ? 2345 : Integer.parseInt(arg_port);
+		String config_path = "";
+		if(args.length>0)
+			config_path = args[0];
 		
-		this.config = new ServerConfiguration(arg_url, port);
+		this.config = readConfig(config_path);
 		
 		this.server = new ServerSocket(config.PORT);
-		
-		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();
-		
-		log.log(Level.INFO, "Sidiff Remote Application Server is starting");
+		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();	
 		this.protocolHandler = new ProtocolHandler();
+		
 		log.log(Level.INFO, config.toString());
-		log.log(Level.INFO, "Localization: " + workspace.getRoot().getLocation().toOSString());
 		
 		while(true) {
 			log.log(Level.INFO, "waiting for request");
@@ -91,7 +93,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				log.log(Level.INFO, "processing request:");
 				handleRequest(client);
-			} catch (CoreException | UnsupportedProtocolException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException | NoSuchAlgorithmException | ModelNotVersionedException e) {
+			} catch (CoreException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException | NoSuchAlgorithmException | ModelNotVersionedException | AuthenticationException e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 				handleException(client, e);
 			}finally {
@@ -104,80 +106,89 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	@Override
 	public void stop() {
 		// TODO Auto-generated method stub
-
 	}
 	
-	private void handleRequest(Socket client) throws CoreException, UnsupportedProtocolException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, NoSuchAlgorithmException, ModelNotVersionedException  {
+	private void handleRequest(Socket client) throws CoreException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, NoSuchAlgorithmException, ModelNotVersionedException, AuthenticationException  {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
-		Command command = this.protocolHandler.read(in);
+		RequestCommand command = (RequestCommand) this.protocolHandler.read(in);
 		
 		log.log(Level.INFO, command.toString());
 		
-		SiDiffRemoteApplication app = client_sessions.get(command.getSession().getSessionID());
-		if(app == null) {
-			log.log(Level.INFO, "initialize remote session");
-			app = new SiDiffRemoteApplication(this.workspace, command.getSession());
-			client_sessions.put(command.getSession().getSessionID(), app);
+		if(authenticate(command.getCredentials())) {
+		
+			SiDiffRemoteApplication app = client_sessions.get(command.getCredentials().getSessionID());
+			if(app == null) {
+				log.log(Level.INFO, "initialize remote session");
+				app = new SiDiffRemoteApplication(this.workspace, command.getCredentials().getUser(), command.getCredentials().getSessionID());
+				client_sessions.put(command.getCredentials().getSessionID(), app);
+				
+			}
+	
+			File attachment = null;
 			
-		}
-		app.setSession(command.getSession());
-
-		File attachment = null;
-		switch(command.getECommand()) {
-		case ADD_REPOSITORY_REQUEST:
-			AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
-			app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
-			break;
-		case BROWSE_MODEL_FILES_REQUEST:
-			BrowseModelFilesRequest browseModelFilesRequest = (BrowseModelFilesRequest) command;
-			String local_model_path = browseModelFilesRequest.getLocalModelPath();
-			TreeModel modelFiles = app.browseModelFiles(local_model_path);
-			BrowseModelFilesReply browseModelFilesReply = new BrowseModelFilesReply(app.getSession(), modelFiles);
-			this.protocolHandler.write(out, browseModelFilesReply, null);
-			break;
-			
-		case BROWSE_MODEL_REQUEST:
-			BrowseModelRequest browseModelRequest = (BrowseModelRequest) command;
-			TreeModel treeModel = app.browseModel(browseModelRequest.getRemoteModelPath());
-			BrowseModelReply browseModelReply = new BrowseModelReply(app.getSession(), treeModel);
-			this.protocolHandler.write(out, browseModelReply, null);
-			break;
-			
-		case CHECKOUT_SUB_MODEL_REQUEST:
-			CheckoutSubModelRequest checkoutSubModelRequest = (CheckoutSubModelRequest) command;
-			String localPath = checkoutSubModelRequest.getLocalModelPath();
-			String remotePath = checkoutSubModelRequest.getRemoteModelPath();
-			Set<String> elementIds = checkoutSubModelRequest.getElementIds();
-			attachment = app.checkoutModel(remotePath, localPath, elementIds);
-			
-			CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(app.getSession(), attachment);
-			this.protocolHandler.write(out, checkoutSubModelReply, attachment);
-			break;
-			
-		case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
-			GetRequestedModelElementsRequest getRequestedModelElementsRequest = (GetRequestedModelElementsRequest) command;
-			String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
-			TreeModel treeModelRME = app.getRequestedModelElements(localPathRME);
-			GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(app.getSession(), treeModelRME);
-			this.protocolHandler.write(out, getRequestedModelElementsReply, null);
-			break;
-			
-		case UPDATE_SUBMODEL_REQUEST:
-			UpdateSubModelRequest updateSubModelRequest = (UpdateSubModelRequest) command;
-			String localPathSubModel = updateSubModelRequest.getLocalModelPath();
-			Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
-			File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
-			UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(app.getSession(), modelSliceZip);
-			this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
-			break;
-		default:
+			switch(command.getECommand()) {
+			case ADD_REPOSITORY_REQUEST:
+				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
+				app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
+				break;
+				
+			case BROWSE_MODEL_FILES_REQUEST:
+				BrowseModelFilesRequest browseModelFilesRequest = (BrowseModelFilesRequest) command;
+				String local_model_path = browseModelFilesRequest.getLocalModelPath();
+				TreeModel modelFiles = app.browseModelFiles(local_model_path);
+				BrowseModelFilesReply browseModelFilesReply = new BrowseModelFilesReply(modelFiles);
+				this.protocolHandler.write(out, browseModelFilesReply, null);
+				break;
+				
+			case BROWSE_MODEL_REQUEST:
+				BrowseModelRequest browseModelRequest = (BrowseModelRequest) command;
+				TreeModel treeModel = app.browseModel(browseModelRequest.getRemoteModelPath());
+				BrowseModelReply browseModelReply = new BrowseModelReply(treeModel);
+				this.protocolHandler.write(out, browseModelReply, null);
+				break;
+				
+			case CHECKOUT_SUB_MODEL_REQUEST:
+				CheckoutSubModelRequest checkoutSubModelRequest = (CheckoutSubModelRequest) command;
+				String localPath = checkoutSubModelRequest.getLocalModelPath();
+				String remotePath = checkoutSubModelRequest.getRemoteModelPath();
+				Set<String> elementIds = checkoutSubModelRequest.getElementIds();
+				attachment = app.checkoutModel(remotePath, localPath, elementIds);
+				
+				CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(attachment);
+				this.protocolHandler.write(out, checkoutSubModelReply, attachment);
+				break;
+				
+			case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
+				GetRequestedModelElementsRequest getRequestedModelElementsRequest = (GetRequestedModelElementsRequest) command;
+				String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
+				TreeModel treeModelRME = app.getRequestedModelElements(localPathRME);
+				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(treeModelRME);
+				this.protocolHandler.write(out, getRequestedModelElementsReply, null);
+				break;
+				
+			case UPDATE_SUBMODEL_REQUEST:
+				UpdateSubModelRequest updateSubModelRequest = (UpdateSubModelRequest) command;
+				String localPathSubModel = updateSubModelRequest.getLocalModelPath();
+				Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
+				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
+				UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(modelSliceZip);
+				this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
+				break;
+			default:
+			}
+		}else {
+			throw new AuthenticationException();
 		}
 	}
 	
 	private void handleException(Socket client, Exception e) throws IOException {
 		this.log.log(Level.SEVERE, "An error occured", e);
+		OutputStream out = client.getOutputStream();
+		
+		ErrorReply errorReply = new ErrorReply(new ErrorReport(e));
+		protocolHandler.write(out, errorReply, null);
 	}
 	
 	private void initializeLogger() throws SecurityException, IOException {
@@ -185,6 +196,50 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		Handler errorHandler = new FileHandler(this.workspace.getRoot().getLocation().toOSString() + File.separator + "error.log");
 		errorHandler.setLevel(Level.SEVERE);
 		this.log.addHandler(errorHandler);
+	}
+	
+	private ServerConfiguration readConfig(String path) throws IOException {
+		Properties properties_cfg = new Properties();
+		InputStream in = null;
+		if(path == null || path.isEmpty()) {
+			in = getClass().getResourceAsStream("/config/default.cfg");
+		}else {
+			File config_file = new File(path);
+			in = new FileInputStream(config_file);
+		}
+		
+		properties_cfg.load(in);
+		in.close();
+		String url = properties_cfg.getProperty("url");
+		int port = Integer.parseInt(properties_cfg.getProperty("port"));
+		String user_path = properties_cfg.getProperty("user");
+		
+		Properties properties_user = new Properties();
+		if(user_path.equals("DEFAULT")) {
+			in = getClass().getResourceAsStream("/config/default.user");
+		}else {
+			File user_file = new File(user_path);
+			in = new FileInputStream(user_file);
+		}
+		
+		properties_user.load(in);
+		in.close();
+		
+		Map<String, String> users = new HashMap<String, String>();
+		for(Object key : properties_user.keySet()) {
+			String user_name = (String) key;
+			String password = properties_user.getProperty(user_name);
+			users.put(user_name, password);
+		}
+		ServerConfiguration config = new ServerConfiguration(url, port, users);
+		return config;
+	}
+	
+	private boolean authenticate(Credentials credentials) {
+		if(config.users.containsKey(credentials.getUser())) {
+			return config.users.get(credentials.getUser()).equals(credentials.getPassword());
+		}
+		return false;
 	}
 
 }
