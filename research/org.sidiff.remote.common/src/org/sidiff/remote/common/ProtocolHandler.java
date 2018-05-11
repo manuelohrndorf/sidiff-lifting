@@ -15,54 +15,60 @@ import org.sidiff.remote.common.commands.Command;
 
 
 /**
- * Handler for the following protocol:
- * 
- * {@link Session} object
- * {@link Command} 
- * {@link ContentType} : filename? : file-size?
- * file | text
  * 
  * @author cpietsch
  *
  */
 public class ProtocolHandler {
-
-
 	
+	/**
+	 * 
+	 */
 	private ObjectInputStream ois;
 	
+	/**
+	 * 
+	 */
 	private ObjectOutputStream oos;
 	
-	public ProtocolHandler() {
-//		this.path = path;
-//		this.formatter = new SimpleDateFormat("yyyy'-'MM'-'d'_'H'-'m'-'s");
-	}
-
+	/**
+	 * 
+	 * @param inputStream
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public Command read(InputStream inputStream) throws IOException, ClassNotFoundException {
 		
 		this.ois = new ObjectInputStream(inputStream);
-		Command request = (Command) this.ois.readObject();
+		Command command = (Command) this.ois.readObject();
 		
-		if(request.isAttached()) {
+		if(command.isAttached()) {
 			
-			File file = new File(request.getAttachmentName());
+			File file = new File(command.getAttachmentName());
 			
 			
-			byte[] bytes = new byte[request.getAttachmentSize()];
+			byte[] bytes = new byte[command.getAttachmentSize()];
 			FileOutputStream fos = new FileOutputStream(file);
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			inputStream.read(bytes, 0, bytes.length);
 			bos.write(bytes);
 			bos.close();
-			request.setAttachment(file);
+			command.setAttachment(file);
 		}
-		return request;
+		return command;
 	}
 	
-
-	public void write(OutputStream outputStream, Command request, File attachment) throws IOException {
+	/**
+	 * 
+	 * @param outputStream
+	 * @param command
+	 * @param attachment
+	 * @throws IOException
+	 */
+	public void write(OutputStream outputStream, Command command, File attachment) throws IOException {
 		this.oos = new ObjectOutputStream(outputStream);
-		this.oos.writeObject(request);
+		this.oos.writeObject(command);
 		
 		if(attachment != null) {
 			int size = (int) attachment.length();

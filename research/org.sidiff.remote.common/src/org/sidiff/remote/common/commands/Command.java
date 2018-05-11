@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.Serializable;
 
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 
@@ -18,11 +17,6 @@ public abstract class Command implements Serializable {
 	 */
 	private static final long serialVersionUID = -8746690092613427167L;
 
-	/**
-	 * 
-	 */
-	protected Session session;
-	
 	/**
 	 * 
 	 */
@@ -49,9 +43,8 @@ public abstract class Command implements Serializable {
 	 * @param eCommand
 	 * @param attachment
 	 */
-	public Command(Session session, File attachment) {
+	public Command(File attachment) {
 		super();
-		this.session = session;
 		if(attachment != null) {
 			this.attachment_size = (int) attachment.length();
 			this.attachment_name = attachment.getName();
@@ -60,22 +53,8 @@ public abstract class Command implements Serializable {
 			this.attachment_name = "";
 		}
 	}
+	
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Session getSession() {
-		return session;
-	}
-
-	/**
-	 * 
-	 * @param session
-	 */
-	public void setSession(Session session) {
-		this.session = session;
-	}
 
 	/**
 	 * 
@@ -128,7 +107,7 @@ public abstract class Command implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Command: " + eCommand + "(session ID: " + session.getSessionID() + ")\n");
+		stringBuilder.append("Command: " + eCommand);
 		return stringBuilder.toString();
 	}
 }
