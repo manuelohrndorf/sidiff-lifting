@@ -5,52 +5,21 @@ import java.util.List;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
 
 /**
- * 
+ * Classes implementing this interface represent preferences tabs that will be shown
+ * on the respective preference pages.
+ * Extensions must specify the page and pipeline step that this tab will be shown for.
  * @author Daniel Roedder, Robert Müller
  *
  */
-public interface IPreferenceTab extends IOrderableStep {
+public interface IPreferenceTab {
 
 	String EXTENSION_POINT_ID = "org.sidiff.integration.preferences.preferenceTabs";
-	String EXTENSION_POINT_ATTRIBUTE = "class";
-
-	/**
-	 * Used to specify the page that a tab resides in.
-	 */
-	enum TabPage {
-		/**
-		 * The "General" page
-		 */
-		GENERAL,
-
-		/**
-		 * The "Engines" page
-		 */
-		ENGINES,
-
-		/**
-		 * The "Validation" page
-		 */
-		VALIDATION,
-
-		/**
-		 * The "Domains" page.
-		 * The preference tab must also implement {@link IPreferenceTab.DomainSpecific} when using this type.
-		 */
-		DOMAINS
-	}
-
-	/**
-	 * The {@link TabPage page} that this tab resides in.
-	 * @return the page
-	 */
-	TabPage getPage();
-
-	/**
-	 * Returns the title of the tab.
-	 * @return the title of the tab.
-	 */
-	String getTitle();
+	String EXTENSION_POINT_ATTRIBUTE_PAGE = "page";
+	String PAGE_GENERAL = "general";
+	String PAGE_ENGINES = "engines";
+	String PAGE_VALIDATION = "validation";
+	String EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP = "pipelineStep";
+	String EXTENSION_POINT_ATTRIBUTE_CLASS = "class";
 
 	/**
 	 * Creates the preferences fields and adds them to the list.

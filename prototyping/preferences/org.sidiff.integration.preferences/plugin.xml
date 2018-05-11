@@ -3,28 +3,30 @@
 <plugin>
    <extension-point id="org.sidiff.integration.preferences.settingsAdapter" name="SiDiff Settings Adapter" schema="schema/org.sidiff.integration.preferences.settingsAdapter.exsd"/>
    <extension-point id="org.sidiff.integration.preferences.preferenceTabs" name="SiDiff Preference Tabs" schema="schema/org.sidiff.integration.preferences.preferenceTabs.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.pipelineSteps" name="SiDiff Preference Pipeline Steps" schema="schema/org.sidiff.integration.preferences.pipelineSteps.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.domains.significance" name="SiDiff Domain Signigicance Provider" schema="schema/org.sidiff.integration.preferences.domains.significance.exsd"/>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="org.sidiff.integration.preferences.MainPage"
+            class="org.sidiff.integration.preferences.pages.MainPage"
             id="org.sidiff.integration.preferences.SiDiffSettings"
             name="SiDiff Settings">
       </page>
       <page
             category="org.sidiff.integration.preferences.SiDiffSettings"
-            class="org.sidiff.integration.preferences.EnginesPage"
+            class="org.sidiff.integration.preferences.pages.EnginesPage"
             id="org.sidiff.integration.preferences.SiDiffSettings.engines"
             name="Engines">
       </page>
       <page
             category="org.sidiff.integration.preferences.SiDiffSettings"
-            class="org.sidiff.integration.preferences.ValidationPage"
+            class="org.sidiff.integration.preferences.pages.ValidationPage"
             id="org.sidiff.integration.preferences.SiDiffSettings.validation"
             name="Validation">
       </page>
       <page
             category="org.sidiff.integration.preferences.SiDiffSettings"
-            class="org.sidiff.integration.preferences.GeneralPage"
+            class="org.sidiff.integration.preferences.pages.GeneralPage"
             id="org.sidiff.integration.preferences.SiDiffSettings.general"
             name="General">
       </page>
@@ -32,7 +34,7 @@
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
-            class="org.sidiff.integration.preferences.MainPage"
+            class="org.sidiff.integration.preferences.pages.MainPage"
             id="org.sidiff.integration.properties.SiDiffSettings"
             name="SiDiff Settings">
          <enabledWhen>
@@ -43,7 +45,7 @@
       </page>
       <page
             category="org.sidiff.integration.properties.SiDiffSettings"
-            class="org.sidiff.integration.preferences.EnginesPage"
+            class="org.sidiff.integration.preferences.pages.EnginesPage"
             id="org.sidiff.integration.properties.SiDiffSettings.engines"
             name="Engines">
          <enabledWhen>
@@ -54,7 +56,7 @@
       </page>
       <page
             category="org.sidiff.integration.properties.SiDiffSettings"
-            class="org.sidiff.integration.preferences.ValidationPage"
+            class="org.sidiff.integration.preferences.pages.ValidationPage"
             id="org.sidiff.integration.properties.SiDiffSettings.validation"
             name="Validation">
          <enabledWhen>
@@ -65,7 +67,7 @@
       </page>
       <page
             category="org.sidiff.integration.properties.SiDiffSettings"
-            class="org.sidiff.integration.preferences.GeneralPage"
+            class="org.sidiff.integration.preferences.pages.GeneralPage"
             id="org.sidiff.integration.properties.SiDiffSettings.general"
             name="General">
          <enabledWhen>
@@ -87,6 +89,10 @@
             id="org.sidiff.integration.preferences.showPropertiesDefinition">
          <adapt
                type="org.eclipse.core.resources.IProject">
+            <test
+                  property="org.eclipse.core.resources.open"
+                  value="open">
+            </test>
          </adapt>
       </definition>
    </extension>

@@ -28,6 +28,10 @@ public class ErrorReply extends ReplyCommand {
 		this.error_report = error_report;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public ErrorReport getErrorReport() {
 		return this.error_report;
 	}

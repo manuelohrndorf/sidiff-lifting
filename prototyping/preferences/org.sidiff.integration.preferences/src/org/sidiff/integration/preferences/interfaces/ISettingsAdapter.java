@@ -1,5 +1,8 @@
 package org.sidiff.integration.preferences.interfaces;
 
+import java.util.Set;
+
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 
@@ -9,13 +12,15 @@ import org.sidiff.common.settings.AbstractSettings;
  * @author Robert Müller
  *
  */
-public interface ISettingsAdapter extends IOrderableStep {
+public interface ISettingsAdapter {
 
 	String EXTENSION_POINT_ID = "org.sidiff.integration.preferences.settingsAdapter";
-	String EXTENSION_POINT_ATTRIBUTE = "class";
+	String EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP = "pipelineStep";
+	String EXTENSION_POINT_ATTRIBUTE_CLASS = "class";
 
 	/**
 	 * Returns whether the given {@link AbstractSettings settings} can be adapted by this settings adapter.
+	 * No further methods will be called if this method returns <code>false</code>.
 	 * @param settings the settings
 	 * @return <code>true</code>, if the settings can be adapted by this adapter, <code>false</code> otherwise
 	 */
@@ -35,20 +40,20 @@ public interface ISettingsAdapter extends IOrderableStep {
 
 	/**
 	 * Sets default values for all preferences managed by this adapter using the given preference store.
+	 * Called independently of all other methods.
 	 * @param store the preference store
 	 */
 	void initializeDefaults(IPreferenceStore store);
 
 	/**
-	 * This interface may also be implemented by classes implementing {@link ISettingsAdapter},
-	 * when the preferences managed by it depend on the current domain.
+	 * Called before {@link ISettingsAdapter#load(IPreferenceStore)} with the document types for the current operation.
+	 * @param documentTypes the document types' nsURI
 	 */
-	interface DomainSpecific {
+	void setDocumentTypes(Set<String> documentTypes);
 
-		/**
-		 * Called before {@link ISettingsAdapter#load(IPreferenceStore)} with the document type of the current domain.
-		 * @param documentType the document type nsURI
-		 */
-		void setDocumentType(String documentType);
-	}
+	/**
+	 * Sets the diagnostic chain to add diagnostics to.
+	 * @param diagnosticChain the diagnostic chain
+	 */
+	void setDiagnosticChain(DiagnosticChain diagnosticChain);
 }

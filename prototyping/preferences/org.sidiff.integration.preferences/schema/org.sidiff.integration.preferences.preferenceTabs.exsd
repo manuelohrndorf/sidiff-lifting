@@ -49,6 +49,33 @@
 
    <element name="tab">
       <complexType>
+         <attribute name="page" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="general">
+                  </enumeration>
+                  <enumeration value="engines">
+                  </enumeration>
+                  <enumeration value="validation">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="pipelineStep" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="org.sidiff.integration.preferences.pipelineSteps/pipelineStep/@id"/>
+               </appinfo>
+            </annotation>
+         </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>

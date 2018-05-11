@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Ui
-Bundle-SymbolicName: org.sidiff.integration.preferences.ui
+Bundle-Name: SiDiff Preferences - UI
+Bundle-SymbolicName: org.sidiff.integration.preferences.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sidiff.integration.preferences.ui.Activator
 Require-Bundle: org.eclipse.core.runtime,
@@ -10,8 +10,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface,
  org.eclipse.core.resources,
  org.sidiff.matching.api,
- org.eclipse.ui.workbench
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+ org.eclipse.ui.workbench,
+ org.eclipse.emf.common.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Automatic-Module-Name: org.sidiff.integration.preferences.ui
 Bundle-ActivationPolicy: lazy
-Export-Package: org.sidiff.integration.preferences.ui.pages
+Export-Package: org.sidiff.integration.preferences.ui.pages,
+ org.sidiff.integration.preferences.ui.widgets
+Bundle-Vendor: Software Engineering Group, University of Siegen
