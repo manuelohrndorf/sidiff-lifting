@@ -43,7 +43,7 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 
 		minReliability = new NumberPreferenceField(
 				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
-				"Minimum reliability");
+				"Minimum reliability", -1, Integer.MAX_VALUE);
 		list.add(minReliability);
 
 		useInteractivePatching = new CheckBoxPreferenceField(

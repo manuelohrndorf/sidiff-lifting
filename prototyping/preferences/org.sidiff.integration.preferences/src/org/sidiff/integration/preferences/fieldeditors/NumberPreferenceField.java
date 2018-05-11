@@ -15,13 +15,30 @@ import org.eclipse.swt.widgets.Spinner;
 public class NumberPreferenceField extends PreferenceField {
 
 	private Spinner spinner;
+	private int minimum;
+	private int maximum;
 
 	/**
+	 * Creates a new NumberPreferenceField with the given preference name and title.
+	 * The minimum value is 1, the maximum value is {@link Integer#MAX_VALUE}.
 	 * @param preferenceName the name of the preference in the store 
 	 * @param title The title shown beside the spinner
 	 */
 	public NumberPreferenceField(String preferenceName, String title) {
+		this(preferenceName, title, 1, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Creates a new NumberPreferenceField with the given preference name, title, minimum value, and maximum value.
+	 * @param preferenceName the name of the preference in the store 
+	 * @param title The title shown beside the spinner
+	 * @param minimum the minimum value
+	 * @param maximum the maximum value
+	 */
+	public NumberPreferenceField(String preferenceName, String title, int minimum, int maximum) {
 		super(preferenceName, title);
+		this.minimum = minimum;
+		this.maximum = maximum;
 	}
 
 	@Override
@@ -46,6 +63,8 @@ public class NumberPreferenceField extends PreferenceField {
 		group.setLayout(new GridLayout(1, true));
 
 		spinner = new Spinner(group, SWT.NULL);
+		spinner.setMinimum(minimum);
+		spinner.setMaximum(maximum);
 
 		return group;
 	}
