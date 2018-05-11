@@ -5,7 +5,6 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Abstract implementation for {@link ISettingsAdapter}s.
@@ -16,6 +15,7 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 
 	private Set<String> documentTypes;
 	private DiagnosticChain diagnosticChain;
+	private BasicDiagnostic diagnosticGroup;
 
 	@Override
 	public void setDocumentTypes(Set<String> documentTypes) {
@@ -52,8 +52,20 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	}
 
 	private void addDiagnostic(int severity, String message, Throwable e) {
-		diagnosticChain.add(new BasicDiagnostic(
-				severity, PreferencesPlugin.PLUGIN_ID, 0,
+		if(diagnosticGroup == null) {
+			diagnosticGroup = getDiagnosticGroup();
+			diagnosticChain.add(diagnosticGroup);
+		}
+
+		diagnosticGroup.add(new BasicDiagnostic(
+				severity, diagnosticGroup.getSource(), 0,
 				message, e == null ? null : new Object[] { e }));
 	}
+
+	/**
+	 * Creates a {@link BasicDiagnostic} with source and message to group all {@link Diagnostic}s created by this adapter.
+	 * The diagnostics created by this adapter will have the same source as this one. Will only be called once for an adapter.
+	 * @return new diagnostic
+	 */
+	protected abstract BasicDiagnostic getDiagnosticGroup();
 }

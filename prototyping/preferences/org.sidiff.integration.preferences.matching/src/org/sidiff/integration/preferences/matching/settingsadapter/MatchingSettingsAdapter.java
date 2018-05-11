@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
@@ -12,6 +13,7 @@ import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.matching.Activator;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.MatcherUtil;
@@ -134,5 +136,10 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		store.setDefault(KEY_CORRESPONDENCES_SERVICE, "MatchingModelCorrespondences");
 		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilarities");
 		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "DefaultSimilaritiesCalculationService");
+	}
+
+	@Override
+	protected BasicDiagnostic getDiagnosticGroup() {
+		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Matching settings", null);
 	}
 }

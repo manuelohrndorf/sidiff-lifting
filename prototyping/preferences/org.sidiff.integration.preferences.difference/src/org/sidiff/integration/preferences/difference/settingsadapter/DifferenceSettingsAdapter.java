@@ -5,12 +5,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.integration.preferences.difference.Activator;
 import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 
 /**
@@ -102,5 +104,10 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 				"org.sidiff.uml2v4.difference.technical.TechnicalDifferenceBuilderUML");
 		store.setDefault(KEY_MERGE_IMPORTS, true);
 		store.setDefault(KEY_UNMERGE_IMPORTS, true);
+	}
+
+	@Override
+	protected BasicDiagnostic getDiagnosticGroup() {
+		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Difference settings", null);
 	}
 }

@@ -1,10 +1,12 @@
 package org.sidiff.integration.preferences.patching.settingsadapter;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
@@ -71,18 +73,19 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(patchMode != null) {
 			patchingSettings.setPatchMode(patchMode);
 		}
-		patchingSettings.setMinReliability(minReliability);
+		if(minReliability != -1) {
+			patchingSettings.setMinReliability(minReliability);
+		}
 		if(validationMode != null) {
 			patchingSettings.setValidationMode(validationMode);
 		}
-		IPatchInterruptHandler patchInterruptHandler = createPatchInterruptHandler();
-		if(patchInterruptHandler != null) {
-			patchingSettings.setInterruptHandler(patchInterruptHandler);
-		}
+
+		patchingSettings.setInterruptHandler(createPatchInterruptHandler());
+
 		if(patchingSettings.getMatcher() != null) {
 			patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
 		} else {
-			addWarning("Matcher is not specified. Cannot set ArgumentManager.");
+			addError("Matcher is not specified. Cannot set ArgumentManager.");
 		}
 	}
 
@@ -131,7 +134,16 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			addError("Invalid value for Patch Mode: '" + patchModeValue + "'", e);
 		}
 
-		minReliability = store.getInt(KEY_MIN_RELIABILITY);
+		String minReliabilityValue = store.getString(KEY_MIN_RELIABILITY);
+		try {
+			minReliability = Integer.parseInt(minReliabilityValue);
+			if(minReliability < -1) {
+				minReliability = -1;
+			}
+		} catch (NumberFormatException e) {
+			minReliability = -1;
+			addWarning("Invalid value for Minimum Reliability: '" + minReliabilityValue + "'", e);
+		}
 
 		String validationModeValue = store.getString(KEY_VALIDATION_MODE);
 		try {
@@ -174,9 +186,14 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 				"HenshinTransformationEngine");
 		store.setDefault(KEY_EXECUTION_MODE, ExecutionMode.INTERACTIVE.name());
 		store.setDefault(KEY_PATCH_MODE, PatchMode.PATCHING.name());
-		store.setDefault(KEY_MIN_RELIABILITY, 0);
+		store.setDefault(KEY_MIN_RELIABILITY, -1);
 		store.setDefault(KEY_VALIDATION_MODE, ValidationMode.MODEL_VALIDATION.name());
 		store.setDefault(KEY_USE_INTERACTIVE_PATCHING, false);
 		store.setDefault(KEY_SYMBOLIC_LINK_HANDLER, "NamedElementSymbolicLinkHandler");
+	}
+
+	@Override
+	protected BasicDiagnostic getDiagnosticGroup() {
+		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Patching settings", null);
 	}
 }

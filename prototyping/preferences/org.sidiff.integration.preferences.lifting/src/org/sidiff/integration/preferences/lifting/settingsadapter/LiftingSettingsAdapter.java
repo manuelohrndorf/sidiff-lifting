@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.lifting.settingsadapter;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -12,6 +13,7 @@ import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorte
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.lifting.Activator;
 
 /**
  * 
@@ -103,13 +105,35 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			recognitionEngineMode = RecognitionEngineMode.valueOf(recognitionEngineModeValue);
 		} catch (IllegalArgumentException e) {
 			recognitionEngineMode = null;
-			addError("Invalid value for Recognition Engine Mode: '" + recognitionEngineModeValue + "'", e);
+			addWarning("Invalid value for Recognition Engine Mode: '" + recognitionEngineModeValue + "'", e);
 		}
+
 		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
 		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
 		useThreadPool = store.getBoolean(KEY_USE_THREAD_POOL);
-		numberOfThreads = store.getInt(KEY_NUMBER_OF_THREADS);
-		rulesPerThread = store.getInt(KEY_RULES_PER_THREAD);
+
+		String numberOfThreadsValue = store.getString(KEY_NUMBER_OF_THREADS);
+		try {
+			numberOfThreads = Integer.parseInt(numberOfThreadsValue);
+			if(numberOfThreads < 1) {
+				numberOfThreads = 1;
+			}
+		} catch (NumberFormatException e) {
+			numberOfThreads = 10;
+			addWarning("Invalid value for Number of Threads: '" + numberOfThreadsValue + "'", e);
+		}
+
+		String rulesPerThreadValue = store.getString(KEY_RULES_PER_THREAD);
+		try {
+			rulesPerThread = Integer.parseInt(rulesPerThreadValue);
+			if(rulesPerThread < 1) {
+				rulesPerThread = 1;
+			}
+		} catch (NumberFormatException e) {
+			rulesPerThread = 10;
+			addWarning("Invalid value for Rules per Thread: '" + rulesPerThreadValue + "'", e);
+		}
+
 		sortRecognitionRuleNodes = store.getBoolean(KEY_SORT_RECOGNITION_RULE_NODES);
 		rulesetReduction = store.getBoolean(KEY_RULESET_REDUCTION);
 		buildGraphPerRule = store.getBoolean(KEY_BUILD_GRAPH_PER_RULE);
@@ -128,11 +152,16 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		store.setDefault(KEY_CALCULATE_EDIT_RULE_MATCH, true);
 		store.setDefault(KEY_SERIALIZE_EDIT_RULE_MATCH, true);
 		store.setDefault(KEY_USE_THREAD_POOL, true);
-		store.setDefault(KEY_NUMBER_OF_THREADS, 32);
+		store.setDefault(KEY_NUMBER_OF_THREADS, 10);
 		store.setDefault(KEY_RULES_PER_THREAD, 10);
 		store.setDefault(KEY_SORT_RECOGNITION_RULE_NODES, true);
 		store.setDefault(KEY_RULESET_REDUCTION, true);
 		store.setDefault(KEY_BUILD_GRAPH_PER_RULE, true);
 		store.setDefault(KEY_DETECT_SPLIT_JOINS, false);
+	}
+
+	@Override
+	protected BasicDiagnostic getDiagnosticGroup() {
+		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Lifting settings", null);
 	}
 }

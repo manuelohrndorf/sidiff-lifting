@@ -1,8 +1,10 @@
 package org.sidiff.integration.preferences.common.settingsadapter;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.Activator;
 import org.sidiff.common.settings.BaseSettings;
 import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 
@@ -39,7 +41,8 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 		try {
 			scope = Scope.valueOf(scopeValue);
 		} catch (IllegalArgumentException e) {
-			addError("Invalid value for Scope: '" + scopeValue + "'", e);
+			scope = null;
+			addWarning("Invalid value for Scope: '" + scopeValue + "'", e);
 		}
 
 		validate = store.getBoolean(KEY_VALIDATE_MODELS);
@@ -49,5 +52,10 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_SCOPE, Scope.RESOURCE.name());
 		store.setDefault(KEY_VALIDATE_MODELS, true);
+	}
+
+	@Override
+	protected BasicDiagnostic getDiagnosticGroup() {
+		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "General settings", null);
 	}
 }
