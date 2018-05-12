@@ -5,15 +5,15 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class UpdateSubModelRequest extends Command {
+public class UpdateSubModelRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -29,13 +29,13 @@ public class UpdateSubModelRequest extends Command {
 	
 	/**
 	 * 
-	 * @param session
+	 * @param credentials
 	 * @param local_model_path
 	 * 				absolute local location path that will be converted into a project relative path
 	 * @param elementIds2
 	 */
-	public UpdateSubModelRequest(Session session, String local_model_path, Set<String> elementIds2) {
-		super(session, null);
+	public UpdateSubModelRequest(Credentials credentials, String local_model_path, Set<String> elementIds2) {
+		super(credentials, null);
 		this.eCommand = ECommand.UPDATE_SUBMODEL_REQUEST;
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");

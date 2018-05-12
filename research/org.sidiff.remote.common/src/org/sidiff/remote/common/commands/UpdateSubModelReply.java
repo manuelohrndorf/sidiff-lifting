@@ -3,7 +3,6 @@ package org.sidiff.remote.common.commands;
 import java.io.File;
 
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 
@@ -19,12 +18,11 @@ public class UpdateSubModelReply extends Command {
 
 	/**
 	 * 
-	 * @param session
 	 * @param attachment
 	 * 				the zipped rulebased slice (edit script)
 	 */
-	public UpdateSubModelReply(Session session, File attachment) {
-		super(session, attachment);
+	public UpdateSubModelReply(File attachment) {
+		super(attachment);
 		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REPLY;
 	}
 

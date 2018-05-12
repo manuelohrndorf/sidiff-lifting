@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
 
@@ -12,7 +13,7 @@ import org.sidiff.remote.common.Session;
  * @author cpietsch
  *
  */
-public class BrowseModelFilesRequest extends Command {
+public class BrowseModelFilesRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -26,13 +27,13 @@ public class BrowseModelFilesRequest extends Command {
 	
 	/**
 	 * 
-	 * @param session
+	 * @param credentials
 	 * 			The current {@link Session}
 	 * @param local_model_path
 	 * 			absolute os-based location path of the model file that will be converted into a project relative path, can be <code>null</code>
 	 */
-	public BrowseModelFilesRequest(Session session, String local_model_path) {
-		super(session, null);
+	public BrowseModelFilesRequest(Credentials credentials, String local_model_path) {
+		super(credentials, null);
 		this.eCommand = ECommand.BROWSE_MODEL_FILES_REQUEST;
 		if(local_model_path != null) {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();

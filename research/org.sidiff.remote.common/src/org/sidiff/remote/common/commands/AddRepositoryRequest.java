@@ -1,9 +1,14 @@
 package org.sidiff.remote.common.commands;
 
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
-public class AddRepositoryRequest extends Command {
+/**
+ * 
+ * @author cpietsch
+ *
+ */
+public class AddRepositoryRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -30,10 +35,16 @@ public class AddRepositoryRequest extends Command {
 	 */
 	private char[] repository_password;
 
-	
-
-	public AddRepositoryRequest(Session session, String repository_url, int repository_port, String repository_user_name, char[] repository_password) {
-		super(session, null);
+	/**
+	 * 
+	 * @param credentials
+	 * @param repository_url
+	 * @param repository_port
+	 * @param repository_user_name
+	 * @param repository_password
+	 */
+	public AddRepositoryRequest(Credentials credentials, String repository_url, int repository_port, String repository_user_name, char[] repository_password) {
+		super(credentials, null);
 		this.eCommand = ECommand.ADD_REPOSITORY_REQUEST;
 		this.repository_url = repository_url;
 		this.repository_port = repository_port;
@@ -41,20 +52,35 @@ public class AddRepositoryRequest extends Command {
 		this.repository_password = repository_password;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getRepositoryUrl() {
 		return repository_url;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getRepositoryPort() {
 		return repository_port;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getRepositoryUserName() {
 		return repository_user_name;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public char[] getRepositoryPassword() {
 		return repository_password;
 	}
-
 }

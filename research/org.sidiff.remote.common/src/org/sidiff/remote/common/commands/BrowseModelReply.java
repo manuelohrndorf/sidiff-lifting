@@ -1,6 +1,5 @@
 package org.sidiff.remote.common.commands;
 
-import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.tree.TreeModel;
 
 /**
@@ -22,12 +21,11 @@ public class BrowseModelReply extends Command {
 	
 	/**
 	 * 
-	 * @param session
 	 * @param model
 	 * 			a tree based representation of a remote model
 	 */
-	public BrowseModelReply(Session session, TreeModel model) {
-		super(session, null);
+	public BrowseModelReply(TreeModel model) {
+		super(null);
 		this.model = model;
 	}
 

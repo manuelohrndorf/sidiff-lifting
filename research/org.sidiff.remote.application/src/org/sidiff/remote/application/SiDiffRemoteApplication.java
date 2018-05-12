@@ -20,7 +20,6 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
-import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.util.TreeModelUtil;
@@ -37,7 +36,9 @@ public class SiDiffRemoteApplication {
 
 	private IWorkspace workspace;
 	
-	private Session session;
+	private String user;
+	
+	private String session_id;
 	
 	private File user_folder;
 	
@@ -48,12 +49,13 @@ public class SiDiffRemoteApplication {
 	
 	private ExtractionEngine extractionEngine;
 	
-	public SiDiffRemoteApplication(IWorkspace workspace, Session session) throws CoreException {
+	public SiDiffRemoteApplication(IWorkspace workspace, String user, String session_id) throws CoreException {
 		this.workspace = workspace;
-		this.session = session;
+		this.session_id = session_id;
+		this.user = user;
 		String ws_path = this.workspace.getRoot().getLocation().toOSString();
-		String	user_path= ws_path + File.separator + session.getUser();
-		String session_path = user_path + File.separator + session.getSessionID();
+		String	user_path= ws_path + File.separator + this.user;
+		String session_path = user_path + File.separator + this.session_id;
 		
 		this.user_folder = new File(user_path);
 		if(!user_folder.exists()) {
@@ -175,17 +177,16 @@ public class SiDiffRemoteApplication {
 	
 	/**
 	 * 
-	 * @param localModelPath
-	 * 				project relative local model path
+	 * @param remoteModelPath
+	 * 				session based relative model path
 	 * @return
 	 * @throws ModelNotVersionedException
 	 */
-	public TreeModel browseModelFiles(String localModelPath) throws ModelNotVersionedException {
+	public TreeModel browseModelFiles(String remoteModelPath) throws ModelNotVersionedException {
 		this.modelIndexer.index();
 		List<File> files = this.modelIndexer.getModel_files();
-		TreeModel treeModel = TreeModelUtil.convertFileList(files, session.getSessionID());
-		if(localModelPath != null) {
-			String remoteModelPath = session.getRemoteModelPath(localModelPath);
+		TreeModel treeModel = TreeModelUtil.convertFileList(files, this.session_id);
+		if(remoteModelPath != null) {
 			treeModel.getTreeNode(remoteModelPath).setSelected(true);
 		}
 		return treeModel;
@@ -221,14 +222,6 @@ public class SiDiffRemoteApplication {
 		
 		return this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
 		
-	}
-	
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
 	}
 	
 }

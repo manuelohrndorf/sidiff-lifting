@@ -1,14 +1,14 @@
 package org.sidiff.remote.common.commands;
 
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class BrowseModelRequest extends Command {
+public class BrowseModelRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -22,13 +22,13 @@ public class BrowseModelRequest extends Command {
 
 	/**
 	 * 
-	 * @param session
+	 * @param credentials
 	 * @param remote_model_path
 	 * 				session based relative model path
 	 * @param attachment
 	 */
-	public BrowseModelRequest(Session session, String remote_model_path) {
-		super(session, null);
+	public BrowseModelRequest(Credentials credentials, String remote_model_path) {
+		super(credentials, null);
 		this.eCommand = ECommand.BROWSE_MODEL_REQUEST;
 		this.remote_model_path = remote_model_path;
 	}

@@ -4,15 +4,15 @@ import java.io.File;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class GetRequestedModelElementsRequest extends Command {
+public class GetRequestedModelElementsRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -26,12 +26,12 @@ public class GetRequestedModelElementsRequest extends Command {
 
 	/**
 	 * 
-	 * @param session
+	 * @param credentials
 	 * @param local_model_path
 	 * 				absolute local location path that will be converted into a project relative path
 	 */
-	public GetRequestedModelElementsRequest(Session session, String local_model_path) {
-		super(session, null);
+	public GetRequestedModelElementsRequest(Credentials credentials, String local_model_path) {
+		super(credentials, null);
 		this.eCommand = ECommand.GET_REQUESTED_MODEL_ELEMENTS_REQUEST;
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
