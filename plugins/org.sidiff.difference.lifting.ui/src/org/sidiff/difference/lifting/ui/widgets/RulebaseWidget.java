@@ -47,6 +47,7 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 	private Composite container;
 	private Table ruleBaseTable;
+	private TableViewer rulebaseTableViewer;
 
 	private List<RuleBaseEntry> rulebases;
 
@@ -90,7 +91,7 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 		// Rulebase viewer:
 		int style = SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER;
-		final TableViewer rulebaseTableViewer = new TableViewer(rulebaseComposite, style);
+		rulebaseTableViewer = new TableViewer(rulebaseComposite, style);
 
 		// SWT table:
 		ruleBaseTable = rulebaseTableViewer.getTable();
@@ -177,11 +178,10 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 			@Override
 			protected void setValue(Object element, Object value) {
 				RuleBaseEntry ruleBase = ((RuleBaseEntry) element);
-				ruleBase.activated = ruleBase.activated ? false : true;
+				ruleBase.activated = !ruleBase.activated;
 
 				rulebaseTableViewer.refresh(element);
 				settings.setRuleBases(getSelection());
-				validate();
 			}
 
 		});
@@ -207,13 +207,16 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		 */
 
 		if(!rulebases.isEmpty()){
+			updateRulebasesSelection();
 			rulebaseTableViewer.setInput(rulebases);
 		}else{
 			this.setEnabled(false);
 		}
 		rulebaseTableViewer.refresh();
 
-		this.settings.setRuleBases(this.getSelection());
+		if(this.settings.getRuleBases() == null) {
+			this.settings.setRuleBases(this.getSelection());
+		}
 		
 		return container;
 	}
@@ -242,6 +245,23 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 		
 
 		Collections.sort(rulebases);
+	}
+	
+	private void updateRulebasesSelection() {
+		if(settings.getRuleBases() != null) {
+			for(RuleBaseEntry entry : rulebases) {
+				entry.activated = false;
+				for(ILiftingRuleBase rulebase : settings.getRuleBases()) {
+					if(rulebase.getName().equals(entry.rulebase.getName())) {
+						entry.activated = true;
+						break;
+					}
+				}
+			}
+			if(rulebaseTableViewer != null) {
+				rulebaseTableViewer.refresh();
+			}
+		}
 	}
 
 	public class RuleBaseEntry implements Comparable<RuleBaseEntry>{
@@ -281,19 +301,17 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 
 	@Override
 	public boolean validate() {
-		return true;
+		return !getSelection().isEmpty();
 		
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return new ValidationMessage(ValidationType.OK, "");
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select at least one rulebase!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select at least one rulebase!");
 		}
-		return message;
 	}
 
 	@Override
@@ -314,13 +332,9 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)){
-			if(settings instanceof LiftingSettings){
-				if(((LiftingSettings)settings).getRecognitionEngineMode().equals(RecognitionEngineMode.NO_LIFTING)){
-					this.setEnabled(false);
-				}else{
-					this.setEnabled(true);
-				}
-			}
+			this.setEnabled(!settings.getRecognitionEngineMode().equals(RecognitionEngineMode.NO_LIFTING));
+		} else if(item.equals(LiftingSettingsItem.RULEBASES)) {
+			updateRulebasesSelection();
 		}
 		
 	}
@@ -332,5 +346,6 @@ public class RulebaseWidget implements IWidget, IWidgetSelection, IWidgetValidat
 	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateRulebasesSelection();
 	}
 }

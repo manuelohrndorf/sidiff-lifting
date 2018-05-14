@@ -2,6 +2,7 @@ package org.sidiff.difference.technical.ui.widgets;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -26,6 +27,7 @@ import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matching.input.InputModels;
 
@@ -46,7 +48,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	
 	public DifferenceBuilderWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
-		multiSelection = inputModels.getDocumentTypes().size()>1? true: false;
+		multiSelection = inputModels.getDocumentTypes().size()>1;
 		useGeneric = false;
 		getBuilders();
 	}
@@ -79,16 +81,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.setItems(builders.keySet().toArray(new String[0]));
 
 		if(list_builders.getItems().length != 0){
-			list_builders.select(0);
-			if(useGeneric){
-				// select the generic builder
-				for(int i = 0; i < list_builders.getItemCount(); i++){
-					if(builders.get(list_builders.getItem(i)) instanceof GenericTechnicalDifferenceBuilder){
-						list_builders.select(i);
-						break;
-					}
-				}
-			}
+			updateSelection();
 		}else{
 			MessageDialog.openError(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -98,11 +91,12 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		list_builders.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ITechnicalDifferenceBuilder techBuilder = getSelection();
-				((DifferenceSettings)settings).setTechBuilder(techBuilder);
+				settings.setTechBuilder(getSelection());
 			}		
 		});
-		this.settings.setTechBuilder(this.getSelection());
+		if(this.settings.getTechBuilder() == null) {
+			this.settings.setTechBuilder(this.getSelection());
+		}
 		return container;
 	}
 
@@ -123,8 +117,7 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 		java.util.List<ITechnicalDifferenceBuilder> builderSet = TechnicalDifferenceUtils
 				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentTypes());
 
-		for (Iterator<ITechnicalDifferenceBuilder> iterator = builderSet.iterator(); iterator.hasNext();) {
-			ITechnicalDifferenceBuilder builder = iterator.next();
+		for (ITechnicalDifferenceBuilder builder : builderSet) {
 			if(builder instanceof GenericTechnicalDifferenceBuilder) useGeneric = true;
 			builders.put(builder.getName() + " ("+builder.getDocumentTypes()+")", builder);
 		}
@@ -228,6 +221,48 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if (item.equals(DifferenceSettingsItem.TECH_BUILDER)) {
+			updateSelection();
+		}
+	}
+
+	private void updateSelection() {
+		if(list_builders == null) {
+			return;
+		}
+
+		// select default if technical difference builder is not set
+		if(settings.getTechBuilder() == null) {
+			list_builders.select(0);
+			if(useGeneric){
+				// select the generic builder
+				for(int i = 0; i < list_builders.getItemCount(); i++){
+					if(builders.get(list_builders.getItem(i)) instanceof GenericTechnicalDifferenceBuilder){
+						list_builders.select(i);
+						break;
+					}
+				}
+			}
+			return;
+		}
+
+		ITechnicalDifferenceBuilder techBuilder = settings.getTechBuilder();
+		ArrayList<ITechnicalDifferenceBuilder> techBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
+		if(techBuilder instanceof IncrementalTechnicalDifferenceBuilder) {
+			techBuilders.addAll(((IncrementalTechnicalDifferenceBuilder)settings.getTechBuilder()).getTechnicalDifferenceBuilders());
+		} else {
+			techBuilders.add(techBuilder);
+		}
+
+		list_builders.deselectAll();
+		for(ITechnicalDifferenceBuilder b : techBuilders) {
+			for(Map.Entry<String, ITechnicalDifferenceBuilder> entry : builders.entrySet()) {
+				if(entry.getValue().getKey().equals(b.getKey())) {
+					list_builders.select(list_builders.indexOf(entry.getKey()));
+					break;
+				}
+			}
+		}
 	}
 
 	public DifferenceSettings getSettings() {
@@ -237,5 +272,6 @@ public class DifferenceBuilderWidget implements IWidget, IWidgetSelection, IWidg
 	public void setSettings(DifferenceSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateSelection();
 	}
 }

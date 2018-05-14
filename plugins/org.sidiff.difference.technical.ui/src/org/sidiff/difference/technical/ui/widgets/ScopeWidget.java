@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
@@ -56,26 +57,30 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 
 		resourceButton = new Button(comparisonGroup, SWT.RADIO);
 		resourceButton.setText("Single resource");
-		resourceButton.setSelection(true);
-
-		resourceSetButton = new Button(comparisonGroup, SWT.RADIO);
-		resourceSetButton.setText("Complete resourceset");
-
 		resourceButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setScope(Scope.RESOURCE);
+				if(resourceButton.getSelection()) {
+					settings.setScope(Scope.RESOURCE);
+				}
 			}
 		});
 
+		resourceSetButton = new Button(comparisonGroup, SWT.RADIO);
+		resourceSetButton.setText("Complete resourceset");
 		resourceSetButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setScope(Scope.RESOURCE_SET);
+				if(resourceSetButton.getSelection()) {
+					settings.setScope(Scope.RESOURCE_SET);
+				}
 			}
 		});
 
-		this.settings.setScope(Scope.RESOURCE);
+		if(settings.getScope() == null) {
+			settings.setScope(Scope.RESOURCE);
+		}
+		updateButtonStates();
 		return container;
 	}
 
@@ -103,20 +108,18 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 			}
 		} else {
 			return false;
-	}
+		}
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return new ValidationMessage(ValidationType.OK, "");
 		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
-			message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName() + " does not support resourceset scope, select another matching engine!");
+			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName() + " does not support resourceset scope, select another matching engine!");
 		}else{
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
-		return message;
 	}
 
 	@Override
@@ -140,7 +143,14 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	public void settingsChanged(Enum<?> item) {
 		if(item.equals(MatchingSettingsItem.MATCHER)){
 			if (pageChangedListener != null) pageChangedListener.pageChanged(null);
+		} else if (item.equals(BaseSettingsItem.SCOPE)) {
+			updateButtonStates();
 		}
+	}
+
+	private void updateButtonStates() {
+		if (resourceButton != null) resourceButton.setSelection(settings.getScope() == Scope.RESOURCE);
+		if (resourceSetButton != null) resourceSetButton.setSelection(settings.getScope() == Scope.RESOURCE_SET);
 	}
 
 	public MatchingSettings getSettings() {
@@ -150,6 +160,7 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	public void setSettings(MatchingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateButtonStates();
 	}
 
 	public IPageChangedListener getPageChangedListener() {

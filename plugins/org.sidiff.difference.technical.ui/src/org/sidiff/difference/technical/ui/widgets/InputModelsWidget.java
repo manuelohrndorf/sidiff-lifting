@@ -12,19 +12,19 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.sidiff.common.settings.BaseSettings;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.ui.Activator;
 import org.sidiff.matching.input.InputModels;
 
 public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
-	
-	private DifferenceSettings settings;
+	private BaseSettings settings;
 	private InputModels inputModels;
 
 	private Composite container;
@@ -35,7 +35,6 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	private String arrowLabel;
 
 	private boolean inverseDirection = false;
-	private boolean validateModels = false;
 	private Composite composite_arrow;
 	private Label label_arrow;
 
@@ -166,22 +165,17 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 		buttonValidateModels = new Button(modelsGroup, SWT.CHECK);
 		{
-			buttonValidateModels.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
-					1));
-			buttonValidateModels.setSelection(validateModels);
+			buttonValidateModels.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 			buttonValidateModels.setText("Validate Models");
 		}
 		buttonValidateModels.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				validateModels = buttonValidateModels.getSelection();
-				if(settings instanceof DifferenceSettings){
-					((DifferenceSettings) settings).setValidate(validateModels);
-				}
+				settings.setValidate(buttonValidateModels.getSelection());
 			}
 		});
+		updateButtonState();
 
-		settings.setValidate(validateModels);
 		return container;
 	}
 
@@ -204,27 +198,21 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	}
 
 	public boolean isValidateModels() {
-		return validateModels;
+		return buttonValidateModels != null && buttonValidateModels.getSelection();
 	}
 
 	@Override
 	public boolean validate() {
-		if (modelARadio.getSelection() || modelBRadio.getSelection()) {
-			return true;
-		} else {
-			return false;
-		}
+		return (modelARadio.getSelection() || modelBRadio.getSelection());
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return new ValidationMessage(ValidationType.OK, "");
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a source model!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a source model!");
 		}
-		return message;
 	}
 
 	@Override
@@ -238,7 +226,7 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if ((modelARadio != null) || (modelBRadio != null)) {
+		if ((modelARadio != null) && (modelBRadio != null)) {
 			modelARadio.removeSelectionListener(listener);
 			modelBRadio.removeSelectionListener(listener);
 		}
@@ -246,14 +234,22 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if(item == BaseSettingsItem.VALIDATE) {
+			updateButtonState();
+		}
 	}
 
-	public DifferenceSettings getSettings() {
+	private void updateButtonState() {
+		if(buttonValidateModels != null) buttonValidateModels.setSelection(settings.isValidate());
+	}
+
+	public BaseSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(DifferenceSettings settings) {
+	public void setSettings(BaseSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateButtonState();
 	}
 }

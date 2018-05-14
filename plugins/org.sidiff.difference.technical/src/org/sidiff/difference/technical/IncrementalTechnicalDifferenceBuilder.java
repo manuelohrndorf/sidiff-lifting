@@ -105,4 +105,8 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 
 		return canHandleDocTypes(docTypes);
 	}
+
+	public List<ITechnicalDifferenceBuilder> getTechnicalDifferenceBuilders() {
+		return tdBuilders;
+	}
 }
