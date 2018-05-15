@@ -31,6 +31,9 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
 public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	public static final String KEY_MATCHERS = "matchers";
+	public static String KEY_MATCHERS(String documentType) {
+		return KEY_MATCHERS + "[" + documentType + "]";
+	}
 	public static String KEY_MATCHER_OPTIONS(String matcher) {
 		return "matcherOptions[" + matcher + "]";
 	}
@@ -73,11 +76,24 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	public void load(IPreferenceStore store) {
-		matchers = new ArrayList<IMatcher>();
-		for(String matcherKey : store.getString(KEY_MATCHERS).split(";")) {
-			if(matcherKey.isEmpty()) {
-				continue;
+		// get keys of all domain specific matchers
+		List<String> matcherKeys = new ArrayList<String>();
+		for(String docType : getDocumentTypes()) {
+			for(String matcherKey : store.getString(KEY_MATCHERS(docType)).split(";")) {
+				if(!matcherKey.isEmpty()) {
+					matcherKeys.add(matcherKey);
+				}
 			}
+		}
+		// get keys of all generic matchers
+		for(String matcherKey : store.getString(KEY_MATCHERS).split(";")) {
+			if(!matcherKey.isEmpty()) {
+				matcherKeys.add(matcherKey);
+			}
+		}
+		// get the matchers
+		matchers = new ArrayList<IMatcher>();
+		for(String matcherKey : matcherKeys) {
 			IMatcher matcher = MatcherUtil.getMatcher(matcherKey);
 			if(matcher != null) {
 				if(matcher instanceof IConfigurable) {

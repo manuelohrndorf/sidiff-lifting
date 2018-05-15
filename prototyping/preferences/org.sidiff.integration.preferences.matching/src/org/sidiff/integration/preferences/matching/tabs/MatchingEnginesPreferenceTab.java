@@ -40,7 +40,7 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
+		List<IMatcher> matchers = MatcherUtil.getGenericMatchers();
 		matchersField = PreferenceFieldFactory.createOrderedList(
 				MatchingSettingsAdapter.KEY_MATCHERS,
 				"Matchers",

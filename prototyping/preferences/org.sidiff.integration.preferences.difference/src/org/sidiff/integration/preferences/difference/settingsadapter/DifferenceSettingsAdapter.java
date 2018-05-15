@@ -55,19 +55,23 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		Set<String> techDiffBuilderKeys = new LinkedHashSet<String>();
 		for(String docType : getDocumentTypes()) {
 			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType)).split(";")) {
-				techDiffBuilderKeys.add(techDiffBuilderKey);
+				if(!techDiffBuilderKey.isEmpty()) {
+					techDiffBuilderKeys.add(techDiffBuilderKey);
+				}
 			}
 		}
-		// get keys of all generic technical difference builders
-		for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS).split(";")) {
-			techDiffBuilderKeys.add(techDiffBuilderKey);
+		// get keys of all generic technical difference builders, if no domain specific ones are set
+		if(techDiffBuilderKeys.isEmpty()) {
+			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS).split(";")) {
+				if(!techDiffBuilderKey.isEmpty()) {
+					techDiffBuilderKeys.add(techDiffBuilderKey);
+				}
+			}
 		}
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
-			if(techDiffBuilderKey.isEmpty()) {
-				continue;
-			} else if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
+			if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
 				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
 			} else {
 				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);

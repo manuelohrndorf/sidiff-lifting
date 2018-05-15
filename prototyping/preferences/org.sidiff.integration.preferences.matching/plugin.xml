@@ -23,5 +23,16 @@
             page="engines"
             pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
       </tab>
+      <tab
+            class="org.sidiff.integration.preferences.matching.tabs.DomainMatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
+      </tab>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.domains.significance">
+      <significanceProvider
+            class="org.sidiff.integration.preferences.matching.significance.MatchingPreferenceSignificanceProvider">
+      </significanceProvider>
    </extension>
 </plugin>
