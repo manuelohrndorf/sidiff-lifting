@@ -5,15 +5,15 @@ package org.sidiff.integration.preferences.valueconverters;
  * @author Robert Müller
  *
  */
-public class EnumPreferenceValueConverter implements IPreferenceValueConverter<Enum<?>> {
+public class EnumPreferenceValueConverter<E extends Enum<E>> implements IPreferenceValueConverter<E> {
 
 	@Override
-	public String getValue(Enum<?> value) {
+	public String getValue(E value) {
 		return value.name();
 	}
 
 	@Override
-	public String getLabel(Enum<?> value) {
+	public String getLabel(E value) {
 		return value.toString();
 	}
 }

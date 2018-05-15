@@ -16,7 +16,7 @@ public class CheckListSelectField extends GroupCompositeField {
 	 * @param inputs the input elements (map of value to label)
 	 */
 	public <T> CheckListSelectField(String preferencePrefix, String title,
-			Collection<T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		super(preferencePrefix, title);
 		for(T input : inputs) {
 			addField(new CheckBoxPreferenceField(valueConverter.getValue(input), valueConverter.getLabel(input)));

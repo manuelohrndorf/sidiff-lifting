@@ -15,9 +15,9 @@ import org.sidiff.configuration.IConfigurable;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
+import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
-import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
+import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
 
@@ -42,19 +42,8 @@ public class DomainMatchingEnginesPreferenceTab extends AbstractDomainPreference
 		}
 
 		matchersField = PreferenceFieldFactory.createOrderedList(
-				MatchingSettingsAdapter.KEY_MATCHERS(getDocumentType()),
-				"Matchers",
-				matchers,
-				new IPreferenceValueConverter<IMatcher>() {
-					@Override
-					public String getValue(IMatcher value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(IMatcher value) {
-						return value.getName();
-					}
-				});
+				MatchingSettingsAdapter.KEY_MATCHERS(getDocumentType()), "Matchers",
+				matchers, new MatcherValueConverter());
 		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -73,7 +62,7 @@ public class DomainMatchingEnginesPreferenceTab extends AbstractDomainPreference
 						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
 						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
-						new IdentityPreferenceValueConverter());
+						new GenericPreferenceValueConverter());
 				list.add(matcherOption);
 				matcherOptions.put(matcher.getKey(), matcherOption);
 			}

@@ -2,14 +2,13 @@ package org.sidiff.integration.preferences.patching.tabs;
 
 import java.util.List;
 
-import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
+import org.sidiff.integration.preferences.patching.valueconverters.ModifiedDetectedValueConverter;
+import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
-import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 
 /**
@@ -28,32 +27,14 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
 				TransformationEngineUtil.getAvailableTransformationEngines(getDocumentType()),
-				new IPreferenceValueConverter<ITransformationEngine>() {
-					@Override
-					public String getValue(ITransformationEngine value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(ITransformationEngine value) {
-						return value.getName();
-					}
-				});
+				new TransformationEngineValueConverter());
 		list.add(transformationEngineField);
 
 		modifiedDetectorField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),
-				new IPreferenceValueConverter<IModifiedDetector>() {
-					@Override
-					public String getValue(IModifiedDetector value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(IModifiedDetector value) {
-						return value.getName();
-					}
-				});
+				new ModifiedDetectedValueConverter());
 		list.add(modifiedDetectorField);
 	}
 }

@@ -4,13 +4,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter;
+import org.sidiff.integration.preferences.difference.valueconverters.TechnicalDifferenceBuilderValueConverter;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * 
@@ -30,16 +29,7 @@ public class DifferenceEnginesPreferenceTab implements IPreferenceTab {
 				"Technical Difference Builders",
 				TechnicalDifferenceUtils.getAvailableTechnicalDifferenceBuilders(
 						Collections.singleton(EMFModelAccess.GENERIC_DOCUMENT_TYPE)),
-				new IPreferenceValueConverter<ITechnicalDifferenceBuilder>() {
-					@Override
-					public String getValue(ITechnicalDifferenceBuilder value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(ITechnicalDifferenceBuilder value) {
-						return value.getName();
-					}
-				});
+				new TechnicalDifferenceBuilderValueConverter());
 		list.add(techDiffBuilderField);
 
 		mergeImports = PreferenceFieldFactory.createCheckBox(

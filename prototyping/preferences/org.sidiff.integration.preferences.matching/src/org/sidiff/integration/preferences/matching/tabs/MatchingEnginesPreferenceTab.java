@@ -14,13 +14,15 @@ import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
+import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
+import org.sidiff.integration.preferences.matching.valueconverters.ServiceValueConverter;
+import org.sidiff.integration.preferences.matching.valueconverters.SimilaritiesValueConverter;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
-import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.service.IService;
-import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similarities.SimilaritiesServiceUtil;
 import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
 
@@ -42,19 +44,8 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 	public void createPreferenceFields(List<IPreferenceField> list) {
 		List<IMatcher> matchers = MatcherUtil.getGenericMatchers();
 		matchersField = PreferenceFieldFactory.createOrderedList(
-				MatchingSettingsAdapter.KEY_MATCHERS,
-				"Matchers",
-				matchers,
-				new IPreferenceValueConverter<IMatcher>() {
-					@Override
-					public String getValue(IMatcher value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(IMatcher value) {
-						return value.getName();
-					}
-				});
+				MatchingSettingsAdapter.KEY_MATCHERS, "Matchers",
+				matchers, new MatcherValueConverter());
 		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -73,22 +64,13 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
 						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
-						new IdentityPreferenceValueConverter());
+						new GenericPreferenceValueConverter());
 				list.add(matcherOption);
 				matcherOptions.put(matcher.getKey(), matcherOption);
 			}
 		}
 
-		final IPreferenceValueConverter<IService> serviceValueConverter = new IPreferenceValueConverter<IService>() {
-			@Override
-			public String getValue(IService value) {
-				return value.getServiceID();
-			}
-			@Override
-			public String getLabel(IService value) {
-				return value.getClass().getSimpleName();
-			}
-		};
+		final IPreferenceValueConverter<IService> serviceValueConverter = new ServiceValueConverter();
 
 		candidatesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
@@ -104,16 +86,7 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
 				"Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(),
-				new IPreferenceValueConverter<ISimilarities>() {
-					@Override
-					public String getValue(ISimilarities value) {
-						return value.getSimilaritiesServiceID();
-					}
-					@Override
-					public String getLabel(ISimilarities value) {
-						return value.getDescription();
-					}
-				});
+				new SimilaritiesValueConverter());
 		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(

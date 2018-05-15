@@ -35,7 +35,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 */
 	private List<T> notSelected;
 
-	private IPreferenceValueConverter<T> valueConverter;
+	private IPreferenceValueConverter<? super T> valueConverter;
 
 	private Group group;
 	private org.eclipse.swt.widgets.List left, right;
@@ -50,7 +50,7 @@ public class OrderListSelectField<T> extends PreferenceField {
 	 * @param valueConverter a converter, that returns a value and a label for an element in the input
 	 */
 	public OrderListSelectField(String preferenceName, String title,
-			Collection<T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		super(preferenceName, title);
 		this.valueConverter = valueConverter;
 		selected = new LinkedList<T>();

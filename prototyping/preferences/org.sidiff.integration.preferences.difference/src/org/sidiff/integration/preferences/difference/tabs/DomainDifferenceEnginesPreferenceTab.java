@@ -3,13 +3,12 @@ package org.sidiff.integration.preferences.difference.tabs;
 import java.util.Collections;
 import java.util.List;
 
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter;
+import org.sidiff.integration.preferences.difference.valueconverters.TechnicalDifferenceBuilderValueConverter;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * 
@@ -26,16 +25,7 @@ public class DomainDifferenceEnginesPreferenceTab extends AbstractDomainPreferen
 				DifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS(getDocumentType()),
 				"Technical Difference Builders",
 				TechnicalDifferenceUtils.getAvailableTechnicalDifferenceBuilders(Collections.singleton(getDocumentType())),
-				new IPreferenceValueConverter<ITechnicalDifferenceBuilder>() {
-					@Override
-					public String getValue(ITechnicalDifferenceBuilder value) {
-						return value.getKey();
-					}
-					@Override
-					public String getLabel(ITechnicalDifferenceBuilder value) {
-						return value.getName();
-					}
-				});
+				new TechnicalDifferenceBuilderValueConverter());
 		list.add(techDiffBuilderField);
 	}
 }

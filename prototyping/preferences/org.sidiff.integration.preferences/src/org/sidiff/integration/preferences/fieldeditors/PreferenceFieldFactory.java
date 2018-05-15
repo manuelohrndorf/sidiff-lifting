@@ -44,7 +44,7 @@ public class PreferenceFieldFactory {
 	 * @return radio group preference field
 	 */
 	public static <T> IPreferenceField createRadioBox(String preferenceName, String title,
-			Collection<? extends T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		return new RadioBoxPreferenceField<T>(preferenceName, title, inputs, valueConverter);
 	}
 
@@ -58,7 +58,9 @@ public class PreferenceFieldFactory {
 	 * @return radio group preference field for enum class
 	 */
 	public static <E extends Enum<E>> IPreferenceField createRadioBox(String preferenceName, String title, Class<E> enumClass) {
-		return createRadioBox(preferenceName, title, Arrays.asList(enumClass.getEnumConstants()), new EnumPreferenceValueConverter());
+		return createRadioBox(preferenceName, title,
+				Arrays.asList(enumClass.getEnumConstants()),
+				new EnumPreferenceValueConverter<E>());
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class PreferenceFieldFactory {
 	 * @return checkbox list preference field
 	 */
 	public static <T> IPreferenceField createCheckBoxList(String preferenceName, String title,
-			Collection<T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		return new CheckListSelectField(preferenceName, title, inputs, valueConverter);
 	}
 
@@ -85,7 +87,7 @@ public class PreferenceFieldFactory {
 	 * @return ordered list preference field
 	 */
 	public static <T> IPreferenceField createOrderedList(String preferenceName, String title,
-			Collection<T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		return new OrderListSelectField<T>(preferenceName, title, inputs, valueConverter);
 	}
 

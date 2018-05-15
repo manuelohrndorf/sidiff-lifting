@@ -30,7 +30,7 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	private final List<T> inputs;
 	private Map<String, Button> buttons;
 	private String current;
-	private IPreferenceValueConverter<T> valueConverter;
+	private IPreferenceValueConverter<? super T> valueConverter;
 
 	/**
 	 * @param preferenceName the name of the preference in the store 
@@ -39,7 +39,7 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @param valueConverter a converter, that returns a value and a label for an element in the input
 	 */
 	public RadioBoxPreferenceField(String preferenceName, String title,
-			Collection<? extends T> inputs, IPreferenceValueConverter<T> valueConverter) {
+			Collection<? extends T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		super(preferenceName, title);
 		this.inputs = Collections.unmodifiableList(new ArrayList<T>(inputs));
 		this.valueConverter = valueConverter;
