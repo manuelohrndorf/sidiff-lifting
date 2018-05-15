@@ -29,9 +29,9 @@ import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.integration.preferences.PreferencesPlugin;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
-import org.sidiff.integration.preferences.util.SettingsAdapterUtil;
 import org.sidiff.matching.input.InputModels;
 
 /**
@@ -69,7 +69,8 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 			if(this.project == null) {
 				this.project = file.getProject();
 			} else if(!this.project.equals(file.getProject())) {
-				PreferencesPlugin.logWarning("Input models are not in the same project. Using project specific settings of first one.");
+				PreferencesUiPlugin.logWarning("Input models are not in the same project. "
+											 + "Using project specific settings of first one.");
 			}
 		}
 		// some other widgets change the original set, so a local copy is created here
@@ -106,7 +107,7 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		} catch (CoreException e) {
 			radioProject.setEnabled(false);
 			radioProject.setText("Use settings of project [not possible: " + e.getMessage() + "]");
-			PreferencesPlugin.logWarning("Checking if project specific settings exist failed.", e);
+			PreferencesUiPlugin.logWarning("Checking if project specific settings exist failed.", e);
 		}
 		buttons.put(Source.PROJECT, radioProject);
 

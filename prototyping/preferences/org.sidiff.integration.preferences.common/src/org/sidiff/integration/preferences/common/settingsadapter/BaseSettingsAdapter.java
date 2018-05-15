@@ -6,7 +6,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.common.settings.Activator;
 import org.sidiff.common.settings.BaseSettings;
-import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
  * 

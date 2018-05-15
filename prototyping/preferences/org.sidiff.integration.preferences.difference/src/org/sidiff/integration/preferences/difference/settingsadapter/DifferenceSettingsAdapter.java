@@ -13,7 +13,7 @@ import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.integration.preferences.difference.Activator;
-import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
  * 

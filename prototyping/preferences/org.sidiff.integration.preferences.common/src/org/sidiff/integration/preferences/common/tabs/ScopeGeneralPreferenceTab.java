@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
+import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 
 /**
  * Class for general scope settings
@@ -15,11 +15,12 @@ import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
  */
 public class ScopeGeneralPreferenceTab implements IPreferenceTab {
 
-	private PreferenceField scopeField;
+	private IPreferenceField scopeField;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
-		scopeField = RadioBoxPreferenceField.create(BaseSettingsAdapter.KEY_SCOPE, "Scope", Scope.class);
+	public void createPreferenceFields(List<IPreferenceField> list) {
+		scopeField = PreferenceFieldFactory.createRadioBox(
+				BaseSettingsAdapter.KEY_SCOPE, "Scope", Scope.class);
 		list.add(scopeField);
 	}
 }

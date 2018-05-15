@@ -6,9 +6,8 @@ import java.util.List;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingSettingsAdapter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -20,12 +19,12 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  */
 public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private PreferenceField ruleBasesField;
-	private PreferenceField recognitionRuleSorterField;
+	private IPreferenceField ruleBasesField;
+	private IPreferenceField recognitionRuleSorterField;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
-		ruleBasesField = CheckListSelectField.create(
+	public void createPreferenceFields(List<IPreferenceField> list) {
+		ruleBasesField = PreferenceFieldFactory.createCheckBoxList(
 				LiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
 				"Rulebases",
 				PipelineUtils.getAvailableRulebases(getDocumentType()),
@@ -42,7 +41,7 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 				});
 		list.add(ruleBasesField);
 
-		recognitionRuleSorterField = RadioBoxPreferenceField.create(
+		recognitionRuleSorterField = PreferenceFieldFactory.createRadioBox(
 				LiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
 				"Recognition Rule Sorter",
 				PipelineUtils.getAvailableRecognitionRuleSorters(Collections.singleton(getDocumentType())),

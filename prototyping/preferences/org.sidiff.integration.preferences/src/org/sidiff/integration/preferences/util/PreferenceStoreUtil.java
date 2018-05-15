@@ -15,6 +15,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.PreferencesPlugin;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 
 /**
  * Contains utility functions for retrieving the global and project specific preference store for the SiDiff settings

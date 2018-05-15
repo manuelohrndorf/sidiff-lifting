@@ -2,10 +2,10 @@ package org.sidiff.integration.preferences.patching.tabs;
 
 import java.util.List;
 
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
+import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 
 /**
@@ -15,11 +15,11 @@ import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
  */
 public class PatchingValidationPreferenceTab implements IPreferenceTab {
 
-	private PreferenceField validationMode;
+	private IPreferenceField validationMode;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
-		validationMode = RadioBoxPreferenceField.create(
+	public void createPreferenceFields(List<IPreferenceField> list) {
+		validationMode = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_VALIDATION_MODE,
 				"Validation Mode",
 				ValidationMode.class);

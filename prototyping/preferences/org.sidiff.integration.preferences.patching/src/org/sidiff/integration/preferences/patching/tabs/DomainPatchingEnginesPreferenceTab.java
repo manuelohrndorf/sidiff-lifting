@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -19,12 +19,12 @@ import org.sidiff.patching.transformation.TransformationEngineUtil;
  */
 public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private PreferenceField transformationEngineField;
-	private PreferenceField modifiedDetectorField;
+	private IPreferenceField transformationEngineField;
+	private IPreferenceField modifiedDetectorField;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
-		transformationEngineField = RadioBoxPreferenceField.create(
+	public void createPreferenceFields(List<IPreferenceField> list) {
+		transformationEngineField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
 				TransformationEngineUtil.getAvailableTransformationEngines(getDocumentType()),
@@ -40,7 +40,7 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 				});
 		list.add(transformationEngineField);
 
-		modifiedDetectorField = RadioBoxPreferenceField.create(
+		modifiedDetectorField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),

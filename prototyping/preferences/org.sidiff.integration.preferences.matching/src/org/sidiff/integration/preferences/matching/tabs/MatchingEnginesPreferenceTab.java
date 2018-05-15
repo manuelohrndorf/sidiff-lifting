@@ -11,12 +11,10 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
-import org.sidiff.integration.preferences.fieldeditors.CheckListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.RadioBoxPreferenceField;
-import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
+import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IdentityPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
@@ -33,17 +31,17 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  */
 public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 
-	private PreferenceField matchersField;
-	private Map<String, PreferenceField> matcherOptions;
-	private PreferenceField candidatesServiceField;
-	private PreferenceField correspondencesServiceField;
-	private PreferenceField similaritiesServiceField;
-	private PreferenceField similaritiesCalculationServiceField;
+	private IPreferenceField matchersField;
+	private Map<String, IPreferenceField> matcherOptions;
+	private IPreferenceField candidatesServiceField;
+	private IPreferenceField correspondencesServiceField;
+	private IPreferenceField similaritiesServiceField;
+	private IPreferenceField similaritiesCalculationServiceField;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
+	public void createPreferenceFields(List<IPreferenceField> list) {
 		List<IMatcher> matchers = MatcherUtil.getAllAvailableMatchers();
-		matchersField = OrderListSelectField.create(
+		matchersField = PreferenceFieldFactory.createOrderedList(
 				MatchingSettingsAdapter.KEY_MATCHERS,
 				"Matchers",
 				matchers,
@@ -61,17 +59,17 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				List<String> newValue = Arrays.asList((String[])event.getNewValue());
-				for(Entry<String, PreferenceField> matcherOptions : matcherOptions.entrySet()) {
+				for(Entry<String, IPreferenceField> matcherOptions : matcherOptions.entrySet()) {
 					matcherOptions.getValue().setVisible(newValue.contains(matcherOptions.getKey()));
 				}
 			}
 		});
 		list.add(matchersField);
 
-		matcherOptions = new HashMap<String, PreferenceField>();
+		matcherOptions = new HashMap<String, IPreferenceField>();
 		for(IMatcher matcher : matchers) {
 			if(matcher instanceof IConfigurable) {
-				PreferenceField matcherOption = CheckListSelectField.create(
+				IPreferenceField matcherOption = PreferenceFieldFactory.createCheckBoxList(
 						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
 						matcher.getName(),
 						((IConfigurable)matcher).getConfigurationOptions().keySet(),
@@ -92,17 +90,17 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 			}
 		};
 
-		candidatesServiceField = RadioBoxPreferenceField.create(
+		candidatesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
 				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
 		list.add(candidatesServiceField);
 
-		correspondencesServiceField = RadioBoxPreferenceField.create(
+		correspondencesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
 				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
 		list.add(correspondencesServiceField);
 
-		similaritiesServiceField = RadioBoxPreferenceField.create(
+		similaritiesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
 				"Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(),
@@ -118,7 +116,7 @@ public class MatchingEnginesPreferenceTab implements IPreferenceTab {
 				});
 		list.add(similaritiesServiceField);
 
-		similaritiesCalculationServiceField = RadioBoxPreferenceField.create(
+		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
 				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
 				serviceValueConverter);

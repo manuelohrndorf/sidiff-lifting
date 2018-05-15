@@ -7,10 +7,9 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceSettingsAdapter;
-import org.sidiff.integration.preferences.fieldeditors.CheckBoxPreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.OrderListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.PreferenceField;
-import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
+import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
+import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
@@ -20,16 +19,17 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
  */
 public class DifferenceEnginesPreferenceTab implements IPreferenceTab {
 
-	private PreferenceField techDiffBuilderField;
-	private PreferenceField mergeImports;
-	private PreferenceField unmergeImports;
+	private IPreferenceField techDiffBuilderField;
+	private IPreferenceField mergeImports;
+	private IPreferenceField unmergeImports;
 
 	@Override
-	public void createPreferenceFields(List<PreferenceField> list) {
-		techDiffBuilderField = OrderListSelectField.create(
+	public void createPreferenceFields(List<IPreferenceField> list) {
+		techDiffBuilderField = PreferenceFieldFactory.createOrderedList(
 				DifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS,
 				"Technical Difference Builders",
-				TechnicalDifferenceUtils.getAvailableTechnicalDifferenceBuilders(Collections.singleton(EMFModelAccess.GENERIC_DOCUMENT_TYPE)),
+				TechnicalDifferenceUtils.getAvailableTechnicalDifferenceBuilders(
+						Collections.singleton(EMFModelAccess.GENERIC_DOCUMENT_TYPE)),
 				new IPreferenceValueConverter<ITechnicalDifferenceBuilder>() {
 					@Override
 					public String getValue(ITechnicalDifferenceBuilder value) {
@@ -42,10 +42,12 @@ public class DifferenceEnginesPreferenceTab implements IPreferenceTab {
 				});
 		list.add(techDiffBuilderField);
 
-		mergeImports = new CheckBoxPreferenceField(DifferenceSettingsAdapter.KEY_MERGE_IMPORTS, "Merge Imports");
+		mergeImports = PreferenceFieldFactory.createCheckBox(
+				DifferenceSettingsAdapter.KEY_MERGE_IMPORTS, "Merge Imports");
 		list.add(mergeImports);
 
-		unmergeImports = new CheckBoxPreferenceField(DifferenceSettingsAdapter.KEY_UNMERGE_IMPORTS, "Unmerge Imports");
+		unmergeImports = PreferenceFieldFactory.createCheckBox(
+				DifferenceSettingsAdapter.KEY_UNMERGE_IMPORTS, "Unmerge Imports");
 		list.add(unmergeImports);
 	}
 }

@@ -1,7 +1,5 @@
 package org.sidiff.integration.preferences.tabs;
 
-import org.sidiff.integration.preferences.interfaces.IPreferenceTab;
-
 /**
  * Abstract superclass for domain specific preference tabs.
  * @author Robert Müller

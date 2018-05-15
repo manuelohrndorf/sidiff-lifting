@@ -12,8 +12,8 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.integration.preferences.interfaces.AbstractSettingsAdapter;
 import org.sidiff.integration.preferences.lifting.Activator;
+import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
  * 
