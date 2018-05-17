@@ -37,21 +37,6 @@ public class Session implements Serializable {
 	/**
 	 * 
 	 */
-	private String url;
-	
-	/**
-	 * 
-	 */
-	private int port;
-	
-	/**
-	 * 
-	 */
-	private String user;
-	
-	/**
-	 * 
-	 */
 	private Set<String> repositories;
 	
 	/**
@@ -61,18 +46,9 @@ public class Session implements Serializable {
 	
 	/**
 	 * 
-	 * @param url
-	 * 			url of the sidiff remote application server
-	 * @param port
-	 * 			url of the sidiff remote application server
-	 * @param user
-	 * 			username
 	 */
-	public Session(String url, int port, String user) {
+	public Session() {
 		this.sessionID = UUID.randomUUID().toString();
-		this.url = url;
-		this.port = port;
-		this.user = user;
 		this.repositories = new HashSet<String>();
 		this.modelInfos = new HashSet<Session.ModelInfo>();
 	}
@@ -113,41 +89,6 @@ public class Session implements Serializable {
 		return sessionID;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getPort() {
-		return port;
-	}
-	
-	public void setPort(int port) {
-		this.port = port;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
 	
 	/**
 	 * 
@@ -249,7 +190,6 @@ public class Session implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("user: " + user + "\n");
 		stringBuilder.append("session: " + sessionID + "\n");
 		stringBuilder.append("local -> remote models:\n");
 		for(ModelInfo modelInfo : modelInfos) {
@@ -327,10 +267,7 @@ public class Session implements Serializable {
 	
 	public boolean validate() {
 		boolean b_sessionID = this.sessionID != null && !this.sessionID.isEmpty();
-		boolean b_url = this.url != null && !this.url.isEmpty();
-		boolean b_port = this.port > 0;
-		boolean b_user = this.user != null && !this.user.isEmpty();
 		
-		return b_sessionID && b_url && b_port && b_user;
+		return b_sessionID;
 	}
 }

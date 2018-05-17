@@ -2,7 +2,7 @@ package org.sidiff.remote.common.commands;
 
 import java.io.File;
 
-public class ReplyCommand extends Command {
+public abstract class ReplyCommand extends Command {
 
 	/**
 	 * 

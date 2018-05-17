@@ -7,7 +7,7 @@ import org.sidiff.remote.common.tree.TreeModel;
  * @author cpietsch
  *
  */
-public class BrowseModelReply extends Command {
+public class BrowseModelReply extends ReplyCommand {
 
 	/**
 	 * 

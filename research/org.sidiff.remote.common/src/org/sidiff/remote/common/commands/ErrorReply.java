@@ -1,5 +1,6 @@
 package org.sidiff.remote.common.commands;
 
+import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ErrorReport;
 
 /**
@@ -25,6 +26,7 @@ public class ErrorReply extends ReplyCommand {
 	 */
 	public ErrorReply(ErrorReport error_report) {
 		super(null);
+		this.eCommand = ECommand.ERROR_REPLY;
 		this.error_report = error_report;
 	}
 	

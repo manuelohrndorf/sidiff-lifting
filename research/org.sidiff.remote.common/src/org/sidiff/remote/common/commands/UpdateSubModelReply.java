@@ -9,7 +9,7 @@ import org.sidiff.remote.common.ECommand;
  * @author cpietsch
  *
  */
-public class UpdateSubModelReply extends Command {
+public class UpdateSubModelReply extends ReplyCommand {
 
 	/**
 	 * 
