@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -26,7 +26,7 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.matching.input.InputModels;
 
-public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private LiftingSettings settings;
 	
@@ -90,11 +90,6 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 	@Override
 	public Composite getWidget() {
 		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
 	}
 
 	private void getSorters() {

@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -41,7 +41,7 @@ import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
-public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private final boolean compabilityMode;
 	
@@ -222,11 +222,6 @@ public class MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetV
 	@Override
 	public Composite getWidget() {
 		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
 	}
 
 	protected void getMatchers() {

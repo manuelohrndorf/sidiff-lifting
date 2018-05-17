@@ -15,14 +15,14 @@ import org.eclipse.swt.widgets.Label;
 import org.sidiff.common.settings.BaseSettings;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.technical.ui.Activator;
 import org.sidiff.matching.input.InputModels;
 
-public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class InputModelsWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private BaseSettings settings;
 	private InputModels inputModels;
@@ -182,11 +182,6 @@ public class InputModelsWidget implements IWidget, IWidgetSelection, IWidgetVali
 	@Override
 	public Composite getWidget() {
 		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
 	}
 
 	/**

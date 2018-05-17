@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -20,7 +20,7 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 
-public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	public static final String LABEL_NO_LIFTING = "No Semantic Lifting (Operation Detection)";
 	public static final String LABEL_LIFTING = "Semantic Lifting (Operation Detection)";
@@ -120,11 +120,6 @@ public class RecognitionEngineWidget implements IWidget, IWidgetSelection, IWidg
 	@Override
 	public Composite getWidget() {
 		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
 	}
 
 	public RecognitionEngineMode getSelection() {

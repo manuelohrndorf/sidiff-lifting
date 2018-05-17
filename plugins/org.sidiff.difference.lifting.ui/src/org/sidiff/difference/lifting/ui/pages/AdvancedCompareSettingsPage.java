@@ -24,7 +24,12 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 	 * The {@link InputModels}
 	 */
 	private InputModels inputModels;
-	
+
+	/**
+	 * The {@link BasicCompareSettingsPage}
+	 */
+	private BasicCompareSettingsPage basicCompareSettingsPage;
+
 	// ---------- UI Elements ----------
 	
 	/**
@@ -49,18 +54,20 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 	
 	// ---------- Constructor ----------
 	
-	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
+	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
 		super(pageName, title);
 		
 		this.inputModels = inputModels;
 		this.settings = settings;
+		this.basicCompareSettingsPage = basicCompareSettingsPage;
 	}
 	
-	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, LiftingSettings settings) {
+	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
 		super(pageName, title, titleImage);
 		
 		this.inputModels = inputModels;
 		this.settings = settings;
+		this.basicCompareSettingsPage = basicCompareSettingsPage;
 	}
 
 	// ---------- AbstractWizardPage ----------
@@ -86,11 +93,13 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
+		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(matcherWidget);
 		addWidget(algorithmsGroup, matcherWidget);
 		
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
+		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(builderWidget);
 // FIXME
 //		if (builderWidget.getDifferenceBuilders().size() > 1) {
 //			addWidget(algorithmsGroup, builderWidget);
@@ -100,11 +109,13 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 		// Recognition Rule Sorter:
 		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels);
 		rrSorterWidget.setSettings(this.settings);
+		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(rrSorterWidget);
 		addWidget(algorithmsGroup, rrSorterWidget);
 		
 		// Recognition engine:
 		recognitionWidget = new RecognitionEngineWidget();
 		recognitionWidget.setSettings(this.settings);
+		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(recognitionWidget);
 		addWidget(algorithmsGroup, recognitionWidget);
 		
 	}

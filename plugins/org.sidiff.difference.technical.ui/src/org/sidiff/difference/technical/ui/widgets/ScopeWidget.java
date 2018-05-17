@@ -13,14 +13,14 @@ import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
-public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	
 	private MatchingSettings settings;
 	private Composite container;
@@ -88,13 +88,6 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	public Composite getWidget() {
 		return container;
 	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
-
 
 	@Override
 	public boolean validate() {

@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.AbstractSettings;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -39,7 +39,7 @@ import org.sidiff.matching.input.InputModels;
  * @author Robert Müller
  *
  */
-public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidgetSelection {
+public class SettingsSourceWidget extends AbstractWidget implements IWidgetValidation, IWidgetSelection {
 
 	public static enum Source {
 		GLOBAL,
@@ -128,11 +128,6 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 		return container;
 	}
 
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
 	public void setSource(Source source) {
 		Assert.isNotNull(source);
 		if(this.source == source) {
@@ -154,10 +149,18 @@ public class SettingsSourceWidget implements IWidget, IWidgetValidation, IWidget
 			e.widget = buttons.get(source);
 			listener.widgetSelected(new SelectionEvent(e));
 		}
+
+		// update enabled state of dependents
+		propagateEnabledState();
 	}
 
 	public Source getSource() {
 		return source;
+	}
+
+	@Override
+	public boolean areDependentsEnabled() {
+		return super.areDependentsEnabled() && source == Source.CUSTOM;
 	}
 
 	private void updateSettings() {
