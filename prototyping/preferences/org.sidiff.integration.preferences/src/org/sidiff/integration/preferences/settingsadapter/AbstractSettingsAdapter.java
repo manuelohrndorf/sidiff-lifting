@@ -33,6 +33,7 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	@Override
 	public void setDiagnosticChain(DiagnosticChain diagnosticChain) {
 		this.diagnosticChain = diagnosticChain;
+		this.diagnosticGroup = null;
 	}
 
 	public void addError(String message) {
