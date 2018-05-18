@@ -76,20 +76,20 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
 		sourceWidget.setSettings(this.settings);
-		settingsSourceWidget.addDependent(sourceWidget);
+		sourceWidget.setDependency(settingsSourceWidget);
 		addWidget(container, sourceWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
 		scopeWidget.setPageChangedListener(this);
-		settingsSourceWidget.addDependent(scopeWidget);
+		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
 		rulebaseWidget.setSettings(this.settings);
-		settingsSourceWidget.addDependent(rulebaseWidget);
+		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}
 

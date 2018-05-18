@@ -93,13 +93,13 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
-		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(matcherWidget);
+		matcherWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 		
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
-		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(builderWidget);
+		builderWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 // FIXME
 //		if (builderWidget.getDifferenceBuilders().size() > 1) {
 //			addWidget(algorithmsGroup, builderWidget);
@@ -109,15 +109,14 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 		// Recognition Rule Sorter:
 		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels);
 		rrSorterWidget.setSettings(this.settings);
-		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(rrSorterWidget);
+		rrSorterWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, rrSorterWidget);
 		
 		// Recognition engine:
 		recognitionWidget = new RecognitionEngineWidget();
 		recognitionWidget.setSettings(this.settings);
-		basicCompareSettingsPage.getSettingsSourceWidget().addDependent(recognitionWidget);
+		recognitionWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, recognitionWidget);
-		
 	}
 
 	@Override
