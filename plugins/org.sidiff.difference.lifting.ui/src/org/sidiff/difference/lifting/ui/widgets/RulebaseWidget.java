@@ -210,7 +210,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 			updateRulebasesSelection();
 			rulebaseTableViewer.setInput(rulebases);
 		}else{
-			this.setEnabled(false);
+			setEnabled(false);
 		}
 		rulebaseTableViewer.refresh();
 
@@ -290,10 +290,6 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 		return rulebases;
 	}
 
-	public void setEnabled(boolean enabled) {
-		ruleBaseTable.setEnabled(enabled);
-	}
-
 	@Override
 	public boolean validate() {
 		return !getSelection().isEmpty();
@@ -327,7 +323,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)){
-			this.setEnabled(!settings.getRecognitionEngineMode().equals(RecognitionEngineMode.NO_LIFTING));
+			setEnabled(!settings.getRecognitionEngineMode().equals(RecognitionEngineMode.NO_LIFTING));
 		} else if(item.equals(LiftingSettingsItem.RULEBASES)) {
 			updateRulebasesSelection();
 		}
