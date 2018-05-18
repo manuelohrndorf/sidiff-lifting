@@ -11,6 +11,7 @@ import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
@@ -19,7 +20,12 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link DifferenceSettings}
 	 */
 	private DifferenceSettings settings;
-	
+
+	/**
+	 * The {@link SettingsSourceWidget} for loading global and project specific settings.
+	 */
+	private SettingsSourceWidget settingsSourceWidget;
+
 	/**
 	 * The {@link InputModels}
 	 */
@@ -72,15 +78,21 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	
 	@Override
 	protected void createWidgets() {
+		// Settings Source:
+		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		addWidget(container, settingsSourceWidget);
+
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
 		sourceWidget.setSettings(this.settings);
+		sourceWidget.setDependency(settingsSourceWidget);
 		addWidget(container, sourceWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
 		scopeWidget.setPageChangedListener(this);
+		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
 		// Algorithms:
@@ -96,16 +108,18 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 			algorithmsGroup.setText("Algorithms:");
 		}
-		
+
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setPageChangedListener(this);
+		matcherWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
+		builderWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, builderWidget);
 	}
 
