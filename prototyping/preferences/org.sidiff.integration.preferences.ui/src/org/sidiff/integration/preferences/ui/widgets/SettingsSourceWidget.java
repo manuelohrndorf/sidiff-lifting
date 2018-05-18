@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -92,6 +93,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		group = new Group(container, SWT.SHADOW_IN);
 		group.setText("Settings Source:");
 		group.setLayout(new RowLayout(SWT.VERTICAL));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false));
 		buttons = new EnumMap<Source, Button>(Source.class);
 
 		Button radioGlobal = new Button(group, SWT.RADIO);

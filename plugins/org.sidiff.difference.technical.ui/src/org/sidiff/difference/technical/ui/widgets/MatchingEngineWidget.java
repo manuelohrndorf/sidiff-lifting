@@ -188,6 +188,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			config_container.setLayout(grid);
+			config_container.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false, 2, 1));
 		}
 
 		matcherConfigurations = new LinkedList<MatcherConfiguration>();
@@ -409,7 +410,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			group = new Group(parent, SWT.NONE);
 			group.setText(matcher.getName());
 			group.setLayout(new RowLayout(SWT.VERTICAL));
-			group.setLayoutData(new GridData()); // must be grid data to properly show / hide the group
+			group.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false)); // must be grid data to properly show / hide the group
 
 			buttons = new HashMap<String, Button>();
 			final IConfigurable configurable = (IConfigurable)matcher;
