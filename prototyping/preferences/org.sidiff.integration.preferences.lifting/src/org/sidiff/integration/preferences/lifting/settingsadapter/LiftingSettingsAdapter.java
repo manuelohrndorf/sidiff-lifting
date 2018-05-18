@@ -13,7 +13,9 @@ import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorte
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.lifting.Activator;
+import org.sidiff.integration.preferences.lifting.valueconverters.LiftingRuleBaseValueConverter;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
+import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * 
@@ -81,8 +83,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		ruleBases = new HashSet<ILiftingRuleBase>();
 		rrSorter = null;
 		for(String documentType : getDocumentTypes()) {
+			final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
 			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentType)) {
-				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + rbase.getName())) {
+				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + valueConverter.getValue(rbase))) {
 					ruleBases.add(rbase);
 				}
 			}
@@ -95,6 +98,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 					addWarning("Recognition Rule Sorter with key '" + key + "' was not found.");
 				}
 			}
+		}
+		if(ruleBases.isEmpty()) {
+			addError("No Rule Bases were specified.");
 		}
 		if(rrSorter == null) {
 			rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(getDocumentTypes());
@@ -144,9 +150,11 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_RECOGNITION_RULE_SORTER("http://www.eclipse.org/emf/2002/Ecore"), "EcoreRRSorter");
 		store.setDefault(KEY_RECOGNITION_RULE_SORTER("http://www.eclipse.org/uml2/5.0.0/UML"), "GenericRRSorter");
-		// TODO: these are not correct as the rulebases have no good permanently saveable value
-		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/emf/2002/Ecore") + ":" + "Ecore Atomic", true);
-		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/uml2/5.0.0/UML") + ":" + "UML_2v4_Atomic", true);
+
+		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/emf/2002/Ecore")
+				+ ":SiDiff Domain - Atomic Edit Rules for Ecore", true);
+		store.setDefault(KEY_RULE_BASES("http://www.eclipse.org/uml2/5.0.0/UML")
+				+ ":Edit Rules - UML - Atomic", true);
 
 		store.setDefault(KEY_RECOGNITION_ENGINE_MODE, RecognitionEngineMode.LIFTING_AND_POST_PROCESSING.name());
 		store.setDefault(KEY_CALCULATE_EDIT_RULE_MATCH, true);
