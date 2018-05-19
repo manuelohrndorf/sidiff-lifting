@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -25,6 +26,8 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	// ---------- UI Elements ----------
 	
 	private Text port_text;
+	
+	private Text path_text;
 	
 	// ---------- Constructor ----------
 	
@@ -54,6 +57,23 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 				port_text.notifyListeners(SWT.Selection, new Event());
 			}
 		});
+		
+		Label path_label = new Label(uri_group, SWT.NONE);
+		path_label.setText("Path:");
+		path_text = new Text(uri_group, SWT.BORDER);
+		path_text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		path_text.addModifyListener(new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if(isValidPath(path_text.getText())) {
+					settings.setRepositoryPath(path_text.getText());
+				}else {
+					settings.setRepositoryPath("");
+				}
+				
+			}
+		});
 		return container;
 	}
 	
@@ -69,7 +89,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	
 	@Override
 	public boolean validate() {
-		return super.validate() && isValidPort(this.port_text.getText());
+		return super.validate() && isValidPort(this.port_text.getText()) && isValidPath(this.path_text.getText());
 	}
 
 	@Override
@@ -91,15 +111,20 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 		}
 	}
 	
+	private boolean isValidPath(String s) {
+		return s.matches("([a-zA-z0-9])+(([_\\-\\./])([a-zA-z0-9])+)*");
+	}
+	
 	// ---------- IWidgetSelection -----------
 	
 		@Override
 		public void addSelectionListener(SelectionListener listener) {
 			super.addSelectionListener(listener);
-			if (port_text == null) {
+			if (port_text == null || path_text == null) {
 				throw new RuntimeException("Create controls first!");
 			}
 			port_text.addSelectionListener(listener);
+			path_text.addSelectionListener(listener);
 		}
 
 		@Override
@@ -107,6 +132,9 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 			super.removeSelectionListener(listener);
 			if (port_text != null) {
 				port_text.removeSelectionListener(listener);
+			}
+			if(path_text != null) {
+				path_text.removeSelectionListener(listener);
 			}
 		}
 		

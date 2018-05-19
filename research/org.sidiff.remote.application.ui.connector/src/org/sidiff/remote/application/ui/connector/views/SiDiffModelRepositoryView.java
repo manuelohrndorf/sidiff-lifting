@@ -50,6 +50,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
@@ -291,11 +292,16 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 			public void run() {
 				RepositorySettings settings = new RepositorySettings();
 				
+				AddRepositoryLocationWizard addRepositoryLocationWizard = new AddRepositoryLocationWizard(settings);
 				WizardDialog wizardDialog = new WizardDialog(PlatformUI
 						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						new AddRepositoryLocationWizard(settings));
+						addRepositoryLocationWizard);
 				wizardDialog.setBlockOnOpen(true);
 				wizardDialog.open();
+				if(addRepositoryLocationWizard.getException() != null) {
+					Exception e = addRepositoryLocationWizard.getException();
+					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				}
 			}
 		};
 		this.addRepository_action.setToolTipText("Adds a repository");
@@ -316,7 +322,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					TreeModel models = ConnectorFacade.browseModelFiles(null);
 					treeViewer.setInput(models);
 					checkboxTreeViewer.setInput(null);
-				} catch (ConnectionException | InvalidSessionException e) {
+				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
@@ -388,16 +394,18 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 						.getWorkbench().getActiveWorkbenchWindow().getShell(),
 						new CheckoutSubModelWizard(settings));
 				wizardDialog.setBlockOnOpen(true);
-				wizardDialog.open();
-				String target_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
-				String remote_model_path = treeViewer_selection.getId();
-				Set<String> elementIds = getSelectedElementIDs();
-				try {
-					File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds);
-					IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
-					resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				} catch (ConnectionException | CoreException | InvalidSessionException e) {
-					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				int return_code = wizardDialog.open();
+				if(return_code == WizardDialog.OK) {
+					String target_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
+					String remote_model_path = treeViewer_selection.getId();
+					Set<String> elementIds = getSelectedElementIDs();
+					try {
+						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds);
+						IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
+						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+					} catch (ConnectionException | CoreException | InvalidSessionException e) {
+						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+					}
 				}
 			}
 		};
@@ -472,7 +480,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					String local_model_path = file.getLocation().toOSString();
 					updateRequestedModelElements(local_model_path);
 					selected_model_path = local_model_path;
-				} catch (ConnectionException | InvalidSessionException e) {
+				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				
@@ -497,7 +505,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		}
 	}
 	
-	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException {
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		
 		TreeModel files = ConnectorFacade.browseModelFiles(localModelPath);
 		

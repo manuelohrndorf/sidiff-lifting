@@ -4,11 +4,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
-import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 import org.sidiff.remote.application.ui.connector.pages.RepositorySettingsPage;
-import org.sidiff.remote.common.Session;
-import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
 public class AddRepositoryLocationWizard extends Wizard {
@@ -19,8 +17,6 @@ public class AddRepositoryLocationWizard extends Wizard {
 	public static String ID = "org.sidiff.remote.ui.connector.wizard.add_repository_location";
 	
 	private RepositorySettings settings;
-	
-	private Session session;
 	
 	/**
 	 * Holds an exception caught by an inner class
@@ -54,11 +50,15 @@ public class AddRepositoryLocationWizard extends Wizard {
 		
 		try {
 			ConnectorFacade.addRepository(this.settings.getRepositoryURL(), this.settings.getRepositoryPort(), this.settings.getUserName(), this.settings.getPassword());
-		} catch (ConnectionException | InvalidSessionException e) {
+		} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 			this.exception = e;
 			return false;
 		}
 		return true;
+	}
+	
+	public Exception getException() {
+		return exception;
 	}
 
 }
