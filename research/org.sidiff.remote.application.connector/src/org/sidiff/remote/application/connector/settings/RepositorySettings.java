@@ -11,6 +11,8 @@ public class RepositorySettings extends AbstractSettings {
 	
 	private int repository_port = -1;
 	
+	private String repository_path;
+	
 	private String user_name;
 	
 	private char[] password;
@@ -37,6 +39,18 @@ public class RepositorySettings extends AbstractSettings {
 		}
 	}
 
+	public String getRepositoryPath() {
+		return repository_path;
+	}
+	
+	public void setRepositoryPath(String repository_path) {
+		if(repository_path == null || !repository_path.equals(this.repository_path)) {
+			this.repository_path = repository_path;
+			notifyListeners(RepositorySettingsItem.REP_PATH);
+		}
+		this.repository_path = repository_path;
+	}
+	
 	public String getUserName() {
 		return user_name;
 	}

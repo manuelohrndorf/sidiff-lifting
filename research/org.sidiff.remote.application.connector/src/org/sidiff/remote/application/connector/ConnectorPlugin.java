@@ -9,10 +9,10 @@ import java.io.ObjectOutputStream;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.sidiff.remote.application.connector.resource.ConnectedResourceChangeListener;
+import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
@@ -22,9 +22,11 @@ import org.sidiff.remote.common.exceptions.InvalidSessionException;
  *
  */
 public class ConnectorPlugin extends Plugin {
-
+	
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.sidiff.remote.application.connector"; //$NON-NLS-1$
+	
+	private static final String META_FOLDER = ".sidiff";
 	
 	/**
 	 * The singleton instance
@@ -41,6 +43,11 @@ public class ConnectorPlugin extends Plugin {
 	 */
 	private Session session;
 	
+	/**
+	 * The current {@link Credentials}
+	 */
+	private Credentials credentials;
+	
 	@Override
 	public void start(BundleContext context) throws Exception {
 		// TODO Auto-generated method stub
@@ -51,8 +58,7 @@ public class ConnectorPlugin extends Plugin {
 		//
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.addResourceChangeListener(new ConnectedResourceChangeListener());
-		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator + Session.SESSION_EXT;
-		
+		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator +  META_FOLDER + File.separator + Session.SESSION_EXT;
 		this.session_file = new File(session_path);
 	}
 
@@ -75,6 +81,9 @@ public class ConnectorPlugin extends Plugin {
 	public void writeSession() throws InvalidSessionException {
 		if(this.session != null) {			
 			try {
+				if(!this.session_file.exists()) {
+					this.session_file.getParentFile().mkdirs();
+				}
 				FileOutputStream fos = new FileOutputStream(this.session_file);
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				oos.writeObject(this.session);
@@ -88,6 +97,15 @@ public class ConnectorPlugin extends Plugin {
 		}
 		
 	}
+	
+//	private void createFolder(File file) {
+//		if(file.isDirectory())
+//			if(!file.getParentFile().exists()) {
+//				createFolder(file.getParentFile());
+//			}
+//		file.mkdir();
+//		
+//	}
 	
 	/**
 	 * get the current {@link Session}
@@ -110,9 +128,18 @@ public class ConnectorPlugin extends Plugin {
 		}
 		
 		return session;
-	}	
+	}
 	
-	public void initSession(String url, int port, String user) {
-		this.session = new Session(url, port, user);
+	public Credentials getCredentials() {
+		return this.credentials;
+	}
+	
+	public void init(String url, int port, String user, String password) {
+		try {
+			this.session = readSession();
+		}catch (InvalidSessionException e) {
+			this.session = new Session();
+		}
+		this.credentials = new Credentials(url, port, this.session.getSessionID(), user, password);
 	}
 }

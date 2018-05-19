@@ -9,6 +9,7 @@ import java.net.Socket;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.commands.Command;
+import org.sidiff.remote.common.commands.RequestCommand;
 
 /**
  * 
@@ -39,7 +40,7 @@ public class ConnectionHandler {
 	 * @return
 	 * @throws ConnectionException
 	 */
-	public Command handleRequest(Command request, File attachment) throws ConnectionException {
+	public Command handleRequest(RequestCommand request, File attachment) throws ConnectionException {
 		Socket server = null;
 		InputStream in = null;
 		OutputStream out = null;
@@ -47,7 +48,7 @@ public class ConnectionHandler {
 		Command reply = null;
 				
 		try {
-			server = new Socket(request.getSession().getUrl(), request.getSession().getPort());
+			server = new Socket(request.getCredentials().getUrl(), request.getCredentials().getPort());
 			in = server.getInputStream();
 			out = server.getOutputStream();
 			

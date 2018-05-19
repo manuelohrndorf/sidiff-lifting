@@ -5,8 +5,10 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
+import org.sidiff.remote.common.Credentials;
+import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.Session;
-import org.sidiff.remote.common.commands.AddRepositoryReply;
 import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
@@ -14,8 +16,11 @@ import org.sidiff.remote.common.commands.BrowseModelReply;
 import org.sidiff.remote.common.commands.BrowseModelRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
+import org.sidiff.remote.common.commands.Command;
+import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
 import org.sidiff.remote.common.exceptions.InvalidSessionException;
@@ -30,9 +35,17 @@ public class ConnectorFacade {
 	
 	public static final ConnectionHandler CONNECTION_HANDLER = ConnectionHandler.getInstance();
 
-	public static void addRepository(String repository_url, int repository_prot, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException {
-		AddRepositoryRequest addRepositoryRequest = new AddRepositoryRequest(getSession(), repository_url, repository_prot ,repository_user_name, repository_password);
-		AddRepositoryReply addRepositoryReply = (AddRepositoryReply) CONNECTION_HANDLER.handleRequest(addRepositoryRequest, null);
+	public static void addRepository(String repository_url, int repository_prot, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+		AddRepositoryRequest addRepositoryRequest = new AddRepositoryRequest(getCredentials(), repository_url, repository_prot ,repository_user_name, repository_password);
+		
+		Command replyCommand = CONNECTION_HANDLER.handleRequest(addRepositoryRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.ADD_REPOSITORY_REPLY)) {
+			getSession().getRepositories().add(repository_url);
+			saveSession();
+		}else {
+			ErrorReply errorReply = (ErrorReply) replyCommand;
+			throw new RemoteApplicationException(errorReply.getErrorReport());
+		}
 	}
 	
 	/**
@@ -42,13 +55,19 @@ public class ConnectorFacade {
 	 * @return
 	 * @throws ConnectionException
 	 * @throws InvalidSessionException 
+	 * @throws RemoteApplicationException 
 	 */
-	public static TreeModel browseModelFiles(String local_model_path) throws ConnectionException, InvalidSessionException  {
+	public static TreeModel browseModelFiles(String local_model_path) throws ConnectionException, InvalidSessionException, RemoteApplicationException  {
 		
-		BrowseModelFilesRequest browseModelFilesRequest = new BrowseModelFilesRequest(getSession(), local_model_path);
-		BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) CONNECTION_HANDLER.handleRequest(browseModelFilesRequest, null); 
-		
-		return browseModelFilesReply.getModelFiles();
+		BrowseModelFilesRequest browseModelFilesRequest = new BrowseModelFilesRequest(getCredentials(), local_model_path);
+		Command replyCommand =  (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseModelFilesRequest, null); 
+		if(replyCommand.getECommand().equals(ECommand.BROWSE_MODEL_FILES_REPLY)) {
+			BrowseModelFilesReply browseModelFilesReply = (BrowseModelFilesReply) replyCommand;
+			return browseModelFilesReply.getModelFiles();
+		}else {
+			ErrorReply errorReply = (ErrorReply) replyCommand;
+			throw new RemoteApplicationException(errorReply.getErrorReport());
+		}
 	}
 	
 	/**
@@ -61,7 +80,7 @@ public class ConnectorFacade {
 	 */
 	public static TreeModel browseModelElements(String remote_model_path) throws ConnectionException, InvalidSessionException {
 		
-		BrowseModelRequest browseModelRequest = new BrowseModelRequest(getSession(), remote_model_path);
+		BrowseModelRequest browseModelRequest = new BrowseModelRequest(getCredentials(), remote_model_path);
 		BrowseModelReply browseModelReply = (BrowseModelReply) CONNECTION_HANDLER.handleRequest(browseModelRequest, null);
 		
 		return browseModelReply.getModel();
@@ -79,7 +98,7 @@ public class ConnectorFacade {
 	 */
 	public static File checkoutSubModel(String remote_model_path, String target_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException {
 		
-		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getSession(), remote_model_path, target_model_path, elementIds);		
+		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getCredentials(), remote_model_path, target_model_path, elementIds);		
 		CheckoutSubModelReply reply = (CheckoutSubModelReply) CONNECTION_HANDLER.handleRequest(checkoutCommand, null);
 		File model_file = reply.getAttachment();
 		model_file.renameTo(new File(target_model_path)); 
@@ -99,7 +118,7 @@ public class ConnectorFacade {
 	 */
 	public static TreeModel getRequestedModelElements(String local_model_path) throws ConnectionException, InvalidSessionException {
 		
-		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(getSession(), local_model_path);
+		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(getCredentials(), local_model_path);
 		GetRequestedModelElementsReply getRequestedModelElementsReply = (GetRequestedModelElementsReply) CONNECTION_HANDLER.handleRequest(getRequestedModelElementsRequest, null);
 		
 		return getRequestedModelElementsReply.getModel();
@@ -117,7 +136,7 @@ public class ConnectorFacade {
 	 */
 	public static File updateSubModel(String local_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException {
 		
-		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getSession(), local_model_path, elementIds);
+		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds);
 		UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) CONNECTION_HANDLER.handleRequest(updateSubModelRequest, null);
 		File resource_file = updateSubModelReply.getAttachment();
 		String path = local_model_path.substring(0, local_model_path.lastIndexOf(File.separator)) + File.separator + updateSubModelReply.getAttachmentName();
@@ -135,5 +154,9 @@ public class ConnectorFacade {
 
 		ConnectorPlugin.getInstance().writeSession();
 		
+	}
+	
+	public static Credentials getCredentials() {
+		return ConnectorPlugin.getInstance().getCredentials();
 	}
 }

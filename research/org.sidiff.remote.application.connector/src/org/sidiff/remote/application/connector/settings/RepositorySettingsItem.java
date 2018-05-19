@@ -6,6 +6,8 @@ public enum RepositorySettingsItem {
 	
 	REP_PORT,
 	
+	REP_PATH,
+	
 	USER_NAME,
 	
 	PASSWORD
