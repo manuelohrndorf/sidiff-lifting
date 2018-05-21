@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -19,7 +18,11 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
+import org.sidiff.remote.application.adapters.CheckoutOperationResult;
+import org.sidiff.remote.application.adapters.IRepositoryAdapter;
+import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
+import org.sidiff.remote.application.util.ExtensionUtil;
 import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.util.TreeModelUtil;
@@ -44,12 +47,11 @@ public class SiDiffRemoteApplication {
 	
 	private File session_folder;
 	
-	
 	private ModelIndexer modelIndexer;
 	
 	private ExtractionEngine extractionEngine;
 	
-	public SiDiffRemoteApplication(IWorkspace workspace, String user, String session_id) throws CoreException {
+	public SiDiffRemoteApplication(IWorkspace workspace, String user, String session_id) {
 		this.workspace = workspace;
 		this.session_id = session_id;
 		this.user = user;
@@ -170,8 +172,11 @@ public class SiDiffRemoteApplication {
 		return treeModel;
 	}
 	
-	public void addRepository(String url, int port, String user, char[] passowrd) {
-		//TODO connect to repository and clone/checkout branches
+	public CheckoutOperationResult addRepository(String url, int port, String user, char[] password) throws RepositoryAdapterException {
+		//TODO determine right repository adapter
+		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.SVNRepositoryAdapter");
+		String target = this.session_folder.getPath();
+		return repositoryAdapter.checkout(url, user, password, target);
 		
 	}
 	

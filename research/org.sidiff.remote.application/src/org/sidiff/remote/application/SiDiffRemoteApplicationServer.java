@@ -7,27 +7,26 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.logging.LogEvent;
+import org.sidiff.common.logging.LogUtil;
+import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
+import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
+import org.sidiff.remote.common.commands.AddRepositoryReply;
 import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.commands.BrowseModelFilesReply;
 import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
@@ -64,14 +63,10 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	
 	private ProtocolHandler protocolHandler;
 	
-	private Logger log;
-	
 	@Override
 	public Object start(IApplicationContext context) throws IOException {
 		
 		this.workspace = ResourcesPlugin.getWorkspace();
-		
-		initializeLogger();
 				
 		String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		
@@ -85,16 +80,15 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();	
 		this.protocolHandler = new ProtocolHandler();
 		
-		log.log(Level.INFO, config.toString());
+		LogUtil.log(LogEvent.CONFIG, config.toString());
 		
 		while(true) {
-			log.log(Level.INFO, "waiting for request");
+			LogUtil.log(LogEvent.INFO, "waiting for request");
 			Socket client = server.accept();
 			try {
-				log.log(Level.INFO, "processing request:");
+				LogUtil.log(LogEvent.INFO, "processing request:");
 				handleRequest(client);
-			} catch (CoreException | IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException | NoSuchAlgorithmException | ModelNotVersionedException | AuthenticationException e) {
-				log.log(Level.SEVERE, e.getMessage(), e);
+			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | ModelNotVersionedException | AuthenticationException | RepositoryAdapterException e) {
 				handleException(client, e);
 			}finally {
 				client.close();
@@ -108,19 +102,19 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		// TODO Auto-generated method stub
 	}
 	
-	private void handleRequest(Socket client) throws CoreException, IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, NoSuchAlgorithmException, ModelNotVersionedException, AuthenticationException  {
+	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, ModelNotVersionedException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException  {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
 		RequestCommand command = (RequestCommand) this.protocolHandler.read(in);
 		
-		log.log(Level.INFO, command.toString());
+		LogUtil.log(LogEvent.INFO, command.toString());
 		
 		if(authenticate(command.getCredentials())) {
 		
 			SiDiffRemoteApplication app = client_sessions.get(command.getCredentials().getSessionID());
 			if(app == null) {
-				log.log(Level.INFO, "initialize remote session");
+				LogUtil.log(LogEvent.INFO, "initialize remote session");
 				app = new SiDiffRemoteApplication(this.workspace, command.getCredentials().getUser(), command.getCredentials().getSessionID());
 				client_sessions.put(command.getCredentials().getSessionID(), app);
 				
@@ -131,7 +125,9 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			switch(command.getECommand()) {
 			case ADD_REPOSITORY_REQUEST:
 				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
-				app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
+				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
+				AddRepositoryReply addRepositoryReply = new AddRepositoryReply(checkoutResult.getHost(), checkoutResult.getTargetPath().split("/")[0]);
+				this.protocolHandler.write(out, addRepositoryReply, null);
 				break;
 				
 			case BROWSE_MODEL_FILES_REQUEST:
@@ -184,19 +180,13 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	}
 	
 	private void handleException(Socket client, Exception e) throws IOException {
-		this.log.log(Level.SEVERE, "An error occured", e);
+		LogUtil.log(LogEvent.ERROR, "An error occured", e);
 		OutputStream out = client.getOutputStream();
 		
 		ErrorReply errorReply = new ErrorReply(new ErrorReport(e));
 		protocolHandler.write(out, errorReply, null);
 	}
 	
-	private void initializeLogger() throws SecurityException, IOException {
-		this.log = Logger.getLogger(this.getClass().getName());
-		Handler errorHandler = new FileHandler(this.workspace.getRoot().getLocation().toOSString() + File.separator + "error.log");
-		errorHandler.setLevel(Level.SEVERE);
-		this.log.addHandler(errorHandler);
-	}
 	
 	private ServerConfiguration readConfig(String path) throws IOException {
 		Properties properties_cfg = new Properties();
@@ -237,6 +227,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	
 	private boolean authenticate(Credentials credentials) {
 		if(config.users.containsKey(credentials.getUser())) {
+			//TODO use public-key cryptography
 			return config.users.get(credentials.getUser()).equals(credentials.getPassword());
 		}
 		return false;

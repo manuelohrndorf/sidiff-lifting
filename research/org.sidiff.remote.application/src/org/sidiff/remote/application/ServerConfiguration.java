@@ -2,6 +2,11 @@ package org.sidiff.remote.application;
 
 import java.util.Map;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class ServerConfiguration {
 	
 	public final String URL;
@@ -19,9 +24,9 @@ public class ServerConfiguration {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Configuration\n");
-		stringBuilder.append("\t*port: " + URL + "\n");
-		stringBuilder.append("\t*port: "+ PORT);
+		stringBuilder.append("Server Configuration\n");
+		stringBuilder.append("\t-url: " + URL + "\n");
+		stringBuilder.append("\t-port: "+ PORT);
 		return stringBuilder.toString();
 	}
 }
