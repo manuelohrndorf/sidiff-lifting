@@ -161,6 +161,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 			e.widget = buttons.get(source);
 			listener.widgetSelected(new SelectionEvent(e));
 		}
+		getWidgetCallback().requestValidation();
 
 		// update enabled state of dependents
 		propagateEnabledState();
