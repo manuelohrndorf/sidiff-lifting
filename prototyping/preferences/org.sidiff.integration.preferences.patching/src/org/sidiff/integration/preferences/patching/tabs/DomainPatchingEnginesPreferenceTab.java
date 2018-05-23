@@ -12,7 +12,7 @@ import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 
 /**
- * Class for the domain specific {@link org.sidiff.patching.settings.PatchingSettings}
+ * Class for the domain specific {@link org.sidiff.patching.api.settings.PatchingSettings}
  * @author Daniel Roedder, Robert Müller
  * 
  */

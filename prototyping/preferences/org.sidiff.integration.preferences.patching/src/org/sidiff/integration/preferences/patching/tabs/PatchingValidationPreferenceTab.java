@@ -6,7 +6,7 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
 
 /**
  * Class for the validation patching settings.

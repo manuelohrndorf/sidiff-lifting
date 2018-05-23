@@ -7,8 +7,8 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.api.settings.ExecutionMode;
+import org.sidiff.patching.api.settings.PatchMode;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
