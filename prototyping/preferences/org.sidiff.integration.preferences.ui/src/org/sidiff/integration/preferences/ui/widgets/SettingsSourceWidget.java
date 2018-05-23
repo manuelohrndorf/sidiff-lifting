@@ -66,18 +66,28 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private Diagnostic diagnostic;
 
 	public SettingsSourceWidget(AbstractSettings settings, InputModels inputModels) {
+		this(settings, getProjectFromInputModels(inputModels), inputModels.getDocumentTypes());
+	}
+
+	public SettingsSourceWidget(AbstractSettings settings, IProject project, Set<String> documentTypes) {
+		this.settings = settings;
+		this.project = project;
+		// some other widgets change the original set, so a local copy is created here
+		this.documentTypes = new HashSet<String>(documentTypes);
+		this.selectionListeners = new LinkedList<SelectionListener>();
+	}
+
+	private static IProject getProjectFromInputModels(InputModels inputModels) {
+		IProject project = null;
 		for(IFile file : inputModels.getFiles()) {
-			if(this.project == null) {
-				this.project = file.getProject();
-			} else if(!this.project.equals(file.getProject())) {
+			if(project == null) {
+				project = file.getProject();
+			} else if(!project.equals(file.getProject())) {
 				PreferencesUiPlugin.logWarning("Input models are not in the same project. "
 											 + "Using project specific settings of first one.");
 			}
 		}
-		// some other widgets change the original set, so a local copy is created here
-		this.documentTypes = new HashSet<String>(inputModels.getDocumentTypes());
-		this.settings = settings;
-		this.selectionListeners = new LinkedList<SelectionListener>();
+		return project;
 	}
 
 	@Override
@@ -221,7 +231,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 								: "The project specific settings are not valid.");
 			return false;
 		}
-		message = new ValidationMessage(ValidationType.OK, "");
+		message = ValidationMessage.OK;
 		return true;
 	}
 
