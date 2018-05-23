@@ -93,9 +93,11 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			// the first recognition rule sorter is used
 			if(rrSorter == null) {
 				String key = store.getString(KEY_RECOGNITION_RULE_SORTER(documentType));
-				rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
-				if(rrSorter == null) {
-					addWarning("Recognition Rule Sorter with key '" + key + "' was not found.");
+				if(!key.isEmpty()) {
+					rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
+					if(rrSorter == null) {
+						addWarning("Recognition Rule Sorter with key '" + key + "' was not found.");
+					}
 				}
 			}
 		}

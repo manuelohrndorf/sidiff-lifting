@@ -73,7 +73,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
 			if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
 				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
-			} else {
+			} else if(!techDiffBuilderKey.isEmpty()) {
 				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);
 				if(techBuilder != null) {
 					technicalDifferenceBuilderList.add(techBuilder);

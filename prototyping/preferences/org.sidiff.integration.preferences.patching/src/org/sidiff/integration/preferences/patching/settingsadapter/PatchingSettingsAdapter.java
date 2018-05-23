@@ -97,17 +97,21 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			// the first transformation engine is used
 			if(transformationEngine == null) {
 				String key = store.getString(KEY_TRANSFORMATION_ENGINE(documentType));
-				transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
-				if(transformationEngine == null) {
-					addWarning("Transformation Engine with key '" + key + "' was not found.");
+				if(!key.isEmpty()) {
+					transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
+					if(transformationEngine == null) {
+						addWarning("Transformation Engine with key '" + key + "' was not found.");
+					}
 				}
 			}
 			// the first modified detector is used
 			if(modifiedDetector == null) {
 				String key = store.getString(KEY_MODIFIED_DETECTOR(documentType));
-				modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(key);
-				if(modifiedDetector == null) {
-					addWarning("Modified Detector with key '" + key + "' was not found.");
+				if(!key.isEmpty()) {
+					modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(key);
+					if(modifiedDetector == null) {
+						addWarning("Modified Detector with key '" + key + "' was not found.");
+					}
 				}
 			}
 		}
