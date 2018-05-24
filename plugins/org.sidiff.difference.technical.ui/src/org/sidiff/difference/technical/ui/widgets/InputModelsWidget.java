@@ -2,6 +2,8 @@ package org.sidiff.difference.technical.ui.widgets;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -86,12 +88,11 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 
 		Group modelsGroup = new Group(container, SWT.NONE);
 		{
-			GridLayout grid = new GridLayout(2, false);
+			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelsGroup.setLayout(grid);
 			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
 			modelsGroup.setText("Select origin model:");
 		}
 
@@ -103,29 +104,30 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 		// Arrow:
 		final Image arrowUp = Activator.getImageDescriptor("arrow_up.png").createImage();
 		final Image arrowDown = Activator.getImageDescriptor("arrow_down.png").createImage();
-		new Label(modelsGroup, SWT.NONE);
-		
+
 		composite_arrow = new Composite(modelsGroup, SWT.NONE);
-		composite_arrow.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		composite_arrow.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		composite_arrow.setLayout(new GridLayout(2, false));
 		
 		final Label arrow = new Label(composite_arrow, SWT.NONE);
-		{
-			arrow.setImage(arrowDown);
-		}
+		arrow.setImage(arrowDown);
+		arrow.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				arrowUp.dispose();
+				arrowDown.dispose();
+			}
+		});
 
 		label_arrow = new Label(composite_arrow, SWT.NONE);
 		label_arrow.setSize(55, 15);
 		label_arrow.setText(arrowLabel);
-		new Label(modelsGroup, SWT.NONE);
 
 		// Model B:
 		modelBRadio = new Button(modelsGroup, SWT.RADIO);
 		modelBRadio.setText("Model: " + resourceB_name);
-		new Label(modelsGroup, SWT.NONE);
 
-		Label label = new Label(modelsGroup, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN
-				| SWT.CENTER);
+		Label label = new Label(modelsGroup, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
 		{
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			data.heightHint = 10;
@@ -204,7 +206,7 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 	@Override
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
-			return new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
 			return new ValidationMessage(ValidationType.ERROR, "Please select a source model!");
 		}
@@ -212,8 +214,8 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if ((modelARadio == null) || (modelBRadio == null)) {
-			throw new RuntimeException("Create controls first!");
+		if(modelARadio == null || modelBRadio == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
 		modelARadio.addSelectionListener(listener);
 		modelBRadio.addSelectionListener(listener);
@@ -221,16 +223,18 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if ((modelARadio != null) && (modelBRadio != null)) {
-			modelARadio.removeSelectionListener(listener);
-			modelBRadio.removeSelectionListener(listener);
+		if(modelARadio == null || modelBRadio == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
+		modelARadio.removeSelectionListener(listener);
+		modelBRadio.removeSelectionListener(listener);
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if(item == BaseSettingsItem.VALIDATE) {
 			updateButtonState();
+			getWidgetCallback().requestValidation();
 		}
 	}
 

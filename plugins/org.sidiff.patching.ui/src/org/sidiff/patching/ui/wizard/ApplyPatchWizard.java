@@ -7,11 +7,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -19,7 +16,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -35,14 +31,15 @@ import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.ExecutionMode;
+import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
@@ -64,27 +61,25 @@ public class ApplyPatchWizard extends Wizard {
 	private ApplyPatchPage02 applyPatchPage02;
 
 	private Patch patch;
-	private String patchName;
+	private IFile file;
 	private boolean validationState;
 	private PatchingSettings settings;
 
 	public ApplyPatchWizard(Patch patch, IFile file) {
 		this.setWindowTitle("Apply Patch Wizard");
 		this.patch = patch;
-		this.patchName = file.getName();
+		this.file = file;
 		this.settings = new PatchingSettings();
 	}
 
 	@Override
 	public void addPages() {
-		applyPatchPage01 = new ApplyPatchPage01("ApplyPatchPage",
-				"Apply Patch: " + patchName, getImageDescriptor("icon.png"),
-				settings);
-
-		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage",
-				"Apply Patch: " + patchName, getImageDescriptor("icon.png"),
-				settings);
+		applyPatchPage01 = new ApplyPatchPage01(patch, "ApplyPatchPage01",
+				"Apply Patch: " + file.getName(), settings, file.getProject());
 		addPage(applyPatchPage01);
+
+		applyPatchPage02 = new ApplyPatchPage02(patch, "ApplyPatchPage02",
+				"Apply Patch: " + file.getName(), settings, applyPatchPage01);
 		addPage(applyPatchPage02);
 	}
 
@@ -274,7 +269,7 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							patch.getAsymmetricDifference(),
-							resourceResult.get(), settings);
+							resourceResult.get(), PatchingUtils.convertSettingsCompat(settings));
 
 					if (useDiagramEditor
 							&& domainEditor
@@ -367,11 +362,5 @@ public class ApplyPatchWizard extends Wizard {
 			}
 		};
 		job.schedule();
-	}
-
-	protected ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(
-				Platform.getBundle(Activator.PLUGIN_ID),
-				new Path(String.format("icons/%s", name)), null));
 	}
 }

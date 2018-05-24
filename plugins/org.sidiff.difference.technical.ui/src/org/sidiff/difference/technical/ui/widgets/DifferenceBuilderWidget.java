@@ -126,8 +126,10 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 			}
 			IncrementalTechnicalDifferenceBuilder incBuilder = new IncrementalTechnicalDifferenceBuilder(tecBuilders);
 			return incBuilder;
-		}else{
+		} else if(list_builders.getSelectionCount() == 1) {
 			return builders.get(list_builders.getSelection()[0]);
+		} else {
+			return null;
 		}
 	}
 
@@ -142,7 +144,8 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 				// check if a generic builder is selected
 				for(String key : list_builders.getSelection()){
 					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
-						message = new ValidationMessage(ValidationType.ERROR, "To use the generic builder another builder must not be selected");
+						message = new ValidationMessage(ValidationType.ERROR,
+								"To use the generic builder another builder must not be selected");
 						return false;
 					}
 				}
@@ -188,7 +191,7 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 			message = new ValidationMessage(ValidationType.ERROR, "No technical difference builders are found.");
 			return false;
 		}
-		message = new ValidationMessage(ValidationType.OK, "");
+		message = ValidationMessage.OK;
 		return true;
 	}
 		
@@ -218,6 +221,7 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 	public void settingsChanged(Enum<?> item) {
 		if (item.equals(DifferenceSettingsItem.TECH_BUILDER)) {
 			updateSelection();
+			getWidgetCallback().requestValidation();
 		}
 	}
 

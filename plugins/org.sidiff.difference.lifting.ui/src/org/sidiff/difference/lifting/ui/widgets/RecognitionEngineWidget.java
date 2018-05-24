@@ -73,29 +73,12 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 				settings.setRecognitionEngineMode(getSelection());
 			}
 		});
-		// Enable/Disable rulebase on 'no lifting':
-//		addRulebaseDependency();
 
 		if(settings.getRecognitionEngineMode() == null) {
 			settings.setRecognitionEngineMode(this.getSelection());
 		}
 		return container;
 	}
-
-//	private void addRulebaseDependency() {
-//		if (rulebaseWidget != null) {
-//			addSelectionListener(new SelectionAdapter() {
-//				@Override
-//				public void widgetSelected(SelectionEvent e) {
-//					if (getSelection().equals(RecognitionEngineWidget.NO_LIFTING)) {
-//						rulebaseWidget.setEnabled(false);
-//					} else {
-//						rulebaseWidget.setEnabled(true);
-//					}
-//				}
-//			});
-//		}
-//	}
 
 	private String[] getRecognitionEnginesNames() {
 		java.util.List<String> items = new ArrayList<String>(3);
@@ -132,22 +115,16 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 
 	@Override
 	public boolean validate() {
-		if (list_recEngines.getSelectionIndex() != -1) {
-			return true;
-		} else {
-			return false;
-		}
+		return list_recEngines.getSelectionIndex() != -1;
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a recognition engine!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a recognition engine!");
 		}
-		return message;
 	}
 
 	@Override
@@ -167,16 +144,17 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(LiftingSettingsItem.RULEBASES)){
+		if(item.equals(LiftingSettingsItem.RULEBASES)) {
 			if(settings.getRuleBases().isEmpty()){
-				this.list_recEngines.setSelection(selectableModes.indexOf(RecognitionEngineMode.NO_LIFTING));
 				this.list_recEngines.setEnabled(false);
-			}else{
+				this.list_recEngines.setSelection(selectableModes.indexOf(RecognitionEngineMode.NO_LIFTING));
+			} else {
 				this.list_recEngines.setEnabled(true);
 				this.list_recEngines.setSelection(selectableModes.indexOf(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING));
 			}
 		} else if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)) {
 			updateSelection();
+			getWidgetCallback().requestValidation();
 		}
 	}
 

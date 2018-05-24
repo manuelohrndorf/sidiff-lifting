@@ -122,7 +122,7 @@ public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidg
 	@Override
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
-			return new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
 			return new ValidationMessage(ValidationType.ERROR, "Please select a recognition rule sorter!");
 		}
@@ -147,6 +147,7 @@ public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidg
 	public void settingsChanged(Enum<?> item) {
 		if(item.equals(LiftingSettingsItem.RECOGNITION_RULE_SORTER)) {
 			updateSelection();
+			getWidgetCallback().requestValidation();
 		}
 	}
 

@@ -6,11 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -18,7 +15,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -35,14 +31,14 @@ import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.ExecutionMode;
+import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
@@ -62,7 +58,6 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 	private ApplyAsymmetricDifferencePage01 applyAsymmetricDifferencePage01;
 	private ApplyAsymmetricDifferencePage02 applyAsymmetricDifferencePage02;
 
-
 	private AsymmetricDifference asymmetricDifference;
 	private String patchName;
 	private boolean validationState;
@@ -77,13 +72,12 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		applyAsymmetricDifferencePage01 = new ApplyAsymmetricDifferencePage01("ApplyAsymmetricDifferencePage01",
-				"Apply Patch: " + patchName, getImageDescriptor("icon.png"),
-				settings);
-
-		applyAsymmetricDifferencePage02 = new ApplyAsymmetricDifferencePage02("ApplyAsymmetricDifferencePage",
-				"Apply Patch: " + patchName, getImageDescriptor("icon.png"), settings, asymmetricDifference);
+		applyAsymmetricDifferencePage01 = new ApplyAsymmetricDifferencePage01(asymmetricDifference,
+				"ApplyAsymmetricDifferencePage01", "Apply Patch: " + patchName, settings);
 		addPage(applyAsymmetricDifferencePage01);
+
+		applyAsymmetricDifferencePage02 = new ApplyAsymmetricDifferencePage02(asymmetricDifference,
+				"ApplyAsymmetricDifferencePage02", "Apply Patch: " + patchName, settings, applyAsymmetricDifferencePage01);
 		addPage(applyAsymmetricDifferencePage02);
 	}
 
@@ -270,7 +264,7 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							asymmetricDifference,
-							resourceResult.get(), settings);
+							resourceResult.get(), PatchingUtils.convertSettingsCompat(settings));
 
 					if (useDiagramEditor
 							&& domainEditor
@@ -363,11 +357,5 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 			}
 		};
 		job.schedule();
-	}
-
-	protected ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(
-				Platform.getBundle(Activator.PLUGIN_ID),
-				new Path(String.format("icons/%s", name)), null));
 	}
 }

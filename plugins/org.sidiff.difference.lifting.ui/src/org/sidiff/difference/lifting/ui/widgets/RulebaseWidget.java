@@ -125,15 +125,10 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 		// Table header action - invert selection:
 		activeColumn.getColumn().addSelectionListener(new SelectionAdapter() {
-
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (RuleBaseEntry ruleBase : rulebases) {
-					if (ruleBase.activated) {
-						ruleBase.activated = false;
-					} else {
-						ruleBase.activated = true;
-					}
+					ruleBase.activated = !ruleBase.activated;
 				}
 				rulebaseTableViewer.refresh();
 				settings.setRuleBases(getSelection());
@@ -292,14 +287,13 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 	@Override
 	public boolean validate() {
-		return !getSelection().isEmpty();
-		
+		return !isLiftingEnabled() || !getSelection().isEmpty();
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
-			return new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
 			return new ValidationMessage(ValidationType.ERROR, "Please select at least one rulebase!");
 		}
@@ -323,11 +317,15 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)){
-			setEnabled(!settings.getRecognitionEngineMode().equals(RecognitionEngineMode.NO_LIFTING));
+			setEnabled(isLiftingEnabled());
 		} else if(item.equals(LiftingSettingsItem.RULEBASES)) {
 			updateRulebasesSelection();
+			getWidgetCallback().requestValidation();
 		}
-		
+	}
+
+	private boolean isLiftingEnabled() {
+		return settings != null && settings.getRecognitionEngineMode() != RecognitionEngineMode.NO_LIFTING;
 	}
 
 	public LiftingSettings getSettings() {

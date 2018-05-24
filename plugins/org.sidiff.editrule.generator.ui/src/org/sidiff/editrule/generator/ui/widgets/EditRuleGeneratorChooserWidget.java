@@ -7,22 +7,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
-public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidation, IWidgetInformation{
+public class EditRuleGeneratorChooserWidget implements IWidget, IWidgetValidation {
 
-	Group gChooser;
-	Composite parent;
-	Button rBtnManually;
-	Button rBtnGenerate;
-	
-	@Override
-	public String getInformationMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private Group gChooser;
+	private Composite parent;
+	private Button rBtnManually;
+	private Button rBtnGenerate;
 
 	@Override
 	public boolean validate() {

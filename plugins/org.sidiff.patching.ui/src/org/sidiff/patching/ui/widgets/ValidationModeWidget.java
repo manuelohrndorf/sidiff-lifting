@@ -10,22 +10,23 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 
-public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class ValidationModeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private PatchingSettings settings;
-	private ValidationMode validationMode = ValidationMode.NO_VALIDATION;
+	private ValidationMode validationMode;
 
 	private Composite container;
 	private Button noValidationButton;
-	private Button iterativeValidationButton;
 	private Button modelValidationButton;
+	private Button iterativeValidationButton;
 
 	public ValidationModeWidget() {
 	}
@@ -59,16 +60,15 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 		modelValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		modelValidationButton.setText("Model Validation");
-		
+
 		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
 		iterativeValidationButton.setText("Iterative Validation");
-
 
 		noValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.NO_VALIDATION;
-				((PatchingSettings)settings).setValidationMode(validationMode);
+				settings.setValidationMode(validationMode);
 			}
 		});
 
@@ -76,20 +76,22 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.MODEL_VALIDATION;
-				((PatchingSettings)settings).setValidationMode(validationMode);
+				settings.setValidationMode(validationMode);
 			}
 		});
-		
+
 		iterativeValidationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validationMode = ValidationMode.ITERATIVE_VALIDATION;
-				((PatchingSettings)settings).setValidationMode(validationMode);
+				settings.setValidationMode(validationMode);
 			}
 		});
-		
-		noValidationButton.setSelection(true);
-		((PatchingSettings)settings).setValidationMode(this.validationMode);
+
+		if(settings.getValidationMode() == null) {
+			settings.setValidationMode(ValidationMode.NO_VALIDATION);
+		}
+		updateSelection();
 		return container;
 	}
 
@@ -113,22 +115,18 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	@Override
 	public boolean validate() {
-		if (noValidationButton.getSelection() || modelValidationButton.getSelection()|| iterativeValidationButton.getSelection() ){
-			return true;
-		} else {
-			return false;
-		}
+		return noValidationButton.getSelection()
+				|| modelValidationButton.getSelection()
+				|| iterativeValidationButton.getSelection();
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a validation mode!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a validation mode!");
 		}
-		return message;
 	}
 
 	@Override
@@ -153,6 +151,10 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if(item == PatchingSettingsItem.VALIDATION_MODE) {
+			updateSelection();
+			getWidgetCallback().requestValidation();
+		}
 	}
 
 	public PatchingSettings getSettings() {
@@ -161,5 +163,21 @@ public class ValidationModeWidget implements IWidget, IWidgetSelection, IWidgetV
 
 	public void setSettings(PatchingSettings settings) {
 		this.settings = settings;
+		this.settings.addSettingsChangedListener(this);
+		updateSelection();
+	}
+
+	private void updateSelection() {
+		if(noValidationButton == null || modelValidationButton == null || iterativeValidationButton == null) {
+			return;
+		}
+
+		if(settings.getValidationMode() == ValidationMode.NO_VALIDATION) {
+			noValidationButton.setSelection(true);
+		} else if(settings.getValidationMode() == ValidationMode.MODEL_VALIDATION) {
+			modelValidationButton.setSelection(true);
+		} else if(settings.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
+			iterativeValidationButton.setSelection(true);
+		}
 	}
 }

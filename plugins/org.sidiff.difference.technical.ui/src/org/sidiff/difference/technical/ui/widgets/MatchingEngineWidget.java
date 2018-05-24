@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -28,7 +27,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
@@ -56,14 +54,11 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	protected Button moveDown;
 	protected Collection<MatcherConfiguration> matcherConfigurations;
 
-	protected IPageChangedListener pageChangedListener;
-
 	protected ValidationMessage message;
 
 	public MatchingEngineWidget(Collection<Resource> inputModels, boolean compabilityMode) {
 		this.inputModels = inputModels;
 		this.compabilityMode = compabilityMode;
-		// Connect scope widget:
 		getMatchers();
 	}
 
@@ -90,7 +85,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			gridData.horizontalSpan = 2;
 			matchingLabel.setLayoutData(gridData);
 		}
-		
+
 		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -113,7 +108,6 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			}
 		});
 
-		
 		moveUp = new Button(container, SWT.PUSH);
 		moveUp.setText("Move Up");
 		moveUp.addSelectionListener(new SelectionAdapter() {
@@ -125,9 +119,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 				}
 			}
 		});
-		
-		
-		
+
 		moveDown = new Button(container, SWT.PUSH);
 		moveDown.setText("Move Down");
 		moveDown.addSelectionListener(new SelectionAdapter() {
@@ -143,14 +135,14 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		// Set selection:
 		if (list_matchers.getItems().length != 0) {
 			updateSelection();
+			if(settings.getMatcher() == null) {
+				settings.setMatcher(this.getSelection());
+			}
 		} else {
 			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					"Missing Matcher", "No matchers are found!");
 		}
-		if(settings.getMatcher() == null) {
-			settings.setMatcher(this.getSelection());
-		}
-
+		
 		createConfigurationWidget();
 
 		return container;
@@ -205,10 +197,14 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	}
 
 	private void updateConfigurationWidgetVisibility() {
+		boolean layoutRequired = false;
 		if(matcherConfigurations != null) {
 			for(MatcherConfiguration config : matcherConfigurations) {
-				config.updateVisibility();
+				layoutRequired |= config.updateVisibility();
 			}
+		}
+		if(layoutRequired) {
+			getWidgetCallback().requestLayout();
 		}
 	}
 
@@ -287,7 +283,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 					"Selected matching engine does not support resourceset scope, select another matching engine!");
 			return false;
 		} else {
-			message = new ValidationMessage(ValidationType.OK, "");
+			message = ValidationMessage.OK;
 			return true;
 		}
 	}
@@ -314,10 +310,9 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if (item.equals(BaseSettingsItem.SCOPE)) {
-			pageChangedListener.pageChanged(null);
-		} else if (item.equals(MatchingSettingsItem.MATCHER)) {
+		if (item == MatchingSettingsItem.MATCHER) {
 			updateSelection();
+			getWidgetCallback().requestValidation();
 		}
 	}
 
@@ -331,7 +326,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		}
 	}
 
-	private void updateSelection() {
+	protected void updateSelection() {
 		if(list_matchers == null) {
 			return;
 		}
@@ -373,6 +368,9 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	}
 
 	private void updateButtonStates() {
+		if(moveUp == null || moveDown == null) {
+			return;
+		}
 		moveUp.setEnabled(list_matchers.getSelectionCount() == 1 && list_matchers.getSelectionIndex() > 0);
 		moveDown.setEnabled(list_matchers.getSelectionCount() == 1 && list_matchers.getSelectionIndex() < list_matchers.getItemCount()-1);
 	}
@@ -385,14 +383,6 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 		updateSelection();
-	}
-
-	public IPageChangedListener getPageChangedListener() {
-		return pageChangedListener;
-	}
-
-	public void setPageChangedListener(IPageChangedListener pageChangedListener) {
-		this.pageChangedListener = pageChangedListener;
 	}
 
 	private class MatcherConfiguration {
@@ -430,15 +420,18 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			}
 		}
 
-		public void updateVisibility() {
+		public boolean updateVisibility() {
 			if(list_matchers == null || group == null) {
-				return;
+				return false;
 			}
 
+			boolean old = group.isVisible();
 			boolean selected = list_matchers.isSelected(list_matchers.indexOf(matcher.getName()));
+
 			group.setVisible(selected);
 			((GridData)group.getLayoutData()).exclude = !selected;
 			group.requestLayout();
+			return old != selected;
 		}
 
 		public void updateSelection() {

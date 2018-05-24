@@ -46,21 +46,14 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	
 	
 	// ---------- Constructor ----------
-	
+
 	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
-		super(pageName, title);
-		
-		this.setImageDescriptor(Activator.getImageDescriptor("icon.png"));
-		
-		this.inputModels = inputModels;
-		this.settings = settings;
+		this(pageName, title, Activator.getImageDescriptor("icon.png"), inputModels, settings);
 	}
-	
-	
 
-	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, LiftingSettings settings) {
+	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
+			InputModels inputModels, LiftingSettings settings) {
 		super(pageName, title, titleImage);
-
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}
@@ -82,7 +75,6 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
-		scopeWidget.setPageChangedListener(this);
 		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 

@@ -1,6 +1,8 @@
 package org.sidiff.patching.ui.widgets;
 
 
+import java.util.Arrays;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,31 +14,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matching.input.InputModels;
+import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.patch.patch.Patch;
 
-public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidgetSelection, IWidgetValidation {
 
 	private Patch patch;
 	private Button use_manifest;
-	
+	private boolean initialSelection = true;
 
-
-	public ApplyPatchMatchingEngineWidget(InputModels inputModels, Patch patch) {
-		super(inputModels.getResources(), true);
+	public ApplyPatchMatchingEngineWidget(Patch patch) {
+		super(Arrays.asList(patch.getAsymmetricDifference().getOriginModel(),
+				patch.getAsymmetricDifference().getChangedModel()), true);
 		this.patch = patch;
-		
-		//Connect scope widget:
-		
-		getMatchers();
 	}
-	
-	
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -55,24 +49,19 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 		// Matcher controls:
 		Label matchingLabel = new Label(container, SWT.NONE);
 		matchingLabel.setText("Matching Engine:");
-		
+
 		use_manifest = new Button(container, SWT.CHECK);
-		use_manifest.setText("use manifest");
+		use_manifest.setText("Use manifest");
 		use_manifest.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e){
-				Button button = (Button) e.widget;
-				if(!button.getSelection()){
+				if(!use_manifest.getSelection()){
 					list_matchers.setEnabled(true);
-					list_matchers.setSelection(0);
-				}else{
-					int item = getItemFromManifest();
-					if(item != -1){
-						list_matchers.setEnabled(false);
-						list_matchers.setSelection(getItemFromManifest());
-					}else{
-						button.setSelection(false);
-					}
+					// reset selection using the super class implementation
+					ApplyPatchMatchingEngineWidget.super.updateSelection();
+				} else {
+					list_matchers.setEnabled(false);
+					list_matchers.setSelection(getItemFromManifest());
 				}
 				settings.setMatcher(getSelection());
 			}
@@ -85,49 +74,70 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 			list_matchers.setLayoutData(data);
 		}
 		list_matchers.setItems(matchers.keySet().toArray(new String[0]));
+		list_matchers.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IMatcher selection = getSelection();
+				if(selection != null) {
+					settings.setMatcher(selection);
+				}
+			}
+		});
 
 		// Set selection:
-		if(patch.getSettings().get("matcher") != null && list_matchers.getItems().length != 0){
-			int item = getItemFromManifest();
-			if(item != -1){
-				use_manifest.setSelection(true);
-				list_matchers.setSelection(item);
-				list_matchers.setEnabled(false);
-			}else{
-				use_manifest.setSelection(false);
-				list_matchers.setSelection(0);
-				list_matchers.setEnabled(true);
-				MessageDialog.openInformation(
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Missing Matcher", "Corresponding matcher is not found! Please choose another one.");
+		if(list_matchers.getItems().length != 0) {
+			updateSelection();
+			if(settings.getMatcher() == null) {
+				settings.setMatcher(getSelection());
 			}
-		}else if (list_matchers.getItems().length != 0) {
-			//Prefer Unique identifier matcher
-			int index = list_matchers.indexOf("UUID Matcher");
-		
-			if(index != -1)
-				list_matchers.setSelection(index);
-			else
-				list_matchers.setSelection(0);
-				
 		} else {
 			MessageDialog.openError(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					"Missing Matcher", "No matchers are found!");
 		}
-		list_matchers.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setMatcher(getSelection());
-			}
-		});
-		
-		settings.setMatcher(this.getSelection());
-		
+
 		return container;
 	}
 
-	private int getItemFromManifest(){
+	@Override
+	protected void updateSelection() {
+		if(list_matchers == null) {
+			return;
+		}
+
+		// get the matcher from the manifest
+		if(patch.getSettings().get("matcher") != null) {
+			if(initialSelection || use_manifest.getSelection()) {
+				int item = getItemFromManifest();
+				if(item != -1) {
+					use_manifest.setSelection(true);
+					use_manifest.setEnabled(true);
+					list_matchers.setSelection(item);
+					list_matchers.setEnabled(false);
+				} else {
+					use_manifest.setSelection(false);
+					use_manifest.setEnabled(false);
+					list_matchers.deselectAll();
+					list_matchers.setEnabled(true);
+					if(initialSelection) {
+						MessageDialog.openInformation(
+								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+								"Missing Matcher", "Corresponding matcher is not found! Please choose another one.");
+					}
+				}
+				initialSelection = false;
+			}
+		} else {
+			use_manifest.setEnabled(false);
+			list_matchers.setEnabled(true);
+		}
+
+		if(list_matchers.getSelectionCount() == 0) {
+			super.updateSelection();
+		}
+	}
+
+	private int getItemFromManifest() {
 		return list_matchers.indexOf(patch.getSettings().get("matcher"));
 	}
 }

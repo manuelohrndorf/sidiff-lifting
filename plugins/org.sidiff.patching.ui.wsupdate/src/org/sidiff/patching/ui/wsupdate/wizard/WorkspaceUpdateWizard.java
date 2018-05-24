@@ -45,13 +45,14 @@ import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.ExecutionMode;
+import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
@@ -296,7 +297,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							fullDiff.getAsymmetric(), resourceResult.get(),
-							patchingSettings);
+							PatchingUtils.convertSettingsCompat(patchingSettings));
 
 					if (useDiagramEditor
 							&& domainEditor

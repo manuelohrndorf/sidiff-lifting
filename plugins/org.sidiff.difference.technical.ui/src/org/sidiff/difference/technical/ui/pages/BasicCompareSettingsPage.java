@@ -59,17 +59,13 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	
 	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, DifferenceSettings settings) {
 		super(pageName, title);
-		
-		
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}
-	
-	
 
-	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, DifferenceSettings settings) {
+	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
+			InputModels inputModels, DifferenceSettings settings) {
 		super(pageName, title, titleImage);
-
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}
@@ -91,7 +87,6 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
-		scopeWidget.setPageChangedListener(this);
 		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
@@ -105,14 +100,12 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			algorithmsGroup.setLayoutData(data);
-
 			algorithmsGroup.setText("Algorithms:");
 		}
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
-		matcherWidget.setPageChangedListener(this);
 		matcherWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, matcherWidget);
 
@@ -127,5 +120,4 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	protected String getDefaultMessage() {
 		return "Compare two versions of a model: origin -> changed";
 	}
-
 }

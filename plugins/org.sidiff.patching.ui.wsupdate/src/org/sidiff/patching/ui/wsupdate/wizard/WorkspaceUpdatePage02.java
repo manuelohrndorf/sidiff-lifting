@@ -1,134 +1,44 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
-import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedListener {
+public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 
 	private String DEFAULT_MESSAGE = "Workspace update";
-
-	private Composite container;
 
 	private MatchingEngineWidget matcherWidget;
 	private ReliabilityWidget reliabilityWidget;
 	private DifferenceBuilderWidget builderWidget;
 
-	private SelectionAdapter validationListener;
-	private SelectionAdapter informationListener;
-
-	private WSUModels mergeModels;
-
 	private PatchingSettings patchingSettings;
 	private LiftingSettings liftingSettings;
+	private InputModels inputModels;
 
 	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
 			LiftingSettings liftingSettings, PatchingSettings settings) {
 		super(pageName, title, titleImage);
 
-		this.mergeModels = mergeModels;
 		this.liftingSettings = liftingSettings;
 		this.patchingSettings = settings;
-		
-		// Listen for validation failures:
-		validationListener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validate();
-			}
-		};
-		// Listen for widget information messages:
-		informationListener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				readInformationMessages();
-			}
-		};
+		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-
-		// Add scrolling to this page
-		final Composite wrapper = new Composite(parent, SWT.NONE);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 0;
-			layout.marginHeight = 0;
-			wrapper.setLayout(layout);
-		}
-
-		final ScrolledComposite sc = new ScrolledComposite(wrapper, SWT.V_SCROLL);
-		GridData sc_data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		{
-			sc.setLayoutData(sc_data);
-
-			sc.setExpandHorizontal(true);
-			sc.setExpandVertical(true);
-		}
-
-		container = new Composite(sc, SWT.NULL);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 10;
-			layout.marginHeight = 10;
-			container.setLayout(layout);
-		}
-
-		sc.setContent(container);
-
-		// Create widgets for this page:
-		createWidgets();
-
-		// Compute height:
-		sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
-		Point containerSize = container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		sc_data.heightHint = containerSize.y;
-
-		// Required to avoid an error in the system:
-		setControl(wrapper);
-
-		// Initial validation:
-		validate();
-
-		// Set dialog message:
-		/*
-		 * Note: Needed to force correct layout for scrollbar!? * Set at least
-		 * to setMessage(" ")!
-		 */
-		setMessage(DEFAULT_MESSAGE);
-
-		// Initialize information message:
-		readInformationMessages();
-
-	}
-
-	private void createWidgets() {
+	protected void createWidgets() {
 
 		// Algorithms:
 		Group algorithmsGroup = new Group(container, SWT.NONE);
@@ -140,25 +50,21 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			algorithmsGroup.setLayoutData(data);
-
 			algorithmsGroup.setText("Algorithms:");
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(
-				new InputModels(new IFile[]{mergeModels.getFileBase(), mergeModels.getFileTheirs()}).getResources(), true);
+		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.liftingSettings);
-		matcherWidget.setPageChangedListener(this);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Reliability
-		reliabilityWidget = new ReliabilityWidget(50);
+		reliabilityWidget = new ReliabilityWidget();
 		reliabilityWidget.setSettings(this.patchingSettings);
 		addWidget(algorithmsGroup, reliabilityWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(new InputModels(new IFile[]{mergeModels.getFileBase(),
-				mergeModels.getFileTheirs()}));
+		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.liftingSettings);
 		// FIXME
 		// if (builderWidget.getDifferenceBuilders().size() > 1) {
@@ -167,53 +73,8 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 		addWidget(algorithmsGroup, builderWidget);
 	}
 
-	private void addWidget(Composite parent, IWidget widget) {
-		// Create controls:
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		widget.createControl(parent);
-		widget.setLayoutData(data);
-
-		// Add validation:
-		if ((widget instanceof IWidgetSelection) && (widget instanceof IWidgetValidation)) {
-			((IWidgetSelection) widget).addSelectionListener(validationListener);
-			((IWidgetSelection) widget).addSelectionListener(informationListener);
-
-		}
-	}
-
-	private void validate() {
-		setErrorMessage(null);
-		setPageComplete(true);
-		validateWidget(matcherWidget);
-		validateWidget(builderWidget);
-	}
-
-	private void validateWidget(IWidgetValidation widget) {
-		if (!widget.validate()) {
-			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
-				setErrorMessage(widget.getValidationMessage().getMessage());
-				setPageComplete(false);
-			}else{
-				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
-			}
-		}
-	}
-
 	public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder() {
-		if (builderWidget.getDifferenceBuilders().size() > 1) {
-			return builderWidget.getSelection();
-		} else {
-			return builderWidget.getDifferenceBuilders().values().toArray(new ITechnicalDifferenceBuilder[0])[0];
-		}
-	}
-
-	private void readInformationMessages() {
-		if ((getErrorMessage() == null) || getErrorMessage().equals("")) {
-			setMessage(reliabilityWidget.getInformationMessage(), IMessageProvider.INFORMATION);
-		}
-		if ((getMessage() == null) || getMessage().equals("")) {
-			setMessage(DEFAULT_MESSAGE);
-		}
+		return builderWidget.getSelection();
 	}
 
 	public IMatcher getSelectedMatchingEngine() {
@@ -233,7 +94,7 @@ public class WorkspaceUpdatePage02 extends WizardPage implements IPageChangedLis
 	}
 
 	@Override
-	public void pageChanged(PageChangedEvent event) {
-		validate();
+	protected String getDefaultMessage() {
+		return DEFAULT_MESSAGE;
 	}
 }

@@ -1,139 +1,42 @@
 package org.sidiff.patching.ui.wizard;
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.patch.Patch;
-import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
 import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 
-public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener {
+public class ApplyPatchPage02 extends AbstractWizardPage {
 
 	private String DEFAULT_MESSAGE = "Apply a patch to a model";
-	
-	private Composite container;
+
+	private ApplyPatchPage01 applyPatchPage01;
 
 	private ApplyPatchMatchingEngineWidget matcherWidget;
 	private ApplyPatchSymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
 	private ReliabilityWidget reliabilityWidget;
-	
-	private SelectionAdapter validationListener;
-	private SelectionAdapter informationListener;
 
 	private Patch patch;
-	private AsymmetricDifference difference;
-	private InputModels inputModels;
-	
 	private PatchingSettings settings;
-	boolean use_SymbolicLinks=false;
+	private boolean use_SymbolicLinks;
 
-	public ApplyPatchPage02(Patch patch,
-			String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
-		super(pageName, title, titleImage);
+	public ApplyPatchPage02(Patch patch, String pageName, String title, PatchingSettings settings, ApplyPatchPage01 applyPatchPage01) {
+		super(pageName, title, Activator.getImageDescriptor("icon.png"));
 		this.patch = patch;
-		this.difference = patch.getAsymmetricDifference();
-		this.inputModels = new InputModels(new Resource[]{this.difference.getOriginModel(), this.difference.getChangedModel()});
 		this.settings = settings;
-		
-		if(patch.getSettings().get("symbolicLinkHandler")!=null){
-			use_SymbolicLinks=true;
-		}
-		
-		// Listen for validation failures:
-		validationListener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validate();
-			}
-		};
-
-		// Listen for widget information messages:
-		informationListener = new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				readInformationMessages();
-			}
-		};
-		
+		this.use_SymbolicLinks = patch.getSettings().get("symbolicLinkHandler")!=null;
+		this.applyPatchPage01 = applyPatchPage01;
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-
-		// Add scrolling to this page
-		final Composite wrapper = new Composite(parent, SWT.NONE);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 0;
-			layout.marginHeight = 0;
-			wrapper.setLayout(layout);
-		}
-
-		final ScrolledComposite sc = new ScrolledComposite(wrapper, SWT.V_SCROLL);
-		GridData sc_data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		{
-			sc.setLayoutData(sc_data);
-
-			sc.setExpandHorizontal(true);
-			sc.setExpandVertical(true);
-		}
-
-		container = new Composite(sc, SWT.NULL);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 10;
-			layout.marginHeight = 10;
-			container.setLayout(layout);
-		}
-
-		sc.setContent(container);
-
-		// Create widgets for this page:
-		createWidgets();
-
-		// Compute height:
-		sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
-		Point containerSize = container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		sc_data.heightHint = containerSize.y;
-
-		// Required to avoid an error in the system:
-		setControl(wrapper);
-
-		// Set dialog message:
-		/* Note: Needed to force correct layout for scrollbar!? *
-		 *       Set at least to setMessage(" ")!               */
-		setMessage(DEFAULT_MESSAGE);
-		
-		// Initial validation:
-		validate();
-		
-		// Initialize information message:
-		readInformationMessages();
-		
-	}
-
-	private void createWidgets() {
+	protected void createWidgets() {
 
 		// Algorithms:
 		Group algorithmsGroup = new Group(container, SWT.NONE);
@@ -145,76 +48,34 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			algorithmsGroup.setLayoutData(data);
-
 			algorithmsGroup.setText("Algorithms:");
 		}
 
-		if(use_SymbolicLinks){
+		if(use_SymbolicLinks) {
 			// Symbolic Link Resolver:
 			symbolicLinkHandlerWidget = new ApplyPatchSymbolicLinkHandlerWidget(settings, patch);
+			symbolicLinkHandlerWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 			addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
-		}else{
+		} else {
 			// Matcher:
-			matcherWidget = new ApplyPatchMatchingEngineWidget(inputModels, patch);
+			matcherWidget = new ApplyPatchMatchingEngineWidget(patch);
 			matcherWidget.setSettings(this.settings);
-			matcherWidget.setPageChangedListener(this);
+			matcherWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 			addWidget(algorithmsGroup, matcherWidget);
 		}
-		//Reliability
-		reliabilityWidget = new ReliabilityWidget(50);
+
+		// Reliability:
+		reliabilityWidget = new ReliabilityWidget();
 		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 		addWidget(container, reliabilityWidget);
-
-	}
-
-	private void addWidget(Composite parent, IWidget widget) {
-		// Create controls:
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		widget.createControl(parent);
-		widget.setLayoutData(data);
-
-		// Add selection listener:
-		if (widget instanceof IWidgetSelection) {
-			((IWidgetSelection) widget).addSelectionListener(validationListener);
-			((IWidgetSelection) widget).addSelectionListener(informationListener);
-		}
-	}
-
-	private void validate() {
-		setErrorMessage(null);
-		setPageComplete(true);
-		if(use_SymbolicLinks){
-			validateWidget(symbolicLinkHandlerWidget);
-		}else{
-			validateWidget(matcherWidget);
-		}
-	}
-
-	private void validateWidget(IWidgetValidation widget) {
-		if (!widget.validate()) {
-			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
-				setErrorMessage(widget.getValidationMessage().getMessage());
-				setPageComplete(false);
-			}else{
-				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
-			}
-		}
-	}
-
-	private void readInformationMessages() {
-		if ((getErrorMessage() == null) || getErrorMessage().equals("")) {
-			setMessage(reliabilityWidget.getInformationMessage(), IMessageProvider.INFORMATION);
-		}
-		if ((getMessage() == null) || getMessage().equals("")) {
-			setMessage(DEFAULT_MESSAGE);
-		}
 	}
 
 	public IMatcher getSelectedMatchingEngine() {
 		return matcherWidget.getSelection();
 	}
-	
-	public ReliabilityWidget getReliabilityWidget(){
+
+	public ReliabilityWidget getReliabilityWidget() {
 		return reliabilityWidget;
 	}
 
@@ -223,8 +84,7 @@ public class ApplyPatchPage02 extends WizardPage implements IPageChangedListener
 	}
 
 	@Override
-	public void pageChanged(PageChangedEvent event) {
-		validate();
+	protected String getDefaultMessage() {
+		return DEFAULT_MESSAGE;
 	}
-
 }

@@ -1,6 +1,5 @@
 package org.sidiff.difference.technical.ui.widgets;
 
-import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,7 +17,6 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
-import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
 public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	
@@ -26,8 +24,7 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 	private Composite container;
 	private Button resourceButton;
 	private Button resourceSetButton;
-	private IPageChangedListener pageChangedListener;
-	
+
 	public ScopeWidget() {
 	}
 
@@ -107,9 +104,10 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 	@Override
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
-			return new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
-			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName() + " does not support resourceset scope, select another matching engine!");
+			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
+					+ " does not support resourceset scope, select another matching engine!");
 		}else{
 			return new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
@@ -117,8 +115,8 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if ((resourceButton == null) || (resourceSetButton == null)) {
-			throw new RuntimeException("Create controls first!");
+		if(resourceButton == null || resourceSetButton == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
 		resourceButton.addSelectionListener(listener);
 		resourceSetButton.addSelectionListener(listener);
@@ -126,18 +124,18 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if ((resourceButton != null) || (resourceSetButton != null)) {
-			resourceButton.removeSelectionListener(listener);
-			resourceSetButton.removeSelectionListener(listener);
+		if(resourceButton == null || resourceSetButton == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
+		resourceButton.removeSelectionListener(listener);
+		resourceSetButton.removeSelectionListener(listener);
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(MatchingSettingsItem.MATCHER)){
-			if (pageChangedListener != null) pageChangedListener.pageChanged(null);
-		} else if (item.equals(BaseSettingsItem.SCOPE)) {
+		if (item == BaseSettingsItem.SCOPE) {
 			updateButtonStates();
+			getWidgetCallback().requestValidation();
 		}
 	}
 
@@ -155,13 +153,4 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 		this.settings.addSettingsChangedListener(this);
 		updateButtonStates();
 	}
-
-	public IPageChangedListener getPageChangedListener() {
-		return pageChangedListener;
-	}
-
-	public void setPageChangedListener(IPageChangedListener pageChangedListener) {
-		this.pageChangedListener = pageChangedListener;
-	}
-
 }

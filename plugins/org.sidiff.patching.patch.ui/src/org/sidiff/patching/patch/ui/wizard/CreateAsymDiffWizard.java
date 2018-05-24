@@ -48,7 +48,7 @@ public class CreateAsymDiffWizard extends Wizard {
 	public CreateAsymDiffWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Asymmetric Difference Wizard");
 
-		inputModels = new InputModels(new IFile[]{fileA, fileB});
+		inputModels = new InputModels(fileA, fileB);
 		settings = new PatchingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
@@ -57,13 +57,13 @@ public class CreateAsymDiffWizard extends Wizard {
 	@Override
 	public void addPages() {
 		createPatchPage01 = new CreatePatchPage01(
-				inputModels, 
-				"CreateDifferencePage", "Create Asymmetric Difference", null, settings, Mode.ASYMMETRIC_DIFFERENCE);
+				inputModels, "CreateDifferencePage01", "Create Asymmetric Difference",
+				null, settings, Mode.ASYMMETRIC_DIFFERENCE);
 		addPage(createPatchPage01);
-		
+
 		createPatchPage02 = new CreatePatchPage02(
-				inputModels,
-				"CreateDifferencePage", "Create Asymmetric Difference", null, settings, Mode.ASYMMETRIC_DIFFERENCE);
+				inputModels, "CreateDifferencePage02", "Create Asymmetric Difference",
+				null, settings, Mode.ASYMMETRIC_DIFFERENCE, createPatchPage01);
 		addPage(createPatchPage02);
 	}
 
