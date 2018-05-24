@@ -80,6 +80,8 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			patchingSettings.setValidationMode(validationMode);
 		}
 
+		patchingSettings.setSymbolicLinkHandler(symbolicLinkHandler);
+
 		patchingSettings.setInterruptHandler(createPatchInterruptHandler());
 
 		if(patchingSettings.getMatcher() != null) {
