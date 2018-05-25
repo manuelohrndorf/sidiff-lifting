@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_cJ0TYGAHEeiexZ-yKFkesA" name="bCMS">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_ciSdwGAHEeiexZ-yKFkesA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_cQ06UGAHEeiexZ-yKFkesA" name="Authorising">
+    <region xmi:type="uml:Region" xmi:id="_cRtrIGAHEeiexZ-yKFkesA" name="Authorising.Region1">
+      <transition xmi:type="uml:Transition" xmi:id="_Zyx4oGAJEeiexZ-yKFkesA" name="t(S.1.0.0,S.1.0.1)" source="_CZ4fkGAJEeiexZ-yKFkesA" target="_LXJ8kGAJEeiexZ-yKFkesA">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Z4GoEGAKEeiexZ-yKFkesA" name="authFSC.OpaqueBehavior">
+          <language>JAVA</language>
+          <body>PSCSystem.authFSC()</body>
+        </effect>
+        <trigger xmi:type="uml:Trigger" xmi:id="_o5fZEGAJEeiexZ-yKFkesA" name="sendPScoordinatorCredentials.Trigger" event="_uqixsGAJEeiexZ-yKFkesA"/>
+      </transition>
+      <transition xmi:type="uml:Transition" xmi:id="_DZOAMGAKEeiexZ-yKFkesA" name="t(Initial,S.1.0.0)" source="_91vmAGAIEeiexZ-yKFkesA" target="_CZ4fkGAJEeiexZ-yKFkesA"/>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_91vmAGAIEeiexZ-yKFkesA" name="Initial"/>
+      <subvertex xmi:type="uml:State" xmi:id="_CZ4fkGAJEeiexZ-yKFkesA" name="S.1.0.0"/>
+      <subvertex xmi:type="uml:State" xmi:id="_LXJ8kGAJEeiexZ-yKFkesA" name="S.1.0.1"/>
+    </region>
+    <region xmi:type="uml:Region" xmi:id="_3Olr0GAIEeiexZ-yKFkesA" name="Authorising.Region2">
+      <transition xmi:type="uml:Transition" xmi:id="_H97FAGALEeiexZ-yKFkesA" name="t(Initial,S.1.1.0)" source="_-ik20GAIEeiexZ-yKFkesA" target="_EHqlIGALEeiexZ-yKFkesA"/>
+      <transition xmi:type="uml:Transition" xmi:id="_W18pMGALEeiexZ-yKFkesA" name="t(S.1.1.0,S.1.1.1)" source="_EHqlIGALEeiexZ-yKFkesA" target="_Nljb4GALEeiexZ-yKFkesA">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_InUx4GAMEeiexZ-yKFkesA" name="authFSC.OpaqueBehavior">
+          <language>JAVA</language>
+          <body>PSCSystem.authFSC()</body>
+        </effect>
+        <trigger xmi:type="uml:Trigger" xmi:id="_sIqY4GALEeiexZ-yKFkesA" name="authFSC.Trigger" event="_0sNuUGALEeiexZ-yKFkesA"/>
+      </transition>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_-ik20GAIEeiexZ-yKFkesA" name="Initial"/>
+      <subvertex xmi:type="uml:State" xmi:id="_EHqlIGALEeiexZ-yKFkesA" name="S.1.1.0"/>
+      <subvertex xmi:type="uml:State" xmi:id="_Nljb4GALEeiexZ-yKFkesA" name="S.1.1.1"/>
+    </region>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_q2r7AGAIEeiexZ-yKFkesA" name="PSCSystem">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_s4v5YGAIEeiexZ-yKFkesA" name="authFSC"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_uALbgGAIEeiexZ-yKFkesA" name="sendPScoordinatorCredentials"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:CallEvent" xmi:id="_uqixsGAJEeiexZ-yKFkesA" name="sendPScoordinatorCredentials.CallEvent" operation="_uALbgGAIEeiexZ-yKFkesA"/>
+  <packagedElement xmi:type="uml:CallEvent" xmi:id="_0sNuUGALEeiexZ-yKFkesA" name="authFSC.CallEvent" operation="_s4v5YGAIEeiexZ-yKFkesA"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_ETg6sGAJEeiexZ-yKFkesA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ETjW8GAJEeiexZ-yKFkesA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>
