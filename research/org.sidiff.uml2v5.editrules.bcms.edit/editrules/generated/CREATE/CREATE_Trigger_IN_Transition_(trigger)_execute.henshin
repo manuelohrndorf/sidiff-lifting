@@ -1,83 +1,82 @@
-<?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Trigger_IN_Transition_(trigger)" description="Creates one Trigger in Transition">
-  <annotations key="INVERSE" value="DELETE_Trigger_IN_Transition_(trigger)"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_f2mFoBWhEeikPZ3Xy_J5Og" name="CREATE_Trigger_IN_Transition_(trigger)" description="Creates one Trigger in Transition">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createTrigger_IN_Transition" description="creates one Trigger in the context: Transition">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_f2mFohWhEeikPZ3Xy_J5Og" name="createTriggerInTransition" description="creates one Trigger in the context: Transition">
+    <parameters xmi:id="_f2mFoxWhEeikPZ3Xy_J5Og" name="Selected" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_f2mFpBWhEeikPZ3Xy_J5Og" name="Existing" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_f2mFpRWhEeikPZ3Xy_J5Og" name="New" kind="OUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_f2mFphWhEeikPZ3Xy_J5Og" name="Name" kind="IN">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility">
+    <parameters xmi:id="_f2mFpxWhEeikPZ3Xy_J5Og" name="Visibility" kind="IN">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_f2mssBWhEeikPZ3Xy_J5Og" name="Lhs">
+      <nodes xmi:id="_f2mssRWhEeikPZ3Xy_J5Og" name="Selected">
+        <annotations xmi:id="_f2msshWhEeikPZ3Xy_J5Og" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_f2mssxWhEeikPZ3Xy_J5Og" name="Existing">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_f2mstBWhEeikPZ3Xy_J5Og" name="Rhs">
+      <nodes xmi:id="_f2mstRWhEeikPZ3Xy_J5Og" name="Selected" outgoing="_f2msvBWhEeikPZ3Xy_J5Og">
+        <annotations xmi:id="_f2msthWhEeikPZ3Xy_J5Og" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_f2mstxWhEeikPZ3Xy_J5Og" name="New" incoming="_f2msvBWhEeikPZ3Xy_J5Og" outgoing="_f2msvRWhEeikPZ3Xy_J5Og">
+        <annotations xmi:id="_f2msuBWhEeikPZ3Xy_J5Og" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
-        <attributes value="Name">
+        <attributes xmi:id="_f2msuRWhEeikPZ3Xy_J5Og" value="Name">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
         </attributes>
-        <attributes value="Visibility">
+        <attributes xmi:id="_f2msuhWhEeikPZ3Xy_J5Og" value="Visibility">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
         </attributes>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@rhs/@edges.1">
+      <nodes xmi:id="_f2msuxWhEeikPZ3Xy_J5Og" name="Existing" incoming="_f2msvRWhEeikPZ3Xy_J5Og">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_f2msvBWhEeikPZ3Xy_J5Og" source="_f2mstRWhEeikPZ3Xy_J5Og" target="_f2mstxWhEeikPZ3Xy_J5Og">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/trigger"/>
       </edges>
-      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.2">
+      <edges xmi:id="_f2msvRWhEeikPZ3Xy_J5Og" source="_f2mstxWhEeikPZ3Xy_J5Og" target="_f2msuxWhEeikPZ3Xy_J5Og">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings xmi:id="_f2msvhWhEeikPZ3Xy_J5Og" origin="_f2mssRWhEeikPZ3Xy_J5Og" image="_f2mstRWhEeikPZ3Xy_J5Og"/>
+    <mappings xmi:id="_f2msvxWhEeikPZ3Xy_J5Og" origin="_f2mssxWhEeikPZ3Xy_J5Og" image="_f2msuxWhEeikPZ3Xy_J5Og"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_f2mswBWhEeikPZ3Xy_J5Og" name="mainUnit" subUnits="_f2mFohWhEeikPZ3Xy_J5Og">
+    <parameters xmi:id="_f2mswRWhEeikPZ3Xy_J5Og" name="selectedEObject">
+      <annotations xmi:id="_f2mswhWhEeikPZ3Xy_J5Og" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Existing">
-      <annotations key="INVERSE" value="Existing"/>
+    <parameters xmi:id="_f2mswxWhEeikPZ3Xy_J5Og" name="Existing">
+      <annotations xmi:id="_f2msxBWhEeikPZ3Xy_J5Og" key="INVERSE" value="Existing"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_f2msxRWhEeikPZ3Xy_J5Og" name="New">
+      <annotations xmi:id="_f2msxhWhEeikPZ3Xy_J5Og" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_f2msxxWhEeikPZ3Xy_J5Og" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility">
+    <parameters xmi:id="_f2msyBWhEeikPZ3Xy_J5Og" name="Visibility">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.0/@parameters.2" target="//@units.1/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
-    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings xmi:id="_f2msyRWhEeikPZ3Xy_J5Og" source="_f2mswRWhEeikPZ3Xy_J5Og" target="_f2mFoxWhEeikPZ3Xy_J5Og"/>
+    <parameterMappings xmi:id="_f2msyhWhEeikPZ3Xy_J5Og" source="_f2mswxWhEeikPZ3Xy_J5Og" target="_f2mFpBWhEeikPZ3Xy_J5Og"/>
+    <parameterMappings xmi:id="_f2msyxWhEeikPZ3Xy_J5Og" source="_f2mFpRWhEeikPZ3Xy_J5Og" target="_f2msxRWhEeikPZ3Xy_J5Og"/>
+    <parameterMappings xmi:id="_f2mszBWhEeikPZ3Xy_J5Og" source="_f2msxxWhEeikPZ3Xy_J5Og" target="_f2mFphWhEeikPZ3Xy_J5Og"/>
+    <parameterMappings xmi:id="_f2mszRWhEeikPZ3Xy_J5Og" source="_f2msyBWhEeikPZ3Xy_J5Og" target="_f2mFpxWhEeikPZ3Xy_J5Og"/>
   </units>
 </henshin:Module>
