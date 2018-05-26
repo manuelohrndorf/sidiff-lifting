@@ -10,7 +10,7 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.settings.ExecutionMode;
 import org.sidiff.patching.settings.PatchMode;
 import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.settings.ValidationMode;
 
 public class PatchingUtils {
 

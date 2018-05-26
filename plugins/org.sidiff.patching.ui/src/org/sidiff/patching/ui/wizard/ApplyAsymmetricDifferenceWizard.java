@@ -34,7 +34,7 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.api.settings.ExecutionMode;
 import org.sidiff.patching.api.settings.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;

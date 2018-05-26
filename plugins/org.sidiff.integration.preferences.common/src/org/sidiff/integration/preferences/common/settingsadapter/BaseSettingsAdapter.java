@@ -3,9 +3,9 @@ package org.sidiff.integration.preferences.common.settingsadapter;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.AbstractSettings;
 import org.sidiff.common.settings.Activator;
 import org.sidiff.common.settings.BaseSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
@@ -22,12 +22,12 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 	private boolean validate;
 
 	@Override
-	public boolean canAdapt(AbstractSettings settings) {
+	public boolean canAdapt(ISettings settings) {
 		return settings instanceof BaseSettings;
 	}
 
 	@Override
-	public void adapt(AbstractSettings settings) {
+	public void adapt(ISettings settings) {
 		BaseSettings baseSettings = (BaseSettings)settings;
 		if(scope != null) {
 			baseSettings.setScope(scope);

@@ -36,7 +36,7 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.settings.ValidationMode;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;

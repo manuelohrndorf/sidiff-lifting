@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -34,12 +34,12 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 	private boolean unmergeImports;
 
 	@Override
-	public boolean canAdapt(AbstractSettings settings) {
+	public boolean canAdapt(ISettings settings) {
 		return settings instanceof DifferenceSettings;
 	}
 
 	@Override
-	public void adapt(AbstractSettings settings) {
+	public void adapt(ISettings settings) {
 		DifferenceSettings diffSettings = (DifferenceSettings)settings;
 		ITechnicalDifferenceBuilder techBuilder = createTechBuilder();
 		if(techBuilder != null) {

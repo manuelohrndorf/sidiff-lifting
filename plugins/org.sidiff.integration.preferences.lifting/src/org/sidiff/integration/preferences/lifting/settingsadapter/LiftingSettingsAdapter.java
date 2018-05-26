@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
@@ -55,12 +55,12 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 	private boolean detectSplitJoins;
 
 	@Override
-	public boolean canAdapt(AbstractSettings settings) {
+	public boolean canAdapt(ISettings settings) {
 		return settings instanceof LiftingSettings;
 	}
 
 	@Override
-	public void adapt(AbstractSettings settings) {
+	public void adapt(ISettings settings) {
 		LiftingSettings liftingSettings = (LiftingSettings)settings;
 		liftingSettings.setRuleBases(ruleBases);
 		liftingSettings.setRrSorter(rrSorter);

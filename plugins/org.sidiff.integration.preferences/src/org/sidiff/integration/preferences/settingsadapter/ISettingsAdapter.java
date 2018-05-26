@@ -4,11 +4,11 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 
 /**	
  * A settings adapter loads preferences from a {@link IPreferenceStore preference store}
- * and sets the field of {@link AbstractSettings settings} according to the preferences.
+ * and sets the field of {@link ISettings settings} according to the preferences.
  * @author Robert Müller
  *
  */
@@ -19,21 +19,21 @@ public interface ISettingsAdapter {
 	String EXTENSION_POINT_ATTRIBUTE_CLASS = "class";
 
 	/**
-	 * Returns whether the given {@link AbstractSettings settings} can be adapted by this settings adapter.
+	 * Returns whether the given {@link ISettings settings} can be adapted by this settings adapter.
 	 * No further methods will be called if this method returns <code>false</code>.
 	 * @param settings the settings
 	 * @return <code>true</code>, if the settings can be adapted by this adapter, <code>false</code> otherwise
 	 */
-	boolean canAdapt(AbstractSettings settings);
+	boolean canAdapt(ISettings settings);
 
 	/**
-	 * Adapts the given {@link AbstractSettings settings} with the previously {@link #load(IPreferenceStore) loaded} preferences.
+	 * Adapts the given {@link ISettings settings} with the previously {@link #load(IPreferenceStore) loaded} preferences.
 	 * @param settings the settings
 	 */
-	void adapt(AbstractSettings settings);
+	void adapt(ISettings settings);
 
 	/**
-	 * Loads preference values from the given preference store. Will be called before {@link #adapt(AbstractSettings) adapt}.
+	 * Loads preference values from the given preference store. Will be called before {@link #adapt(ISettings) adapt}.
 	 * @param store the preference store
 	 */
 	void load(IPreferenceStore store);

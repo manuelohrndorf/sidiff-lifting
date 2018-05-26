@@ -15,8 +15,8 @@ import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
+import org.sidiff.patching.api.settings.ValidationMode;
 
 public class ValidationModeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

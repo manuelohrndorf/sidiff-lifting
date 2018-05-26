@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
@@ -49,12 +49,12 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	private ISimilaritiesCalculation similaritiesCalculationService;
 
 	@Override
-	public boolean canAdapt(AbstractSettings settings) {
+	public boolean canAdapt(ISettings settings) {
 		return settings instanceof MatchingSettings;
 	}
 
 	@Override
-	public void adapt(AbstractSettings settings) {
+	public void adapt(ISettings settings) {
 		MatchingSettings matchingSettings = (MatchingSettings)settings;
 		IMatcher matcher = createMatcher();
 		if(matcher != null) {

@@ -15,7 +15,6 @@ import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
@@ -88,8 +87,7 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 		});
 
 		setEnabled(checkComputability());
-		// TODO: 0 is still a valid value, PatchingSettings.minReliability should be initialized to -1 instead - rmueller
-		if(settings.getMinReliability() <= 0) {
+		if(settings.getMinReliability() < 0) {
 			settings.setMinReliability(defaultReliability);
 		}
 		updateSelection();
@@ -148,7 +146,7 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if (item == MatchingSettingsItem.MATCHER
-				|| item == LiftingSettingsItem.SYMBOLIC_LINK_HANDLER) {
+				|| item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
 			getWidgetCallback().requestValidation();
 		} else if(item == PatchingSettingsItem.RELIABILITY) {
 			updateSelection();

@@ -19,8 +19,8 @@ import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
@@ -144,7 +144,7 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item == LiftingSettingsItem.SYMBOLIC_LINK_HANDLER) {
+		if(item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
 			updateSelection();
 			getWidgetCallback().requestValidation();
 		}

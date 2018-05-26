@@ -27,7 +27,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.matching.input.InputModels;

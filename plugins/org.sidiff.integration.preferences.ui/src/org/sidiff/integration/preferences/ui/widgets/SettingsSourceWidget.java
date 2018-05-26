@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.swt.SWT;
@@ -25,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -56,7 +57,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private List<SelectionListener> selectionListeners;
 
 	// inputs
-	private AbstractSettings settings;
+	private ISettings settings;
 	private IProject project;
 	private Set<String> documentTypes;
 
@@ -65,11 +66,11 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private ValidationMessage message;
 	private Diagnostic diagnostic;
 
-	public SettingsSourceWidget(AbstractSettings settings, InputModels inputModels) {
+	public SettingsSourceWidget(ISettings settings, InputModels inputModels) {
 		this(settings, getProjectFromInputModels(inputModels), inputModels.getDocumentTypes());
 	}
 
-	public SettingsSourceWidget(AbstractSettings settings, IProject project, Set<String> documentTypes) {
+	public SettingsSourceWidget(ISettings settings, IProject project, Set<String> documentTypes) {
 		this.settings = settings;
 		this.project = project;
 		// some other widgets change the original set, so a local copy is created here
@@ -224,7 +225,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 
 	@Override
 	public boolean validate() {
-		if(source != Source.CUSTOM && (!settings.validateSettings()
+		if(source != Source.CUSTOM && (settings.validate().getSeverity() >= IStatus.ERROR
 				|| (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR))) {
 			// WARNING instead of ERROR so other validation messages take precedence over this one, as it is pretty vague
 			message = new ValidationMessage(ValidationType.WARNING,

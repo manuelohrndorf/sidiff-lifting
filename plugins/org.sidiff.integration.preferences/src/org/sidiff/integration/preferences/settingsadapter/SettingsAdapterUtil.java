@@ -14,13 +14,13 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.util.PipelineStepUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
- * Contains utility functions for retrieving {@link ISettingsAdapter}s, adapting {@link AbstractSettings}
+ * Contains utility functions for retrieving {@link ISettingsAdapter}s, adapting {@link ISettings}
  * and initializing default preference values.
  * @author Robert Müller
  *
@@ -69,7 +69,7 @@ public class SettingsAdapterUtil {
 	 * @param documentTypes the document types that the adapters should use
 	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
-	public static Diagnostic adaptSettingsGlobal(AbstractSettings settings, Set<String> documentTypes) {
+	public static Diagnostic adaptSettingsGlobal(ISettings settings, Set<String> documentTypes) {
 		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(), documentTypes);
 	}
 
@@ -81,7 +81,7 @@ public class SettingsAdapterUtil {
 	 * @param documentTypes the document types that the adapters should use
 	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
-	public static Diagnostic adaptSettingsProject(AbstractSettings settings, IProject project, Set<String> documentTypes) {
+	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project, Set<String> documentTypes) {
 		try {
 			if(!PreferenceStoreUtil.useSpecificSettings(project)) {
 				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
@@ -94,7 +94,7 @@ public class SettingsAdapterUtil {
 		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project), documentTypes);
 	}
 
-	protected static Diagnostic adaptSettings(AbstractSettings settings, IPreferenceStore store, Set<String> documentTypes) {
+	protected static Diagnostic adaptSettings(ISettings settings, IPreferenceStore store, Set<String> documentTypes) {
 		Assert.isNotNull(settings);
 		Assert.isNotNull(store);
 		Assert.isNotNull(documentTypes);

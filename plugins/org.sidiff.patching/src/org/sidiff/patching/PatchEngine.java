@@ -39,7 +39,7 @@ import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.settings.ExecutionMode;
 import org.sidiff.patching.settings.PatchMode;
 import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.settings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;

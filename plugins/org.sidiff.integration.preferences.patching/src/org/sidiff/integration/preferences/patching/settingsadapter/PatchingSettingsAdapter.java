@@ -2,7 +2,7 @@ package org.sidiff.integration.preferences.patching.settingsadapter;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.settings.ISettings;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.patching.Activator;
@@ -11,7 +11,7 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.api.settings.ExecutionMode;
 import org.sidiff.patching.api.settings.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
@@ -54,12 +54,12 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	private ISymbolicLinkHandler symbolicLinkHandler;
 
 	@Override
-	public boolean canAdapt(AbstractSettings settings) {
+	public boolean canAdapt(ISettings settings) {
 		return settings instanceof PatchingSettings;
 	}
 
 	@Override
-	public void adapt(AbstractSettings settings) {
+	public void adapt(ISettings settings) {
 		PatchingSettings patchingSettings = (PatchingSettings)settings;
 		if(transformationEngine != null) {
 			patchingSettings.setTransformationEngine(transformationEngine);
