@@ -94,10 +94,8 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				list_symbolicLinkHandlers.setEnabled(use_symbolicLinks.getSelection());
-				ISymbolicLinkHandler selection = getSelection();
-				if(selection != null) {
-					settings.setSymbolicLinkHandler(selection);
-				}
+				// this will set the symbolic link handler to null if symbolic links were disabled
+				settings.setSymbolicLinkHandler(getSelection());
 			}
 		});
 
