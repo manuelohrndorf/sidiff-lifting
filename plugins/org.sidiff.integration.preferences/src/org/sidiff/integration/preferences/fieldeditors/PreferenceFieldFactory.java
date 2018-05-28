@@ -35,6 +35,24 @@ public class PreferenceFieldFactory {
 	}
 
 	/**
+	 * <p>Creates a preference field with a group of radio buttons.
+	 * Only one radio button can be selected at a time.</p>
+	 * <p>If <code>allowUnset</code> is <code>true</code>, an additional button
+	 * representing an unset preference will be provided. If this is the case,
+	 * the provided value converter must provide a value and label for the value <code>null</code>.</p>
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the field
+	 * @param inputs the items to create radio buttons for
+	 * @param valueConverter value converter to provider labels and values for the items
+	 * @param allowUnset whether this radio box can allows an unset value
+	 * @return radio group preference field
+	 */
+	public static <T> IPreferenceField createRadioBox(String preferenceName, String title,
+			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter, boolean allowUnset) {
+		return new RadioBoxPreferenceField<T>(preferenceName, title, inputs, valueConverter, allowUnset);
+	}
+
+	/**
 	 * Creates a preference field with a group of radio buttons.
 	 * Only one radio button can be selected at a time.
 	 * @param preferenceName the name of the preference
@@ -45,7 +63,7 @@ public class PreferenceFieldFactory {
 	 */
 	public static <T> IPreferenceField createRadioBox(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
-		return new RadioBoxPreferenceField<T>(preferenceName, title, inputs, valueConverter);
+		return createRadioBox(preferenceName, title, inputs, valueConverter, false);
 	}
 
 	/**

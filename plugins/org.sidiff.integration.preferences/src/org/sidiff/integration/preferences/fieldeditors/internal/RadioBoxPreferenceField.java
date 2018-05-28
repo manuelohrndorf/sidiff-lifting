@@ -13,6 +13,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -28,9 +29,12 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 public class RadioBoxPreferenceField<T> extends PreferenceField {
 
 	private final List<T> inputs;
-	private Map<String, Button> buttons;
+	private final IPreferenceValueConverter<? super T> valueConverter;
+	private final boolean allowUnset;
+
 	private String current;
-	private IPreferenceValueConverter<? super T> valueConverter;
+	private Map<String, Button> buttons;
+	private SelectionListener selectionListener;
 
 	/**
 	 * @param preferenceName the name of the preference in the store 
@@ -38,11 +42,12 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @param inputs the input elements (map of value to label)
 	 * @param valueConverter a converter, that returns a value and a label for an element in the input
 	 */
-	public RadioBoxPreferenceField(String preferenceName, String title,
-			Collection<? extends T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
+	public RadioBoxPreferenceField(String preferenceName, String title, Collection<? extends T> inputs,
+			IPreferenceValueConverter<? super T> valueConverter, boolean allowUnset) {
 		super(preferenceName, title);
 		this.inputs = Collections.unmodifiableList(new ArrayList<T>(inputs));
 		this.valueConverter = valueConverter;
+		this.allowUnset = allowUnset;
 	}
 
 	@Override
@@ -60,13 +65,14 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	/**
 	 * updates the state of the Radioboxes, selecting the correct box if necessary
 	 */
-	public void updateButton() {
+	protected void updateButton() {
 		for(Button button : buttons.values()) {
 			button.setSelection(false);
 		}
-		
-		if(buttons.containsKey(current))
+
+		if(buttons.containsKey(current)) {
 			buttons.get(current).setSelection(true);
+		}
 	}
 
 	@Override
@@ -82,13 +88,19 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 
 		buttons = new HashMap<String, Button>();
 		for(T input : inputs) {
-			Button b = new Button(group, SWT.RADIO);
-			b.addSelectionListener(createSelectionListener(valueConverter.getValue(input)));
-			b.setText(valueConverter.getLabel(input));
-			buttons.put(valueConverter.getValue(input), b);
+			createRadioButton(group, valueConverter.getValue(input), valueConverter.getLabel(input));
 		}
 
-		if(inputs.isEmpty()) {
+		if(allowUnset) {
+			// create a separator if at least one other button exists
+			if(!inputs.isEmpty()) {
+				Label separator = new Label(group, SWT.HORIZONTAL | SWT.SEPARATOR);
+				separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			}
+
+			createRadioButton(group, valueConverter.getValue(null), valueConverter.getLabel(null));
+		} else if(inputs.isEmpty()) {
+			// unset value is not allowed, so no button is shown at all
 			Label label = new Label(group, SWT.NONE);
 			label.setText("None available");
 		}
@@ -96,20 +108,35 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 		return group;
 	}
 
-	/**
-	 * helper method to create a SelectionListener for the radio boxes
-	 * @param value the new value, that has been selected
-	 * @return the newly created SelectionListener
-	 */
-	private SelectionListener createSelectionListener(final String value) {
-		return new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				String previous = current;
-				current = value;
-				firePropertyChanged(previous, current);
-			}
-		};
+	protected Button createRadioButton(Group group, String value, String label) {
+		Button b = new Button(group, SWT.RADIO);
+		b.addSelectionListener(getButtonSelectionListener());
+		b.setText(label);
+		buttons.put(value, b);
+		return b;
+	}
+
+	private SelectionListener getButtonSelectionListener() {
+		if(selectionListener == null) {
+			selectionListener = new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					final Button button = (Button)e.getSource();
+					if(button.getSelection()) {
+						for(Map.Entry<String, Button> entry : buttons.entrySet()) {
+							if(entry.getValue() == button) {
+								final String previous = current;
+								current = entry.getKey();
+								firePropertyChanged(previous, current);
+								return;
+							}
+						}
+						
+					}
+				}
+			};
+		}
+		return selectionListener;
 	}
 
 	@Override
