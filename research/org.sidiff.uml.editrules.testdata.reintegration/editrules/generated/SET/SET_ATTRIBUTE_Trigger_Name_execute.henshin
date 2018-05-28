@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Trigger_Name" description="Sets Trigger Name">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qYHlEGDLEei4iawURZlagw" name="SET_ATTRIBUTE_Trigger_Name" description="Sets Trigger Name">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setTriggerName" description="Sets the EAttribute name">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qYIMIGDLEei4iawURZlagw" name="setTriggerName" description="Sets the EAttribute name">
+    <parameters xmi:id="_qYIMIWDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Name" kind="OUT">
+    <parameters xmi:id="_qYIMImDLEei4iawURZlagw" name="Name" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qYIMI2DLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qYIMJGDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_qYIMJWDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qYIMJmDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
-        <attributes value="Name">
+        <attributes xmi:id="_qYIMJ2DLEei4iawURZlagw" value="Name">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qYIMKGDLEei4iawURZlagw" origin="_qYIMJGDLEei4iawURZlagw" image="_qYIMJmDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qYIMKWDLEei4iawURZlagw" name="mainUnit" subUnits="_qYIMIGDLEei4iawURZlagw">
+    <parameters xmi:id="_qYIMKmDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_qYIMK2DLEei4iawURZlagw" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qYIMLGDLEei4iawURZlagw" source="_qYIMKmDLEei4iawURZlagw" target="_qYIMIWDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qYIMLWDLEei4iawURZlagw" source="_qYIMK2DLEei4iawURZlagw" target="_qYIMImDLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

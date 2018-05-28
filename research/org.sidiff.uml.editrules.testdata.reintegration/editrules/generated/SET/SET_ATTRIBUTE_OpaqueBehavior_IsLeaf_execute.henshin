@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_OpaqueBehavior_IsLeaf" description="Sets OpaqueBehavior IsLeaf">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qYib0GDLEei4iawURZlagw" name="SET_ATTRIBUTE_OpaqueBehavior_IsLeaf" description="Sets OpaqueBehavior IsLeaf">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setOpaqueBehaviorIsLeaf" description="Sets the EAttribute isLeaf">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qYib0WDLEei4iawURZlagw" name="setOpaqueBehaviorIsLeaf" description="Sets the EAttribute isLeaf">
+    <parameters xmi:id="_qYib0mDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <parameters name="IsLeaf" kind="OUT">
+    <parameters xmi:id="_qYib02DLEei4iawURZlagw" name="IsLeaf" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qYib1GDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qYib1WDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_qYib1mDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qYib12DLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
-        <attributes value="IsLeaf">
+        <attributes xmi:id="_qYib2GDLEei4iawURZlagw" value="IsLeaf">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qYib2WDLEei4iawURZlagw" origin="_qYib1WDLEei4iawURZlagw" image="_qYib12DLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qYib2mDLEei4iawURZlagw" name="mainUnit" subUnits="_qYib0WDLEei4iawURZlagw">
+    <parameters xmi:id="_qYib22DLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <parameters name="IsLeaf">
+    <parameters xmi:id="_qYib3GDLEei4iawURZlagw" name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qYib3WDLEei4iawURZlagw" source="_qYib22DLEei4iawURZlagw" target="_qYib0mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qYib3mDLEei4iawURZlagw" source="_qYib3GDLEei4iawURZlagw" target="_qYib02DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

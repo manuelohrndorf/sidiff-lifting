@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Pseudostate_IN_Region_(subvertex)" description="Deletes one Pseudostate in Region">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qWyIUGDLEei4iawURZlagw" name="DELETE_Pseudostate_IN_Region_(subvertex)" description="Deletes one Pseudostate in Region">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deletePseudostate_IN_Region" description="deletes one Pseudostate in the context: Region">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qWyIUWDLEei4iawURZlagw" name="deletePseudostate_IN_Region" description="deletes one Pseudostate in the context: Region">
+    <parameters xmi:id="_qWyIUmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="ToBeDeleted" kind="IN">
+    <parameters xmi:id="_qWyIU2DLEei4iawURZlagw" name="ToBeDeleted" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_qWyIVGDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qWyIVWDLEei4iawURZlagw" name="Selected" incoming="_qWyIWGDLEei4iawURZlagw" outgoing="_qWyIV2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_qWyIVmDLEei4iawURZlagw" name="ToBeDeleted" incoming="_qWyIV2DLEei4iawURZlagw" outgoing="_qWyIWGDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qWyIV2DLEei4iawURZlagw" source="_qWyIVWDLEei4iawURZlagw" target="_qWyIVmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/subvertex"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_qWyIWGDLEei4iawURZlagw" source="_qWyIVmDLEei4iawURZlagw" target="_qWyIVWDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_qWyIWWDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qWyIWmDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qWyIW2DLEei4iawURZlagw" origin="_qWyIVWDLEei4iawURZlagw" image="_qWyIWmDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qWyIXGDLEei4iawURZlagw" name="mainUnit" subUnits="_qWyIUWDLEei4iawURZlagw">
+    <parameters xmi:id="_qWyIXWDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_qWyIXmDLEei4iawURZlagw" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qWyIX2DLEei4iawURZlagw" source="_qWyIXWDLEei4iawURZlagw" target="_qWyIUmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWyIYGDLEei4iawURZlagw" source="_qWyIXmDLEei4iawURZlagw" target="_qWyIU2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

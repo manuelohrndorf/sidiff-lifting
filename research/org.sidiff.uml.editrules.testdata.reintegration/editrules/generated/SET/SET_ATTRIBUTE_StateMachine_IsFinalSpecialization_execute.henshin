@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_StateMachine_IsFinalSpecialization" description="Sets StateMachine IsFinalSpecialization">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qZeP8GDLEei4iawURZlagw" name="SET_ATTRIBUTE_StateMachine_IsFinalSpecialization" description="Sets StateMachine IsFinalSpecialization">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setStateMachineIsFinalSpecialization" description="Sets the EAttribute isFinalSpecialization">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qZeP8WDLEei4iawURZlagw" name="setStateMachineIsFinalSpecialization" description="Sets the EAttribute isFinalSpecialization">
+    <parameters xmi:id="_qZeP8mDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="IsFinalSpecialization" kind="OUT">
+    <parameters xmi:id="_qZeP82DLEei4iawURZlagw" name="IsFinalSpecialization" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qZeP9GDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qZeP9WDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_qZeP9mDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qZeP92DLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
-        <attributes value="IsFinalSpecialization">
+        <attributes xmi:id="_qZeP-GDLEei4iawURZlagw" value="IsFinalSpecialization">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/isFinalSpecialization"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qZeP-WDLEei4iawURZlagw" origin="_qZeP9WDLEei4iawURZlagw" image="_qZeP92DLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qZeP-mDLEei4iawURZlagw" name="mainUnit" subUnits="_qZeP8WDLEei4iawURZlagw">
+    <parameters xmi:id="_qZeP-2DLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="IsFinalSpecialization">
+    <parameters xmi:id="_qZeP_GDLEei4iawURZlagw" name="IsFinalSpecialization">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qZeP_WDLEei4iawURZlagw" source="_qZeP-2DLEei4iawURZlagw" target="_qZeP8mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZeP_mDLEei4iawURZlagw" source="_qZeP_GDLEei4iawURZlagw" target="_qZeP82DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

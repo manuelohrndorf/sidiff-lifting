@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Package_IN_Package_(packagedElement)" description="Creates one Package in Package">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qVKXsGDLEei4iawURZlagw" name="CREATE_Package_IN_Package_(packagedElement)" description="Creates one Package in Package">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createPackage_IN_Package" description="creates one Package in the context: Package">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qVKXsWDLEei4iawURZlagw" name="createPackage_IN_Package" description="creates one Package in the context: Package">
+    <parameters xmi:id="_qVKXsmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="New" kind="OUT">
+    <parameters xmi:id="_qVKXs2DLEei4iawURZlagw" name="New" kind="OUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="Name" kind="OUT">
+    <parameters xmi:id="_qVKXtGDLEei4iawURZlagw" name="Name" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility" kind="OUT">
+    <parameters xmi:id="_qVKXtWDLEei4iawURZlagw" name="Visibility" kind="OUT">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters name="URI" kind="OUT">
+    <parameters xmi:id="_qVKXtmDLEei4iawURZlagw" name="URI" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qVKXt2DLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qVKXuGDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_qVKXuWDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qVKXumDLEei4iawURZlagw" name="Selected" outgoing="_qVKXv2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_qVKXu2DLEei4iawURZlagw" name="New" incoming="_qVKXv2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
-        <attributes value="Name">
+        <attributes xmi:id="_qVKXvGDLEei4iawURZlagw" value="Name">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
         </attributes>
-        <attributes value="Visibility">
+        <attributes xmi:id="_qVKXvWDLEei4iawURZlagw" value="Visibility">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
         </attributes>
-        <attributes value="URI">
+        <attributes xmi:id="_qVKXvmDLEei4iawURZlagw" value="URI">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/URI"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_qVKXv2DLEei4iawURZlagw" source="_qVKXumDLEei4iawURZlagw" target="_qVKXu2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qVKXwGDLEei4iawURZlagw" origin="_qVKXuGDLEei4iawURZlagw" image="_qVKXumDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qVKXwWDLEei4iawURZlagw" name="mainUnit" subUnits="_qVKXsWDLEei4iawURZlagw">
+    <parameters xmi:id="_qVKXwmDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_qVKXw2DLEei4iawURZlagw" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_qVKXxGDLEei4iawURZlagw" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility">
+    <parameters xmi:id="_qVKXxWDLEei4iawURZlagw" name="Visibility">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters name="URI">
+    <parameters xmi:id="_qVKXxmDLEei4iawURZlagw" name="URI">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
-    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings xmi:id="_qVKXx2DLEei4iawURZlagw" source="_qVKXwmDLEei4iawURZlagw" target="_qVKXsmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qVKXyGDLEei4iawURZlagw" source="_qVKXs2DLEei4iawURZlagw" target="_qVKXw2DLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qVKXyWDLEei4iawURZlagw" source="_qVKXxGDLEei4iawURZlagw" target="_qVKXtGDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qVKXymDLEei4iawURZlagw" source="_qVKXxWDLEei4iawURZlagw" target="_qVKXtWDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qVKXy2DLEei4iawURZlagw" source="_qVKXxmDLEei4iawURZlagw" target="_qVKXtmDLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

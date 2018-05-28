@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qWt24GDLEei4iawURZlagw" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qWt24WDLEei4iawURZlagw" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_qWt24mDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="New" kind="OUT">
+    <parameters xmi:id="_qWt242DLEei4iawURZlagw" name="New" kind="OUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters name="Name" kind="OUT">
+    <parameters xmi:id="_qWt25GDLEei4iawURZlagw" name="Name" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility" kind="OUT">
+    <parameters xmi:id="_qWt25WDLEei4iawURZlagw" name="Visibility" kind="OUT">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters name="Kind" kind="OUT">
+    <parameters xmi:id="_qWt25mDLEei4iawURZlagw" name="Kind" kind="OUT">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qWt252DLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qWt26GDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_qWt26WDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qWt26mDLEei4iawURZlagw" name="Selected" incoming="_qWt28GDLEei4iawURZlagw" outgoing="_qWt272DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
+      <nodes xmi:id="_qWt262DLEei4iawURZlagw" name="New" incoming="_qWt272DLEei4iawURZlagw" outgoing="_qWt28GDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
-        <attributes value="Name">
+        <attributes xmi:id="_qWt27GDLEei4iawURZlagw" value="Name">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
         </attributes>
-        <attributes value="Visibility">
+        <attributes xmi:id="_qWt27WDLEei4iawURZlagw" value="Visibility">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
         </attributes>
-        <attributes value="Kind">
+        <attributes xmi:id="_qWt27mDLEei4iawURZlagw" value="Kind">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_qWt272DLEei4iawURZlagw" source="_qWt26mDLEei4iawURZlagw" target="_qWt262DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/connectionPoint"/>
       </edges>
-      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
+      <edges xmi:id="_qWt28GDLEei4iawURZlagw" source="_qWt262DLEei4iawURZlagw" target="_qWt26mDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/stateMachine"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qWud8GDLEei4iawURZlagw" origin="_qWt26GDLEei4iawURZlagw" image="_qWt26mDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qWud8WDLEei4iawURZlagw" name="mainUnit" subUnits="_qWt24WDLEei4iawURZlagw">
+    <parameters xmi:id="_qWud8mDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_qWud82DLEei4iawURZlagw" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_qWud9GDLEei4iawURZlagw" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameters name="Visibility">
+    <parameters xmi:id="_qWud9WDLEei4iawURZlagw" name="Visibility">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
     </parameters>
-    <parameters name="Kind">
+    <parameters xmi:id="_qWud9mDLEei4iawURZlagw" name="Kind">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
-    <parameterMappings source="//@units.1/@parameters.4" target="//@units.0/@parameters.4"/>
+    <parameterMappings xmi:id="_qWud92DLEei4iawURZlagw" source="_qWud8mDLEei4iawURZlagw" target="_qWt24mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWud-GDLEei4iawURZlagw" source="_qWt242DLEei4iawURZlagw" target="_qWud82DLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWud-WDLEei4iawURZlagw" source="_qWud9GDLEei4iawURZlagw" target="_qWt25GDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWud-mDLEei4iawURZlagw" source="_qWud9WDLEei4iawURZlagw" target="_qWt25WDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWud-2DLEei4iawURZlagw" source="_qWud9mDLEei4iawURZlagw" target="_qWt25mDLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Trigger_IN_State_(deferrableTrigger)" description="Deletes one Trigger in State">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qZHDkGDLEei4iawURZlagw" name="DELETE_Trigger_IN_State_(deferrableTrigger)" description="Deletes one Trigger in State">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteTrigger_IN_State" description="deletes one Trigger in the context: State">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qZHDkWDLEei4iawURZlagw" name="deleteTrigger_IN_State" description="deletes one Trigger in the context: State">
+    <parameters xmi:id="_qZHDkmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
     </parameters>
-    <parameters name="ToBeDeleted" kind="IN">
+    <parameters xmi:id="_qZHDk2DLEei4iawURZlagw" name="ToBeDeleted" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Existing" kind="INOUT">
+    <parameters xmi:id="_qZHDlGDLEei4iawURZlagw" name="Existing" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_qZHDlWDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qZHDlmDLEei4iawURZlagw" name="Selected" outgoing="_qZHDmWDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_qZHDl2DLEei4iawURZlagw" name="ToBeDeleted" incoming="_qZHDmWDLEei4iawURZlagw" outgoing="_qZHDmmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_qZHDmGDLEei4iawURZlagw" name="Existing" incoming="_qZHDmmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qZHDmWDLEei4iawURZlagw" source="_qZHDlmDLEei4iawURZlagw" target="_qZHDl2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/deferrableTrigger"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_qZHDmmDLEei4iawURZlagw" source="_qZHDl2DLEei4iawURZlagw" target="_qZHDmGDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_qZHDm2DLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qZHDnGDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_qZHDnWDLEei4iawURZlagw" name="Existing">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_qZHDnmDLEei4iawURZlagw" origin="_qZHDlmDLEei4iawURZlagw" image="_qZHDnGDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qZHDn2DLEei4iawURZlagw" origin="_qZHDmGDLEei4iawURZlagw" image="_qZHDnWDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qZHDoGDLEei4iawURZlagw" name="mainUnit" subUnits="_qZHDkWDLEei4iawURZlagw">
+    <parameters xmi:id="_qZHDoWDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_qZHDomDLEei4iawURZlagw" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_qZHDo2DLEei4iawURZlagw" name="Existing">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_qZHDpGDLEei4iawURZlagw" source="_qZHDoWDLEei4iawURZlagw" target="_qZHDkmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZHDpWDLEei4iawURZlagw" source="_qZHDomDLEei4iawURZlagw" target="_qZHDk2DLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZHDpmDLEei4iawURZlagw" source="_qZHDo2DLEei4iawURZlagw" target="_qZHDlGDLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

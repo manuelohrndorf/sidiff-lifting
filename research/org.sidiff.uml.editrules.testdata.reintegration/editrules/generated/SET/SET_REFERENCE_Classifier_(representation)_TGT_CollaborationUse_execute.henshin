@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_REFERENCE_Classifier_(representation)_TGT_CollaborationUse" description="Sets Classifier's reference representation the target CollaborationUse">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qXZMUGDLEei4iawURZlagw" name="SET_REFERENCE_Classifier_(representation)_TGT_CollaborationUse" description="Sets Classifier's reference representation the target CollaborationUse">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setClassifier_representation_TO_CollaborationUse" description="SetClassifierRefrepresentationToCollaborationUse">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qXZMUWDLEei4iawURZlagw" name="setClassifier_representation_TO_CollaborationUse" description="SetClassifierRefrepresentationToCollaborationUse">
+    <parameters xmi:id="_qXZMUmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters name="NewTarget" kind="INOUT">
+    <parameters xmi:id="_qXZMU2DLEei4iawURZlagw" name="NewTarget" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CollaborationUse"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qXZMVGDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qXZMVWDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_qXZMVmDLEei4iawURZlagw" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CollaborationUse"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_qXZMV2DLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qXZMWGDLEei4iawURZlagw" name="Selected" outgoing="_qXZMWmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_qXZMWWDLEei4iawURZlagw" name="NewTarget" incoming="_qXZMWmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//CollaborationUse"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_qXZMWmDLEei4iawURZlagw" source="_qXZMWGDLEei4iawURZlagw" target="_qXZMWWDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/representation"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_qXZMW2DLEei4iawURZlagw" origin="_qXZMVWDLEei4iawURZlagw" image="_qXZMWGDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qXZMXGDLEei4iawURZlagw" origin="_qXZMVmDLEei4iawURZlagw" image="_qXZMWWDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qXZMXWDLEei4iawURZlagw" name="mainUnit" subUnits="_qXZMUWDLEei4iawURZlagw">
+    <parameters xmi:id="_qXZMXmDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_qXZMX2DLEei4iawURZlagw" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CollaborationUse"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qXZMYGDLEei4iawURZlagw" source="_qXZMXmDLEei4iawURZlagw" target="_qXZMUmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qXZMYWDLEei4iawURZlagw" source="_qXZMX2DLEei4iawURZlagw" target="_qXZMU2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

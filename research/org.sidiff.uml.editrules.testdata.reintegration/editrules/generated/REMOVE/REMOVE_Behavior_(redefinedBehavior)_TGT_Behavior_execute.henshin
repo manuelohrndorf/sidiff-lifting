@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="REMOVE_Behavior_(redefinedBehavior)_TGT_Behavior" description="Removes Behavior's reference redefinedBehavior the target Behavior">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qV-3EGDLEei4iawURZlagw" name="REMOVE_Behavior_(redefinedBehavior)_TGT_Behavior" description="Removes Behavior's reference redefinedBehavior the target Behavior">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="removeFromBehavior_redefinedBehavior_Behavior" description="Removes from Behavior's reference redefinedBehavior the target Behavior">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qV-3EWDLEei4iawURZlagw" name="removeFromBehavior_redefinedBehavior_Behavior" description="Removes from Behavior's reference redefinedBehavior the target Behavior">
+    <parameters xmi:id="_qV-3EmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <parameters name="OldTarget" kind="INOUT">
+    <parameters xmi:id="_qV-3E2DLEei4iawURZlagw" name="OldTarget" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_qV-3FGDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qV-3FWDLEei4iawURZlagw" name="Selected" outgoing="_qV-3F2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
-      <nodes name="OldTarget" incoming="//@units.0/@lhs/@edges.0">
+      <nodes xmi:id="_qV-3FmDLEei4iawURZlagw" name="OldTarget" incoming="_qV-3F2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qV-3F2DLEei4iawURZlagw" source="_qV-3FWDLEei4iawURZlagw" target="_qV-3FmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/redefinedBehavior"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_qV-3GGDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qV-3GWDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
-      <nodes name="OldTarget">
+      <nodes xmi:id="_qV-3GmDLEei4iawURZlagw" name="OldTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_qV-3G2DLEei4iawURZlagw" origin="_qV-3FWDLEei4iawURZlagw" image="_qV-3GWDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qV-3HGDLEei4iawURZlagw" origin="_qV-3FmDLEei4iawURZlagw" image="_qV-3GmDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qV-3HWDLEei4iawURZlagw" name="mainUnit" subUnits="_qV-3EWDLEei4iawURZlagw">
+    <parameters xmi:id="_qV-3HmDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <parameters name="OldTarget">
+    <parameters xmi:id="_qV-3H2DLEei4iawURZlagw" name="OldTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qV-3IGDLEei4iawURZlagw" source="_qV-3HmDLEei4iawURZlagw" target="_qV-3EmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qV-3IWDLEei4iawURZlagw" source="_qV-3H2DLEei4iawURZlagw" target="_qV-3E2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

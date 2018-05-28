@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_StateMachine_IN_Package_(packagedElement)" description="Deletes one StateMachine in Package">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qY3L8GDLEei4iawURZlagw" name="DELETE_StateMachine_IN_Package_(packagedElement)" description="Deletes one StateMachine in Package">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteStateMachine_IN_Package" description="deletes one StateMachine in the context: Package">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qY3L8WDLEei4iawURZlagw" name="deleteStateMachine_IN_Package" description="deletes one StateMachine in the context: Package">
+    <parameters xmi:id="_qY3L8mDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="ToBeDeleted" kind="IN">
+    <parameters xmi:id="_qY3L82DLEei4iawURZlagw" name="ToBeDeleted" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="Child" kind="IN">
+    <parameters xmi:id="_qY3L9GDLEei4iawURZlagw" name="Child" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_qY3L9WDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qY3L9mDLEei4iawURZlagw" name="Selected" outgoing="_qY3L-WDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0 //@units.0/@lhs/@edges.2" outgoing="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_qY3L92DLEei4iawURZlagw" name="ToBeDeleted" incoming="_qY3L-WDLEei4iawURZlagw _qY3L-2DLEei4iawURZlagw" outgoing="_qY3L-mDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
-      <nodes name="Child" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.2">
+      <nodes xmi:id="_qY3L-GDLEei4iawURZlagw" name="Child" incoming="_qY3L-mDLEei4iawURZlagw" outgoing="_qY3L-2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qY3L-WDLEei4iawURZlagw" source="_qY3L9mDLEei4iawURZlagw" target="_qY3L92DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_qY3L-mDLEei4iawURZlagw" source="_qY3L92DLEei4iawURZlagw" target="_qY3L-GDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.2" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qY3L-2DLEei4iawURZlagw" source="_qY3L-GDLEei4iawURZlagw" target="_qY3L92DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_qY3L_GDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qY3L_WDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qY3L_mDLEei4iawURZlagw" origin="_qY3L9mDLEei4iawURZlagw" image="_qY3L_WDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qY3L_2DLEei4iawURZlagw" name="mainUnit" subUnits="_qY3L8WDLEei4iawURZlagw">
+    <parameters xmi:id="_qY3MAGDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_qY3MAWDLEei4iawURZlagw" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="Child">
+    <parameters xmi:id="_qY3MAmDLEei4iawURZlagw" name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_qY3MA2DLEei4iawURZlagw" source="_qY3MAGDLEei4iawURZlagw" target="_qY3L8mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qY3MBGDLEei4iawURZlagw" source="_qY3MAWDLEei4iawURZlagw" target="_qY3L82DLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qY3MBWDLEei4iawURZlagw" source="_qY3MAmDLEei4iawURZlagw" target="_qY3L9GDLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

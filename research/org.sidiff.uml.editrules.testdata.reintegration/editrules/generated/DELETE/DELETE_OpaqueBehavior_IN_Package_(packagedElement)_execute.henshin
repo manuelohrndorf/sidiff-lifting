@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_OpaqueBehavior_IN_Package_(packagedElement)" description="Deletes one OpaqueBehavior in Package">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qYk4EGDLEei4iawURZlagw" name="DELETE_OpaqueBehavior_IN_Package_(packagedElement)" description="Deletes one OpaqueBehavior in Package">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteOpaqueBehavior_IN_Package" description="deletes one OpaqueBehavior in the context: Package">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qYk4EWDLEei4iawURZlagw" name="deleteOpaqueBehavior_IN_Package" description="deletes one OpaqueBehavior in the context: Package">
+    <parameters xmi:id="_qYk4EmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="ToBeDeleted" kind="IN">
+    <parameters xmi:id="_qYk4E2DLEei4iawURZlagw" name="ToBeDeleted" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_qYk4FGDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qYk4FWDLEei4iawURZlagw" name="Selected" outgoing="_qYk4F2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0">
+      <nodes xmi:id="_qYk4FmDLEei4iawURZlagw" name="ToBeDeleted" incoming="_qYk4F2DLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_qYk4F2DLEei4iawURZlagw" source="_qYk4FWDLEei4iawURZlagw" target="_qYk4FmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_qYk4GGDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qYk4GWDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qYk4GmDLEei4iawURZlagw" origin="_qYk4FWDLEei4iawURZlagw" image="_qYk4GWDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qYk4G2DLEei4iawURZlagw" name="mainUnit" subUnits="_qYk4EWDLEei4iawURZlagw">
+    <parameters xmi:id="_qYk4HGDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_qYk4HWDLEei4iawURZlagw" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qYk4HmDLEei4iawURZlagw" source="_qYk4HGDLEei4iawURZlagw" target="_qYk4EmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qYk4H2DLEei4iawURZlagw" source="_qYk4HWDLEei4iawURZlagw" target="_qYk4E2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

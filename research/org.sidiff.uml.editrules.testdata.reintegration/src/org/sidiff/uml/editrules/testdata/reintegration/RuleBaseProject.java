@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "SiDiff - UML Edit Rules for Reintegration (2018-05-25 15:23:52)";
+		return "SiDiff - UML Edit Rules for Reintegration (2018-05-27 12:58:14)";
 	}
 	
 	@Override

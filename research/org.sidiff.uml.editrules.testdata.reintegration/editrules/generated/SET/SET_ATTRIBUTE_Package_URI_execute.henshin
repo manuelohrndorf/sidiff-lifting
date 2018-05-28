@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Package_URI" description="Sets Package URI">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qZSCsGDLEei4iawURZlagw" name="SET_ATTRIBUTE_Package_URI" description="Sets Package URI">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setPackageURI" description="Sets the EAttribute URI">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qZSCsWDLEei4iawURZlagw" name="setPackageURI" description="Sets the EAttribute URI">
+    <parameters xmi:id="_qZSCsmDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="URI" kind="OUT">
+    <parameters xmi:id="_qZSCs2DLEei4iawURZlagw" name="URI" kind="OUT">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qZSCtGDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qZSCtWDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_qZSCtmDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qZSCt2DLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
-        <attributes value="URI">
+        <attributes xmi:id="_qZSCuGDLEei4iawURZlagw" value="URI">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/URI"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_qZSCuWDLEei4iawURZlagw" origin="_qZSCtWDLEei4iawURZlagw" image="_qZSCt2DLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qZSCumDLEei4iawURZlagw" name="mainUnit" subUnits="_qZSCsWDLEei4iawURZlagw">
+    <parameters xmi:id="_qZSCu2DLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
     </parameters>
-    <parameters name="URI">
+    <parameters xmi:id="_qZSCvGDLEei4iawURZlagw" name="URI">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qZSCvWDLEei4iawURZlagw" source="_qZSCu2DLEei4iawURZlagw" target="_qZSCsmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZSCvmDLEei4iawURZlagw" source="_qZSCvGDLEei4iawURZlagw" target="_qZSCs2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>

@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Behavior_(precondition)_TGT_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qZgFIGDLEei4iawURZlagw" name="ADD_Behavior_(precondition)_TGT_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="addToBehavior_precondition_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
-    <parameters name="Selected" kind="INOUT">
+  <units xsi:type="henshin:Rule" xmi:id="_qZgFIWDLEei4iawURZlagw" name="addToBehavior_precondition_Constraint" description="Adds to Behavior's reference precondition the target Constraint">
+    <parameters xmi:id="_qZgFImDLEei4iawURZlagw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <parameters name="NewTarget" kind="INOUT">
+    <parameters xmi:id="_qZgFI2DLEei4iawURZlagw" name="NewTarget" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_qZgFJGDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qZgFJWDLEei4iawURZlagw" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_qZgFJmDLEei4iawURZlagw" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_qZgFJ2DLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qZgFKGDLEei4iawURZlagw" name="Selected" outgoing="_qZgFKmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_qZgFKWDLEei4iawURZlagw" name="NewTarget" incoming="_qZgFKmDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_qZgFKmDLEei4iawURZlagw" source="_qZgFKGDLEei4iawURZlagw" target="_qZgFKWDLEei4iawURZlagw">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/precondition"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_qZgFK2DLEei4iawURZlagw" origin="_qZgFJWDLEei4iawURZlagw" image="_qZgFKGDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qZgFLGDLEei4iawURZlagw" origin="_qZgFJmDLEei4iawURZlagw" image="_qZgFKWDLEei4iawURZlagw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qZgFLWDLEei4iawURZlagw" name="mainUnit" subUnits="_qZgFIWDLEei4iawURZlagw">
+    <parameters xmi:id="_qZgFLmDLEei4iawURZlagw" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_qZgFL2DLEei4iawURZlagw" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_qZgFMGDLEei4iawURZlagw" source="_qZgFLmDLEei4iawURZlagw" target="_qZgFImDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZgFMWDLEei4iawURZlagw" source="_qZgFL2DLEei4iawURZlagw" target="_qZgFI2DLEei4iawURZlagw"/>
   </units>
 </henshin:Module>
