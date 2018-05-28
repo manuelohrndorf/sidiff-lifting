@@ -34,7 +34,8 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),
-				new ModifiedDetectedValueConverter());
+				new ModifiedDetectedValueConverter(),
+				true);
 		list.add(modifiedDetectorField);
 	}
 }

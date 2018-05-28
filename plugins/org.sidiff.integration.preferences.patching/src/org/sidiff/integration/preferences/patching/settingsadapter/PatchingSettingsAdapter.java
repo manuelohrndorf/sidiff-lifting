@@ -34,8 +34,9 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public static String KEY_MODIFIED_DETECTOR(String documentType) {
 		return "modifiedDetector[" + documentType + "]";
 	}
+	public static final String KEY_TRANSFORMATION_ENGINE = "transformationEngine";
 	public static String KEY_TRANSFORMATION_ENGINE(String documentType) {
-		return "transformationEngine[" + documentType + "]";
+		return KEY_TRANSFORMATION_ENGINE + "[" + documentType + "]";
 	}
 	public static final String KEY_EXECUTION_MODE = "executionMode";
 	public static final String KEY_PATCH_MODE = "patchMode";
@@ -93,8 +94,18 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	public void load(IPreferenceStore store) {
+		loadTransformationEngine(store);
+		loadModifiedDetector(store);
+		loadExecutionMode(store);
+		loadPatchMode(store);
+		loadMinReliability(store);
+		loadValidationMode(store);
+		loadUseInteractivePatching(store);
+		loadSymbolicLinkHandler(store);
+	}
+
+	protected void loadTransformationEngine(IPreferenceStore store) {
 		transformationEngine = null;
-		modifiedDetector = null;
 		for(String documentType : getDocumentTypes()) {
 			// the first transformation engine is used
 			if(transformationEngine == null) {
@@ -106,6 +117,27 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 					}
 				}
 			}
+		}
+
+		// get generic transformation engine if no domain specific one is selected
+		if(transformationEngine == null) {
+			String key = store.getString(KEY_TRANSFORMATION_ENGINE);
+			if(!key.isEmpty()) {
+				transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
+				if(transformationEngine == null) {
+					addWarning("Transformation Engine with key '" + key + "' was not found.");
+				}
+			}
+		}
+
+		if(transformationEngine == null) {
+			addError("No Transformation Engine was specified.");
+		}
+	}
+
+	protected void loadModifiedDetector(IPreferenceStore store) {
+		modifiedDetector = null;
+		for(String documentType : getDocumentTypes()) {
 			// the first modified detector is used
 			if(modifiedDetector == null) {
 				String key = store.getString(KEY_MODIFIED_DETECTOR(documentType));
@@ -117,13 +149,10 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 				}
 			}
 		}
-		if(transformationEngine == null) {
-			addError("No Transformation Engine was specified.");
-		}
-		if(modifiedDetector == null) {
-			addError("No Modified Detector was specified.");
-		}
+		// modified detector is allowed to be unset
+	}
 
+	protected void loadExecutionMode(IPreferenceStore store) {
 		String executionModeValue = store.getString(KEY_EXECUTION_MODE);
 		try {
 			executionMode = ExecutionMode.valueOf(executionModeValue);
@@ -131,7 +160,9 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			executionMode = null;
 			addError("Invalid value for Execution Mode: '" + executionModeValue + "'", e);
 		}
+	}
 
+	protected void loadPatchMode(IPreferenceStore store) {
 		String patchModeValue = store.getString(KEY_PATCH_MODE);
 		try {
 			patchMode = PatchMode.valueOf(patchModeValue);
@@ -139,7 +170,9 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			patchMode = null;
 			addError("Invalid value for Patch Mode: '" + patchModeValue + "'", e);
 		}
+	}
 
+	protected void loadMinReliability(IPreferenceStore store) {
 		String minReliabilityValue = store.getString(KEY_MIN_RELIABILITY);
 		try {
 			minReliability = Integer.parseInt(minReliabilityValue);
@@ -150,7 +183,9 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			minReliability = -1;
 			addWarning("Invalid value for Minimum Reliability: '" + minReliabilityValue + "'", e);
 		}
+	}
 
+	protected void loadValidationMode(IPreferenceStore store) {
 		String validationModeValue = store.getString(KEY_VALIDATION_MODE);
 		try {
 			validationMode = ValidationMode.valueOf(validationModeValue);
@@ -158,13 +193,22 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			validationMode = null;
 			addError("Invalid value for Validation Mode: '" + validationModeValue + "'", e);
 		}
+	}
 
+	protected void loadUseInteractivePatching(IPreferenceStore store) {
 		useInteractivePatching = store.getBoolean(KEY_USE_INTERACTIVE_PATCHING);
+	}
 
+	protected void loadSymbolicLinkHandler(IPreferenceStore store) {
 		String symbolicLinkHandlerKey = store.getString(KEY_SYMBOLIC_LINK_HANDLER);
-		symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(symbolicLinkHandlerKey);
-		if(symbolicLinkHandler == null) {
-			addError("Symbolic Link Handler with key '" + symbolicLinkHandlerKey + "' was not found.");
+		if(symbolicLinkHandlerKey.isEmpty()) {
+			// symbolic links are disabled
+			symbolicLinkHandler = null;
+		} else {
+			symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(symbolicLinkHandlerKey);
+			if(symbolicLinkHandler == null) {
+				addError("Symbolic Link Handler with key '" + symbolicLinkHandlerKey + "' was not found.");
+			}
 		}
 	}
 
@@ -186,16 +230,13 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_MODIFIED_DETECTOR("http://www.eclipse.org/emf/2002/Ecore"),
 				"org.sidiff.ecore.modifieddetector.EcoreModifiedDetector");
-		store.setDefault(KEY_TRANSFORMATION_ENGINE("http://www.eclipse.org/emf/2002/Ecore"),
-				"HenshinTransformationEngine");
-		store.setDefault(KEY_TRANSFORMATION_ENGINE("http://www.eclipse.org/uml2/5.0.0/UML"),
-				"HenshinTransformationEngine");
+		store.setDefault(KEY_TRANSFORMATION_ENGINE, "HenshinTransformationEngine");
 		store.setDefault(KEY_EXECUTION_MODE, ExecutionMode.INTERACTIVE.name());
 		store.setDefault(KEY_PATCH_MODE, PatchMode.PATCHING.name());
 		store.setDefault(KEY_MIN_RELIABILITY, -1);
 		store.setDefault(KEY_VALIDATION_MODE, ValidationMode.MODEL_VALIDATION.name());
 		store.setDefault(KEY_USE_INTERACTIVE_PATCHING, false);
-		store.setDefault(KEY_SYMBOLIC_LINK_HANDLER, "NamedElementSymbolicLinkHandler");
+		store.setDefault(KEY_SYMBOLIC_LINK_HANDLER, "");
 	}
 
 	@Override

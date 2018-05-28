@@ -12,11 +12,17 @@ public class SymbolicLinkHandlerValueConverter implements IPreferenceValueConver
 
 	@Override
 	public String getValue(ISymbolicLinkHandler value) {
+		if(value == null) {
+			return "";
+		}
 		return value.getKey();
 	}
 
 	@Override
 	public String getLabel(ISymbolicLinkHandler value) {
+		if(value == null) {
+			return "Disable symbolic links";
+		}
 		return value.getName();
 	}
 }

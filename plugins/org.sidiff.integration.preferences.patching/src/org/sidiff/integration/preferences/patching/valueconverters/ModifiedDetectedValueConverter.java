@@ -12,11 +12,17 @@ public class ModifiedDetectedValueConverter implements IPreferenceValueConverter
 
 	@Override
 	public String getValue(IModifiedDetector value) {
+		if(value == null) {
+			return "";
+		}
 		return value.getKey();
 	}
 
 	@Override
 	public String getLabel(IModifiedDetector value) {
+		if(value == null) {
+			return "None";
+		}
 		return value.getName();
 	}
 }

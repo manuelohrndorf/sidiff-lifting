@@ -6,9 +6,12 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
+import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 import org.sidiff.patching.api.settings.ExecutionMode;
 import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
@@ -18,6 +21,7 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
  */
 public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 
+	private IPreferenceField transformationEngineField;
 	private IPreferenceField executionMode;
 	private IPreferenceField patchMode;
 	private IPreferenceField minReliability;
@@ -26,6 +30,13 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
+		transformationEngineField = PreferenceFieldFactory.createRadioBox(
+				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE,
+				"Transformation Engine",
+				TransformationEngineUtil.getAvailableTransformationEngines(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
+				new TransformationEngineValueConverter());
+		list.add(transformationEngineField);
+		
 		executionMode = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_EXECUTION_MODE,
 				"Execution Mode",
@@ -52,7 +63,8 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,
 				"Symbolic Link Handler",
 				SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers(),
-				new SymbolicLinkHandlerValueConverter());
+				new SymbolicLinkHandlerValueConverter(),
+				true);
 		list.add(symbolicLinkHandlers);
 	}
 }
