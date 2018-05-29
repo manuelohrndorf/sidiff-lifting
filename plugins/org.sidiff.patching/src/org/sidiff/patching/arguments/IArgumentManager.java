@@ -27,7 +27,7 @@ public interface IArgumentManager {
 
 	String EXTENSION_POINT_ID = "org.sidiff.patching.arguments.manager";
 	
-	String EXTENSION_POINT_ATTRIBUTE = "manager";
+	String EXTENSION_POINT_ATTRIBUTE = "class";
 
 	public String getKey();
 	
