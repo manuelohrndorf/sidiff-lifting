@@ -28,7 +28,6 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 
 	private PatchingSettings settings;
 	private SortedMap<String, ISymbolicLinkHandler> symbolicLinkHandlers;
-	private boolean symbolicLinkHandlerAvailable;
 
 	private Composite container;
 	private Button use_symbolicLinks;
@@ -37,7 +36,6 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 	public SymbolicLinkHandlerWidget() {
 		// Search registered symbolic link handler extension
 		Set<ISymbolicLinkHandler> symbolicLinkHandlerSet = SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers();
-		symbolicLinkHandlerAvailable = !symbolicLinkHandlerSet.isEmpty();
 		symbolicLinkHandlers = new TreeMap<String, ISymbolicLinkHandler>();
 		for (ISymbolicLinkHandler symbolicLinkHandler : symbolicLinkHandlerSet) {
 			symbolicLinkHandlers.put(symbolicLinkHandler.getName(), symbolicLinkHandler);
@@ -170,6 +168,6 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 	}
 
 	public boolean isSymbolicLinkHandlerAvailable() {
-		return symbolicLinkHandlerAvailable;
+		return !symbolicLinkHandlers.isEmpty();
 	}
 }
