@@ -5,13 +5,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
@@ -30,37 +33,33 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link InputModels}
 	 */
 	private InputModels inputModels;
-	
+
 	/**
 	 * The {@link MatchingEngineWidget} for choosing a matcher
 	 */
 	private MatchingEngineWidget matcherWidget;
-	
+
 	/**
 	 * The {@link DifferenceBuilderWidget} for choosing a technical difference builder
 	 */
 	private DifferenceBuilderWidget builderWidget;
-	
+
 	// ---------- UI Elements ----------
-	
+
 	/**
 	 * The {@link InputModelsWidget} for loading the models being compared.
 	 */
 	private InputModelsWidget sourceWidget;
-	
+
 	/**
 	 * The {@link ScopeWidget} for determining the scope of the comparison.
 	 */
 	private ScopeWidget scopeWidget;
-	
-	
-	
+
 	// ---------- Constructor ----------
-	
+
 	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, DifferenceSettings settings) {
-		super(pageName, title);
-		this.inputModels = inputModels;
-		this.settings = settings;
+		this(pageName, title, null, inputModels, settings);
 	}
 
 	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
@@ -71,11 +70,14 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	}
 
 	// ---------- AbstractWizardPage ----------
-	
+
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
 		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
 		addWidget(container, settingsSourceWidget);
 
 		// Models:
