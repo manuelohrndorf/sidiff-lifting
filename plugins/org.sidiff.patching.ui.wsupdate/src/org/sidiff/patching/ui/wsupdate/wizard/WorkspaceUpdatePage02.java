@@ -6,7 +6,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
@@ -24,17 +23,17 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	private ReliabilityWidget reliabilityWidget;
 	private DifferenceBuilderWidget builderWidget;
 
-	private PatchingSettings patchingSettings;
-	private LiftingSettings liftingSettings;
+	private PatchingSettings settings;
 	private InputModels inputModels;
+	private WorkspaceUpdatePage01 workbenchUpdatePage01;
 
 	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
-			LiftingSettings liftingSettings, PatchingSettings settings) {
+			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
 		super(pageName, title, titleImage);
 
-		this.liftingSettings = liftingSettings;
-		this.patchingSettings = settings;
+		this.settings = settings;
 		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
+		this.workbenchUpdatePage01 = workbenchUpdatePage01;
 	}
 
 	@Override
@@ -55,17 +54,20 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
-		matcherWidget.setSettings(this.liftingSettings);
+		matcherWidget.setSettings(this.settings);
+		matcherWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Reliability
 		reliabilityWidget = new ReliabilityWidget();
-		reliabilityWidget.setSettings(this.patchingSettings);
+		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, reliabilityWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
-		builderWidget.setSettings(this.liftingSettings);
+		builderWidget.setSettings(this.settings);
+		builderWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		// FIXME
 		// if (builderWidget.getDifferenceBuilders().size() > 1) {
 		// addWidget(algorithmsGroup, builderWidget);
