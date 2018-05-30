@@ -1,11 +1,14 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
@@ -32,6 +35,11 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 	protected void createWidgets() {
 		// Settings Source:
 		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(
+				PatchingSettingsItem.VALIDATION_MODE,
+				PatchingSettingsItem.RELIABILITY);
 		addWidget(container, settingsSourceWidget);
 
 		// Target model:

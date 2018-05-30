@@ -3,14 +3,19 @@ package org.sidiff.patching.patch.ui.wizard;
 import java.util.Set;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends AbstractWizardPage {
@@ -48,6 +53,11 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 	protected void createWidgets() {
 		// Settings Source:
 		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
+		settingsSourceWidget.addConsideredSettings(LiftingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(PatchingSettingsItem.SYMBOLIC_LINK_HANDLER);
 		addWidget(container, settingsSourceWidget);
 
 		// Models:

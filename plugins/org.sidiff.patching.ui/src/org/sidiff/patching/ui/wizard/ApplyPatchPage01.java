@@ -5,11 +5,14 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
-import org.sidiff.patching.patch.patch.Patch;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
+import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
@@ -41,6 +44,12 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 		// Settings Source:
 		// Note that InputModels is not used here, because it is not compatible with Archive-URIs (i.e. Patch files)
 		settingsSourceWidget = new SettingsSourceWidget(settings, project, documentTypes);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(
+				PatchingSettingsItem.VALIDATION_MODE,
+				PatchingSettingsItem.RELIABILITY,
+				PatchingSettingsItem.SYMBOLIC_LINK_HANDLER);
 		addWidget(container, settingsSourceWidget);
 
 		// Target model:
