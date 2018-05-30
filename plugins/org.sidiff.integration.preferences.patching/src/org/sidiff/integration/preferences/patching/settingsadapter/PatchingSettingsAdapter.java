@@ -11,6 +11,7 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.api.settings.ExecutionMode;
 import org.sidiff.patching.api.settings.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
@@ -62,33 +63,37 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(ISettings settings) {
 		PatchingSettings patchingSettings = (PatchingSettings)settings;
-		if(transformationEngine != null) {
+
+		if(transformationEngine != null && isConsidered(PatchingSettingsItem.TRANSFORMATION_ENGINE)) {
 			patchingSettings.setTransformationEngine(transformationEngine);
 		}
-		if(modifiedDetector != null) {
+		if(modifiedDetector != null && isConsidered(PatchingSettingsItem.MODIFIED_DETECTOR)) {
 			patchingSettings.setModifiedDetector(modifiedDetector);
 		}
-		if(executionMode != null) {
+		if(executionMode != null && isConsidered(PatchingSettingsItem.EXEC_MODE)) {
 			patchingSettings.setExecutionMode(executionMode);
 		}
-		if(patchMode != null) {
+		if(patchMode != null && isConsidered(PatchingSettingsItem.PATCH_MODE)) {
 			patchingSettings.setPatchMode(patchMode);
 		}
-		if(minReliability != -1) {
+		if(minReliability != -1 && isConsidered(PatchingSettingsItem.RELIABILITY)) {
 			patchingSettings.setMinReliability(minReliability);
 		}
-		if(validationMode != null) {
+		if(validationMode != null && isConsidered(PatchingSettingsItem.VALIDATION_MODE)) {
 			patchingSettings.setValidationMode(validationMode);
 		}
-
-		patchingSettings.setSymbolicLinkHandler(symbolicLinkHandler);
-
-		patchingSettings.setInterruptHandler(createPatchInterruptHandler());
-
-		if(patchingSettings.getMatcher() != null) {
-			patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
-		} else {
-			addError("Matcher is not specified. Cannot set ArgumentManager.");
+		if(isConsidered(PatchingSettingsItem.SYMBOLIC_LINK_HANDLER)) {
+			patchingSettings.setSymbolicLinkHandler(symbolicLinkHandler);
+		}
+		if(isConsidered(PatchingSettingsItem.INTERRUPT_HANDLER)) {
+			patchingSettings.setInterruptHandler(createPatchInterruptHandler());
+		}
+		if(isConsidered(PatchingSettingsItem.ARG_MANAGER)) {
+			if(patchingSettings.getMatcher() != null) {
+				patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
+			} else {
+				addError("Matcher is not specified. Cannot set ArgumentManager.");
+			}
 		}
 	}
 

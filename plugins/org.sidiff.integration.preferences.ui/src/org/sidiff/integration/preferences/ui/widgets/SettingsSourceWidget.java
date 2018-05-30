@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.swt.SWT;
@@ -60,28 +61,45 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private ISettings settings;
 	private IProject project;
 	private Set<String> documentTypes;
+	private Set<Enum<?>> consideredSettings;
 
 	// outputs
 	private Source source;
 	private ValidationMessage message;
 	private Diagnostic diagnostic;
 
+	/**
+	 * Creates a new SettingsSourceWidget that will adapt the given settings.
+	 * The given input models are used to retrieve the document types
+	 * and the project that the models reside in.
+	 * @param settings the settings that will be adapted
+	 * @param inputModels the input models
+	 */
 	public SettingsSourceWidget(ISettings settings, InputModels inputModels) {
 		this(settings, getProjectFromInputModels(inputModels), inputModels.getDocumentTypes());
 	}
 
+	/**
+	 * Creates a new SettingsSourceWidget that will adapt the given settings.
+	 * @param settings the settings that will be adapted
+	 * @param project the project whose project specific settings will be used
+	 * @param documentTypes the document types of the input models
+	 */
 	public SettingsSourceWidget(ISettings settings, IProject project, Set<String> documentTypes) {
 		this.settings = settings;
 		this.project = project;
 		// some other widgets change the original set, so a local copy is created here
 		this.documentTypes = new HashSet<String>(documentTypes);
+		this.consideredSettings = new HashSet<Enum<?>>();
 		this.selectionListeners = new LinkedList<SelectionListener>();
 	}
 
 	private static IProject getProjectFromInputModels(InputModels inputModels) {
 		IProject project = null;
 		for(IFile file : inputModels.getFiles()) {
-			if(project == null) {
+			if(file == null) {
+				PreferencesUiPlugin.logWarning("File of input model was not resolved.");
+			} else if(project == null) {
 				project = file.getProject();
 			} else if(!project.equals(file.getProject())) {
 				PreferencesUiPlugin.logWarning("Input models are not in the same project. "
@@ -115,6 +133,10 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		Button radioProject = new Button(group, SWT.RADIO);
 		radioProject.addSelectionListener(getButtonSelectionListener());
 		try {
+			if(project == null) {
+				throw new CoreException(new Status(IStatus.ERROR, PreferencesUiPlugin.PLUGIN_ID,
+						"No project was specified / deduced from the input models."));
+			}
 			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project));
 			radioProject.setText("Use settings of project");
 		} catch (CoreException e) {
@@ -180,11 +202,11 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private void updateSettings() {
 		switch(source) {	
 			case GLOBAL:
-				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes);
+				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes, consideredSettings);
 				break;
 
 			case PROJECT:
-				diagnostic = SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes);
+				diagnostic = SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes, consideredSettings);
 				break;
 
 			case CUSTOM:
@@ -198,6 +220,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		if(diagnostic == null || diagnostic.getSeverity() == Diagnostic.OK) {
 			return;
 		}
+
 		Display.getCurrent().asyncExec(new Runnable() {
 			public void run() {
 				DiagnosticDialog.open(container.getShell(), "Validation of settings", null, diagnostic);
@@ -225,12 +248,11 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 
 	@Override
 	public boolean validate() {
-		if(source != Source.CUSTOM && (settings.validate().getSeverity() >= IStatus.ERROR
-				|| (diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR))) {
+		if(source != Source.CUSTOM && diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR) {
 			// WARNING instead of ERROR so other validation messages take precedence over this one, as it is pretty vague
 			message = new ValidationMessage(ValidationType.WARNING,
 					source == Source.GLOBAL ? "The global settings are not valid."
-								: "The project specific settings are not valid.");
+											: "The project specific settings are not valid.");
 			return false;
 		}
 		message = ValidationMessage.OK;
@@ -250,5 +272,32 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
 		selectionListeners.remove(listener);
+	}
+
+	/**
+	 * Adds the specified settings items (<code>*SettingsItem</code>) to the set of
+	 * settings that will be adapted. All items will be considered, if no item is added to this widget.
+	 * @param consideredSettings settings that should be adapted, not empty, not <code>null</code>
+	 */
+	public void addConsideredSettings(Enum<?> ...consideredSettings) {
+		Assert.isNotNull(consideredSettings);
+		Assert.isLegal(consideredSettings.length > 0, "consideredSettings must not be empty");
+		for(Enum<?> item : consideredSettings) {
+			this.consideredSettings.add(item);
+		}
+	}
+
+	/**
+	 * Removes the specified settings items (<code>*SettingsItem</code>) from the set of
+	 * settings that will be adapted. All items will be considered, if no item is added to this widget.
+	 * Removing items not added to this widget does nothing.
+	 * @param consideredSettings settings that should be adapted, not empty, not <code>null</code>
+	 */
+	public void removeConsideredSettings(Enum<?> ...consideredSettings) {
+		Assert.isNotNull(consideredSettings);
+		Assert.isLegal(consideredSettings.length > 0, "consideredSettings must not be empty");
+		for(Enum<?> item : consideredSettings) {
+			this.consideredSettings.remove(item);
+		}
 	}
 }

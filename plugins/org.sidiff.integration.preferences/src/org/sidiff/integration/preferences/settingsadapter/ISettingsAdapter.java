@@ -56,4 +56,11 @@ public interface ISettingsAdapter {
 	 * @param diagnosticChain the diagnostic chain
 	 */
 	void setDiagnosticChain(DiagnosticChain diagnosticChain);
+
+	/**
+	 * Sets the items of the settings (<code>*SettingsItem</code>) that this adapter should adapt.
+	 * If this set is empty, all settings will be considered.
+	 * @param consideredSettings set of settings items
+	 */
+	void setConsideredSettings(Set<Enum<?>> consideredSettings);
 }

@@ -64,13 +64,17 @@ public class SettingsAdapterUtil {
 
 	/**
 	 * Adapts the given settings using all available settings adapters that can handle them.
-	 * Uses the preferences from the global preference store.
+	 * Uses the preferences from the global preference store. 
 	 * @param settings the settings to adapt
 	 * @param documentTypes the document types that the adapters should use
-	 * @return diagnostic containing information about the outcome of the adaptation 
+	 * @param consideredSettings the items of the settings that should be adapted (<code>*SettingsItem</code>),
+	 * may be empty to allow all settings to be considered
+	 * @return diagnostic containing information about the outcome of the adaptation
 	 */
-	public static Diagnostic adaptSettingsGlobal(ISettings settings, Set<String> documentTypes) {
-		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(), documentTypes);
+	public static Diagnostic adaptSettingsGlobal(ISettings settings,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(),
+				documentTypes, consideredSettings);
 	}
 
 	/**
@@ -79,9 +83,12 @@ public class SettingsAdapterUtil {
 	 * @param settings the settings to adapt
 	 * @param project the project whose specific preference store should be used
 	 * @param documentTypes the document types that the adapters should use
+	 * @param consideredSettings the items of the settings that should be adapted (<code>*SettingsItem</code>),
+	 * may be empty to allow all settings to be considered
 	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
-	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project, Set<String> documentTypes) {
+	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
 		try {
 			if(!PreferenceStoreUtil.useSpecificSettings(project)) {
 				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
@@ -91,13 +98,16 @@ public class SettingsAdapterUtil {
 			return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
 					"Project specific cannot be used for this project.", new Object[] { e });
 		}
-		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project), documentTypes);
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project),
+				documentTypes, consideredSettings);
 	}
 
-	protected static Diagnostic adaptSettings(ISettings settings, IPreferenceStore store, Set<String> documentTypes) {
+	protected static Diagnostic adaptSettings(ISettings settings, IPreferenceStore store,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
 		Assert.isNotNull(settings);
 		Assert.isNotNull(store);
 		Assert.isNotNull(documentTypes);
+		Assert.isNotNull(consideredSettings);
 
 		BasicDiagnostic diagnostic = new BasicDiagnostic(PreferencesPlugin.PLUGIN_ID, 0,
 				"Settings were validated. See detailed messages below.", null);
@@ -105,6 +115,7 @@ public class SettingsAdapterUtil {
 			if(adapter.canAdapt(settings)) {
 				adapter.setDiagnosticChain(diagnostic);
 				adapter.setDocumentTypes(documentTypes);
+				adapter.setConsideredSettings(consideredSettings);
 				adapter.load(store);
 				adapter.adapt(settings);
 			}

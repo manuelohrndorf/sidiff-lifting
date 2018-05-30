@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 
 	private Set<String> documentTypes;
+	private Set<Enum<?>> consideredSettings;
 	private DiagnosticChain diagnosticChain;
 	private BasicDiagnostic diagnosticGroup;
 
@@ -28,6 +29,28 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	 */
 	public Set<String> getDocumentTypes() {
 		return documentTypes;
+	}
+
+	@Override
+	public void setConsideredSettings(Set<Enum<?>> consideredSettings) {
+		this.consideredSettings = consideredSettings;
+	}
+
+	/**
+	 * Returns the settings items that are considered by this settings adapter.
+	 * @return settings items that this adapter should adapt
+	 */
+	public Set<Enum<?>> getConsideredSettings() {
+		return consideredSettings;
+	}
+
+	/**
+	 * Returns whether the given item should be adapted by this settings adapter.
+	 * @param item the settings item
+	 * @return <code>true</code> if the item should be adapted, <code>false</code> otherwise
+	 */
+	public boolean isConsidered(Enum<?> item) {
+		return consideredSettings.isEmpty() || consideredSettings.contains(item);
 	}
 
 	@Override

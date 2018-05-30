@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
@@ -62,26 +63,63 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(ISettings settings) {
 		LiftingSettings liftingSettings = (LiftingSettings)settings;
-		liftingSettings.setRuleBases(ruleBases);
-		liftingSettings.setRrSorter(rrSorter);
-		if(recognitionEngineMode != null) {
+
+		if(isConsidered(LiftingSettingsItem.RULEBASES)) {
+			liftingSettings.setRuleBases(ruleBases);
+		}
+		if(isConsidered(LiftingSettingsItem.RECOGNITION_RULE_SORTER)) {
+			liftingSettings.setRrSorter(rrSorter);
+		}
+		if(recognitionEngineMode != null && isConsidered(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)) {
 			liftingSettings.setRecognitionEngineMode(recognitionEngineMode);
 		}
-		liftingSettings.setCalculateEditRuleMatch(calculateEditRuleMatch);
-		liftingSettings.setSerializeEditRuleMatch(serializeEditRuleMatch);
-		liftingSettings.setUseThreadPool(useThreadPool);
-		liftingSettings.setNumberOfThreads(numberOfThreads);
-		liftingSettings.setRulesPerThread(rulesPerThread);
-		liftingSettings.setSortRecognitionRuleNodes(sortRecognitionRuleNodes);
-		liftingSettings.setRuleSetReduction(rulesetReduction);
-		liftingSettings.setBuildGraphPerRule(buildGraphPerRule);
-		liftingSettings.setDetectSplitJoins(detectSplitJoins);
+		if(isConsidered(LiftingSettingsItem.CALCULATE_EDIT_RULE_MATCH)) {
+			liftingSettings.setCalculateEditRuleMatch(calculateEditRuleMatch);
+		}
+		if(isConsidered(LiftingSettingsItem.SERIALIZE_EDIT_RULE_MATCH)) {
+			liftingSettings.setSerializeEditRuleMatch(serializeEditRuleMatch);
+		}
+		if(isConsidered(LiftingSettingsItem.USE_THREAD_POOL)) {
+			liftingSettings.setUseThreadPool(useThreadPool);
+		}
+		if(isConsidered(LiftingSettingsItem.NUMBER_OF_THREADS)) {
+			liftingSettings.setNumberOfThreads(numberOfThreads);
+		}
+		if(isConsidered(LiftingSettingsItem.RULES_PER_THREAD)) {
+			liftingSettings.setRulesPerThread(rulesPerThread);
+		}
+		if(isConsidered(LiftingSettingsItem.SORT_RECOGNITIONRULE_NODES)) {
+			liftingSettings.setSortRecognitionRuleNodes(sortRecognitionRuleNodes);
+		}
+		if(isConsidered(LiftingSettingsItem.RULE_SET_REDUCTION)) {
+			liftingSettings.setRuleSetReduction(rulesetReduction);
+		}
+		if(isConsidered(LiftingSettingsItem.BUILD_GRAPH_PER_RULE)) {
+			liftingSettings.setBuildGraphPerRule(buildGraphPerRule);
+		}
+		if(isConsidered(LiftingSettingsItem.DETECT_SPLIT_JOINS)) {
+			liftingSettings.setDetectSplitJoins(detectSplitJoins);
+		}
 	}
 
 	@Override
 	public void load(IPreferenceStore store) {
+		loadRulebases(store);
+		loadRecognitionRuleSorter(store);
+		loadRecognitionEngineMode(store);
+		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
+		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
+		useThreadPool = store.getBoolean(KEY_USE_THREAD_POOL);
+		loadNumberOfThreads(store);
+		loadRulesPerThread(store);
+		sortRecognitionRuleNodes = store.getBoolean(KEY_SORT_RECOGNITION_RULE_NODES);
+		rulesetReduction = store.getBoolean(KEY_RULESET_REDUCTION);
+		buildGraphPerRule = store.getBoolean(KEY_BUILD_GRAPH_PER_RULE);
+		detectSplitJoins = store.getBoolean(KEY_DETECT_SPLIT_JOINS);
+	}
+
+	protected void loadRulebases(IPreferenceStore store) {
 		ruleBases = new HashSet<ILiftingRuleBase>();
-		rrSorter = null;
 		for(String documentType : getDocumentTypes()) {
 			final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
 			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentType)) {
@@ -89,7 +127,15 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 					ruleBases.add(rbase);
 				}
 			}
+		}
+		if(ruleBases.isEmpty()) {
+			addError("No Rule Bases were specified.");
+		}
+	}
 
+	protected void loadRecognitionRuleSorter(IPreferenceStore store) {
+		rrSorter = null;
+		for(String documentType : getDocumentTypes()) {
 			// the first recognition rule sorter is used
 			if(rrSorter == null) {
 				String key = store.getString(KEY_RECOGNITION_RULE_SORTER(documentType));
@@ -101,13 +147,12 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 				}
 			}
 		}
-		if(ruleBases.isEmpty()) {
-			addError("No Rule Bases were specified.");
-		}
 		if(rrSorter == null) {
 			rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(getDocumentTypes());
 		}
+	}
 
+	protected void loadRecognitionEngineMode(IPreferenceStore store) {
 		String recognitionEngineModeValue = store.getString(KEY_RECOGNITION_ENGINE_MODE);
 		try {
 			recognitionEngineMode = RecognitionEngineMode.valueOf(recognitionEngineModeValue);
@@ -115,11 +160,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			recognitionEngineMode = null;
 			addWarning("Invalid value for Recognition Engine Mode: '" + recognitionEngineModeValue + "'", e);
 		}
+	}
 
-		calculateEditRuleMatch = store.getBoolean(KEY_CALCULATE_EDIT_RULE_MATCH);
-		serializeEditRuleMatch = store.getBoolean(KEY_SERIALIZE_EDIT_RULE_MATCH);
-		useThreadPool = store.getBoolean(KEY_USE_THREAD_POOL);
-
+	protected void loadNumberOfThreads(IPreferenceStore store) {
 		String numberOfThreadsValue = store.getString(KEY_NUMBER_OF_THREADS);
 		try {
 			numberOfThreads = Integer.parseInt(numberOfThreadsValue);
@@ -130,7 +173,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			numberOfThreads = 10;
 			addWarning("Invalid value for Number of Threads: '" + numberOfThreadsValue + "'", e);
 		}
+	}
 
+	protected void loadRulesPerThread(IPreferenceStore store) {
 		String rulesPerThreadValue = store.getString(KEY_RULES_PER_THREAD);
 		try {
 			rulesPerThread = Integer.parseInt(rulesPerThreadValue);
@@ -141,11 +186,6 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			rulesPerThread = 10;
 			addWarning("Invalid value for Rules per Thread: '" + rulesPerThreadValue + "'", e);
 		}
-
-		sortRecognitionRuleNodes = store.getBoolean(KEY_SORT_RECOGNITION_RULE_NODES);
-		rulesetReduction = store.getBoolean(KEY_RULESET_REDUCTION);
-		buildGraphPerRule = store.getBoolean(KEY_BUILD_GRAPH_PER_RULE);
-		detectSplitJoins = store.getBoolean(KEY_DETECT_SPLIT_JOINS);
 	}
 
 	@Override

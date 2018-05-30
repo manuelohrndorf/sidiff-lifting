@@ -5,6 +5,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.Activator;
 import org.sidiff.common.settings.BaseSettings;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
@@ -29,14 +30,22 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(ISettings settings) {
 		BaseSettings baseSettings = (BaseSettings)settings;
-		if(scope != null) {
+
+		if(scope != null && isConsidered(BaseSettingsItem.SCOPE)) {
 			baseSettings.setScope(scope);
 		}
-		baseSettings.setValidate(validate);
+		if(isConsidered(BaseSettingsItem.VALIDATE)) {
+			baseSettings.setValidate(validate);
+		}
 	}
 
 	@Override
 	public void load(IPreferenceStore store) {
+		loadScope(store);
+		validate = store.getBoolean(KEY_VALIDATE_MODELS);
+	}
+
+	protected void loadScope(IPreferenceStore store) {
 		String scopeValue = store.getString(KEY_SCOPE);
 		try {
 			scope = Scope.valueOf(scopeValue);
@@ -44,8 +53,6 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 			scope = null;
 			addWarning("Invalid value for Scope: '" + scopeValue + "'", e);
 		}
-
-		validate = store.getBoolean(KEY_VALIDATE_MODELS);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.settings.MatchingSettings;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similarities.SimilaritiesServiceUtil;
 import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
@@ -56,26 +57,37 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	@Override
 	public void adapt(ISettings settings) {
 		MatchingSettings matchingSettings = (MatchingSettings)settings;
-		IMatcher matcher = createMatcher();
-		if(matcher != null) {
-			matchingSettings.setMatcher(matcher);
+
+		if(isConsidered(MatchingSettingsItem.MATCHER)) {
+			IMatcher matcher = createMatcher();
+			if(matcher != null) {
+				matchingSettings.setMatcher(matcher);
+			}
 		}
-		if(candidatesService != null) {
+		if(candidatesService != null && isConsidered(MatchingSettingsItem.CANDITATE_SERVICE)) {
 			matchingSettings.setCandidatesService(candidatesService);
 		}
-		if(correspondencesService != null) {
+		if(correspondencesService != null && isConsidered(MatchingSettingsItem.CORRESPONDENCE_SERVICE)) {
 			matchingSettings.setCorrespondencesService(correspondencesService);
 		}
-		if(similaritiesService != null) {
+		if(similaritiesService != null && isConsidered(MatchingSettingsItem.SIMILARTIY_SERVICE)) {
 			matchingSettings.setSimilaritiesService(similaritiesService);
 		}
-		if(similaritiesCalculationService != null) {
+		if(similaritiesCalculationService != null && isConsidered(MatchingSettingsItem.SIMILARITY_CALCULATION_SERVICE)) {
 			matchingSettings.setSimilaritiesCalculationService(similaritiesCalculationService);
 		}
 	}
 
 	@Override
 	public void load(IPreferenceStore store) {
+		loadMatchers(store);
+		loadCandidatesService(store);
+		loadCorrespondencesService(store);
+		loadSimilaritiesService(store);
+		loadSimilaritiesCalculationService(store);
+	}
+
+	protected void loadMatchers(IPreferenceStore store) {
 		// get keys of all domain specific matchers
 		List<String> matcherKeys = new ArrayList<String>();
 		for(String docType : getDocumentTypes()) {
@@ -111,25 +123,33 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(matchers.isEmpty()) {
 			addError("No Matchers were specified.");
 		}
+	}
 
+	protected void loadCandidatesService(IPreferenceStore store) {
 		String candidatesServiceId = store.getString(KEY_CANDIDATES_SERVICE);
 		candidatesService = CandidatesUtil.getAvailableCandidatesService(candidatesServiceId);
 		if(candidatesService == null) {
 			addError("Candidates Service with id '" + candidatesServiceId + "' was not found.");
 		}
+	}
 
+	protected void loadCorrespondencesService(IPreferenceStore store) {
 		String correspondencesServiceId = store.getString(KEY_CORRESPONDENCES_SERVICE);
 		correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService(correspondencesServiceId);
 		if(correspondencesService == null) {
 			addError("Correspondences Service with id '" + correspondencesServiceId + "' was not found.");
 		}
+	}
 
+	protected void loadSimilaritiesService(IPreferenceStore store) {
 		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
 		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(similaritiesServiceId);
 		if(similaritiesService == null) {
 			addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
 		}
+	}
 
+	protected void loadSimilaritiesCalculationService(IPreferenceStore store) {
 		String similaritiesCalculationServiceId = store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE);
 		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationService(similaritiesCalculationServiceId);
 		if(similaritiesCalculationService == null) {
