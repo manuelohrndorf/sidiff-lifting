@@ -86,7 +86,6 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 			}
 		});
 
-		setEnabled(checkComputability());
 		if(settings.getMinReliability() < 0) {
 			settings.setMinReliability(defaultReliability);
 		}
@@ -147,6 +146,8 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 	public void settingsChanged(Enum<?> item) {
 		if (item == MatchingSettingsItem.MATCHER
 				|| item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
+			// update enabled state
+			setEnabled(isEnabled());
 			getWidgetCallback().requestValidation();
 		} else if(item == PatchingSettingsItem.RELIABILITY) {
 			updateSelection();
@@ -162,6 +163,11 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
 		updateSelection();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return super.isEnabled() && checkComputability();
 	}
 
 	private void updateSelection() {
