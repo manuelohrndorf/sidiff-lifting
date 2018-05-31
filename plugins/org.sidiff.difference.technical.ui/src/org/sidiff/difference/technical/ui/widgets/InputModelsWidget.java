@@ -1,6 +1,6 @@
 package org.sidiff.difference.technical.ui.widgets;
 
-import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -41,26 +41,9 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 	private Label label_arrow;
 
 	public InputModelsWidget(InputModels inputModels, String arrowLabel) {
+		Assert.isLegal(inputModels.getFiles().size() == 2, "Exactly two input models must be specified");
 		this.inputModels = inputModels;
 		this.arrowLabel = arrowLabel;
-	}
-
-	private String[] getFileNames() {
-		String resourceA_name = inputModels.getFiles().get(0).getName();
-		String resourceB_name = inputModels.getFiles().get(1).getName();
-
-		IContainer parentA = inputModels.getFiles().get(0).getParent();
-		IContainer parentB = inputModels.getFiles().get(1).getParent();
-
-		while (resourceA_name.equals(resourceB_name)) {
-			resourceA_name = parentA.getName() + "/" + resourceA_name;
-			resourceB_name = parentB.getName() + "/" + resourceB_name;
-			parentA = parentA.getParent();
-			parentB = parentB.getParent();
-		}
-
-		String[] result = { resourceA_name, resourceB_name };
-		return result;
 	}
 
 	/**
@@ -76,11 +59,6 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 			grid.marginHeight = 0;
 			container.setLayout(grid);
 		}
-
-		// Generate model file names:
-		String[] names = getFileNames();
-		String resourceA_name = names[0];
-		String resourceB_name = names[1];
 
 		/*
 		 *  Swap models:
@@ -98,7 +76,7 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 
 		// Model A:
 		modelARadio = new Button(modelsGroup, SWT.RADIO);
-		modelARadio.setText("Model: " + resourceA_name);
+		modelARadio.setText("Model: " + inputModels.getLabels().get(0));
 		modelARadio.setSelection(true);
 
 		// Arrow:
@@ -125,7 +103,7 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 
 		// Model B:
 		modelBRadio = new Button(modelsGroup, SWT.RADIO);
-		modelBRadio.setText("Model: " + resourceB_name);
+		modelBRadio.setText("Model: " + inputModels.getLabels().get(1));
 
 		Label label = new Label(modelsGroup, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
 		{

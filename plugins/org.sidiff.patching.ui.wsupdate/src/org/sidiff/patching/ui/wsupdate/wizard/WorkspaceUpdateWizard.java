@@ -5,12 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -18,7 +14,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -76,25 +71,24 @@ public class WorkspaceUpdateWizard extends Wizard {
 	private PatchingSettings settings;
 
 	// Symmetric and asymmetric difference:
-	Difference fullDiff = null;
+	private Difference fullDiff = null;
 
-	public WorkspaceUpdateWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
+	public WorkspaceUpdateWizard(WSUModels mergeModels) {
 		this.setWindowTitle("Workspace Update Wizard");
-
-		this.mergeModels = new WSUModels(fileMine, fileTheirs, fileBase);
+		this.mergeModels = mergeModels;
 		this.settings = new PatchingSettings(mergeModels.getDocumentTypes());
 	}
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new WorkspaceUpdatePage01(mergeModels,
-				"ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), settings);
+		threeWayMergePage01 = new WorkspaceUpdatePage01(
+				mergeModels, "ThreeWayMergePage01",
+				"Workspace update", settings);
 		addPage(threeWayMergePage01);
 
-		threeWayMergePage02 = new WorkspaceUpdatePage02(mergeModels,
-				"ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), settings, threeWayMergePage01);
+		threeWayMergePage02 = new WorkspaceUpdatePage02(
+				mergeModels, "ThreeWayMergePage02",
+				"Workspace update", settings, threeWayMergePage01);
 		addPage(threeWayMergePage02);
 	}
 
@@ -118,8 +112,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 		final IMatcher matcher = settings.getMatcher();
 
 		// First create a patch between BASE<->THEIRS
-		final InputModels inputModels = new InputModels(new IFile[]
-				{mergeModels.getFileBase(), mergeModels.getFileTheirs()});
+		final InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		final Resource resourceA = inputModels.getResources().get(0);
 		final Resource resourceB = inputModels.getResources().get(1);
 
@@ -431,11 +424,5 @@ public class WorkspaceUpdateWizard extends Wizard {
 		}
 
 		return true;
-	}
-
-	protected ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(
-				Platform.getBundle(Activator.PLUGIN_ID),
-				new Path(String.format("icons/%s", name)), null));
 	}
 }

@@ -1,5 +1,7 @@
 package org.sidiff.patching.ui.wsupdate.widgets;
 
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.SWT;
@@ -11,35 +13,32 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation {
 
-	private DifferenceSettings settings;
 	private WSUModels mergeModels;
-	
+
 	private Composite container;
-	
-	private Button modelMineButton1;
-	private Button modelMineButton2;
-	private Button modelMineButton3;
-	
-	private Button modelTheirsButton1;
-	private Button modelTheirsButton2;
-	private Button modelTheirsButton3;
-	
-	private Button modelBaseButton1;
-	private Button modelBaseButton2;
-	private Button modelBaseButton3;
+
+	/**
+	 * 2D-Matrix of all buttons, column-major.
+	 * The first index is the button's group, i.e. role (base, theirs, mine).
+	 * The second index is the particular file from {@link #mergeModels}.
+	 */
+	private Button buttons[][];
+
+	private List<SelectionListener> listeners;
+	private SelectionListener buttonListener;
 
 	public WSUModelsWidget(WSUModels mergeModels) {
 		this.mergeModels = mergeModels;
+		this.listeners = new LinkedList<SelectionListener>();
+		this.buttons = new Button[WSUModels.NUM_ROLES][WSUModels.NUM_ROLES];
 	}
 
 	/**
@@ -56,159 +55,79 @@ public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValida
 			container.setLayout(grid);
 		}
 
-
 		Group modelsGroup = new Group(container, SWT.NONE);
 		{
 			GridLayout grid = new GridLayout(3, false);
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelsGroup.setLayout(grid);
-			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
+			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			modelsGroup.setText("Select roles of used models:");
 		}
-		
-		Group modelBaseGroup = new Group(modelsGroup, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			modelBaseGroup.setLayout(grid);
-			modelBaseGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-			modelBaseGroup.setText("Base version");
-		}
-        
-	    modelBaseButton1 = new Button(modelBaseGroup, SWT.RADIO);
-	    modelBaseButton1.setData(mergeModels.getFileBase());
-	    modelBaseButton1.setText(mergeModels.getFileBase().getName());
-	    modelBaseButton1.setSelection(true);
-	    mergeModels.setModelBase((IFile) modelBaseButton1.getData());
-	    
-	    modelBaseButton1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelBase((IFile) modelBaseButton1.getData());
-			}
-		});
-	    
-	    modelBaseButton2 = new Button(modelBaseGroup, SWT.RADIO);
-	    modelBaseButton2.setData(mergeModels.getFileMine());
-	    modelBaseButton2.setText(mergeModels.getFileMine().getName());
-	    
-	    modelBaseButton2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelBase((IFile) modelBaseButton2.getData());
-			}
-		});
-	    
-	    modelBaseButton3 = new Button(modelBaseGroup, SWT.RADIO); 
-	    modelBaseButton3.setData(mergeModels.getFileTheirs());
-	    modelBaseButton3.setText(mergeModels.getFileTheirs().getName());
-	    
-	    modelBaseButton3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelBase((IFile) modelBaseButton3.getData());
-			}
-		});
-		
-		Group modelMineGroup = new Group(modelsGroup, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			modelMineGroup.setLayout(grid);
-			modelMineGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		createRoleButtonGroup(modelsGroup, "Base version", WSUModels.ROLE_BASE);
+		createRoleButtonGroup(modelsGroup, "Workspace version", WSUModels.ROLE_MINE);
+		createRoleButtonGroup(modelsGroup, "Repository version", WSUModels.ROLE_THEIRS);
 
-			modelMineGroup.setText("Workspace version");
-		}
-		
-	    modelMineButton1 = new Button(modelMineGroup, SWT.RADIO);
-	    modelMineButton1.setData(mergeModels.getFileBase());
-	    modelMineButton1.setText(mergeModels.getFileBase().getName());
-	    
-	    modelMineButton1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelMine((IFile) modelMineButton1.getData());
-			}
-		});
-	    
-	    
-	    modelMineButton2 = new Button(modelMineGroup, SWT.RADIO);
-	    modelMineButton2.setData(mergeModels.getFileMine());
-	    modelMineButton2.setText(mergeModels.getFileMine().getName());
-	    modelMineButton2.setSelection(true);
-		mergeModels.setModelMine((IFile) modelMineButton2.getData());
-	    
-	    modelMineButton2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelMine((IFile) modelMineButton2.getData());
-			}
-		});
-	    
-	    modelMineButton3 = new Button(modelMineGroup, SWT.RADIO);
-	    modelMineButton3.setData(mergeModels.getFileTheirs());
-	    modelMineButton3.setText(mergeModels.getFileTheirs().getName());
-	    
-	    modelMineButton3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelMine((IFile) modelMineButton3.getData());
-			}
-		});
-	    
-		Group modelTheirsGroup = new Group(modelsGroup, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			modelTheirsGroup.setLayout(grid);
-			modelTheirsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-			modelTheirsGroup.setText("Repository version");
-		}
-        
-	    modelTheirsButton1 = new Button(modelTheirsGroup, SWT.RADIO);
-	    modelTheirsButton1.setData(mergeModels.getFileBase());
-	    modelTheirsButton1.setText(mergeModels.getFileBase().getName());
-	    
-	    modelTheirsButton1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelTheirs((IFile) modelTheirsButton1.getData());
-			}
-		});
-	    
-	    modelTheirsButton2 = new Button(modelTheirsGroup, SWT.RADIO);
-	    modelTheirsButton2.setData(mergeModels.getFileMine());
-	    modelTheirsButton2.setText(mergeModels.getFileMine().getName());
-	    
-	    modelTheirsButton2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelTheirs((IFile) modelTheirsButton2.getData());
-			}
-		});
-	    
-	    modelTheirsButton3 = new Button(modelTheirsGroup, SWT.RADIO);
-	    modelTheirsButton3.setData(mergeModels.getFileTheirs());
-	    modelTheirsButton3.setText(mergeModels.getFileTheirs().getName());
-	    modelTheirsButton3.setSelection(true);
-		mergeModels.setModelTheirs((IFile) modelTheirsButton3.getData());
-	    
-	    modelTheirsButton3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				mergeModels.setModelTheirs((IFile) modelTheirsButton3.getData());
-			}
-		});
-	    
-	    
 		return container;
+	}
+
+	protected void createRoleButtonGroup(Composite container, String label, int role) {
+		Group group = new Group(container, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 10;
+			grid.marginHeight = 10;
+			group.setLayout(grid);
+			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			group.setText(label);
+		}
+
+		createModelButton(group, role, WSUModels.ROLE_BASE);
+		createModelButton(group, role, WSUModels.ROLE_MINE);
+		createModelButton(group, role, WSUModels.ROLE_THEIRS);
+	}
+
+	protected void createModelButton(Group group, int role, int file) {
+		Button button = new Button(group, SWT.RADIO);
+		button.setData(new ButtonData(role, mergeModels.getFiles().get(file)));
+		button.setText(mergeModels.getLabels().get(file));
+		button.setSelection(role == file);
+		button.addSelectionListener(getButtonSelectionListener());
+		buttons[role][file] = button;
+	}
+
+	protected SelectionListener getButtonSelectionListener() {
+		if(buttonListener == null) {
+			buttonListener = new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					Button button = (Button)e.widget;
+					if(button.getSelection()) {
+						ButtonData data = (ButtonData)e.widget.getData();
+						switch(data.role) {
+							case WSUModels.ROLE_MINE:
+								mergeModels.setModelMine(data.file);
+								break;
+	
+							case WSUModels.ROLE_THEIRS:
+								mergeModels.setModelTheirs(data.file);
+								break;
+	
+							case WSUModels.ROLE_BASE:
+								mergeModels.setModelBase(data.file);
+								break;
+						}
+
+						getWidgetCallback().requestValidation();
+						for(SelectionListener listener : listeners) {
+							listener.widgetSelected(e);
+						}
+					}
+				}
+			};
+		}
+		return buttonListener;
 	}
 
 	@Override
@@ -216,92 +135,52 @@ public class WSUModelsWidget implements IWidget, IWidgetSelection, IWidgetValida
 		return container;
 	}
 
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
 	public WSUModels getMergeModels(){
-		if(validate()){
+		if(validate()) {
 			return this.mergeModels;
 		}
-		else
-			return null;
+		return null;
 	}
-
 
 	@Override
 	public boolean validate() {
-		if((modelBaseButton1.getSelection() ^ modelMineButton1.getSelection() ^ modelTheirsButton1.getSelection()) &&
-				(modelBaseButton2.getSelection() ^ modelMineButton2.getSelection() ^ modelTheirsButton2.getSelection()) &&
-				(modelBaseButton3.getSelection() ^ modelMineButton3.getSelection() ^ modelTheirsButton3.getSelection())){ 
-			return true;
-		} else {
-			return false;
+		// for each input file, i.e. row of button, make sure that only one of them is selected
+		for(int i = 0; i < WSUModels.NUM_ROLES; i++) {
+			if(!( buttons[WSUModels.ROLE_BASE][i].getSelection()
+				^ buttons[WSUModels.ROLE_MINE][i].getSelection()
+				^ buttons[WSUModels.ROLE_THEIRS][i].getSelection())) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
+			return new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
 		}
-		return message;
 	}
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if(modelBaseButton1 == null || modelBaseButton2 == null || modelBaseButton3 == null
-				|| modelMineButton1 == null || modelMineButton2 == null || modelMineButton3 == null ||
-				modelTheirsButton1 == null || modelTheirsButton2 == null || modelTheirsButton3 == null){
-			throw new RuntimeException("Create controls first!");
-		}
-		modelBaseButton1.addSelectionListener(listener);
-		modelBaseButton2.addSelectionListener(listener);
-		modelBaseButton3.addSelectionListener(listener);
-		modelMineButton1.addSelectionListener(listener);
-		modelMineButton2.addSelectionListener(listener);
-		modelMineButton3.addSelectionListener(listener);
-		modelTheirsButton1.addSelectionListener(listener);
-		modelTheirsButton2.addSelectionListener(listener);
-		modelTheirsButton3.addSelectionListener(listener);
+		listeners.add(listener);
 	}
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if(modelBaseButton1 != null)
-			modelBaseButton1.removeSelectionListener(listener);
-		if(modelBaseButton2 != null)
-			modelBaseButton2.removeSelectionListener(listener);
-		if(modelBaseButton3 != null)
-			modelBaseButton3.removeSelectionListener(listener);
-		if(modelMineButton1 != null)
-			modelMineButton1.removeSelectionListener(listener);
-		if(modelMineButton2 != null)
-			modelMineButton2.removeSelectionListener(listener);
-		if(modelMineButton3 != null)
-			modelMineButton3.removeSelectionListener(listener);
-		if(modelTheirsButton1 != null)
-			modelTheirsButton1.removeSelectionListener(listener);
-		if(modelTheirsButton2 != null)
-			modelTheirsButton2.removeSelectionListener(listener);
-		if(modelTheirsButton3 != null)
-			modelTheirsButton3.removeSelectionListener(listener);
+		listeners.remove(listener);
 	}
 
-	@Override
-	public void settingsChanged(Enum<?> item) {
-	}
+	protected static class ButtonData {
+		protected final int role;
+		protected final IFile file;
 
-	public DifferenceSettings getSettings() {
-		return settings;
-	}
-
-	public void setSettings(DifferenceSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
+		public ButtonData(int role, IFile file) {
+			this.role = role;
+			this.file = file;
+		}
 	}
 }

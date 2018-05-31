@@ -4,7 +4,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -13,47 +12,36 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 import org.sidiff.patching.ui.wsupdate.wizard.WorkspaceUpdateWizard;
 
 public class WorkspaceUpdateHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
-
+		final ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
 		if (currentSelection instanceof IStructuredSelection) {
 			final IStructuredSelection selection = (IStructuredSelection) currentSelection;
-
 			if (selection.size() == 3) {
 				// Show a busy indicator while the runnable is executed
 				BusyIndicator.showWhile(Display.getDefault(), new Runnable() {
 					@Override
 					public void run() {
 						// Create a new difference
-						IFile fileMine = (IFile) selection.toArray()[0];
-						IFile fileTheirs = (IFile) selection.toArray()[1];
-						IFile fileBase = (IFile) selection.toArray()[2];
-						Resource resourceMine = PipelineUtils.loadModel(fileMine.getLocation().toOSString());
-						Resource resourceTheirs = PipelineUtils.loadModel(fileTheirs.getLocation().toOSString());
-						Resource resourceBase = PipelineUtils.loadModel(fileBase.getLocation().toOSString());
-						String docTypeMine = EMFModelAccess.getCharacteristicDocumentType(resourceMine);
-						String docTypeTheirs = EMFModelAccess.getCharacteristicDocumentType(resourceTheirs);
-						String docTypeBase = EMFModelAccess.getCharacteristicDocumentType(resourceBase);
-						if(docTypeMine.equals(docTypeTheirs) && docTypeTheirs.equals(docTypeBase)){
-							
-							WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-									.getShell(), new WorkspaceUpdateWizard(fileMine, fileTheirs, fileBase));
-						wizardDialog.open();
+						Object files[] = selection.toArray();
+						WSUModels mergeModels = new WSUModels((IFile)files[0], (IFile)files[1], (IFile)files[2]);
 
-						}else {
+						if (mergeModels.haveSameDocumentType()) {
+							WizardDialog wizardDialog = new WizardDialog(
+									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+									new WorkspaceUpdateWizard(mergeModels));
+							wizardDialog.open();
+						} else {
 							MessageDialog.openError(
 									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-									"File Input Error","The input files must have the same document type!");
+									"File Input Error", "The input files must have the same document type!");
 						}
 					}
-					
 				});
 			}
 		}

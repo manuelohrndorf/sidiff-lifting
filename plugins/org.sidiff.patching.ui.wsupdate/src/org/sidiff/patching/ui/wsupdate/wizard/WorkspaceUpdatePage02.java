@@ -1,6 +1,5 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,11 +12,10 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
+import org.sidiff.patching.ui.wsupdate.Activator;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
 public class WorkspaceUpdatePage02 extends AbstractWizardPage {
-
-	private String DEFAULT_MESSAGE = "Workspace update";
 
 	private MatchingEngineWidget matcherWidget;
 	private ReliabilityWidget reliabilityWidget;
@@ -27,9 +25,9 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	private InputModels inputModels;
 	private WorkspaceUpdatePage01 workbenchUpdatePage01;
 
-	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title, ImageDescriptor titleImage,
+	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title,
 			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
-		super(pageName, title, titleImage);
+		super(pageName, title, Activator.getImageDescriptor("icon.png"));
 
 		this.settings = settings;
 		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
@@ -97,6 +95,6 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 
 	@Override
 	protected String getDefaultMessage() {
-		return DEFAULT_MESSAGE;
+		return "Propagates parallel changes by other developers, which were checked-in into a common repository, to the local workspace.";
 	}
 }

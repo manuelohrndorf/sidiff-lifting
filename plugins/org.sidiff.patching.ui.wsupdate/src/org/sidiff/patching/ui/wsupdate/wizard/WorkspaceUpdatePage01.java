@@ -2,7 +2,6 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 
 import java.util.Set;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
@@ -16,6 +15,7 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
+import org.sidiff.patching.ui.wsupdate.Activator;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 import org.sidiff.patching.ui.wsupdate.widgets.WSUModelsWidget;
 
@@ -30,9 +30,8 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 	private WSUModels mergeModels;
 	private PatchingSettings settings;
 
-	public WorkspaceUpdatePage01(WSUModels mergeModels, String pageName, String title,
-			ImageDescriptor titleImage, PatchingSettings settings) {
-		super(pageName, title, titleImage);
+	public WorkspaceUpdatePage01(WSUModels mergeModels, String pageName, String title, PatchingSettings settings) {
+		super(pageName, title, Activator.getImageDescriptor("icon.png"));
 
 		this.mergeModels = mergeModels;
 		this.settings = settings;
@@ -41,8 +40,7 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
-		settingsSourceWidget = new SettingsSourceWidget(settings, new InputModels(
-				mergeModels.getFileBase(), mergeModels.getFileMine(), mergeModels.getFileTheirs()));
+		settingsSourceWidget = new SettingsSourceWidget(settings, mergeModels);
 		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
@@ -53,7 +51,6 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 
 		// Models:
 		mergeModelsWidget = new WSUModelsWidget(mergeModels);
-		mergeModelsWidget.setSettings(this.settings);
 		addWidget(container, mergeModelsWidget);
 
 		// Comparison mode:
