@@ -14,9 +14,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.sidiff.common.settings.BaseSettings;
-import org.sidiff.common.settings.BaseSettingsItem;
-import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -24,21 +21,15 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.difference.technical.ui.Activator;
 import org.sidiff.matching.input.InputModels;
 
-public class InputModelsWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class InputModelsWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation {
 
-	private BaseSettings settings;
+	private String arrowLabel;
 	private InputModels inputModels;
+	private boolean inverseDirection = false;
 
 	private Composite container;
 	private Button modelARadio;
 	private Button modelBRadio;
-	private Button buttonValidateModels;
-
-	private String arrowLabel;
-
-	private boolean inverseDirection = false;
-	private Composite composite_arrow;
-	private Label label_arrow;
 
 	public InputModelsWidget(InputModels inputModels, String arrowLabel) {
 		Assert.isLegal(inputModels.getFiles().size() == 2, "Exactly two input models must be specified");
@@ -83,7 +74,7 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 		final Image arrowUp = Activator.getImageDescriptor("arrow_up.png").createImage();
 		final Image arrowDown = Activator.getImageDescriptor("arrow_down.png").createImage();
 
-		composite_arrow = new Composite(modelsGroup, SWT.NONE);
+		Composite composite_arrow = new Composite(modelsGroup, SWT.NONE);
 		composite_arrow.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		composite_arrow.setLayout(new GridLayout(2, false));
 		
@@ -97,21 +88,13 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 			}
 		});
 
-		label_arrow = new Label(composite_arrow, SWT.NONE);
+		Label label_arrow = new Label(composite_arrow, SWT.NONE);
 		label_arrow.setSize(55, 15);
 		label_arrow.setText(arrowLabel);
 
 		// Model B:
 		modelBRadio = new Button(modelsGroup, SWT.RADIO);
 		modelBRadio.setText("Model: " + inputModels.getLabels().get(1));
-
-		Label label = new Label(modelsGroup, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.SHADOW_IN | SWT.CENTER);
-		{
-			GridData data = new GridData(GridData.FILL_HORIZONTAL);
-			data.heightHint = 10;
-			data.horizontalSpan = 2;
-			label.setLayoutData(data);
-		}
 
 		/*
 		 * Swap action
@@ -139,23 +122,6 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 			}
 		});
 
-		/*
-		 *  Validate models
-		 */
-
-		buttonValidateModels = new Button(modelsGroup, SWT.CHECK);
-		{
-			buttonValidateModels.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-			buttonValidateModels.setText("Validate Models");
-		}
-		buttonValidateModels.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setValidate(buttonValidateModels.getSelection());
-			}
-		});
-		updateButtonState();
-
 		return container;
 	}
 
@@ -170,10 +136,6 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 	 */
 	public boolean isInverseDirection() {
 		return inverseDirection;
-	}
-
-	public boolean isValidateModels() {
-		return buttonValidateModels != null && buttonValidateModels.getSelection();
 	}
 
 	@Override
@@ -206,27 +168,5 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 		}
 		modelARadio.removeSelectionListener(listener);
 		modelBRadio.removeSelectionListener(listener);
-	}
-
-	@Override
-	public void settingsChanged(Enum<?> item) {
-		if(item == BaseSettingsItem.VALIDATE) {
-			updateButtonState();
-			getWidgetCallback().requestValidation();
-		}
-	}
-
-	private void updateButtonState() {
-		if(buttonValidateModels != null) buttonValidateModels.setSelection(settings.isValidate());
-	}
-
-	public BaseSettings getSettings() {
-		return settings;
-	}
-
-	public void setSettings(BaseSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
-		updateButtonState();
 	}
 }

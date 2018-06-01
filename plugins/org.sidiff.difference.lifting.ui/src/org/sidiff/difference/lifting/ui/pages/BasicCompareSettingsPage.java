@@ -10,6 +10,7 @@ import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
@@ -37,7 +38,12 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link InputModelsWidget} for loading the models being compared.
 	 */
 	private InputModelsWidget sourceWidget;
-	
+
+	/**
+	 * The {@link ValidateModelsWidget} for toggling input model validation.
+	 */
+	private ValidateModelsWidget validateWidget;
+
 	/**
 	 * The {@link ScopeWidget} for determining the scope of the comparison.
 	 */
@@ -67,7 +73,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
-		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
 		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
@@ -76,19 +82,23 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
-		sourceWidget.setSettings(this.settings);
-		sourceWidget.setDependency(settingsSourceWidget);
 		addWidget(container, sourceWidget);
+
+		// Model Validation:
+		validateWidget = new ValidateModelsWidget();
+		validateWidget.setSettings(settings);
+		validateWidget.setDependency(settingsSourceWidget);
+		addWidget(container, validateWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
-		scopeWidget.setSettings(this.settings);
+		scopeWidget.setSettings(settings);
 		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget.setSettings(settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}

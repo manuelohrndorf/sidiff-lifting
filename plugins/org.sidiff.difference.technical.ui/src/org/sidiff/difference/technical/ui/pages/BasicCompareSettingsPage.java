@@ -13,6 +13,7 @@ import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
@@ -23,11 +24,6 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link DifferenceSettings}
 	 */
 	private DifferenceSettings settings;
-
-	/**
-	 * The {@link SettingsSourceWidget} for loading global and project specific settings.
-	 */
-	private SettingsSourceWidget settingsSourceWidget;
 
 	/**
 	 * The {@link InputModels}
@@ -45,6 +41,16 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	private DifferenceBuilderWidget builderWidget;
 
 	// ---------- UI Elements ----------
+
+	/**
+	 * The {@link SettingsSourceWidget} for loading global and project specific settings.
+	 */
+	private SettingsSourceWidget settingsSourceWidget;
+
+	/**
+	 * The {@link ValidateModelsWidget} for toggling input model validation.
+	 */
+	private ValidateModelsWidget validateWidget;
 
 	/**
 	 * The {@link InputModelsWidget} for loading the models being compared.
@@ -74,7 +80,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
-		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
 		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
@@ -82,13 +88,17 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
-		sourceWidget.setSettings(this.settings);
-		sourceWidget.setDependency(settingsSourceWidget);
 		addWidget(container, sourceWidget);
+
+		// Model Validation:
+		validateWidget = new ValidateModelsWidget();
+		validateWidget.setSettings(settings);
+		validateWidget.setDependency(settingsSourceWidget);
+		addWidget(container, validateWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
-		scopeWidget.setSettings(this.settings);
+		scopeWidget.setSettings(settings);
 		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
@@ -107,13 +117,13 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
-		matcherWidget.setSettings(this.settings);
+		matcherWidget.setSettings(settings);
 		matcherWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, matcherWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
-		builderWidget.setSettings(this.settings);
+		builderWidget.setSettings(settings);
 		builderWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, builderWidget);
 	}

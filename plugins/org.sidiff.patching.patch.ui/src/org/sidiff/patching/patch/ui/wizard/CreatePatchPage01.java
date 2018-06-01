@@ -12,6 +12,7 @@ import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
@@ -20,18 +21,17 @@ import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends AbstractWizardPage {
 
-	private String default_message;
+	private final String mode;
 
 	private SettingsSourceWidget settingsSourceWidget;
 	private InputModelsWidget sourceWidget;
+	private ValidateModelsWidget validateWidget;
 	private ScopeWidget scopeWidget;
 	private EditRuleMatchWidget erMatchWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private InputModels inputModels;
 	private LiftingSettings settings;
-
-	private String mode;
 
 	public CreatePatchPage01(InputModels inputModels,
 			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings, Mode mode) {
@@ -45,8 +45,6 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 		} else {
 			this.mode = "Asymmetric Difference";
 		}
-
-		default_message = "Create a " + this.mode + " from the changes between the models: origin -> changed";
 	}
 
 	@Override
@@ -62,9 +60,13 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, mode + " Direction");
-		sourceWidget.setSettings(this.settings);
-		sourceWidget.setDependency(settingsSourceWidget);
 		addWidget(container, sourceWidget);
+
+		// Model Validation:
+		validateWidget = new ValidateModelsWidget();
+		validateWidget.setSettings(settings);
+		validateWidget.setDependency(settingsSourceWidget);
+		addWidget(container, validateWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
@@ -86,7 +88,7 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 	}
 
 	public boolean isValidateModels() {
-		return sourceWidget.isValidateModels();
+		return validateWidget.isValidateModels();
 	}
 
 	public boolean isInverseDirection() {
@@ -103,7 +105,7 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 
 	@Override
 	protected String getDefaultMessage() {
-		return default_message;
+		return "Create a " + mode + " from the changes between the models: origin -> changed";
 	}
 
 	// internal access method for other wizard page
