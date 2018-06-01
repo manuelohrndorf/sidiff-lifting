@@ -89,7 +89,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-			gridData.heightHint = matchers.keySet().size() * 16;
+			gridData.minimumHeight = 70;
 			gridData.verticalSpan = 2;
 			list_matchers.setLayoutData(gridData);
 		}
@@ -110,6 +110,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 
 		moveUp = new Button(container, SWT.PUSH);
 		moveUp.setText("Move Up");
+		moveUp.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false, false));
 		moveUp.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -122,6 +123,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 
 		moveDown = new Button(container, SWT.PUSH);
 		moveDown.setText("Move Down");
+		moveDown.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
 		moveDown.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

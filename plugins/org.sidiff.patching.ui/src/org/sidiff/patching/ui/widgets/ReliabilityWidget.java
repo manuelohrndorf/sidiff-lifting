@@ -50,7 +50,7 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 
 		container = new Composite(parent, SWT.NONE);
 		{
-			GridLayout grid = new GridLayout(2, false);
+			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			container.setLayout(grid);
@@ -62,14 +62,15 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			reliabilityGroup.setLayout(grid);
-			reliabilityGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			reliabilityGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		reliabilityGroup.setText("Minimal Reliability:");
 
-		scale = new Scale(reliabilityGroup, SWT.NONE);
+		scale = new Scale(reliabilityGroup, SWT.HORIZONTAL);
+		scale.setMinimum(0);
 		scale.setMaximum(100);
 		scale.setIncrement(5);
-		scale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		scale.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		scale.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -78,7 +79,10 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 		});
 
 		spinner = new Spinner(reliabilityGroup, SWT.NONE);
+		spinner.setMinimum(0);
 		spinner.setMaximum(100);
+		spinner.setIncrement(5);
+		spinner.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
 		spinner.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -90,6 +94,7 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 			settings.setMinReliability(defaultReliability);
 		}
 		updateSelection();
+		getWidgetCallback().requestValidation();
 		return container;
 	}
 
@@ -151,7 +156,6 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 			getWidgetCallback().requestValidation();
 		} else if(item == PatchingSettingsItem.RELIABILITY) {
 			updateSelection();
-			getWidgetCallback().requestValidation();
 		}
 	}
 

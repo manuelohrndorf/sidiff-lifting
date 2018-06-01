@@ -54,7 +54,7 @@ public class EditRuleMatchWidget extends AbstractWidget implements IWidgetSelect
 			grid.marginHeight = 10;
 			erMatchesGroup.setLayout(grid);
 
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+			GridData data = new GridData(SWT.FILL, SWT.CENTER, true, true);
 			erMatchesGroup.setLayoutData(data);
 			erMatchesGroup.setText("Edit Rule Matches:");
 		}

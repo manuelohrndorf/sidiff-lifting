@@ -100,7 +100,7 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 		list_symbolicLinkHandlers = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
+			data.minimumHeight = 70;
 			list_symbolicLinkHandlers.setLayoutData(data);
 		}
 		list_symbolicLinkHandlers.setItems(symbolicLinkHandlers.keySet().toArray(new String[0]));

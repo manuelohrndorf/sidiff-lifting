@@ -70,7 +70,7 @@ public class InputModelsWidget extends AbstractWidget implements IWidgetSelectio
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelsGroup.setLayout(grid);
-			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 			modelsGroup.setText("Select origin model:");
 		}
 

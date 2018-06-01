@@ -75,7 +75,7 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 		list_builders = new List(container, swtSelection | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
+			data.minimumHeight = 70;
 			list_builders.setLayoutData(data);
 		}
 		list_builders.setItems(builders.keySet().toArray(new String[0]));

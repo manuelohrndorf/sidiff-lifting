@@ -61,7 +61,7 @@ public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection,
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelsGroup.setLayout(grid);
-			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 			modelsGroup.setText("Select roles of used models:");
 		}
 

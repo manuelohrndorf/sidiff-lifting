@@ -51,7 +51,7 @@ public class ValidationModeWidget extends AbstractWidget implements IWidgetSelec
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			comparisonGroup.setLayout(grid);
-			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		comparisonGroup.setText("Validation mode:");
 
@@ -172,12 +172,8 @@ public class ValidationModeWidget extends AbstractWidget implements IWidgetSelec
 			return;
 		}
 
-		if(settings.getValidationMode() == ValidationMode.NO_VALIDATION) {
-			noValidationButton.setSelection(true);
-		} else if(settings.getValidationMode() == ValidationMode.MODEL_VALIDATION) {
-			modelValidationButton.setSelection(true);
-		} else if(settings.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-			iterativeValidationButton.setSelection(true);
-		}
+		noValidationButton.setSelection(settings.getValidationMode() == ValidationMode.NO_VALIDATION);
+		modelValidationButton.setSelection(settings.getValidationMode() == ValidationMode.MODEL_VALIDATION);
+		iterativeValidationButton.setSelection(settings.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION);
 	}
 }

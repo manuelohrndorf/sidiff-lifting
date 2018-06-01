@@ -37,7 +37,7 @@ public class TargetModelWidget extends AbstractWidget implements IWidgetSelectio
 
 		container = new Composite(parent, SWT.NONE);
 		{
-			GridLayout grid = new GridLayout(2, false);
+			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			container.setLayout(grid);
@@ -49,7 +49,7 @@ public class TargetModelWidget extends AbstractWidget implements IWidgetSelectio
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelChooseGroup.setLayout(grid);
-			modelChooseGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			modelChooseGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		modelChooseGroup.setText("Target model:");
 

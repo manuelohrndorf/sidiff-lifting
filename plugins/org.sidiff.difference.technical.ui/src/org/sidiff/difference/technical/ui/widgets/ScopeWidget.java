@@ -48,7 +48,7 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			comparisonGroup.setLayout(grid);
-			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		comparisonGroup.setText("Scope:");
 

@@ -83,7 +83,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 		Composite rulebaseComposite = new Composite(container, SWT.NONE);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 100;
+			data.minimumHeight = 100;
 			rulebaseComposite.setLayoutData(data);
 		}
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();

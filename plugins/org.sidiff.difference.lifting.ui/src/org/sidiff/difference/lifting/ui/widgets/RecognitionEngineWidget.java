@@ -60,7 +60,7 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 		list_recEngines = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
+			data.minimumHeight = 70;
 			list_recEngines.setLayoutData(data);
 		}
 

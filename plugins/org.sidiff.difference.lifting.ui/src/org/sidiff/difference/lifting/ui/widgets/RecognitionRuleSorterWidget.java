@@ -62,7 +62,7 @@ public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidg
 		list_sorters = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
+			data.minimumHeight = 70;
 			list_sorters.setLayoutData(data);
 		}
 		list_sorters.setItems(sorters.keySet().toArray(new String[0]));
