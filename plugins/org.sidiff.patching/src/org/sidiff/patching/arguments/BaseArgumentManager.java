@@ -18,6 +18,7 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
 
 /**
  * An abstract argument manager that can be used as a base class to implement
@@ -82,13 +83,15 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	private Map<ParameterBinding, ArgumentWrapper> argumentResolutions;
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
+	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.changedModel = patch.getChangedModel();
 		this.targetModel = targetModel;
-		this.scope = scope;
-		this.patchMode = patchMode;
+		this.minReliability = settings.getMinReliability();
+		this.scope = settings.getScope();
+		this.patchMode = settings.getPatchMode();
+		this.modDetector = settings.getModifiedDetector();
 
 		// now we initialize the internal state...
 
@@ -137,14 +140,6 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
-			IModifiedDetector modifiedDetector) {
-
-		init(patch, targetModel, scope, patchMode);
-		this.modDetector = modifiedDetector;
 	}
 
 	@Override

@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -37,7 +36,6 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
 import org.sidiff.patching.settings.PatchingSettings;
 import org.sidiff.patching.settings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -53,9 +51,7 @@ public class PatchEngine {
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
 	private ExecutionMode executionMode;
-	private PatchMode patchMode;
 
-	private IModifiedDetector modifiedDetector;
 	private ValidationManager validationManager;
 	private OperationManager operationManager;
 	private IArgumentManager argumentManager;
@@ -85,15 +81,13 @@ public class PatchEngine {
 		
 		// Get settings:
 		this.patchedResource = patchedResource;
-		this.modifiedDetector = settings.getModifiedDetector();
 		this.argumentManager = settings.getArgumentManager();
 		this.transformationEngine = settings.getTransformationEngine();		
 		this.executionMode = settings.getExecutionMode();
-		this.patchMode = settings.getPatchMode();		
-		
+
 		// Init managers
 		this.validationManager = new ValidationManager(settings.getValidationMode(), patchedResource);
-		this.argumentManager.init(difference, patchedResource, settings.getScope(), patchMode, modifiedDetector);
+		this.argumentManager.init(difference, patchedResource, settings);
 		this.operationManager = new OperationManager(difference, argumentManager);
 		
 		// Init transformation engine

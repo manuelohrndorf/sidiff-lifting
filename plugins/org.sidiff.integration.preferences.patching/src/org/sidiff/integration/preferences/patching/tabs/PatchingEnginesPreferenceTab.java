@@ -25,7 +25,6 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 	private IPreferenceField executionMode;
 	private IPreferenceField patchMode;
 	private IPreferenceField minReliability;
-	private IPreferenceField useInteractivePatching;
 	private IPreferenceField symbolicLinkHandlers;
 
 	@Override
@@ -53,11 +52,6 @@ public class PatchingEnginesPreferenceTab implements IPreferenceTab {
 				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
 				"Minimum reliability", -1, Integer.MAX_VALUE);
 		list.add(minReliability);
-
-		useInteractivePatching = PreferenceFieldFactory.createCheckBox(
-				PatchingSettingsAdapter.KEY_USE_INTERACTIVE_PATCHING,
-				"Use interactive patching");
-		list.add(useInteractivePatching);
 
 		symbolicLinkHandlers = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,

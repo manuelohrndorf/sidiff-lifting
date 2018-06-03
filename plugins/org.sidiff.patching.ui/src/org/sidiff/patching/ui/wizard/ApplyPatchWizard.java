@@ -37,7 +37,6 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
-import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -46,8 +45,6 @@ import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.animation.GMFAnimation;
-import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
-import org.sidiff.patching.ui.arguments.InteractiveSymblArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
@@ -217,17 +214,24 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager;
-					if (settings.useSymbolicLinks()) {
-						argumentManager = new InteractiveSymblArgumentManager(
-								settings.getSymbolicLinkHandler());
-					} else {
-						argumentManager = new InteractiveArgumentManager(
-								settings.getMatcher());
+					IArgumentManager argumentManager = PatchingUtils.getArgumentManager(patch.getAsymmetricDifference(),
+							resourceResult.get(), settings, IArgumentManager.Mode.INTERACTIVE);
+					if(argumentManager == null) {
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								MessageDialog.openError(
+										Display.getDefault().getActiveShell(),
+										"No Argument Manager found!",
+										"No suitable Argument Manager was found!");
+							}
+						});
+						return Status.CANCEL_STATUS;
 					}
-					argumentManager.setMinReliability(settings
-							.getMinReliability());
 					settings.setArgumentManager(argumentManager);
+
+					// Dialog Patch interrupt handler
+					settings.setInterruptHandler(new DialogPatchInterruptHandler());
 
 					// Find transformation engine (no other available right now)
 					String documentType = null;
@@ -251,6 +255,7 @@ public class ApplyPatchWizard extends Wizard {
 						documentType = EMFModelAccess
 								.getCharacteristicDocumentType(resourceResult.get());
 					}
+
 					ITransformationEngine transformationEngine = TransformationEngineUtil
 							.getFirstTransformationEngine(documentType);
 					if (transformationEngine == null) {
@@ -262,10 +267,8 @@ public class ApplyPatchWizard extends Wizard {
 					}
 					settings.setTransformationEngine(transformationEngine);
 
-					// Patch interrupt handler
-					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-					settings.setInterruptHandler(patchInterruptHandler);
 					settings.setCorrespondencesService(CorrespondencesUtil.getDefaultCorrespondencesService());
+
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							patch.getAsymmetricDifference(),

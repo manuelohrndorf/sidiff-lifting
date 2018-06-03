@@ -7,21 +7,13 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
-import org.sidiff.matcher.IMatcher;
 import org.sidiff.patching.api.settings.ExecutionMode;
 import org.sidiff.patching.api.settings.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.api.settings.ValidationMode;
-import org.sidiff.patching.arguments.IArgumentManager;
-import org.sidiff.patching.batch.arguments.BatchMatcherBasedArgumentManager;
-import org.sidiff.patching.batch.handler.BatchInterruptHandler;
-import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
-import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
-import org.sidiff.patching.ui.arguments.InteractiveSymblArgumentManager;
-import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
@@ -43,7 +35,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public static final String KEY_PATCH_MODE = "patchMode";
 	public static final String KEY_MIN_RELIABILITY = "minReliability";
 	public static final String KEY_VALIDATION_MODE = "validationMode";
-	public static final String KEY_USE_INTERACTIVE_PATCHING = "useInteractivePatching";
 	public static final String KEY_SYMBOLIC_LINK_HANDLER = "symbolicLinkHandler";
 
 	private ITransformationEngine transformationEngine;
@@ -52,7 +43,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	private PatchMode patchMode;
 	private int minReliability;
 	private ValidationMode validationMode;
-	private boolean useInteractivePatching;
 	private ISymbolicLinkHandler symbolicLinkHandler;
 
 	@Override
@@ -85,16 +75,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(isConsidered(PatchingSettingsItem.SYMBOLIC_LINK_HANDLER)) {
 			patchingSettings.setSymbolicLinkHandler(symbolicLinkHandler);
 		}
-		if(isConsidered(PatchingSettingsItem.INTERRUPT_HANDLER)) {
-			patchingSettings.setInterruptHandler(createPatchInterruptHandler());
-		}
-		if(isConsidered(PatchingSettingsItem.ARG_MANAGER)) {
-			if(patchingSettings.getMatcher() != null) {
-				patchingSettings.setArgumentManager(createArgumentManager(patchingSettings.getMatcher()));
-			} else {
-				addError("Matcher is not specified. Cannot set ArgumentManager.");
-			}
-		}
 	}
 
 	@Override
@@ -105,7 +85,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		loadPatchMode(store);
 		loadMinReliability(store);
 		loadValidationMode(store);
-		loadUseInteractivePatching(store);
 		loadSymbolicLinkHandler(store);
 	}
 
@@ -200,10 +179,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		}
 	}
 
-	protected void loadUseInteractivePatching(IPreferenceStore store) {
-		useInteractivePatching = store.getBoolean(KEY_USE_INTERACTIVE_PATCHING);
-	}
-
 	protected void loadSymbolicLinkHandler(IPreferenceStore store) {
 		String symbolicLinkHandlerKey = store.getString(KEY_SYMBOLIC_LINK_HANDLER);
 		if(symbolicLinkHandlerKey.isEmpty()) {
@@ -217,20 +192,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		}
 	}
 
-	private IPatchInterruptHandler createPatchInterruptHandler() {
-		if(useInteractivePatching)
-			return new DialogPatchInterruptHandler();
-		return new BatchInterruptHandler();
-	}
-
-	private IArgumentManager createArgumentManager(IMatcher matcher) {
-		if(symbolicLinkHandler != null)
-			return new InteractiveSymblArgumentManager(symbolicLinkHandler);
-		if(useInteractivePatching)
-			return new InteractiveArgumentManager(matcher);
-		return new BatchMatcherBasedArgumentManager(matcher);
-	}
-
 	@Override
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_MODIFIED_DETECTOR("http://www.eclipse.org/emf/2002/Ecore"),
@@ -240,7 +201,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		store.setDefault(KEY_PATCH_MODE, PatchMode.PATCHING.name());
 		store.setDefault(KEY_MIN_RELIABILITY, -1);
 		store.setDefault(KEY_VALIDATION_MODE, ValidationMode.MODEL_VALIDATION.name());
-		store.setDefault(KEY_USE_INTERACTIVE_PATCHING, false);
 		store.setDefault(KEY_SYMBOLIC_LINK_HANDLER, "");
 	}
 

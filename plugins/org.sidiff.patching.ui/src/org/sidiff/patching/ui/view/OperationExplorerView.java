@@ -508,8 +508,10 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	}
 
 	private void clearView() {
-		this.patchViewer.getTree().clearAll(true);
-		this.patchViewer.getTree().setVisible(false);
+		if(!this.patchViewer.getTree().isDisposed()) {
+			this.patchViewer.getTree().clearAll(true);
+			this.patchViewer.getTree().setVisible(false);
+		}
 		this.applyPatchAction.setEnabled(false);
 		this.collapseAllAction.setEnabled(false);
 		this.expandAllAction.setEnabled(false);
