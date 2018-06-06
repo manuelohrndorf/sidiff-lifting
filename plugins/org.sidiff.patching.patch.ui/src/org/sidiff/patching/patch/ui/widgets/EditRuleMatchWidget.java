@@ -4,49 +4,37 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 
-public class EditRuleMatchWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class EditRuleMatchWidget extends AbstractWidget implements IWidgetSelection, ISettingsChangedListener {
 
 	private LiftingSettings settings;
 	private Composite container;
 	private Button serialize_ErMatchesButton;
-	
-	@Override
-	public void settingsChanged(Enum<?> item) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		// TODO Auto-generated method stub
-		
+		if(serialize_ErMatchesButton == null) {
+			throw new IllegalStateException("createControl must be called first");
+		}
+		serialize_ErMatchesButton.addSelectionListener(listener);
 	}
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		// TODO Auto-generated method stub
-		
+		if(serialize_ErMatchesButton == null) {
+			throw new IllegalStateException("createControl must be called first");
+		}
+		serialize_ErMatchesButton.removeSelectionListener(listener);
 	}
 
 	@Override
@@ -58,29 +46,35 @@ public class EditRuleMatchWidget implements IWidget, IWidgetSelection, IWidgetVa
 			grid.marginHeight = 0;
 			container.setLayout(grid);
 		}
-		
-		serialize_ErMatchesButton = new Button(container, SWT.CHECK);
-		serialize_ErMatchesButton.setText("serialize edit rule matches");
+
+		Group erMatchesGroup = new Group(container, SWT.NONE);
+		{
+			GridLayout grid = new GridLayout(1, false);
+			grid.marginWidth = 10;
+			grid.marginHeight = 10;
+			erMatchesGroup.setLayout(grid);
+
+			GridData data = new GridData(SWT.FILL, SWT.CENTER, true, true);
+			erMatchesGroup.setLayoutData(data);
+			erMatchesGroup.setText("Edit Rule Matches:");
+		}
+
+		serialize_ErMatchesButton = new Button(erMatchesGroup, SWT.CHECK);
+		serialize_ErMatchesButton.setText("Serialize edit rule matches");
 		serialize_ErMatchesButton.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e){
+			public void widgetSelected(SelectionEvent e) {
 				settings.setSerializeEditRuleMatch(serialize_ErMatchesButton.getSelection());
 			}
 		});
-		
+		updateSelection();
+
 		return container;
 	}
 
 	@Override
 	public Composite getWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		// TODO Auto-generated method stub
-		
+		return container;
 	}
 
 	public LiftingSettings getSettings() {
@@ -89,6 +83,21 @@ public class EditRuleMatchWidget implements IWidget, IWidgetSelection, IWidgetVa
 
 	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
+		this.settings.addSettingsChangedListener(this);
+		updateSelection();
 	}
 
+	@Override
+	public void settingsChanged(Enum<?> item) {
+		if(item == LiftingSettingsItem.SERIALIZE_EDIT_RULE_MATCH) {
+			updateSelection();
+			getWidgetCallback().requestValidation();
+		}
+	}
+
+	private void updateSelection() {
+		if(serialize_ErMatchesButton != null) {
+			serialize_ErMatchesButton.setSelection(settings.isSerializeEditRuleMatch());
+		}
+	}
 }

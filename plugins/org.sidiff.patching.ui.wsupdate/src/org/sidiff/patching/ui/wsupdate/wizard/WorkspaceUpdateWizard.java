@@ -5,12 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
@@ -18,7 +14,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -34,8 +29,7 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.util.ValidateDialog;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
@@ -45,19 +39,18 @@ import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.ExecutionMode;
+import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.ValidationMode;
+import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
-import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.animation.GMFAnimation;
-import org.sidiff.patching.ui.arguments.InteractiveArgumentManager;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
@@ -73,31 +66,27 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 	private WSUModels mergeModels;
 	private boolean validationState;
-	private PatchingSettings patchingSettings;
-	private LiftingSettings liftingSettings;
+	private PatchingSettings settings;
 
 	// Symmetric and asymmetric difference:
-	Difference fullDiff = null;
+	private Difference fullDiff = null;
 
-	public WorkspaceUpdateWizard(IFile fileMine, IFile fileTheirs, IFile fileBase) {
+	public WorkspaceUpdateWizard(WSUModels mergeModels) {
 		this.setWindowTitle("Workspace Update Wizard");
-
-		this.mergeModels = new WSUModels(fileMine, fileTheirs, fileBase);
-		this.liftingSettings = new LiftingSettings(mergeModels.getDocumentTypes());
-		this.patchingSettings = new PatchingSettings();
+		this.mergeModels = mergeModels;
+		this.settings = new PatchingSettings(mergeModels.getDocumentTypes());
 	}
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new WorkspaceUpdatePage01(mergeModels,
-				"ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), liftingSettings,patchingSettings);
+		threeWayMergePage01 = new WorkspaceUpdatePage01(
+				mergeModels, "ThreeWayMergePage01",
+				"Workspace update", settings);
 		addPage(threeWayMergePage01);
 
-		threeWayMergePage02 = new WorkspaceUpdatePage02(mergeModels,
-				"ThreeWayMergePage", "Workspace update",
-				getImageDescriptor("icon.png"), liftingSettings,
-				patchingSettings);
+		threeWayMergePage02 = new WorkspaceUpdatePage02(
+				mergeModels, "ThreeWayMergePage02",
+				"Workspace update", settings, threeWayMergePage01);
 		addPage(threeWayMergePage02);
 	}
 
@@ -108,22 +97,18 @@ public class WorkspaceUpdateWizard extends Wizard {
 	}
 
 	private void finish() {
-		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
-		patchingSettings.setPatchMode(PatchMode.MERGING);
+		settings.setExecutionMode(ExecutionMode.INTERACTIVE);
+		settings.setPatchMode(PatchMode.MERGING);
 
 		// Gather all information
 		final WSUModels configuredMergeModels = this.threeWayMergePage01
 				.getMergeModelsWidget().getMergeModels();
-		final Scope scope = liftingSettings.getScope();
-		final ValidationMode validationMode = patchingSettings
-				.getValidationMode();
-
-		final Integer reliability = patchingSettings.getMinReliability();
-		final IMatcher matcher = liftingSettings.getMatcher();
+		final Scope scope = settings.getScope();
+		final ValidationMode validationMode = settings.getValidationMode();
+		final IMatcher matcher = settings.getMatcher();
 
 		// First create a patch between BASE<->THEIRS
-		final InputModels inputModels = new InputModels(new IFile[]
-				{mergeModels.getFileBase(), mergeModels.getFileTheirs()});
+		final InputModels inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		final Resource resourceA = inputModels.getResources().get(0);
 		final Resource resourceB = inputModels.getResources().get(1);
 
@@ -241,10 +226,25 @@ public class WorkspaceUpdateWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager = new InteractiveArgumentManager(
-							matcher);
-					argumentManager.setMinReliability(reliability);
-					patchingSettings.setArgumentManager(argumentManager);
+					IArgumentManager argumentManager = PatchingUtils.getArgumentManager(fullDiff.getAsymmetric(),
+							resourceResult.get(), settings, IArgumentManager.Mode.INTERACTIVE);
+					if(argumentManager == null) {
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								MessageDialog.openError(
+										Display.getDefault().getActiveShell(),
+										"No Argument Manager found!",
+										"No suitable Argument Manager was found!");
+							}
+						});
+						return Status.CANCEL_STATUS;
+					}
+					settings.setArgumentManager(argumentManager);
+
+					// Dialog Patch interrupt handler
+					settings.setInterruptHandler(new DialogPatchInterruptHandler());
+
 					// Find transformation engine (no other available right now)
 					String documentType = null;
 					Set<String> documentTypes = EMFModelAccess
@@ -268,24 +268,27 @@ public class WorkspaceUpdateWizard extends Wizard {
 								.getCharacteristicDocumentType(resourceResult
 										.get());
 					}
+					
 					ITransformationEngine transformationEngine = TransformationEngineUtil
 							.getFirstTransformationEngine(documentType);
 					if (transformationEngine == null) {
-						MessageDialog.openError(Display.getCurrent()
-								.getActiveShell(),
-								"No Transformator Service found!",
-								"No suitable Transformator Service found!");
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								MessageDialog.openError(
+										Display.getCurrent().getActiveShell(),
+										"No Transformator Service found!",
+										"No suitable Transformator Service found!");
+							}
+						});
 						return Status.CANCEL_STATUS;
 					}
-					patchingSettings
-							.setTransformationEngine(transformationEngine);
-					// Patch interrupt handler
-					IPatchInterruptHandler patchInterruptHandler = new DialogPatchInterruptHandler();
-					patchingSettings.setInterruptHandler(patchInterruptHandler);
+					settings.setTransformationEngine(transformationEngine);
+
 					// Get modified detector
 					IModifiedDetector modifiedDetector = ModifiedDetectorUtil
 							.getDefaultModifiedDetector(documentType);
-					patchingSettings.setModifiedDetector(modifiedDetector);
+					settings.setModifiedDetector(modifiedDetector);
 					// Init detector if available
 					if (modifiedDetector != null) {
 						modifiedDetector.init(fullDiff.getAsymmetric()
@@ -296,7 +299,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
 							fullDiff.getAsymmetric(), resourceResult.get(),
-							patchingSettings);
+							PatchingUtils.convertSettingsCompat(settings));
 
 					if (useDiagramEditor
 							&& domainEditor
@@ -388,24 +391,16 @@ public class WorkspaceUpdateWizard extends Wizard {
 		job.schedule();
 	}
 
-	private Difference calculateDifference(Resource resourceA,
-			Resource resourceB) {
+	private Difference calculateDifference(Resource resourceA, Resource resourceB) {
 		Difference fullDiff = null;
 
 		// Init the lifting settings from the patching settings:
-		liftingSettings.setCalculateEditRuleMatch(true);
-		liftingSettings.setScope(liftingSettings.getScope());
-		liftingSettings.setMatcher(liftingSettings.getMatcher());
-		liftingSettings.setRuleBases(liftingSettings.getRuleBases());
-		liftingSettings
-				.setValidate(patchingSettings.getValidationMode() == ValidationMode.NO_VALIDATION ? false
-						: true);
-		liftingSettings
-				.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
+		settings.setCalculateEditRuleMatch(true);
+		settings.setValidate(settings.getValidationMode() != ValidationMode.NO_VALIDATION);
+		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 
 		try {
-			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB,
-					liftingSettings);
+			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB, settings);
 		} catch (InvalidModelException e) {
 			ValidateDialog validateDialog = new ValidateDialog();
 			boolean skipValidation = validateDialog.openErrorDialog(
@@ -413,8 +408,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 			if (skipValidation) {
 				// Retry without validation:
-				patchingSettings
-						.setValidationMode(ValidationMode.NO_VALIDATION);
+				settings.setValidationMode(ValidationMode.NO_VALIDATION);
 				fullDiff = calculateDifference(resourceA, resourceB);
 			}
 		} catch (NoCorrespondencesException e) {
@@ -446,11 +440,5 @@ public class WorkspaceUpdateWizard extends Wizard {
 		}
 
 		return true;
-	}
-
-	protected ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(
-				Platform.getBundle(Activator.PLUGIN_ID),
-				new Path(String.format("icons/%s", name)), null));
 	}
 }

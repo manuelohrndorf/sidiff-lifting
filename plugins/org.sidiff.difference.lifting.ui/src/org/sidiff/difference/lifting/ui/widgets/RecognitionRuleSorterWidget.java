@@ -1,6 +1,5 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -17,16 +16,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.matching.input.InputModels;
 
-public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
 	private LiftingSettings settings;
 	
@@ -62,13 +62,13 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 		list_sorters = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.heightHint = 70;
+			data.minimumHeight = 70;
 			list_sorters.setLayoutData(data);
 		}
 		list_sorters.setItems(sorters.keySet().toArray(new String[0]));
 
 		if(list_sorters.getItems().length != 0){
-			list_sorters.select(0);
+			updateSelection();
 		}else{
 			MessageDialog.openError(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -78,10 +78,12 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 		list_sorters.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				((LiftingSettings)settings).setRrSorter(getSelection());
+				settings.setRrSorter(getSelection());
 			}		
 		});
-		this.settings.setRrSorter(this.getSelection());
+		if(this.settings.getRrSorter() == null) {
+			this.settings.setRrSorter(this.getSelection());
+		}
 		return container;
 	}
 
@@ -90,19 +92,12 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 		return container;
 	}
 
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
 	private void getSorters() {
-		sorters = new TreeMap<String, IRecognitionRuleSorter>();
-
 		// Search registered sorter extension points
 		Set<IRecognitionRuleSorter> sorterSet = PipelineUtils.getAvailableRecognitionRuleSorters(inputModels.getDocumentTypes());
 
-		for (Iterator<IRecognitionRuleSorter> iterator = sorterSet.iterator(); iterator.hasNext();) {
-			IRecognitionRuleSorter sorter = iterator.next();
+		sorters = new TreeMap<String, IRecognitionRuleSorter>();
+		for (IRecognitionRuleSorter sorter : sorterSet) {
 			sorters.put(sorter.getName(), sorter);
 		}
 	}
@@ -121,22 +116,16 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 
 	@Override
 	public boolean validate() {
-		if (list_sorters.getSelectionIndex() != -1) {
-			return true;
-		} else {
-			return false;
-		}
+		return list_sorters.getSelectionIndex() != -1;
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a recognition rule sorter!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a recognition rule sorter!");
 		}
-		return message;
 	}
 
 	@Override
@@ -156,6 +145,21 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
+		if(item.equals(LiftingSettingsItem.RECOGNITION_RULE_SORTER)) {
+			updateSelection();
+			getWidgetCallback().requestValidation();
+		}
+	}
+
+	private void updateSelection() {
+		if(list_sorters != null) {
+			if(settings.getRrSorter() != null) {
+				int index = list_sorters.indexOf(settings.getRrSorter().getName());
+				list_sorters.setSelection(index == -1 ? 0 : index);
+			} else {
+				list_sorters.setSelection(0);
+			}
+		}
 	}
 
 	public LiftingSettings getSettings() {
@@ -165,5 +169,6 @@ public class RecognitionRuleSorterWidget implements IWidget, IWidgetSelection, I
 	public void setSettings(LiftingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateSelection();
 	}
 }

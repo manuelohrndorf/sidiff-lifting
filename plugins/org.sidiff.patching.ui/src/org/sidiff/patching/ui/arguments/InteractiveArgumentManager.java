@@ -35,8 +35,8 @@ import org.sidiff.patching.arguments.ValueArgumentWrapper;
  */
 public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentManager {
 
-	public InteractiveArgumentManager(IMatcher matcher) {
-		super(matcher);
+	public InteractiveArgumentManager() {
+		// default constructor for extension point
 	}
 
 	@Override
@@ -142,4 +142,8 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 		return this.getClass().getSimpleName();
 	}
 
+	@Override
+	public Mode getMode() {
+		return Mode.INTERACTIVE;
+	}
 }

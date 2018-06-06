@@ -7,13 +7,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
+import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matching.input.InputModels;
 
-public class AdvancedCompareSettingsPage extends AbstractWizardPage{
+public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 
 	/**
 	 * The {@link LiftingSettings}
@@ -24,7 +25,12 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 	 * The {@link InputModels}
 	 */
 	private InputModels inputModels;
-	
+
+	/**
+	 * The {@link BasicCompareSettingsPage}
+	 */
+	private BasicCompareSettingsPage basicCompareSettingsPage;
+
 	// ---------- UI Elements ----------
 	
 	/**
@@ -48,19 +54,19 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 	private RecognitionRuleSorterWidget rrSorterWidget;
 	
 	// ---------- Constructor ----------
-	
-	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
-		super(pageName, title);
-		
-		this.inputModels = inputModels;
-		this.settings = settings;
+
+	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels,
+			LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
+		this(pageName, title, Activator.getImageDescriptor("icon.png"), inputModels, settings, basicCompareSettingsPage);
 	}
-	
-	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, LiftingSettings settings) {
+
+	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
+			InputModels inputModels, LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
 		super(pageName, title, titleImage);
-		
+
 		this.inputModels = inputModels;
 		this.settings = settings;
+		this.basicCompareSettingsPage = basicCompareSettingsPage;
 	}
 
 	// ---------- AbstractWizardPage ----------
@@ -78,19 +84,19 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 
 			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 			algorithmsGroup.setLayoutData(data);
-
 			algorithmsGroup.setText("Algorithms:");
 		}
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
 		matcherWidget.setSettings(this.settings);
-		matcherWidget.setPageChangedListener(this);
+		matcherWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 		
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
+		builderWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 // FIXME
 //		if (builderWidget.getDifferenceBuilders().size() > 1) {
 //			addWidget(algorithmsGroup, builderWidget);
@@ -100,18 +106,18 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage{
 		// Recognition Rule Sorter:
 		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels);
 		rrSorterWidget.setSettings(this.settings);
+		rrSorterWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, rrSorterWidget);
 		
 		// Recognition engine:
 		recognitionWidget = new RecognitionEngineWidget();
 		recognitionWidget.setSettings(this.settings);
+		recognitionWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, recognitionWidget);
-		
 	}
 
 	@Override
 	protected String getDefaultMessage() {
 		return "Compare two versions of a model: origin -> changed";
 	}
-
 }

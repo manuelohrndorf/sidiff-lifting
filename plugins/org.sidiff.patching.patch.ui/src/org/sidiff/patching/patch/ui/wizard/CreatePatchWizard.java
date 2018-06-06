@@ -23,7 +23,7 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.PatchingFacade;
 import org.sidiff.patching.api.settings.PatchingSettings;
@@ -40,7 +40,7 @@ public class CreatePatchWizard extends Wizard {
 	public CreatePatchWizard(IFile fileA, IFile fileB) {
 		this.setWindowTitle("New Patch Wizard");
 
-		inputModels = new InputModels(new IFile[]{fileA, fileB});
+		inputModels = new InputModels(fileA, fileB);
 		settings = new PatchingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
@@ -49,13 +49,13 @@ public class CreatePatchWizard extends Wizard {
 	@Override
 	public void addPages() {
 		createPatchPage01 = new CreatePatchPage01(
-				inputModels, 
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings, Mode.PATCH);
+				inputModels, "CreateDifferencePage01", "Create a Patch",
+				getImageDescriptor("icon.png"), settings, Mode.PATCH);
 		addPage(createPatchPage01);
-		
+
 		createPatchPage02 = new CreatePatchPage02(
-				inputModels,
-				"CreateDifferencePage", "Create a Patch", getImageDescriptor("icon.png"), settings, Mode.PATCH);
+				inputModels, "CreateDifferencePage02", "Create a Patch",
+				getImageDescriptor("icon.png"), settings, Mode.PATCH, createPatchPage01);
 		addPage(createPatchPage02);
 	}
 

@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;

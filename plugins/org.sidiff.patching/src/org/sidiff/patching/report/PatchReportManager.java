@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
+import org.sidiff.patching.settings.ValidationMode;
 import org.sidiff.patching.validation.IValidationError;
 
 public class PatchReportManager {

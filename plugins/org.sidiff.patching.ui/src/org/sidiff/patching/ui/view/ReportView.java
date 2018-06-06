@@ -41,11 +41,11 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 	private PatchReportManager reportManager;
 
-	private Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
-	private Image WARNING_IMG = Activator.getImageDescriptor("warning.png").createImage();
-	private Image REVERTED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
-	private Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
-	private Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
+	private final Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
+	private final Image WARNING_IMG = Activator.getImageDescriptor("warning.png").createImage();
+	private final Image REVERTED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
+	private final Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
+	private final Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
 
 	private int reportStackEntry;
 	
@@ -174,8 +174,15 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	@Override
 	public void dispose() {
 		super.dispose();
+
 		if(reportManager!=null)
 			reportManager.removePatchReportListener(this);
+
+		PASSED_IMG.dispose();
+		WARNING_IMG.dispose();
+		REVERTED_IMG.dispose();
+		EXEC_FAILED_IMG.dispose();
+		REVERT_FAILED_IMG.dispose();
 	}
 
 	// This will create the columns for the table

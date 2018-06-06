@@ -5,13 +5,11 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.access.Scope;
-import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.patching.settings.PatchMode;
+import org.sidiff.patching.settings.PatchingSettings;
 
 /**
  * The argument manager is the central interface for the patch engine in order
@@ -25,18 +23,34 @@ import org.sidiff.patching.settings.PatchMode;
  */
 public interface IArgumentManager {
 
+	enum Mode {
+		BATCH,
+		INTERACTIVE
+	}
+
 	String EXTENSION_POINT_ID = "org.sidiff.patching.arguments.manager";
-	
-	String EXTENSION_POINT_ATTRIBUTE = "manager";
+	String EXTENSION_POINT_ATTRIBUTE = "class";
 
+	/**
+	 * Returns a unique key for this argument manager.
+	 * @return unique key
+	 */
 	public String getKey();
-	
-	public String getName();
-	
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode, IModifiedDetector modifiedDetector);
 
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode);
-	
+	/**
+	 * Returns a readable name for this argument manager.
+	 * @return readable name
+	 */
+	public String getName();
+
+	/**
+	 * Initializes the argument manager.
+	 * @param patch the patch
+	 * @param targetModel the target model
+	 * @param settings the patching settings
+	 */
+	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings);
+
 	/**
 	 * For a given parameter binding of the patch, this method returns the
 	 * corresponding argument wrapper for the target model.
@@ -57,7 +71,7 @@ public interface IArgumentManager {
 	 *            new value
 	 */
 	public void setArgument(ValueParameterBinding binding, Object value);
-	
+
 	/**
 	 * Get the potential arguments for a given object parameter binding.
 	 * 
@@ -125,13 +139,18 @@ public interface IArgumentManager {
 	 * @return
 	 */
 	public boolean isModified(EObject targetObject);
-	
-	/**
-	 * Returns whether this argument manager can resolve arguments for the given models.
-	 * 
-	 * @return
-	 */
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel);
-	
 
+	/**
+	 * Returns whether this argument manager supports the given settings,
+	 * and is able to resolve arguments for the given models.
+	 * 
+	 * @return <code>true</code> if argument manager can run, <code>false</code> otherwise
+	 */
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, PatchingSettings settings);
+
+	/**
+	 * Returns the mode of this argument manager.
+	 * @return {@link Mode#BATCH} or {@link Mode#INTERACTIVE}
+	 */
+	public Mode getMode();
 }

@@ -36,8 +36,8 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
  */
 public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentManager {
 
-	public InteractiveSymblArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
-		super(symbolicLinkHandler);
+	public InteractiveSymblArgumentManager() {
+		// default constructor for extension point
 	}
 
 	@Override
@@ -147,5 +147,9 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-	
+
+	@Override
+	public Mode getMode() {
+		return Mode.INTERACTIVE;
+	}
 }

@@ -9,6 +9,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
+import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
@@ -28,10 +29,12 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	
 	private Map<SymbolicLinkObject, EObject> linkResolvingB;
 
-	public AbstractSymblBasedArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
-		this.symbolicLinkHandler = symbolicLinkHandler;
+	@Override
+	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings) {
+		this.symbolicLinkHandler = settings.getSymbolicLinkHandler();
+		super.init(patch, targetModel, settings);
 	}
-
+	
 	@Override
 	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
 		EObject originObject = binding.getActualA();
@@ -97,10 +100,13 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	protected Map<SymbolicLinkObject, EObject> getLinkResolvingB() {
 		return linkResolvingB;
 	}
-	
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, PatchingSettings settings) {
+		if(settings.getSymbolicLinkHandler() == null) {
+			return false;
+		}
+
 		Resource originModel = asymmetricDifference.getOriginModel();
 		if(EMFModelAccess.getCharacteristicDocumentType(originModel).equals(SymboliclinkPackage.eNS_URI)){
 			SymbolicLinks symbolicLinks = (SymbolicLinks) originModel.getContents().get(0);

@@ -178,4 +178,12 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	public void setShowQualifiedArgumentName(boolean showQualifiedArgumentName) {
 		this.showQualifiedArgumentNames = showQualifiedArgumentName;
 	}
+
+	@Override
+	public void dispose() {
+		ERROR.dispose();
+		WARNING.dispose();
+
+		super.dispose();
+	}
 }

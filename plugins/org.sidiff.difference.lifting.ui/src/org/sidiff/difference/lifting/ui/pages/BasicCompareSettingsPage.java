@@ -1,13 +1,18 @@
 package org.sidiff.difference.lifting.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.Activator;
-import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
+import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
@@ -33,7 +38,12 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link InputModelsWidget} for loading the models being compared.
 	 */
 	private InputModelsWidget sourceWidget;
-	
+
+	/**
+	 * The {@link ValidateModelsWidget} for toggling input model validation.
+	 */
+	private ValidateModelsWidget validateWidget;
+
 	/**
 	 * The {@link ScopeWidget} for determining the scope of the comparison.
 	 */
@@ -46,47 +56,50 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	
 	
 	// ---------- Constructor ----------
-	
+
 	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
-		super(pageName, title);
-		
-		this.setImageDescriptor(Activator.getImageDescriptor("icon.png"));
-		
-		this.inputModels = inputModels;
-		this.settings = settings;
+		this(pageName, title, Activator.getImageDescriptor("icon.png"), inputModels, settings);
 	}
-	
-	
 
-	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage, InputModels inputModels, LiftingSettings settings) {
+	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
+			InputModels inputModels, LiftingSettings settings) {
 		super(pageName, title, titleImage);
-
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}
 
 	// ---------- AbstractWizardPage ----------
-	
+
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
-		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
+		settingsSourceWidget.addConsideredSettings(LiftingSettingsItem.values());
 		addWidget(container, settingsSourceWidget);
 
 		// Models:
 		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
-		sourceWidget.setSettings(this.settings);
 		addWidget(container, sourceWidget);
+
+		// Model Validation:
+		validateWidget = new ValidateModelsWidget();
+		validateWidget.setSettings(settings);
+		validateWidget.setDependency(settingsSourceWidget);
+		addWidget(container, validateWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
-		scopeWidget.setSettings(this.settings);
-		scopeWidget.setPageChangedListener(this);
+		scopeWidget.setSettings(settings);
+		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget.setSettings(settings);
+		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}
 
@@ -95,4 +108,8 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		return "Compare two versions of a model: origin -> changed";
 	}
 
+	// internal access method for other wizard page
+	SettingsSourceWidget getSettingsSourceWidget() {
+		return settingsSourceWidget;
+	}
 }

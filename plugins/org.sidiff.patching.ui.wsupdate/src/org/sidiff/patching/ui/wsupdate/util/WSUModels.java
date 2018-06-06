@@ -1,119 +1,60 @@
 package org.sidiff.patching.ui.wsupdate.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.matching.input.InputModels;
 
-public class WSUModels {
-	private IFile fileMine;
-	private IFile fileTheirs;
-	private IFile fileBase;
+public class WSUModels extends InputModels {
 
-	private Resource resourceMine;
-	private Resource resourceTheirs;
-	private Resource resourceBase;
-
-	private Set<String> documentTypes;
+	public static final int ROLE_MINE   = 0;
+	public static final int ROLE_THEIRS = 1;
+	public static final int ROLE_BASE   = 2;
+	public static final int NUM_ROLES   = 3;
 
 	public WSUModels(IFile fileMine, IFile fileTheirs, IFile fileBase) {
-		this.fileMine = fileMine;
-		this.fileTheirs = fileTheirs;
-		this.fileBase = fileBase;		
+		super(fileMine, fileTheirs, fileBase);
 	}
 
 	public WSUModels(Resource resourceMine, Resource resourceTheirs, Resource resourceBase) {
-		this.resourceMine = resourceMine;
-		this.resourceTheirs = resourceTheirs;
-		this.resourceBase = resourceBase;
+		super(resourceMine, resourceTheirs, resourceBase);
 	}
 
-
 	public IFile getFileMine() {
-		if (fileMine == null) {
-			URI uri = resourceMine.getURI();
-			String fileString = URI.decode(uri.path());
-			fileMine = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(fileString));
-		}
-
-		return fileMine;
+		return getFiles().get(ROLE_MINE);
 	}
 
 	public IFile getFileTheirs() {
-		if (fileTheirs == null) {
-			URI uri = resourceTheirs.getURI();
-			String fileString = URI.decode(uri.path());
-			fileTheirs = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(fileString));
-		}
-
-		return fileTheirs;
+		return getFiles().get(ROLE_THEIRS);
 	}
+
 	public IFile getFileBase() {
-		if (fileBase == null) {
-			URI uri = resourceBase.getURI();
-			String fileString = URI.decode(uri.path());
-			fileBase = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(fileString));
-		}
-
-		return fileBase;
+		return getFiles().get(ROLE_BASE);
 	}
-	
-	public Resource getResourceMine() {
-		if (resourceMine == null) {
-			resourceMine = PipelineUtils.loadModel(fileMine.getLocation().toOSString());
-		}
 
-		return resourceMine;
+	public Resource getResourceMine() {
+		return getResources().get(ROLE_MINE);
 	}
 
 	public Resource getResourceTheirs() {
-		if (resourceTheirs == null) {
-			resourceTheirs = PipelineUtils.loadModel(fileTheirs.getLocation().toOSString());
-		}
-
-		return resourceTheirs;
+		return getResources().get(ROLE_THEIRS);
 	}
 
 	public Resource getResourceBase() {
-		if (resourceBase == null) {
-			resourceBase = PipelineUtils.loadModel(fileBase.getLocation().toOSString());
-		}
-
-		return resourceBase;
-	}
-
-	public Set<String> getDocumentTypes() {
-		if (documentTypes == null) {
-			List<Resource> resources = new ArrayList<Resource>();
-			resources.add(getResourceMine());
-			resources.add(getResourceTheirs());
-			resources.add(getResourceBase());
-			documentTypes = EMFModelAccess.getDocumentTypes(resources);
-		}
-
-		return documentTypes;
+		return getResources().get(ROLE_BASE);
 	}
 
 	public void setModelMine(IFile fileMine) {
-		this.fileMine = fileMine;
-		this.resourceMine = PipelineUtils.loadModel(this.fileMine.getLocation().toOSString());
+		getFiles().set(ROLE_MINE, fileMine);
+		getResources().set(ROLE_MINE, getResource(fileMine));
 	}
 
 	public void setModelTheirs(IFile fileTheirs) {
-		this.fileTheirs = fileTheirs;
-		this.resourceTheirs = PipelineUtils.loadModel(this.fileTheirs.getLocation().toOSString());
+		getFiles().set(ROLE_THEIRS, fileTheirs);
+		getResources().set(ROLE_THEIRS, getResource(fileTheirs));
 	}
 
 	public void setModelBase(IFile fileBase) {
-		this.fileBase = fileBase;
-		this.resourceBase = PipelineUtils.loadModel(this.fileBase.getLocation().toOSString());
+		getFiles().set(ROLE_BASE, fileBase);
+		getResources().set(ROLE_BASE, getResource(fileBase));
 	}
-
 }

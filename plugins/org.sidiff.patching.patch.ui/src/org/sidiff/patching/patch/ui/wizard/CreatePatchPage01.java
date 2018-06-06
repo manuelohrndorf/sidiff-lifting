@@ -2,49 +2,36 @@ package org.sidiff.patching.patch.ui.wizard;
 
 import java.util.Set;
 
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
-import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.settings.BaseSettingsItem;
+import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.widgets.InputModelsWidget;
+import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
+import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
+import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
+import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 
-public class CreatePatchPage01 extends WizardPage implements IPageChangedListener {
+public class CreatePatchPage01 extends AbstractWizardPage {
 
-	private String default_message;
-	
-	private Composite container;
+	private final String mode;
 
+	private SettingsSourceWidget settingsSourceWidget;
 	private InputModelsWidget sourceWidget;
+	private ValidateModelsWidget validateWidget;
 	private ScopeWidget scopeWidget;
 	private EditRuleMatchWidget erMatchWidget;
 	private RulebaseWidget rulebaseWidget;
 
-	private SelectionAdapter validationListener;
-
 	private InputModels inputModels;
 	private LiftingSettings settings;
-	
-	private String mode;
 
 	public CreatePatchPage01(InputModels inputModels,
 			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings, Mode mode) {
@@ -52,153 +39,62 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 
 		this.inputModels = inputModels;
 		this.settings = settings;
-		
-		if(mode.equals(Mode.PATCH)){
+
+		if(mode == Mode.PATCH) {
 			this.mode = "Patch";
-		}else{
+		} else {
 			this.mode = "Asymmetric Difference";
 		}
-		
-		default_message = "Create a " + this.mode + " from the changes between the models: origin -> changed";
-		
-		// Listen for validation failures:
-		validationListener =
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						validate();
-					}
-				};
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-
-		// Add scrolling to this page
-		final Composite wrapper = new Composite(parent, SWT.NONE);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 0;
-			layout.marginHeight = 0;
-			wrapper.setLayout(layout);
-		}
-
-		final ScrolledComposite sc = new ScrolledComposite(wrapper, SWT.V_SCROLL);
-		GridData sc_data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		{
-			sc.setLayoutData(sc_data);
-
-			sc.setExpandHorizontal(true);
-			sc.setExpandVertical(true);
-		}
-
-		container = new Composite(sc, SWT.NULL);
-		{
-			GridLayout layout = new GridLayout(1, false);
-			layout.marginWidth = 10;
-			layout.marginHeight = 10;
-			container.setLayout(layout);
-		}
-
-		sc.setContent(container);
-
-		// Create widgets for this page:
-		createWidgets();
-
-		// Compute height:
-		sc.setMinSize(container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
-		Point containerSize = container.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		sc_data.heightHint = containerSize.y;
-
-		// Required to avoid an error in the system:
-		setControl(wrapper);
-		
-		// Set dialog message:
-		/* Note: Needed to force correct layout for scrollbar!? *
-		 *       Set at least to setMessage(" ")!               */
-		setMessage(default_message);
-		
-		// Initial validation:
-		validate();
-	}
-
-	private void createWidgets() {
+	protected void createWidgets() {
+		// Settings Source:
+		settingsSourceWidget = new SettingsSourceWidget(this.settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(DifferenceSettingsItem.TECH_BUILDER);
+		settingsSourceWidget.addConsideredSettings(LiftingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(PatchingSettingsItem.SYMBOLIC_LINK_HANDLER);
+		addWidget(container, settingsSourceWidget);
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, mode +" Direction");
-		sourceWidget.setSettings(this.settings);
+		sourceWidget = new InputModelsWidget(inputModels, mode + " Direction");
 		addWidget(container, sourceWidget);
-		
+
+		// Model Validation:
+		validateWidget = new ValidateModelsWidget();
+		validateWidget.setSettings(settings);
+		validateWidget.setDependency(settingsSourceWidget);
+		addWidget(container, validateWidget);
+
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
-		scopeWidget.setPageChangedListener(this);
+		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
 
 		// Edit-Rule Matches:
-		Group erMatchesGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			erMatchesGroup.setLayout(grid);
-
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			erMatchesGroup.setLayoutData(data);
-
-			erMatchesGroup.setText("Edit Rule Matches:");
-		}
-		
 		erMatchWidget = new EditRuleMatchWidget();
 		erMatchWidget.setSettings(settings);
-		addWidget(erMatchesGroup, erMatchWidget);
-		
+		erMatchWidget.setDependency(settingsSourceWidget);
+		addWidget(container, erMatchWidget);
+
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);
 		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}
 
-	private void addWidget(Composite parent, IWidget widget) {
-		// Create controls:
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		widget.createControl(parent);
-		widget.setLayoutData(data);
-
-		// Add validation:
-		if (widget instanceof IWidgetSelection) {
-			((IWidgetSelection) widget).addSelectionListener(validationListener);
-		}
-	}
-
-	private void validate() {
-		setErrorMessage(null);
-		setPageComplete(true);
-		validateWidget(sourceWidget);
-		validateWidget(scopeWidget);
-		validateWidget(rulebaseWidget);		
-	}
-
-	private void validateWidget(IWidgetValidation widget) {
-		if (!widget.validate()) {
-			if(widget.getValidationMessage().getType().equals(ValidationType.ERROR)){
-				setErrorMessage(widget.getValidationMessage().getMessage());
-				setPageComplete(false);
-			}else{
-				setMessage(widget.getValidationMessage().getMessage(), IMessageProvider.WARNING);
-			}
-		}
-	}
-
 	public boolean isValidateModels() {
-		return sourceWidget.isValidateModels();
+		return validateWidget.isValidateModels();
 	}
 
 	public boolean isInverseDirection() {
 		return sourceWidget.isInverseDirection();
 	}
-	
-	
+
 	public ScopeWidget getScopeWidget() {
 		return scopeWidget;
 	}
@@ -208,7 +104,12 @@ public class CreatePatchPage01 extends WizardPage implements IPageChangedListene
 	}
 
 	@Override
-	public void pageChanged(PageChangedEvent event) {
-		validate();
+	protected String getDefaultMessage() {
+		return "Create a " + mode + " from the changes between the models: origin -> changed";
+	}
+
+	// internal access method for other wizard page
+	SettingsSourceWidget getSettingsSourceWidget() {
+		return settingsSourceWidget;
 	}
 }
