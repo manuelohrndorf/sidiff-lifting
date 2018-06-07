@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.sidiff.vcmsintegration.structureview.silift"
+         point="org.eclipse.compare.structureMergeViewers">
+      <viewer
+      		extensions="ecore"
+            class="org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerCreator"
+            id="org.sidiff.vcmsintegration.structureview.silift"
+            label="SiLiftViewer">
+      </viewer>
+      <contentTypeBinding
+            contentTypeId="org.eclipse.emf.ecore"
+            structureMergeViewerId="org.sidiff.vcmsintegration.structureview.silift">
+      </contentTypeBinding>
+      <contentTypeBinding
+            contentTypeId="org.eclipse.uml2.uml"
+            structureMergeViewerId="org.sidiff.vcmsintegration.structureview.silift">
+      </contentTypeBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.sidiff.vcmsintegration.structureview.silift.toolbar">
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.vcmsintegration.structureview.CloseHandler"
+            id="org.sidiff.vcmsintegration.structureview.Close"
+            name="Close">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor contributorId="org.sidiff.vcmsintegration.structureview.silift">
+      	<propertyCategory category="operationInvocation"/>
+      </propertyContributor>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="org.sidiff.vcmsintegration.structureview.silift">
+         <propertyTab category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab" label="Operation"/>
+         <propertyTab afterTab="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab"
+            category="operationInvocation" id="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+            label="Arguments"/>
+         <propertyTab
+               afterTab="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+               category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.InputTab"
+               indented="true"
+               label="Input">
+         </propertyTab>
+         <propertyTab
+               afterTab="org.sidiff.patching.ui.view.OperationExplorerView.ArgumentsTab"
+               category="operationInvocation"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.OutputTab"
+               indented="true"
+               label="Output">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="org.sidiff.vcmsintegration.structureview.silift">
+         <propertySection
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="org.sidiff.patching.ui.view.OperationExplorerView.OperationSection"
+               tab="org.sidiff.patching.ui.view.OperationExplorerView.OperationTab">
+               <input type="org.sidiff.patching.operation.OperationInvocationWrapper"/>
+         </propertySection>
+         <propertySection
+               class="org.sidiff.patching.ui.view.InputParameterSection"
+               id="org.sidiff.patching.ui.arguments.InputParameterSection"
+               tab="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.InputTab">
+            <input
+                  type="org.sidiff.patching.operation.OperationInvocationWrapper">
+            </input>
+         </propertySection>
+         <propertySection
+               class="org.sidiff.patching.ui.view.OutputParameterSection"
+               id="org.sidiff.patching.ui.arguments.OutputParameterSection"
+               tab="org.sidiff.patching.ui.view.OperationExplorerView.Arguments.OutputTab">
+            <input
+                  type="org.sidiff.patching.operation.OperationInvocationWrapper">
+            </input>
+         </propertySection>
+      </propertySections>
+   </extension>
+      <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.sidiff.difference.asymmetric.OperationInvocation"
+            class="org.sidiff.vcmsintegration.structureview.properties.OperationInvocationAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         id="org.sidiff.vcmsintegration.contentview.silift"
+         point="org.eclipse.compare.contentMergeViewers">
+      <viewer
+            class="org.sidiff.vcmsintegration.contentview.SiLiftContentMergeViewerCreator"
+            extensions="ecore"
+            id="org.sidiff.vcmsintegration.contentview.silift"
+            label="SiLiftViewer">
+      </viewer>
+      <contentTypeBinding
+            contentMergeViewerId="org.sidiff.vcmsintegration.contentview.silift"
+            contentTypeId="org.eclipse.emf.ecore">
+      </contentTypeBinding>
+      <contentTypeBinding
+            contentMergeViewerId="org.sidiff.vcmsintegration.contentview.silift"
+            contentTypeId="org.eclipse.uml2.uml">
+      </contentTypeBinding>
+   </extension>
+
+</plugin>
