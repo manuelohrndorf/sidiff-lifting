@@ -1,4 +1,4 @@
-package org.sidiff.patching.settings;
+package org.sidiff.patching;
 
 public enum PatchMode {
 	PATCHING, MERGING

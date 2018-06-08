@@ -9,7 +9,6 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.patching.settings.PatchingSettings;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.SymboliclinkPackage;
@@ -30,7 +29,7 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	private Map<SymbolicLinkObject, EObject> linkResolvingB;
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings) {
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		this.symbolicLinkHandler = settings.getSymbolicLinkHandler();
 		super.init(patch, targetModel, settings);
 	}
@@ -102,7 +101,7 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	}
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, PatchingSettings settings) {
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings) {
 		if(settings.getSymbolicLinkHandler() == null) {
 			return false;
 		}

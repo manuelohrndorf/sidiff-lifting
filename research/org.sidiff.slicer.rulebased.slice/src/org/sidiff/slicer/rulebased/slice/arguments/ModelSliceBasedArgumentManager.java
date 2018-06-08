@@ -26,12 +26,14 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.patching.ExecutionMode;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.arguments.ArgumentWrapper;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.IArgumentManagerSettings;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
-import org.sidiff.patching.settings.PatchMode;
 import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.slice.SlicedElement;
 
@@ -46,7 +48,6 @@ public class ModelSliceBasedArgumentManager implements IArgumentManager {
 	 * Reliability threshold.
 	 */
 	private float minReliability;
-
 
 	/**
 	 * The origin model.
@@ -88,14 +89,15 @@ public class ModelSliceBasedArgumentManager implements IArgumentManager {
 	private Map<ParameterBinding, ArgumentWrapper> argumentResolutions;
 	
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode) {
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		this.originModel = patch.getOriginModel();
 		this.targetModel = targetModel;
-		this.scope = scope;
-		this.patchMode = patchMode;
+		this.minReliability = settings.getMinReliability();
+		this.scope = settings.getScope();
+		this.patchMode = settings.getPatchMode();
+		this.modDetector = settings.getModifiedDetector();
 
 		// now we initialize the internal state...
-
 		this.collectReferencedRegistryAndResourceSetResources();
 
 		// init argument wrappers and provide initial resolutions
@@ -167,14 +169,6 @@ public class ModelSliceBasedArgumentManager implements IArgumentManager {
 				}
 			}
 		}
-	}
-	
-	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, Scope scope, PatchMode patchMode,
-			IModifiedDetector modifiedDetector) {
-
-		init(patch, targetModel, scope, patchMode);
-		this.modDetector = modifiedDetector;
 	}
 
 	@Override
@@ -332,11 +326,16 @@ public class ModelSliceBasedArgumentManager implements IArgumentManager {
 	}
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings) {
 		return EMFModelAccess.getCharacteristicDocumentType(targetModel).equals(((ModelSlice)asymmetricDifference.getOriginModel().getContents().get(0)).getType().get(0).getNsURI());
 	}
 	
 	public PatchMode getPatchMode() {
 		return patchMode;
+	}
+
+	@Override
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.INTERACTIVE;
 	}
 }

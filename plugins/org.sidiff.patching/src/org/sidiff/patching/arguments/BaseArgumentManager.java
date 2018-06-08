@@ -17,8 +17,7 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.PatchMode;
 
 /**
  * An abstract argument manager that can be used as a base class to implement
@@ -83,7 +82,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	private Map<ParameterBinding, ArgumentWrapper> argumentResolutions;
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings) {
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		this.patch = patch;
 		this.originModel = patch.getOriginModel();
 		this.changedModel = patch.getChangedModel();

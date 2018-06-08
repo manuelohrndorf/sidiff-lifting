@@ -7,13 +7,13 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
-import org.sidiff.patching.api.settings.ExecutionMode;
-import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.ExecutionMode;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
-import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 

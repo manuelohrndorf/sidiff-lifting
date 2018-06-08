@@ -11,15 +11,19 @@ import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.ExecutionMode;
+import org.sidiff.patching.IPatchEngineSettings;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.interrupt.IPatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
+import org.sidiff.patching.validation.ValidationMode;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * @see PatchingSettingsItem
  */
-public class PatchingSettings extends LiftingSettings {
+public class PatchingSettings extends LiftingSettings implements IPatchEngineSettings {
 
 	/**
 	 * 

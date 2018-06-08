@@ -8,11 +8,9 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.IArgumentManager;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.ValidationMode;
+import org.sidiff.patching.arguments.IArgumentManagerSettings;
 
 public class PatchingUtils {
 
@@ -71,18 +69,17 @@ public class PatchingUtils {
 	 * Else, any supported argument manager is returned.</p>
 	 * @param asymmetricDifference the asymmetric difference
 	 * @param targetModel the target model
-	 * @param settings the patching settings
+	 * @param settings the argument manager settings
 	 * @param preferredMode the preferred mode
 	 * @return argument manager that supports the input parameters,
 	 * <code>null</code> if no appropriate one was found
 	 */
 	public static IArgumentManager getArgumentManager(AsymmetricDifference asymmetricDifference, Resource targetModel,
-			org.sidiff.patching.api.settings.PatchingSettings settings, IArgumentManager.Mode preferredMode) {
-		PatchingSettings convertedSettings = convertSettingsCompat(settings);
+			IArgumentManagerSettings settings, ExecutionMode preferredMode) {
 		IArgumentManager fallbackManager = null;
 		for(IArgumentManager manager : getAllAvailableArgumentManagers()) {
-			if(manager.canResolveArguments(asymmetricDifference, targetModel, convertedSettings)) {
-				if(preferredMode == manager.getMode()) {
+			if(manager.canResolveArguments(asymmetricDifference, targetModel, settings)) {
+				if(preferredMode == manager.getExecutionMode()) {
 					// if the manager has the preferred mode, it is returned right away
 					return manager;
 				} else if(fallbackManager == null) {
@@ -92,53 +89,5 @@ public class PatchingUtils {
 			}
 		}
 		return fallbackManager;
-	}
-
-	/**
-	 * Converts
-	 * <pre>org.sidiff.patching.<u>api</u>.settings.PatchingSettings</pre>
-	 * to
-	 * <pre>org.sidiff.patching.settings.PatchingSettings</pre>
-	 * for compatibility.
-	 * @param apiSettings patching settings
-	 * @return copy of the settings
-	 */
-	public static PatchingSettings convertSettingsCompat(org.sidiff.patching.api.settings.PatchingSettings apiSettings) {
-		PatchingSettings settings = new PatchingSettings();
-		settings.setArgumentManager(apiSettings.getArgumentManager());
-		settings.setBuildGraphPerRule(apiSettings.isBuildGraphPerRule());
-		settings.setCalculateEditRuleMatch(apiSettings.isCalculateEditRuleMatch());
-		settings.setCandidatesService(apiSettings.getCandidatesService());
-		settings.setComparator(apiSettings.getComparator());
-		settings.setCorrespondencesService(apiSettings.getCorrespondencesService());
-		settings.setDetectSplitJoins(apiSettings.isDetectSplitJoins());
-		settings.setExecutionMode(ExecutionMode.valueOf(apiSettings.getExecutionMode().name()));
-		settings.setImports(apiSettings.getImports());
-		settings.setInterruptHandler(apiSettings.getInterruptHandler());
-		settings.setMatcher(apiSettings.getMatcher());
-		settings.setMergeImports(apiSettings.isEnabled_MergeImports());
-		settings.setMinReliability(apiSettings.getMinReliability());
-		settings.setModifiedDetector(apiSettings.getModifiedDetector());
-		settings.setNumberOfThreads(apiSettings.getNumberOfThreads());
-		settings.setPatchMode(PatchMode.valueOf(apiSettings.getPatchMode().name()));
-		settings.setRecognitionEngine(apiSettings.getRecognitionEngine());
-		settings.setRecognitionEngineMode(apiSettings.getRecognitionEngineMode());
-		settings.setRrSorter(apiSettings.getRrSorter());
-		settings.setRuleBases(apiSettings.getRuleBases());
-		settings.setRuleSetReduction(apiSettings.isRuleSetReduction());
-		settings.setRulesPerThread(apiSettings.getRulesPerThread());
-		settings.setScope(apiSettings.getScope());
-		settings.setSerializeEditRuleMatch(apiSettings.isSerializeEditRuleMatch());
-		settings.setSimilaritiesCalculationService(apiSettings.getSimilaritiesCalculationService());
-		settings.setSimilaritiesService(apiSettings.getSimilaritiesService());
-		settings.setSortRecognitionRuleNodes(apiSettings.isSortRecognitionRuleNodes());
-		settings.setSymbolicLinkHandler(apiSettings.getSymbolicLinkHandler());
-		settings.setTechBuilder(apiSettings.getTechBuilder());
-		settings.setTransformationEngine(apiSettings.getTransformationEngine());
-		settings.setUnmergeImports(apiSettings.isEnabled_UnmergeImports());
-		settings.setUseThreadPool(apiSettings.isUseThreadPool());
-		settings.setValidate(apiSettings.isValidate());
-		settings.setValidationMode(ValidationMode.valueOf(apiSettings.getValidationMode().name()));
-		return settings;
 	}
 }

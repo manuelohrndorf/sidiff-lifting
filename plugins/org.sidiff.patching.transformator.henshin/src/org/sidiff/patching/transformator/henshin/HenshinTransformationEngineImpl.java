@@ -26,10 +26,10 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.Parameter;
 import org.sidiff.editrule.rulebase.ParameterDirection;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.settings.ExecutionMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 
 /**

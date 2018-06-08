@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 
 public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgumentManager {
@@ -52,7 +53,7 @@ public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgume
 	}
 
 	@Override
-	public Mode getMode() {
-		return Mode.BATCH;
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.BATCH;
 	}
 }

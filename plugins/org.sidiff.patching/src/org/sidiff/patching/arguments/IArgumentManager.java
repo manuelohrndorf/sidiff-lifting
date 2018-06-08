@@ -9,7 +9,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.patching.ExecutionMode;
 
 /**
  * The argument manager is the central interface for the patch engine in order
@@ -22,11 +22,6 @@ import org.sidiff.patching.settings.PatchingSettings;
  * @author kehrer
  */
 public interface IArgumentManager {
-
-	enum Mode {
-		BATCH,
-		INTERACTIVE
-	}
 
 	String EXTENSION_POINT_ID = "org.sidiff.patching.arguments.manager";
 	String EXTENSION_POINT_ATTRIBUTE = "class";
@@ -49,7 +44,7 @@ public interface IArgumentManager {
 	 * @param targetModel the target model
 	 * @param settings the patching settings
 	 */
-	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings);
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings);
 
 	/**
 	 * For a given parameter binding of the patch, this method returns the
@@ -146,11 +141,11 @@ public interface IArgumentManager {
 	 * 
 	 * @return <code>true</code> if argument manager can run, <code>false</code> otherwise
 	 */
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, PatchingSettings settings);
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings);
 
 	/**
-	 * Returns the mode of this argument manager.
-	 * @return {@link Mode#BATCH} or {@link Mode#INTERACTIVE}
+	 * Returns the execution mode of this argument manager.
+	 * @return {@link ExecutionMode#BATCH} or {@link ExecutionMode#INTERACTIVE}
 	 */
-	public Mode getMode();
+	public ExecutionMode getExecutionMode();
 }

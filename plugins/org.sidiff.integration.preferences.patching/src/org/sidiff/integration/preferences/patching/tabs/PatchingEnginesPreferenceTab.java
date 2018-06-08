@@ -8,8 +8,8 @@ import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSetti
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
 import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
-import org.sidiff.patching.api.settings.ExecutionMode;
-import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.ExecutionMode;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;

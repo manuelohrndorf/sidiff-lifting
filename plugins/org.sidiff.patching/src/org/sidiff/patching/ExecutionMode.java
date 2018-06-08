@@ -1,4 +1,4 @@
-package org.sidiff.patching.api.settings;
+package org.sidiff.patching;
 
 public enum ExecutionMode {
 	INTERACTIVE, BATCH

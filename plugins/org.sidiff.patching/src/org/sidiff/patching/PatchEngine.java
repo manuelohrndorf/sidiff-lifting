@@ -35,12 +35,10 @@ import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReportManager;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
+import org.sidiff.patching.validation.ValidationMode;
 
 /**
  * 
@@ -72,12 +70,11 @@ public class PatchEngine {
 	 * @param reliabilitiesComputed
 	 * @param patchInterruptHandler
 	 */
-	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, PatchingSettings settings) {
+	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IPatchEngineSettings settings) {
 
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(
-				CorrespondencesUtil.getAvailableCorrespondencesService(
-						MatchingModelCorrespondences.SERVICE_ID));
+		settings.getMatcher().setCorrespondencesService(
+				CorrespondencesUtil.getAvailableCorrespondencesService(MatchingModelCorrespondences.SERVICE_ID));
 		
 		// Get settings:
 		this.patchedResource = patchedResource;

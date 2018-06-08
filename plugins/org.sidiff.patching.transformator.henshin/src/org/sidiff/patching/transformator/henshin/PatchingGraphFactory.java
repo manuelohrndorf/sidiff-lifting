@@ -10,7 +10,7 @@ import org.sidiff.common.emf.ExternalReferenceCalculator;
 import org.sidiff.common.emf.access.ExternalReference;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.patching.settings.ExecutionMode;
+import org.sidiff.patching.ExecutionMode;
 
 /**
  * Factory that creates a Henshin graph which contains all objects (and only

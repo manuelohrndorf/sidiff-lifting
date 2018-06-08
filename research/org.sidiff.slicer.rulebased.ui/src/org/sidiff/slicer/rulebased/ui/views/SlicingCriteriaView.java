@@ -2,6 +2,7 @@ package org.sidiff.slicer.rulebased.ui.views;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -57,12 +58,12 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
@@ -70,6 +71,7 @@ import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
+import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
@@ -79,10 +81,6 @@ import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
 import org.sidiff.slicer.rulebased.slice.arguments.ModelSliceBasedArgumentManager;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
 import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
-import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
-import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
-import org.sidiff.vcmsintegration.preferences.util.PreferenceUtil;
-import org.sidiff.vcmsintegration.preferences.util.SettingsFactory;
 
 /**
  * 
@@ -213,7 +211,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * @throws UnsupportedFeatureLevelException 
 	 * @throws InvalidSettingsException 
 	 */
-	public void init(IFile input) throws InvalidSettingsException, UnsupportedFeatureLevelException{
+	public void init(IFile input) {
 
 		ResourceSet remoteRSS = new ResourceSetImpl();
 		
@@ -241,7 +239,10 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			EMFUtil.setXmiId(copies.get(origin), id);
 		}
 		
-		this.config.setLiftingSettings((LiftingSettings) SettingsFactory.getInstance().getLiftingSettingsFactory(EMFModelAccess.getCharacteristicDocumentType(remoteResourceComplete), PreferenceUtil.getInstance().getPluginPreferenceStore()).getSettings());
+		LiftingSettings settings = new LiftingSettings();
+		SettingsAdapterUtil.adaptSettingsGlobal(settings, EMFModelAccess.getDocumentTypes(
+				remoteResourceComplete, Scope.RESOURCE_SET), Collections.emptySet());
+		this.config.setLiftingSettings(settings);
 		
 		this.mergeSettings = new PatchingSettings(config.getLiftingSettings().getScope(), false,
 				config.getLiftingSettings().getMatcher(),

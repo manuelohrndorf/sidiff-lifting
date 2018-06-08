@@ -38,11 +38,10 @@ import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
-import org.sidiff.patching.api.settings.ExecutionMode;
-import org.sidiff.patching.api.settings.PatchMode;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -57,6 +56,7 @@ import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.ui.wsupdate.Activator;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
+import org.sidiff.patching.validation.ValidationMode;
 
 //TODO Migration: Test class
 public class WorkspaceUpdateWizard extends Wizard {
@@ -227,7 +227,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 					// Use interactive argument manager
 					IArgumentManager argumentManager = PatchingUtils.getArgumentManager(fullDiff.getAsymmetric(),
-							resourceResult.get(), settings, IArgumentManager.Mode.INTERACTIVE);
+							resourceResult.get(), settings, settings.getExecutionMode());
 					if(argumentManager == null) {
 						Display.getDefault().syncExec(new Runnable() {
 							@Override
@@ -298,8 +298,9 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(
-							fullDiff.getAsymmetric(), resourceResult.get(),
-							PatchingUtils.convertSettingsCompat(settings));
+							fullDiff.getAsymmetric(),
+							resourceResult.get(),
+							settings);
 
 					if (useDiagramEditor
 							&& domainEditor

@@ -16,6 +16,7 @@ import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractSymblBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -149,7 +150,7 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 	}
 
 	@Override
-	public Mode getMode() {
-		return Mode.INTERACTIVE;
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.INTERACTIVE;
 	}
 }

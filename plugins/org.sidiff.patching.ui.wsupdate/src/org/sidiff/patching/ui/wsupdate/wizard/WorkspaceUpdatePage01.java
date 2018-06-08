@@ -13,11 +13,11 @@ import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
-import org.sidiff.patching.api.settings.ValidationMode;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 import org.sidiff.patching.ui.wsupdate.Activator;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 import org.sidiff.patching.ui.wsupdate.widgets.WSUModelsWidget;
+import org.sidiff.patching.validation.ValidationMode;
 
 public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 

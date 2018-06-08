@@ -17,6 +17,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -143,7 +144,7 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 	}
 
 	@Override
-	public Mode getMode() {
-		return Mode.INTERACTIVE;
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.INTERACTIVE;
 	}
 }

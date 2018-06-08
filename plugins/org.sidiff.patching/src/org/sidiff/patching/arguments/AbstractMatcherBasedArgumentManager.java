@@ -19,7 +19,6 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.Matching;
 import org.sidiff.matching.model.MatchingModelFactory;
-import org.sidiff.patching.settings.PatchingSettings;
 
 public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentManager {
 
@@ -40,7 +39,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	private SymmetricDifference matchingChangedTarget;
 
 	@Override
-	public void init(AsymmetricDifference patch, Resource targetModel, PatchingSettings settings) {
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		this.matcher = settings.getMatcher();
 		super.init(patch, targetModel, settings);
 	}
@@ -144,7 +143,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	}
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, PatchingSettings settings) {
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings) {
 		return settings.getMatcher() != null && EMFModelAccess.getCharacteristicDocumentType(targetModel)
 				.equals(EMFModelAccess.getCharacteristicDocumentType(asymmetricDifference.getOriginModel()));
 	}

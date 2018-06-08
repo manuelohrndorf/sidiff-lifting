@@ -24,7 +24,7 @@ public class TransformationEngineUtil {
 			String attribute = configurationElement.getAttribute(ITransformationEngine.DOCUMENT_TYPE);
 			if (attribute.equals(documentType) || attribute.equals(ITransformationEngine.DEFAULT_DOCUMENT_TYPE)) {
 				try {
-					ITransformationEngine correspondence = (ITransformationEngine) configurationElement.createExecutableExtension(ITransformationEngine.EXECUTEBALE);
+					ITransformationEngine correspondence = (ITransformationEngine) configurationElement.createExecutableExtension(ITransformationEngine.EXECUTABLE);
 					correspondences.add(correspondence);
 				} catch (CoreException e) {
 					e.printStackTrace();
@@ -46,7 +46,7 @@ public class TransformationEngineUtil {
 		for (IConfigurationElement configurationElement : configurationElements) {
 			try {
 				ITransformationEngine transformationEngine =
-						(ITransformationEngine)configurationElement.createExecutableExtension(ITransformationEngine.EXECUTEBALE);
+						(ITransformationEngine)configurationElement.createExecutableExtension(ITransformationEngine.EXECUTABLE);
 				if(transformationEngine.getKey().equals(key)) {
 					return transformationEngine;
 				}
