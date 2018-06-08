@@ -1,10 +1,11 @@
 package org.sidiff.patching.ui.wizard;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
@@ -33,9 +34,9 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 	public ApplyPatchPage01(Patch patch, String pageName, String title, PatchingSettings settings, IProject project) {
 		super(pageName, title, Activator.getImageDescriptor("icon.png"));
 		this.settings = settings;
-		this.documentTypes = EMFModelAccess.getDocumentTypes(Arrays.asList(
+		this.documentTypes = new HashSet<String>(EMFDocumentTypeUtil.resolve(Arrays.asList(
 				patch.getAsymmetricDifference().getOriginModel(),
-				patch.getAsymmetricDifference().getChangedModel()));
+				patch.getAsymmetricDifference().getChangedModel())));
 		this.project = project;
 	}
 
