@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -76,7 +75,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	 * @param inputModels the input models
 	 */
 	public SettingsSourceWidget(ISettings settings, InputModels inputModels) {
-		this(settings, getProjectFromInputModels(inputModels), inputModels.getDocumentTypes());
+		this(settings, inputModels.getProject(), inputModels.getDocumentTypes());
 	}
 
 	/**
@@ -92,21 +91,6 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		this.documentTypes = new HashSet<String>(documentTypes);
 		this.consideredSettings = new HashSet<Enum<?>>();
 		this.selectionListeners = new LinkedList<SelectionListener>();
-	}
-
-	private static IProject getProjectFromInputModels(InputModels inputModels) {
-		IProject project = null;
-		for(IFile file : inputModels.getFiles()) {
-			if(file == null) {
-				PreferencesUiPlugin.logWarning("File of input model was not resolved.");
-			} else if(project == null) {
-				project = file.getProject();
-			} else if(!project.equals(file.getProject())) {
-				PreferencesUiPlugin.logWarning("Input models are not in the same project. "
-											 + "Using project specific settings of first one.");
-			}
-		}
-		return project;
 	}
 
 	@Override
