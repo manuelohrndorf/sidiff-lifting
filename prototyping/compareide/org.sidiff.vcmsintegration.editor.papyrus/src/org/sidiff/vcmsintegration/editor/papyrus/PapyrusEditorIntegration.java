@@ -1,8 +1,7 @@
 package org.sidiff.vcmsintegration.editor.papyrus;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -65,8 +64,8 @@ public class PapyrusEditorIntegration extends BasicEditorIntegration {
 	}
 	
 	@Override
-	public HashMap<String, String> getFileExtensions() {
-		HashMap<String, String>  extensions = new HashMap<String, String> ();
+	public Map<String, String> getFileExtensions() {
+		Map<String, String>  extensions = new HashMap<String, String> ();
 		extensions.put("notation", this.NOTATION_FILE_EXT);
 		extensions.put("diagram", super.diagramFileExt);
 		extensions.put("model", super.modelFileExt);

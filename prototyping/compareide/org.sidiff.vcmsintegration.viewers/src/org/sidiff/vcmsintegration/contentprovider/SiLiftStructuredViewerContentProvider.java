@@ -5,20 +5,22 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.IResourceProvider;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.egit.ui.internal.revision.ResourceEditableRevision;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -30,7 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
@@ -44,14 +46,16 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
+import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.util.PatchingUtils;
+import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
-import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
-import org.sidiff.vcmsintegration.preferences.util.PreferenceUtil;
-import org.sidiff.vcmsintegration.preferences.util.SettingsFactory;
+import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
@@ -100,13 +104,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * symmetric and asymmetric difference.
 	 */
 	private DisplayMode displayMode;
-	/**
-	 * Stores the types of directions that the asymmetric difference can have.
-	 * When calculating the asymmetric difference it may be have the direction
-	 * from left to right, or light to left. The default value of this variable
-	 * is {@link DifferenceDirection#LEFT_TO_RIGHT}.
-	 */
-	private DifferenceDirection differenceDirection = DifferenceDirection.LEFT_TO_RIGHT;
 	/**
 	 * If present, the symmetric difference is stored in this variable. Once the
 	 * user choose the asymmetric difference to show, it keeps stored in this
@@ -233,12 +230,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 			} catch (NoCorrespondencesException e) {
 				MessageDialogUtil.showNoCorrespondencesDialog();
 				LogUtil.log(LogEvent.ERROR, "No correspondences could be found between the models");
-			} catch (InvalidSettingsException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedFeatureLevelException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		} else {
 			MessageDialog.open(MessageDialog.ERROR, null, "Invalid input", "The given input cannot be used to derive a difference that can be displayed in the tree viewer", SWT.NONE);
@@ -367,25 +358,25 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * @throws UnsupportedFeatureLevelException
 	 * @throws InvalidSettingsException
 	 */
-	public void refresh(DisplayMode displayMode) throws InvalidModelException, NoCorrespondencesException, InvalidSettingsException, UnsupportedFeatureLevelException {
+	public void refresh(DisplayMode displayMode) throws InvalidModelException, NoCorrespondencesException {
 		LogUtil.log(LogEvent.NOTICE, String.format("Refreshing contents for display mode %s", displayMode));
 
-		// get documenttype of left model
-		// left and right should have the same document type
-		String documentType = EMFModelAccess.getCharacteristicDocumentType(left.getResource());
-
-		LiftingSettings settings = null;
+		InputModels inputModels = new InputModels(left.getResource(), right.getResource());
+		if(!inputModels.haveSameDocumentType()) {
+			throw new InvalidModelException("Document types of input models are not matching");
+		}
 
 		// if we can get the current project, use project settings
 		// else use global settings
-		if (left.getTypedElement() instanceof IResourceProvider) {
-			IProject project = ((IResourceProvider) left.getTypedElement()).getResource().getProject();
+		IFile leftFile = Adapters.adapt(left.getTypedElement(), IFile.class);
 
-			// get settings from the SettingsFactory
-			settings = (LiftingSettings) SettingsFactory.getInstance().getLiftingSettingsFactory(documentType, PreferenceUtil.getInstance().getPluginPreferenceStore(), project).getSettings();
+		LiftingSettings settings = new LiftingSettings();
+		if (leftFile != null) {
+			SettingsAdapterUtil.adaptSettingsProject(settings, inputModels.getProject(),
+					inputModels.getDocumentTypes(), Collections.<Enum<?>>emptySet());
 		} else {
-			// get settings from the SettingsFactory
-			settings = (LiftingSettings) SettingsFactory.getInstance().getLiftingSettingsFactory(documentType, PreferenceUtil.getInstance().getPluginPreferenceStore()).getSettings();
+			SettingsAdapterUtil.adaptSettingsGlobal(settings, inputModels.getDocumentTypes(), 
+					Collections.<Enum<?>>emptySet());
 		}
 
 		switch (displayMode) {
@@ -394,9 +385,11 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 			break;
 		case ASYMMETRIC_DIFFERENCE:
 			if(ancestor != null && ancestor.getResource() != null) {
-				asymmetricDifference = getAsymmetricDifference(left.getResource(), right.getResource(), ancestor.getResource(), settings);
+				asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
+						ancestor.getResource(), right.getResource(), settings).getAsymmetric();
 			} else {
-				asymmetricDifference = getAsymmetricDifference(left.getResource(), right.getResource(), settings);	
+				asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
+						left.getResource(), right.getResource(), settings).getAsymmetric();
 			}
 			
 			// create new PatchEngine
@@ -456,12 +449,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 				} catch (NoCorrespondencesException e) {
 					MessageDialogUtil.showNoCorrespondencesDialog();
 					LogUtil.log(LogEvent.ERROR, "No correspondences could be found between the models");
-				} catch (InvalidSettingsException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (UnsupportedFeatureLevelException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		};
@@ -478,72 +465,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 		} catch (InterruptedException e) {
 			// TODO: Handle this exception properly
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Returns the {@link AsymmetricDifference} based on the current
-	 * {@link DifferenceDirection}. If the direction is
-	 * {@link DifferenceDirection#LEFT_TO_RIGHT}, the difference will be
-	 * calculated assuming that the left resource is the origin and the right
-	 * resource the modified model. If the direction is
-	 * {@link DifferenceDirection#RIGHT_TO_LEFT}, the left resource is the
-	 * modified and the right resource the origin model.
-	 * 
-	 * @param left The actual left resource as it was provided to
-	 *            {@link #getElements(Object)}
-	 * @param right The actual right resource as it was provided to
-	 *            {@link #getElements(Object)}
-	 * @param settings The settings that configure the lifting process
-	 * @return The asymmetric difference whose direction depends on the current
-	 *         value of the {@link DifferenceDirection}
-	 * @throws InvalidModelException If one of the given models is invalid
-	 * @throws NoCorrespondencesException If no correspondences could be found
-	 *             between the models
-	 */
-	private AsymmetricDifference getAsymmetricDifference(Resource left, Resource right, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException {
-		switch (differenceDirection) {
-		case LEFT_TO_RIGHT:
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(left, right, settings).getAsymmetric();
-		case RIGHT_TO_LEFT:
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(right, left, settings).getAsymmetric();
-		default:
-			LogUtil.log(LogEvent.WARNING, String.format("Unsupported difference direction %s. Falling back to %s", differenceDirection.toString(), DifferenceDirection.LEFT_TO_RIGHT));
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(left, right, settings).getAsymmetric();
-		}
-	}
-	
-	/**
-	 * Returns the {@link AsymmetricDifference} based on the current
-	 * {@link DifferenceDirection}. If the direction is
-	 * {@link DifferenceDirection#LEFT_TO_RIGHT}, the difference will be
-	 * calculated assuming that the left resource is the origin and the right
-	 * resource the modified model. If the direction is
-	 * {@link DifferenceDirection#RIGHT_TO_LEFT}, the left resource is the
-	 * modified and the right resource the origin model.
-	 * 
-	 * @param left The actual left resource as it was provided to
-	 *            {@link #getElements(Object)}
-	 * @param right The actual right resource as it was provided to
-	 *            {@link #getElements(Object)}
-	 * @param ancestor The actual ancestor resource as it was provided to
-	 *            {@link #getElements(Object)}
-	 * @param settings The settings that configure the lifting process
-	 * @return The asymmetric difference whose direction depends on the current
-	 *         value of the {@link DifferenceDirection}
-	 * @throws InvalidModelException If one of the given models is invalid
-	 * @throws NoCorrespondencesException If no correspondences could be found
-	 *             between the models
-	 */
-	private AsymmetricDifference getAsymmetricDifference(Resource left, Resource right, Resource ancestor, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException {
-		switch (differenceDirection) {
-		case LEFT_TO_RIGHT:
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(ancestor, right, settings).getAsymmetric();
-		case RIGHT_TO_LEFT:
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(ancestor, left, settings).getAsymmetric();
-		default:
-			LogUtil.log(LogEvent.WARNING, String.format("Unsupported difference direction %s. Falling back to %s", differenceDirection.toString(), DifferenceDirection.LEFT_TO_RIGHT));
-			return AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(ancestor, right, settings).getAsymmetric();
 		}
 	}
 
@@ -622,26 +543,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	}
 
 	/**
-	 * Set DifferenceDirection. Defines direction of the generated asymmetric
-	 * difference.
-	 * 
-	 * @param differenceDirection New DifferenceDirection.
-	 */
-	public void setDifferenceDirection(DifferenceDirection differenceDirection) {
-		this.differenceDirection = differenceDirection;
-	}
-
-	/**
-	 * Get DifferenceDirection. Defines direction of the generated asymmetric
-	 * difference.
-	 * 
-	 * @return Current DifferenceDirection
-	 */
-	public DifferenceDirection getDifferenceDirection() {
-		return differenceDirection;
-	}
-
-	/**
 	 * Toggle DifferenceDirection. Switches between LEFT_TO_RIGHT and
 	 * RIGHT_TO_LEFT
 	 * @throws UnsupportedFeatureLevelException 
@@ -649,21 +550,11 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * @throws NoCorrespondencesException 
 	 * @throws InvalidModelException 
 	 */
-	public void switchDifferenceDirection() throws InvalidModelException, NoCorrespondencesException, InvalidSettingsException, UnsupportedFeatureLevelException {
-		if (differenceDirection.equals(DifferenceDirection.LEFT_TO_RIGHT)) {
-			differenceDirection = DifferenceDirection.RIGHT_TO_LEFT;
-			refresh(displayMode);
-		} else {
-			differenceDirection = DifferenceDirection.LEFT_TO_RIGHT;
-			refresh(displayMode);
-		}
-	}
-
-	/**
-	 * Check if DifferenceDIrection is LEFT_TO_RIGHT
-	 */
-	public boolean isLeftToRight() {
-		return differenceDirection.equals(DifferenceDirection.LEFT_TO_RIGHT);
+	public void switchDifferenceDirection() throws InvalidModelException, NoCorrespondencesException {
+		CompareResource tmp = left;
+		left = right;
+		right = tmp;
+		refresh(displayMode);
 	}
 
 	/**
@@ -701,59 +592,70 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * difference.
 	 * 
 	 * Should be called when: -a new asymmetric difference has been calculated
-	 * 
-	 * @throws UnsupportedFeatureLevelException If the requested feature level
-	 *             is not supported
-	 * @throws InvalidSettingsException If the settings contain invalid values
 	 */
-	@SuppressWarnings("restriction")
-	private void createPatchEngine() throws InvalidSettingsException, UnsupportedFeatureLevelException {
+	private void createPatchEngine() {
 		// decide which ressource to patch
-		CompareResource resource = null;
-		if (this.isLeftToRight()) {
-			resource = this.getLeft();
-		} else {
-			resource = this.getRight();
-		}
+		final CompareResource resourceA = getLeft();
+		final CompareResource resourceB = getRight();
+
 		// get document type
-		String documentType = EMFModelAccess.getCharacteristicDocumentType(resource.getResource());
-		// get settings
-		PatchingSettings patchingSettings = null;
+		Set<String> documentTypes = new HashSet<>(EMFDocumentTypeUtil.resolve(resourceA.getResource()));
+
 		// if we can get the current project, use project settings
 		// else use global settings
-		if (this.getLeft().getTypedElement() instanceof IResourceProvider) {
-			IProject project = ((IResourceProvider) this.getLeft().getTypedElement()).getResource().getProject();
-			patchingSettings = (PatchingSettings) SettingsFactory.getInstance().getPatchingSettingsFactory(documentType, PreferenceUtil.getInstance().getPluginPreferenceStore(), project).getSettings();
-		} else {
-			patchingSettings = (PatchingSettings) SettingsFactory.getInstance().getPatchingSettingsFactory(documentType, PreferenceUtil.getInstance().getPluginPreferenceStore()).getSettings();
+		IResource platformResource = null;
+		if(resourceA.getTypedElement() instanceof IResourceProvider) {
+			platformResource = ((IResourceProvider) resourceA.getTypedElement()).getResource();
+			try {
+				if(platformResource != null && !PreferenceStoreUtil.useSpecificSettings(platformResource.getProject())) {
+					platformResource = null;
+				}
+			} catch (CoreException e) {
+				platformResource = null;
+			}
 		}
+
+		PatchingSettings patchingSettings = new PatchingSettings();
+		if (platformResource != null) {
+			SettingsAdapterUtil.adaptSettingsProject(patchingSettings, platformResource.getProject(),
+					documentTypes, Collections.<Enum<?>>emptySet());
+		} else {
+			SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings, documentTypes, 
+					Collections.<Enum<?>>emptySet());
+		}
+
+		// Use interactive argument manager
+		IArgumentManager argumentManager = PatchingUtils.getArgumentManager(asymmetricDifference,
+				resourceA.getResource(), patchingSettings, patchingSettings.getExecutionMode());
+		if(argumentManager == null) {
+			throw new RuntimeException("No argument manager found");
+		}
+		patchingSettings.setArgumentManager(argumentManager);
+
+		// Dialog Patch interrupt handler
+		patchingSettings.setInterruptHandler(new DialogPatchInterruptHandler());
+
 		// create PatchEngine
 		AsymmetricDifference asymmetricDifference = this.getAsymmetricDifference();
-		PatchEngine patchEngine = new PatchEngine(asymmetricDifference, resource.getResource(), patchingSettings);
-		
-		//init modified detector
+		PatchEngine patchEngine = new PatchEngine(asymmetricDifference, resourceA.getResource(), patchingSettings);
+
+		// init modified detector
 		IModifiedDetector modifiedDetector = patchingSettings.getModifiedDetector();
-		patchingSettings.setModifiedDetector(modifiedDetector);
-		
 		if (modifiedDetector != null) {
 			try {
-				Resource modelB = differenceDirection == DifferenceDirection.LEFT_TO_RIGHT ? 
-						right.getResource() : left.getResource();
-				modifiedDetector.init(asymmetricDifference.getOriginModel(), modelB,
+				modifiedDetector.init(asymmetricDifference.getOriginModel(), resourceB.getResource(),
 						patchingSettings.getMatcher(), patchingSettings.getScope());
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// set global variables
 		this.patchingSettings = patchingSettings;
 		this.patchEngine = patchEngine;
-		this.patchedResource = resource;
-		if (this.patchedResource.getTypedElement() instanceof ResourceEditableRevision) {
-			String uri = ((ResourceEditableRevision) this.patchedResource.getTypedElement()).getFile().getLocationURI().getPath();
-			this.patchedResource.getResource().setURI(URI.createFileURI(uri));
+		this.patchedResource = resourceA;
+		if(platformResource != null) {
+			this.patchedResource.getResource().setURI(URI.createFileURI(platformResource.getLocationURI().getPath()));
 		}
 	}
-
 }

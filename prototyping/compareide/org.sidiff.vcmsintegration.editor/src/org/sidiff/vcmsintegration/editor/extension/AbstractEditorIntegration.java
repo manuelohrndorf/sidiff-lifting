@@ -29,7 +29,7 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public final Boolean isDefaultEditorPresent() {
+	public final boolean isDefaultEditorPresent() {
 		if (defaultEditorPresent == null)
 			defaultEditorPresent = isEditorPresent(defaultEditorId);
 		return defaultEditorPresent;
@@ -55,10 +55,8 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain();
-		} else {
-			// TODO Exception?
-			return null;
 		}
+		throw new RuntimeException("Editing Domain not resolved");
 	}
 
 	@Override
@@ -66,9 +64,7 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain().getResourceSet().getResources().get(0);
-		} else {
-			// TODO Exception?
-			return null;
 		}
+		throw new RuntimeException("Resource not resolved");
 	}
 }

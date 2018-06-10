@@ -9,7 +9,7 @@ import java.util.EventObject;
  * @author Adrian Bingener
  *
  */
-public interface Handler {
+public interface IActionHandler {
 
 	/**
 	 * Called when the component that this handler is registered for, fired a

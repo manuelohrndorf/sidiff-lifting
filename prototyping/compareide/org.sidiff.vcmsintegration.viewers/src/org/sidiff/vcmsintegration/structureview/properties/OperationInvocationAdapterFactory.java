@@ -16,16 +16,17 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
  */
 public class OperationInvocationAdapterFactory implements IAdapterFactory {
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
 		if (adapterType == IPropertySource.class && adaptableObject instanceof OperationInvocation) {
-			return new OperationInvocationPropertySource((OperationInvocation) adaptableObject);
+			return (T)new OperationInvocationPropertySource((OperationInvocation) adaptableObject);
 		}
 		return null;
 	}
 
 	@Override
-	public Class[] getAdapterList() {
+	public Class<?>[] getAdapterList() {
 		return new Class[] { IPropertySource.class };
 	}
 

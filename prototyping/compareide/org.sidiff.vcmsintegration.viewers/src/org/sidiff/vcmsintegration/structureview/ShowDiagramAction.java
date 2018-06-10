@@ -3,8 +3,9 @@ package org.sidiff.vcmsintegration.structureview;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
@@ -14,8 +15,8 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.team.svn.core.operation.IResourcePropertyProvider;
 import org.eclipse.team.svn.core.resource.IRepositoryResource;
-import org.eclipse.team.svn.ui.compare.ResourceCompareInput.ResourceElement;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PlatformUI;
@@ -39,13 +40,13 @@ import org.sidiff.vcmsintegration.util.Resources;
  * and svn.
  * 
  */
-@SuppressWarnings("restriction")
 public class ShowDiagramAction extends Action {
+	
 	/**
 	 * Provides {@link CompareResource} for the two given input resources that
 	 * are being compared.
 	 */
-	SiLiftStructuredViewerContentProvider contentProvider;
+	private SiLiftStructuredViewerContentProvider contentProvider;
 
 	/**
 	 * Creates a new {@link ShowDiagramAction} with a
@@ -55,6 +56,7 @@ public class ShowDiagramAction extends Action {
 	 * @param contentProvider
 	 */
 	public ShowDiagramAction(SiLiftStructuredViewerContentProvider contentProvider) {
+		Assert.isNotNull(contentProvider);
 		this.setText("Open Diagram");
 		this.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, Resources.ICON_SHOW_DIAGRAM));
 		this.contentProvider = contentProvider;
@@ -220,11 +222,11 @@ public class ShowDiagramAction extends Action {
 	 * @return the {@link URI} of the modelFile
 	 * @throws IOException
 	 */
-	private URI getURIForCompareResource(CompareResource compareResource, HashMap<String, String> extensions) throws IOException {
+	private URI getURIForCompareResource(CompareResource compareResource, Map<String, String> extensions) throws IOException {
 		if (compareResource.isLocal()) {
 			return URI.createPlatformResourceURI(compareResource.getResource().getURI().toString(), true);
 		} else if (compareResource.isSvn()) {
-			IRepositoryResource repositoryResource = ((ResourceElement) compareResource.getTypedElement()).getRepositoryResource();
+			IRepositoryResource repositoryResource = ((IResourcePropertyProvider) compareResource.getTypedElement()).getRemote();
 			SVNAccess access = new SVNAccess(repositoryResource);
 			return access.serializeRepositoryResource(extensions);
 		} else {

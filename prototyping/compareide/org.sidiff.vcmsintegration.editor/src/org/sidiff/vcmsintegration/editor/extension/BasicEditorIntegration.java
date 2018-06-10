@@ -7,10 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -254,8 +252,8 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public HashMap<String, String> getFileExtensions() {
-		HashMap<String, String>  extensions = new HashMap<String, String> ();
+	public Map<String, String> getFileExtensions() {
+		Map<String, String>  extensions = new HashMap<String, String> ();
 		extensions.put("model", this.modelFileExt);
 		extensions.put("diagram", this.diagramFileExt);
 		return extensions;

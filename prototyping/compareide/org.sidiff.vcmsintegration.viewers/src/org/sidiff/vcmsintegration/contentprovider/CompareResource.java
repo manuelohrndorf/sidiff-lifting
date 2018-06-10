@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.egit.ui.internal.revision.FileRevisionTypedElement;
 import org.eclipse.egit.ui.internal.revision.ResourceEditableRevision;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.team.svn.ui.compare.ResourceCompareInput.ResourceElement;
+import org.eclipse.team.svn.core.operation.IResourcePropertyProvider;
 import org.sidiff.vcmsintegration.util.Util;
 
 /**
@@ -23,7 +23,6 @@ import org.sidiff.vcmsintegration.util.Util;
  * @author Louis Christ
  *
  */
-@SuppressWarnings("restriction")
 public class CompareResource {
 
 	/**
@@ -81,12 +80,12 @@ public class CompareResource {
 			this.resource = Util.getResourceByTypedElement(input);
 			
 		// files from svn
-		} else if (input instanceof ResourceElement) {
+		} else if (input instanceof IResourcePropertyProvider) {
 			// if the file is editable we assume that it is local
-			String path = ((ResourceElement) input).getLocalResource().getResource().getFullPath().toString();
+			String path = ((IResourcePropertyProvider) input).getLocal().getFullPath().toString();
 			
 			// local svn files
-			if (((ResourceElement) input).isEditable()) {
+			if (((IResourcePropertyProvider) input).isEditAllowed()) {
 				// if the file is editable we assume that it is local
 				local = true;
 				// create resource with correct path

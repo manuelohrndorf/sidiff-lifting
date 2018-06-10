@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
@@ -22,6 +21,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorDescriptor;
@@ -31,8 +31,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
 import org.sidiff.vcmsintegration.editor.extension.AbstractEditorIntegration;
 
 public class SiriusEditorIntegration extends AbstractEditorIntegration {
@@ -85,9 +83,6 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			EMFStorage.eSaveAs(diagramSaveFile, resource.getContents().get(0), false);
 			return EMFStorage.pathToUri(savePath + separator + mainDiagramUri.lastSegment());
 		} catch (Exception e) {
-			if (e instanceof FileNotFoundException)
-				throw (FileNotFoundException) e;
-			LogUtil.log(LogEvent.NOTICE, e.getMessage());
 			// TODO Exception-handling?
 			throw new RuntimeException("Error copying diagram", e);
 		}
@@ -106,6 +101,7 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		}
 	}
 
+	// TODO: this or something similar should be a utility method to handle archive URIs
 	private URI getDiagramForModel(URI modelFile) {
 		String ext = modelFile.fileExtension();
 		int index = modelFile.toString().lastIndexOf(ext);
@@ -118,7 +114,9 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			File authorityFile = new File(java.net.URI.create(authority));
 			if (!authorityFile.isFile())
 				return null;
-			String fileString = diagramURI.toString().substring(diagramURI.toString().indexOf(diagramURI.authority()) + diagramURI.authority().length()).replaceAll("\\\\", "/");
+			String fileString = diagramURI.toString().substring(
+					diagramURI.toString().indexOf(diagramURI.authority())
+					+ diagramURI.authority().length()).replaceAll("\\\\", "/");
 			if (fileString.startsWith("/"))
 				fileString = fileString.substring(1);
 			for (String s : ZipUtil.getEntries(authorityFile.getAbsolutePath())) {
@@ -164,30 +162,27 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		}
 		// Get representation
 		Collection<DView> views = session.getOwnedViews();
-		EList<DRepresentation> representations = new BasicEList<DRepresentation>();
+		EList<DRepresentationDescriptor> representations = new BasicEList<>();
 		for (DView view : views) {
-			representations.addAll(view.getOwnedRepresentations());
+			representations.addAll(view.getOwnedRepresentationDescriptors());
 		}
 
 		// FIXME: Generic way of choosing the right representation
 		DRepresentation representation = null;
 		if (representations.size() < 1)
 			return null;
-		representation = representations.get(0);
-		if (representation != null) {
-			return DialectUIManager.INSTANCE.openEditor(session, representation, new NullProgressMonitor());
-		} else {
+		representation = representations.get(0).getRepresentation();
+		if(representation == null)
 			return null;
-		}
+		return DialectUIManager.INSTANCE.openEditor(session, representation, new NullProgressMonitor());
 	}
 
 	@Override
 	public EObject getHighlightableElement(EObject element) {
 		if (element instanceof DRepresentationElement) {
 			return ((DRepresentationElement) element).getTarget();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -198,20 +193,16 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			if (iter.hasNext()) {
 				// FIXME: Determine the right resource if there are multiple
 				return iter.next();
-			} else {
-				return null;
 			}
-		} else {
-			return null;
 		}
+		throw new RuntimeException("Resource not resolved");
 	}
 
-
 	@Override
-	public HashMap<String, String> getFileExtensions() {
-		HashMap<String, String> extensions = new HashMap<String, String>();
-		extensions.put("diagram", this.DIAGRAM_FILE_EXT);
-		extensions.put("model", this.MODEL_FILE_EXT);
+	public Map<String, String> getFileExtensions() {
+		Map<String, String> extensions = new HashMap<String, String>();
+		extensions.put("diagram", DIAGRAM_FILE_EXT);
+		extensions.put("model", MODEL_FILE_EXT);
 		return extensions;
 	}
 

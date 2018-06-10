@@ -36,9 +36,7 @@ public class OperationInvocationPropertySource implements IPropertySource {
 		descriptors.add(new PropertyDescriptor("name", "Name"));
 		descriptors.add(new PropertyDescriptor("status", "Status"));
 		descriptors.add(new PropertyDescriptor("dependencies", "Dependencies"));
-
 		return descriptors.toArray(new IPropertyDescriptor[descriptors.size()]);
-
 	}
 
 	@Override
@@ -50,7 +48,8 @@ public class OperationInvocationPropertySource implements IPropertySource {
 		} else if (id.equals("name")) {
 			output = op.getChangeSet().getName();
 		} else if (id.equals("status")) {
-			output = "status asdass";
+			// TODO: implement?
+			output = "not implemented";
 		} else if (id.equals("dependencies")) {
 			for (OperationInvocation pre : op.getPredecessors()) {
 				output += pre.getChangeSet().getName() + " ";

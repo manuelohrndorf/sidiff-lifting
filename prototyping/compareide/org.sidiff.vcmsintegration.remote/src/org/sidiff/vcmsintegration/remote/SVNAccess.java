@@ -1,12 +1,10 @@
 package org.sidiff.vcmsintegration.remote;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -33,23 +31,26 @@ import org.sidiff.common.logging.LogUtil;
  *
  */
 public class SVNAccess {
+
 	/**
 	 * The target directory
 	 */
-	public File tmpDirectory;
+	private File tmpDirectory;
+
 	/**
 	 * The SVN Repository resource
 	 */
-	public IRepositoryResource resource;
+	private IRepositoryResource resource;
+
 	/**
 	 * The progress monitor
 	 */
-	public IProgressMonitor monitor;
+	private IProgressMonitor monitor;
 
 	/**
 	 * The {@link URI} for the model file
 	 */
-	public URI modelUri;
+	private URI modelUri;
 
 	/**
 	 * Creates a new temporary directory
@@ -72,7 +73,7 @@ public class SVNAccess {
 	 * @return the {@link URI} of the model file
 	 * @throws IOException
 	 */
-	public URI serializeRepositoryResource(final HashMap<String, String> extensions) throws IOException {
+	public URI serializeRepositoryResource(final Map<String, String> extensions) throws IOException {
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 			public void run(IProgressMonitor newMonitor) {
 				monitor = newMonitor;
@@ -86,6 +87,7 @@ public class SVNAccess {
 				monitor.done();
 			}
 		};
+		// TODO: this method should probably only use the runnable
 		modelUri = makeTemporaryFiles(extensions);
 
 		IWorkbench wb = PlatformUI.getWorkbench();
@@ -110,32 +112,28 @@ public class SVNAccess {
 	 * @return the {@link URI} of the model file
 	 * @throws IOException
 	 */
-	private URI makeTemporaryFiles(HashMap<String, String> extensions) throws IOException {
-		URI result = null;
-		String url = trimFileExtension(this.resource.getUrl());
-		String name = trimFileExtension(this.resource.getName());
-
+	private URI makeTemporaryFiles(Map<String, String> extensions) throws IOException {
 		if (resource instanceof SVNRepositoryFile) {
+			String url = trimFileExtension(this.resource.getUrl());
+			String name = trimFileExtension(this.resource.getName());
 			IRepositoryLocation location = resource.getRepositoryLocation();
 			SVNRevision revision = resource.getSelectedRevision();
-			SVNRepositoryFile repositoryFile = null;
-			File tmpFile = null;
+
 			for (Map.Entry<String, String> extension : extensions.entrySet()) {
-				tmpFile = new File(this.tmpDirectory, name + "." + extension.getValue());
-				repositoryFile = new SVNRepositoryFile(location, url + "." + extension.getValue(), revision);
+				File tmpFile = new File(this.tmpDirectory, name + "." + extension.getValue());
+				SVNRepositoryFile repositoryFile = new SVNRepositoryFile(location, url + "." + extension.getValue(), revision);
 				if (!fetchRepositoryResource(repositoryFile, tmpFile)) {
 					MessageDialog.openError(null, "Show Diagram", "Cannot find Diagram files for selected Revision");
 					return null;
 				}
 				if (extension.getKey().equals("model")) {
-					result = URI.createFileURI(tmpFile.getAbsolutePath());
+					return URI.createFileURI(tmpFile.getAbsolutePath());
 				}
 			}
 		} else {
-			LogUtil.log(LogEvent.ERROR, "The given resource type is not supported");
-			return null;
+			LogUtil.log(LogEvent.ERROR, "The given resource type is not supported: " + resource);
 		}
-		return result;
+		return null;
 	}
 
 	/**
@@ -147,26 +145,9 @@ public class SVNAccess {
 	 * @throws IOException
 	 */
 	private boolean fetchRepositoryResource(IRepositoryResource resource, File target) throws IOException {
-		AbstractGetFileContentOperation fileContent = null;
-		fileContent = new GetFileContentOperation(resource);
+		AbstractGetFileContentOperation fileContent = new GetFileContentOperation(resource);
 		fileContent.run(monitor);
-
-		InputStream inputStream = fileContent.getContent();
-		OutputStream outputStream = new FileOutputStream(target);
-
-		boolean successful = false;
-		byte[] bytes = new byte[4096];
-		int read = inputStream.read(bytes);
-		while (read != -1) {
-			outputStream.write(bytes, 0, read);
-			read = inputStream.read(bytes);
-			successful = true;
-		}
-		inputStream.close();
-		if (outputStream != null) {
-			outputStream.close();
-		}
-		return successful;
+		return Files.copy(fileContent.getContent(), target.toPath(), StandardCopyOption.REPLACE_EXISTING) > 0;
 	}
 
 	/**
@@ -176,8 +157,9 @@ public class SVNAccess {
 	 * @return fileWithoutExtension
 	 */
 	private String trimFileExtension(String file) {
-		if (file.indexOf(".") > 0)
-			file = file.substring(0, file.lastIndexOf("."));
+		final int index = file.lastIndexOf(".");
+		if (index > 0)
+			file = file.substring(0, index);
 		return file;
 	}
 }

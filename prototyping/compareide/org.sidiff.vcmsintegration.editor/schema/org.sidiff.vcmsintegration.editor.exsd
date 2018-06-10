@@ -3,11 +3,10 @@
 <schema targetNamespace="org.sidiff.vcmsintegration.editor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.sidiff.vcmsintegration.editor" id="org.sidiff.vcmsintegration.editor.extension" name="Editor Integration"/>
+         <meta.schema plugin="org.sidiff.vcmsintegration.editor" id="org.sidiff.vcmsintegration.editor" name="Editor Integration"/>
       </appinfo>
       <documentation>
-         This extension point allows for integrating different editors into the SiDiff framework. 
-Such editors are then used for displaying (textual) models in their respective standard editor.
+         [Enter description of this extension point.]
       </documentation>
    </annotation>
 
@@ -18,8 +17,8 @@ Such editors are then used for displaying (textual) models in their respective s
          </appinfo>
       </annotation>
       <complexType>
-         <choice>
-            <element ref="editor" minOccurs="1" maxOccurs="unbounded"/>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="editor"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -56,7 +55,7 @@ Such editors are then used for displaying (textual) models in their respective s
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.sidiff.vcmsintegration.editor.extension.IDomainEditor"/>
+                  <meta.attribute kind="java" basedOn=":org.sidiff.vcmsintegration.editor.extension.IEditorIntegration"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -68,7 +67,7 @@ Such editors are then used for displaying (textual) models in their respective s
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         1.1
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
@@ -77,7 +76,7 @@ Such editors are then used for displaying (textual) models in their respective s
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-         EcoreTools Diagram Editor
+         [Enter extension point usage example here.]
       </documentation>
    </annotation>
 

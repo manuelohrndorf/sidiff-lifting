@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.CompareViewerPane;
@@ -46,11 +44,8 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.vcmsintegration.ResourceChangeListener;
 import org.sidiff.vcmsintegration.ViewerRegistry;
 import org.sidiff.vcmsintegration.contentprovider.CompareResource;
-import org.sidiff.vcmsintegration.contentprovider.DifferenceDirection;
 import org.sidiff.vcmsintegration.contentprovider.DisplayMode;
 import org.sidiff.vcmsintegration.contentprovider.SiLiftStructuredViewerContentProvider;
-import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
-import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
 import org.sidiff.vcmsintegration.structureview.SwitchDisplayModeAction.DisplayModeCallback;
 import org.sidiff.vcmsintegration.util.Util;
 
@@ -60,7 +55,7 @@ import org.sidiff.vcmsintegration.util.Util;
  *
  * @author Adrian Bingener
  */
-public class SiLiftStructureMergeViewer extends TreeViewer implements DisplayModeCallback, ISelectionChangedListener, ITabbedPropertySheetPageContributor, Handler {
+public class SiLiftStructureMergeViewer extends TreeViewer implements DisplayModeCallback, ISelectionChangedListener, ITabbedPropertySheetPageContributor, IActionHandler {
 
 	/**
 	 * Provides the elements for this {@link TreeViewer} by the two given input
@@ -317,10 +312,6 @@ public class SiLiftStructureMergeViewer extends TreeViewer implements DisplayMod
 						e.printStackTrace();
 					} catch (NoCorrespondencesException e) {
 						e.printStackTrace();
-					} catch (InvalidSettingsException e) {
-						e.printStackTrace();
-					} catch (UnsupportedFeatureLevelException e) {
-						e.printStackTrace();
 					} finally {
 						updateToolbarItemStates();
 						monitor.done();
@@ -390,14 +381,12 @@ public class SiLiftStructureMergeViewer extends TreeViewer implements DisplayMod
 	}
 
 	private void updateToolbarItemStates() {
-		applyOnRightAction.setEnabled(displayMode.equals(DisplayMode.ASYMMETRIC_DIFFERENCE) && !contentProvider.isLeftToRight() && selectedOperationInvocation != null && contentProvider.getRight().isEditable());
-		applyOnLeftAction.setEnabled(displayMode.equals(DisplayMode.ASYMMETRIC_DIFFERENCE) && contentProvider.isLeftToRight() && selectedOperationInvocation != null && contentProvider.getLeft().isEditable());
-		switchDirectionAction.setEnabled(displayMode.equals(DisplayMode.ASYMMETRIC_DIFFERENCE));
-		saveAction.setEnabled(displayMode.equals(DisplayMode.ASYMMETRIC_DIFFERENCE) &&
-				contentProvider.getPatchEngine() != null && (
-				(contentProvider.isLeftToRight() && contentProvider.getLeft() != null && contentProvider.getLeft().isEditable())
-				|| (!contentProvider.isLeftToRight() && contentProvider.getRight() != null && contentProvider.getRight().isEditable())
-				));
+		final boolean modeAsymmetric = displayMode.equals(DisplayMode.ASYMMETRIC_DIFFERENCE);
+		applyOnRightAction.setEnabled(modeAsymmetric && selectedOperationInvocation != null && contentProvider.getRight().isEditable());
+		applyOnLeftAction.setEnabled(modeAsymmetric && selectedOperationInvocation != null && contentProvider.getLeft().isEditable());
+		switchDirectionAction.setEnabled(modeAsymmetric);
+		saveAction.setEnabled(modeAsymmetric && contentProvider.getPatchEngine() != null
+				&& contentProvider.getLeft() != null && contentProvider.getLeft().isEditable());
 	}
 
 	@Override

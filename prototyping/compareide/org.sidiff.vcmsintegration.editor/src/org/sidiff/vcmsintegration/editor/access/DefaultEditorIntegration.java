@@ -1,8 +1,9 @@
 package org.sidiff.vcmsintegration.editor.access;
 
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -20,14 +21,20 @@ import org.sidiff.vcmsintegration.editor.extension.IEditorIntegration;
 
 public class DefaultEditorIntegration implements IEditorIntegration {
 
-	private static DefaultEditorIntegration INSTANCE = null;
+	private static Map<URI, DefaultEditorIntegration> instances;
 
 	private String defaultEditorId = null;
 
 	public static DefaultEditorIntegration getInstance(URI modelFile) {
-		if (INSTANCE == null)
-			INSTANCE = new DefaultEditorIntegration(modelFile);
-		return INSTANCE;
+		if(instances == null) {
+			instances = new HashMap<>();
+		}
+		DefaultEditorIntegration integration = instances.get(modelFile);
+		if(integration == null) {
+			integration = new DefaultEditorIntegration(modelFile);
+			instances.put(modelFile, integration);
+		}
+		return integration;
 	}
 
 	private DefaultEditorIntegration(URI modelFile) {
@@ -70,9 +77,8 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain();
-		} else {
-			return null;
 		}
+		throw new RuntimeException("Editing Domain not resolved");
 	}
 
 	@Override
@@ -80,9 +86,8 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain().getResourceSet().getResources().get(0);
-		} else {
-			return null;
 		}
+		throw new RuntimeException("Resource not resolved");
 	}
 
 	@Override
@@ -101,7 +106,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public Boolean isDefaultEditorPresent() {
+	public boolean isDefaultEditorPresent() {
 		return true;
 	}
 
@@ -119,6 +124,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			return page.openEditor(new URIEditorInput(modelURI), defaultEditorId);
 		} catch (PartInitException ex) {
+			ex.printStackTrace();
 			return null;
 		}
 	}
@@ -144,8 +150,8 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public HashMap<String, String> getFileExtensions() {
-		return new HashMap<String, String> ();
+	public Map<String, String> getFileExtensions() {
+		return Collections.emptyMap();
 	}
 
 }

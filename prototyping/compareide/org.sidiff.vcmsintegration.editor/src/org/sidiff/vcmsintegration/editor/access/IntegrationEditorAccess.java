@@ -1,6 +1,7 @@
 package org.sidiff.vcmsintegration.editor.access;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -12,8 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.vcmsintegration.editor.extension.IEditorIntegration;
 
 public class IntegrationEditorAccess {
-	// TODO: change id when editors are migrated back
-	private static final String EXTENSIONPOINT_ID = "org.sidiff.vcmsintegration.editor";
+
 	private static IntegrationEditorAccess INSTANCE = null;
 	private final List<IEditorIntegration> integrationEditors;
 
@@ -24,32 +24,23 @@ public class IntegrationEditorAccess {
 	}
 
 	private IntegrationEditorAccess() {
-		super();
-		this.integrationEditors = new ArrayList<IEditorIntegration>();
-		findIntegrationEditors();
+		integrationEditors = getAllAvailableEditorIntegrations();
 	}
 
-	public void findIntegrationEditors() {
-		integrationEditors.clear();
-		IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSIONPOINT_ID);
-		for (IConfigurationElement e : config) {
-			IEditorIntegration integrationEditor = null;
+	protected static List<IEditorIntegration> getAllAvailableEditorIntegrations() {
+		List<IEditorIntegration> integrationEditors = new ArrayList<IEditorIntegration>();
+		for (IConfigurationElement e : Platform.getExtensionRegistry().getConfigurationElementsFor(IEditorIntegration.EXTENSION_POINT_ID)) {
 			try {
-				final Object o = e.createExecutableExtension("class");
-				if (o instanceof IEditorIntegration) {
-					integrationEditor = (IEditorIntegration) o;
-				} else {
-					continue;
-				}
-				integrationEditors.add(integrationEditor);
+				integrationEditors.add((IEditorIntegration)e.createExecutableExtension(IEditorIntegration.EXTENSION_POINT_ARGUMENT));
 			} catch (CoreException e1) {
 				e1.printStackTrace();
 			}
 		}
+		return integrationEditors;
 	}
 
 	public List<IEditorIntegration> getIntegrationEditors() {
-		return new ArrayList<IEditorIntegration>(integrationEditors);
+		return Collections.unmodifiableList(integrationEditors);
 	}
 
 	/**
@@ -59,20 +50,18 @@ public class IntegrationEditorAccess {
 	 * @return
 	 */
 	public IEditorIntegration getIntegrationEditorForModel(Resource model) {
+		// TODO: cleanup this method
 		IEditorIntegration candiate = null;
 		boolean diagramSupported = false;
 		for (IEditorIntegration de : integrationEditors) {
 			if (de.supportsDiagramming(model)) {
+				diagramSupported = true;
 				if (candiate == null) {
-					diagramSupported = true;
 					candiate = de;
 				} else if (de.isDefaultEditorPresent() && de.isDiagramEditorPresent()) {
 					candiate = de;
-					diagramSupported = true;
-					break;
 				} else if (!candiate.isDefaultEditorPresent() && de.isDefaultEditorPresent()) {
 					candiate = de;
-					diagramSupported = true;
 				}
 			} else if (de.supportsModel(model)) {
 				if (candiate == null) {
@@ -95,16 +84,12 @@ public class IntegrationEditorAccess {
 	 * @return
 	 */
 	public IEditorIntegration getIntegrationEditorForModelOrDiagramFile(URI modelOrDiagramFile) {
-		IEditorIntegration candidate = null;
 		for (IEditorIntegration de : integrationEditors) {
-			if ((de.supportsModel(modelOrDiagramFile) || de.supportsDiagram(modelOrDiagramFile))) {
-				candidate = de;
-				break;
+			if (de.supportsModel(modelOrDiagramFile) || de.supportsDiagram(modelOrDiagramFile)) {
+				return de;
 			}
 		}
-		if (candidate == null)
-			return DefaultEditorIntegration.getInstance(modelOrDiagramFile);
-		return candidate;
+		return DefaultEditorIntegration.getInstance(modelOrDiagramFile);
 	}
 
 	/**

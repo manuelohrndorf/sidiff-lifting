@@ -1,7 +1,7 @@
 package org.sidiff.vcmsintegration.editor.extension;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +10,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.ui.IEditorPart;
 
 public interface IEditorIntegration {
+
+	String EXTENSION_POINT_ID = "org.sidiff.vcmsintegration.editor";
+	String EXTENSION_POINT_ARGUMENT = "class";
+
 	/**
 	 * This method is used to find a highlightable element corresponding to
 	 * "element" in a diagram It sould be called using {@link EditorAccess#}
@@ -87,7 +91,7 @@ public interface IEditorIntegration {
 	 * @return true if present, false if not and null if the status cant't be
 	 *         determined
 	 */
-	public Boolean isDefaultEditorPresent();
+	public boolean isDefaultEditorPresent();
 
 	/**
 	 * Checks if the diagram editor is present in the current workspace
@@ -147,11 +151,11 @@ public interface IEditorIntegration {
 	public Resource getResource(IEditorPart editorPart);
 
 	/**
-	 * Returns a {@link HashMap} with the file extensions of all files required
+	 * Returns a Map with the file extensions of all files required
 	 * by the editor integration
 	 * 
 	 * @return the model file uses the key "model" and the diagram file
 	 *         "diagram"
 	 */
-	public HashMap<String, String> getFileExtensions();
+	public Map<String, String> getFileExtensions();
 }
