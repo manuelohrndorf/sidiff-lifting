@@ -1,4 +1,4 @@
-package org.sidiff.vcmsintegration.structureview;
+package org.sidiff.vcmsintegration.structureview.actions;
 
 import java.util.EventObject;
 

@@ -19,7 +19,7 @@ public class SiLiftStructureMergeViewerCreator implements IViewerCreator {
 	@Override
 	public Viewer createViewer(Composite parent, CompareConfiguration config) {
 		SiLiftStructureMergeViewer viewer = new SiLiftStructureMergeViewer(parent, config);
-		
+
 		// Register StructureMergeViewer
 		ViewerRegistry.getInstance().setStructureMergeViewer(viewer);
 		return viewer;

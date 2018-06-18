@@ -17,5 +17,4 @@ public class SiLiftContentMergeViewerCreator implements IViewerCreator {
 		ViewerRegistry.getInstance().setContentMergeViewer(viewer);
 		return viewer;
 	}
-
 }

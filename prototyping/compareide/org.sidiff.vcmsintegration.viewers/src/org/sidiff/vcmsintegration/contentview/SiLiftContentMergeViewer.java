@@ -1,71 +1,78 @@
 package org.sidiff.vcmsintegration.contentview;
 
+import java.io.IOException;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
-import org.eclipse.compare.IStreamContentAccessor;
+import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.contentmergeviewer.ContentMergeViewer;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.impl.OperationInvocationImpl;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.difference.symmetric.impl.ChangeImpl;
-import org.sidiff.difference.symmetric.impl.SemanticChangeSetImpl;
+import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.IStructureMergeViewerRegisteredListener;
 import org.sidiff.vcmsintegration.ResourceChangeListener;
 import org.sidiff.vcmsintegration.ViewerRegistry;
-import org.sidiff.vcmsintegration.contentprovider.CompareResource;
 import org.sidiff.vcmsintegration.contentprovider.SiLiftMergeViewerContentProvider;
+import org.sidiff.vcmsintegration.remote.CompareResource;
+import org.sidiff.vcmsintegration.remote.CompareResource.Side;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
-import org.sidiff.vcmsintegration.util.Resources;
-import org.sidiff.vcmsintegration.util.Util;
+import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
  * Used to show all ecore-files participating in a comparison as trees;
  * highlights items concerning a difference selected in the associated
  * {@link org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer}
  * 
- * @author Jonas Schmeck
+ * @author Jonas Schmeck, Robert Müller
  *
  */
 public class SiLiftContentMergeViewer extends ContentMergeViewer implements ResourceChangeListener {
-	
-	/**
-	 * The plug-in ID
-	 */
-	private static final String PLUGIN_ID = "org.sidiff.vcmsintegration.viewers"; //$NON-NLS-1$
-	
-	/**
-	 * content objects
-	 */
-	private Object ancestor, left, right;
-	
+
+	private final Color COLOR_ATTRIBUTE_VALUE_CHANGED = new Color(Display.getCurrent(), 255, 0, 127);
+	private final Color COLOR_REMOVE_OBJECT = new Color(Display.getCurrent(), 190, 10, 10);
+	private final Color COLOR_ADD_OBJECT = new Color(Display.getCurrent(), 10, 190, 10);
+	private final Color COLOR_ANCESTOR = new Color(Display.getCurrent(), 10, 10, 190);
+
 	/**
 	 * separate {@link TreeViewer}s to view ecore-files
 	 */
-	private TreeViewer ancestorTree, leftTree, rightTree;
+	private Map<Side, TreeViewer> treeViewers;
+
+	private Map<Side, CompareResource> resources;
+
+	private Map<Side, LabelProvider> labelProviders;
+
+	private AdapterFactory adapterFactory;
 	
 	
 	/**
@@ -76,27 +83,27 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 * 
 	 */
 	public SiLiftContentMergeViewer(Composite parent, CompareConfiguration config) {
-		super(SWT.NULL, ResourceBundle.getBundle("org.sidiff.vcmsintegration.contentview.res"), config);
-		
-		// register ContentMergeViewer
-		ViewerRegistry.getInstance().setContentMergeViewer(this);;
-		
+		super(SWT.NONE, ResourceBundle.getBundle("org.sidiff.vcmsintegration.contentview.res"), config);
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		treeViewers = new EnumMap<>(Side.class);
+		resources = new EnumMap<>(Side.class);
+		labelProviders = new EnumMap<>(Side.class);
+
 		setContentProvider(new SiLiftMergeViewerContentProvider(config));
 		buildControl(parent);
-		
+		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLiftContentViewer");
+
 		// manage the toolbar
 		customizeToolbar(getToolBarManager(parent));
-		
-		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLiftContentViewer");
-		
+
 		// register listener to receive notifications about the selection made in the structure-viewer
 		config.getContainer().getWorkbenchPart().getSite().getSelectionProvider().addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				SiLiftContentMergeViewer.this.selectionChanged(event);
+				handleSelectionChanged(event);
 			}
 		});
-		
+
 		// check if StructureMergeViewer is already registered
 		if(ViewerRegistry.getInstance().getStructureMergeViewer() != null) {
 			ViewerRegistry.getInstance().getStructureMergeViewer().addResourceChangeListener(this);
@@ -115,7 +122,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 			});
 		}
 	}
-	
+
 	/**
 	 * Remove unused items from the toolbar and set icons for actions
 	 * @param manager The ToolBarManager that holds the items
@@ -125,12 +132,20 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 		for (int i = 0; i < items.length; i++) {
 			if (items[i] instanceof ActionContributionItem) {
 				ActionContributionItem item = (ActionContributionItem) items[i];
-				if (item.getAction().getText().equals("Toggle Ancestor"))
-					item.getAction().setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, Resources.ICON_TOGGLE_ANCESTOR));
-				if (item.getAction().getText().equals("action.CopyLeftToRight.label"))
-					manager.remove(item);
-				if (item.getAction().getText().equals("action.CopyRightToLeft.label"))
-					manager.remove(item);
+				switch(item.getAction().getText()) {
+					case "Toggle Ancestor":
+						item.getAction().setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_TOGGLE_ANCESTOR));
+						break;
+
+					case "Swap Left and Right View":
+						item.getAction().setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SWAP_LEFT_RIGHT));
+						break;
+
+					case "action.CopyLeftToRight.label":
+					case "action.CopyRightToLeft.label":
+						manager.remove(item);
+						break;
+				}
 			}
 		}
 	}
@@ -143,17 +158,16 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 */
 	@Override
 	protected void createControls(Composite composite) {
-	    ancestorTree = new TreeViewer(composite);
-	    ancestorTree.setContentProvider(Util.getAdapterFactoryContentProvider());
-	    ancestorTree.setLabelProvider(Util.getAdapterFactoryLabelProvider());
-	    
-	    leftTree = new TreeViewer(composite);
-	    leftTree.setContentProvider(Util.getAdapterFactoryContentProvider());
-	    leftTree.setLabelProvider(Util.getAdapterFactoryLabelProvider());
-	    
-	    rightTree = new TreeViewer(composite);
-	    rightTree.setContentProvider(Util.getAdapterFactoryContentProvider());
-	    rightTree.setLabelProvider(Util.getAdapterFactoryLabelProvider());
+		for(Side side : Side.values()) {
+			TreeViewer treeViewer = new TreeViewer(composite);
+			treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+			LabelProvider labelProvider = new LabelProvider(adapterFactory, treeViewer);
+			treeViewer.setLabelProvider(labelProvider);
+			treeViewer.setInput(resources.get(side));
+
+			treeViewers.put(side, treeViewer);
+			labelProviders.put(side, labelProvider);
+		}
 	}
 
 	/**
@@ -161,7 +175,11 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 */
 	@Override
 	protected void handleResizeAncestor(int x, int y, int width, int height) {
-		if(width > 0) {
+		TreeViewer ancestorTree = treeViewers.get(Side.ANCESTOR);
+		if(ancestorTree == null)
+			return;
+
+		if(width > 0 && height > 0) {
 			ancestorTree.getTree().setVisible(true);
 			ancestorTree.getTree().setBounds(x, y, width, height);
 		} else {
@@ -174,12 +192,19 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 */
 	@Override
 	protected void handleResizeLeftRight(int x, int y, int leftWidth, int centerWidth, int rightWidth, int height) {
-		leftTree.getTree().setBounds(x, y, leftWidth, height);
-		rightTree.getTree().setBounds(x+leftWidth+centerWidth, y, rightWidth, height);
+		TreeViewer leftTree = treeViewers.get(Side.LEFT);
+		if(leftTree != null) {
+			leftTree.getTree().setBounds(x, y, leftWidth, height);
+		}
+
+		TreeViewer rightTree = treeViewers.get(Side.RIGHT);
+		if(rightTree != null) {
+			rightTree.getTree().setBounds(x+leftWidth+centerWidth, y, rightWidth, height);
+		}
 	}
-	
+
 	/**
-	 * Updates the content displayed in this viewer.
+	 * Initializes the content displayed in this viewer.
 	 * 
 	 * @param a The object to be displayed in the {@link ancestorTree}
 	 * @param l The object to be displayed in the {@link leftTree}
@@ -187,28 +212,16 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 * 
 	 */
 	@Override
-	protected void updateContent(Object a, Object l, Object r) {
-		ancestor = a;
-		left = l;
-		right = r;
+	protected void updateContent(Object ancestor, Object left, Object right) {
 		try {
-			if(ancestor != null && ancestor instanceof IStreamContentAccessor) {
-				ancestorTree.setInput(Util.loadEObjectFromStream((IStreamContentAccessor) ancestor));
-				ancestorTree.refresh();
-			}
-			if(left != null && left instanceof IStreamContentAccessor) {
-				leftTree.setInput(Util.loadEObjectFromStream((IStreamContentAccessor) left));
-				leftTree.refresh();
-			}
-			if(right != null && right instanceof IStreamContentAccessor) {
-				rightTree.setInput(Util.loadEObjectFromStream((IStreamContentAccessor) right));
-				rightTree.refresh();
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
+			onResourceChanged(CompareResource.load((ITypedElement)ancestor, Side.ANCESTOR));
+			onResourceChanged(CompareResource.load((ITypedElement)left, Side.LEFT));
+			onResourceChanged(CompareResource.load((ITypedElement)right, Side.RIGHT));
+		} catch(IOException | CoreException e) {
+			MessageDialogUtil.showExceptionDialog(e);
 		}
 	}
-	
+
 	/**
 	 * unused
 	 */
@@ -222,20 +235,19 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 */
 	@Override
 	protected byte[] getContents(boolean left) {
-		// not needed
-		return new byte[0];
+		// not supported
+		return null;
 	}
-	
-	/**
-	 * Returns the content provider of this viewer
-	 * 
-	 * @return {@link SiLiftMergeViewerContentProvider}
-	 * 
-	 */
-	public SiLiftMergeViewerContentProvider getEcoreMergeContentProvider() {
-		return (SiLiftMergeViewerContentProvider) getContentProvider();
+
+	@Override
+	protected void handleDispose(DisposeEvent event) {
+		COLOR_ATTRIBUTE_VALUE_CHANGED.dispose();
+		COLOR_REMOVE_OBJECT.dispose();
+		COLOR_ADD_OBJECT.dispose();
+		COLOR_ANCESTOR.dispose();
+		super.handleDispose(event);
 	}
-	
+
 	/**
 	 * Is triggered whenever a new selection is made in the associated
 	 * {@link org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer};
@@ -245,177 +257,94 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 * @param event The triggered event containing the selection
 	 * 
 	 */
-	public void selectionChanged(SelectionChangedEvent event) {
-		if(!(event.getSelection() instanceof TreeSelection)) return;
-		TreeSelection selection = (TreeSelection) event.getSelection();
-		
-		if (selection.getFirstElement() instanceof ChangeImpl) {
-			ChangeImpl change = (ChangeImpl) selection.getFirstElement();
-			
-			resetTrees();
-			
-			for(EReference ref : change.eClass().getEAllReferences()) {
-				if (change instanceof AttributeValueChange)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 255, 0, 127));
-				else if (change instanceof RemoveObject)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 190, 10, 10));
-				else if (change instanceof AddObject)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 10, 190, 10));
-				// else
-				// either instanceof 'RemoveReference' or 'AddReference'
-				// we don't want to highlight these
-			}
-			
+	protected void handleSelectionChanged(SelectionChangedEvent event) {
+		if(!(event.getSelection() instanceof IStructuredSelection)) return;
+		Object element = ((IStructuredSelection)event.getSelection()).getFirstElement();
+
+		if (element instanceof Change) {
+			clearAllHighlights();
+			highlightChange((Change)element);
 			refreshTrees();
 		}
-		else if (selection.getFirstElement() instanceof SemanticChangeSetImpl) {
-			SemanticChangeSet changeSet = (SemanticChangeSet) selection.getFirstElement();
-			
-			resetTrees();
-			
-			highlightChangeSet(changeSet);
-			
+		else if (element instanceof SemanticChangeSet) {
+			clearAllHighlights();
+			highlightChangeSet((SemanticChangeSet)element);
 			refreshTrees();
 		}
-		else if (selection.getFirstElement() instanceof OperationInvocationImpl) {
-			OperationInvocationImpl inv = (OperationInvocationImpl) selection.getFirstElement();
-			
-			resetTrees();
-			
-			highlightChangeSet(inv.getChangeSet());
-			List<OperationInvocation> pre = inv.getAllPredecessors();
-			if (pre != null) {
-				for (OperationInvocation opInv : pre) {
-					highlightChangeSet(opInv.getChangeSet());
-				}
-			}
-			
+		else if (element instanceof OperationInvocation) {
+			clearAllHighlights();
+			highlightOperationInvocation(element);
 			refreshTrees();
 		}
 	}
-	
+
+	protected void highlightOperationInvocation(Object element) {
+		OperationInvocation inv = (OperationInvocation)element;
+		highlightChangeSet(inv.getChangeSet());
+		List<OperationInvocation> pre = inv.getAllPredecessors();
+		if (pre != null) {
+			for (OperationInvocation opInv : pre) {
+				highlightChangeSet(opInv.getChangeSet());
+			}
+		}
+	}
+
 	/**
 	 * This method highlights all changes in the given ChangeSet
 	 * @param cs The ChangeSet
 	 */
 	private void highlightChangeSet(SemanticChangeSet cs) {
 		for (Change c : cs.getChanges()) {
-			ChangeImpl change = (ChangeImpl) c;
-			for(EReference ref : change.eClass().getEAllReferences()) {
-				if (change instanceof AttributeValueChange)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 255, 0, 127));
-				else if (change instanceof RemoveObject)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 190, 10, 10));
-				else if (change instanceof AddObject)
-					findItem((EObject) change.eGet(ref), new Color(Display.getCurrent(), 10, 190, 10));
-				// else
-				// either instanceof 'RemoveReference' or 'AddReference'
-				// we don't want to highlight these
-			}
+			highlightChange(c);
 		}
 	}
-	
-	/**
-	 * Find the given object and expand the item containing it so it
-	 * becomes visible; also call the method to highlight it.
-	 * @param needle The object to be searched for
-	 * @param c The color for highlighting
-	 */
-	private void findItem(EObject needle, Color c) {
-		EObject lsel = ((EObject)leftTree.getInput()).eResource().getEObject(EcoreUtil.getURI(needle).fragment());
-		EObject rsel = ((EObject)rightTree.getInput()).eResource().getEObject(EcoreUtil.getURI(needle).fragment());
-		EObject asel = null;
-		try {
-			asel = ((EObject)ancestorTree.getInput()).eResource().getEObject(EcoreUtil.getURI(needle).fragment());
-		} catch (Exception e) {
-			asel = null;
+
+	private void highlightChange(Change change) {
+		if (change instanceof AttributeValueChange) {
+			applyHighlight(((AttributeValueChange)change).getObjA(), COLOR_ATTRIBUTE_VALUE_CHANGED);
+			applyHighlight(((AttributeValueChange)change).getObjB(), COLOR_ATTRIBUTE_VALUE_CHANGED);
 		}
-		
-		if (lsel != null) {
-			leftTree.setSelection(new StructuredSelection(lsel), true);
-			TreeItem[] items = leftTree.getTree().getItems();
-			recursiveFindItem(lsel, items, c);
+		else if (change instanceof RemoveObject) {
+			applyHighlight(((RemoveObject)change).getObj(), COLOR_REMOVE_OBJECT);
 		}
-		
-		if (rsel != null) {
-			rightTree.setSelection(new StructuredSelection(rsel), true);
-			TreeItem[] items = rightTree.getTree().getItems();
-			recursiveFindItem(rsel, items, c);
+		else if (change instanceof AddObject) {
+			applyHighlight(((AddObject)change).getObj(), COLOR_ADD_OBJECT);
 		}
-		
-		if (asel != null) {
-			ancestorTree.setSelection(new StructuredSelection(asel), true);
-			TreeItem[] items = ancestorTree.getTree().getItems();
-			c.dispose();
-			recursiveFindItem(asel, items, new Color(Display.getCurrent(), 10, 10, 190));
+		// else
+		// either instanceof 'RemoveReference' or 'AddReference'
+		// we don't want to highlight these
+	}
+
+	private void applyHighlight(EObject eObject, Color color) {
+		for(Side side : Side.values()) {
+			TreeViewer treeViewer = treeViewers.get(side);
+			if(treeViewer == null)
+				continue;
+			Resource input = (Resource)treeViewer.getInput();
+			if(input == null) 
+				continue;
+			EObject resolvedObject = input.getEObject(EcoreUtil.getURI(eObject).fragment());
+			if(resolvedObject == null)
+				continue;
+
+			labelProviders.get(side).setObjectColor(resolvedObject, color);
+			treeViewer.expandToLevel(resolvedObject, TreeViewer.ALL_LEVELS);
+			treeViewer.update(resolvedObject, null);
 		}
 	}
-	
+
+	private void clearAllHighlights() {
+		for(LabelProvider labelProvider : labelProviders.values()) {
+			labelProvider.clearAllColors();
+		}
+	}
+
 	/**
-	 * Refresh all trees and remove any selection made.
+	 * Refresh all trees.
 	 */
 	private void refreshTrees() {
-		leftTree.setSelection(null);
-		leftTree.refresh();
-		rightTree.setSelection(null);
-		rightTree.refresh();
-		try {
-			ancestorTree.setSelection(null);
-			ancestorTree.refresh();
-		} catch (Exception e) {}
-	}
-	
-	/**
-	 * Reset all trees to initial state.
-	 */
-	private void resetTrees() {
-		setForegroundColor(leftTree.getTree().getItems(), new Color(Display.getCurrent(), 0, 0, 0));
-		leftTree.collapseAll();
-		setForegroundColor(rightTree.getTree().getItems(), new Color(Display.getCurrent(), 0, 0, 0));
-		rightTree.collapseAll();
-		try {
-			setForegroundColor(ancestorTree.getTree().getItems(), new Color(Display.getCurrent(), 0, 0, 0));
-			ancestorTree.collapseAll();
-		} catch (Exception e) {}
-	}
-	
-	/**
-	 * Search the EObject in the given items, if found set its foreground color
-	 * @param needle The EObject to search for
-	 * @param haystack The TreeItems to search
-	 * @param c The new foreground color
-	 */
-	private void recursiveFindItem(EObject needle, TreeItem[] haystack, Color c) {
-		if (haystack == null)
-			return;
-		for (int i = 0; i < haystack.length; i++) {
-			TreeItem item = haystack[i];
-			if (item.getData().equals(needle)) {
-				item.setForeground(c);
-				item.setExpanded(true);
-				return;
-			}
-			else {
-				try {
-					recursiveFindItem(needle, item.getItems(), c);
-				} catch (Exception e) {}
-			}
-		}
-		return;
-	}
-	
-	/**
-	 * Set the foreground color of the given items
-	 * @param items The items to change the color for
-	 * @param c The new foreground color
-	 */
-	private void setForegroundColor(TreeItem[] items, Color c) {
-		for (int i = 0; i < items.length; i++) {
-			TreeItem item = items[i];
-			item.setForeground(c);
-			try {
-				setForegroundColor(item.getItems(), c);
-			} catch (Exception e) {}
+		for(TreeViewer treeViewer : treeViewers.values()) {
+			treeViewer.refresh();
 		}
 	}
 
@@ -426,23 +355,41 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 * @param compareResource The {@link CompareResource} that holds the changed resource and some metadata
 	 */
 	@Override
-	public void onResourceChanged(CompareResource compareResource) {
-		String type = compareResource.getResourceType().toString();
-		if (type.equals("LEFT")) {
-			left = compareResource.getResource();
-			leftTree.setInput(compareResource.getResource().getContents().get(0));
-			leftTree.refresh();
-		}
-		else if (type.equals("RIGHT")) {
-			right = compareResource.getResource();
-			rightTree.setInput(compareResource.getResource().getContents().get(0));
-			rightTree.refresh();
-		}
-		else if (type.equals("ANCESTOR")) {
-			ancestor = compareResource.getResource();
-			ancestorTree.setInput(compareResource.getResource().getContents().get(0));
-			ancestorTree.refresh();
+	public void onResourceChanged(CompareResource changed) {
+		resources.put(changed.getSide(), changed);
+
+		TreeViewer treeViewer = treeViewers.get(changed.getSide());
+		if(treeViewer != null) {
+			treeViewer.setInput(changed.getResource());
+			treeViewer.refresh();
 		}
 	}
-	
+
+	private static class LabelProvider extends AdapterFactoryLabelProvider.ColorProvider {
+
+		private Map<Object, Color> objectColors;
+
+		public LabelProvider(AdapterFactory adapterFactory, Viewer viewer) {
+			super(adapterFactory, viewer);
+			objectColors = new HashMap<>();
+		}
+
+		@Override
+		public Color getForeground(Object object) {
+			Color color = objectColors.get(object);
+			if(color != null) {
+				return color;
+			}
+
+			return super.getForeground(object);
+		}
+
+		public void clearAllColors() {
+			objectColors.clear();
+		}
+
+		public void setObjectColor(Object object, Color color) {
+			objectColors.put(object, color);
+		}
+	}
 }

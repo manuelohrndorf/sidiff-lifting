@@ -9,6 +9,7 @@ import java.util.List;
 import org.sidiff.vcmsintegration.contentview.SiLiftContentMergeViewer;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 
+// TODO: this leaks memory when the viewers are disposed, disposed viewers result in exception, reproducible by changing the viewer to text only
 /**
  * StructureMergeViewer and ContentMergeViewer can be registered here.
  * This is an easy and fast way to access them from each other.

@@ -1,7 +1,8 @@
-package org.sidiff.vcmsintegration.remote;
+package org.sidiff.vcmsintegration.remote.svn;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -27,9 +28,10 @@ import org.sidiff.common.logging.LogUtil;
 
 /**
  * This class allows to serialize temporary files from a SVN-Repository.
- * 
- *
+ * <p><b>Deprecated, to be rewritten more independent from the concrete repository implementation (svn, git, ...)</b></p>
  */
+// TODO: This class is used by the ShowDiagramAction, which should not depend on SVN plugins directly
+@Deprecated
 public class SVNAccess {
 
 	/**
@@ -81,13 +83,11 @@ public class SVNAccess {
 				try {
 					modelUri = makeTemporaryFiles(extensions);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				monitor.done();
 			}
 		};
-		// TODO: this method should probably only use the runnable
 		modelUri = makeTemporaryFiles(extensions);
 
 		IWorkbench wb = PlatformUI.getWorkbench();
@@ -147,7 +147,9 @@ public class SVNAccess {
 	private boolean fetchRepositoryResource(IRepositoryResource resource, File target) throws IOException {
 		AbstractGetFileContentOperation fileContent = new GetFileContentOperation(resource);
 		fileContent.run(monitor);
-		return Files.copy(fileContent.getContent(), target.toPath(), StandardCopyOption.REPLACE_EXISTING) > 0;
+		try(InputStream inStream = fileContent.getContent()) {
+			return Files.copy(inStream, target.toPath(), StandardCopyOption.REPLACE_EXISTING) > 0;
+		}
 	}
 
 	/**

@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 
+// TODO: replace this with the adapter factory, the properties view does not work, maybe the selection is not propagated properly
 /**
  * INFORMATION: This class is part of a feature that is not complete working.
  * <br>

@@ -1,6 +1,6 @@
 package org.sidiff.vcmsintegration;
 
-import org.sidiff.vcmsintegration.contentprovider.CompareResource;
+import org.sidiff.vcmsintegration.remote.CompareResource;
 
 /**
  * An interface that is used to notify observers about changes that occur in the

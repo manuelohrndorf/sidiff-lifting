@@ -1,4 +1,4 @@
-package org.sidiff.vcmsintegration.structureview;
+package org.sidiff.vcmsintegration.structureview.actions;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -14,23 +14,20 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.team.svn.core.operation.IResourcePropertyProvider;
-import org.eclipse.team.svn.core.resource.IRepositoryResource;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.part.WorkbenchPart;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.ViewerRegistry;
-import org.sidiff.vcmsintegration.contentprovider.CompareResource;
 import org.sidiff.vcmsintegration.contentprovider.SiLiftStructuredViewerContentProvider;
 import org.sidiff.vcmsintegration.editor.access.IntegrationEditorAccess;
 import org.sidiff.vcmsintegration.editor.extension.IEditorIntegration;
-import org.sidiff.vcmsintegration.remote.SVNAccess;
-import org.sidiff.vcmsintegration.util.Resources;
+import org.sidiff.vcmsintegration.remote.CompareResource;
+import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 
 /**
  * This action tries to open diagram files corresponding with the
@@ -58,7 +55,7 @@ public class ShowDiagramAction extends Action {
 	public ShowDiagramAction(SiLiftStructuredViewerContentProvider contentProvider) {
 		Assert.isNotNull(contentProvider);
 		this.setText("Open Diagram");
-		this.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, Resources.ICON_SHOW_DIAGRAM));
+		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
 		this.contentProvider = contentProvider;
 	}
 
@@ -73,16 +70,20 @@ public class ShowDiagramAction extends Action {
 		CompareResource ancestor = contentProvider.getAncestor();
 
 		// the show diagram action does not support git
-		if (left.isGit() || right.isGit()) {
+		// TODO: is this still a problem?
+		/*if (left.isGit() || right.isGit()) {
 			MessageDialog.openWarning(null, "Open Diagram", "Remote Resources in Git Repositories are not supported!");
 			return;
-		}
+		}*/
 
 		// get the uris
+		// TODO: improve uri conversion
+		// TODO: getResource() might be null
 		URI uriAncestor = null;
 		URI uriLeft = URI.createPlatformResourceURI(left.getResource().getURI().toString(), true);
 		URI uriRight = URI.createPlatformResourceURI(right.getResource().getURI().toString(), true);
 		if (ancestor != null) {
+			// TODO: why different for ancestor?
 			uriAncestor = ancestor.getResource().getURI();
 		}
 
@@ -96,7 +97,7 @@ public class ShowDiagramAction extends Action {
 		try {
 			uriLeft = getURIForCompareResource(left, integrationLeft.getFileExtensions());
 			uriRight = getURIForCompareResource(right, integrationRight.getFileExtensions());
-			// NOTE: the serialization of the ancestor causes error. The problem
+			// FIXME: the serialization of the ancestor causes error. The problem
 			// is the type of the revision.
 			if (ancestor != null) {
 				// uriAncestor = getURIForCompareResource(ancestor)
@@ -116,6 +117,8 @@ public class ShowDiagramAction extends Action {
 		if (integrationRight != null && uriRight != null) {
 			second = integrationRight.openDiagramForModel(uriRight);
 		}
+		
+		// TODO: first and second might be null here, improve general error handling of actions
 
 		// Changes the tab names via reflection
 		try {
@@ -223,7 +226,9 @@ public class ShowDiagramAction extends Action {
 	 * @throws IOException
 	 */
 	private URI getURIForCompareResource(CompareResource compareResource, Map<String, String> extensions) throws IOException {
-		if (compareResource.isLocal()) {
+		// TODO: implementation of this method???
+		return compareResource.getResource().getURI();
+		/*if (compareResource.isLocal()) {
 			return URI.createPlatformResourceURI(compareResource.getResource().getURI().toString(), true);
 		} else if (compareResource.isSvn()) {
 			IRepositoryResource repositoryResource = ((IResourcePropertyProvider) compareResource.getTypedElement()).getRemote();
@@ -231,6 +236,6 @@ public class ShowDiagramAction extends Action {
 			return access.serializeRepositoryResource(extensions);
 		} else {
 			return null;
-		}
+		}*/
 	}
 }

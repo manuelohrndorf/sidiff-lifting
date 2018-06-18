@@ -12,22 +12,20 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.compare.CompareConfiguration;
-import org.eclipse.compare.IResourceProvider;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Adapters;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -47,7 +45,6 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
-import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
@@ -55,9 +52,13 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
+// TODO: the operation invocation is always applied on the left side even though there are two distinct actions
+// FIXME: applying operations does not work
 /**
  * This is a special content provider that is used for the {@link TreeViewer} in
  * the SiLift structure view. This structure view shows the difference between
@@ -67,10 +68,12 @@ import org.sidiff.vcmsintegration.util.MessageDialogUtil;
  * the two models as input, calculates the {@link AsymmetricDifference} and
  * provides methods for the {@link TreeViewer} to show it.
  * 
- * @author Adrian Bingener
+ * @author Adrian Bingener, Robert Müller
  *
  */
-public class SiLiftStructuredViewerContentProvider implements ITreeContentProvider {
+public class SiLiftStructuredViewerContentProvider extends AdapterFactoryContentProvider {
+
+	private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
 	/**
 	 * The resource of the left model that is used as input for this content
@@ -127,7 +130,8 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * 
 	 * @param displayMode The type of difference that is displayed
 	 */
-	public SiLiftStructuredViewerContentProvider(DisplayMode displayMode) {
+	public SiLiftStructuredViewerContentProvider(AdapterFactory adapterFactory, DisplayMode displayMode) {
+		super(adapterFactory);
 		this.displayMode = displayMode;
 	}
 
@@ -139,20 +143,10 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * 
 	 * @param displayMode The type of difference that is displayed
 	 */
-	public SiLiftStructuredViewerContentProvider(DisplayMode displayMode, CompareConfiguration compareConfiguration) {
+	public SiLiftStructuredViewerContentProvider(AdapterFactory adapterFactory, DisplayMode displayMode,
+			CompareConfiguration compareConfiguration) {
+		super(adapterFactory);
 		this.displayMode = displayMode;
-	}
-
-	@Override
-	public void dispose() {
-		LogUtil.log(LogEvent.NOTICE, "Disposing content provider");
-		// Release resources if acquired
-	}
-
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		LogUtil.log(LogEvent.WARNING, "The input has changed. Input change cannot be handled yet.");
-		// TODO: Handle input change. Maybe reload the data...
 	}
 
 	/**
@@ -168,77 +162,68 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-		// This should be an ICompareInput due to testing
-		if (inputElement instanceof ICompareInput) {
-			ICompareInput compareInput = (ICompareInput) inputElement;
-
-			try {
-				// the two resources to compare
-				left = new CompareResource(compareInput.getLeft(), ResourceType.LEFT);
-				right = new CompareResource(compareInput.getRight(), ResourceType.RIGHT);
-				// check if ancestor is available
-				if (compareInput.getAncestor() != null) {
-					ancestor = new CompareResource(compareInput.getAncestor(), ResourceType.ANCESTOR);
-				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (CoreException e1) {
-				e1.printStackTrace();
-			}
-
-			try {
-				switch (displayMode) {
-				case SYMMETRIC_DIFFERENCE:
-					refresh(displayMode);
-					List<Object> elements = new LinkedList<Object>();
-					// add ChangeSets
-					for(SemanticChangeSet changeSet : symmetricDifference.getChangeSets()) {
-						elements.add(changeSet);
-					}
-					// add all changes, which are not in any ChangeSet
-					for(Change change : symmetricDifference.getChanges()) {
-						boolean found = false;
-						for(SemanticChangeSet changeSet : symmetricDifference.getChangeSets()) {
-							if(changeSet.getChanges().contains(change)) {
-								found = true;
-								break;
-							}
-						}
-						// add change if found
-						if(!found) {
-							elements.add(change);
-						}
-					}
-					// add matching
-					elements.add(symmetricDifference.getMatching());
-					return elements.toArray();
-				case ASYMMETRIC_DIFFERENCE:
-					if (asymmetricDifference == null) {
-						refresh(displayMode);
-					}
-					// get a list of all OperationInvocations, which have not
-					// been applied
-					List<OperationInvocation> tempElements = patchEngine.getOperationManager().getOperationInvocations(OperationInvocationStatus.INIT);
-					// remove OperationInvocations, which are dependencies
-					tempElements = filterOperationInvocationsWithDependencies(tempElements);
-
-					return tempElements.toArray();
-				}
-			} catch (InvalidModelException e) {
-				MessageDialogUtil.showInvalidModelDialog();
-				LogUtil.log(LogEvent.ERROR, "One of the input models seems to be invalid");
-			} catch (NoCorrespondencesException e) {
-				MessageDialogUtil.showNoCorrespondencesDialog();
-				LogUtil.log(LogEvent.ERROR, "No correspondences could be found between the models");
-			}
-		} else {
-			MessageDialog.open(MessageDialog.ERROR, null, "Invalid input", "The given input cannot be used to derive a difference that can be displayed in the tree viewer", SWT.NONE);
-			LogUtil.log(LogEvent.ERROR, "Received invalid input. The given input cannot be used to derive a difference that can be displayed in the tree viewer");
+		if(!(inputElement instanceof ICompareInput)) {
+			MessageDialogUtil.showErrorDialog("Invalid input", "The given input cannot be used to derive a "
+					+ "difference that can be displayed in the tree viewer");
+			return EMPTY_OBJECT_ARRAY;
 		}
 
-		// If non of the above cases matched, or an exception occurred, an empty
-		// list of objects is returned, since there is no data to show
-		return new Object[] {};
+		ICompareInput compareInput = (ICompareInput) inputElement;
+
+		// load the resources
+		try {
+			left = CompareResource.load(compareInput.getLeft(), CompareResource.Side.LEFT);
+			right = CompareResource.load(compareInput.getRight(), CompareResource.Side.RIGHT);
+			ancestor = CompareResource.load(compareInput.getAncestor(), CompareResource.Side.ANCESTOR);
+		} catch (IOException | CoreException e) {
+			MessageDialogUtil.showExceptionDialog(e);
+			return EMPTY_OBJECT_ARRAY;
+		}
+
+		// initialize differences
+		try {
+			refresh(displayMode);
+		} catch (InvalidModelException | NoCorrespondencesException e) {
+			MessageDialogUtil.showExceptionDialog(e);
+			return EMPTY_OBJECT_ARRAY;
+		}
+
+		switch (displayMode) {
+			case SYMMETRIC_DIFFERENCE:
+				List<Object> elements = new LinkedList<Object>();
+				// add ChangeSets
+				for(SemanticChangeSet changeSet : symmetricDifference.getChangeSets()) {
+					elements.add(changeSet);
+				}
+				// add all changes, which are not in any ChangeSet
+				for(Change change : symmetricDifference.getChanges()) {
+					boolean found = false;
+					for(SemanticChangeSet changeSet : symmetricDifference.getChangeSets()) {
+						if(changeSet.getChanges().contains(change)) {
+							found = true;
+							break;
+						}
+					}
+					// add change if found
+					if(!found) {
+						elements.add(change);
+					}
+				}
+				// add matching
+				elements.add(symmetricDifference.getMatching());
+				return elements.toArray();
+
+			case ASYMMETRIC_DIFFERENCE:
+				// get a list of all OperationInvocations, which have not
+				// been applied
+				List<OperationInvocation> operations = patchEngine.getOperationManager()
+						.getOperationInvocations(OperationInvocationStatus.INIT);
+				// remove OperationInvocations, which are dependencies
+				operations = filterOperationInvocationsWithDependencies(operations);
+				return operations.toArray();
+		}
+
+		return EMPTY_OBJECT_ARRAY;
 	}
 
 	/**
@@ -300,7 +285,6 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 				}
 
 			} else if (displayMode.equals(DisplayMode.SYMMETRIC_DIFFERENCE)) {
-
 				// The child elements of the SemanticChangeSet should be the
 				// changes
 				if (parentElement instanceof SemanticChangeSet) {
@@ -313,38 +297,9 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 			if (result.isEmpty()) {
 				result = new LinkedList<Object>(Arrays.asList(((EObject) parentElement).eContents().toArray()));
 			}
-
 		}
 		LogUtil.log(LogEvent.WARNING, "Trying to display a non EObject in tree view");
 		return result.toArray();
-	}
-
-	@Override
-	public Object getParent(Object element) {
-		if (element instanceof EObject) {
-			return ((EObject) element).eContainer();
-		} else {
-			LogUtil.log(LogEvent.WARNING, String.format("Cannot get parent of non EObject %s", element));
-			return null;
-		}
-	}
-
-	/**
-	 * Checks if the given object (as {@link EObject} has children. If it has,
-	 * this method will return <code>true</code>, otherwise <code>false</code>.
-	 * 
-	 * @param element The element to be checked for children
-	 * @return <code>true</code> if the given object has children or
-	 *         <code>false</code> in case it hasn't, or it is not an
-	 *         {@link EObject}
-	 */
-	@Override
-	public boolean hasChildren(Object element) {
-		if (element instanceof EObject) {
-			return !((EObject) element).eContents().isEmpty();
-		}
-		LogUtil.log(LogEvent.WARNING, String.format("Cannot display a non EObject %s in tree view", element));
-		return false;
 	}
 
 	/**
@@ -359,7 +314,10 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * @throws InvalidSettingsException
 	 */
 	public void refresh(DisplayMode displayMode) throws InvalidModelException, NoCorrespondencesException {
+		Assert.isNotNull(displayMode);
 		LogUtil.log(LogEvent.NOTICE, String.format("Refreshing contents for display mode %s", displayMode));
+		
+		// TODO: make sure that getResource() is not null here
 
 		InputModels inputModels = new InputModels(left.getResource(), right.getResource());
 		if(!inputModels.haveSameDocumentType()) {
@@ -380,24 +338,22 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 		}
 
 		switch (displayMode) {
-		case SYMMETRIC_DIFFERENCE:
-			symmetricDifference = LiftingFacade.liftTechnicalDifference(left.getResource(), right.getResource(), settings);
-			break;
-		case ASYMMETRIC_DIFFERENCE:
-			if(ancestor != null && ancestor.getResource() != null) {
-				asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
-						ancestor.getResource(), right.getResource(), settings).getAsymmetric();
-			} else {
-				asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
-						left.getResource(), right.getResource(), settings).getAsymmetric();
-			}
-			
-			// create new PatchEngine
-			createPatchEngine();
-			break;
-		default:
-			LogUtil.log(LogEvent.WARNING, "Cannot refresh content. Unsupported display mode " + displayMode);
-			break;
+			case SYMMETRIC_DIFFERENCE:
+				symmetricDifference = LiftingFacade.liftTechnicalDifference(left.getResource(), right.getResource(), settings);
+				break;
+
+			case ASYMMETRIC_DIFFERENCE:
+				if(ancestor != null && ancestor.getResource() != null) {
+					asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
+							ancestor.getResource(), right.getResource(), settings).getAsymmetric();
+				} else {
+					asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
+							left.getResource(), right.getResource(), settings).getAsymmetric();
+				}
+				
+				// create new PatchEngine
+				createPatchEngine();
+				break;
 		}
 	}
 
@@ -437,18 +393,14 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 */
 	public void refreshAsync(final DisplayMode displayMode) {
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) {
+			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
 					// Actual refresh method that blocks
 					monitor.beginTask("Calculating model difference", IProgressMonitor.UNKNOWN);
 					refresh(displayMode);
 					monitor.done();
-				} catch (InvalidModelException e) {
-					MessageDialogUtil.showInvalidModelDialog();
-					LogUtil.log(LogEvent.ERROR, "One of the input models seems to be invalid");
-				} catch (NoCorrespondencesException e) {
-					MessageDialogUtil.showNoCorrespondencesDialog();
-					LogUtil.log(LogEvent.ERROR, "No correspondences could be found between the models");
+				} catch (InvalidModelException | NoCorrespondencesException e) {
+					throw new InvocationTargetException(e);
 				}
 			}
 		};
@@ -460,11 +412,9 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 			ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
 			dialog.run(true, false, runnable);
 		} catch (InvocationTargetException e) {
-			// TODO: Handle this exception properly
-			e.printStackTrace();
+			MessageDialogUtil.showExceptionDialog(e.getTargetException());
 		} catch (InterruptedException e) {
-			// TODO: Handle this exception properly
-			e.printStackTrace();
+			MessageDialogUtil.showExceptionDialog(e);
 		}
 	}
 
@@ -551,6 +501,7 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * @throws InvalidModelException 
 	 */
 	public void switchDifferenceDirection() throws InvalidModelException, NoCorrespondencesException {
+		// FIXME: this does not work
 		CompareResource tmp = left;
 		left = right;
 		right = tmp;
@@ -562,25 +513,31 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 	 * been executed.
 	 * 
 	 * @param operationInvocation OperationInvocation to apply.
+	 * @throws Exception if the execution of the operation failed
 	 */
-	public void applyOperationInvocation(OperationInvocation operationInvocation) {
-		// check if OparationInvocation has any predecessors
+	public void applyOperationInvocation(OperationInvocation operationInvocation) throws Exception {
+		// check if OperationInvocation has any predecessors
 		if (operationInvocation.getPredecessors().size() > 0) {
 			// check if the predecessors have been executed
 			for (OperationInvocation predecessor : operationInvocation.getPredecessors()) {
 				// should ignore itself
 				// and apply the predecessor if the status is not passed
-				if (operationInvocation != predecessor && patchEngine.getOperationManager().getStatusWrapper(predecessor).getStatus() != OperationInvocationStatus.PASSED) {
+				if (operationInvocation != predecessor
+						&& patchEngine.getOperationManager().getStatusWrapper(predecessor).getStatus() != OperationInvocationStatus.PASSED) {
 					// call applyOperationInvocation recursive
 					this.applyOperationInvocation(predecessor);
 					// check if apply was successful
-					if (patchEngine.getOperationManager().getStatusWrapper(predecessor).getStatus() != OperationInvocationStatus.PASSED) {
-						Exception ex = patchEngine.getOperationManager().getStatusWrapper(predecessor).getExecutionError();
-						System.out.println(ex);
+					OperationInvocationWrapper wrapper = patchEngine.getOperationManager().getStatusWrapper(predecessor);
+					if (wrapper.getStatus() != OperationInvocationStatus.PASSED) {
+						Exception e = wrapper.getExecutionError();
+						if(e == null)
+							throw new RuntimeException("Operation could not be executed: " + wrapper.getStatus());
+						throw e;
 					}
 				}
 			}
 		}
+
 		// apply OperationInvocation
 		patchEngine.apply(operationInvocation, patchingSettings.getExecutionMode().equals(ExecutionMode.INTERACTIVE));
 	}
@@ -603,18 +560,7 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 
 		// if we can get the current project, use project settings
 		// else use global settings
-		IResource platformResource = null;
-		if(resourceA.getTypedElement() instanceof IResourceProvider) {
-			platformResource = ((IResourceProvider) resourceA.getTypedElement()).getResource();
-			try {
-				if(platformResource != null && !PreferenceStoreUtil.useSpecificSettings(platformResource.getProject())) {
-					platformResource = null;
-				}
-			} catch (CoreException e) {
-				platformResource = null;
-			}
-		}
-
+		IResource platformResource = resourceA.getPlatformResource();
 		PatchingSettings patchingSettings = new PatchingSettings();
 		if (platformResource != null) {
 			SettingsAdapterUtil.adaptSettingsProject(patchingSettings, platformResource.getProject(),
@@ -654,6 +600,8 @@ public class SiLiftStructuredViewerContentProvider implements ITreeContentProvid
 		this.patchingSettings = patchingSettings;
 		this.patchEngine = patchEngine;
 		this.patchedResource = resourceA;
+
+		// TODO: is this still required?
 		if(platformResource != null) {
 			this.patchedResource.getResource().setURI(URI.createFileURI(platformResource.getLocationURI().getPath()));
 		}

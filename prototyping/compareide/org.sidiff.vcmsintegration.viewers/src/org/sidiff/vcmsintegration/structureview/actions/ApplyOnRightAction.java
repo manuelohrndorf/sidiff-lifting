@@ -1,11 +1,10 @@
-package org.sidiff.vcmsintegration.structureview;
+package org.sidiff.vcmsintegration.structureview.actions;
 
 import java.util.EventObject;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.action.Action;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.sidiff.vcmsintegration.util.Resources;
+import org.sidiff.vcmsintegration.Activator;
 
 /**
  * An action that is used to apply a selected operation invocation. This action
@@ -14,7 +13,7 @@ import org.sidiff.vcmsintegration.util.Resources;
  * @author Adrian Bingener
  *
  */
-public class ApplyOnLeftAction extends Action {
+public class ApplyOnRightAction extends Action {
 
 	/**
 	 * The callback that is being notified when a the action is executed.
@@ -22,13 +21,13 @@ public class ApplyOnLeftAction extends Action {
 	private IActionHandler callback;
 
 	/**
-	 * Creates a new instance of the {@link ApplyOnLeftAction}.
+	 * Creates a new instance of the {@link ApplyOnRightAction}.
 	 */
-	public ApplyOnLeftAction(IActionHandler callback) {
+	public ApplyOnRightAction(IActionHandler callback) {
 		Assert.isNotNull(callback);
-		this.setText("Apply selected operation");
+		this.setText("Apply selected operation on right");
 		this.setEnabled(false);
-		this.setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Activator.PLUGIN_ID, Resources.ICON_MERGE_TO_LEFT));
+		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_MERGE_TO_RIGHT));
 		this.callback = callback;
 	}
 
