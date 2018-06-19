@@ -39,8 +39,8 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected String docType, modelFileExt, diagramFileExt;
 
-	public BasicEditorIntegration(String defaultEditorId, String diagramEditorId, String docType, String modelFileExt,
-			String diagramFileExt) {
+	public BasicEditorIntegration(String defaultEditorId, String diagramEditorId,
+			String docType, String modelFileExt, String diagramFileExt) {
 		super(defaultEditorId, diagramEditorId);
 		this.docType = docType;
 		this.modelFileExt = modelFileExt;
@@ -49,12 +49,12 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected URI getMainDiagramFile(URI modelFile) {
 		URI[] files = getDiagramFiles(modelFile);
-		return (files.length >= 0 ? files[0] : null);
+		return files.length >= 0 ? files[0] : null;
 	}
 
 	protected URI[] getDiagramFiles(URI modelFile) {
 		String ext = modelFile.fileExtension();
-		if ((modelFileExt != null) && (diagramFileExt != null) && modelFileExt.equals(ext)) {
+		if (modelFileExt != null && diagramFileExt != null && modelFileExt.equals(ext)) {
 			int index = modelFile.toString().lastIndexOf(ext);
 			String modelName = modelFile.toString().substring(0, index);
 			return new URI[] { URI.createURI(modelName + this.diagramFileExt) };
@@ -64,18 +64,18 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsModel(URI modelFile) {
-		return ((modelFileExt != null) && modelFile.fileExtension().toLowerCase().endsWith(modelFileExt));
+		return modelFileExt != null && modelFile.fileExtension().toLowerCase().endsWith(modelFileExt);
 	}
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-		return ((diagramFile != null) && (diagramFileExt != null)
-				&& diagramFile.fileExtension().toLowerCase().endsWith(diagramFileExt));
+		return diagramFile != null && diagramFileExt != null
+				&& diagramFile.fileExtension().toLowerCase().endsWith(diagramFileExt);
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
-		if ((modelURI == null) || !isDefaultEditorPresent()) {
+		if (modelURI == null || !isDefaultEditorPresent()) {
 			return null;
 		}
 		try {
@@ -96,7 +96,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public IEditorPart openDiagram(URI diagramURI) {
-		if ((diagramURI == null) || !isDiagramEditorPresent()) {
+		if (diagramURI == null || !isDiagramEditorPresent()) {
 			return null;
 		}
 		try {
@@ -127,14 +127,14 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return ((docType != null) && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
-				&& (getMainDiagramFile(model.getURI()) != null));
+		return docType != null && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
+				&& getMainDiagramFile(model.getURI()) != null;
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
-		return ((docType != null) && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
-				&& model.getURI().fileExtension().equals(this.modelFileExt));
+		return docType != null && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
+				&& model.getURI().fileExtension().equals(this.modelFileExt);
 	}
 
 	/**
@@ -148,16 +148,15 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public URI copyDiagram(URI modelFile, String savePath) throws FileNotFoundException {
-		String separator = System.getProperty("file.separator");
+		final String separator = System.getProperty("file.separator");
 		try {
-			
 			String modelFileName = modelFile.lastSegment();
 			
 			// This code assumes that mainDiagramUri is in diagramFiles:
 			URI[] diagramFiles = getDiagramFiles(modelFile);
 			URI mainDiagramUri = getMainDiagramFile(modelFile);
 
-			if ((diagramFiles == null) || (diagramFiles.length == 0) || (mainDiagramUri == null)) {
+			if (diagramFiles == null || diagramFiles.length == 0 || mainDiagramUri == null) {
 				throw new RuntimeException("Model not supported");
 			}
 
@@ -222,22 +221,21 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 		}
 	}
 
-	private static void saveDiagram(URI diagramURI, Resource daigramResource) {
-		daigramResource.setURI(diagramURI);
+	private static void saveDiagram(URI diagramURI, Resource diagramResource) {
+		diagramResource.setURI(diagramURI);
 
 		Map<String, Object> options = new HashMap<String, Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 		options.put(XMIResource.OPTION_URI_HANDLER, new DeresolveToLastSegment());
 
 		try {
-			daigramResource.save(options);
+			diagramResource.save(options);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static class DeresolveToLastSegment extends URIHandlerImpl {
-
 		@Override
 		public URI deresolve(URI uri) {
 			return URI.createURI(uri.lastSegment()).appendFragment(uri.fragment());
@@ -248,8 +246,14 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	public Collection<EObject> getHighlightableElements(EObject element) {
 		ArrayList<EObject> res = new ArrayList<EObject>();
 		res.add(element);
-		
 		return res;
 	}
 
+	@Override
+	public Map<String, String> getFileExtensions() {
+		Map<String, String>  extensions = new HashMap<String, String> ();
+		extensions.put("model", this.modelFileExt);
+		extensions.put("diagram", this.diagramFileExt);
+		return extensions;
+	}
 }

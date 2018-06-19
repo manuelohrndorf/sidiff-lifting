@@ -3,6 +3,10 @@ package org.sidiff.integration.editor.access;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -18,37 +22,40 @@ import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 
-
 public class DefaultEditorIntegration implements IEditorIntegration {
 
-	private static DefaultEditorIntegration INSTANCE = null;
-	
-	private String defaultEditorId = null;
+	private static Map<URI, DefaultEditorIntegration> instances;
 
 	public static DefaultEditorIntegration getInstance(URI modelFile) {
-		if (INSTANCE == null)
-			INSTANCE = new DefaultEditorIntegration(modelFile);
-		return INSTANCE;
+		if(instances == null) {
+			instances = new HashMap<>();
+		}
+		DefaultEditorIntegration integration = instances.get(modelFile);
+		if(integration == null) {
+			integration = new DefaultEditorIntegration(modelFile);
+			instances.put(modelFile, integration);
+		}
+		return integration;
 	}
+
+
+	private String defaultEditorId = null;
 
 	private DefaultEditorIntegration(URI modelFile) {
 		//Save editor id for later purposes
-		String path=EMFStorage.uriToPath(modelFile); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().
-				getEditorRegistry().getDefaultEditor(path);
+		String path = EMFStorage.uriToPath(modelFile); 
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
 		defaultEditorId = desc.getId();
 	}
-	
+
 	@Override
 	public boolean supportsModel(Resource model) {
 		//Save editor id for later purposes
-		String path=EMFStorage.uriToPath(model.getURI()); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().
-		        getEditorRegistry().getDefaultEditor(path);
+		String path = EMFStorage.uriToPath(model.getURI()); 
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
 		defaultEditorId = desc.getId();
 		return true;
 	}
-
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
@@ -58,9 +65,8 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	@Override
 	public boolean supportsModel(URI modelFile) {
 		//Save editor id for later purposes
-		String path=EMFStorage.uriToPath(modelFile); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().
-		        getEditorRegistry().getDefaultEditor(path);
+		String path = EMFStorage.uriToPath(modelFile); 
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
 		defaultEditorId = desc.getId();
 		return true;
 	}
@@ -69,33 +75,29 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	public boolean supportsDiagram(URI diagramFile) {
 		return false;
 	}
-	
 
 	@Override
 	public EditingDomain getEditingDomain(IEditorPart editorPart) {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain();
-		} else {
-			return null;
 		}
+		throw new UnsupportedOperationException("editorPart does not implement IEditingDomainProvider");
 	}
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
-			return editor.getEditingDomain().getResourceSet().getResources()
-					.get(0);
-		} else {
-			return null;
+			return editor.getEditingDomain().getResourceSet().getResources().get(0);
 		}
+		throw new UnsupportedOperationException("editorPart does not implement IEditingDomainProvider");
 	}
 
 	@Override
 	public URI copyDiagram(URI modelURI, String savePath)
 			throws FileNotFoundException {
-		throw new RuntimeException("Not supported");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -109,7 +111,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public Boolean isDefaultEditorPresent() {
+	public boolean isDefaultEditorPresent() {
 		return true;
 	}
 
@@ -122,11 +124,9 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
 		try {
 			String path=EMFStorage.uriToPath(modelURI); 
-			IEditorDescriptor desc = PlatformUI.getWorkbench().
-			        getEditorRegistry().getDefaultEditor(path);
+			IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
 			defaultEditorId = desc.getId();
-			IWorkbenchPage page = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			return page.openEditor(new URIEditorInput(modelURI), defaultEditorId);
 		} catch (PartInitException ex) {
 			return null;
@@ -135,7 +135,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public IEditorPart openDiagram(URI diagramURI) {
-		throw new RuntimeException("Not supported");
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -150,10 +150,13 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		ArrayList<EObject> res = new ArrayList<EObject>();
+		List<EObject> res = new ArrayList<EObject>();
 		res.add(element);
-		
 		return res;
 	}
-	
+
+	@Override
+	public Map<String, String> getFileExtensions() {
+		return Collections.emptyMap();
+	}
 }

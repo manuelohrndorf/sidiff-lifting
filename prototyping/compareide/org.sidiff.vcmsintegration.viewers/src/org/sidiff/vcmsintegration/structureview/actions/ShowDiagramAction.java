@@ -20,11 +20,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.part.WorkbenchPart;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.ViewerRegistry;
 import org.sidiff.vcmsintegration.contentprovider.SiLiftStructuredViewerContentProvider;
-import org.sidiff.vcmsintegration.editor.access.IntegrationEditorAccess;
-import org.sidiff.vcmsintegration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
@@ -77,47 +77,33 @@ public class ShowDiagramAction extends Action {
 		}*/
 
 		// get the uris
-		// TODO: improve uri conversion
-		// TODO: getResource() might be null
-		URI uriAncestor = null;
-		URI uriLeft = URI.createPlatformResourceURI(left.getResource().getURI().toString(), true);
-		URI uriRight = URI.createPlatformResourceURI(right.getResource().getURI().toString(), true);
-		if (ancestor != null) {
-			// TODO: why different for ancestor?
-			uriAncestor = ancestor.getResource().getURI();
-		}
+		URI uriLeft = left.getURI();
+		URI uriRight = right.getURI();
+		URI uriAncestor = ancestor.getURI();
 
 		// get the editor integration for given uris
 		IntegrationEditorAccess access = IntegrationEditorAccess.getInstance();
 		IEditorIntegration integrationLeft = access.getIntegrationEditorForModelOrDiagramFile(uriLeft);
 		IEditorIntegration integrationRight = access.getIntegrationEditorForModelOrDiagramFile(uriRight);
 		IEditorIntegration integrationAncestor = null;
-		if (uriAncestor != null)
+		if (uriAncestor != null) {
 			integrationAncestor = access.getIntegrationEditorForModelOrDiagramFile(uriAncestor);
+		}
+
 		try {
 			uriLeft = getURIForCompareResource(left, integrationLeft.getFileExtensions());
 			uriRight = getURIForCompareResource(right, integrationRight.getFileExtensions());
-			// FIXME: the serialization of the ancestor causes error. The problem
-			// is the type of the revision.
-			if (ancestor != null) {
-				// uriAncestor = getURIForCompareResource(ancestor)
-				uriAncestor = null;
-			} else {
-				uriAncestor = null;
+			if(integrationAncestor != null) {
+				uriAncestor = getURIForCompareResource(ancestor, integrationAncestor.getFileExtensions());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		// open the diagrams
-		IEditorPart first = null;
-		IEditorPart second = null;
-		if (integrationLeft != null && uriLeft != null)
-			first = integrationLeft.openDiagramForModel(uriLeft);
-		if (integrationRight != null && uriRight != null) {
-			second = integrationRight.openDiagramForModel(uriRight);
-		}
-		
+		IEditorPart first = integrationLeft.openDiagramForModel(uriLeft);
+		IEditorPart second = integrationRight.openDiagramForModel(uriRight);
+
 		// TODO: first and second might be null here, improve general error handling of actions
 
 		// Changes the tab names via reflection
@@ -138,6 +124,7 @@ public class ShowDiagramAction extends Action {
 			e.printStackTrace();
 		}
 
+		// TODO: the part is not actually shown?
 		if (integrationAncestor != null && uriAncestor != null)
 			integrationAncestor.openDiagramForModel(uriAncestor);
 
@@ -237,5 +224,9 @@ public class ShowDiagramAction extends Action {
 		} else {
 			return null;
 		}*/
+	}
+
+	public void updateEnabledState() {
+		setEnabled(contentProvider.getLeft().getResource() != null && contentProvider.getRight().getResource() != null);
 	}
 }

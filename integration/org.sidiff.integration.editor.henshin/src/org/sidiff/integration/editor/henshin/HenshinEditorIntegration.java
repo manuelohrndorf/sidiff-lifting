@@ -20,8 +20,8 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 
 	public HenshinEditorIntegration() {
 		super("org.eclipse.emf.henshin.presentation.HenshinEditorID",
-				"org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorID", HenshinPackage.eINSTANCE.getNsURI(),
-				"henshin", "henshin_diagram");
+			"org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorID",
+			HenshinPackage.eINSTANCE.getNsURI(), "henshin", "henshin_diagram");
 	}
 
 	@Override
@@ -34,10 +34,8 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 		if (editorPart instanceof HenshinDiagramEditor) {
 			HenshinDiagramEditor editor = (HenshinDiagramEditor) editorPart;
 			return editor.getEditingDomain();
-		} else {
-			// TODO Exception?
-			return null;
 		}
+		throw new UnsupportedOperationException("editorPart is not HenshinDiagramEditor");
 	}
 
 	@Override
@@ -45,16 +43,14 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 		if (editorPart instanceof HenshinDiagramEditor) {
 			HenshinDiagramEditor editor = (HenshinDiagramEditor) editorPart;
 			return editor.getDiagram().getElement().eResource();
-		} else {
-			// TODO Exception?
-			return null;
 		}
+		throw new UnsupportedOperationException("editorPart is not HenshinDiagramEditor");
 	}
 
 	/**
 	 * Here, we override the standard behavior of the super class which just
 	 * returns a set which contains only the given input element. In particular,
-	 * we implement a special tratment for preserved nodes/attributes/edges.<br/>
+	 * we implement a special treatment for preserved nodes/attributes/edges.<br/>
 	 * In Henshin, preserved elements in the view of the editor always have just
 	 * one representative element in the data layer of the editor, namely the
 	 * LHS element of the preserved node. However, also the RHS element is

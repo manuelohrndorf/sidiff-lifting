@@ -1,8 +1,9 @@
 package org.sidiff.integration.editor.xtext;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -32,7 +33,7 @@ public class XtextEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		return new ArrayList<EObject>();
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -47,25 +48,21 @@ public class XtextEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-
 		return false;
 	}
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-
 		return false;
 	}
 
 	@Override
 	public URI copyDiagram(URI modelURI, String savePath) throws FileNotFoundException {
-
 		return null;
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
-
 		try {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			IPath location = Path.fromOSString(EMFStorage.uriToFile(modelURI).getAbsolutePath());
@@ -84,74 +81,67 @@ public class XtextEditorIntegration implements IEditorIntegration {
 
 	@Override
 	public IEditorPart openDiagram(URI diagramFile) {
-
 		return null;
 	}
 
 	@Override
 	public IEditorPart openDiagramForModel(URI modelFile) {
-
 		return null;
 	}
 
 	@Override
 	public boolean supportsGMFAnimation(URI diagramFile) {
-
 		return false;
 	}
 
 	@Override
 	public String getDefaultEditorID() {
-
 		return "*";
 	}
 
 	@Override
 	public String getDiagramEditorID() {
-
 		return null;
 	}
 
 	@Override
-	public Boolean isDefaultEditorPresent() {
-
+	public boolean isDefaultEditorPresent() {
 		return true;
 	}
 
 	@Override
 	public boolean isDiagramEditorPresent() {
-
 		return false;
 	}
 
 	@Override
 	public EditingDomain getEditingDomain(IEditorPart editorPart) {
-
 		return null;
 	}
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
-
 		return null;
 	}
 
+	@Override
+	public Map<String, String> getFileExtensions() {
+		return Collections.emptyMap();
+	}
+
 	private String getEditorID(URI modelURI){
-		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor(
-				"org.eclipse.ui.editors");
+		IConfigurationElement[] configs = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.ui.editors");
 		for (int i = 0; i < configs.length; i++) {
 			IConfigurationElement config = configs[i];
-
 			if (config.getAttribute("extensions") != null
 					&& config.getAttribute("extensions").equals(modelURI.fileExtension())) {
-				// We found an editor refistered for the given file extension
+				// We found an editor registered for the given file extension
 				if (config.getAttribute("class") != null && config.getAttribute("class").contains("XtextEditor")) {
 					// The editor is indeed an XtextEditor
 					return config.getAttribute("id");
 				}
 			}
 		}
-		
 		return null;
 	}
 }
