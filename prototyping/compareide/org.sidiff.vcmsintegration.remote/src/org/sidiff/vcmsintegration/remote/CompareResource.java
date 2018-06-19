@@ -7,6 +7,7 @@ import org.eclipse.compare.ITypedElement;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -50,7 +51,19 @@ public class CompareResource {
 	void setResource(Resource resource) {
 		this.resource = resource;
 	}
-	
+
+	/**
+	 * Returns the URI of the Ecore resource. Equivalent to:
+	 * <pre>getResource().getURI()</pre>
+	 * @return the URI, <code>null</code> if the resource is <code>null</code>
+	 */
+	public URI getURI() {
+		if(resource == null) {
+			return null;
+		}
+		return resource.getURI();
+	}
+
 	public IResource getPlatformResource() {
 		return platformResource;
 	}
@@ -86,6 +99,9 @@ public class CompareResource {
 		}
 
 		CompareResourceLoader.getInstance().load(compRes);
+		System.out.println("# ecoreResource: " + compRes.getResource());
+		System.out.println("# platformResource: " + compRes.getPlatformResource());
+		System.out.println("# editable: " + compRes.isEditable());
 		return compRes;
 	}
 }
