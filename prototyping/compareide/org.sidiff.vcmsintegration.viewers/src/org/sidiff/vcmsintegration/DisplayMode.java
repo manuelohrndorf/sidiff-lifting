@@ -1,12 +1,13 @@
-package org.sidiff.vcmsintegration.contentprovider;
+package org.sidiff.vcmsintegration;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
 
 /**
  * A display mode defines which type of input the
- * {@link SiLiftStructuredViewerContentProvider} provides to the
+ * {@link SiLiftStructureMergeViewerContentProvider} provides to the
  * {@link TreeViewer}.
  * 
  * @author Adrian Bingener

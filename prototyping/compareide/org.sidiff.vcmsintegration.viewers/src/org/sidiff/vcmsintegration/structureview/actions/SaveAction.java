@@ -12,8 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.sidiff.vcmsintegration.Activator;
-import org.sidiff.vcmsintegration.contentprovider.DisplayMode;
-import org.sidiff.vcmsintegration.contentprovider.SiLiftStructuredViewerContentProvider;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
@@ -23,12 +22,12 @@ import org.sidiff.vcmsintegration.util.MessageDialogUtil;
  */
 public class SaveAction extends Action {
 
-	private SiLiftStructuredViewerContentProvider contentProvider;
+	private SiLiftStructureMergeViewerContentProvider contentProvider;
 
 	/**
 	 * Creates a new instance of the {@link SaveAction}.
 	 */
-	public SaveAction(SiLiftStructuredViewerContentProvider contentProvider) {
+	public SaveAction(SiLiftStructureMergeViewerContentProvider contentProvider) {
 		Assert.isNotNull(contentProvider);
 		this.setText("Save model");
 		this.setEnabled(false);
@@ -55,11 +54,9 @@ public class SaveAction extends Action {
 		});
 	}
 
-	// TODO: this checks the left compare resource, but is this always the one being patched?
 	public void updateEnabledState() {
-		setEnabled(contentProvider.getDisplayMode() == DisplayMode.ASYMMETRIC_DIFFERENCE
-				&& contentProvider.getPatchEngine() != null
-				&& contentProvider.getLeft() != null
+		// TODO: change this condition
+		setEnabled(contentProvider.getPatchEngine() != null
 				&& contentProvider.getLeft().isEditable());
 	}
 }

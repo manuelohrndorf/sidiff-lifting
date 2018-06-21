@@ -1,13 +1,24 @@
 package org.sidiff.vcmsintegration.structureview.actions;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.sidiff.common.emf.exceptions.InvalidModelException;
+import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.vcmsintegration.Activator;
-import org.sidiff.vcmsintegration.contentprovider.DisplayMode;
+import org.sidiff.vcmsintegration.DisplayMode;
+import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
+import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
  * An action that changes the display mode in the structure merge viewer. This
@@ -24,11 +35,9 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 	 */
 	private Menu menu;
 
-	/**
-	 * The callback that is being notified when a {@link DisplayMode} is
-	 * selected or the refresh button is clicked.
-	 */
-	private DisplayModeCallback callback;
+	private SiLiftStructureMergeViewer mergeViewer;
+	private SiLiftStructureMergeViewerContentProvider contentProvider;
+	private SiLiftCompareConfiguration compareConfiguration;
 
 	/**
 	 * Creates a new instance of the {@link SwitchDisplayModeAction} with the
@@ -38,17 +47,35 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 	 * @param callback The callback that is notified when the
 	 *            {@link DisplayMode} changes
 	 */
-	public SwitchDisplayModeAction(DisplayModeCallback callback) {
+	public SwitchDisplayModeAction(SiLiftStructureMergeViewer mergeViewer,
+			SiLiftStructureMergeViewerContentProvider contentProvider,
+			SiLiftCompareConfiguration compareConfiguration) {
 		super("Refresh", IAction.AS_DROP_DOWN_MENU);
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_REFRESH));
 		this.setEnabled(true);
-		this.callback = callback;
+		this.mergeViewer = mergeViewer;
+		this.contentProvider = contentProvider;
+		this.compareConfiguration = compareConfiguration;
 		setMenuCreator(this);
 	}
 
 	@Override
 	public void run() {
-		callback.onRefresh();
+		MessageDialogUtil.showProgressDialog(new IRunnableWithProgress() {
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+				monitor.beginTask("Calculating model difference", IProgressMonitor.UNKNOWN);
+				try {
+					contentProvider.recalculateDifferences();
+				} catch (InvalidModelException | NoCorrespondencesException | CoreException e) {
+					throw new InvocationTargetException(e);
+				} finally {
+					monitor.done();
+				}
+			}
+		});
+
+		mergeViewer.refresh();
 	}
 
 	@Override
@@ -100,30 +127,7 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 		public void run() {
 			// TODO: updating the checked-state does not work
 			this.setChecked(true);
-			callback.onDisplayModeChanged(displayMode);
+			compareConfiguration.setDisplayMode(displayMode);
 		}
-	}
-
-	/**
-	 * A callback interface that is used to notify the implementing class when
-	 * the {@link DisplayMode} changed or was refreshed.
-	 * 
-	 * @author Adrian Bingener
-	 *
-	 */
-	public interface DisplayModeCallback {
-
-		/**
-		 * Called when the user clicked the refresh button. This should
-		 * recalculate and populate the data.
-		 */
-		void onRefresh();
-
-		/**
-		 * Called when the user changed the {@link DisplayMode} selection.
-		 * 
-		 * @param displayMode The new {@link DisplayMode} that is selected
-		 */
-		void onDisplayModeChanged(DisplayMode displayMode);
 	}
 }

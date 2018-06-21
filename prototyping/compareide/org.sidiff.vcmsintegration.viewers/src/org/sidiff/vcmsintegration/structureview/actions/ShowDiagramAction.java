@@ -24,15 +24,15 @@ import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.ViewerRegistry;
-import org.sidiff.vcmsintegration.contentprovider.SiLiftStructuredViewerContentProvider;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
+import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
 
 /**
  * This action tries to open diagram files corresponding with the
  * {@link CompareResource} delivered by the
- * {@link SiLiftStructuredViewerContentProvider}. The behaviour of the action
+ * {@link SiLiftStructureMergeViewerContentProvider}. The behaviour of the action
  * depends on the type of {@link CompareResource}. Possible types are local, git
  * and svn.
  * 
@@ -43,16 +43,16 @@ public class ShowDiagramAction extends Action {
 	 * Provides {@link CompareResource} for the two given input resources that
 	 * are being compared.
 	 */
-	private SiLiftStructuredViewerContentProvider contentProvider;
+	private SiLiftStructureMergeViewerContentProvider contentProvider;
 
 	/**
 	 * Creates a new {@link ShowDiagramAction} with a
-	 * {@link SiLiftStructuredViewerContentProvider} and sets the description
+	 * {@link SiLiftStructureMergeViewerContentProvider} and sets the description
 	 * and icon for the toolbar used in the {@link SiLiftStructureMergeViewer}.
 	 * 
 	 * @param contentProvider
 	 */
-	public ShowDiagramAction(SiLiftStructuredViewerContentProvider contentProvider) {
+	public ShowDiagramAction(SiLiftStructureMergeViewerContentProvider contentProvider) {
 		Assert.isNotNull(contentProvider);
 		this.setText("Open Diagram");
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));

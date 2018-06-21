@@ -21,7 +21,12 @@ import org.sidiff.common.logging.LogUtil;
  */
 class CompareResourceLoader {
 
-	public static final String EXTENSION_POINT_ID = "org.sidiff.vcmsintegration.remote.loaders";
+	private static final String EXTENSION_POINT_ID = "org.sidiff.vcmsintegration.remote.loaders";
+	private static final String ATTRIBUTE_CLASS = "class";
+	private static final String ELEMENT_PLATFORM_RESOURCE_LOADER = "platformResourceLoader";
+	private static final String ELEMENT_ECORE_RESOURCE_LOADER = "ecoreResourceLoader";
+	private static final String ELEMENT_EDITABILITY_RESOLVER = "editabilityResolver";
+	private static final String ELEMENT_URI_RESOLVER = "uriResolver";
 
 	private static CompareResourceLoader instance;
 
@@ -51,21 +56,21 @@ class CompareResourceLoader {
 		for(IConfigurationElement element :
 			Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID)) {
 			try {
-				Object executableExtension = element.createExecutableExtension("class");
+				Object executableExtension = element.createExecutableExtension(ATTRIBUTE_CLASS);
 				switch(element.getName()) {
-					case "platformResourceLoader":
+					case ELEMENT_PLATFORM_RESOURCE_LOADER:
 						platformResourceLoaders.add((IPlatformResourceLoader)executableExtension);
 						break;
 
-					case "ecoreResourceLoader":
+					case ELEMENT_ECORE_RESOURCE_LOADER:
 						ecoreResourceLoaders.add((IEcoreResourceLoader)executableExtension);
 						break;
 
-					case "editabilityResolver":
+					case ELEMENT_EDITABILITY_RESOLVER:
 						editabilityResolvers.add((IEditabilityResolver)executableExtension);
 						break;
 
-					case "uriResolver":
+					case ELEMENT_URI_RESOLVER:
 						uriResolvers.add((IURIResolver)executableExtension);
 						break;
 				}

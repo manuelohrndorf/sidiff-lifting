@@ -1,32 +1,32 @@
-package org.sidiff.vcmsintegration.contentprovider;
+package org.sidiff.vcmsintegration.contentview;
 
-import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.IEditableContent;
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.contentmergeviewer.IMergeViewerContentProvider;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
+import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 
 /**
  * 
  * @author Felix Breitweiser
  *
  */
-public class SiLiftMergeViewerContentProvider implements IMergeViewerContentProvider {
+public class SiLiftContentMergeViewerContentProvider implements IMergeViewerContentProvider {
 
 	/**
 	 * The compare configuration that is provided by the eclipse environment
 	 */
-	private CompareConfiguration config;
+	private SiLiftCompareConfiguration config;
 
 	/**
 	 * Creates a new instance of the
-	 * {@link SiLiftMergeViewerContentProvider}.
+	 * {@link SiLiftContentMergeViewerContentProvider}.
 	 * 
 	 * @param config The compare configuration that is provided by the eclipse evironment
 	 */
-	public SiLiftMergeViewerContentProvider(CompareConfiguration config) {
+	public SiLiftContentMergeViewerContentProvider(SiLiftCompareConfiguration config) {
 		this.config = config;
 	}
 
@@ -103,7 +103,7 @@ public class SiLiftMergeViewerContentProvider implements IMergeViewerContentProv
 	 * @see {@link org.eclipse.compare.contentmergeviewer.IMergeViewerContentProvider}
 	 */
 	@Override
-	public Object getLeftContent(Object input) {	
+	public Object getLeftContent(Object input) {
 		if (input instanceof ICompareInput)
 			return ((ICompareInput) input).getLeft();
 		return null;

@@ -1,7 +1,6 @@
 package org.sidiff.vcmsintegration.remote;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.core.resources.IResource;
@@ -39,7 +38,7 @@ public class CompareResource {
 	public ITypedElement getTypedElement() {
 		return typedElement;
 	}
-	
+
 	void setTypedElement(ITypedElement typedElement) {
 		this.typedElement = typedElement;
 	}
@@ -47,7 +46,7 @@ public class CompareResource {
 	public Resource getResource() {
 		return resource;
 	}
-	
+
 	void setResource(Resource resource) {
 		this.resource = resource;
 	}
@@ -67,7 +66,7 @@ public class CompareResource {
 	public IResource getPlatformResource() {
 		return platformResource;
 	}
-	
+
 	void setPlatformResource(IResource platformResource) {
 		this.platformResource = platformResource;
 	}
@@ -75,11 +74,11 @@ public class CompareResource {
 	public Side getSide() {
 		return side;
 	}
-	
+
 	void setSide(Side side) {
 		this.side = side;
 	}
-	
+
 	public boolean isEditable() {
 		return editable;
 	}
@@ -90,18 +89,14 @@ public class CompareResource {
 
 	public static CompareResource load(ITypedElement typedElement, Side side) throws IOException, CoreException {
 		CompareResource compRes = new CompareResource(typedElement, side);
-		System.out.println("########## CompareResource.load(" + side + ") ###########");
-		System.out.println("# typedElement: " + typedElement);
-		if(typedElement != null) {
-			System.out.println("# " + typedElement.getName() + " / " + typedElement.getType());
-			System.out.println("# interfaces: " + Arrays.deepToString(typedElement.getClass().getInterfaces()));
-			System.out.println("# superclass: " + typedElement.getClass().getSuperclass());
-		}
-
 		CompareResourceLoader.getInstance().load(compRes);
-		System.out.println("# ecoreResource: " + compRes.getResource());
-		System.out.println("# platformResource: " + compRes.getPlatformResource());
-		System.out.println("# editable: " + compRes.isEditable());
 		return compRes;
+	}
+
+	public static void swap(CompareResource left, CompareResource right) {
+		Assert.isLegal(left.getSide() == Side.LEFT);
+		Assert.isLegal(right.getSide() == Side.RIGHT);
+		left.setSide(Side.RIGHT);
+		right.setSide(Side.LEFT);
 	}
 }
