@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qZKt8GDLEei4iawURZlagw" name="SET_ATTRIBUTE_Operation_IsStatic" description="Sets Operation IsStatic">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qZKt8WDLEei4iawURZlagw" name="setOperationIsStatic" description="Sets the EAttribute isStatic">
+    <parameters xmi:id="_qZKt8mDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_qZKt82DLEei4iawURZlagw" name="IsStatic" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_qZKt9GDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qZKt9WDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qZKt9mDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qZKt92DLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+        <attributes xmi:id="_qZKt-GDLEei4iawURZlagw" value="IsStatic">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Feature/isStatic"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qZKt-WDLEei4iawURZlagw" origin="_qZKt9WDLEei4iawURZlagw" image="_qZKt92DLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qZKt-mDLEei4iawURZlagw" name="mainUnit" subUnits="_qZKt8WDLEei4iawURZlagw">
+    <parameters xmi:id="_qZKt-2DLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_qZKt_GDLEei4iawURZlagw" name="IsStatic">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_qZKt_WDLEei4iawURZlagw" source="_qZKt-2DLEei4iawURZlagw" target="_qZKt8mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qZKt_mDLEei4iawURZlagw" source="_qZKt_GDLEei4iawURZlagw" target="_qZKt82DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

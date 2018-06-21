@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.sidiff.slicer.structural.run.SiDiffSlicingApplication"
+         name="SiDiff Slicing Application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.sidiff.slicer.structural.run.SiDiffSlicingApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.sidiff.slicer.instantiation">
+      <instantiation
+            class="org.sidiff.slicer.structural.StructureBasedSlicer">
+      </instantiation>
+   </extension>
+
+</plugin>

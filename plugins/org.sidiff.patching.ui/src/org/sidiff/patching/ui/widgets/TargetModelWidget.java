@@ -1,5 +1,6 @@
 package org.sidiff.patching.ui.widgets;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,19 +13,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 
-public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
-	
-	private DifferenceSettings settings;
+public class TargetModelWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation {
+
 	private Composite container;
 	private Button modelChooseButton;
 	private Text targetModelText;
+
 	private String file;
 
 	public TargetModelWidget() {
@@ -38,7 +37,7 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 
 		container = new Composite(parent, SWT.NONE);
 		{
-			GridLayout grid = new GridLayout(2, false);
+			GridLayout grid = new GridLayout(1, false);
 			grid.marginWidth = 0;
 			grid.marginHeight = 0;
 			container.setLayout(grid);
@@ -50,24 +49,25 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			modelChooseGroup.setLayout(grid);
-			modelChooseGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			modelChooseGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		modelChooseGroup.setText("Target model:");
-		
+
 		targetModelText = new Text(modelChooseGroup, SWT.BORDER);
+		targetModelText.setEditable(false);
 		targetModelText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
 		modelChooseButton = new Button(modelChooseGroup, SWT.PUSH);
 		modelChooseButton.setText("Choose Model");
-//		modelChooseButton.setFont(JFaceResources.getDialogFont());
 		modelChooseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				file = WorkspaceResourceDialog.openFileSelection(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-						"Target model selection", "Select the target model for patch application", false, null,null)[0].getRawLocation().toOSString();
-				if (file != null && file != "") {
+				IFile files[] = WorkspaceResourceDialog.openFileSelection(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+						"Target model selection", "Select the target model for patch application", false, null, null);
+
+				if(files.length > 0) {
+					file = files[0].getRawLocation().toOSString();
 					targetModelText.setText(file);
-				}
-				else{
-					targetModelText.setText("");
+					getWidgetCallback().requestValidation();
 				}
 			}
 		});
@@ -80,63 +80,37 @@ public class TargetModelWidget implements IWidget, IWidgetSelection, IWidgetVali
 		return container;
 	}
 
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
 	public String getFilename() {
-		if (validate()) {
-			return file;
-		} else {
-			return null;
-		}
+		return file;
 	}
 
 	@Override
 	public boolean validate() {
-		if (file != null && file != ""){
-			return true;
-		} else {
-			return false;
-		}
+		return file != null;
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else {
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a target model!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a target model!");
 		}
-		return message;
 	}
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if(modelChooseButton == null){
-			throw new RuntimeException("Create controls first!");
+		if(modelChooseButton == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
 		modelChooseButton.addSelectionListener(listener);
 	}
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if(modelChooseButton != null)
-			modelChooseButton.removeSelectionListener(listener);
-	}
-
-	@Override
-	public void settingsChanged(Enum<?> item) {
-	}
-
-	public DifferenceSettings getSettings() {
-		return settings;
-	}
-
-	public void setSettings(DifferenceSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
+		if(modelChooseButton == null) {
+			throw new IllegalStateException("createControl must be called first");
+		}
+		modelChooseButton.removeSelectionListener(listener);
 	}
 }

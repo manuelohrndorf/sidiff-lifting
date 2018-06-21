@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.sidiff.vcmsintegration.structureview.silift"
+         point="org.eclipse.compare.structureMergeViewers">
+      <viewer
+      		extensions="ecore"
+            class="org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerCreator"
+            id="org.sidiff.vcmsintegration.structureview.silift"
+            label="SiLiftViewer">
+      </viewer>
+      <contentTypeBinding
+            contentTypeId="org.eclipse.emf.ecore"
+            structureMergeViewerId="org.sidiff.vcmsintegration.structureview.silift">
+      </contentTypeBinding>
+      <contentTypeBinding
+            contentTypeId="org.eclipse.uml2.uml"
+            structureMergeViewerId="org.sidiff.vcmsintegration.structureview.silift">
+      </contentTypeBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.sidiff.vcmsintegration.structureview.silift.toolbar">
+      </menuContribution>
+   </extension>
+   <extension
+         id="org.sidiff.vcmsintegration.contentview.silift"
+         point="org.eclipse.compare.contentMergeViewers">
+      <viewer
+            class="org.sidiff.vcmsintegration.contentview.SiLiftContentMergeViewerCreator"
+            extensions="ecore"
+            id="org.sidiff.vcmsintegration.contentview.silift"
+            label="SiLiftViewer">
+      </viewer>
+      <contentTypeBinding
+            contentMergeViewerId="org.sidiff.vcmsintegration.contentview.silift"
+            contentTypeId="org.eclipse.emf.ecore">
+      </contentTypeBinding>
+      <contentTypeBinding
+            contentMergeViewerId="org.sidiff.vcmsintegration.contentview.silift"
+            contentTypeId="org.eclipse.uml2.uml">
+      </contentTypeBinding>
+   </extension>
+
+</plugin>

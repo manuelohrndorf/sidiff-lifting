@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qYXcsGDLEei4iawURZlagw" name="SET_ATTRIBUTE_Pseudostate_Kind" description="Sets Pseudostate Kind">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qYXcsWDLEei4iawURZlagw" name="setPseudostateKind" description="Sets the EAttribute kind">
+    <parameters xmi:id="_qYXcsmDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_qYXcs2DLEei4iawURZlagw" name="Kind" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_qYXctGDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qYXctWDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qYXctmDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qYXct2DLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_qYXcuGDLEei4iawURZlagw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qYXcuWDLEei4iawURZlagw" origin="_qYXctWDLEei4iawURZlagw" image="_qYXct2DLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qYXcumDLEei4iawURZlagw" name="mainUnit" subUnits="_qYXcsWDLEei4iawURZlagw">
+    <parameters xmi:id="_qYXcu2DLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_qYXcvGDLEei4iawURZlagw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_qYXcvWDLEei4iawURZlagw" source="_qYXcu2DLEei4iawURZlagw" target="_qYXcsmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qYXcvmDLEei4iawURZlagw" source="_qYXcvGDLEei4iawURZlagw" target="_qYXcs2DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

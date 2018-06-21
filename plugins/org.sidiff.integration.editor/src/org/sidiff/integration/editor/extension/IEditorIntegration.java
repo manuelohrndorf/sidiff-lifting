@@ -2,6 +2,7 @@ package org.sidiff.integration.editor.extension;
 
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +11,10 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.ui.IEditorPart;
 
 public interface IEditorIntegration {
+
+	String EXTENSION_POINT_ID = "org.sidiff.integration.editor";
+	String EXTENSION_POINT_ATTRIBUTE = "class";
+
 	/**
 	 * This method is used to find a highlightable element corresponding to
 	 * "element" in a diagram It sould be called using {@link EditorAccess#}.
@@ -79,7 +84,6 @@ public interface IEditorIntegration {
 	 * 
 	 * @return
 	 */
-
 	public String getDefaultEditorID();
 
 	/**
@@ -95,7 +99,7 @@ public interface IEditorIntegration {
 	 * @return true if present, false if not and null if the status cant't be
 	 *         determined
 	 */
-	public Boolean isDefaultEditorPresent();
+	public boolean isDefaultEditorPresent();
 
 	/**
 	 * Checks if the diagram editor is present in the current workspace
@@ -153,4 +157,13 @@ public interface IEditorIntegration {
 	 * @return
 	 */
 	public Resource getResource(IEditorPart editorPart);
+
+	/**
+	 * Returns a Map with the file extensions of all files required
+	 * by the editor integration
+	 * 
+	 * @return the model file uses the key "model" and the diagram file
+	 *         "diagram"
+	 */
+	public Map<String, String> getFileExtensions();
 }

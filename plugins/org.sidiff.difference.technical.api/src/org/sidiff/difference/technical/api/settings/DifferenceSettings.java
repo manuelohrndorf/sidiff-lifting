@@ -1,7 +1,11 @@
 package org.sidiff.difference.technical.api.settings;
 
+import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
@@ -12,7 +16,12 @@ import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
+/**
+ * @see DifferenceSettingsItem
+ */
 public class DifferenceSettings extends MatchingSettings {
+
+	private static final String PLUGIN_ID = "org.sidiff.difference.technical.api";
 
 	/**
 	 * Enables/disables the internal mergeImports function (more specifically
@@ -21,96 +30,91 @@ public class DifferenceSettings extends MatchingSettings {
 	 * expense of some matching correctness.
 	 */
 	private boolean mergeImports = true;
-	
+
 	/**
 	 * Finally clean up merge imports.
 	 */
 	private boolean unmergeImports = true;
-	
+
 	/**
 	 * The imported external references.
 	 */
 	private MergeImports imports = null;
-	
+
 	/**
-	 * The Technical Difference Builder to use. (
-	 * {@link ITechnicalDifferenceBuilder})
+	 * The Technical Difference Builder to use.
 	 */
 	private ITechnicalDifferenceBuilder techBuilder;
 
 	/**
 	 * default {@link DifferenceSettings}
 	 */
-	public DifferenceSettings(){
+	public DifferenceSettings() {
 		super();
 		this.techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
 		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
-	
+
 	public DifferenceSettings(Set<String> documentTypes) {
 		super(documentTypes);
 		this.techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
 		setCorrespondencesService(new MatchingModelCorrespondences());
 	}
-	
-	public DifferenceSettings(
-			Scope scope, boolean validate, 
-			IMatcher matcher, ICandidates candidatesService, ICorrespondences correspondenceService, 
-			ITechnicalDifferenceBuilder techBuilder) {
-		
+
+	public DifferenceSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
+			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder) {
 		super(scope, validate, matcher, candidatesService, correspondenceService);
 		this.techBuilder = techBuilder;
 	}
 
 	@Override
-	public boolean validateSettings() {
-		return super.validateSettings()
-				&& techBuilder != null;
+	public void validate(MultiStatus multiStatus) {
+		super.validate(multiStatus);
+
+		if(techBuilder == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Technical Difference Builder is not set.", null));
+		}
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+
 	@Override
 	public String toString() {
-		StringBuffer result = new StringBuffer();
-		result.append("Merge Imports: " + isEnabled_MergeImports() + "\n");
-		result.append(techBuilder != null ? "Technical-Difference-Builder: " + techBuilder.getName() + "\n" : "");
-		
-		// TODO: Implement symbolic links for the symmetric/technical difference!
-//		result.append("Use symbolic links: " + useSymbolicLinks() + "\n");
-
-		return result.toString();
+		return new StringBuilder(super.toString()).append("\n")
+			.append("DifferenceSettings[")
+			.append("Merge Imports: ").append(isEnabled_MergeImports()).append(", ")
+			.append("Unmerge Imports: ").append(isEnabled_UnmergeImports()).append(", ")
+			.append("Imports: ").append(getImports()).append(", ")
+			.append("Technical-Difference-Builder: ").append(getTechBuilder() != null ? getTechBuilder().getName() : "none")
+			.append("]")
+			.toString();
 	}
-	
+
 	// ---------- Getter and Setter Methods----------
-	
+
 	/**
 	 * Returns whether mergeImports (esp. EObject Localization Lookup) is enabled. (Default: true)
-	 * 
-	 * @return <code>true</code> if enabled;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if enabled; <code>false</code> otherwise.
+	 * @see DifferenceSettingsItem#MERGE_IMPORTS
 	 */
 	public boolean isEnabled_MergeImports() {
 		return mergeImports;
 	}
 
 	/**
-	 * Returns whether mergeImports (esp. EObject Localization Lookup) is enabled. (Default: true)
-	 * 
-	 * @param mergeImports
+	 * Enables/disables mergeImports (esp. EObject Localization Lookup). (Default: true)
+	 * @param mergeImports <code>true</code> if enabled; <code>false</code> otherwise.
+	 * @see DifferenceSettingsItem#MERGE_IMPORTS
 	 */
 	public void setMergeImports(boolean mergeImports) {
-		this.mergeImports = mergeImports;
+		if (this.mergeImports != mergeImports) {
+			this.mergeImports = mergeImports;
+			notifyListeners(DifferenceSettingsItem.MERGE_IMPORTS);
+		}
 	}
-	
+
 	/**
 	 * Finally clean up merge imports.
-	 * 
-	 * @return <code>true</code> if enabled; 
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if enabled; <code>false</code> otherwise.
+	 * @see DifferenceSettingsItem#UNMERGE_IMPORTS
 	 */
 	public boolean isEnabled_UnmergeImports() {
 		return unmergeImports;
@@ -118,47 +122,51 @@ public class DifferenceSettings extends MatchingSettings {
 
 	/**
 	 * Finally clean up merge imports.
-	 * 
-	 * @param unmergeImports
-	 *            <code>true</code> if enabled; 
-	 *            <code>false</code> otherwise.
+	 * @param unmergeImports <code>true</code> if enabled; <code>false</code> otherwise.
+	 * @see DifferenceSettingsItem#UNMERGE_IMPORTS
 	 */
 	public void setUnmergeImports(boolean unmergeImports) {
-		this.unmergeImports = unmergeImports;
+		if (this.unmergeImports != unmergeImports) {
+			this.unmergeImports = unmergeImports;
+			notifyListeners(DifferenceSettingsItem.UNMERGE_IMPORTS);
+		}
 	}
 
 	/**
 	 * @return The imported external references.
+	 * @see DifferenceSettingsItem#IMPORTS
 	 */
 	public MergeImports getImports() {
 		return imports;
 	}
 
 	/**
-	 * @param imports
-	 *            The imported external references.
+	 * @param imports The imported external references.
+	 * @see DifferenceSettingsItem#IMPORTS
 	 */
 	public void setImports(MergeImports imports) {
-		this.imports = imports;
+		if(!Objects.equals(this.imports, imports)) {
+			this.imports = imports;
+			notifyListeners(DifferenceSettingsItem.IMPORTS);
+		}
 	}
 
 	/**
-	 * @return The Technical Difference Builder. (
-	 *         {@link ITechnicalDifferenceBuilder})
+	 * @return The Technical Difference Builder. ({@link ITechnicalDifferenceBuilder})
+	 * @see DifferenceSettingsItem#TECH_BUILDER
 	 */
 	public ITechnicalDifferenceBuilder getTechBuilder() {
 		return techBuilder;
 	}
 
 	/**
-	 * @param techBuilder
-	 *            The Technical Difference Builder. (
-	 *            {@link ITechnicalDifferenceBuilder})
+	 * @param techBuilder The Technical Difference Builder. ({@link ITechnicalDifferenceBuilder})
+	 * @see DifferenceSettingsItem#TECH_BUILDER
 	 */
 	public void setTechBuilder(ITechnicalDifferenceBuilder techBuilder) {
-		if (this.techBuilder == null || !this.techBuilder.equals(techBuilder)) {
+		if (!Objects.equals(this.techBuilder, techBuilder)) {
 			this.techBuilder = techBuilder;
-			this.notifyListeners(DifferenceSettingsItem.TECH_BUILDER);
+			notifyListeners(DifferenceSettingsItem.TECH_BUILDER);
 		}
 	}
 }

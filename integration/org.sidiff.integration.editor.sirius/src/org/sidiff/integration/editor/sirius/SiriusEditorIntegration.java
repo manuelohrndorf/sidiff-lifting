@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
@@ -39,12 +41,12 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	public SiriusEditorIntegration() {
 		// The fake editor is sufficient for this purpose
 		super(null, "org.eclipse.sirius.ui.fakeeditoronlyforicon");
-
 	}
 
 	// Sirius generally supports any EMF-based models, therefore no
 	// model file extension is defined.
 	private static final String DIAGRAM_FILE_EXT = "aird";
+	private static final String MODEL_FILE_EXT = "ecore";
 
 	@Override
 	public boolean supportsModel(Resource model) {
@@ -63,8 +65,7 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagram(URI diagramFile) {
-		return diagramFile.fileExtension().toLowerCase()
-				.endsWith(DIAGRAM_FILE_EXT);
+		return diagramFile.fileExtension().toLowerCase().endsWith(DIAGRAM_FILE_EXT);
 	}
 
 	@Override
@@ -155,16 +156,15 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			return null;
 
 		// Start Sirius Session
-		Session session = SessionManager.INSTANCE.getSession(diagramFile,
-				new NullProgressMonitor());
+		Session session = SessionManager.INSTANCE.getSession(diagramFile, new NullProgressMonitor());
 		if (session == null)
 			return null;
 		if (!session.isOpen())
 			session.open(new NullProgressMonitor());
-
 		for (Session otherSession : SessionManager.INSTANCE.getSessions()) {
 			otherSession.getOwnedViews();
 		}
+
 		// Get representation
 		Collection<DView> views = session.getOwnedViews();
 		EList<DRepresentation> representations = new BasicEList<DRepresentation>();
@@ -175,16 +175,10 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		}
 
 		// FIXME: Generic way of choosing the right representation
-		DRepresentation representation = null;
-		if (representations.size() < 1)
+		if (representations.isEmpty())
 			return null;
-		representation = representations.get(0);
-		if (representation != null) {
-			return DialectUIManager.INSTANCE.openEditor(session,
-					representation, new NullProgressMonitor());
-		} else {
-			return null;
-		}
+		return DialectUIManager.INSTANCE.openEditor(session,
+				representations.get(0), new NullProgressMonitor());
 	}
 
 	@Override
@@ -193,7 +187,6 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 		if (element instanceof DRepresentationElement) {
 			res.add(((DRepresentationElement) element).getTarget());
 		} 
-		
 		return res;
 	}
 
@@ -206,12 +199,17 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			if (iter.hasNext()) {
 				// FIXME: Determine the right resource if there are multiple
 				return iter.next();
-			} else {
-				return null;
 			}
-		} else {
 			return null;
 		}
+		throw new UnsupportedOperationException("editorPart must be a DDiagramEditor");
 	}
 
+	@Override
+	public Map<String, String> getFileExtensions() {
+		Map<String, String> extensions = new HashMap<String, String>();
+		extensions.put("diagram", DIAGRAM_FILE_EXT);
+		extensions.put("model", MODEL_FILE_EXT);
+		return extensions;
+	}
 }

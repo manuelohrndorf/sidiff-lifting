@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qWJPIGDLEei4iawURZlagw" name="SET_ATTRIBUTE_Package_Name" description="Sets Package Name">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qWJPIWDLEei4iawURZlagw" name="setPackageName" description="Sets the EAttribute name">
+    <parameters xmi:id="_qWJPImDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_qWJPI2DLEei4iawURZlagw" name="Name" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_qWJPJGDLEei4iawURZlagw" name="Lhs">
+      <nodes xmi:id="_qWJPJWDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_qWJPJmDLEei4iawURZlagw" name="Rhs">
+      <nodes xmi:id="_qWJPJ2DLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+        <attributes xmi:id="_qWJPKGDLEei4iawURZlagw" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qWJPKWDLEei4iawURZlagw" origin="_qWJPJWDLEei4iawURZlagw" image="_qWJPJ2DLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qWJPKmDLEei4iawURZlagw" name="mainUnit" subUnits="_qWJPIWDLEei4iawURZlagw">
+    <parameters xmi:id="_qWJPK2DLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_qWJPLGDLEei4iawURZlagw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_qWJPLWDLEei4iawURZlagw" source="_qWJPK2DLEei4iawURZlagw" target="_qWJPImDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWJPLmDLEei4iawURZlagw" source="_qWJPLGDLEei4iawURZlagw" target="_qWJPI2DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

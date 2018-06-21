@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Slice -->
+      <package
+            uri="http://www.sidiff.org/slice/model/1.0"
+            class="org.sidiff.slicer.slice.SlicePackage"
+            genModel="model/Slice.genmodel"/>
+   </extension>
+   <extension
+         point="org.sidiff.common.emf.doctype.document_type_resolver">
+      <document_type_resolver
+            class="org.sidiff.slicer.slice.util.ModelSliceDocumentTypeResolver">
+      </document_type_resolver>
+   </extension>
+
+</plugin>

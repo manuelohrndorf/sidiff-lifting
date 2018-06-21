@@ -16,7 +16,7 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 /**
  * Util class for serializing {@link SymbolicLinks} and gathering {@link ISymbolicLinkHandler}.
  * 
- * @author cpietsch
+ * @author cpietsch, Robert Müller
  *
  */
 public class SymbolicLinkHandlerUtil {
@@ -46,7 +46,21 @@ public class SymbolicLinkHandlerUtil {
 		}
 		return linkResolvers;
 	}
-	
+
+	/**
+	 * Return the registered {@link ISymbolicLinkHandler} with the given key.
+	 * @param key the key of the symbolic link handler
+	 * @return symbolic link handler with the specified key, <code>null</code> if none was found
+	 */
+	public static ISymbolicLinkHandler getSymbolicLinkHandler(String key) {
+		for(ISymbolicLinkHandler symbolicLinkHandler : getAvailableSymbolicLinkHandlers()) {
+			if(symbolicLinkHandler.getKey().equals(key)) {
+				return symbolicLinkHandler;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Serializes the symbolic links of an {@link SymmetricDifference}
 	 * and replaces the appropriate uris of the models from

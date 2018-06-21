@@ -46,7 +46,7 @@ public class CreateDifferenceWizard extends Wizard {
 	private String diffSavePath;
 	
 	// ---------- UI Elements ----------
-	
+
 	/**
 	 * The {@link BasicCompareSettingsPage}
 	 */
@@ -69,13 +69,15 @@ public class CreateDifferenceWizard extends Wizard {
 	}
 
 	// ---------- Wizard ----------
-	
+
 	@Override
 	public void addPages() {
-		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page","Compare models with each other",inputModels, settings);
+		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page",
+				"Compare models with each other", inputModels, settings);
 		addPage(basicCompareSettingsPage);
 
-		advancedCompareSettingsPage = new AdvancedCompareSettingsPage("Advanced Compare Settings Page", "Compare models with each other", inputModels, settings);
+		advancedCompareSettingsPage = new AdvancedCompareSettingsPage("Advanced Compare Settings Page",
+				"Compare models with each other", inputModels, settings, basicCompareSettingsPage);
 		addPage(advancedCompareSettingsPage);
 	}
 

@@ -15,7 +15,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.api.settings.LiftingSettings.RecognitionEngineMode;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.postprocessing.PostProcessor;
 import org.sidiff.difference.lifting.recognitionengine.util.RecognitionEngineUtil;

@@ -3,7 +3,6 @@ package org.sidiff.patching.validation;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.validation.emf.EMFValidator;
 
 public class ValidationManager {

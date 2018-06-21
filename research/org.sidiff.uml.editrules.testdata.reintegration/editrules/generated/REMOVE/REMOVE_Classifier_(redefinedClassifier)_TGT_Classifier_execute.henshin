@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qYO50GDLEei4iawURZlagw" name="REMOVE_Classifier_(redefinedClassifier)_TGT_Classifier" description="Removes Classifier's reference redefinedClassifier the target Classifier">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qYO50WDLEei4iawURZlagw" name="removeFromClassifier_redefinedClassifier_Classifier" description="Removes from Classifier's reference redefinedClassifier the target Classifier">
+    <parameters xmi:id="_qYO50mDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_qYO502DLEei4iawURZlagw" name="OldTarget" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <lhs xmi:id="_qYO51GDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qYO51WDLEei4iawURZlagw" name="Selected" outgoing="_qYO512DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_qYO51mDLEei4iawURZlagw" name="OldTarget" incoming="_qYO512DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <edges xmi:id="_qYO512DLEei4iawURZlagw" source="_qYO51WDLEei4iawURZlagw" target="_qYO51mDLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/redefinedClassifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qYO52GDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qYO52WDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_qYO52mDLEei4iawURZlagw" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qYO522DLEei4iawURZlagw" origin="_qYO51WDLEei4iawURZlagw" image="_qYO52WDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qYO53GDLEei4iawURZlagw" origin="_qYO51mDLEei4iawURZlagw" image="_qYO52mDLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qYO53WDLEei4iawURZlagw" name="mainUnit" subUnits="_qYO50WDLEei4iawURZlagw">
+    <parameters xmi:id="_qYO53mDLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameters xmi:id="_qYO532DLEei4iawURZlagw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <parameterMappings xmi:id="_qYO54GDLEei4iawURZlagw" source="_qYO53mDLEei4iawURZlagw" target="_qYO50mDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qYO54WDLEei4iawURZlagw" source="_qYO532DLEei4iawURZlagw" target="_qYO502DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

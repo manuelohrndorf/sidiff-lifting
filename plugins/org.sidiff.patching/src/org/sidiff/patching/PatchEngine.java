@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -36,13 +35,10 @@ import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.patching.report.PatchReportManager;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.IValidationError;
 import org.sidiff.patching.validation.ValidationManager;
+import org.sidiff.patching.validation.ValidationMode;
 
 /**
  * 
@@ -53,9 +49,7 @@ public class PatchEngine {
 	private Resource patchedResource;
 	private EditingDomain patchedEditingDomain;
 	private ExecutionMode executionMode;
-	private PatchMode patchMode;
 
-	private IModifiedDetector modifiedDetector;
 	private ValidationManager validationManager;
 	private OperationManager operationManager;
 	private IArgumentManager argumentManager;
@@ -76,24 +70,21 @@ public class PatchEngine {
 	 * @param reliabilitiesComputed
 	 * @param patchInterruptHandler
 	 */
-	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, PatchingSettings settings) {
+	public PatchEngine(AsymmetricDifference difference, Resource patchedResource, IPatchEngineSettings settings) {
 
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(
-				CorrespondencesUtil.getAvailableCorrespondencesService(
-						MatchingModelCorrespondences.SERVICE_ID));
+		settings.getMatcher().setCorrespondencesService(
+				CorrespondencesUtil.getAvailableCorrespondencesService(MatchingModelCorrespondences.SERVICE_ID));
 		
 		// Get settings:
 		this.patchedResource = patchedResource;
-		this.modifiedDetector = settings.getModifiedDetector();
 		this.argumentManager = settings.getArgumentManager();
 		this.transformationEngine = settings.getTransformationEngine();		
 		this.executionMode = settings.getExecutionMode();
-		this.patchMode = settings.getPatchMode();		
-		
+
 		// Init managers
 		this.validationManager = new ValidationManager(settings.getValidationMode(), patchedResource);
-		this.argumentManager.init(difference, patchedResource, settings.getScope(), patchMode, modifiedDetector);
+		this.argumentManager.init(difference, patchedResource, settings);
 		this.operationManager = new OperationManager(difference, argumentManager);
 		
 		// Init transformation engine

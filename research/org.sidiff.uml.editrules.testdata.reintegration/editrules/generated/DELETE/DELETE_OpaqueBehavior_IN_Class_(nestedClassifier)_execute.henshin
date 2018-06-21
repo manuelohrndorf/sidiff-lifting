@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qWX4oGDLEei4iawURZlagw" name="DELETE_OpaqueBehavior_IN_Class_(nestedClassifier)" description="Deletes one OpaqueBehavior in Class">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qWX4oWDLEei4iawURZlagw" name="deleteOpaqueBehavior_IN_Class" description="deletes one OpaqueBehavior in the context: Class">
+    <parameters xmi:id="_qWX4omDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_qWX4o2DLEei4iawURZlagw" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <lhs xmi:id="_qWX4pGDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qWX4pWDLEei4iawURZlagw" name="Selected" outgoing="_qWX4p2DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_qWX4pmDLEei4iawURZlagw" name="ToBeDeleted" incoming="_qWX4p2DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+      </nodes>
+      <edges xmi:id="_qWX4p2DLEei4iawURZlagw" source="_qWX4pWDLEei4iawURZlagw" target="_qWX4pmDLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qWX4qGDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qWX4qWDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qWX4qmDLEei4iawURZlagw" origin="_qWX4pWDLEei4iawURZlagw" image="_qWX4qWDLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qWX4q2DLEei4iawURZlagw" name="mainUnit" subUnits="_qWX4oWDLEei4iawURZlagw">
+    <parameters xmi:id="_qWX4rGDLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_qWX4rWDLEei4iawURZlagw" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueBehavior"/>
+    </parameters>
+    <parameterMappings xmi:id="_qWX4rmDLEei4iawURZlagw" source="_qWX4rGDLEei4iawURZlagw" target="_qWX4omDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qWX4r2DLEei4iawURZlagw" source="_qWX4rWDLEei4iawURZlagw" target="_qWX4o2DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

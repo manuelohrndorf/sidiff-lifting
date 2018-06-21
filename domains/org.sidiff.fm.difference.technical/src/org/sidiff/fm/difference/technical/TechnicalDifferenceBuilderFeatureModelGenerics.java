@@ -1,5 +1,6 @@
 package org.sidiff.fm.difference.technical;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,8 +52,8 @@ public class TechnicalDifferenceBuilderFeatureModelGenerics extends AbstractTech
 	}
 
 	@Override
-	public String getDocumentType() {
-		return FeatureModelPackage.eNS_URI;
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(FeatureModelPackage.eNS_URI);
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.common.ui.util.EcoreSelectionDialogUtil;
 import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetInformation;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
@@ -25,7 +24,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
  * @author Simon Heimes
  *
  */
-public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation, IWidgetInformation {
+public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidation {
 	/**
 	 * Path to Configuration File
 	 */
@@ -249,12 +248,6 @@ public class EditRuleGeneratorSettingsWidget implements IWidget, IWidgetValidati
 		}
 	}
 
-	@Override
-	public String getInformationMessage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public void setSettings(EditRuleGenerationSettings settings) {
 		this.settings = settings;
 	}

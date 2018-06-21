@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter"
+            pipelineStep="org.sidiff.integration.preferences.common.pipelineStep">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.common.pipelineStep"
+            position="0"
+            title="General">
+      </pipelineStep>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
+            class="org.sidiff.integration.preferences.common.tabs.GeneralValidationPreferenceTab"
+            page="validation"
+            pipelineStep="org.sidiff.integration.preferences.common.pipelineStep">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.common.tabs.ScopeGeneralPreferenceTab"
+            page="general"
+            pipelineStep="org.sidiff.integration.preferences.common.pipelineStep">
+      </tab>
+   </extension>
+</plugin>

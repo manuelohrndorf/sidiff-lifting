@@ -6,16 +6,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
-import org.sidiff.patching.settings.ExecutionMode;
 
 public interface ITransformationEngine {
 
 	String EXTENSION_POINT_ID = "org.sidiff.patching.transformationengine";
 	String DOCUMENT_TYPE = "documentType";
-	String EXECUTEBALE = "class";
+	String EXECUTABLE = "class";
 	String DEFAULT_DOCUMENT_TYPE = "*";
 
 	/**

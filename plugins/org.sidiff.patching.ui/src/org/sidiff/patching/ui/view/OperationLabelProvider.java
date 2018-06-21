@@ -56,4 +56,15 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 		cell.setText(" " + text);
 		cell.setStyleRanges(styleRanges);
 	}
+
+	@Override
+	public void dispose() {
+		applied.dispose();
+		applicable.dispose();
+		modified.dispose();
+		conflicting.dispose();
+		ignored.dispose();
+
+		super.dispose();
+	}
 }

@@ -7,13 +7,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
-import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 
 public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgumentManager {
 
-	public BatchMatcherBasedArgumentManager(IMatcher matcher) {
-		super(matcher);
+	public BatchMatcherBasedArgumentManager() {
+		// default constructor for extension point
 	}
 
 	@Override
@@ -52,6 +52,8 @@ public class BatchMatcherBasedArgumentManager extends AbstractMatcherBasedArgume
 		return this.getClass().getSimpleName();
 	}
 
-
-
+	@Override
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.BATCH;
+	}
 }

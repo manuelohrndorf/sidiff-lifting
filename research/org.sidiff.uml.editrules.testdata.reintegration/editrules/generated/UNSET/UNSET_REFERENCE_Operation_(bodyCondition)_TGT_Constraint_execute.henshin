@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_qUPxsGDLEei4iawURZlagw" name="UNSET_REFERENCE_Operation_(bodyCondition)_TGT_Constraint" description="Sets Operation's reference bodyCondition the target Constraint">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_qUPxsWDLEei4iawURZlagw" name="setOperation_bodyCondition_TO_Constraint" description="SetOperationRefbodyConditionToConstraint">
+    <parameters xmi:id="_qUPxsmDLEei4iawURZlagw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_qUPxs2DLEei4iawURZlagw" name="NewTarget" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_qUPxtGDLEei4iawURZlagw" name="LHS">
+      <nodes xmi:id="_qUPxtWDLEei4iawURZlagw" name="Selected" outgoing="_qUPxt2DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_qUPxtmDLEei4iawURZlagw" name="NewTarget" incoming="_qUPxt2DLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_qUPxt2DLEei4iawURZlagw" source="_qUPxtWDLEei4iawURZlagw" target="_qUPxtmDLEei4iawURZlagw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation/bodyCondition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_qUPxuGDLEei4iawURZlagw" name="RHS">
+      <nodes xmi:id="_qUPxuWDLEei4iawURZlagw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+      </nodes>
+      <nodes xmi:id="_qUPxumDLEei4iawURZlagw" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_qUPxu2DLEei4iawURZlagw" origin="_qUPxtWDLEei4iawURZlagw" image="_qUPxuWDLEei4iawURZlagw"/>
+    <mappings xmi:id="_qUPxvGDLEei4iawURZlagw" origin="_qUPxtmDLEei4iawURZlagw" image="_qUPxumDLEei4iawURZlagw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_qUPxvWDLEei4iawURZlagw" name="mainUnit" subUnits="_qUPxsWDLEei4iawURZlagw">
+    <parameters xmi:id="_qUPxvmDLEei4iawURZlagw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
+    </parameters>
+    <parameters xmi:id="_qUPxv2DLEei4iawURZlagw" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_qUPxwGDLEei4iawURZlagw" source="_qUPxvmDLEei4iawURZlagw" target="_qUPxsmDLEei4iawURZlagw"/>
+    <parameterMappings xmi:id="_qUPxwWDLEei4iawURZlagw" source="_qUPxv2DLEei4iawURZlagw" target="_qUPxs2DLEei4iawURZlagw"/>
+  </units>
+</henshin:Module>

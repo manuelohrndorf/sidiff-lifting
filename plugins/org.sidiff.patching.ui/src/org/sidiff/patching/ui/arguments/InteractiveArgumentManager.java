@@ -17,6 +17,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -35,8 +36,8 @@ import org.sidiff.patching.arguments.ValueArgumentWrapper;
  */
 public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentManager {
 
-	public InteractiveArgumentManager(IMatcher matcher) {
-		super(matcher);
+	public InteractiveArgumentManager() {
+		// default constructor for extension point
 	}
 
 	@Override
@@ -142,4 +143,8 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 		return this.getClass().getSimpleName();
 	}
 
+	@Override
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.INTERACTIVE;
+	}
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter"
+            pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.matching.pipelineStep"
+            position="10"
+            title="Matching">
+      </pipelineStep>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
+            class="org.sidiff.integration.preferences.matching.tabs.MatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.matching.tabs.DomainMatchingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.matching.pipelineStep">
+      </tab>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.domains.significance">
+      <significanceProvider
+            class="org.sidiff.integration.preferences.matching.significance.MatchingPreferenceSignificanceProvider">
+      </significanceProvider>
+   </extension>
+</plugin>

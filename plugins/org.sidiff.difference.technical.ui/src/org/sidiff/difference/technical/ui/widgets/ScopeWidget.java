@@ -1,6 +1,5 @@
 package org.sidiff.difference.technical.ui.widgets;
 
-import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -11,22 +10,21 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.IWidget;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
-import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
-public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 	
 	private MatchingSettings settings;
 	private Composite container;
 	private Button resourceButton;
 	private Button resourceSetButton;
-	private IPageChangedListener pageChangedListener;
-	
+
 	public ScopeWidget() {
 	}
 
@@ -50,32 +48,36 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 			grid.marginWidth = 10;
 			grid.marginHeight = 10;
 			comparisonGroup.setLayout(grid);
-			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 		}
 		comparisonGroup.setText("Scope:");
 
 		resourceButton = new Button(comparisonGroup, SWT.RADIO);
 		resourceButton.setText("Single resource");
-		resourceButton.setSelection(true);
-
-		resourceSetButton = new Button(comparisonGroup, SWT.RADIO);
-		resourceSetButton.setText("Complete resourceset");
-
 		resourceButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setScope(Scope.RESOURCE);
+				if(resourceButton.getSelection()) {
+					settings.setScope(Scope.RESOURCE);
+				}
 			}
 		});
 
+		resourceSetButton = new Button(comparisonGroup, SWT.RADIO);
+		resourceSetButton.setText("Complete resourceset");
 		resourceSetButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setScope(Scope.RESOURCE_SET);
+				if(resourceSetButton.getSelection()) {
+					settings.setScope(Scope.RESOURCE_SET);
+				}
 			}
 		});
 
-		this.settings.setScope(Scope.RESOURCE);
+		if(settings.getScope() == null) {
+			settings.setScope(Scope.RESOURCE);
+		}
+		updateButtonStates();
 		return container;
 	}
 
@@ -83,13 +85,6 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	public Composite getWidget() {
 		return container;
 	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
-
 
 	@Override
 	public boolean validate() {
@@ -103,26 +98,25 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 			}
 		} else {
 			return false;
-	}
+		}
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
 		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
+			return ValidationMessage.OK;
 		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
-			message = new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName() + " does not support resourceset scope, select another matching engine!");
+			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
+					+ " does not support resourceset scope, select another matching engine!");
 		}else{
-			message = new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
+			return new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
-		return message;
 	}
 
 	@Override
 	public void addSelectionListener(SelectionListener listener) {
-		if ((resourceButton == null) || (resourceSetButton == null)) {
-			throw new RuntimeException("Create controls first!");
+		if(resourceButton == null || resourceSetButton == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
 		resourceButton.addSelectionListener(listener);
 		resourceSetButton.addSelectionListener(listener);
@@ -130,17 +124,24 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 
 	@Override
 	public void removeSelectionListener(SelectionListener listener) {
-		if ((resourceButton != null) || (resourceSetButton != null)) {
-			resourceButton.removeSelectionListener(listener);
-			resourceSetButton.removeSelectionListener(listener);
+		if(resourceButton == null || resourceSetButton == null) {
+			throw new IllegalStateException("createControl must be called first");
 		}
+		resourceButton.removeSelectionListener(listener);
+		resourceSetButton.removeSelectionListener(listener);
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
-		if(item.equals(MatchingSettingsItem.MATCHER)){
-			if (pageChangedListener != null) pageChangedListener.pageChanged(null);
+		if (item == BaseSettingsItem.SCOPE) {
+			updateButtonStates();
+			getWidgetCallback().requestValidation();
 		}
+	}
+
+	private void updateButtonStates() {
+		if (resourceButton != null) resourceButton.setSelection(settings.getScope() == Scope.RESOURCE);
+		if (resourceSetButton != null) resourceSetButton.setSelection(settings.getScope() == Scope.RESOURCE_SET);
 	}
 
 	public MatchingSettings getSettings() {
@@ -150,14 +151,6 @@ public class ScopeWidget implements IWidget, IWidgetSelection, IWidgetValidation
 	public void setSettings(MatchingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
+		updateButtonStates();
 	}
-
-	public IPageChangedListener getPageChangedListener() {
-		return pageChangedListener;
-	}
-
-	public void setPageChangedListener(IPageChangedListener pageChangedListener) {
-		this.pageChangedListener = pageChangedListener;
-	}
-
 }

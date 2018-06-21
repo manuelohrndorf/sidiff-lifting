@@ -19,31 +19,31 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public final String getDefaultEditorID() {
+	public String getDefaultEditorID() {
 		return defaultEditorId;
 	}
 
 	@Override
-	public final String getDiagramEditorID() {
+	public String getDiagramEditorID() {
 		return diagramEditorId;
 	}
 
 	@Override
-	public final Boolean isDefaultEditorPresent() {
+	public boolean isDefaultEditorPresent() {
 		if (defaultEditorPresent == null)
 			defaultEditorPresent = isEditorPresent(defaultEditorId);
 		return defaultEditorPresent;
 	}
 
 	@Override
-	public final boolean isDiagramEditorPresent() {
+	public boolean isDiagramEditorPresent() {
 		if (diagramEditorPresent == null)
 			diagramEditorPresent = isEditorPresent(diagramEditorId);
 		return diagramEditorPresent;
 	}
 
 	private static boolean isEditorPresent(String editorId) {
-		if (editorId == null || "".equals(editorId))
+		if (editorId == null || editorId.isEmpty())
 			return false;
 		IEditorDescriptor descriptor = (IEditorDescriptor) PlatformUI
 				.getWorkbench().getEditorRegistry().findEditor(editorId);
@@ -55,21 +55,16 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
 			return editor.getEditingDomain();
-		} else {
-			// TODO Exception?
-			return null;
 		}
+		throw new UnsupportedOperationException("editorPart does not implement IEditingDomainProvider");
 	}
 
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
 		if (editorPart instanceof IEditingDomainProvider) {
 			IEditingDomainProvider editor = (IEditingDomainProvider) editorPart;
-			return editor.getEditingDomain().getResourceSet().getResources()
-					.get(0);
-		} else {
-			// TODO Exception?
-			return null;
+			return editor.getEditingDomain().getResourceSet().getResources().get(0);
 		}
+		throw new UnsupportedOperationException("editorPart does not implement IEditingDomainProvider");
 	}
 }

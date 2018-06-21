@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.sidiff.integration.preferences.connector.ConnectorPreferencesInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.sidiff.integration.preferences.SiDiffSettings"
+            class="org.sidiff.integration.preferences.connector.ConnectorPreferencesPage"
+            id="org.sidiff.integration.preferences.connector.ConnectorPreferencesPage"
+            name="Connector">
+      </page>
+   </extension>
+
+</plugin>

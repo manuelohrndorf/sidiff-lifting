@@ -28,10 +28,12 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	
 	private Map<SymbolicLinkObject, EObject> linkResolvingB;
 
-	public AbstractSymblBasedArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
-		this.symbolicLinkHandler = symbolicLinkHandler;
+	@Override
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
+		this.symbolicLinkHandler = settings.getSymbolicLinkHandler();
+		super.init(patch, targetModel, settings);
 	}
-
+	
 	@Override
 	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
 		EObject originObject = binding.getActualA();
@@ -97,10 +99,13 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	protected Map<SymbolicLinkObject, EObject> getLinkResolvingB() {
 		return linkResolvingB;
 	}
-	
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings) {
+		if(settings.getSymbolicLinkHandler() == null) {
+			return false;
+		}
+
 		Resource originModel = asymmetricDifference.getOriginModel();
 		if(EMFModelAccess.getCharacteristicDocumentType(originModel).equals(SymboliclinkPackage.eNS_URI)){
 			SymbolicLinks symbolicLinks = (SymbolicLinks) originModel.getContents().get(0);

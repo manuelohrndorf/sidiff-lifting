@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -24,10 +23,10 @@ import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftingWizard extends Wizard{
 
-	private CreateLiftingPage createLiftingPage = null;
+	private CreateLiftingPage createLiftingPage;
 
 	private IFile differenceFile;
-	private SymmetricDifference symmetricDiff = null;
+	private SymmetricDifference symmetricDiff;
 	private String diffSavePath;
 	private LiftingSettings settings;
 	private InputModels inputModels;
@@ -37,9 +36,9 @@ public class CreateLiftingWizard extends Wizard{
 
 		this.differenceFile = differenceFile;
 		symmetricDiff = LiftingFacade.loadLiftedDifference(differenceFile.getLocation().toOSString());
-		diffSavePath = differenceFile.getParent().getLocation().toOSString() ;
+		diffSavePath = differenceFile.getParent().getLocation().toOSString();
 
-		inputModels = new InputModels(new Resource[]{symmetricDiff.getModelA(), symmetricDiff.getModelB()});
+		inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
 		settings = new LiftingSettings(inputModels.getDocumentTypes());
 	}
 
@@ -58,7 +57,6 @@ public class CreateLiftingWizard extends Wizard{
 
 	@Override
 	public boolean performFinish() {
-		createLiftingPage.updateSettings();
 		Job job = new Job("Lifting technical Difference") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {

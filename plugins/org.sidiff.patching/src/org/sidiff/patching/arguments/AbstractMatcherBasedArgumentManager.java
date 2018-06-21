@@ -38,8 +38,10 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 	 */
 	private SymmetricDifference matchingChangedTarget;
 
-	public AbstractMatcherBasedArgumentManager(IMatcher matcher) {
-		this.matcher = matcher;
+	@Override
+	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
+		this.matcher = settings.getMatcher();
+		super.init(patch, targetModel, settings);
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 			ICorrespondences correspondences = matcher.getCorrespondencesService();
 			Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
 		
-			if (!(matching.getCorrespondences().size() != 0)) {
+			if (matching.getCorrespondences().isEmpty()) {
 				try {
 					throw new NoCorrespondencesException();
 				} catch (NoCorrespondencesException e) {
@@ -108,7 +110,7 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 			
 			matcher.reset();
 
-			}
+		}
 		
 		if (matchingOriginTarget.getCorrespondingObjectInB(originObject) != null) {
 			return matchingOriginTarget.getCorrespondingObjectInB(originObject);
@@ -139,11 +141,10 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 
 		return null;
 	}
-	
 
 	@Override
-	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel) {
-		return EMFModelAccess.getCharacteristicDocumentType(targetModel).equals(EMFModelAccess.getCharacteristicDocumentType(asymmetricDifference.getOriginModel()));
+	public boolean canResolveArguments(AsymmetricDifference asymmetricDifference, Resource targetModel, IArgumentManagerSettings settings) {
+		return settings.getMatcher() != null && EMFModelAccess.getCharacteristicDocumentType(targetModel)
+				.equals(EMFModelAccess.getCharacteristicDocumentType(asymmetricDifference.getOriginModel()));
 	}
-	
 }

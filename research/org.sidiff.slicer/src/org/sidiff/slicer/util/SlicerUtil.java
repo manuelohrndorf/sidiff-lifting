@@ -41,28 +41,17 @@ public class SlicerUtil {
 		}
 		return availableSlicers;
 	}
-	
-	public static void serializeSlicedModel(Collection<EObject> modelSlice, URI uri, boolean multiResources) throws IOException{
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.createResource(uri);
-		
-		Set<EObject> containers = new HashSet<EObject>();
-		for(EObject slicedElement : modelSlice){
-			while(slicedElement.eContainer() != null){
-				slicedElement = slicedElement.eContainer();
-			}
-			containers.add(slicedElement);
-		}
-		
-		resource.getContents().addAll(containers);
-		
-		resource.save(Collections.EMPTY_MAP);
-	}
-	
+
 	public static URI generateSaveURI(URI loadURI){
 		String savePath = loadURI.path();
 		savePath = savePath.replace(loadURI.lastSegment(), "slice" + File.separator + loadURI.lastSegment());
-		
 		return EMFStorage.pathToUri(savePath);
+	}
+
+	public static void serializeModelSlice(URI outputURI, Collection<EObject> modelSlice) throws IOException {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		Resource resource = resourceSet.createResource(outputURI);
+		resource.getContents().addAll(modelSlice);
+		resource.save(Collections.EMPTY_MAP);
 	}
 }

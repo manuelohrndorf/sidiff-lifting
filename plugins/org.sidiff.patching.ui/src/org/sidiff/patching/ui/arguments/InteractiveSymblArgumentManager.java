@@ -16,6 +16,7 @@ import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.arguments.AbstractSymblBasedArgumentManager;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.MultiArgumentWrapper;
@@ -36,8 +37,8 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
  */
 public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentManager {
 
-	public InteractiveSymblArgumentManager(ISymbolicLinkHandler symbolicLinkHandler) {
-		super(symbolicLinkHandler);
+	public InteractiveSymblArgumentManager() {
+		// default constructor for extension point
 	}
 
 	@Override
@@ -147,5 +148,9 @@ public class InteractiveSymblArgumentManager extends AbstractSymblBasedArgumentM
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-	
+
+	@Override
+	public ExecutionMode getExecutionMode() {
+		return ExecutionMode.INTERACTIVE;
+	}
 }

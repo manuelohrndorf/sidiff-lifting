@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.sidiff.integration.preferences.settingsAdapter">
+      <adapter
+            class="org.sidiff.integration.preferences.lifting.settingsadapter.LiftingSettingsAdapter"
+            pipelineStep="org.sidiff.integration.preferences.lifting.pipelineStep">
+      </adapter>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.pipelineSteps">
+      <pipelineStep
+            id="org.sidiff.integration.preferences.lifting.pipelineStep"
+            position="30"
+            title="Lifting">
+      </pipelineStep>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.preferenceTabs">
+      <tab
+            class="org.sidiff.integration.preferences.lifting.tabs.LiftingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.lifting.pipelineStep">
+      </tab>
+      <tab
+            class="org.sidiff.integration.preferences.lifting.tabs.DomainLiftingEnginesPreferenceTab"
+            page="engines"
+            pipelineStep="org.sidiff.integration.preferences.lifting.pipelineStep">
+      </tab>
+   </extension>
+   <extension
+         point="org.sidiff.integration.preferences.domains.significance">
+      <significanceProvider
+            class="org.sidiff.integration.preferences.lifting.significance.LiftingPreferenceSignificanceProvider">
+      </significanceProvider>
+   </extension>
+</plugin>

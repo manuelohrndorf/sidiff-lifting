@@ -1,68 +1,79 @@
 package org.sidiff.patching.ui.wizard;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
-import org.sidiff.patching.settings.PatchingSettings;
+import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
+import org.sidiff.matching.api.settings.MatchingSettingsItem;
+import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.api.settings.PatchingSettingsItem;
+import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 
-public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage{
+public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 
 	private String DEFAULT_MESSAGE = "Apply a patch to a model";
-	
+
+	private SettingsSourceWidget settingsSourceWidget;
 	private TargetModelWidget targetWidget;
 	private ScopeWidget scopeWidget;
 	private ValidationModeWidget validationWidget;
 
+	private InputModels inputModels;
 	private PatchingSettings settings;
 
-	public ApplyAsymmetricDifferencePage01(String pageName, String title, ImageDescriptor titleImage, PatchingSettings settings) {
-		super(pageName, title, titleImage);
+	public ApplyAsymmetricDifferencePage01(AsymmetricDifference difference, String pageName,
+			String title, PatchingSettings settings) {
+		super(pageName, title, Activator.getImageDescriptor("icon.png"));
 		this.settings = settings;
-		// Listen for validation failures:
-		validationListener =
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						validate();
-					}
-				};
+		this.inputModels = new InputModels(difference.getOriginModel(), difference.getChangedModel());
 	}
 
 	protected void createWidgets() {
-		
-		//Target model:
+		// Settings Source:
+		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
+		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
+		settingsSourceWidget.addConsideredSettings(
+				PatchingSettingsItem.VALIDATION_MODE,
+				PatchingSettingsItem.RELIABILITY);
+		addWidget(container, settingsSourceWidget);
+
+		// Target model:
 		targetWidget = new TargetModelWidget();
-		targetWidget.setSettings(this.settings);
 		addWidget(container, targetWidget);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
-		scopeWidget.setPageChangedListener(this);
+		scopeWidget.setDependency(settingsSourceWidget);
 		addWidget(container, scopeWidget);
-		
-		
-		//Validation
+
+		// Validation:
 		validationWidget = new ValidationModeWidget();
 		validationWidget.setSettings(this.settings);
+		validationWidget.setDependency(settingsSourceWidget);
 		addWidget(container, validationWidget);
-
 	}
-	
-	public TargetModelWidget getTargetWidget(){
+
+	public TargetModelWidget getTargetWidget() {
 		return targetWidget;
 	}
-	
+
 	public ScopeWidget getScopeWidget() {
 		return scopeWidget;
 	}
 
-	public ValidationModeWidget getValidationWidget(){
+	public ValidationModeWidget getValidationWidget() {
 		return validationWidget;
+	}
+
+	// internal access method for other wizard page
+	SettingsSourceWidget getSettingsSourceWidget() {
+		return settingsSourceWidget;
 	}
 
 	@Override

@@ -3,8 +3,8 @@ package org.sidiff.integration.editor.ecoretools;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditorInput;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.sidiff.integration.editor.extension.BasicEditorIntegration;
 
@@ -21,27 +21,12 @@ public class EcoreToolsEditorIntegration extends BasicEditorIntegration {
 		return diagramFileExt.equals(diagramFile.fileExtension().toLowerCase());
 	}
 
-
-	@Override
-	public EditingDomain getEditingDomain(IEditorPart editorPart) {
-		if (editorPart instanceof org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor) {
-			EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
-			return editor.getEditingDomain();
-		} else {
-			// TODO Exception?
-			return null;
-		}
-	}
-
 	@Override
 	public Resource getResource(IEditorPart editorPart) {
-		if (editorPart instanceof org.eclipse.emf.ecoretools.diagram.part.EcoreDiagramEditor) {
-			EcoreDiagramEditor editor = (EcoreDiagramEditor) editorPart;
-			return editor.getDiagram().getElement().eResource();
-		} else {
-			// TODO Exception?
-			return null;
+		IEditorInput input = editorPart.getEditorInput();
+		if (input instanceof IDiagramEditorInput) {
+			return ((IDiagramEditorInput)input).getDiagram().getElement().eResource();
 		}
+		return super.getResource(editorPart);
 	}
-
 }

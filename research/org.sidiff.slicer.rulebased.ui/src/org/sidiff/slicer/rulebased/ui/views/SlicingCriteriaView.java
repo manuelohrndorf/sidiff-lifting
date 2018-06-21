@@ -2,6 +2,7 @@ package org.sidiff.slicer.rulebased.ui.views;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -54,16 +55,15 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.PatchMode;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
@@ -71,18 +71,16 @@ import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
+import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
-import org.sidiff.slicer.rulebased.UUIDBasedArgumentManager;
-import org.sidiff.slicer.rulebased.configuration.SlicingConfiguration;
+import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
+import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
+import org.sidiff.slicer.rulebased.slice.arguments.ModelSliceBasedArgumentManager;
 import org.sidiff.slicer.rulebased.ui.RuleBasedSlicerUI;
 import org.sidiff.slicer.rulebased.ui.provider.SlicingCriteriaLabelProvider;
-import org.sidiff.vcmsintegration.preferences.exceptions.InvalidSettingsException;
-import org.sidiff.vcmsintegration.preferences.exceptions.UnsupportedFeatureLevelException;
-import org.sidiff.vcmsintegration.preferences.util.PreferenceUtil;
-import org.sidiff.vcmsintegration.preferences.util.SettingsFactory;
 
 /**
  * 
@@ -97,24 +95,24 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	public static final String ID = "org.sidiff.slicer.rulebased.ui.views.SlicingCriteriaView";
 	
 	/**
-	 * The remote complete @link Resource}
+	 * The remote complete @link UUIDResource}
 	 */
-	private Resource remoteResourceComplete;
+	private UUIDResource remoteResourceComplete;
 	
 	/**
-	 * The remote empty {@link Resource}
+	 * The remote empty {@link UUIDResource}
 	 */
-	private Resource remoteResourceEmpty;
+	private UUIDResource remoteResourceEmpty;
 	
 	/**
-	 * The local sliced {@link Resource}
+	 * The local sliced {@link UUIDResource}
 	 */
-	private Resource localSlicedResource;
+	private UUIDResource localSlicedResource;
 	
 	/**
-	 * The local modified sliced {@link Resource}
+	 * The local modified sliced {@link UUIDResource}
 	 */
-	private Resource localModifiedSlicedResource;
+	private UUIDResource localModifiedSlicedResource;
 	
 	/**
 	 * The {@link AsymmetricDifference} for propagating the slice to the {@link #localSlicedResource}
@@ -132,9 +130,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	private Set<EObject> slicingCriteria;
 	
 	/**
-	 * The {@link SlicingConfiguration}
+	 * The {@link RuleBasedSlicingConfiguration}
 	 */
-	private SlicingConfiguration config;
+	private RuleBasedSlicingConfiguration config;
 	
 	/**
 	 * The {@link PatchEngine} merging {@link #remoteSlicedResource} into {@link #localSlicedResource}
@@ -201,7 +199,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	public SlicingCriteriaView() {
 		this.slicer = new RuleBasedSlicer();
 		this.slicingCriteria = new HashSet<EObject>();
-		this.config = new SlicingConfiguration(new LiftingSettings());
+		this.config = new RuleBasedSlicingConfiguration();
+		this.config.setLiftingSettings(new LiftingSettings());
 		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 	}
 
@@ -212,7 +211,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * @throws UnsupportedFeatureLevelException 
 	 * @throws InvalidSettingsException 
 	 */
-	public void init(IFile input) throws InvalidSettingsException, UnsupportedFeatureLevelException{
+	public void init(IFile input) {
 
 		ResourceSet remoteRSS = new ResourceSetImpl();
 		
@@ -221,6 +220,15 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		this.remoteResourceEmpty = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())), remoteRSS);
 
 		this.localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
+		
+		Map<EObject, EObject> copies_empty = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
+		
+		this.remoteResourceEmpty.getContents().addAll(copies_empty.values());
+		
+		for(EObject origin : copies_empty.keySet()){
+			String id = EMFUtil.getXmiId(origin);
+			EMFUtil.setXmiId(copies_empty.get(origin), id);
+		}
 		
 		Map<EObject, EObject> copies = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
 		
@@ -231,14 +239,17 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			EMFUtil.setXmiId(copies.get(origin), id);
 		}
 		
-		this.config.setLiftingSettings((LiftingSettings) SettingsFactory.getInstance().getLiftingSettingsFactory(EMFModelAccess.getCharacteristicDocumentType(remoteResourceComplete), PreferenceUtil.getInstance().getPluginPreferenceStore()).getSettings());
+		LiftingSettings settings = new LiftingSettings();
+		SettingsAdapterUtil.adaptSettingsGlobal(settings, EMFModelAccess.getDocumentTypes(
+				remoteResourceComplete, Scope.RESOURCE_SET), Collections.emptySet());
+		this.config.setLiftingSettings(settings);
 		
 		this.mergeSettings = new PatchingSettings(config.getLiftingSettings().getScope(), false,
 				config.getLiftingSettings().getMatcher(),
 				config.getLiftingSettings().getCandidatesService(),
 				config.getLiftingSettings().getCorrespondencesService(),
 				config.getLiftingSettings().getTechBuilder(), null,
-				new UUIDBasedArgumentManager(),
+				new ModelSliceBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
 				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
 				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE,
@@ -247,7 +258,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		this.checkboxTreeViewer.setInput(this.remoteResourceComplete.getResourceSet());
 		this.checkboxTreeViewer.refresh();
 		try {
-			this.slicer.init(this.config, this.remoteResourceComplete, this.remoteResourceEmpty);
+			this.config.setEmtpyResource(this.remoteResourceEmpty);
+			this.config.setEmtpyResource(this.remoteResourceComplete);
+			this.slicer.init(this.config);
 			this.remoteResourceEmpty.save(null);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException | IOException e) {
 			MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
@@ -342,7 +355,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							}
 							
 							updateSlicingCriteria();
-							asymDiff = slicer.slice(slicingCriteria);
+							ExecutableModelSlice slicingScript = (ExecutableModelSlice) slicer.slice(slicingCriteria);
+							slicingScript.serialize(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace(remoteResourceComplete.getURI().lastSegment(), ""), false);
 							for (EObject eObject : slicer.getExtendedAddSlicingCriteria()) {
 								checkboxTreeViewer.setChecked(eObject, true);								
 							}

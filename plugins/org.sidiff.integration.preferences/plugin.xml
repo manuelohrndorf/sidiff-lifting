@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.sidiff.integration.preferences.settingsAdapter" name="SiDiff Settings Adapter" schema="schema/org.sidiff.integration.preferences.settingsAdapter.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.preferenceTabs" name="SiDiff Preference Tabs" schema="schema/org.sidiff.integration.preferences.preferenceTabs.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.pipelineSteps" name="SiDiff Preference Pipeline Steps" schema="schema/org.sidiff.integration.preferences.pipelineSteps.exsd"/>
+   <extension-point id="org.sidiff.integration.preferences.domains.significance" name="SiDiff Domain Signigicance Provider" schema="schema/org.sidiff.integration.preferences.domains.significance.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.sidiff.integration.preferences.settingsadapter.SettingsAdapterPreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="org.sidiff.integration.preferences.showPropertiesDefinition">
+         <adapt
+               type="org.eclipse.core.resources.IProject">
+            <test
+                  property="org.eclipse.core.resources.open"
+                  value="open">
+            </test>
+         </adapt>
+      </definition>
+   </extension>
+</plugin>

@@ -4,14 +4,9 @@ Bundle-Name: SiDiff - Rule-based Slicer
 Bundle-SymbolicName: org.sidiff.slicer.rulebased;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.sidiff.difference.lifting.api,
- org.sidiff.difference.asymmetric.api,
- org.eclipse.equinox.app,
- org.sidiff.patching,
- org.sidiff.patching.batch,
- org.sidiff.patching.api,
- org.sidiff.slicer,
- org.sidiff.patching.ui
+Require-Bundle: org.sidiff.slicer;visibility:=reexport,
+ org.sidiff.slicer.rulebased.slice;visibility:=reexport,
+ org.eclipse.emf.ecore
 Export-Package: org.sidiff.slicer.rulebased,
  org.sidiff.slicer.rulebased.configuration,
  org.sidiff.slicer.rulebased.exceptions
