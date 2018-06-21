@@ -32,6 +32,7 @@ import org.sidiff.editrule.generator.serge.generators.actions.AddGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.AttachGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.ChangeLiteralGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.ChangeReferenceGenerator;
+import org.sidiff.editrule.generator.serge.generators.actions.ConsolidatedVariantGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.CreateGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.DeleteGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.DetachGenerator;
@@ -45,7 +46,7 @@ import org.sidiff.editrule.generator.serge.generators.actions.SetAttributeGenera
 import org.sidiff.editrule.generator.serge.generators.actions.SetReferenceGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetAttributeGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetReferenceGenerator;
-import org.sidiff.editrule.generator.serge.generators.actions.VariantGenerator;
+import org.sidiff.editrule.generator.serge.generators.actions.SolitaryVariantGenerator;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class GenerationActionDelegator {
@@ -977,10 +978,21 @@ public class GenerationActionDelegator {
 	public Set<Module> process_Replacables(Set<Module> inputModules, OperationType opType,
 			OperationTypeGroup opTypeGroup) throws OperationTypeNotImplementedException {
 
+		//TODO update method describtion recarding consolidated variant generation
+		
 		Set<Module> modules = new HashSet<>();
 		for (Module module : inputModules) {
-			VariantGenerator generator = new VariantGenerator(module, opType, opTypeGroup);
-			modules.addAll(generator.generate());
+			
+			if(c.enable_consolidatedvariants) {
+			
+				ConsolidatedVariantGenerator generator = new ConsolidatedVariantGenerator(module, opType, opTypeGroup);
+				modules.addAll(generator.generate());
+			
+			}else {
+				
+				SolitaryVariantGenerator generator = new SolitaryVariantGenerator(module, opType, opTypeGroup);
+				modules.addAll(generator.generate());
+			}
 		}
 		return modules;
 
