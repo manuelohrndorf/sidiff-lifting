@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import org.eclipse.compare.ITypedElement;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 /**
  * 
@@ -21,15 +23,12 @@ public class CompareResource {
 	}
 
 	private ITypedElement typedElement; // can be null for empty resources
-	private Side side;
 	private Resource resource; // can be null for empty resources
 	private IResource platformResource; // can be null if resolution not possible
 	private boolean editable;
 
-	CompareResource(ITypedElement typedElement, Side side) {
-		Assert.isNotNull(side);
+	CompareResource(ITypedElement typedElement) {
 		this.typedElement = typedElement;
-		this.side = side;
 		this.resource = null;
 		this.platformResource = null;
 		this.editable = false;
@@ -71,32 +70,44 @@ public class CompareResource {
 		this.platformResource = platformResource;
 	}
 
-	public Side getSide() {
-		return side;
-	}
-
-	void setSide(Side side) {
-		this.side = side;
-	}
-
 	public boolean isEditable() {
 		return editable;
 	}
-	
+
 	void setEditable(boolean editable) {
 		this.editable = editable;
 	}
 
-	public static CompareResource load(ITypedElement typedElement, Side side) throws IOException, CoreException {
-		CompareResource compRes = new CompareResource(typedElement, side);
+	public static CompareResource load(ITypedElement typedElement) throws IOException, CoreException {
+		CompareResource compRes = new CompareResource(typedElement);
 		CompareResourceLoader.getInstance().load(compRes);
 		return compRes;
 	}
 
-	public static void swap(CompareResource left, CompareResource right) {
-		Assert.isLegal(left.getSide() == Side.LEFT);
-		Assert.isLegal(right.getSide() == Side.RIGHT);
-		left.setSide(Side.RIGHT);
-		right.setSide(Side.LEFT);
+	public CompareResource mutateEcoreResource() {
+		CompareResource replacement = new CompareResource(this.getTypedElement());
+		replacement.setPlatformResource(this.getPlatformResource());
+		replacement.setEditable(this.isEditable());
+
+		// create a complete copy of the resource
+		Resource res = new ResourceSetImpl().createResource(this.getURI());
+		Copier copier = new EcoreUtil.Copier();
+		res.getContents().addAll(copier.copyAll(this.getResource().getContents()));
+		copier.copyReferences();
+		replacement.setResource(res);
+
+		return replacement;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append("CompareResource[");
+		b.append("typedElement=").append(typedElement).append(", ");
+		b.append("platformResource=").append(platformResource).append(", ");
+		b.append("ecoreResource=").append(resource).append(", ");
+		b.append("editable=").append(editable);
+		b.append("]");
+		return b.toString();
 	}
 }

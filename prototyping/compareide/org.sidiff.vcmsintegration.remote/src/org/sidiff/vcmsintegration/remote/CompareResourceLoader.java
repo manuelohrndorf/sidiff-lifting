@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.compare.ITypedElement;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -93,12 +97,20 @@ class CompareResourceLoader {
 		}
 
 		// load the platform resource
+		IResource platformResource = null;
 		for(IPlatformResourceLoader l : platformResourceLoaders) {
 			if(l.canHandle(typedElement)) {
-				compRes.setPlatformResource(l.loadPlatformResource(typedElement));
-				break;
+				platformResource = l.loadPlatformResource(typedElement);
+				if(platformResource != null) break;
 			}
 		}
+		if(platformResource == null) {
+			platformResource = Adapters.adapt(typedElement, IFile.class);
+		}
+		if(platformResource == null) {
+			platformResource = Adapters.adapt(typedElement, IResource.class);
+		}
+		compRes.setPlatformResource(platformResource);
 
 		// resolve uri for the ecore resource
 		URI uri = null;
@@ -110,7 +122,7 @@ class CompareResourceLoader {
 			for(IURIResolver r : uriResolvers) {
 				if(r.canHandle(typedElement)) {
 					uri = r.getURI(typedElement);
-					break;
+					if(uri != null) break;
 				}
 			}
 			// fall back to the typed element name, this is not a fully qualified URI
@@ -120,12 +132,14 @@ class CompareResourceLoader {
 		}
 
 		// load the ecore resource
+		Resource resource = null;
 		for(IEcoreResourceLoader l : ecoreResourceLoaders) {
 			if(l.canHandle(typedElement)) {
-				compRes.setResource(l.loadEcoreResource(typedElement, uri));
-				break;
+				resource = l.loadEcoreResource(typedElement, uri);
+				if(resource != null) break;
 			}
 		}
+		compRes.setResource(resource);
 
 		// resolve editability of the compare resource
 		for(IEditabilityResolver r : editabilityResolvers) {
