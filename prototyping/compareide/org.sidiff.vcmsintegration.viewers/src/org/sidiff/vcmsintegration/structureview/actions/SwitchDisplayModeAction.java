@@ -1,24 +1,15 @@
 package org.sidiff.vcmsintegration.structureview.actions;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuCreator;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.DisplayMode;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
-import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
-import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
  * An action that changes the display mode in the structure merge viewer. This
@@ -36,7 +27,6 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 	private Menu menu;
 
 	private SiLiftStructureMergeViewer mergeViewer;
-	private SiLiftStructureMergeViewerContentProvider contentProvider;
 	private SiLiftCompareConfiguration compareConfiguration;
 
 	/**
@@ -48,33 +38,17 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 	 *            {@link DisplayMode} changes
 	 */
 	public SwitchDisplayModeAction(SiLiftStructureMergeViewer mergeViewer,
-			SiLiftStructureMergeViewerContentProvider contentProvider,
 			SiLiftCompareConfiguration compareConfiguration) {
 		super("Refresh", IAction.AS_DROP_DOWN_MENU);
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_REFRESH));
 		this.setEnabled(true);
 		this.mergeViewer = mergeViewer;
-		this.contentProvider = contentProvider;
 		this.compareConfiguration = compareConfiguration;
 		setMenuCreator(this);
 	}
 
 	@Override
 	public void run() {
-		MessageDialogUtil.showProgressDialog(new IRunnableWithProgress() {
-			@Override
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
-				monitor.beginTask("Calculating model difference", IProgressMonitor.UNKNOWN);
-				try {
-					contentProvider.recalculateDifferences();
-				} catch (InvalidModelException | NoCorrespondencesException | CoreException e) {
-					throw new InvocationTargetException(e);
-				} finally {
-					monitor.done();
-				}
-			}
-		});
-
 		mergeViewer.refresh();
 	}
 
@@ -120,13 +94,11 @@ public class SwitchDisplayModeAction extends Action implements IMenuCreator {
 			super(displayMode.getName(), IAction.AS_RADIO_BUTTON);
 			this.displayMode = displayMode;
 			this.setToolTipText(displayMode.getName());
-			this.setChecked(displayMode == DisplayMode.getDefault());
+			this.setChecked(displayMode == compareConfiguration.getDisplayMode());
 		}
 
 		@Override
 		public void run() {
-			// TODO: updating the checked-state does not work
-			this.setChecked(true);
 			compareConfiguration.setDisplayMode(displayMode);
 		}
 	}

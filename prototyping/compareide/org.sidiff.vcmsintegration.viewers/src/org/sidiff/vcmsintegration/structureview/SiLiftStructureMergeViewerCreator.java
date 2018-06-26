@@ -5,7 +5,7 @@ import org.eclipse.compare.IViewerCreator;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
-import org.sidiff.vcmsintegration.ViewerRegistry;
+import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 
 /**
  * The class that is being registered in eclipse. It creates a new instance of
@@ -19,9 +19,9 @@ public class SiLiftStructureMergeViewerCreator implements IViewerCreator {
 
 	@Override
 	public Viewer createViewer(Composite parent, CompareConfiguration config) {
-		SiLiftStructureMergeViewer viewer = new SiLiftStructureMergeViewer(parent, new SiLiftCompareConfiguration(config));
-		// Register StructureMergeViewer
-		ViewerRegistry.getInstance().setStructureMergeViewer(viewer);
+		SiLiftCompareConfiguration siConfig = new SiLiftCompareConfiguration(config);
+		SiLiftCompareDifferencer.getInstance().setConfig(siConfig);
+		SiLiftStructureMergeViewer viewer = new SiLiftStructureMergeViewer(parent, siConfig);
 		return viewer;
 	}
 }

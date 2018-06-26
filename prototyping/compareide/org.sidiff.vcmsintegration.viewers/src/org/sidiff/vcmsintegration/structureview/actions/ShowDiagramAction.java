@@ -15,7 +15,6 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
@@ -23,7 +22,7 @@ import org.eclipse.ui.part.WorkbenchPart;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
-import org.sidiff.vcmsintegration.ViewerRegistry;
+import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
@@ -44,6 +43,8 @@ public class ShowDiagramAction extends Action {
 	 * are being compared.
 	 */
 	private SiLiftStructureMergeViewerContentProvider contentProvider;
+	
+	private SiLiftCompareDifferencer differencer;
 
 	/**
 	 * Creates a new {@link ShowDiagramAction} with a
@@ -57,6 +58,7 @@ public class ShowDiagramAction extends Action {
 		this.setText("Open Diagram");
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
 		this.contentProvider = contentProvider;
+		this.differencer = SiLiftCompareDifferencer.getInstance();
 	}
 
 	/**
@@ -65,9 +67,9 @@ public class ShowDiagramAction extends Action {
 	@Override
 	public void run() {
 		// get the compare resources
-		CompareResource left = contentProvider.getLeft();
-		CompareResource right = contentProvider.getRight();
-		CompareResource ancestor = contentProvider.getAncestor();
+		CompareResource left = differencer.getLeft();
+		CompareResource right = differencer.getRight();
+		CompareResource ancestor = differencer.getAncestor();
 
 		// the show diagram action does not support git
 		// TODO: is this still a problem?
@@ -128,12 +130,12 @@ public class ShowDiagramAction extends Action {
 		if (integrationAncestor != null && uriAncestor != null)
 			integrationAncestor.openDiagramForModel(uriAncestor);
 
-		first.addPropertyListener(new IPropertyListener() {
+		/*first.addPropertyListener(new IPropertyListener() {
 			@Override
 			public void propertyChanged(Object source, int propId) {
 				ViewerRegistry.getInstance().getStructureMergeViewer().onRefreshNotify();
 			}
-		});
+		});*/
 
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(first);
 
@@ -227,6 +229,6 @@ public class ShowDiagramAction extends Action {
 	}
 
 	public void updateEnabledState() {
-		setEnabled(contentProvider.getLeft().getResource() != null && contentProvider.getRight().getResource() != null);
+		setEnabled(differencer.getLeft().getResource() != null && differencer.getRight().getResource() != null);
 	}
 }

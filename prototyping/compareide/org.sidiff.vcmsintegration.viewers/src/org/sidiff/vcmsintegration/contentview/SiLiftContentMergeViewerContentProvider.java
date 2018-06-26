@@ -7,10 +7,12 @@ import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
+import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
+import org.sidiff.vcmsintegration.remote.CompareResource;
 
 /**
  * 
- * @author Felix Breitweiser
+ * @author Felix Breitweiser, Robert Müller
  *
  */
 public class SiLiftContentMergeViewerContentProvider implements IMergeViewerContentProvider {
@@ -20,6 +22,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	private SiLiftCompareConfiguration config;
 
+	private SiLiftCompareDifferencer differencer;
+
 	/**
 	 * Creates a new instance of the
 	 * {@link SiLiftContentMergeViewerContentProvider}.
@@ -28,14 +32,7 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	public SiLiftContentMergeViewerContentProvider(SiLiftCompareConfiguration config) {
 		this.config = config;
-	}
-
-	/**
-	 * @see {@link org.eclipse.jface.viewers.IContentProvider}
-	 */
-	@Override
-	public void dispose() {
-		// empty
+		this.differencer = SiLiftCompareDifferencer.getInstance();
 	}
 
 	/**
@@ -69,10 +66,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 * @see {@link org.eclipse.compare.contentmergeviewer.IMergeViewerContentProvider}
 	 */
 	@Override
-	public ITypedElement getAncestorContent(Object input) {	
-		if (input instanceof ICompareInput)
-			return ((ICompareInput) input).getAncestor();
-		return null;
+	public CompareResource getAncestorContent(Object input) {
+		return differencer.getAncestor();
 	}
 
 	/**
@@ -80,7 +75,7 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public boolean showAncestor(Object input) {
-		return input instanceof ICompareInput;
+		return differencer.getAncestor() != null && differencer.getAncestor().getResource() != null;
 	}
 
 	/**
@@ -88,6 +83,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public String getLeftLabel(Object input) {
+		if(config.isMirrored())
+			return config.getRightLabel(input);
 		return config.getLeftLabel(input);
 	}
 
@@ -96,6 +93,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public Image getLeftImage(Object input) {
+		if(config.isMirrored())
+			return config.getRightImage(input);
 		return config.getLeftImage(input);
 	}
 
@@ -103,10 +102,9 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 * @see {@link org.eclipse.compare.contentmergeviewer.IMergeViewerContentProvider}
 	 */
 	@Override
-	public Object getLeftContent(Object input) {
-		if (input instanceof ICompareInput)
-			return ((ICompareInput) input).getLeft();
-		return null;
+	public CompareResource getLeftContent(Object input) {
+		// NOTE: getModifiedLeft() already handles the mirrored state
+		return differencer.getModifiedLeft();
 	}
 
 	/**
@@ -114,6 +112,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public boolean isLeftEditable(Object input) {
+		if(config.isMirrored())
+			return config.isRightEditable();
 		return config.isLeftEditable();
 	}
 
@@ -122,8 +122,13 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public void saveLeftContent(Object input, byte[] bytes) {
-		if(input instanceof IEditableContent) {
-			((IEditableContent) input).setContent(bytes);
+		if(input instanceof ICompareInput) {
+			ITypedElement element = config.isMirrored()
+					? ((ICompareInput)input).getRight()
+					: ((ICompareInput)input).getLeft();
+			if(element instanceof IEditableContent) {
+				((IEditableContent)element).setContent(bytes);
+			}
 		}
 	}
 
@@ -132,6 +137,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public String getRightLabel(Object input) {
+		if(config.isMirrored())
+			return config.getLeftLabel(input);
 		return config.getRightLabel(input);
 	}
 
@@ -140,6 +147,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public Image getRightImage(Object input) {
+		if(config.isMirrored())
+			return config.getLeftImage(input);
 		return config.getRightImage(input);
 	}
 
@@ -147,10 +156,9 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 * @see {@link org.eclipse.compare.contentmergeviewer.IMergeViewerContentProvider}
 	 */
 	@Override
-	public Object getRightContent(Object input) {	
-		if (input instanceof ICompareInput)
-			return ((ICompareInput) input).getRight();
-		return null;
+	public CompareResource getRightContent(Object input) {
+		// NOTE: getModifiedRight() already handles the mirrored state
+		return differencer.getModifiedRight();
 	}
 
 	/**
@@ -158,6 +166,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public boolean isRightEditable(Object input) {
+		if(config.isMirrored())
+			return config.isLeftEditable();
 		return config.isRightEditable();
 	}
 
@@ -166,8 +176,13 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public void saveRightContent(Object input, byte[] bytes) {
-		if(input instanceof IEditableContent) {
-			((IEditableContent) input).setContent(bytes);
+		if(input instanceof ICompareInput) {
+			ITypedElement element = config.isMirrored()
+					? ((ICompareInput)input).getLeft()
+					: ((ICompareInput)input).getRight();
+			if(element instanceof IEditableContent) {
+				((IEditableContent)element).setContent(bytes);
+			}
 		}
 	}
 

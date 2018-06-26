@@ -2,7 +2,6 @@ package org.sidiff.vcmsintegration.util;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -15,6 +14,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.vcmsintegration.Activator;
 
 /**
@@ -26,16 +26,28 @@ import org.sidiff.vcmsintegration.Activator;
  */
 public class MessageDialogUtil {
 
-	public static void showExceptionDialog(Throwable e) {
+	public static void showExceptionDialog(Throwable e, String message) {
+		String title;
 		if(e instanceof InvalidModelException) {
-			showErrorDialog("Invalid Model", "One of the given models seems to be invalid.");
+			title = "Invalid Model";
 		} else if(e instanceof NoCorrespondencesException) {
-			showErrorDialog("No Correspondences", "No correspondences could be found between the models.");
-		} else if(e instanceof CoreException) {
-			ErrorDialog.openError(getShell(), "An internal error occured", e.getMessage(), ((CoreException)e).getStatus());
+			title = "No Correspondences";
+		} else if(e instanceof OperationNotExecutableException) {
+			title = "Operation cannot be executed";
 		} else {
-			showExceptionDialog(new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e)));
+			title = "An internal error occured";
 		}
+
+		if(message == null) {
+			message = e.getMessage();
+		}
+
+		Activator.logError(title + "/" + message, e);
+		ErrorDialog.openError(getShell(), title, message, new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+	}
+
+	public static void showExceptionDialog(Throwable e) {
+		showExceptionDialog(e, null);
 	}
 
 	public static void showErrorDialog(String title, String message) {

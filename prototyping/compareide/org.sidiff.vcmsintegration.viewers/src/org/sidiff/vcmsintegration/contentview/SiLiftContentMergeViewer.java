@@ -1,33 +1,31 @@
 package org.sidiff.vcmsintegration.contentview;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.eclipse.compare.CompareUI;
-import org.eclipse.compare.ITypedElement;
 import org.eclipse.compare.contentmergeviewer.ContentMergeViewer;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.sidiff.vcmsintegration.Activator;
-import org.sidiff.vcmsintegration.IStructureMergeViewerRegisteredListener;
-import org.sidiff.vcmsintegration.ResourceChangeListener;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
-import org.sidiff.vcmsintegration.ViewerRegistry;
+import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.CompareResource.Side;
-import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
@@ -38,13 +36,19 @@ import org.sidiff.vcmsintegration.util.MessageDialogUtil;
  * @author Jonas Schmeck, Robert Müller
  *
  */
-public class SiLiftContentMergeViewer extends ContentMergeViewer implements ResourceChangeListener {
+public class SiLiftContentMergeViewer extends ContentMergeViewer {
+
+	private static final String BUNDLE_NAME = "org.sidiff.vcmsintegration.contentview.SiLiftContentMergeViewer";
 
 	private ISelectionProvider selectionProvider;
 	private Map<Side, TreeViewer> treeViewers;
 	private Map<Side, CompareResource> resources;
 	private Map<Side, SiLiftContentMergeViewerLabelProvider> labelProviders;
 	private AdapterFactory adapterFactory;
+	private SiLiftCompareDifferencer.IModelViewerAdapter modelViewerAdapter;
+	private SiLiftCompareDifferencer differencer;
+	private IPropertyChangeListener propertyChangeListener;
+	private SiLiftCompareConfiguration config;
 
 	/**
 	 * Creates a new {@link SiLiftContentMergeViewer} with the given compare configuration.
@@ -54,12 +58,14 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 * 
 	 */
 	public SiLiftContentMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
-		super(SWT.NONE, ResourceBundle.getBundle("org.sidiff.vcmsintegration.contentview.res"), config);
+		super(SWT.NONE, ResourceBundle.getBundle(BUNDLE_NAME), config);
 		this.selectionProvider = config.getContainer().getWorkbenchPart().getSite().getSelectionProvider();
 		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		this.treeViewers = new EnumMap<>(Side.class);
 		this.resources = new EnumMap<>(Side.class);
 		this.labelProviders = new EnumMap<>(Side.class);
+		this.differencer = SiLiftCompareDifferencer.getInstance();
+		this.config = config;
 
 		setContentProvider(new SiLiftContentMergeViewerContentProvider(config));
 		buildControl(parent);
@@ -68,25 +74,49 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 		// manage the toolbar
 		customizeToolbar(getToolBarManager(parent));
 
-		// check if StructureMergeViewer is already registered
-		if(ViewerRegistry.getInstance().getStructureMergeViewer() != null) {
-			ViewerRegistry.getInstance().getStructureMergeViewer().addResourceChangeListener(this);
-		} else {
-			// add listener and register the ResourceChangedListener as soon as the StructureMergeViewer is registered
-			ViewerRegistry.getInstance().addStructureMergeViewerRegisteredListener(new IStructureMergeViewerRegisteredListener() {
-				@Override
-				public void onStructureMergeViewerRegisteredListener(SiLiftStructureMergeViewer structureMergeViewer) {
-					// register ResourceChangedListener
-					structureMergeViewer.addResourceChangeListener(SiLiftContentMergeViewer.this);
-					// remove own listener
-					ViewerRegistry.getInstance().removeStructureMergeViewerRegisteredListener(this);
+		modelViewerAdapter = new SiLiftCompareDifferencer.IModelViewerAdapter() {
+			@Override
+			public void setDirty(Side side, boolean dirty) {
+				if(side == Side.LEFT)
+					setLeftDirty(dirty);
+				else if(side == Side.RIGHT)
+					setRightDirty(dirty);
+			}
+
+			@Override
+			public void onChange(Side side, CompareResource compRes) {
+				updateCompareResource(side, compRes);
+			}
+
+			@Override
+			public void onRefresh(Side side) {
+				TreeViewer treeViewer = treeViewers.get(side);
+				if(treeViewer != null) {
+					treeViewer.refresh();
 				}
-			});
-		}
+			}
+		};
+		differencer.addModelViewerAdapter(modelViewerAdapter);
+
+		propertyChangeListener = new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if(event.getProperty() == SiLiftCompareConfiguration.MIRRORED) {
+					refresh();
+
+					// switch dirty states
+					// TODO: check if this is required
+					boolean leftDirty = isLeftDirty();
+					setLeftDirty(isRightDirty());
+					setRightDirty(leftDirty);
+				}
+			}
+		};
+		config.addPropertyChangeListener(propertyChangeListener);
 	}
 
 	/**
-	 * Remove unused items from the toolbar and set icons for actions
+	 * Remove unused items from the toolbar.
 	 * @param manager The ToolBarManager that holds the items
 	 */
 	private void customizeToolbar(IToolBarManager manager) {
@@ -95,14 +125,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 			if (items[i] instanceof ActionContributionItem) {
 				ActionContributionItem item = (ActionContributionItem) items[i];
 				switch(item.getAction().getText()) {
-					case "Toggle Ancestor":
-						item.getAction().setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_TOGGLE_ANCESTOR));
-						break;
-
-					case "Swap Left and Right View":
-						item.getAction().setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SWAP_LEFT_RIGHT));
-						break;
-
 					case "action.CopyLeftToRight.label":
 					case "action.CopyRightToLeft.label":
 						manager.remove(item);
@@ -123,9 +145,9 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 		for(Side side : Side.values()) {
 			TreeViewer treeViewer = new TreeViewer(composite);
 			treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-			SiLiftContentMergeViewerLabelProvider labelProvider = new SiLiftContentMergeViewerLabelProvider(adapterFactory, treeViewer, selectionProvider);
+			SiLiftContentMergeViewerLabelProvider labelProvider =
+					new SiLiftContentMergeViewerLabelProvider(adapterFactory, treeViewer, selectionProvider);
 			treeViewer.setLabelProvider(labelProvider);
-			treeViewer.setInput(resources.get(side));
 
 			treeViewers.put(side, treeViewer);
 			labelProviders.put(side, labelProvider);
@@ -175,12 +197,16 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 	 */
 	@Override
 	protected void updateContent(Object ancestor, Object left, Object right) {
-		try {
-			onResourceChanged(CompareResource.load((ITypedElement)ancestor, Side.ANCESTOR));
-			onResourceChanged(CompareResource.load((ITypedElement)left, Side.LEFT));
-			onResourceChanged(CompareResource.load((ITypedElement)right, Side.RIGHT));
-		} catch(IOException | CoreException e) {
-			MessageDialogUtil.showExceptionDialog(e);
+		updateCompareResource(Side.ANCESTOR, (CompareResource)ancestor);
+		updateCompareResource(Side.LEFT, (CompareResource)left);
+		updateCompareResource(Side.RIGHT, (CompareResource)right);
+	}
+
+	@Override
+	public void setContentProvider(IContentProvider contentProvider) {
+		// NOTE: this must be overridden or else the superclass implementation clears our own content provider
+		if(contentProvider instanceof SiLiftContentMergeViewerContentProvider) {
+			super.setContentProvider(contentProvider);
 		}
 	}
 
@@ -192,38 +218,43 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer implements Reso
 		// is implemented by the structure-viewer
 	}
 
-	/**
-	 * unused
-	 */
 	@Override
 	protected byte[] getContents(boolean left) {
-		// not supported
+		try {
+			CompareResource compRes = resources.get(left ? Side.LEFT : Side.RIGHT);
+			if(compRes != null && compRes.getResource() != null) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				compRes.getResource().save(out, null);
+				return out.toByteArray();
+			}
+		} catch (IOException e) {
+			MessageDialogUtil.showExceptionDialog(e);
+		}
 		return null;
 	}
 
-	/**
-	 * Called by the {@link org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer} when
-	 * one of the files that participate in the comparison change, this updates the {@link TreeViewer}s
-	 * so they show the new version
-	 * @param compareResource The {@link CompareResource} that holds the changed resource and some metadata
-	 */
-	@Override
-	public void onResourceChanged(CompareResource changed) {
-		resources.put(changed.getSide(), changed);
+	protected void updateCompareResource(Side side, CompareResource changed) {
+		resources.put(side, changed);
 
-		TreeViewer treeViewer = treeViewers.get(changed.getSide());
+		TreeViewer treeViewer = treeViewers.get(side);
 		if(treeViewer != null) {
-			treeViewer.setInput(changed.getResource());
+			treeViewer.setInput(changed == null ? null : changed.getResource());
+			treeViewer.expandToLevel(2);
 			treeViewer.refresh();
 		}
 	}
 
 	@Override
 	protected void handleDispose(DisposeEvent event) {
-		if(ViewerRegistry.getInstance().getStructureMergeViewer() != null) {
-			ViewerRegistry.getInstance().getStructureMergeViewer().addResourceChangeListener(this);
+		if(differencer != null && modelViewerAdapter != null) {
+			differencer.removeModelViewerAdapter(modelViewerAdapter);
+			differencer = null;
+			modelViewerAdapter = null;
 		}
-
+		if(propertyChangeListener != null) {
+			config.removePropertyChangeListener(propertyChangeListener);
+			propertyChangeListener = null;
+		}
 		super.handleDispose(event);
 	}
 }

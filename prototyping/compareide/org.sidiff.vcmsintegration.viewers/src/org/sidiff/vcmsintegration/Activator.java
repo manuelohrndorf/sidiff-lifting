@@ -2,6 +2,7 @@ package org.sidiff.vcmsintegration;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -16,13 +17,10 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.sidiff.vcmsintegration.viewers"; //$NON-NLS-1$
 
-	public static final String IMAGE_TOGGLE_ANCESTOR = "toggle_ancestor.image";
 	public static final String IMAGE_MERGE_TO_RIGHT = "merge_to_right.image";
 	public static final String IMAGE_MERGE_TO_LEFT = "merge_to_left.image";
 	public static final String IMAGE_REFRESH = "refresh.image";
 	public static final String IMAGE_SHOW_DIAGRAM = "show_diagram.image";
-	public static final String IMAGE_SWAP_LEFT_RIGHT = "swap_left_right.image";
-	public static final String IMAGE_SAVE = "save.image";
 
 	// The shared instance
 	private static Activator plugin;
@@ -74,8 +72,6 @@ public class Activator extends AbstractUIPlugin {
 
 		Bundle bundle = getBundle();
 
-		reg.put(IMAGE_TOGGLE_ANCESTOR, ImageDescriptor.createFromURL(
-				FileLocator.find(bundle, new Path("icons/icon_toggle_ancestor.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_MERGE_TO_RIGHT, ImageDescriptor.createFromURL(
 				FileLocator.find(bundle, new Path("icons/icon_merge_to_right.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_MERGE_TO_LEFT, ImageDescriptor.createFromURL(
@@ -84,9 +80,24 @@ public class Activator extends AbstractUIPlugin {
 				FileLocator.find(bundle, new Path("icons/icon_refresh.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_SHOW_DIAGRAM, ImageDescriptor.createFromURL(
 				FileLocator.find(bundle, new Path("icons/icon_show_diagram.png"), null))); //$NON-NLS-1$
-		reg.put(IMAGE_SWAP_LEFT_RIGHT, ImageDescriptor.createFromURL(
-				FileLocator.find(bundle, new Path("icons/icon_swap_left_right.gif"), null))); //$NON-NLS-1$
-		reg.put(IMAGE_SAVE, ImageDescriptor.createFromURL(
-				FileLocator.find(bundle, new Path("icons/icon_save.gif"), null))); //$NON-NLS-1$
+	}
+
+	// logging utility functions
+	//
+
+	public static void log(int severity, String message, Throwable throwable) {
+		getDefault().getLog().log(new Status(severity, Activator.PLUGIN_ID, message, throwable));
+	}
+
+	public static void logError(String message, Throwable throwable) {
+		log(Status.ERROR, message, throwable);
+	}
+	
+	public static void logWarning(String message, Throwable throwable) {
+		log(Status.WARNING, message, throwable);
+	}
+	
+	public static void logWarning(String message) {
+		logWarning(message, null);
 	}
 }
