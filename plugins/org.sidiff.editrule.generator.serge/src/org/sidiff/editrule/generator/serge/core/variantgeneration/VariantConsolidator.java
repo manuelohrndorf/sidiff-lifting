@@ -13,7 +13,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Annotation;
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -34,13 +36,8 @@ import org.sidiff.editrule.generator.types.OperationType;
  * - Only <<create>> modules are supported so far
  * - No type exclusions as defined on the config file are considered
  * - Neighbors are not considered yet
+ * - Sequences with abstract entries are not dismissed yet
  * 
- * 
- * Bugs:
- * - nach der ersten Ersetzung sollen zunächst alle weiteren Sequenzen bzgl. des zuvor ersetzen Entries
- *  gleichermaßen analysiert und verarbeitet werden, bevor es in der initialen Sequenz mit der Analyse des nächsten Entries weiter geht.
- * (erfordert ggf. log darüber, welche Entries über alle Sequenzen hinweg eine Identität aufspannen und vollständig verarbetet wurden.)
- * (ggf. reicht aber auch ein equals mit bisherigen, verarbeiteten entries, welche geloggt werden müssen)
  * 
  * @author mrindt
  *
@@ -186,6 +183,11 @@ public class VariantConsolidator {
 
 					Node originalNode = originalEntry.getKey();
 					Node replicatedNode = HenshinRuleAnalysisUtilEx.copyNode(originalNode.getGraph(), originalNode, true);
+					
+					// copy all incoming references
+					for(Edge incEdge: originalNode.getIncoming()) {
+						HenshinRuleAnalysisUtilEx.copyEdge(incEdge, incEdge.getSource(), replicatedNode);
+					}					
 
 					// copy the rest of the sequence in order
 					SequenceEntry entryInReplicatedSequence = replicatedSequence.addEntry(replicatedNode);
@@ -208,6 +210,7 @@ public class VariantConsolidator {
 					}
 				}			
 				
+				createNodeAnnotations(replicatedSequence);
 				sequenceSet.add(replicatedSequence);
 				sequenceSet.getEntryIdentityMap();
 			}
@@ -215,7 +218,18 @@ public class VariantConsolidator {
 
 	}
 	
-	
+	private void createNodeAnnotations(Sequence replicatedSequence) {
+		
+		for(SequenceEntry entry: replicatedSequence) {
+						
+			Annotation anno = HenshinFactory.eINSTANCE.createAnnotation();
+			anno.setKey(VARIANT_ANNOTATION_KEY);
+			anno.setValue(replicatedSequence.toString());
+			entry.getKey().getAnnotations().add(anno);
+						
+		}
+		
+	}
 
 	private Integer getVariantAnnotationValue(Node n) {
 		
