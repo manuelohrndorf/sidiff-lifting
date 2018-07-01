@@ -22,6 +22,7 @@ import org.eclipse.ui.part.WorkbenchPart;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
+import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
@@ -43,7 +44,7 @@ public class ShowDiagramAction extends Action {
 	 * are being compared.
 	 */
 	private SiLiftStructureMergeViewerContentProvider contentProvider;
-	
+
 	private SiLiftCompareDifferencer differencer;
 
 	/**
@@ -53,12 +54,12 @@ public class ShowDiagramAction extends Action {
 	 * 
 	 * @param contentProvider
 	 */
-	public ShowDiagramAction(SiLiftStructureMergeViewerContentProvider contentProvider) {
+	public ShowDiagramAction(SiLiftStructureMergeViewerContentProvider contentProvider, SiLiftCompareConfiguration config) {
 		Assert.isNotNull(contentProvider);
 		this.setText("Open Diagram");
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
 		this.contentProvider = contentProvider;
-		this.differencer = SiLiftCompareDifferencer.getInstance();
+		this.differencer = config.getDifferencer();
 	}
 
 	/**

@@ -1,10 +1,14 @@
 package org.sidiff.vcmsintegration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.ICompareContainer;
 import org.eclipse.compare.ICompareInputLabelProvider;
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -18,12 +22,25 @@ import org.eclipse.swt.graphics.Image;
 public class SiLiftCompareConfiguration extends CompareConfiguration {
 
 	public static final String DISPLAY_MODE = Activator.PLUGIN_ID + ".DISPLAY_MODE";
+	public static final String ADAPTER_FACTORY = Activator.PLUGIN_ID + ".ADAPTER_FACTORY";
+	public static final String DIFFERENCER = Activator.PLUGIN_ID + ".DIFFERENCER";
+
+	private static Map<CompareConfiguration, SiLiftCompareConfiguration> instances = new HashMap<>();
+
+	public static SiLiftCompareConfiguration wrap(CompareConfiguration config) {
+		SiLiftCompareConfiguration wrapper = instances.get(config);
+		if(wrapper == null) {
+			wrapper = new SiLiftCompareConfiguration(config);
+			instances.put(config, wrapper);
+		}
+		return wrapper;
+	}
 
 	private final CompareConfiguration delegate;
 	private final ListenerList<IPropertyChangeListener> listeners;
 	private final IPropertyChangeListener propertyChangeListener;
 
-	public SiLiftCompareConfiguration(CompareConfiguration delegate) {
+	private SiLiftCompareConfiguration(CompareConfiguration delegate) {
 		this.listeners = new ListenerList<>();
 		this.delegate = delegate;
 		this.propertyChangeListener = new IPropertyChangeListener() {
@@ -37,6 +54,8 @@ public class SiLiftCompareConfiguration extends CompareConfiguration {
 
 	private void initializeDefaultValues() {
 		setProperty(DISPLAY_MODE, DisplayMode.getDefault());
+		setProperty(ADAPTER_FACTORY, new SiLiftCompareAdapterFactory());
+		setProperty(DIFFERENCER, new SiLiftCompareDifferencer(this));
 	}
 
 
@@ -46,6 +65,22 @@ public class SiLiftCompareConfiguration extends CompareConfiguration {
 
 	public void setDisplayMode(DisplayMode displayMode) {
 		setProperty(DISPLAY_MODE, displayMode);
+	}
+
+	public AdapterFactory getAdapterFactory() {
+		return (AdapterFactory)getProperty(ADAPTER_FACTORY);
+	}
+
+	public void setAdapterFactory(AdapterFactory adapterFactory) {
+		setProperty(ADAPTER_FACTORY, adapterFactory);
+	}
+
+	public SiLiftCompareDifferencer getDifferencer() {
+		return (SiLiftCompareDifferencer)getProperty(DIFFERENCER);
+	}
+
+	public void setDifferencer(SiLiftCompareDifferencer differencer) {
+		setProperty(DIFFERENCER, differencer);
 	}
 
 
@@ -77,6 +112,8 @@ public class SiLiftCompareConfiguration extends CompareConfiguration {
 	public void dispose() {
 		delegate.removePropertyChangeListener(propertyChangeListener);
 		delegate.dispose();
+		// remove the saved instance
+		instances.remove(delegate);
 	}
 
 

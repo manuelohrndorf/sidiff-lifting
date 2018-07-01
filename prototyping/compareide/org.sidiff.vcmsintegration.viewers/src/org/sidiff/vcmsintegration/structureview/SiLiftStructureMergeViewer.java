@@ -2,21 +2,37 @@ package org.sidiff.vcmsintegration.structureview;
 
 import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.CompareViewerPane;
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IWorkbenchPart;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
-import org.sidiff.vcmsintegration.structureview.actions.ApplyOnLeftAction;
+import org.sidiff.vcmsintegration.properties.PropertySheetPageHelper;
+import org.sidiff.vcmsintegration.structureview.actions.AbstractAction;
+import org.sidiff.vcmsintegration.structureview.actions.ApplyOperationAction;
+import org.sidiff.vcmsintegration.structureview.actions.ApplyPatchOnLeftAction;
+import org.sidiff.vcmsintegration.structureview.actions.IgnoreOperationAction;
+import org.sidiff.vcmsintegration.structureview.actions.RevertOperationAction;
 import org.sidiff.vcmsintegration.structureview.actions.ShowDiagramAction;
+import org.sidiff.vcmsintegration.structureview.actions.ShowPropertiesViewAction;
 import org.sidiff.vcmsintegration.structureview.actions.SwitchDisplayModeAction;
+import org.sidiff.vcmsintegration.structureview.actions.UnignoreOperationAction;
 
-// TODO: reuse OperationExplorerView
+// TODO: Double click on item in the structure viewer clears input of content viewer
+// TODO: reuse OperationExplorerView: Double Click listener, other actions, validation mode action
 /**
  * Used to show {@link AsymmetricDifference}s and {@link SymmetricDifference}s
  * as structured view for ecore files.
@@ -35,53 +51,104 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	 * The configuration that controls various UI aspects of compare/merge
 	 * viewers like title labels and images.
 	 */
-	private SiLiftCompareConfiguration compareConfiguration;
+	private SiLiftCompareConfiguration config;
 
-	private ApplyOnLeftAction applyOnLeftAction;
+	private ISelectionChangedListener selectionListener;
 
 	/**
 	 * Creates a new {@link SiLiftStructureMergeViewer} with the given compare
 	 * configuration.
 	 *
 	 * @param parent The parent composite that holds this view
-	 * @param compareConfiguration Configuration to be used when comparing the
+	 * @param config Configuration to be used when comparing the
 	 *            inputs
 	 */
-	public SiLiftStructureMergeViewer(Composite parent, SiLiftCompareConfiguration compareConfiguration) {
+	public SiLiftStructureMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(parent);
 
-		this.compareConfiguration = compareConfiguration;
+		this.config = config;
 		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Viewer");
 
 		// Create custom content provider that takes two ecore files and shows
 		// lifted differences in this TreeView
-		AdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		contentProvider = new SiLiftStructureMergeViewerContentProvider(adapterFactory, compareConfiguration);
+		contentProvider = new SiLiftStructureMergeViewerContentProvider(config);
 		setContentProvider(contentProvider);
-		setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+		setLabelProvider(new SiLiftStructureMergeViewerLabelProvider(config.getAdapterFactory(), this));
 
 		// Register selection listeners on tree view
-		compareConfiguration.getContainer().getWorkbenchPart().getSite().setSelectionProvider(this);
+		final IWorkbenchPart part = config.getContainer().getWorkbenchPart();
+		part.getSite().setSelectionProvider(this);
 
-		// Register actions on toolbar
+		// Register actions on toolbar and context menu
 		initToolbarActions(CompareViewerPane.getToolBarManager(parent));
+		initContextMenu();
+
+		selectionListener = new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				PropertySheetPageHelper.notifiySelectionChanged(part, event.getSelection());
+			}
+		};
+		addSelectionChangedListener(selectionListener);
 	}
 
 	protected void initToolbarActions(ToolBarManager toolbarManager) {
-		applyOnLeftAction = new ApplyOnLeftAction(compareConfiguration);
-		addSelectionChangedListener(applyOnLeftAction);
-		toolbarManager.add(applyOnLeftAction);
-		toolbarManager.add(new ShowDiagramAction(contentProvider));
-		toolbarManager.add(new SwitchDisplayModeAction(this, compareConfiguration));
+		toolbarManager.add(new ApplyPatchOnLeftAction(config));
+		toolbarManager.add(new ShowDiagramAction(contentProvider, config));
+		toolbarManager.add(new SwitchDisplayModeAction(this, config));
 		toolbarManager.update(true);
+	}
+
+	protected void initContextMenu() {
+		MenuManager menuMgr = new MenuManager();
+		Menu menu = menuMgr.createContextMenu(getControl());
+		menu.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				for(IContributionItem item : menuMgr.getItems()) {
+					if(item instanceof ActionContributionItem) {
+						IAction action = ((ActionContributionItem)item).getAction();
+						if(action instanceof AbstractAction) {
+							((AbstractAction)action).dispose();
+						}
+					}
+				}
+			}
+		});
+
+		menuMgr.add(new ApplyOperationAction(this, config));
+		menuMgr.add(new RevertOperationAction(this, config));
+		menuMgr.add(new IgnoreOperationAction(this, config));
+		menuMgr.add(new UnignoreOperationAction(this, config));
+		menuMgr.add(new ShowPropertiesViewAction());
+
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				for(IContributionItem item : manager.getItems()) {
+					if(item instanceof ActionContributionItem) {
+						IAction action = ((ActionContributionItem)item).getAction();
+						if(action instanceof AbstractAction) {
+							item.setVisible(((AbstractAction)action).isVisible());
+						}
+					}
+				}
+				manager.update(true);
+			}
+		});
+
+		getControl().setMenu(menu);
 	}
 
 	@Override
 	protected void handleDispose(DisposeEvent event) {
-		if(compareConfiguration.getContainer().getWorkbenchPart().getSite().getSelectionProvider() == this) {
-			compareConfiguration.getContainer().getWorkbenchPart().getSite().setSelectionProvider(null);
+		if(config.getContainer().getWorkbenchPart().getSite().getSelectionProvider() == this) {
+			config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(null);
 		}
-		removeSelectionChangedListener(applyOnLeftAction);
+		if(selectionListener != null) {
+			removeSelectionChangedListener(selectionListener);
+			selectionListener = null;
+		}
 		super.handleDispose(event);
 	}
 }

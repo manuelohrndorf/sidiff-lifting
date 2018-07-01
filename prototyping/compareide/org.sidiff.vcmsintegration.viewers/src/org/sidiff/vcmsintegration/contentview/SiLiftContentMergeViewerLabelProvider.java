@@ -24,6 +24,7 @@ import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
@@ -71,12 +72,12 @@ class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.
 
 		if (element instanceof Change) {
 			highlightChange((Change)element);
-		}
-		else if (element instanceof SemanticChangeSet) {
+		} else if (element instanceof SemanticChangeSet) {
 			highlightChangeSet((SemanticChangeSet)element);
-		}
-		else if (element instanceof OperationInvocation) {
+		} else if (element instanceof OperationInvocation) {
 			highlightOperationInvocation(element);
+		} else if (element instanceof OperationInvocationWrapper) {
+			highlightOperationInvocation(((OperationInvocationWrapper)element).getOperationInvocation());
 		}
 
 		// refresh all changed objects

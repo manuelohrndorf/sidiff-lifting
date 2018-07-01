@@ -11,7 +11,7 @@ public class SiLiftContentMergeViewerCreator implements IViewerCreator {
 
 	@Override
 	public Viewer createViewer(Composite parent, CompareConfiguration config) {
-		SiLiftContentMergeViewer viewer = new SiLiftContentMergeViewer(parent, new SiLiftCompareConfiguration(config));
+		SiLiftContentMergeViewer viewer = new SiLiftContentMergeViewer(parent, SiLiftCompareConfiguration.wrap(config));
 		return viewer;
 	}
 }

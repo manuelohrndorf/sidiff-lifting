@@ -1,13 +1,11 @@
 package org.sidiff.vcmsintegration.structureview;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -22,7 +20,8 @@ import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.operation.OperationManager;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer.IDifferenceViewerAdapter;
@@ -45,8 +44,7 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 
 	private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
-	private SiLiftCompareDifferencer differencer;
-	private SiLiftCompareConfiguration compareConfiguration;
+	private SiLiftCompareConfiguration config;
 
 	/**
 	 * Creates a new instance of the
@@ -54,15 +52,12 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 	 * defines which type of difference is displayed when the viewer, that this
 	 * content provider provides data for, is initially created.
 	 * 
-	 * @param displayMode The type of difference that is displayed
 	 */
-	public SiLiftStructureMergeViewerContentProvider(AdapterFactory adapterFactory,
-			SiLiftCompareConfiguration compareConfiguration) {
-		super(adapterFactory);
-		this.differencer = SiLiftCompareDifferencer.getInstance();
-		this.differencer.addDifferenceViewerAdapter(this);
-		this.compareConfiguration = compareConfiguration;
-		this.compareConfiguration.addPropertyChangeListener(this);
+	public SiLiftStructureMergeViewerContentProvider(SiLiftCompareConfiguration config) {
+		super(config.getAdapterFactory());
+		this.config = config;
+		this.config.addPropertyChangeListener(this);
+		this.config.getDifferencer().addDifferenceViewerAdapter(this);
 	}
 
 	@Override
@@ -71,6 +66,7 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 
 		if(newInput != null) {
 			try {
+				SiLiftCompareDifferencer differencer = config.getDifferencer();
 				differencer.loadCompareInput((ICompareInput)newInput);
 				differencer.recalculateDifferences();
 			} catch (IOException | CoreException | InvalidModelException | NoCorrespondencesException e) {
@@ -81,7 +77,8 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 
 	@Override
 	public void dispose() {
-		compareConfiguration.removePropertyChangeListener(this);
+		config.removePropertyChangeListener(this);
+		config.getDifferencer().removeDifferenceViewerAdapter(this);
 		super.dispose();
 	}
 
@@ -98,7 +95,8 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-		switch (compareConfiguration.getDisplayMode()) {
+		SiLiftCompareDifferencer differencer = config.getDifferencer();
+		switch (config.getDisplayMode()) {
 			case SYMMETRIC_DIFFERENCE:
 				SymmetricDifference symmetricDifference = differencer.getSymmetricDifference();
 				if(symmetricDifference == null) {
@@ -132,40 +130,10 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 				if(differencer.getPatchEngine() == null) {
 					return EMPTY_OBJECT_ARRAY;
 				}
-
-				// get a list of all OperationInvocations, which have not
-				// been applied
-				List<OperationInvocation> operations = differencer.getPatchEngine().getOperationManager()
-						.getOperationInvocations(OperationInvocationStatus.INIT);
-				// remove OperationInvocations, which are dependencies
-				operations = filterOperationInvocationsWithDependencies(operations);
-				return operations.toArray();
+				return differencer.getPatchEngine().getOperationManager().getOrderedOperationWrappers().toArray();
 		}
 
 		return EMPTY_OBJECT_ARRAY;
-	}
-
-	/**
-	 * Filters the given list, by removing all {@link OperationInvocation}s
-	 * which have dependencies. This method returns a new list that contains
-	 * only those {@link OperationInvocation}s that don't have any dependencies.
-	 * 
-	 * @param input A list of {@link OperationInvocation}s that is filtered
-	 * @return A new list that only contains {@link OperationInvocation}s that
-	 *         don't have any dependencies.
-	 * @param input List of all OperationInvocation
-	 * @return Filtered list of OperationInvocations
-	 */
-	private List<OperationInvocation> filterOperationInvocationsWithDependencies(Collection<OperationInvocation> input) {
-		LinkedList<OperationInvocation> result = new LinkedList<OperationInvocation>();
-		for (OperationInvocation operationInvocation : input) {
-			// check if OperationInvocation has any predecessors
-			// every OperationInvocation has itself as a predecessor
-			if (operationInvocation.getAllSuccessors().size() == 1) {
-				result.add(operationInvocation);
-			}
-		}
-		return result;
 	}
 
 	/**
@@ -177,27 +145,33 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		// The child elements of the OperationInvocation should be the changes
-		if (parentElement instanceof OperationInvocation) {
+		if (parentElement instanceof OperationManager) {
+			OperationManager manager = (OperationManager)parentElement;
+			return manager.getOrderedOperationWrappers().toArray();
+		} else if (parentElement instanceof OperationInvocationWrapper) {
+			OperationInvocationWrapper wrapper = (OperationInvocationWrapper)parentElement;
+			List<Object> result = new LinkedList<Object>();
+			result.add(wrapper.getOperationInvocation());
+			result.addAll(wrapper.getPredecessors());
+			return result.toArray();
+		} else if (parentElement instanceof OperationInvocation) {
 			OperationInvocation operation = (OperationInvocation)parentElement;
-			LinkedList<Object> result = new LinkedList<Object>();
+			List<Object> result = new LinkedList<Object>();
 			result.add(operation.getChangeSet());
 			result.addAll(operation.getParameterBindings());
-			// Add predecessors of OperationInvocations as children in tree view
-			for (OperationInvocation predecessors : operation.getAllPredecessors()) {
-				// every OperationInvocation has itself as predecessors
-				// add only if OperationInvocation has not been applied yet
-				if (predecessors != parentElement && differencer.getPatchEngine().getOperationManager()
-						.getStatusWrapper(predecessors).getStatus() != OperationInvocationStatus.PASSED) {
-					result.addFirst(predecessors);
-				}
-			}
 			return result.toArray();
 		} else if (parentElement instanceof SemanticChangeSet) {
-			// show changes in SemanticChangeSet
 			return ((SemanticChangeSet)parentElement).getChanges().toArray();
 		}
 		return super.getChildren(parentElement);
+	}
+
+	@Override
+	public boolean hasChildren(Object object) {
+		if(object instanceof OperationManager || object instanceof OperationInvocationWrapper) {
+			return this.getChildren(object).length > 0;
+		}
+		return super.hasChildren(object);
 	}
 
 	@Override
@@ -211,6 +185,8 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 	public void onRefresh() {
 		if(viewer != null) {
 			viewer.refresh();
+			// update selection to update actions
+			viewer.setSelection(viewer.getSelection());
 		}
 	}
 }

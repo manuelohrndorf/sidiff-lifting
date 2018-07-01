@@ -7,7 +7,6 @@ import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
-import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 
 /**
@@ -22,8 +21,6 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	private SiLiftCompareConfiguration config;
 
-	private SiLiftCompareDifferencer differencer;
-
 	/**
 	 * Creates a new instance of the
 	 * {@link SiLiftContentMergeViewerContentProvider}.
@@ -32,7 +29,6 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	public SiLiftContentMergeViewerContentProvider(SiLiftCompareConfiguration config) {
 		this.config = config;
-		this.differencer = SiLiftCompareDifferencer.getInstance();
 	}
 
 	/**
@@ -67,7 +63,7 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public CompareResource getAncestorContent(Object input) {
-		return differencer.getAncestor();
+		return config.getDifferencer().getAncestor();
 	}
 
 	/**
@@ -75,7 +71,8 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	 */
 	@Override
 	public boolean showAncestor(Object input) {
-		return differencer.getAncestor() != null && differencer.getAncestor().getResource() != null;
+		return config.getDifferencer().getAncestor() != null
+				&& config.getDifferencer().getAncestor().getResource() != null;
 	}
 
 	/**
@@ -104,7 +101,7 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	@Override
 	public CompareResource getLeftContent(Object input) {
 		// NOTE: getModifiedLeft() already handles the mirrored state
-		return differencer.getModifiedLeft();
+		return config.getDifferencer().getModifiedLeft();
 	}
 
 	/**
@@ -158,7 +155,7 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 	@Override
 	public CompareResource getRightContent(Object input) {
 		// NOTE: getModifiedRight() already handles the mirrored state
-		return differencer.getModifiedRight();
+		return config.getDifferencer().getModifiedRight();
 	}
 
 	/**
@@ -185,5 +182,4 @@ public class SiLiftContentMergeViewerContentProvider implements IMergeViewerCont
 			}
 		}
 	}
-
 }

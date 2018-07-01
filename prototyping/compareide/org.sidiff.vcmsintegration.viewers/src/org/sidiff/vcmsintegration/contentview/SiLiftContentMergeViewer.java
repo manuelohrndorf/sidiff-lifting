@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 
 import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.contentmergeviewer.ContentMergeViewer;
-import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -17,13 +15,16 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
+import org.sidiff.vcmsintegration.properties.PropertySheetPageHelper;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.CompareResource.Side;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
@@ -41,14 +42,17 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	private static final String BUNDLE_NAME = "org.sidiff.vcmsintegration.contentview.SiLiftContentMergeViewer";
 
 	private ISelectionProvider selectionProvider;
+	private SiLiftCompareConfiguration config;
+
 	private Map<Side, TreeViewer> treeViewers;
 	private Map<Side, CompareResource> resources;
+
+	private AdapterFactoryContentProvider contentProvider;
 	private Map<Side, SiLiftContentMergeViewerLabelProvider> labelProviders;
-	private AdapterFactory adapterFactory;
+
 	private SiLiftCompareDifferencer.IModelViewerAdapter modelViewerAdapter;
-	private SiLiftCompareDifferencer differencer;
 	private IPropertyChangeListener propertyChangeListener;
-	private SiLiftCompareConfiguration config;
+	private ISelectionChangedListener selectionListener;
 
 	/**
 	 * Creates a new {@link SiLiftContentMergeViewer} with the given compare configuration.
@@ -59,13 +63,12 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	 */
 	public SiLiftContentMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(SWT.NONE, ResourceBundle.getBundle(BUNDLE_NAME), config);
+		this.config = config;
 		this.selectionProvider = config.getContainer().getWorkbenchPart().getSite().getSelectionProvider();
-		this.adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		this.contentProvider = new AdapterFactoryContentProvider(config.getAdapterFactory());
 		this.treeViewers = new EnumMap<>(Side.class);
 		this.resources = new EnumMap<>(Side.class);
 		this.labelProviders = new EnumMap<>(Side.class);
-		this.differencer = SiLiftCompareDifferencer.getInstance();
-		this.config = config;
 
 		setContentProvider(new SiLiftContentMergeViewerContentProvider(config));
 		buildControl(parent);
@@ -96,7 +99,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 				}
 			}
 		};
-		differencer.addModelViewerAdapter(modelViewerAdapter);
+		config.getDifferencer().addModelViewerAdapter(modelViewerAdapter);
 
 		propertyChangeListener = new IPropertyChangeListener() {
 			@Override
@@ -105,7 +108,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 					refresh();
 
 					// switch dirty states
-					// TODO: check if this is required
 					boolean leftDirty = isLeftDirty();
 					setLeftDirty(isRightDirty());
 					setRightDirty(leftDirty);
@@ -142,12 +144,22 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	 */
 	@Override
 	protected void createControls(Composite composite) {
+		if(selectionListener == null) {
+			selectionListener = new ISelectionChangedListener() {
+				@Override
+				public void selectionChanged(SelectionChangedEvent event) {
+					PropertySheetPageHelper.notifiySelectionChanged(config.getContainer().getWorkbenchPart(), event.getSelection());
+				}
+			};
+		}
+
 		for(Side side : Side.values()) {
 			TreeViewer treeViewer = new TreeViewer(composite);
-			treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+			treeViewer.setContentProvider(contentProvider);
 			SiLiftContentMergeViewerLabelProvider labelProvider =
-					new SiLiftContentMergeViewerLabelProvider(adapterFactory, treeViewer, selectionProvider);
+					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(), treeViewer, selectionProvider);
 			treeViewer.setLabelProvider(labelProvider);
+			treeViewer.addSelectionChangedListener(selectionListener);
 
 			treeViewers.put(side, treeViewer);
 			labelProviders.put(side, labelProvider);
@@ -246,14 +258,19 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 
 	@Override
 	protected void handleDispose(DisposeEvent event) {
-		if(differencer != null && modelViewerAdapter != null) {
-			differencer.removeModelViewerAdapter(modelViewerAdapter);
-			differencer = null;
+		if(config.getDifferencer() != null && modelViewerAdapter != null) {
+			config.getDifferencer().removeModelViewerAdapter(modelViewerAdapter);
 			modelViewerAdapter = null;
 		}
 		if(propertyChangeListener != null) {
 			config.removePropertyChangeListener(propertyChangeListener);
 			propertyChangeListener = null;
+		}
+		if(selectionListener != null) {
+			for(TreeViewer treeViewer : treeViewers.values()) {
+				treeViewer.removeSelectionChangedListener(selectionListener);
+			}
+			selectionListener = null;
 		}
 		super.handleDispose(event);
 	}

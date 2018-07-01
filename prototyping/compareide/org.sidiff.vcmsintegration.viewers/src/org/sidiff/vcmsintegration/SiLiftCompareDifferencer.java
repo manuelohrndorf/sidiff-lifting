@@ -29,7 +29,6 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.matching.input.InputModels;
-import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.util.PatchingUtils;
@@ -41,16 +40,12 @@ import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.remote.CompareResource.Side;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
+/**
+ * 
+ * @author Robert Müller
+ *
+ */
 public class SiLiftCompareDifferencer {
-
-	private static SiLiftCompareDifferencer instance;
-
-	public static SiLiftCompareDifferencer getInstance() {
-		if(instance == null) {
-			instance = new SiLiftCompareDifferencer();
-		}
-		return instance;
-	}
 
 	private CompareResource left;
 	private CompareResource right;
@@ -65,11 +60,6 @@ public class SiLiftCompareDifferencer {
 	 * The PatchEngine is required to apply OperationInvocations. May be null.
 	 */
 	private PatchEngine patchEngine;
-
-	/**
-	 * PatchingSettings used to create the PatchEngine. May be null.
-	 */
-	private PatchingSettings patchingSettings;
 
 	/**
 	 * If present, the symmetric difference is stored in this variable. Once the
@@ -90,10 +80,15 @@ public class SiLiftCompareDifferencer {
 	private List<IModelViewerAdapter> modelViewerAdapters;
 	private List<IDifferenceViewerAdapter> differenceViewerAdapters;
 
-	private SiLiftCompareDifferencer() {
+	public SiLiftCompareDifferencer(SiLiftCompareConfiguration config) {
 		this.modelViewerAdapters = new LinkedList<>();
 		this.differenceViewerAdapters = new LinkedList<>();
-		this.propertyChangeListener = new IPropertyChangeListener() {
+		this.propertyChangeListener = createPropertyChangeListener();
+		this.setConfig(config);
+	}
+
+	protected IPropertyChangeListener createPropertyChangeListener() {
+		return new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				if(event.getProperty() == SiLiftCompareConfiguration.MIRRORED) {
@@ -180,7 +175,7 @@ public class SiLiftCompareDifferencer {
 		PatchingSettings patchingSettings = createPatchingSettings();
 
 		// create PatchEngine
-		PatchEngine patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
+		patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
 
 		// init modified detector
 		IModifiedDetector modifiedDetector = patchingSettings.getModifiedDetector();
@@ -192,10 +187,6 @@ public class SiLiftCompareDifferencer {
 				Activator.logError("SiLiftCompareDifferencer could not initialize modified detector", e);
 			}
 		}
-
-		// set global variables
-		this.patchingSettings = patchingSettings;
-		this.patchEngine = patchEngine;
 	}
 
 	protected PatchingSettings createPatchingSettings() throws CoreException {
@@ -232,6 +223,13 @@ public class SiLiftCompareDifferencer {
 		return patchingSettings;
 	}
 
+	public void applyPatch() {
+		patchEngine.applyPatch(false);
+		notifyRefreshDifference();
+		notifyDirtyResource(Side.LEFT, true);
+		notifyRefreshResource(Side.LEFT);
+	}
+
 	/**
 	 * Applies the specified OperationInvocation after all its predecessors have
 	 * been executed.
@@ -239,16 +237,17 @@ public class SiLiftCompareDifferencer {
 	 * @param operationInvocation OperationInvocation to apply.
 	 * @throws Exception if the execution of the operation failed
 	 */
-	public void applyOperationInvocation(OperationInvocation operationInvocation) throws Exception {
+	public void applyOperation(OperationInvocation operationInvocation) throws Exception {
 		try {
-			applyOperationInvocationImpl(operationInvocation);
+			applyOperationImpl(operationInvocation);
 		} finally {
+			notifyRefreshDifference();
 			notifyDirtyResource(Side.LEFT, true);
 			notifyRefreshResource(Side.LEFT);
 		}
 	}
 
-	protected void applyOperationInvocationImpl(OperationInvocation operationInvocation) throws Exception {
+	protected void applyOperationImpl(OperationInvocation operationInvocation) throws Exception {
 		// check if OperationInvocation has any predecessors
 		if (operationInvocation.getPredecessors().size() > 0) {
 			// check if the predecessors have been executed
@@ -257,13 +256,13 @@ public class SiLiftCompareDifferencer {
 				// and apply the predecessor if the status is not passed
 				if (operationInvocation != predecessor
 						&& patchEngine.getOperationManager().getStatusWrapper(predecessor).getStatus() != OperationInvocationStatus.PASSED) {
-					applyOperationInvocationImpl(predecessor);
+					applyOperationImpl(predecessor);
 				}
 			}
 		}
 
 		// apply OperationInvocation
-		patchEngine.apply(operationInvocation, patchingSettings.getExecutionMode() == ExecutionMode.INTERACTIVE);
+		patchEngine.apply(operationInvocation, true);
 
 		// check if apply was successful
 		OperationInvocationWrapper wrapper = patchEngine.getOperationManager().getStatusWrapper(operationInvocation);
@@ -272,6 +271,33 @@ public class SiLiftCompareDifferencer {
 			if(e == null)
 				throw new RuntimeException("Operation could not be executed: " + wrapper.getStatus());
 			throw e;
+		}
+	}
+
+	public void ignoreOperation(OperationInvocation operationInvocation) {
+		patchEngine.ignore(operationInvocation);
+		notifyRefreshDifference();
+	}
+
+	public void unignoreOperation(OperationInvocation operationInvocation) {
+		patchEngine.unignore(operationInvocation);
+		notifyRefreshDifference();
+	}
+
+	public void revertOperation(OperationInvocation operationInvocation) throws Exception {
+		try {
+			patchEngine.revert(operationInvocation);
+			OperationInvocationWrapper wrapper = patchEngine.getOperationManager().getStatusWrapper(operationInvocation);
+			if(wrapper.getStatus() != OperationInvocationStatus.REVERTED) {
+				Exception e = wrapper.getExecutionError();
+				if(e == null)
+					throw new RuntimeException("Operation could not be reverted: " + wrapper.getStatus());
+				throw e;
+			}
+		} finally {
+			notifyRefreshDifference();
+			notifyDirtyResource(Side.LEFT, true);
+			notifyRefreshResource(Side.LEFT);
 		}
 	}
 
