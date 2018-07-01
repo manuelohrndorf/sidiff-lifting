@@ -90,11 +90,15 @@ public class CompareResource {
 		replacement.setEditable(this.isEditable());
 
 		// create a complete copy of the resource
-		Resource res = new ResourceSetImpl().createResource(this.getURI());
-		Copier copier = new EcoreUtil.Copier();
-		res.getContents().addAll(copier.copyAll(this.getResource().getContents()));
-		copier.copyReferences();
-		replacement.setResource(res);
+		if(this.getURI() != null) {
+			Resource res = new ResourceSetImpl().createResource(this.getURI());
+			Copier copier = new EcoreUtil.Copier();
+			res.getContents().addAll(copier.copyAll(this.getResource().getContents()));
+			copier.copyReferences();
+			replacement.setResource(res);
+		} else {
+			replacement.setResource(null);
+		}
 
 		return replacement;
 	}
