@@ -5,6 +5,11 @@ import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 
+/**
+ * 
+ * @author Robert Müller
+ *
+ */
 public class IgnoreOperationAction extends AbstractOperationWrapperAction {
 
 	public IgnoreOperationAction(ISelectionProvider selectionProvider, SiLiftCompareConfiguration config) {

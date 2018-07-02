@@ -11,7 +11,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 
 /**
- * 
+ * A utility class that contains functions for retrieving the property sheet page and changing its selection.
  * @author Robert Müller
  *
  */

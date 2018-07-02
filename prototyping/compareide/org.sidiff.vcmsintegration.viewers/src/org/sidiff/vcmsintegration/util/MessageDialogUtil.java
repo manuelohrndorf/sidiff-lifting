@@ -26,6 +26,12 @@ import org.sidiff.vcmsintegration.Activator;
  */
 public class MessageDialogUtil {
 
+	/**
+	 * Shows an error dialog for the given exception and logs the exception.
+	 * The title is determined by the type of the exception.
+	 * @param e the exception
+	 * @param message message to show, <code>null</code> to show the exception's message
+	 */
 	public static void showExceptionDialog(Throwable e, String message) {
 		String title;
 		if(e instanceof InvalidModelException) {

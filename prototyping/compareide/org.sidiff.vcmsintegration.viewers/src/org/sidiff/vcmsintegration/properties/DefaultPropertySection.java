@@ -5,7 +5,8 @@ import org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
- * 
+ * An {@link AdvancedPropertySection} that sets the property source
+ * provider of the page to a {@link CompareEditorPropertySourceProvider}.
  * @author Robert Müller
  *
  */

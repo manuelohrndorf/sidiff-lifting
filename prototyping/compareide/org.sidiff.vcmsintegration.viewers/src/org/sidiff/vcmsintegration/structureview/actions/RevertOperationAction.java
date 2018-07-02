@@ -10,6 +10,11 @@ import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
+/**
+ * 
+ * @author Robert Müller
+ *
+ */
 public class RevertOperationAction extends AbstractOperationWrapperAction {
 
 	public RevertOperationAction(ISelectionProvider selectionProvider, SiLiftCompareConfiguration config) {

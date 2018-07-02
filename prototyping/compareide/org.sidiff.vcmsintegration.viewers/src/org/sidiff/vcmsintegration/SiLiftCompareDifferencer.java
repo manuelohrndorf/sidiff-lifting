@@ -101,7 +101,7 @@ public class SiLiftCompareDifferencer {
 								notifyChangeResource(Side.LEFT, getLeft());
 								notifyChangeResource(Side.RIGHT, getRight());
 							} catch (InvalidModelException | NoCorrespondencesException | CoreException e) {
-								MessageDialogUtil.showExceptionDialog(e);
+								throw new InvocationTargetException(e);
 							} finally {
 								monitor.done();
 							}

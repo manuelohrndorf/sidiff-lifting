@@ -96,7 +96,15 @@ class CompareResourceLoader {
 			return;
 		}
 
-		// load the platform resource
+		loadPlatformResource(compRes);
+		URI uri = resolveURI(compRes);
+		loadEcoreResource(compRes, uri);
+		resolveEditability(compRes);
+	}
+
+	protected void loadPlatformResource(CompareResource compRes)
+			throws IOException, CoreException {
+		final ITypedElement typedElement = compRes.getTypedElement();
 		IResource platformResource = null;
 		for(IPlatformResourceLoader l : platformResourceLoaders) {
 			if(l.canHandle(typedElement)) {
@@ -111,8 +119,10 @@ class CompareResourceLoader {
 			platformResource = Adapters.adapt(typedElement, IResource.class);
 		}
 		compRes.setPlatformResource(platformResource);
+	}
 
-		// resolve uri for the ecore resource
+	protected URI resolveURI(CompareResource compRes) {
+		final ITypedElement typedElement = compRes.getTypedElement();
 		URI uri = null;
 		if(compRes.getPlatformResource() != null) {
 			// use the platform resource to resolve the uri
@@ -130,8 +140,12 @@ class CompareResourceLoader {
 				uri = URI.createURI(typedElement.getName());
 			}
 		}
+		return uri;
+	}
 
-		// load the ecore resource
+	protected void loadEcoreResource(CompareResource compRes, URI uri)
+			throws IOException, CoreException {
+		final ITypedElement typedElement = compRes.getTypedElement();
 		Resource resource = null;
 		for(IEcoreResourceLoader l : ecoreResourceLoaders) {
 			if(l.canHandle(typedElement)) {
@@ -140,8 +154,10 @@ class CompareResourceLoader {
 			}
 		}
 		compRes.setResource(resource);
+	}
 
-		// resolve editability of the compare resource
+	protected void resolveEditability(CompareResource compRes) {
+		final ITypedElement typedElement = compRes.getTypedElement();
 		for(IEditabilityResolver r : editabilityResolvers) {
 			if(r.canHandle(typedElement)) {
 				compRes.setEditable(r.isEditable(typedElement));
