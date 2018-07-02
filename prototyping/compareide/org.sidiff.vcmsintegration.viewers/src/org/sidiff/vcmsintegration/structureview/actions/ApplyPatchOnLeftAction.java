@@ -31,7 +31,7 @@ public class ApplyPatchOnLeftAction extends Action implements IPropertyChangeLis
 		this.config = config;
 		// TODO: the listener is not properly removed
 		this.config.addPropertyChangeListener(this);
-		setEnabled(true);
+		updateEnabledState();
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ApplyPatchOnLeftAction extends Action implements IPropertyChangeLis
 
 	public void updateEnabledState() {
 		setEnabled(config.getDisplayMode() == DisplayMode.ASYMMETRIC_DIFFERENCE
-				&& config.getDifferencer().getLeft().isEditable());
+				&& config.getDifferencer().getPatchEngine() != null);
 	}
 
 	@Override

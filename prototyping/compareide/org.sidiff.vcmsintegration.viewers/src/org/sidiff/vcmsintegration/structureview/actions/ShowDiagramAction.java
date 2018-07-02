@@ -25,7 +25,6 @@ import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
-import org.sidiff.vcmsintegration.remote.svn.SVNAccess;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
 
@@ -60,6 +59,7 @@ public class ShowDiagramAction extends Action {
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
 		this.contentProvider = contentProvider;
 		this.differencer = config.getDifferencer();
+		setEnabled(false);
 	}
 
 	/**
