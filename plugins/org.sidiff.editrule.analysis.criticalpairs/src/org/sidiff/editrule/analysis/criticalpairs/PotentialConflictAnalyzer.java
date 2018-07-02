@@ -171,8 +171,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorDeleteNodes, successorDeleteNodes);
 			
 			for (PotentialNodeConflict pnc : deleteUseNodePotCons) {
-				pnc.setSourceRule(successorEditRule);
-				pnc.setTargetRule(predecessorEditRule);
+				pnc.setSourceRule(predecessorEditRule);
+				pnc.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPNCs(deleteUseNodePotCons);
 		}
@@ -183,8 +183,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorDeleteNodes, successorPreserveNodes);
 			
 			for (PotentialNodeConflict pnc : deleteUseNodePotCons) {
-				pnc.setSourceRule(successorEditRule);
-				pnc.setTargetRule(predecessorEditRule);
+				pnc.setSourceRule(predecessorEditRule);
+				pnc.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPNCs(deleteUseNodePotCons);
 		}
@@ -195,8 +195,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorDeleteNodes, successorRequireNodes);
 			
 			for (PotentialNodeConflict pnc : useDeleteNodePotConsPAC) {
-				pnc.setSourceRule(successorEditRule);
-				pnc.setTargetRule(predecessorEditRule);
+				pnc.setSourceRule(predecessorEditRule);
+				pnc.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPNCs(useDeleteNodePotConsPAC);
 		}
@@ -207,8 +207,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorCreateNodes, successorForbidNodes);
 			
 			for (PotentialNodeConflict pnc : createForbidNodePotConsPAC) {
-				pnc.setSourceRule(successorEditRule);
-				pnc.setTargetRule(predecessorEditRule);
+				pnc.setSourceRule(predecessorEditRule);
+				pnc.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPNCs(createForbidNodePotConsPAC);
 		}
@@ -271,8 +271,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorDeleteEdges, successorDeleteEdges);
 			
 			for (PotentialEdgeConflict pec : useDeleteEdgePotCons) {
-				pec.setSourceRule(successorEditRule);
-				pec.setTargetRule(predecessorEditRule);
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPECs(useDeleteEdgePotCons);
 		}
@@ -283,8 +283,8 @@ public abstract class PotentialConflictAnalyzer {
 					successorPreserveEdges);
 
 			for (PotentialEdgeConflict pec : useDeleteEdgePotCons) {
-				pec.setSourceRule(successorEditRule);
-				pec.setTargetRule(predecessorEditRule);
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPECs(useDeleteEdgePotCons);
 		}
@@ -295,8 +295,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorDeleteEdges, successorRequireEdges);
 			
 			for (PotentialEdgeConflict pec : useDeleteEdgePotConsPAC) {
-				pec.setSourceRule(successorEditRule);
-				pec.setTargetRule(predecessorEditRule);
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPECs(useDeleteEdgePotConsPAC);
 		}
@@ -358,9 +358,9 @@ public abstract class PotentialConflictAnalyzer {
 			Set<PotentialAttributeConflict> changeUseAttributePotCons = findChangeUses_Attribute(
 					predecessorChangingAttributes, successorUsingAttributes);
 			
-			for (PotentialAttributeConflict pad : changeUseAttributePotCons) {
-				pad.setSourceRule(successorEditRule);
-				pad.setTargetRule(predecessorEditRule);
+			for (PotentialAttributeConflict pac : changeUseAttributePotCons) {
+				pac.setSourceRule(predecessorEditRule);
+				pac.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPACs(changeUseAttributePotCons);
 		}
@@ -371,8 +371,8 @@ public abstract class PotentialConflictAnalyzer {
 					predecessorChangingAttributes, successorRequireAttributes);
 			
 			for (PotentialAttributeConflict pac : changeUseAttributePotConsPAC) {
-				pac.setSourceRule(successorEditRule);
-				pac.setTargetRule(predecessorEditRule);
+				pac.setSourceRule(predecessorEditRule);
+				pac.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPACs(changeUseAttributePotConsPAC);
 		}
@@ -454,8 +454,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Delete-Use conflict found
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 
-					potCon.setSourceNode(successorNode);
-					potCon.setTargetNode(predecessorNode);
+					potCon.setSourceNode(predecessorNode);
+					potCon.setTargetNode(successorNode);
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 
 					potCons.add(potCon);
@@ -487,8 +487,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Delete-Use conflict found
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 
-					potCon.setSourceNode(successorNode.getLhsNode());
-					potCon.setTargetNode(predecessorNode);
+					potCon.setSourceNode(predecessorNode);
+					potCon.setTargetNode(successorNode.getLhsNode());
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 
 					potCons.add(potCon);
@@ -577,8 +577,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Delete-Use conflict found
 					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
 
-					potDep.setSourceNode(successorNode);
-					potDep.setTargetNode(predecessorNode);
+					potDep.setSourceNode(predecessorNode);
+					potDep.setTargetNode(successorNode);
 					potDep.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 
 					potCons.add(potDep);
@@ -637,8 +637,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Create-Forbid conflict found
 					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
 
-					potDep.setSourceNode(successorNode);
-					potDep.setTargetNode(predecessorNode);
+					potDep.setSourceNode(predecessorNode);
+					potDep.setTargetNode(successorNode);
 					potDep.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID);
 
 					potCons.add(potDep);
@@ -1071,8 +1071,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Delete-Use dependence found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
 
-					potCon.setSourceEdge(successorEdge.getLhsEdge());
-					potCon.setTargetEdge(predecessorEdge);
+					potCon.setSourceEdge(predecessorEdge);
+					potCon.setTargetEdge(successorEdge.getLhsEdge());
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 					
 					potCons.add(potCon);
@@ -1124,8 +1124,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Delete-Use conflict found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
 
-					potCon.setSourceEdge(successorEdge);
-					potCon.setTargetEdge(predecessorEdge);
+					potCon.setSourceEdge(predecessorEdge);
+					potCon.setTargetEdge(successorEdge);
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
 					
 					potCons.add(potCon);
@@ -1690,8 +1690,8 @@ public abstract class PotentialConflictAnalyzer {
 					// Change-Use dependence found
 					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
 
-					potcon.setSourceAttribute(lhsSuccessorAttribute);
-					potcon.setTargetAttribute(rhsPredecessorAttribute);
+					potcon.setSourceAttribute(rhsPredecessorAttribute);
+					potcon.setTargetAttribute(lhsSuccessorAttribute);
 					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_USE);
 
 					potConss.add(potcon);
