@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -495,21 +496,53 @@ public class HenshinInterpreterView extends ViewPart {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void updateArgumentCandidates() {
 		argumentCandidates.clear();
 		for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
-			if(argumentCandidates.get(eObject.eClass()) == null) {
-				argumentCandidates.put(eObject.eClass(), new ArrayList<EObject>());
-			}
-			argumentCandidates.get(eObject.eClass()).add(eObject);
-			for(EClass eClass : eObject.eClass().getESuperTypes()) {
-				if(argumentCandidates.get(eClass) == null) {
-					argumentCandidates.put(eClass, new ArrayList<EObject>());
+			addArgumentCandidates(eObject);
+			for(EReference eReference : eObject.eClass().getEAllReferences()) {
+				if(!eReference.isDerived()) {
+					Object target = eObject.eGet(eReference);
+					if(target != null) {
+						if(eReference.isMany()) {
+							if(target instanceof List) {
+								List<EObject> eObjects = (List<EObject>)target; 
+								for(EObject tgt : eObjects) {
+									if(tgt.eResource() != null && !tgt.eResource().equals(eObject.eResource())) {
+										addArgumentCandidates(tgt);
+									}
+									
+								}
+							}
+						}else {
+							EObject tgt = (EObject) target;
+							if(tgt.eResource() != null && !tgt.eResource().equals(eObject.eResource())) {
+								addArgumentCandidates(tgt);
+							}
+						}
+					}
 				}
-				argumentCandidates.get(eClass).add(eObject);
 			}
 			
+		}
+	}
+	
+	private void addArgumentCandidates(EObject eObject) {
+		if(argumentCandidates.get(eObject.eClass()) == null) {
+			argumentCandidates.put(eObject.eClass(), new ArrayList<EObject>());
+		}
+		if(!argumentCandidates.get(eObject.eClass()).contains(eObject)) {
+			argumentCandidates.get(eObject.eClass()).add(eObject);
+		}
+		for(EClass eClass : eObject.eClass().getESuperTypes()) {
+			if(argumentCandidates.get(eClass) == null) {
+				argumentCandidates.put(eClass, new ArrayList<EObject>());
+			}
+			if(!argumentCandidates.get(eClass).contains(eObject)) {
+				argumentCandidates.get(eClass).add(eObject);
+			}
 		}
 	}
 }
