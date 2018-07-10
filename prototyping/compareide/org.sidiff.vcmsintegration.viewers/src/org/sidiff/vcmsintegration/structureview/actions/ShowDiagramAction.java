@@ -1,15 +1,12 @@
 package org.sidiff.vcmsintegration.structureview.actions;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Map;
 
-import org.eclipse.core.runtime.Assert;
+import org.eclipse.e4.ui.model.application.ui.basic.MBasicFactory;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
-import org.eclipse.e4.ui.model.application.ui.basic.impl.BasicFactoryImpl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
@@ -27,6 +24,7 @@ import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
 import org.sidiff.vcmsintegration.remote.CompareResource;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
+import org.sidiff.vcmsintegration.util.MessageDialogUtil;
 
 /**
  * This action tries to open diagram files corresponding with the
@@ -37,84 +35,106 @@ import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerConten
  * 
  */
 public class ShowDiagramAction extends Action {
-	
-	/**
-	 * Provides {@link CompareResource} for the two given input resources that
-	 * are being compared.
-	 */
-	private SiLiftStructureMergeViewerContentProvider contentProvider;
 
 	private SiLiftCompareDifferencer differencer;
 
 	/**
-	 * Creates a new {@link ShowDiagramAction} with a
-	 * {@link SiLiftStructureMergeViewerContentProvider} and sets the description
+	 * Creates a new {@link ShowDiagramAction} and sets the description
 	 * and icon for the toolbar used in the {@link SiLiftStructureMergeViewer}.
 	 * 
 	 * @param contentProvider
 	 */
-	public ShowDiagramAction(SiLiftStructureMergeViewerContentProvider contentProvider, SiLiftCompareConfiguration config) {
-		Assert.isNotNull(contentProvider);
+	public ShowDiagramAction(SiLiftCompareConfiguration config) {
 		this.setText("Open Diagram");
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
-		this.contentProvider = contentProvider;
 		this.differencer = config.getDifferencer();
-		setEnabled(false);
 	}
 
 	/**
-	 * The main implementation on the {@link ShowDiagramAction}.
+	 * The main implementation of the {@link ShowDiagramAction}.
 	 */
 	@Override
 	public void run() {
-		// get the compare resources
-		CompareResource left = differencer.getLeft();
-		CompareResource right = differencer.getRight();
+		CompareResource left = differencer.getModifiedLeft();
+		CompareResource right = differencer.getModifiedRight();
 		CompareResource ancestor = differencer.getAncestor();
+		System.out.println("CompareResource:");
+		System.out.println("  left:     " + left);
+		System.out.println("  right:    " + right);
+		System.out.println("  ancestor: " + ancestor);
 
-		// the show diagram action does not support git
-		// TODO: is this still a problem?
-		/*if (left.isGit() || right.isGit()) {
-			MessageDialog.openWarning(null, "Open Diagram", "Remote Resources in Git Repositories are not supported!");
-			return;
-		}*/
-
-		// get the uris
-		URI uriLeft = left.getURI();
-		URI uriRight = right.getURI();
-		URI uriAncestor = ancestor.getURI();
-
-		// get the editor integration for given uris
 		IntegrationEditorAccess access = IntegrationEditorAccess.getInstance();
-		IEditorIntegration integrationLeft = access.getIntegrationEditorForModelOrDiagramFile(uriLeft);
-		IEditorIntegration integrationRight = access.getIntegrationEditorForModelOrDiagramFile(uriRight);
+		IEditorIntegration integrationLeft = null;
+		if(left.getResource() != null) {
+			integrationLeft = access.getIntegrationEditorForModel(left.getResource());
+		}
+		IEditorIntegration integrationRight = null;
+		if(right.getResource() != null) {
+			integrationRight = access.getIntegrationEditorForModel(right.getResource());
+		}
 		IEditorIntegration integrationAncestor = null;
-		if (uriAncestor != null) {
-			integrationAncestor = access.getIntegrationEditorForModelOrDiagramFile(uriAncestor);
+		if(ancestor.getResource() != null) {
+			integrationAncestor = access.getIntegrationEditorForModel(ancestor.getResource());
+		}
+		System.out.println("IEditorIntegration:");
+		System.out.println("  left:     " + integrationLeft);
+		System.out.println("  right:    " + integrationRight);
+		System.out.println("  ancestor: " + integrationAncestor);
+		if(integrationLeft == null || integrationRight == null) {
+			MessageDialogUtil.showErrorDialog("Diagram not supported", "No suitable diagram or editor integration was found.");
+			return;
 		}
 
-		try {
-			uriLeft = getURIForCompareResource(left, integrationLeft.getFileExtensions());
-			uriRight = getURIForCompareResource(right, integrationRight.getFileExtensions());
-			if(integrationAncestor != null) {
-				uriAncestor = getURIForCompareResource(ancestor, integrationAncestor.getFileExtensions());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		URI uriLeft = left.resolveRelatedFile(integrationLeft.getFileExtensions().get("diagram"));
+		URI uriRight = right.resolveRelatedFile(integrationRight.getFileExtensions().get("diagram"));
+		URI uriAncestor = null;
+		if(integrationAncestor != null) {
+			uriAncestor = ancestor.resolveRelatedFile(integrationAncestor.getFileExtensions().get("diagram"));
 		}
+		System.out.println("URI:");
+		System.out.println("  left:     " + uriLeft);
+		System.out.println("  right:    " + uriRight);
+		System.out.println("  ancestor: " + uriAncestor);
 
-		// open the diagrams
-		IEditorPart first = integrationLeft.openDiagramForModel(uriLeft);
-		IEditorPart second = integrationRight.openDiagramForModel(uriRight);
-
-		// TODO: first and second might be null here, improve general error handling of actions
+		IEditorPart partLeft = integrationLeft.openDiagram(uriLeft);
+		IEditorPart partRight = integrationRight.openDiagram(uriRight);
+		IEditorPart partAncestor = null;
+		if(integrationAncestor != null && uriAncestor != null) {
+			partAncestor = integrationAncestor.openDiagram(uriAncestor);
+		}
+		System.out.println("IEditorPart:");
+		System.out.println("  left:     " + partLeft);
+		System.out.println("  right:    " + partRight);
+		System.out.println("  ancestor: " + partAncestor);
+		if(partLeft == null || partRight == null) {
+			MessageDialogUtil.showErrorDialog("Failed to open editors", "Diagram editor parts could not be created.");
+			return;
+		}
 
 		// Changes the tab names via reflection
+		changePartNames(partLeft, partRight, partAncestor);
+
+		/*first.addPropertyListener(new IPropertyListener() {
+			@Override
+			public void propertyChanged(Object source, int propId) {
+				ViewerRegistry.getInstance().getStructureMergeViewer().onRefreshNotify();
+			}
+		});*/
+
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(partLeft);
+
+		positionEditorParts(partLeft, partRight);
+	}
+
+	protected void changePartNames(IEditorPart partLeft, IEditorPart partRight, IEditorPart partAncestor) {
 		try {
 			Method method = WorkbenchPart.class.getDeclaredMethod("setPartName", String.class);
 			method.setAccessible(true);
-			method.invoke(first, "Left");
-			method.invoke(second, "Right");
+			method.invoke(partLeft, "Left");
+			method.invoke(partRight, "Right");
+			if(partAncestor != null) {
+				method.invoke(partAncestor, "Ancestor");
+			}
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -126,21 +146,11 @@ public class ShowDiagramAction extends Action {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
+	}
 
-		// TODO: the part is not actually shown?
-		if (integrationAncestor != null && uriAncestor != null)
-			integrationAncestor.openDiagramForModel(uriAncestor);
-
-		/*first.addPropertyListener(new IPropertyListener() {
-			@Override
-			public void propertyChanged(Object source, int propId) {
-				ViewerRegistry.getInstance().getStructureMergeViewer().onRefreshNotify();
-			}
-		});*/
-
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(first);
-
-		WorkbenchPage page = (WorkbenchPage) first.getSite().getPage();
+	// TODO: does it work as expected? https://dzone.com/articles/programmatically-split-editor-
+	protected void positionEditorParts(IEditorPart partLeft, IEditorPart partRight) {
+		WorkbenchPage page = (WorkbenchPage) partLeft.getSite().getPage();
 		EPartService partService = page.getCurrentPerspective().getContext().get(EPartService.class);
 		MPartSashContainerElement relTo = (MPartSashContainerElement) partService.getActivePart().getParent();
 
@@ -163,13 +173,13 @@ public class ShowDiagramAction extends Action {
 		}
 
 		MPart partA = null;
-		if (first != null) {
-			partA = ((EditorSite) first.getSite()).getModel();
+		if (partLeft != null) {
+			partA = ((EditorSite) partLeft.getSite()).getModel();
 		}
 
 		MPart partB = null;
-		if (second != null) {
-			partB = ((EditorSite) second.getSite()).getModel();
+		if (partRight != null) {
+			partB = ((EditorSite) partRight.getSite()).getModel();
 		}
 
 		if (partA != null)
@@ -177,10 +187,9 @@ public class ShowDiagramAction extends Action {
 		if (partB != null)
 			partB.setToBeRendered(true);
 
-		EModelService modelService = page.getCurrentPerspective().getContext().get(EModelService.class);
 
 		if (toInsertA == null) {
-			toInsertA = BasicFactoryImpl.eINSTANCE.createPartStack();
+			toInsertA = MBasicFactory.INSTANCE.createPartStack();
 		}
 
 		MPartStack toInsertAStack = (MPartStack) toInsertA;
@@ -190,7 +199,7 @@ public class ShowDiagramAction extends Action {
 			toInsertAStack.setSelectedElement(partA);
 
 		if (toInsertB == null) {
-			toInsertB = BasicFactoryImpl.eINSTANCE.createPartStack();
+			toInsertB = MBasicFactory.INSTANCE.createPartStack();
 		}
 
 		MPartStack toInsertBStack = (MPartStack) toInsertB;
@@ -199,34 +208,11 @@ public class ShowDiagramAction extends Action {
 		if (partB != null)
 			toInsertBStack.setSelectedElement(partB);
 
+		EModelService modelService = page.getCurrentPerspective().getContext().get(EModelService.class);
 		if (insertA)
 			modelService.insert(toInsertA, relTo, EModelService.RIGHT_OF, 0.25f);
 		if (insertB)
 			modelService.insert(toInsertB, toInsertA, EModelService.BELOW, 0.5f);
-	}
-
-	/**
-	 * Depending on the type of the {@link CompareResource} this method returns
-	 * the {@link URI} of a local or temporary file. Temporary files are
-	 * serialized by the {@link SVNAccess} class.
-	 * 
-	 * @param compareResource
-	 * @param all file types required by the {@link IEditorIntegration}
-	 * @return the {@link URI} of the modelFile
-	 * @throws IOException
-	 */
-	private URI getURIForCompareResource(CompareResource compareResource, Map<String, String> extensions) throws IOException {
-		// TODO: implementation of this method???
-		return compareResource.getResource().getURI();
-		/*if (compareResource.isLocal()) {
-			return URI.createPlatformResourceURI(compareResource.getResource().getURI().toString(), true);
-		} else if (compareResource.isSvn()) {
-			IRepositoryResource repositoryResource = ((IResourcePropertyProvider) compareResource.getTypedElement()).getRemote();
-			SVNAccess access = new SVNAccess(repositoryResource);
-			return access.serializeRepositoryResource(extensions);
-		} else {
-			return null;
-		}*/
 	}
 
 	public void updateEnabledState() {

@@ -94,7 +94,7 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 
 	protected void initToolbarActions(ToolBarManager toolbarManager) {
 		toolbarManager.add(new ApplyPatchOnLeftAction(config));
-		toolbarManager.add(new ShowDiagramAction(contentProvider, config));
+		toolbarManager.add(new ShowDiagramAction(config));
 		toolbarManager.add(new SwitchDisplayModeAction(this, config));
 		toolbarManager.update(true);
 	}
