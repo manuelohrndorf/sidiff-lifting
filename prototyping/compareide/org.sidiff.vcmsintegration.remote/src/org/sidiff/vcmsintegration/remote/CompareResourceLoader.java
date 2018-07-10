@@ -31,6 +31,7 @@ class CompareResourceLoader {
 	private static final String ELEMENT_ECORE_RESOURCE_LOADER = "ecoreResourceLoader";
 	private static final String ELEMENT_EDITABILITY_RESOLVER = "editabilityResolver";
 	private static final String ELEMENT_URI_RESOLVER = "uriResolver";
+	private static final String ELEMENT_RELATED_FILE_RESOLVER = "relatedFileResolver";
 
 	private static CompareResourceLoader instance;
 
@@ -46,6 +47,7 @@ class CompareResourceLoader {
 	private List<IEcoreResourceLoader> ecoreResourceLoaders;
 	private List<IEditabilityResolver> editabilityResolvers;
 	private List<IURIResolver> uriResolvers;
+	private List<IRelatedFileResolver> relatedFileResolvers;
 
 	private CompareResourceLoader() {
 		initializeRemoteLoaders();
@@ -56,6 +58,7 @@ class CompareResourceLoader {
 		ecoreResourceLoaders = new ArrayList<>();
 		editabilityResolvers = new ArrayList<>();
 		uriResolvers = new ArrayList<>();
+		relatedFileResolvers = new ArrayList<>();
 
 		for(IConfigurationElement element :
 			Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID)) {
@@ -76,6 +79,10 @@ class CompareResourceLoader {
 
 					case ELEMENT_URI_RESOLVER:
 						uriResolvers.add((IURIResolver)executableExtension);
+						break;
+
+					case ELEMENT_RELATED_FILE_RESOLVER:
+						relatedFileResolvers.add((IRelatedFileResolver)executableExtension);
 						break;
 				}
 			} catch(CoreException e) {
@@ -100,6 +107,7 @@ class CompareResourceLoader {
 		URI uri = resolveURI(compRes);
 		loadEcoreResource(compRes, uri);
 		resolveEditability(compRes);
+		loadRelatedFileResolver(compRes);
 	}
 
 	protected void loadPlatformResource(CompareResource compRes)
@@ -161,6 +169,16 @@ class CompareResourceLoader {
 		for(IEditabilityResolver r : editabilityResolvers) {
 			if(r.canHandle(typedElement)) {
 				compRes.setEditable(r.isEditable(typedElement));
+				break;
+			}
+		}
+	}
+
+	protected void loadRelatedFileResolver(CompareResource compRes) {
+		final ITypedElement typedElement = compRes.getTypedElement();
+		for(IRelatedFileResolver r : relatedFileResolvers) {
+			if(r.canHandle(typedElement)) {
+				compRes.setRelatedFileResolver(r);
 				break;
 			}
 		}

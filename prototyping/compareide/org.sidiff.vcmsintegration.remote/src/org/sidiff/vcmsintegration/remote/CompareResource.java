@@ -26,12 +26,14 @@ public class CompareResource {
 	private Resource resource; // can be null for empty resources
 	private IResource platformResource; // can be null if resolution not possible
 	private boolean editable;
+	private IRelatedFileResolver relatedFileResolver;
 
 	CompareResource(ITypedElement typedElement) {
 		this.typedElement = typedElement;
 		this.resource = null;
 		this.platformResource = null;
 		this.editable = false;
+		this.relatedFileResolver = null;
 	}
 
 	public ITypedElement getTypedElement() {
@@ -78,6 +80,27 @@ public class CompareResource {
 		this.editable = editable;
 	}
 
+	IRelatedFileResolver getRelatedFileResolver() {
+		return relatedFileResolver;
+	}
+
+	void setRelatedFileResolver(IRelatedFileResolver relatedFileResolver) {
+		this.relatedFileResolver = relatedFileResolver;
+	}
+
+	public URI resolveRelatedFile(String extension) {
+		if(this.getRelatedFileResolver() != null) {
+			URI resolved = this.getRelatedFileResolver().resolveRelatedFile(this.getTypedElement(), extension);
+			if(resolved != null) {
+				return resolved;
+			}
+		}
+		if(getURI() != null) {
+			return getURI().trimFileExtension().appendFileExtension(extension);
+		}
+		return null;
+	}
+
 	public static CompareResource load(ITypedElement typedElement) throws IOException, CoreException {
 		CompareResource compRes = new CompareResource(typedElement);
 		CompareResourceLoader.getInstance().load(compRes);
@@ -88,6 +111,7 @@ public class CompareResource {
 		CompareResource replacement = new CompareResource(this.getTypedElement());
 		replacement.setPlatformResource(this.getPlatformResource());
 		replacement.setEditable(this.isEditable());
+		replacement.setRelatedFileResolver(this.getRelatedFileResolver());
 
 		// create a complete copy of the resource
 		if(this.getURI() != null) {
@@ -110,7 +134,8 @@ public class CompareResource {
 		b.append("typedElement=").append(typedElement).append(", ");
 		b.append("platformResource=").append(platformResource).append(", ");
 		b.append("ecoreResource=").append(resource).append(", ");
-		b.append("editable=").append(editable);
+		b.append("editable=").append(editable).append(", ");
+		b.append("relatedFileResolver=").append(relatedFileResolver);
 		b.append("]");
 		return b.toString();
 	}

@@ -22,6 +22,7 @@
             <element ref="editabilityResolver"/>
             <element ref="platformResourceLoader"/>
             <element ref="uriResolver"/>
+            <element ref="relatedFileResolver"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -104,6 +105,21 @@
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.sidiff.vcmsintegration.remote.IURIResolver"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="relatedFileResolver">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.sidiff.vcmsintegration.remote.IRelatedFileResolver"/>
                </appinfo>
             </annotation>
          </attribute>
