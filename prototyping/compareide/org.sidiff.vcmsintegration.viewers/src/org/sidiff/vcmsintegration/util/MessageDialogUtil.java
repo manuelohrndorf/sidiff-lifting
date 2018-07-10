@@ -2,6 +2,7 @@ package org.sidiff.vcmsintegration.util;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -49,7 +50,13 @@ public class MessageDialogUtil {
 		}
 
 		Activator.logError(title + "/" + message, e);
-		ErrorDialog.openError(getShell(), title, message, new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+		IStatus status;
+		if(e instanceof CoreException) {
+			status = ((CoreException)e).getStatus();
+		} else {
+			status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e);
+		}
+		ErrorDialog.openError(getShell(), title, message, status);
 	}
 
 	public static void showExceptionDialog(Throwable e) {

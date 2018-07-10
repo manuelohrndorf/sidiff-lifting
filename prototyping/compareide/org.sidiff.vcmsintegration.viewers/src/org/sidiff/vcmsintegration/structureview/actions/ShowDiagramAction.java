@@ -3,6 +3,11 @@ package org.sidiff.vcmsintegration.structureview.actions;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.ui.model.application.ui.basic.MBasicFactory;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartSashContainerElement;
@@ -11,6 +16,7 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
@@ -21,7 +27,9 @@ import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
 import org.sidiff.vcmsintegration.SiLiftCompareConfiguration;
 import org.sidiff.vcmsintegration.SiLiftCompareDifferencer;
+import org.sidiff.vcmsintegration.SiLiftCompareDifferencer.IModelViewerAdapter;
 import org.sidiff.vcmsintegration.remote.CompareResource;
+import org.sidiff.vcmsintegration.remote.CompareResource.Side;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewer;
 import org.sidiff.vcmsintegration.structureview.SiLiftStructureMergeViewerContentProvider;
 import org.sidiff.vcmsintegration.util.MessageDialogUtil;
@@ -48,6 +56,22 @@ public class ShowDiagramAction extends Action {
 		this.setText("Open Diagram");
 		this.setImageDescriptor(Activator.getImageDescriptor(Activator.IMAGE_SHOW_DIAGRAM));
 		this.differencer = config.getDifferencer();
+		this.differencer.addModelViewerAdapter(new IModelViewerAdapter() {
+			@Override
+			public void setDirty(Side side, boolean dirty) {
+				// do nothing
+			}
+
+			@Override
+			public void onRefresh(Side side) {
+				// do nothing
+			}
+
+			@Override
+			public void onChange(Side side, CompareResource compRes) {
+				updateEnabledState();
+			}
+		});
 	}
 
 	/**
@@ -55,101 +79,94 @@ public class ShowDiagramAction extends Action {
 	 */
 	@Override
 	public void run() {
-		CompareResource left = differencer.getModifiedLeft();
-		CompareResource right = differencer.getModifiedRight();
-		CompareResource ancestor = differencer.getAncestor();
-		System.out.println("CompareResource:");
-		System.out.println("  left:     " + left);
-		System.out.println("  right:    " + right);
-		System.out.println("  ancestor: " + ancestor);
-
-		IntegrationEditorAccess access = IntegrationEditorAccess.getInstance();
-		IEditorIntegration integrationLeft = null;
-		if(left.getResource() != null) {
-			integrationLeft = access.getIntegrationEditorForModel(left.getResource());
-		}
-		IEditorIntegration integrationRight = null;
-		if(right.getResource() != null) {
-			integrationRight = access.getIntegrationEditorForModel(right.getResource());
-		}
-		IEditorIntegration integrationAncestor = null;
-		if(ancestor.getResource() != null) {
-			integrationAncestor = access.getIntegrationEditorForModel(ancestor.getResource());
-		}
-		System.out.println("IEditorIntegration:");
-		System.out.println("  left:     " + integrationLeft);
-		System.out.println("  right:    " + integrationRight);
-		System.out.println("  ancestor: " + integrationAncestor);
-		if(integrationLeft == null || integrationRight == null) {
-			MessageDialogUtil.showErrorDialog("Diagram not supported", "No suitable diagram or editor integration was found.");
-			return;
-		}
-
-		URI uriLeft = left.resolveRelatedFile(integrationLeft.getFileExtensions().get("diagram"));
-		URI uriRight = right.resolveRelatedFile(integrationRight.getFileExtensions().get("diagram"));
-		URI uriAncestor = null;
-		if(integrationAncestor != null) {
-			uriAncestor = ancestor.resolveRelatedFile(integrationAncestor.getFileExtensions().get("diagram"));
-		}
-		System.out.println("URI:");
-		System.out.println("  left:     " + uriLeft);
-		System.out.println("  right:    " + uriRight);
-		System.out.println("  ancestor: " + uriAncestor);
-
-		IEditorPart partLeft = integrationLeft.openDiagram(uriLeft);
-		IEditorPart partRight = integrationRight.openDiagram(uriRight);
-		IEditorPart partAncestor = null;
-		if(integrationAncestor != null && uriAncestor != null) {
-			partAncestor = integrationAncestor.openDiagram(uriAncestor);
-		}
-		System.out.println("IEditorPart:");
-		System.out.println("  left:     " + partLeft);
-		System.out.println("  right:    " + partRight);
-		System.out.println("  ancestor: " + partAncestor);
-		if(partLeft == null || partRight == null) {
-			MessageDialogUtil.showErrorDialog("Failed to open editors", "Diagram editor parts could not be created.");
-			return;
-		}
-
-		// Changes the tab names via reflection
-		changePartNames(partLeft, partRight, partAncestor);
-
-		/*first.addPropertyListener(new IPropertyListener() {
+		MessageDialogUtil.showProgressDialog(new IRunnableWithProgress() {
 			@Override
-			public void propertyChanged(Object source, int propId) {
-				ViewerRegistry.getInstance().getStructureMergeViewer().onRefreshNotify();
+			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				MultiStatus multiStatus = new MultiStatus(Activator.PLUGIN_ID, 0, "Error showing diagrams", null);
+
+				IEditorPart leftDiagram = null;
+				try {
+					leftDiagram = openDiagram("Left", differencer.getModifiedLeft());
+				} catch (CoreException e) {
+					multiStatus.add(e.getStatus());
+				}
+
+				IEditorPart rightDiagram = null;
+				try {
+					rightDiagram = openDiagram("Right", differencer.getModifiedRight());
+				} catch (CoreException e) {
+					multiStatus.add(e.getStatus());
+				}
+
+				IEditorPart ancestorDiagram = null;
+				if(differencer.getAncestor().getResource() != null) {
+					try {
+						ancestorDiagram = openDiagram("Ancestor", differencer.getAncestor());
+					} catch (CoreException e) {
+						multiStatus.add(e.getStatus());
+					}
+				}
+
+				if(leftDiagram != null) {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(leftDiagram);
+				}
+				positionEditorParts(leftDiagram, rightDiagram, ancestorDiagram);
+
+				if(!multiStatus.isOK()) {
+					throw new InvocationTargetException(new CoreException(multiStatus));
+				}
 			}
-		});*/
-
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(partLeft);
-
-		positionEditorParts(partLeft, partRight);
+		});
 	}
 
-	protected void changePartNames(IEditorPart partLeft, IEditorPart partRight, IEditorPart partAncestor) {
+	protected IEditorPart openDiagram(String label, CompareResource res) throws CoreException {
+		if(res.getResource() == null) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					label + ": Diagram cannot be shown for empty resource."));
+		}
+		IEditorIntegration editorIntegration = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(res.getResource());
+		if(editorIntegration == null) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					label + ": No suitable diagram or editor integration was found"));
+		}
+		String diagramFileExt = editorIntegration.getFileExtensions().get("diagram");
+		if(diagramFileExt == null) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					label + ": Diagramming not supported by editor integration: " + editorIntegration));
+		}
+		URI uri = res.resolveRelatedFile(diagramFileExt);
+		IEditorPart editorPart = editorIntegration.openDiagram(uri);
+		if(editorPart == null) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					label + ": Diagram editor part could not be created."));
+		}
+
+		try {
+			changePartNames(editorPart, label);
+		} catch (CoreException e) {
+			Activator.logError(label + ": Changing diagram editor part name failed.", e);
+		}
+
+		return editorPart;
+	}
+
+	protected void changePartNames(IEditorPart part, String name) throws CoreException {
 		try {
 			Method method = WorkbenchPart.class.getDeclaredMethod("setPartName", String.class);
 			method.setAccessible(true);
-			method.invoke(partLeft, "Left");
-			method.invoke(partRight, "Right");
-			if(partAncestor != null) {
-				method.invoke(partAncestor, "Ancestor");
-			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
+			method.invoke(part, name);
+		} catch(Exception e) {
+			throw new CoreException(new Status(IStatus.WARNING, Activator.PLUGIN_ID, "Changing part names failed", e));
+		};
 	}
 
-	// TODO: does it work as expected? https://dzone.com/articles/programmatically-split-editor-
-	protected void positionEditorParts(IEditorPart partLeft, IEditorPart partRight) {
+	// TODO: fix positioning of the editor parts. the ancestor part is not positioned at all.
+	// https://dzone.com/articles/programmatically-split-editor-
+	protected void positionEditorParts(IEditorPart partLeft, IEditorPart partRight, IEditorPart ancestorPart) {
+		if(partLeft == null || partRight == null) {
+			return;
+		}
+
 		WorkbenchPage page = (WorkbenchPage) partLeft.getSite().getPage();
 		EPartService partService = page.getCurrentPerspective().getContext().get(EPartService.class);
 		MPartSashContainerElement relTo = (MPartSashContainerElement) partService.getActivePart().getParent();
@@ -215,7 +232,10 @@ public class ShowDiagramAction extends Action {
 			modelService.insert(toInsertB, toInsertA, EModelService.BELOW, 0.5f);
 	}
 
-	public void updateEnabledState() {
-		setEnabled(differencer.getLeft().getResource() != null && differencer.getRight().getResource() != null);
+	protected void updateEnabledState() {
+		setEnabled(differencer.getLeft() != null
+				&& differencer.getLeft().getResource() != null
+				&& differencer.getRight() != null
+				&& differencer.getRight().getResource() != null);
 	}
 }
