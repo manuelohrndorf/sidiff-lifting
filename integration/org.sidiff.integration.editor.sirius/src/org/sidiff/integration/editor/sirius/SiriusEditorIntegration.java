@@ -113,10 +113,7 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	private URI getDiagramForModel(URI modelFile) {
-		String ext = modelFile.fileExtension();
-		int index = modelFile.toString().lastIndexOf(ext);
-		String modelName = modelFile.toString().substring(0, index);
-		URI diagramURI = URI.createURI(modelName + DIAGRAM_FILE_EXT);
+		URI diagramURI = modelFile.trimFileExtension().appendFileExtension(DIAGRAM_FILE_EXT);
 		if (modelFile.isArchive()) {
 			String authority = diagramURI.authority().replaceAll("\\\\", "/");
 			if (authority.endsWith("!")) authority = authority.substring(0, authority.length() - 1);
@@ -129,12 +126,10 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 				if (s != null && s.equals(fileString)) return diagramURI;
 			}
 			return null;
-		} else {
-			if (EMFStorage.uriToFile(diagramURI).exists())
-				return diagramURI;
-			else
-				return null;
+		} else if (EMFStorage.uriToFile(diagramURI).exists()) {
+			return diagramURI;
 		}
+		return null;
 	}
 
 	@Override
