@@ -3,7 +3,9 @@ package org.sidiff.integration.editor.access;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -48,56 +50,49 @@ public class IntegrationEditorAccess {
 	}
 
 	/**
-	 * Returns an editor
+	 * Selects a integration editor for a model type.
+	 * Editors with a present Diagram Editor will
+	 * be preferred.
 	 * 
 	 * @param model
 	 * @return
 	 */
 	public IEditorIntegration getIntegrationEditorForModel(Resource model) {
-		IEditorIntegration candiate = null;
-		boolean diagramSupported=false;
+		IEditorIntegration candidate = null;
 		for (IEditorIntegration de : integrationEditors) {
-			if (de.supportsDiagramming(model)) {
-				if (candiate == null) {
-					diagramSupported=true;
-					candiate = de;
-				} else if (de.isDefaultEditorPresent()
-						&& de.isDiagramEditorPresent()) {
-					candiate = de;
-					diagramSupported=true;
-					break;
-				} else if (!candiate.isDefaultEditorPresent()
-						&& de.isDefaultEditorPresent()) {
-					candiate = de;
-					diagramSupported=true;
-				}
-			} else if (de.supportsModel(model)){
-				if (candiate == null){
-					candiate = de;
-				} else if (de.isDefaultEditorPresent() && !diagramSupported){
-					candiate = de;
-				}
+			if (de.supportsDiagramming(model) && de.isDiagramEditorPresent()) {
+				return de;
+			} else if (de.supportsModel(model) && de.isDefaultEditorPresent()){
+				candidate = de;
 			}
 		}
-		if (candiate == null) candiate = DefaultEditorIntegration.getInstance(model.getURI());
-		return candiate;
+		if (candidate == null) {
+			candidate = DefaultEditorIntegration.getInstance(model.getURI());
+		}
+		return candidate;
 	}
 
 	/**
 	 * Selects a integration editor for a model type.
-	 * Editors with a present DIagram Editor will
-	 * be preferred
+	 * Editors with a present Diagram Editor will
+	 * be preferred.
 	 * 
 	 * @param modelOrDiagramFile
 	 * @return
 	 */
 	public IEditorIntegration getIntegrationEditorForModelOrDiagramFile(URI modelOrDiagramFile) {
+		IEditorIntegration candidate = null;
 		for (IEditorIntegration de : integrationEditors) {
-			if (de.supportsModel(modelOrDiagramFile) || de.supportsDiagram(modelOrDiagramFile)) {
+			if(de.supportsDiagram(modelOrDiagramFile) && de.isDiagramEditorPresent()) {
 				return de;
+			} else if(de.supportsModel(modelOrDiagramFile) && de.isDefaultEditorPresent()) {
+				candidate = de;
 			}
 		}
-		return DefaultEditorIntegration.getInstance(modelOrDiagramFile);
+		if(candidate == null) {
+			candidate = DefaultEditorIntegration.getInstance(modelOrDiagramFile);
+		}
+		return candidate;
 	}
 
 	/**
@@ -106,13 +101,9 @@ public class IntegrationEditorAccess {
 	 * @return 
 	 */
 	public Collection<EObject> getHighlightableElements(EObject element){
-		Collection<EObject> candidates = new ArrayList<EObject>();
+		Set<EObject> candidates = new HashSet<EObject>();
 		for (IEditorIntegration de : integrationEditors) {
-			for (EObject he : de.getHighlightableElements(element)) {
-				if (!candidates.contains(he)){
-					candidates.add(he);
-				}					
-			}
+			candidates.addAll(de.getHighlightableElements(element));
 		}
 		if (!candidates.isEmpty()){
 			return candidates;
