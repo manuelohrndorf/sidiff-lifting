@@ -45,10 +45,10 @@ import org.sidiff.vcmsintegration.util.MessageDialogUtil;
  * This action tries to open diagram files corresponding with the
  * {@link CompareResource} delivered by the
  * {@link SiLiftStructureMergeViewerContentProvider}. The behaviour of the action
- * depends on the type of {@link CompareResource}. Possible types are local, git
- * and svn.
+ * depends on the type of {@link CompareResource}.
  * 
  */
+@SuppressWarnings("restriction")
 public class ShowDiagramAction extends Action {
 
 	private SiLiftCompareDifferencer differencer;
@@ -216,76 +216,51 @@ public class ShowDiagramAction extends Action {
 		};
 	}
 
-	// TODO: fix positioning of the editor parts. the ancestor part is not positioned at all.
-	// https://dzone.com/articles/programmatically-split-editor-
-	protected void positionEditorParts(IEditorPart partLeft, IEditorPart partRight, IEditorPart ancestorPart) {
+	protected void positionEditorParts(IEditorPart editorLeft, IEditorPart editorRight, IEditorPart editorAncestor) {
+		if(editorLeft == null || editorRight == null) {
+			return;
+		}
+		WorkbenchPage page = (WorkbenchPage) editorLeft.getSite().getPage();
+		EPartService partService = page.getCurrentPerspective().getContext().get(EPartService.class);
+		MPartSashContainerElement relTo = (MPartSashContainerElement)partService.getActivePart().getParent();
+
+		MPart partLeft = ((EditorSite)editorLeft.getSite()).getModel();
+		MPart partRight = ((EditorSite)editorRight.getSite()).getModel();
+		MPart partAncestor = editorAncestor == null ? null : ((EditorSite)editorAncestor.getSite()).getModel();
 		if(partLeft == null || partRight == null) {
 			return;
 		}
 
-		WorkbenchPage page = (WorkbenchPage) partLeft.getSite().getPage();
-		EPartService partService = page.getCurrentPerspective().getContext().get(EPartService.class);
-		MPartSashContainerElement relTo = (MPartSashContainerElement) partService.getActivePart().getParent();
-
-		MPartSashContainerElement toInsertA = null;
-		MPartSashContainerElement toInsertB = null;
-
-		boolean insertA = true;
-		boolean insertB = true;
-
-		for (MPart part : partService.getParts()) {
-			if (part.getElementId().equals("org.eclipse.e4.ui.compatibility.editor") && part.getParent() != relTo) {
-				if (toInsertA == null) {
-					insertA = false;
-					toInsertA = (MPartSashContainerElement) part.getParent();
-				} else if (toInsertB == null && part.getParent() != toInsertA) {
-					insertB = false;
-					toInsertB = (MPartSashContainerElement) part.getParent();
-				}
-			}
+		partLeft.setToBeRendered(true);
+		partRight.setToBeRendered(true);
+		if(partAncestor != null) {
+			partAncestor.setToBeRendered(true);
 		}
 
-		MPart partA = null;
-		if (partLeft != null) {
-			partA = ((EditorSite) partLeft.getSite()).getModel();
+		MPartStack toInsertLeft = MBasicFactory.INSTANCE.createPartStack();
+		if (!toInsertLeft.getChildren().contains(partLeft))
+			toInsertLeft.getChildren().add(partLeft);
+		toInsertLeft.setSelectedElement(partLeft);
+
+		MPartStack toInsertRight = MBasicFactory.INSTANCE.createPartStack();
+		if (!toInsertRight.getChildren().contains(partRight))
+			toInsertRight.getChildren().add(partRight);
+		toInsertRight.setSelectedElement(partRight);
+
+		MPartStack toInsertAncestor = null;
+		if(partAncestor != null) {
+			toInsertAncestor = MBasicFactory.INSTANCE.createPartStack();
+			if (!toInsertAncestor.getChildren().contains(partAncestor))
+				toInsertAncestor.getChildren().add(partAncestor);
+			toInsertAncestor.setSelectedElement(partAncestor);
 		}
-
-		MPart partB = null;
-		if (partRight != null) {
-			partB = ((EditorSite) partRight.getSite()).getModel();
-		}
-
-		if (partA != null)
-			partA.setToBeRendered(true);
-		if (partB != null)
-			partB.setToBeRendered(true);
-
-
-		if (toInsertA == null) {
-			toInsertA = MBasicFactory.INSTANCE.createPartStack();
-		}
-
-		MPartStack toInsertAStack = (MPartStack) toInsertA;
-		if (partA != null && !toInsertAStack.getChildren().contains(partA))
-			toInsertAStack.getChildren().add(partA);
-		if (partA != null)
-			toInsertAStack.setSelectedElement(partA);
-
-		if (toInsertB == null) {
-			toInsertB = MBasicFactory.INSTANCE.createPartStack();
-		}
-
-		MPartStack toInsertBStack = (MPartStack) toInsertB;
-		if (partB != null && !toInsertBStack.getChildren().contains(partB))
-			toInsertBStack.getChildren().add(partB);
-		if (partB != null)
-			toInsertBStack.setSelectedElement(partB);
 
 		EModelService modelService = page.getCurrentPerspective().getContext().get(EModelService.class);
-		if (insertA)
-			modelService.insert(toInsertA, relTo, EModelService.RIGHT_OF, 0.25f);
-		if (insertB)
-			modelService.insert(toInsertB, toInsertA, EModelService.BELOW, 0.5f);
+		if(toInsertAncestor != null) {
+			modelService.insert(toInsertAncestor, relTo, EModelService.BELOW, 0.25f);
+		}
+		modelService.insert(toInsertLeft, toInsertAncestor != null ? toInsertAncestor : relTo, EModelService.BELOW, 0.25f);
+		modelService.insert(toInsertRight, toInsertLeft, EModelService.RIGHT_OF, 0.5f);
 	}
 
 	protected void updateEnabledState() {
