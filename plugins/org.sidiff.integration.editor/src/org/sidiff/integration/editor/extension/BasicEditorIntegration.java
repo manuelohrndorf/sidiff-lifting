@@ -49,7 +49,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected URI getMainDiagramFile(URI modelFile) {
 		URI[] files = getDiagramFiles(modelFile);
-		return files.length >= 0 ? files[0] : null;
+		return files.length > 0 ? files[0] : null;
 	}
 
 	protected URI[] getDiagramFiles(URI modelFile) {
