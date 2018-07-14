@@ -1,5 +1,10 @@
 package org.sidiff.vcmsintegration.structureview.actions;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -15,6 +20,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorPart;
@@ -22,6 +28,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.part.WorkbenchPart;
+import org.sidiff.common.io.IOUtil;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.vcmsintegration.Activator;
@@ -124,17 +131,21 @@ public class ShowDiagramAction extends Action {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					label + ": Diagram cannot be shown for empty resource."));
 		}
+
 		IEditorIntegration editorIntegration = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(res.getResource());
 		if(editorIntegration == null) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					label + ": No suitable diagram or editor integration was found"));
 		}
-		String diagramFileExt = editorIntegration.getFileExtensions().get("diagram");
-		if(diagramFileExt == null) {
+
+		URI uri;
+		try {
+			uri = resolveRelatedFile(res, editorIntegration);
+		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
-					label + ": Diagramming not supported by editor integration: " + editorIntegration));
+					label + ": " + e.getMessage(), e));
 		}
-		URI uri = res.resolveRelatedFile(diagramFileExt);
+
 		IEditorPart editorPart = editorIntegration.openDiagram(uri);
 		if(editorPart == null) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
@@ -142,7 +153,7 @@ public class ShowDiagramAction extends Action {
 		}
 
 		try {
-			changePartNames(editorPart, label);
+			changePartName(editorPart, label);
 		} catch (CoreException e) {
 			Activator.logError(label + ": Changing diagram editor part name failed.", e);
 		}
@@ -150,7 +161,52 @@ public class ShowDiagramAction extends Action {
 		return editorPart;
 	}
 
-	protected void changePartNames(IEditorPart part, String name) throws CoreException {
+	protected URI resolveRelatedFile(CompareResource res, IEditorIntegration editorIntegration) throws IOException {
+		String diagramFileExt = editorIntegration.getFileExtensions().get("diagram");
+		if(diagramFileExt == null) {
+			throw new IOException("Editor integration does not support diagramming: " + editorIntegration);
+		}
+		URI diagramUri = res.resolveRelatedFile(diagramFileExt);
+		if(diagramUri == null) {
+			throw new IOException("Cannot resolve diagram file (." + diagramFileExt + ")");
+		} else if(diagramUri.isFile()) {
+			// We assume that file URIs are temporary files,
+			// so we must copy the other resources to the temporary folder
+			// to preserve relative references in the diagram resource.
+			URIConverter uriConverter =  res.getResource().getResourceSet().getURIConverter();
+			File diagramFolder = new File(diagramUri.trimSegments(1).toFileString());
+			String modelName = res.getURI().trimFileExtension().lastSegment();
+
+			// Try to rename the diagram file to its original name
+			File tmpDiagramFile = new File(diagramUri.toFileString());
+			File renamedDiagramFile = new File(diagramFolder, modelName + "." + diagramFileExt);
+			if(!renamedDiagramFile.exists() && tmpDiagramFile.renameTo(renamedDiagramFile)) {
+				diagramUri = diagramUri.trimSegments(1).appendSegment(renamedDiagramFile.getName());
+			}
+
+			// Copy all related files to the diagram file's folder
+			for(String fileKey : editorIntegration.getFileExtensions().keySet()) {
+				if("diagram".equals(fileKey)) {
+					// diagram was already copied
+					continue;
+				}
+				String fileExt = editorIntegration.getFileExtensions().get(fileKey);
+				File outFile = new File(diagramFolder, modelName + "." + fileExt);
+				if(!outFile.exists()) {
+					URI srcUri = res.resolveRelatedFile(fileExt);
+					try (InputStream inStream = uriConverter.createInputStream(srcUri);
+							OutputStream outStream = new FileOutputStream(outFile)) {
+						IOUtil.transfer(inStream, outStream);
+						outStream.flush();
+					}
+					outFile.deleteOnExit();
+				}
+			}
+		}
+		return diagramUri;
+	}
+
+	protected void changePartName(IEditorPart part, String name) throws CoreException {
 		try {
 			Method method = WorkbenchPart.class.getDeclaredMethod("setPartName", String.class);
 			method.setAccessible(true);
