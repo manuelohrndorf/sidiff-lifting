@@ -1,9 +1,12 @@
 package org.sidiff.vcmsintegration.remote;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.eclipse.compare.ITypedElement;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -89,16 +92,31 @@ public class CompareResource {
 	}
 
 	public URI resolveRelatedFile(String extension) {
+		URI resolved = null;
 		if(this.getRelatedFileResolver() != null) {
-			URI resolved = this.getRelatedFileResolver().resolveRelatedFile(this.getTypedElement(), extension);
-			if(resolved != null) {
-				return resolved;
+			resolved = this.getRelatedFileResolver().resolveRelatedFile(this.getTypedElement(), extension);
+		}
+		if(resolved == null && getURI() != null) {
+			resolved = getURI().trimFileExtension().appendFileExtension(extension);
+		}
+		if(resolved == null) {
+			return null;
+		}
+
+		// try to convert to platform URI
+		if(!resolved.isPlatform()) {
+			IFile files[];
+			try {
+				files = ResourcesPlugin.getWorkspace().getRoot()
+						.findFilesForLocationURI(new java.net.URI(resolved.toString()));
+				if(files.length > 0) {
+					return URI.createPlatformResourceURI(files[0].getFullPath().toString(), true);
+				}
+			} catch (URISyntaxException e) {
+				// return the original resolved uri
 			}
 		}
-		if(getURI() != null) {
-			return getURI().trimFileExtension().appendFileExtension(extension);
-		}
-		return null;
+		return resolved;
 	}
 
 	public static CompareResource load(ITypedElement typedElement) throws IOException, CoreException {
