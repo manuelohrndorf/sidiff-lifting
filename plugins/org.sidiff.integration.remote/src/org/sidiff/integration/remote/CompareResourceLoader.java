@@ -120,7 +120,7 @@ class CompareResourceLoader {
 		for(IPlatformResourceLoader l : platformResourceLoaders) {
 			if(l.canHandle(typedElement)) {
 				platformResource = l.loadPlatformResource(typedElement);
-				if(platformResource != null) break;
+				if(platformResource != null && platformResource.exists()) break;
 			}
 		}
 		if(platformResource == null) {

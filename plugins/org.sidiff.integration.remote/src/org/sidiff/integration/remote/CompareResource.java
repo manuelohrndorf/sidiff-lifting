@@ -135,12 +135,14 @@ public class CompareResource {
 
 		// try to convert to platform URI
 		if(!resolved.isPlatform()) {
-			IFile files[];
 			try {
-				files = ResourcesPlugin.getWorkspace().getRoot()
-						.findFilesForLocationURI(new java.net.URI(resolved.toString()));
-				if(files.length > 0) {
-					return URI.createPlatformResourceURI(files[0].getFullPath().toString(), true);
+				java.net.URI uri = new java.net.URI(resolved.toString());
+				if(uri.isAbsolute()) {
+					IFile files[] = ResourcesPlugin.getWorkspace().getRoot()
+							.findFilesForLocationURI(uri);
+					if(files.length > 0) {
+						return URI.createPlatformResourceURI(files[0].getFullPath().toString(), true);
+					}
 				}
 			} catch (URISyntaxException e) {
 				// return the original resolved uri
