@@ -20,12 +20,12 @@ import org.sidiff.integration.remote.IRelatedFileResolver;
 public class SVNRelatedFileResolver implements IRelatedFileResolver {
 
 	@Override
-	public boolean canHandle(ITypedElement typedElement) {
-		return typedElement instanceof ResourceCompareInput.ResourceElement;
+	public boolean canHandle(ITypedElement input) {
+		return input instanceof ResourceCompareInput.ResourceElement;
 	}
 
 	@Override
-	public URI resolveRelatedFile(ITypedElement input, String diagramExt) {
+	public URI resolveRelatedFile(ITypedElement input, String extension) {
 		ResourceCompareInput.ResourceElement elem = (ResourceCompareInput.ResourceElement)input;
 		String origUrl = elem.getRepositoryResource().getUrl();
 		int lastDotIndex = origUrl.lastIndexOf('.');
@@ -40,10 +40,10 @@ public class SVNRelatedFileResolver implements IRelatedFileResolver {
 				return null;
 			}
 			String name = origUrl.substring(lastSlashIndex, lastDotIndex);
-			IResource localResource = elem.getLocalResource().getResource().getParent().findMember(name + "." + diagramExt);
+			IResource localResource = elem.getLocalResource().getResource().getParent().findMember(name + "." + extension);
 			fetcher = new GetLocalFileContentOperation(localResource, revision.getKind());
 		} else {
-			String diagramUrl = origUrl.substring(0, lastDotIndex) + "." + diagramExt;
+			String diagramUrl = origUrl.substring(0, lastDotIndex) + "." + extension;
 			SVNRepositoryFile svnFile = new SVNRepositoryFile(elem.getRepositoryResource().getRepositoryLocation(), diagramUrl, revision);
 			fetcher = new GetFileContentOperation(svnFile);
 		}

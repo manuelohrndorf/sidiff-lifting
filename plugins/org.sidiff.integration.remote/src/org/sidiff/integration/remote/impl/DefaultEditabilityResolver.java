@@ -12,8 +12,8 @@ import org.sidiff.integration.remote.IEditabilityResolver;
 public class DefaultEditabilityResolver implements IEditabilityResolver {
 
 	@Override
-	public boolean canHandle(ITypedElement typedElement) {
-		return typedElement instanceof IEditableContent;
+	public boolean canHandle(ITypedElement input) {
+		return input instanceof IEditableContent;
 	}
 
 	@Override

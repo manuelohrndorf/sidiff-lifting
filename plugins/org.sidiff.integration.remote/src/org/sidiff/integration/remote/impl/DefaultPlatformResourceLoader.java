@@ -16,8 +16,8 @@ import org.sidiff.integration.remote.IPlatformResourceLoader;
 public class DefaultPlatformResourceLoader implements IPlatformResourceLoader {
 
 	@Override
-	public boolean canHandle(ITypedElement typedElement) {
-		return typedElement instanceof IResourceProvider;
+	public boolean canHandle(ITypedElement input) {
+		return input instanceof IResourceProvider;
 	}
 
 	@Override

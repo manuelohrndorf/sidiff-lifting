@@ -18,8 +18,8 @@ import org.sidiff.integration.remote.IEcoreResourceLoader;
 public class DefaultEcoreResourceLoader implements IEcoreResourceLoader {
 
 	@Override
-	public boolean canHandle(ITypedElement typedElement) {
-		return typedElement instanceof IStreamContentAccessor;
+	public boolean canHandle(ITypedElement input) {
+		return input instanceof IStreamContentAccessor;
 	}
 
 	@Override

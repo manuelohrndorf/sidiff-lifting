@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.eclipse.compare.ITypedElement;
+import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -15,7 +16,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 /**
- * 
+ * The <code>CompareResource</code> class encapsulates a object
+ * of type {@link ITypedElement} which is one of the sides of a {@link ICompareInput}.
+ * A <code>CompareResource</code> can be loaded using the {@link #load(ITypedElement)} method.
  * @author Robert Müller
  *
  */
@@ -39,6 +42,10 @@ public class CompareResource {
 		this.relatedFileResolver = null;
 	}
 
+	/**
+	 * Returns the {@link ITypedElement} from which this compare resource was loaded.
+	 * @return the typed element, <code>null</code> if this compare resource is empty
+	 */
 	public ITypedElement getTypedElement() {
 		return typedElement;
 	}
@@ -47,6 +54,10 @@ public class CompareResource {
 		this.typedElement = typedElement;
 	}
 
+	/**
+	 * Returns the Ecore {@link Resource} of this compare resource.
+	 * @return the ecore resource, <code>null</code> if this compare resource is empty, or if the resolution failed
+	 */
 	public Resource getResource() {
 		return resource;
 	}
@@ -67,6 +78,10 @@ public class CompareResource {
 		return resource.getURI();
 	}
 
+	/**
+	 * Returns the platform {@link IResource} of this compare resource.
+	 * @return the platform resource, <code>null</code> if this compare resource is empty, or if the resolution failed
+	 */
 	public IResource getPlatformResource() {
 		return platformResource;
 	}
@@ -75,6 +90,10 @@ public class CompareResource {
 		this.platformResource = platformResource;
 	}
 
+	/**
+	 * Returns whether this compare resource is editable.
+	 * @return <code>true</code> if this compare resource can be edited, <code>false</code> otherwise
+	 */
 	public boolean isEditable() {
 		return editable;
 	}
@@ -91,6 +110,17 @@ public class CompareResource {
 		this.relatedFileResolver = relatedFileResolver;
 	}
 
+	/**
+	 * <p>Resolves a file related to this compare resource from the
+	 * current revision of this compare resource.</p>
+	 * <p>The target file's filename is the same as this compare
+	 * resource's one, with its extension replaced with the given one.</p>
+	 * <p>When possible, the resulting URI is converted to a platform URI.
+	 * If it is a file URI, it should be assumed, that the file is a temporary file.</p>
+	 * 
+	 * @param extension the new file extension, might also be the original file extension
+	 * @return URI of the related file, might be a platform URI or a file URI for a temporary file
+	 */
 	public URI resolveRelatedFile(String extension) {
 		URI resolved = null;
 		if(this.getRelatedFileResolver() != null) {
@@ -119,12 +149,12 @@ public class CompareResource {
 		return resolved;
 	}
 
-	public static CompareResource load(ITypedElement typedElement) throws IOException, CoreException {
-		CompareResource compRes = new CompareResource(typedElement);
-		CompareResourceLoader.getInstance().load(compRes);
-		return compRes;
-	}
-
+	/**
+	 * Returns a new <code>CompareResource</code> that is a copy of this one.
+	 * The Ecore {@link Resource} of the new compare resource is a new
+	 * copy of the original one.
+	 * @return a copy of this compare resource with a new instance for the ecore resource
+	 */
 	public CompareResource mutateEcoreResource() {
 		CompareResource replacement = new CompareResource(this.getTypedElement());
 		replacement.setPlatformResource(this.getPlatformResource());
@@ -156,5 +186,18 @@ public class CompareResource {
 		b.append("relatedFileResolver=").append(relatedFileResolver);
 		b.append("]");
 		return b.toString();
+	}
+
+	/**
+	 * Loads a {@link ITypedElement} and returns a {@link CompareResource} to wrap it.
+	 * @param typedElement the typed element
+	 * @return compare resource wrapping the typed element
+	 * @throws IOException if loading a resource failed due to an I/O error
+	 * @throws CoreException if loading failed for some other reason
+	 */
+	public static CompareResource load(ITypedElement typedElement) throws IOException, CoreException {
+		CompareResource compRes = new CompareResource(typedElement);
+		CompareResourceLoader.getInstance().load(compRes);
+		return compRes;
 	}
 }

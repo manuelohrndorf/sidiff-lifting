@@ -16,8 +16,8 @@ import org.sidiff.integration.remote.IPlatformResourceLoader;
 public class SVNPlatformResourceLoader implements IPlatformResourceLoader {
 
 	@Override
-	public boolean canHandle(ITypedElement typedElement) {
-		return typedElement instanceof ResourceCompareInput.ResourceElement;
+	public boolean canHandle(ITypedElement input) {
+		return input instanceof ResourceCompareInput.ResourceElement;
 	}
 
 	@Override

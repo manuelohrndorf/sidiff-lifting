@@ -19,7 +19,10 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 
 /**
- * 
+ * <p>The <code>CompareResourceLoader</code> populates the fields of a
+ * {@link CompareResource} by delegating the loading/resolution to
+ * extensions for the remote loader extension point.</p>
+ * <p><b>This class is for internal use only.</b></p>
  * @author Robert Müller
  *
  */
@@ -131,24 +134,21 @@ class CompareResourceLoader {
 
 	protected URI resolveURI(CompareResource compRes) {
 		final ITypedElement typedElement = compRes.getTypedElement();
-		URI uri = null;
 		if(compRes.getPlatformResource() != null) {
 			// use the platform resource to resolve the uri
-			uri = EMFStorage.iResourceToURI(compRes.getPlatformResource());
-		} else {
-			// resolve using the registered extensions
-			for(IURIResolver r : uriResolvers) {
-				if(r.canHandle(typedElement)) {
-					uri = r.getURI(typedElement);
-					if(uri != null) break;
+			return EMFStorage.iResourceToURI(compRes.getPlatformResource());
+		}
+		// resolve using the registered extensions
+		for(IURIResolver r : uriResolvers) {
+			if(r.canHandle(typedElement)) {
+				URI uri = r.getURI(typedElement);
+				if(uri != null) {
+					return uri;
 				}
 			}
-			// fall back to the typed element name, this is not a fully qualified URI
-			if(uri == null) {
-				uri = URI.createURI(typedElement.getName());
-			}
 		}
-		return uri;
+		// fall back to the typed element name, this is not a fully qualified URI
+		return URI.createURI(typedElement.getName());
 	}
 
 	protected void loadEcoreResource(CompareResource compRes, URI uri)
