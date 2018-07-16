@@ -107,9 +107,9 @@ public class SelectionControllerDiagram {
 				if (decoratedViewOrNull != null && !(decoratedViewOrNull instanceof Diagram)) {
 					decoratedViews.add(decoratedViewOrNull);
 				}
-			} else {
-				decorator.refresh();
 			}
+			// always refresh the decorator
+			decorator.refresh();
 		}
 	}
 }
