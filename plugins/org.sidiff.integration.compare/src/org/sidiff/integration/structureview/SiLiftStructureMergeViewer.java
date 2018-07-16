@@ -20,6 +20,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.SiLiftCompareConfiguration;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.integration.properties.PropertySheetPageHelper;
 import org.sidiff.integration.structureview.actions.AbstractAction;
 import org.sidiff.integration.structureview.actions.ApplyOperationAction;
@@ -90,6 +91,7 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 			}
 		};
 		addSelectionChangedListener(selectionListener);
+		addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
 	}
 
 	protected void initToolbarActions(ToolBarManager toolbarManager) {

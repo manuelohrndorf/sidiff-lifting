@@ -24,6 +24,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.integration.properties.PropertySheetPageHelper;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
@@ -160,6 +161,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(), treeViewer, selectionProvider);
 			treeViewer.setLabelProvider(labelProvider);
 			treeViewer.addSelectionChangedListener(selectionListener);
+			treeViewer.addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
 
 			treeViewers.put(side, treeViewer);
 			labelProviders.put(side, labelProvider);
