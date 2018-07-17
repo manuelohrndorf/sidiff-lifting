@@ -89,7 +89,7 @@ public class CleanUpParametersHandler extends AbstractHandler {
 				ParameterMapping mapping = (ParameterMapping) element;
 						
 				if ((mapping.getSource() == null) || (mapping.getTarget() == null)) {
-					EcoreUtil.remove(mapping);
+					deprecatedMappings.add(mapping);
 				}
 				
 				else if ((mapping.getSource().eContainer() == null) || (mapping.getTarget().eContainer() == null)) {
