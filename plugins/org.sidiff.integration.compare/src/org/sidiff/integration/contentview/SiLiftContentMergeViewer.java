@@ -16,18 +16,15 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
-import org.sidiff.integration.editor.highlighting.EditorHighlighting;
-import org.sidiff.integration.properties.PropertySheetPageHelper;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
+import org.sidiff.integration.selection.SiLiftCompareSelectionController;
 import org.sidiff.integration.util.MessageDialogUtil;
 
 /**
@@ -42,7 +39,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 
 	private static final String BUNDLE_NAME = "org.sidiff.integration.contentview.SiLiftContentMergeViewer";
 
-	private ISelectionProvider selectionProvider;
 	private SiLiftCompareConfiguration config;
 
 	private Map<Side, TreeViewer> treeViewers;
@@ -65,7 +61,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	public SiLiftContentMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(SWT.NONE, ResourceBundle.getBundle(BUNDLE_NAME), config);
 		this.config = config;
-		this.selectionProvider = config.getContainer().getWorkbenchPart().getSite().getSelectionProvider();
 		this.contentProvider = new AdapterFactoryContentProvider(config.getAdapterFactory());
 		this.treeViewers = new EnumMap<>(Side.class);
 		this.resources = new EnumMap<>(Side.class);
@@ -73,7 +68,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 
 		setContentProvider(new SiLiftContentMergeViewerContentProvider(config));
 		buildControl(parent);
-		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLiftContentViewer");
+		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift ContentViewer");
 
 		// manage the toolbar
 		customizeToolbar(getToolBarManager(parent));
@@ -145,23 +140,14 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	 */
 	@Override
 	protected void createControls(Composite composite) {
-		if(selectionListener == null) {
-			selectionListener = new ISelectionChangedListener() {
-				@Override
-				public void selectionChanged(SelectionChangedEvent event) {
-					PropertySheetPageHelper.notifiySelectionChanged(config.getContainer().getWorkbenchPart(), event.getSelection());
-				}
-			};
-		}
-
 		for(Side side : Side.values()) {
 			TreeViewer treeViewer = new TreeViewer(composite);
 			treeViewer.setContentProvider(contentProvider);
 			SiLiftContentMergeViewerLabelProvider labelProvider =
-					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(), treeViewer, selectionProvider);
+					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(),
+							treeViewer, SiLiftCompareSelectionController.getInstance());
 			treeViewer.setLabelProvider(labelProvider);
-			treeViewer.addSelectionChangedListener(selectionListener);
-			treeViewer.addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
+			treeViewer.addSelectionChangedListener(SiLiftCompareSelectionController.getInstance());
 
 			treeViewers.put(side, treeViewer);
 			labelProviders.put(side, labelProvider);
@@ -204,9 +190,9 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	/**
 	 * Initializes the content displayed in this viewer.
 	 * 
-	 * @param a The object to be displayed in the {@link ancestorTree}
-	 * @param l The object to be displayed in the {@link leftTree}
-	 * @param r The object to be displayed in the {@link rightTree}
+	 * @param ancestor the ancestor object
+	 * @param left the left object
+	 * @param right the right object
 	 * 
 	 */
 	@Override
@@ -218,7 +204,9 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 
 	@Override
 	public void setContentProvider(IContentProvider contentProvider) {
-		// NOTE: this must be overridden or else the superclass implementation clears our own content provider
+		// NOTE: this must be overridden or else the superclass
+		//       implementation clears our own content provider
+		//       when the view is mirrored
 		if(contentProvider instanceof SiLiftContentMergeViewerContentProvider) {
 			super.setContentProvider(contentProvider);
 		}

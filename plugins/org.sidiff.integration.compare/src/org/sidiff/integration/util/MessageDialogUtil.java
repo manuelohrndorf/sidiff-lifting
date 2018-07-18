@@ -20,7 +20,7 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 
 /**
  * A class that provides static methods to create {@link MessageDialog}s for
- * certain types of exception that have to be handled multiple times.
+ * certain types of exceptions that have to be handled multiple times.
  * 
  * @author Adrian Bingener, Robert Müller
  *

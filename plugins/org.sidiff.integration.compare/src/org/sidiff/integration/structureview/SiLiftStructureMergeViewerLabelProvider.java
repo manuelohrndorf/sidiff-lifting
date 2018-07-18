@@ -53,8 +53,7 @@ public class SiLiftStructureMergeViewerLabelProvider extends AdapterFactoryLabel
 					imgIgnored = Activator.getImageDescriptor(Activator.IMAGE_IGNORED).createImage();
 				}
 				return imgIgnored;
-			}
-			else if (wrapper.getStatus() == OperationInvocationStatus.FAILED || wrapper.hasUnresolvedInArguments()) {
+			} else if (wrapper.getStatus() == OperationInvocationStatus.FAILED || wrapper.hasUnresolvedInArguments()) {
 				if(imgConflicting == null) {
 					imgConflicting = Activator.getImageDescriptor(Activator.IMAGE_CONFLICT).createImage();
 				}

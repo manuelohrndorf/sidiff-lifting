@@ -9,19 +9,15 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IWorkbenchPart;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.SiLiftCompareConfiguration;
-import org.sidiff.integration.editor.highlighting.EditorHighlighting;
-import org.sidiff.integration.properties.PropertySheetPageHelper;
+import org.sidiff.integration.selection.SiLiftCompareSelectionController;
 import org.sidiff.integration.structureview.actions.AbstractAction;
 import org.sidiff.integration.structureview.actions.ApplyOperationAction;
 import org.sidiff.integration.structureview.actions.ApplyPatchOnLeftAction;
@@ -54,8 +50,6 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	 */
 	private SiLiftCompareConfiguration config;
 
-	private ISelectionChangedListener selectionListener;
-
 	/**
 	 * Creates a new {@link SiLiftStructureMergeViewer} with the given compare
 	 * configuration.
@@ -66,32 +60,17 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	 */
 	public SiLiftStructureMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(parent);
-
 		this.config = config;
+		config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(SiLiftCompareSelectionController.getInstance());
 		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Viewer");
 
-		// Create custom content provider that takes two ecore files and shows
-		// lifted differences in this TreeView
 		contentProvider = new SiLiftStructureMergeViewerContentProvider(config);
 		setContentProvider(contentProvider);
 		setLabelProvider(new SiLiftStructureMergeViewerLabelProvider(config.getAdapterFactory(), this));
+		addSelectionChangedListener(SiLiftCompareSelectionController.getInstance());
 
-		// Register selection listeners on tree view
-		final IWorkbenchPart part = config.getContainer().getWorkbenchPart();
-		part.getSite().setSelectionProvider(this);
-
-		// Register actions on toolbar and context menu
 		initToolbarActions(CompareViewerPane.getToolBarManager(parent));
 		initContextMenu();
-
-		selectionListener = new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				PropertySheetPageHelper.notifiySelectionChanged(part, event.getSelection());
-			}
-		};
-		addSelectionChangedListener(selectionListener);
-		addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
 	}
 
 	protected void initToolbarActions(ToolBarManager toolbarManager) {
@@ -146,10 +125,6 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	protected void handleDispose(DisposeEvent event) {
 		if(config.getContainer().getWorkbenchPart().getSite().getSelectionProvider() == this) {
 			config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(null);
-		}
-		if(selectionListener != null) {
-			removeSelectionChangedListener(selectionListener);
-			selectionListener = null;
 		}
 		super.handleDispose(event);
 	}
