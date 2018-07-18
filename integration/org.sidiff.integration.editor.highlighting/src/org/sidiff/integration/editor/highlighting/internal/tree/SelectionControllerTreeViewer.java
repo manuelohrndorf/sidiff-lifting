@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 public class SelectionControllerTreeViewer {
@@ -103,12 +104,17 @@ public class SelectionControllerTreeViewer {
 			}
 		}
 	}
-	
+
 	private List<TreeEditorSelection> findTreeEditors() {
 		List<TreeEditorSelection> editors = new ArrayList<>();
 
+		final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if(window == null) {
+			return editors;
+		}
+
 		// Search all opened editors in the workbench:
-		for (IEditorReference editorReference : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+		for (IEditorReference editorReference : window.getActivePage()
 				.getEditorReferences()) {
 			IEditorPart editor = editorReference.getEditor(false);
 

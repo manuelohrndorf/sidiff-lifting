@@ -22,4 +22,7 @@ public class SelectionDecorationFigure extends Figure {
 		super.paint(graphics);
 	}
 
+	public static void dispose() {
+		NICE_RED.dispose();
+	}
 }
