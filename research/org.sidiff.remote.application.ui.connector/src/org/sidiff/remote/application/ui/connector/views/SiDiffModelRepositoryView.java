@@ -1,7 +1,6 @@
 package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
@@ -54,14 +54,15 @@ import org.sidiff.remote.application.connector.exception.RemoteApplicationExcept
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
+import org.sidiff.remote.application.ui.connector.model.AdaptableTreeModel;
+import org.sidiff.remote.application.ui.connector.model.AdaptableTreeNode;
+import org.sidiff.remote.application.ui.connector.model.ModelUtil;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelContentProvider;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvider;
 import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
+import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.exceptions.InvalidSessionException;
-import org.sidiff.remote.common.tree.TreeLeaf;
-import org.sidiff.remote.common.tree.TreeModel;
-import org.sidiff.remote.common.tree.TreeNode;
 
 
 /**
@@ -69,7 +70,7 @@ import org.sidiff.remote.common.tree.TreeNode;
  * @author cpietsch
  * 
  */
-public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateListener, ISelectionListener {
+public class SiDiffModelRepositoryView extends ViewPart implements ISelectionChangedListener, ICheckStateListener, ISelectionListener {
 
 	public static final ImageDescriptor IMG_ADD_REPOSITORY = ConnectorUIPlugin.getImageDescriptor("full/obj16/add_repo.png");
 	public static final ImageDescriptor IMG_SYNC_SELECTION = ConnectorUIPlugin.getImageDescriptor("full/obj16/synced.gif");
@@ -114,9 +115,9 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	private TreeViewer treeViewer;
 	
 	/**
-	 * 
+	 * The {@link Composite} between {@link #treeViewer} and {@link #checkboxTreeViewer}
 	 */
-	private TreeLeaf treeViewer_selection;
+	private Composite composite_separator;
 	
 	/**
 	 * The {@link CheckboxTreeViewer} for selecting elements of a remote model
@@ -136,12 +137,8 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	/**
 	 * Action for browsing the remote model files
 	 */
-	private Action browseFiles_action;
+	private Action refresh_action;
 	
-	/**
-	 * Action for browsing a specific remote model file
-	 */
-	private Action browseModel_action;
 	
 	/**
 	 * 
@@ -173,52 +170,63 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	 */
 	private Action doubleClickAction;
 	
+	private AdaptableTreeNode treeViewer_selection;
+	
 	private String selected_model_path;
 
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		// initialize composite using FillLayout
+		// initialize composite using RowLayout
 		this.composite = parent;
-		this.composite.setLayout(new FillLayout(SWT.VERTICAL));
+		GridLayout gl_composite = new GridLayout();
+		this.composite.setLayout(gl_composite);
+		
+		GridData gd_viewer = new GridData(GridData.FILL_BOTH);
 		
 		// initialize providers
 		this.treeModelContentProvider = new TreeModelContentProvider();
 		this.treeModelLabelProvider = new TreeModelLabelProvider(SiDiffModelRepositoryView.adapterFactory);
 		
 		// initialize treeViewer
-		this.treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);	
+		this.treeViewer = new TreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		this.treeViewer.getControl().setLayoutData(gd_viewer);
 		this.treeViewer.setContentProvider(this.treeModelContentProvider);
 		this.treeViewer.setLabelProvider(this.treeModelLabelProvider);
-		this.treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = event.getStructuredSelection();
-				if(selection.size() == 1 && !selection.getFirstElement().equals(treeViewer_selection))
-					if(selection.getFirstElement() instanceof TreeLeaf) {
-						browseModel_action.setEnabled(true);
-						treeViewer_selection = (TreeLeaf) selection.getFirstElement();
-					}else {
-						browseModel_action.setEnabled(false);
-					}
-				else {
-					checkboxTreeViewer.setInput(null);
-				}
-				
-			}
-		});
+		this.treeViewer.addSelectionChangedListener(this);
+//		this.treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+//			
+//			@Override
+//			public void selectionChanged(SelectionChangedEvent event) {
+//				IStructuredSelection selection = event.getStructuredSelection();
+//				if(selection.size() == 1 && !selection.getFirstElement().equals(treeViewer_selection))
+//					if(selection.getFirstElement() instanceof TreeLeaf) {
+//						browseModel_action.setEnabled(true);
+//						treeViewer_selection = (TreeLeaf) selection.getFirstElement();
+//					}else {
+//						browseModel_action.setEnabled(false);
+//					}
+//				else {
+//					checkboxTreeViewer.setInput(null);
+//				}
+//				
+//			}
+//		});
+		
+		this.composite_separator = new Composite(composite, SWT.NONE);
 		
 		// initialize checkboxTreeViewer
-		this.checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		this.checkboxTreeViewer = new CheckboxTreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		this.checkboxTreeViewer.getControl().setLayoutData(gd_viewer);
 		this.checkboxTreeViewer.setContentProvider(this.treeModelContentProvider);
 		this.checkboxTreeViewer.setLabelProvider(this.treeModelLabelProvider);
 		this.checkboxTreeViewer.addCheckStateListener(this);
-
+		this.checkboxTreeViewer.addSelectionChangedListener(this);
 		
 		// Create the help context id for the viewer's control
 		workbench.getHelpSystem().setHelp(treeViewer.getControl(), "org.sidiff.remote.application.ui.connector.viewer");
 		getSite().setSelectionProvider(treeViewer);
+		getSite().setSelectionProvider(checkboxTreeViewer);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -259,7 +267,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	}
 
 	private void fillContextMenuTreeViewer(IMenuManager manager) {
-		manager.add(this.browseModel_action);
 		manager.add(new Separator());
 
 		// Other plug-ins can contribute there actions here
@@ -279,7 +286,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		manager.add(this.syncSelection_action);
 		manager.add(this.expandAllAction);
 		manager.add(this.collapseAllAction);
-		manager.add(this.browseFiles_action);
+		manager.add(this.refresh_action);
 		manager.add(this.checkoutAction);
 		manager.add(this.updateAction);
 		manager.add(new Separator());
@@ -316,44 +323,24 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 		this.syncSelection_action.setToolTipText("Syncronize view with selection");
 		this.syncSelection_action.setImageDescriptor(IMG_SYNC_SELECTION);
 		
-		this.browseFiles_action = new Action() {
+		this.refresh_action = new Action() {
 			public void run() {
 				try {
-					TreeModel models = ConnectorFacade.browseModelFiles(null);
-					treeViewer.setInput(models);
+					AdaptableTreeModel model = new AdaptableTreeModel();
+					List<ProxyObject> proxyObjects = ConnectorFacade.browse(ConnectorFacade.getSession().getSessionID(),null);
+					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
+					model.getRoot().setChildren(treeNodes);
+					treeViewer.setInput(model);
 					checkboxTreeViewer.setInput(null);
-				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
+				} catch (ConnectionException | RemoteApplicationException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
 		};
-		this.browseFiles_action.setText("Browse Repository");
-		this.browseFiles_action.setToolTipText("Browse remote model repository");
-		this.browseFiles_action.setImageDescriptor(IMG_BROWSE_FILES);
+		this.refresh_action.setText("Browse Repository");
+		this.refresh_action.setToolTipText("Browse remote model repository");
+		this.refresh_action.setImageDescriptor(IMG_BROWSE_FILES);
 		
-		this.browseModel_action = new Action() {
-			
-			public void run() {
-				IStructuredSelection selection = treeViewer.getStructuredSelection();
-				
-				Object object = selection.getFirstElement();
-				if (object instanceof TreeLeaf) {
-					try {
-						String remote_model_path = ((TreeLeaf)object).getId();
-						TreeModel model = ConnectorFacade.browseModelElements(remote_model_path);
-						checkboxTreeViewer.setInput(model);
-					} catch (ConnectionException | InvalidSessionException e) {
-						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
-					}
-				} else {
-					MessageDialog.openError(composite.getShell(), "No Model File", "Please select a model file");
-				}
-			}
-		};
-		this.browseModel_action.setText("Browse Model");
-		this.browseModel_action.setToolTipText("Browse remote model file");
-		this.browseModel_action.setImageDescriptor(IMG_BROWSE_MODEL);
-		this.browseModel_action.setEnabled(false);
 		
 		this.selectSubTreeAction = new Action() {
 			public void run(){
@@ -401,9 +388,9 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
 						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds);
-						IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
-						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					} catch (ConnectionException | CoreException | InvalidSessionException e) {
+						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
+						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+					} catch (ConnectionException | CoreException | InvalidSessionException | RemoteApplicationException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}
 				}
@@ -418,10 +405,11 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 			public void run() {
 				try {
 					Set<String> elementIds = getSelectedElementIDs();
-					File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds);
-					IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
-					resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					
+					if(!elementIds.isEmpty()) {
+						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds);
+						IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
+						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+					}
 				} catch (ConnectionException | CoreException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
@@ -491,7 +479,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	private Set<String> getSelectedElementIDs(){
 		Set<String> elementIds = new HashSet<String>();
 		for(Object element : checkboxTreeViewer.getCheckedElements()) {
-			TreeNode treeNode = (TreeNode) element;
+			AdaptableTreeNode treeNode = (AdaptableTreeNode) element;
 			elementIds.add(treeNode.getId());
 		}
 		return elementIds;
@@ -507,34 +495,92 @@ public class SiDiffModelRepositoryView extends ViewPart implements ICheckStateLi
 	
 	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		
-		TreeModel files = ConnectorFacade.browseModelFiles(localModelPath);
-		
-		treeViewer.setInput(files);
-	
-		TreeNode selectedModelFile = files.getSelectedElements()[0];
-		List<TreeNode> visibleModelFilesNodes = new ArrayList<TreeNode>();
-		TreeNode parent = selectedModelFile.getParent();
-		while(!parent.equals(files.getRoot())){
-			visibleModelFilesNodes.add(0, parent);
-			parent = parent.getParent();
-		}
-		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
-		treeViewer.setSelection(new StructuredSelection(selectedModelFile), true);
-		
-		TreeModel model = ConnectorFacade.getRequestedModelElements(localModelPath);
-		checkboxTreeViewer.setInput(model);
-		
-		TreeNode[] selectedModelElements = model.getSelectedElements();
-		List<TreeNode> visibleModelElements = new ArrayList<TreeNode>();
-		
-		for(TreeNode selectedModelElement : selectedModelElements) {
-			TreeNode parentElement = selectedModelElement.getParent();
-			while(!parentElement.equals(model.getRoot())){
-				visibleModelElements.add(0, parentElement);
-				parentElement = parentElement.getParent();
+//		TreeModel files = ConnectorFacade.browseModelFiles(localModelPath);
+//		
+//		treeViewer.setInput(files);
+//	
+//		TreeNode selectedModelFile = files.getSelectedElements()[0];
+//		List<TreeNode> visibleModelFilesNodes = new ArrayList<TreeNode>();
+//		TreeNode parent = selectedModelFile.getParent();
+//		while(!parent.equals(files.getRoot())){
+//			visibleModelFilesNodes.add(0, parent);
+//			parent = parent.getParent();
+//		}
+//		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
+//		treeViewer.setSelection(new StructuredSelection(selectedModelFile), true);
+//		
+//		TreeModel model = ConnectorFacade.getRequestedModelElements(localModelPath);
+//		checkboxTreeViewer.setInput(model);
+//		
+//		TreeNode[] selectedModelElements = model.getSelectedElements();
+//		List<TreeNode> visibleModelElements = new ArrayList<TreeNode>();
+//		
+//		for(TreeNode selectedModelElement : selectedModelElements) {
+//			TreeNode parentElement = selectedModelElement.getParent();
+//			while(!parentElement.equals(model.getRoot())){
+//				visibleModelElements.add(0, parentElement);
+//				parentElement = parentElement.getParent();
+//			}
+//		}
+//		checkboxTreeViewer.setExpandedElements(visibleModelElements.toArray());
+//		checkboxTreeViewer.setCheckedElements(selectedModelElements);		
+	}
+
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		ISelection selection = event.getSelection();
+		if(selection instanceof StructuredSelection) {
+			StructuredSelection structuredSelection = (StructuredSelection) selection;
+			if(structuredSelection.size() == 1 ) {
+				AdaptableTreeNode treeNode = (AdaptableTreeNode) structuredSelection.getFirstElement();
+				
+				System.out.println(event.getSource());
+				if(event.getSource().equals(this.treeViewer) && (this.treeViewer_selection == null || !this.treeViewer_selection.equals(treeNode))) {
+					this.treeViewer_selection = treeNode;
+					if(!(treeNode.isLeaf())) {
+						if(treeNode.getChildren().isEmpty()) {
+							try {
+								List<ProxyObject> proxyObjects = ConnectorFacade.browse(treeNode.getId(), null);
+								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
+								treeNode.setChildren(children);
+								this.treeViewer.refresh();
+							} catch (ConnectionException | RemoteApplicationException e) {
+								MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+								e.printStackTrace();
+							}
+						}
+					}else {
+						AdaptableTreeModel treeModel = new AdaptableTreeModel();
+						
+						try {
+							List<ProxyObject> proxyObjects = ConnectorFacade.browse(treeNode.getId(), null);
+							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
+							treeModel.getRoot().setChildren(children);
+							this.checkboxTreeViewer.setInput(treeModel);
+						} catch (ConnectionException | RemoteApplicationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				}else {
+					if(!(treeNode.isLeaf()) && treeNode.getChildren().isEmpty()){
+						try {
+							
+							String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection().getFirstElement()).getId();
+							List<ProxyObject> proxyObjects = ConnectorFacade.browse(session_path, treeNode.getId());
+							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
+							treeNode.setChildren(children);
+							this.checkboxTreeViewer.refresh();
+							
+							
+						} catch (ConnectionException | RemoteApplicationException e) {
+							MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+							e.printStackTrace();
+						}
+					}
+				}
 			}
 		}
-		checkboxTreeViewer.setExpandedElements(visibleModelElements.toArray());
-		checkboxTreeViewer.setCheckedElements(selectedModelElements);		
 	}
 }

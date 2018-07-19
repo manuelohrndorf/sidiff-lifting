@@ -12,6 +12,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.Unit;
 
 /**
@@ -36,6 +37,8 @@ public class HenshinInterpreter {
 	 */
 	private Map<Parameter, Object> argumentManager;
 	
+	private UnitApplication application;
+	
 	/**
 	 * applies an {@link Unit} onto the {@link #model_resource}
 	 * 
@@ -48,15 +51,28 @@ public class HenshinInterpreter {
 		
 		Engine engine = new EngineImpl();
 		EGraph graph = new EGraphImpl(this.model_resource);	
-		UnitApplication application = new UnitApplicationImpl(engine, graph, unit, null);
+		application = new UnitApplicationImpl(engine, graph, unit, null);
 		
 		for(Parameter parameter : unit.getParameters()) {
-			application.setParameterValue(parameter.getName(), argumentManager.get(parameter));
+			if(argumentManager.get(parameter) != null) {
+				application.setParameterValue(parameter.getName(), argumentManager.get(parameter));
+			}
 		}
 		
 		boolean success = application.execute(null);
 		
+		
 		return success;
+	}
+	
+	
+	public boolean undoLast() {
+		boolean result = false;
+		if(application != null) {
+			result = application.undo(null);
+			application = null;
+		}
+		return result;
 	}
 	
 	public Resource getModelResource() {
@@ -87,7 +103,9 @@ public class HenshinInterpreter {
 		if(this.henshin_module != null) {
 			for(Unit unit : this.henshin_module.getUnits()) {
 				for(Parameter parameter : unit.getParameters()){
-					this.argumentManager.put(parameter, "");
+					if(parameter.getKind().equals(ParameterKind.IN) || parameter.getKind().equals(ParameterKind.INOUT)) {
+						this.argumentManager.put(parameter, "");
+					}
 				}
 			}
 		}

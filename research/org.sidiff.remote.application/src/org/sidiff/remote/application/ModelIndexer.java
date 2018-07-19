@@ -2,8 +2,10 @@ package org.sidiff.remote.application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -17,28 +19,34 @@ public class ModelIndexer {
 	
 	private Set<String> file_ext;
 	
-	private List<File> model_files;
+	private Map<String, File> files;
 	
 	public ModelIndexer(File user_folder) {
 		this.user_folder = user_folder;
 		this.file_ext = new HashSet<String>();
 		this.file_ext.add("ecore");
 		this.file_ext.add("uml");
-		this.model_files = new ArrayList<File>();
+		this.files = new HashMap<String, File>();
 	}
 	
 	public void index() {
-		this.model_files.clear();
-		this.model_files.addAll(searchModelFiles(user_folder));
+		this.files.clear();
+		this.files.putAll(searchModelFiles(user_folder));
 	}
 	
-	private List<File> searchModelFiles(File parent){
-		List<File> files = new ArrayList<File>();
+	private Map<String, File> searchModelFiles(File parent){
+		Map<String, File> files = new HashMap<String, File>();
 		for(File file : parent.listFiles()) {
 			if(file.isDirectory()) {
-				files.addAll(searchModelFiles(file));
+				if(!file.getName().equals(".sidiff"))
+				files.putAll(searchModelFiles(file));
 			}else if(file_ext.contains(getFileExtension(file))) {
-				files.add(file);
+				files.put(file.getAbsolutePath(), file);
+				File p = file.getParentFile();
+				while(!p.equals(user_folder)) {
+					files.put(p.getAbsolutePath(), p);
+					p = p.getParentFile();
+				}
 			}
 		}
 		
@@ -53,7 +61,18 @@ public class ModelIndexer {
         else return "";
     }
 	
-	public List<File> getModel_files() {
-		return model_files;
+	public File getFile(String session_path) {
+		String absolute_path = user_folder.getAbsolutePath() + File.separator + session_path;
+		return files.get(absolute_path);
+	}
+	
+	public List<File> getChildren(File file){
+		List<File> children = new ArrayList<File>();
+		for(File child : file.listFiles()) {
+			if(files.containsKey(child.getAbsolutePath())) {
+				children.add(child);
+			}
+		}
+		return children;
 	}
 }

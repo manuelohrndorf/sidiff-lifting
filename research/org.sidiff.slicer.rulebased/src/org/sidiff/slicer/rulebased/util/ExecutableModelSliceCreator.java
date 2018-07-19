@@ -81,6 +81,8 @@ public class ExecutableModelSliceCreator {
 	 */
 	protected Map<Correspondence, Correspondence> correspondenceCopies;
 	
+	protected Set<Correspondence> correspondences;
+	
 	/**
 	 * Holds the copy for each {@link ObjectParameterBinding}
 	 */
@@ -99,6 +101,8 @@ public class ExecutableModelSliceCreator {
 	protected Set<OperationInvocation> ignoredOpInvs;
 	
 	
+	protected Set<ObjectParameterBinding> changedPBs;
+	
 	public ExecutableModelSliceCreator() {
 		this.modelSlice = RuleBasedSliceFactory.eINSTANCE.createExecutableModelSlice();
 		
@@ -111,11 +115,12 @@ public class ExecutableModelSliceCreator {
 		this.scsCopies = new HashMap<SemanticChangeSet, SemanticChangeSet>();
 		this.changeCopies = new HashMap<Change,Change>();
 		this.correspondenceCopies = new HashMap<Correspondence, Correspondence>();
+		this.correspondences = new HashSet<Correspondence>();
 		this.opbCopies = new HashMap<ObjectParameterBinding, ObjectParameterBinding>();
 		this.objCopies = new HashMap<EObject, SlicedElement>();
 		this.ignoredOpInvs = new HashSet<OperationInvocation>();
 		
-//		this.ermElements = new LinkedList<EObject>();
+		this.changedPBs = new HashSet<ObjectParameterBinding>();
 	}
 	
 	public ExecutableModelSlice createExecutableModelSlice(Set<OperationInvocation> extendOpInvsCreate, Set<OperationInvocation> extendOpInvsDelete, Set<OperationInvocation> ignoredOpInvs) {
@@ -139,6 +144,7 @@ public class ExecutableModelSliceCreator {
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
 				
 		matching.getCorrespondences().addAll(correspondenceCopies.values());
+		matching.getCorrespondences().addAll(correspondences);
 		
 		symmetricDifference.getChanges().addAll(changeCopies.values());
 		symmetricDifference.getChangeSets().addAll(scsCopies.values());
@@ -190,6 +196,7 @@ public class ExecutableModelSliceCreator {
 							// if the target of a parameter mapping is contained by an operation invocation contained in the ignore list, then
 							// the actualA object has to be set manually.
 							opbCopies.get(opb).setActualA(opb.getActualB());
+							changedPBs.add(opbCopies.get(opb));
 							// Hold the object in order to create respective edit rule matches later
 //							ermElements.add(opb.getActualB());
 						}
@@ -411,11 +418,13 @@ public class ExecutableModelSliceCreator {
 	}
 	
 	protected void relinkObjectParameterBinding(ObjectParameterBinding objectParameterBinding) {
+		SlicedElement elementA = null;
+		SlicedElement elementB = null;
 		if(objectParameterBinding.getActualA() != null) {
 			try {
-				SlicedElement element = this.sliceImporter.importEObject(objectParameterBinding.getActualA());
-				objCopies.put(objectParameterBinding.getActualA(), element);
-				objectParameterBinding.setActualA(element);
+				elementA = this.sliceImporter.importEObject(objectParameterBinding.getActualA());
+				objCopies.put(objectParameterBinding.getActualA(), elementA);
+				objectParameterBinding.setActualA(elementA);
 			} catch (ImportFailedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -423,14 +432,22 @@ public class ExecutableModelSliceCreator {
 		}
 		if(objectParameterBinding.getActualB() != null) {
 			try {
-				SlicedElement element = this.sliceImporter.importEObject(objectParameterBinding.getActualB());
-				objCopies.put(objectParameterBinding.getActualB(), element);
-				objectParameterBinding.setActualB(element);
+				elementB = this.sliceImporter.importEObject(objectParameterBinding.getActualB());
+				objCopies.put(objectParameterBinding.getActualB(), elementB);
+				objectParameterBinding.setActualB(elementB);
 			} catch (ImportFailedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		if(changedPBs.contains(objectParameterBinding) &&  elementA.equals(elementB)){
+			Correspondence c = MatchingModelFactory.eINSTANCE.createCorrespondence();
+			c.setMatchedA(elementA);
+			c.setMatchedB(elementB);
+			correspondences.add(c);
+		}
+		
 	}
 
 	protected void relinkAddObjectChange(AddObject addObjectChange) {

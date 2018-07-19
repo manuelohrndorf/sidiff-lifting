@@ -78,6 +78,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
+
 import de.unisiegen.informatik.pi.henshin.interpreter.HenshinInterpreter;
 import de.unisiegen.informatik.pi.henshin.ui.interpreter.HenshinInterpreterUIPlugin;
 
@@ -159,7 +160,14 @@ public class HenshinInterpreterView extends ViewPart {
 				if (!event.getSelection().isEmpty() && event.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 					if (selection.size() == 1 && selection.getFirstElement() instanceof Unit) {
-						parameter_viewer.setInput(((Unit)selection.getFirstElement()).getParameters());
+						Unit unit = (Unit) selection.getFirstElement();
+						List<Parameter> parameters = new ArrayList<Parameter>();
+						for(Parameter parameter : interpreter.getArgumentManager().keySet()) {
+							if(unit.getParameters().contains(parameter)) {
+								parameters.add(parameter);
+							}
+						}
+						parameter_viewer.setInput(parameters);
 					}
 				}
 				
@@ -424,6 +432,11 @@ public class HenshinInterpreterView extends ViewPart {
 			
 		}
 
+		@Override
+		public void undo() {
+			interpreter.undoLast();
+		}
+		
 		public boolean isSuccess() {
 			return this.success;
 		}

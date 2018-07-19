@@ -342,17 +342,17 @@ public class RuleBasedSlicer implements ISlicer{
 		String asymmetricDifferencePath = path + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
 		
 		// Try to load an existing patch:
-		if (new File(asymmetricDifferencePath).exists()) {
-			try {
-				URI asymmetricDifferenceURI = EMFStorage.pathToUri(asymmetricDifferencePath);
-				Resource asymmetricDifferenceResource = originModel.getResourceSet().getResource(asymmetricDifferenceURI, true);
-				AsymmetricDifference asymmetricDifference = (AsymmetricDifference) asymmetricDifferenceResource.getContents().get(0);
-				
-				return asymmetricDifference;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		if (new File(asymmetricDifferencePath).exists()) {
+//			try {
+//				URI asymmetricDifferenceURI = EMFStorage.pathToUri(asymmetricDifferencePath);
+//				Resource asymmetricDifferenceResource = originModel.getResourceSet().getResource(asymmetricDifferenceURI, true);
+//				AsymmetricDifference asymmetricDifference = (AsymmetricDifference) asymmetricDifferenceResource.getContents().get(0);
+//				
+//				return asymmetricDifference;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
 		// Create new patch:
 		Difference diff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(originModel, changedModel, this.slicingConfiguration.getLiftingSettings());
@@ -361,8 +361,8 @@ public class RuleBasedSlicer implements ISlicer{
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
 		
 		if (DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
-			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
-			throw new UncoveredChangesException();
+//			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
+//			throw new UncoveredChangesException();
 		}
 		
 		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);

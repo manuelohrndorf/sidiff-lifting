@@ -28,6 +28,8 @@ public class TreeNode implements Serializable {
 		
 	protected List<TreeNode> children;
 	
+	protected List<TreeNodeFeature> features;
+	
 	public TreeNode(String label, String id, String type) {
 		this.label = label;
 		this.id = id;
@@ -35,6 +37,7 @@ public class TreeNode implements Serializable {
 		this.selected = false;
 		this.parent = null;
 		this.children = new ArrayList<TreeNode>();
+		this.features = new ArrayList<TreeNodeFeature>();;
 	}
 	
 	public TreeNode(String label, String id, String type, TreeNode parent) {
@@ -93,6 +96,17 @@ public class TreeNode implements Serializable {
 	
 	public void setChildren(List<TreeNode> children) {
 		this.children = children;
+		for(TreeNode treeNode : this.children) {
+			treeNode.setParent(this);
+		}
+	}
+	
+	public List<TreeNodeFeature> getFeatures() {
+		return features;
+	}
+	
+	public void setFeatures(List<TreeNodeFeature> features) {
+		this.features = features;
 	}
 	
 	public String getPath() {

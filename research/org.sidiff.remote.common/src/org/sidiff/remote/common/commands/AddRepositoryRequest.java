@@ -28,6 +28,11 @@ public class AddRepositoryRequest extends RequestCommand {
 	/**
 	 * 
 	 */
+	private String repository_path;
+	
+	/**
+	 * 
+	 */
 	private String repository_user_name;
 	
 	/**
@@ -43,11 +48,12 @@ public class AddRepositoryRequest extends RequestCommand {
 	 * @param repository_user_name
 	 * @param repository_password
 	 */
-	public AddRepositoryRequest(Credentials credentials, String repository_url, int repository_port, String repository_user_name, char[] repository_password) {
+	public AddRepositoryRequest(Credentials credentials, String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) {
 		super(credentials, null);
 		this.eCommand = ECommand.ADD_REPOSITORY_REQUEST;
 		this.repository_url = repository_url;
 		this.repository_port = repository_port;
+		this.repository_path = repository_path;
 		this.repository_user_name = repository_user_name;
 		this.repository_password = repository_password;
 	}
@@ -66,6 +72,10 @@ public class AddRepositoryRequest extends RequestCommand {
 	 */
 	public int getRepositoryPort() {
 		return repository_port;
+	}
+	
+	public String getRepositoryPath() {
+		return repository_path;
 	}
 	
 	/**

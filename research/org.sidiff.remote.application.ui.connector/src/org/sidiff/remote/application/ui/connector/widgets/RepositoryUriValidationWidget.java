@@ -81,7 +81,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	
 	@Override
 	public void modifyTextHook() {
-		if(validate()) {
+		if(super.validate()) {
 			this.settings.setRepositoryURL(this.uri_text.getText());
 		}
 

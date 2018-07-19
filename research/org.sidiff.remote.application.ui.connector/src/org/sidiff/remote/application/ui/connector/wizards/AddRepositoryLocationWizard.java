@@ -9,6 +9,11 @@ import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.pages.RepositorySettingsPage;
 import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class AddRepositoryLocationWizard extends Wizard {
 
 	/**
@@ -49,10 +54,9 @@ public class AddRepositoryLocationWizard extends Wizard {
 	public boolean performFinish() {
 		
 		try {
-			ConnectorFacade.addRepository(this.settings.getRepositoryURL(), this.settings.getRepositoryPort(), this.settings.getUserName(), this.settings.getPassword());
+			ConnectorFacade.addRepository(this.settings.getRepositoryURL(), this.settings.getRepositoryPort(), this.settings.getRepositoryPath(), this.settings.getUserName(), this.settings.getPassword());
 		} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 			this.exception = e;
-			return false;
 		}
 		return true;
 	}

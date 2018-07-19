@@ -2,6 +2,7 @@ package org.sidiff.remote.application.connector.settings;
 
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.MultiStatus;
 import org.sidiff.common.settings.AbstractSettings;
 
 public class RepositorySettings extends AbstractSettings {
@@ -73,10 +74,11 @@ public class RepositorySettings extends AbstractSettings {
 		}
 	}
 
+
 	@Override
-	public boolean validateSettings() {
-		//TODO check valid urls
-		return user_name != null && !user_name.isEmpty();
+	protected void validate(MultiStatus multiStatus) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

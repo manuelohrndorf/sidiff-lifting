@@ -1,22 +1,17 @@
 package org.sidiff.remote.application.ui.connector.wizards;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
-import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 import org.sidiff.remote.application.ui.connector.pages.CheckoutDestinationPage;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class CheckoutSubModelWizard extends Wizard implements INewWizard {
 
 	/**

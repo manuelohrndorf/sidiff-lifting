@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "BCMs Slicing Rules for Backward Slicing of State Machines (2018-05-25 15:09:53)";
+		return "BCMs Slicing Rules for Backward Slicing of State Machines (2018-05-28 11:26:57)";
 	}
 	
 	@Override

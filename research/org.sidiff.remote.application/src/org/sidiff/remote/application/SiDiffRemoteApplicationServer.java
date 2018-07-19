@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -26,12 +27,11 @@ import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
+import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.commands.AddRepositoryReply;
 import org.sidiff.remote.common.commands.AddRepositoryRequest;
-import org.sidiff.remote.common.commands.BrowseModelFilesReply;
-import org.sidiff.remote.common.commands.BrowseModelFilesRequest;
-import org.sidiff.remote.common.commands.BrowseModelReply;
-import org.sidiff.remote.common.commands.BrowseModelRequest;
+import org.sidiff.remote.common.commands.BrowseReply;
+import org.sidiff.remote.common.commands.BrowseRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.ErrorReply;
@@ -125,24 +125,18 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			switch(command.getECommand()) {
 			case ADD_REPOSITORY_REQUEST:
 				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
-				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
+				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryPath(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
 				AddRepositoryReply addRepositoryReply = new AddRepositoryReply(checkoutResult.getHost(), checkoutResult.getTargetPath().split("/")[0]);
 				this.protocolHandler.write(out, addRepositoryReply, null);
 				break;
 				
-			case BROWSE_MODEL_FILES_REQUEST:
-				BrowseModelFilesRequest browseModelFilesRequest = (BrowseModelFilesRequest) command;
-				String local_model_path = browseModelFilesRequest.getLocalModelPath();
-				TreeModel modelFiles = app.browseModelFiles(local_model_path);
-				BrowseModelFilesReply browseModelFilesReply = new BrowseModelFilesReply(modelFiles);
-				this.protocolHandler.write(out, browseModelFilesReply, null);
-				break;
-				
-			case BROWSE_MODEL_REQUEST:
-				BrowseModelRequest browseModelRequest = (BrowseModelRequest) command;
-				TreeModel treeModel = app.browseModel(browseModelRequest.getRemoteModelPath());
-				BrowseModelReply browseModelReply = new BrowseModelReply(treeModel);
-				this.protocolHandler.write(out, browseModelReply, null);
+			case BROWSE_REQUEST:
+				BrowseRequest browseRequest = (BrowseRequest) command;
+				String session_path = browseRequest.getSessionPath();
+				String element_id = browseRequest.getElementID();
+				List<ProxyObject> proxyObjects = app.browse(session_path, element_id);
+				BrowseReply browseReply = new BrowseReply(proxyObjects);
+				this.protocolHandler.write(out, browseReply, null);
 				break;
 				
 			case CHECKOUT_SUB_MODEL_REQUEST:

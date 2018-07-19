@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "Edit (2018-05-25 15:09:55)";
+		return "Edit (2018-05-28 11:26:58)";
 	}
 	
 	@Override

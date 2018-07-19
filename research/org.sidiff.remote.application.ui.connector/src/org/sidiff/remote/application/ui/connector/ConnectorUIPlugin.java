@@ -1,14 +1,22 @@
 package org.sidiff.remote.application.ui.connector;
 
+import java.io.IOException;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.sidiff.integration.preferences.connector.ConnectorPreferencesConstants;
 import org.sidiff.integration.preferences.connector.ConnectorPreferencesPlugin;
+import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.ConnectorPlugin;
+import org.sidiff.remote.application.ui.connector.console.SiDiffClientConnectorConsole;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -23,6 +31,8 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static ConnectorUIPlugin plugin;
 	
+	private static SiDiffClientConnectorConsole console;
+	
 	/**
 	 * The constructor
 	 */
@@ -36,6 +46,8 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		initConsole();
 		
 		IPreferenceStore store = ConnectorPreferencesPlugin.getDefault().getPreferenceStore();
 		store.addPropertyChangeListener(new IPropertyChangeListener() {
@@ -62,6 +74,7 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 		String user = store.getString(ConnectorPreferencesConstants.P_USER);
 		String password = store.getString(ConnectorPreferencesConstants.P_PASSWORD);
 		ConnectorPlugin.getInstance().init(url, port, user, password);
+		printMessage(ConnectorFacade.getSession().toString());
 	}
 
 	/*
@@ -80,6 +93,32 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 	 */
 	public static ConnectorUIPlugin getDefault() {
 		return plugin;
+	}
+	
+	public static void initConsole() {
+		if(ConnectorUIPlugin.console == null) {
+			IConsoleManager consoleManager = ConsolePlugin.getDefault().getConsoleManager();
+			for(IConsole console : consoleManager.getConsoles()) {
+				if(console.getName().equals(SiDiffClientConnectorConsole.CONSOLE_NAME)) {
+					ConnectorUIPlugin.console = (SiDiffClientConnectorConsole) console;
+					return;
+				}
+			}
+			ConnectorUIPlugin.console = new SiDiffClientConnectorConsole();
+		}
+	}
+	
+	public static void printMessage(String msg) {
+		IOConsoleOutputStream out = console.newOutputStream();
+		out.setActivateOnWrite(true);
+		try {
+			out.write(msg);
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 	
 	public static ImageDescriptor getImageDescriptor(String path) {

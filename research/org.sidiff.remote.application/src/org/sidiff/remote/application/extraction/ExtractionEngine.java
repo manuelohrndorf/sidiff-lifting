@@ -15,11 +15,8 @@ import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
-import org.sidiff.patching.settings.ExecutionMode;
-import org.sidiff.patching.settings.PatchMode;
-import org.sidiff.patching.settings.PatchingSettings;
-import org.sidiff.patching.settings.PatchingSettings.ValidationMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
@@ -109,17 +106,12 @@ public class ExtractionEngine {
 		this.liftingSettings = new LiftingSettings();
 		
 		this.liftingSettings.setMatcher(PipelineUtils.getMatcherByKey("org.sidiff.matcher.id.xmiid.XMIIDMatcher"));
-		this.liftingSettings.setTechBuilder(PipelineUtils.getTechnicalDifferenceBuilder("org.sidiff.uml2v4.difference.technical.TechnicalDifferenceBuilderUML"));
+		this.liftingSettings.setTechBuilder(PipelineUtils.getTechnicalDifferenceBuilder("org.sidiff.uml2v4.difference.technical.TechnicalDifferenceBuilderUMLProfileApplication"));
 		this.liftingSettings.setRuleBases(PipelineUtils.getAvailableRulebases(new HashSet<String>(EMFDocumentTypeUtil.resolve(completeModel))));
 		this.liftingSettings.setRrSorter(PipelineUtils.getDefaultRecognitionRuleSorter(new HashSet<String>(EMFDocumentTypeUtil.resolve(completeModel))));
 		
 		
-		this.patchingSettings = new PatchingSettings(this.liftingSettings.getScope(), false,
-				this.liftingSettings.getMatcher(), this.liftingSettings.getCandidatesService(),
-				this.liftingSettings.getCorrespondencesService(), this.liftingSettings.getTechBuilder(), null,
-				new ModelSliceBasedArgumentManager(), new BatchInterruptHandler(),
-				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
-				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE, PatchMode.MERGING, 100,
-				ValidationMode.NO_VALIDATION);
+		this.patchingSettings = new PatchingSettings(this.liftingSettings.getScope(), false, this.liftingSettings.getMatcher(), this.liftingSettings.getCandidatesService(), this.liftingSettings.getCorrespondencesService(), this.liftingSettings.getTechBuilder(), null, new ModelSliceBasedArgumentManager(), new BatchInterruptHandler(), TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE), ModifiedDetectorUtil.getGenericModifiedDetector(), org.sidiff.patching.ExecutionMode.INTERACTIVE, org.sidiff.patching.PatchMode.MERGING, 100, org.sidiff.patching.validation.ValidationMode.NO_VALIDATION);
+
 	}
 }
