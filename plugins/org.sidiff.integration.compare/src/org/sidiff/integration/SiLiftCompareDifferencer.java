@@ -23,7 +23,7 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
-import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
@@ -56,26 +56,8 @@ public class SiLiftCompareDifferencer {
 	private SiLiftCompareConfiguration config;
 	private IPropertyChangeListener propertyChangeListener;
 
-	/**
-	 * The PatchEngine is required to apply OperationInvocations. May be null.
-	 */
 	private PatchEngine patchEngine;
-
-	/**
-	 * If present, the symmetric difference is stored in this variable. Once the
-	 * user choose the asymmetric difference to show, it keeps stored in this
-	 * variable. So the difference must not be recomputed each time the display
-	 * mode changes.
-	 */
-	private SymmetricDifference symmetricDifference;
-
-	/**
-	 * If present, the symmetric difference is stored in this variable. Once the
-	 * user choose the symmetric difference to show, it keeps stored in this
-	 * variable. So the difference must not be recomputed each time the display
-	 * mode changes.
-	 */
-	private AsymmetricDifference asymmetricDifference;
+	private Difference difference;
 
 	private List<IModelViewerAdapter> modelViewerAdapters;
 	private List<IDifferenceViewerAdapter> differenceViewerAdapters;
@@ -145,18 +127,9 @@ public class SiLiftCompareDifferencer {
 					Collections.<Enum<?>>emptySet());
 		}
 
-		symmetricDifference = LiftingFacade.liftTechnicalDifference(left.getResource(), right.getResource(), settings);
+		difference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
+				left.getResource(), right.getResource(), settings);
 
-		CompareResource ancestor = getAncestor();
-		if(ancestor.getResource() != null) {
-			asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
-					ancestor.getResource(), right.getResource(), settings).getAsymmetric();
-		} else {
-			asymmetricDifference = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(
-					left.getResource(), right.getResource(), settings).getAsymmetric();
-		}
-
-		// create new PatchEngine
 		createPatchEngine();
 
 		notifyRefreshDifference();
@@ -173,8 +146,6 @@ public class SiLiftCompareDifferencer {
 	 */
 	private void createPatchEngine() throws CoreException {
 		PatchingSettings patchingSettings = createPatchingSettings();
-
-		// create PatchEngine
 		patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
 
 		// init modified detector
@@ -210,7 +181,7 @@ public class SiLiftCompareDifferencer {
 		}
 
 		// Use interactive argument manager
-		IArgumentManager argumentManager = PatchingUtils.getArgumentManager(asymmetricDifference,
+		IArgumentManager argumentManager = PatchingUtils.getArgumentManager(getAsymmetricDifference(),
 				left.getResource(), patchingSettings, patchingSettings.getExecutionMode());
 		if(argumentManager == null) {
 			throw new RuntimeException("No argument manager found");
@@ -302,11 +273,11 @@ public class SiLiftCompareDifferencer {
 	}
 
 	public SymmetricDifference getSymmetricDifference() {
-		return symmetricDifference;
+		return difference == null ? null : difference.getSymmetric();
 	}
 
 	public AsymmetricDifference getAsymmetricDifference() {
-		return asymmetricDifference;
+		return difference == null ? null : difference.getAsymmetric();
 	}
 
 	/**
