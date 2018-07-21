@@ -28,8 +28,8 @@ import org.sidiff.integration.structureview.actions.ShowPropertiesViewAction;
 import org.sidiff.integration.structureview.actions.SwitchDisplayModeAction;
 import org.sidiff.integration.structureview.actions.UnignoreOperationAction;
 
-// TODO: Double click on item in the structure viewer clears input of content viewer
-// TODO: reuse OperationExplorerView: Double Click listener, other actions, validation mode action
+// TODO: Double-clicking on items in the structure viewer clears the input of the content viewer, needs major rewriting to work
+// TODO: Reuse further Actions from OperationExplorerView? Validation Mode, Highlighting, etc
 /**
  * Used to show {@link AsymmetricDifference}s and {@link SymmetricDifference}s
  * as structured view for ecore files.
@@ -37,18 +37,6 @@ import org.sidiff.integration.structureview.actions.UnignoreOperationAction;
  * @author Adrian Bingener, Robert Müller
  */
 public class SiLiftStructureMergeViewer extends TreeViewer {
-
-	/**
-	 * Provides the elements for this {@link TreeViewer} by the two given input
-	 * resources that are being compared.
-	 */
-	private SiLiftStructureMergeViewerContentProvider contentProvider;
-
-	/**
-	 * The configuration that controls various UI aspects of compare/merge
-	 * viewers like title labels and images.
-	 */
-	private SiLiftCompareConfiguration config;
 
 	/**
 	 * Creates a new {@link SiLiftStructureMergeViewer} with the given compare
@@ -60,27 +48,25 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	 */
 	public SiLiftStructureMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(parent);
-		this.config = config;
 		config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(SiLiftCompareSelectionController.getInstance());
 		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Viewer");
 
-		contentProvider = new SiLiftStructureMergeViewerContentProvider(config);
-		setContentProvider(contentProvider);
+		setContentProvider(new SiLiftStructureMergeViewerContentProvider(config));
 		setLabelProvider(new SiLiftStructureMergeViewerLabelProvider(config.getAdapterFactory(), this));
 		addSelectionChangedListener(SiLiftCompareSelectionController.getInstance());
 
-		initToolbarActions(CompareViewerPane.getToolBarManager(parent));
-		initContextMenu();
+		initToolbarActions(CompareViewerPane.getToolBarManager(parent), config);
+		initContextMenu(config);
 	}
 
-	protected void initToolbarActions(ToolBarManager toolbarManager) {
+	protected void initToolbarActions(ToolBarManager toolbarManager, SiLiftCompareConfiguration config) {
 		toolbarManager.add(new ApplyPatchOnLeftAction(config));
 		toolbarManager.add(new ShowDiagramAction(config));
 		toolbarManager.add(new SwitchDisplayModeAction(this, config));
 		toolbarManager.update(true);
 	}
 
-	protected void initContextMenu() {
+	protected void initContextMenu(SiLiftCompareConfiguration config) {
 		MenuManager menuMgr = new MenuManager();
 		Menu menu = menuMgr.createContextMenu(getControl());
 		menu.addDisposeListener(new DisposeListener() {
@@ -119,13 +105,5 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 		});
 
 		getControl().setMenu(menu);
-	}
-
-	@Override
-	protected void handleDispose(DisposeEvent event) {
-		if(config.getContainer().getWorkbenchPart().getSite().getSelectionProvider() == this) {
-			config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(null);
-		}
-		super.handleDispose(event);
 	}
 }

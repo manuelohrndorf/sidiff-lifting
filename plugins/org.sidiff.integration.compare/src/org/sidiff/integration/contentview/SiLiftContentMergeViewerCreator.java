@@ -6,7 +6,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 
-
 public class SiLiftContentMergeViewerCreator implements IViewerCreator {
 
 	@Override

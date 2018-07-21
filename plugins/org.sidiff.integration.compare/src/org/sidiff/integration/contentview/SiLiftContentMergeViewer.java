@@ -70,9 +70,49 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 		buildControl(parent);
 		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift ContentViewer");
 
-		// manage the toolbar
 		customizeToolbar(getToolBarManager(parent));
 
+		registerModelViewerAdapter();
+		registerPropertyChangeListener();
+	}
+
+	/**
+	 * Remove unused items from the toolbar.
+	 * @param manager The ToolBarManager that holds the items
+	 */
+	private void customizeToolbar(IToolBarManager manager) {
+		IContributionItem[] items = manager.getItems();
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] instanceof ActionContributionItem) {
+				ActionContributionItem item = (ActionContributionItem) items[i];
+				switch(item.getAction().getText()) {
+				case "action.CopyLeftToRight.label":
+				case "action.CopyRightToLeft.label":
+					manager.remove(item);
+					break;
+				}
+			}
+		}
+	}
+
+	private void registerPropertyChangeListener() {
+		propertyChangeListener = new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if(event.getProperty() == SiLiftCompareConfiguration.MIRRORED) {
+					refresh();
+
+					// switch dirty states
+					boolean leftDirty = isLeftDirty();
+					setLeftDirty(isRightDirty());
+					setRightDirty(leftDirty);
+				}
+			}
+		};
+		config.addPropertyChangeListener(propertyChangeListener);
+	}
+
+	private void registerModelViewerAdapter() {
 		modelViewerAdapter = new SiLiftCompareDifferencer.IModelViewerAdapter() {
 			@Override
 			public void setDirty(Side side, boolean dirty) {
@@ -96,41 +136,8 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 			}
 		};
 		config.getDifferencer().addModelViewerAdapter(modelViewerAdapter);
-
-		propertyChangeListener = new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if(event.getProperty() == SiLiftCompareConfiguration.MIRRORED) {
-					refresh();
-
-					// switch dirty states
-					boolean leftDirty = isLeftDirty();
-					setLeftDirty(isRightDirty());
-					setRightDirty(leftDirty);
-				}
-			}
-		};
-		config.addPropertyChangeListener(propertyChangeListener);
 	}
 
-	/**
-	 * Remove unused items from the toolbar.
-	 * @param manager The ToolBarManager that holds the items
-	 */
-	private void customizeToolbar(IToolBarManager manager) {
-		IContributionItem[] items = manager.getItems();
-		for (int i = 0; i < items.length; i++) {
-			if (items[i] instanceof ActionContributionItem) {
-				ActionContributionItem item = (ActionContributionItem) items[i];
-				switch(item.getAction().getText()) {
-					case "action.CopyLeftToRight.label":
-					case "action.CopyRightToLeft.label":
-						manager.remove(item);
-						break;
-				}
-			}
-		}
-	}
 
 	/**
 	 * Create the {@link TreeViewer}s and set their content/label providers.
