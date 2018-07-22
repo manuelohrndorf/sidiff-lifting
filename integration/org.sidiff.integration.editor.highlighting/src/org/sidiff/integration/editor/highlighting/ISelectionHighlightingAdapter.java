@@ -14,7 +14,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * @author Manuel Ohrndorf
  */
 public interface ISelectionHighlightingAdapter {
-	
+
+	public static final String EXTENSION_POINT_ID = "org.sidiff.integration.editor.highlighting.adapter.selection";
+	public static final String ATTRIBUTE_CLASS = "class";
+
 	/**
 	 * Empty iteration.
 	 */

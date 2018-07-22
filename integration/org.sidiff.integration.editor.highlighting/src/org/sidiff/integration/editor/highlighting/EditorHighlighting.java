@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -26,8 +29,6 @@ public class EditorHighlighting {
 
 	private static EditorHighlighting instance;
 
-	private List<ISelectionHighlightingAdapter> adapters = new LinkedList<>();
-
 	/**
 	 * @return The singleton of the highlighting registry.
 	 */
@@ -36,6 +37,26 @@ public class EditorHighlighting {
 			instance = new EditorHighlighting();
 		}
 		return instance;
+	}
+
+
+	private List<ISelectionHighlightingAdapter> adapters;
+
+	private EditorHighlighting() {
+		this.adapters = new LinkedList<>();
+		initSelectionAdapters();
+	}
+
+	private void initSelectionAdapters() {
+		for(IConfigurationElement element :
+			Platform.getExtensionRegistry().getConfigurationElementsFor(ISelectionHighlightingAdapter.EXTENSION_POINT_ID)) {
+			try {
+				registerAdapter((ISelectionHighlightingAdapter)
+						element.createExecutableExtension(ISelectionHighlightingAdapter.ATTRIBUTE_CLASS));	
+			} catch(CoreException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
