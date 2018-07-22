@@ -31,6 +31,8 @@ import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 public class SelectionDecorator extends AbstractDecorator {
 
 	private static final String HOOK_ID = "org.sidiff.integration.editor.highlighting";
+	
+	private static boolean focusOnSelection = true;
 
 	private SelectionControllerDiagram controller = SelectionControllerDiagram.getInstance();
 
@@ -47,7 +49,7 @@ public class SelectionDecorator extends AbstractDecorator {
 			lineWidth = lw;
 		}
 	}
-
+	
 	private NotificationListener notificationListener = new NotificationListener() {
 
 		@Override
@@ -123,12 +125,15 @@ public class SelectionDecorator extends AbstractDecorator {
 				} catch (CoreException ex) {
 					System.out.println(ex.getMessage());
 				}
+				
+				// TODO: Make the focusing configurable per selection!
+				if (focusOnSelection) {
+					int x = editPart.getFigure().getBounds().x;
+					int y = editPart.getFigure().getBounds().y;
 
-				int x = editPart.getFigure().getBounds().x;
-				int y = editPart.getFigure().getBounds().y;
-
-				FigureCanvas canvas = (FigureCanvas) editPart.getViewer().getControl();
-				canvas.scrollSmoothTo(x, y);
+					FigureCanvas canvas = (FigureCanvas) editPart.getViewer().getControl();
+					canvas.scrollSmoothTo(x, y);
+				}
 
 				editPart.getViewer().reveal(editPart);
 
