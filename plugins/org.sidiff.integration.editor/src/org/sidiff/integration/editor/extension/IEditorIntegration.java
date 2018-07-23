@@ -96,8 +96,7 @@ public interface IEditorIntegration {
 	/**
 	 * Checks if the default editor is present in the current workspace
 	 * 
-	 * @return true if present, false if not and null if the status cant't be
-	 *         determined
+	 * @return true if present, false if not
 	 */
 	public boolean isDefaultEditorPresent();
 

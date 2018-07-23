@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
@@ -83,6 +84,12 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	 * Validates the preferences and sets the result using {@link #setValid(boolean)} and {@link #setErrorMessage(String)}.
 	 */
 	protected abstract void validatePreferences();
+
+	/**
+	 * Returns the ID of the help context to display for this page.
+	 * @return the help context id
+	 */
+	protected abstract String getHelpContextId();
 
 	@Override
 	protected Control createContents(Composite parent) {
@@ -196,7 +203,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	}
 
 	/**
-	 * Returns whether the page is a property page, i.e. it is associated with a project.
+	 * Returns whether the page is a property page, i.e. if it is associated with a project.
 	 * @return whether the page is a property page
 	 */
 	protected boolean isPropertiesPage() {
@@ -236,6 +243,14 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	protected void performDefaults() {
 		defaultPreferences();
 		super.performDefaults();
+	}
+
+	@Override
+	public void performHelp() {
+		final String id = getHelpContextId();
+		if(id != null) {
+			PlatformUI.getWorkbench().getHelpSystem().displayHelp(id);
+		}
 	}
 
 	@Override

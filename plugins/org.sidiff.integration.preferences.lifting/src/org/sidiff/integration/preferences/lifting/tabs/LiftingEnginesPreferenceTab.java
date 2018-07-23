@@ -9,14 +9,14 @@ import org.sidiff.integration.preferences.fieldeditors.ICompositePreferenceField
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingSettingsAdapter;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 
 /**
  * 
  * Class for the lifting settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class LiftingEnginesPreferenceTab implements IPreferenceTab {
+public class LiftingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField recognitionEngineMode;
 	private IPreferenceField calculateEditRuleMatch;

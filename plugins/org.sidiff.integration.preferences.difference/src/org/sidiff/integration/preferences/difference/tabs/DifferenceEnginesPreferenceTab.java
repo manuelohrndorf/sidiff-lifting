@@ -9,14 +9,14 @@ import org.sidiff.integration.preferences.difference.settingsadapter.DifferenceS
 import org.sidiff.integration.preferences.difference.valueconverters.TechnicalDifferenceBuilderValueConverter;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 
 /**
  * 
  * Class to create the tab for the difference settings.
  * @author Daniel Roedder, Robert Müller
  */
-public class DifferenceEnginesPreferenceTab implements IPreferenceTab {
+public class DifferenceEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField techDiffBuilderField;
 	private IPreferenceField mergeImports;

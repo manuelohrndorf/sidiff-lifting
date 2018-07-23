@@ -5,7 +5,7 @@ import java.util.List;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.patching.validation.ValidationMode;
 
 /**
@@ -13,7 +13,7 @@ import org.sidiff.patching.validation.ValidationMode;
  * @author Daniel Roedder, Robert Müller
  *
  */
-public class PatchingValidationPreferenceTab implements IPreferenceTab {
+public class PatchingValidationPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField validationMode;
 

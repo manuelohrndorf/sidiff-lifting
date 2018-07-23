@@ -35,7 +35,7 @@ public class PipelineStepPreferencePage extends TabbedPreferenceFieldPage {
 				tab.createPreferenceFields(fields);
 				if(fields.isEmpty())
 					continue; // empty tabs are skipped
-				addTab("All domains", "Domain-independent settings", fields);
+				addTab("All domains", "Domain-independent settings", fields, tab.getHelpContextId());
 			}
 		}
 
@@ -48,7 +48,7 @@ public class PipelineStepPreferencePage extends TabbedPreferenceFieldPage {
 					tab.createPreferenceFields(fields);
 					if(fields.isEmpty())
 						continue; // empty tabs are skipped
-					addTab(EPackage.Registry.INSTANCE.getEPackage(docType).getName(), docType, fields);
+					addTab(EPackage.Registry.INSTANCE.getEPackage(docType).getName(), docType, fields, tab.getHelpContextId());
 				}
 			}
 		}

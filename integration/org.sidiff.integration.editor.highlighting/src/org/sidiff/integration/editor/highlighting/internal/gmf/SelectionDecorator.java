@@ -104,58 +104,56 @@ public class SelectionDecorator extends AbstractDecorator {
 	public View decorate() {
 		removeDecoration();
 
-		IGraphicalEditPart editPart = (IGraphicalEditPart) getDecoratorTarget().getAdapter(EditPart.class);
-
 		View view = (View) getDecoratorTarget().getAdapter(View.class);
-
-		if (controller.getPrefferedDecoratorTarget(view.getElement()) == getDecoratorTarget()) {
-			if (selectionContains(view.getElement())) {
-				IExtensionRegistry registry = Platform.getExtensionRegistry();
-				IConfigurationElement[] config = registry.getConfigurationElementsFor(HOOK_ID);
-
-				try {
-					for (IConfigurationElement configElement : config) {
-						final Object object = configElement.createExecutableExtension("hook");
-						
-						if (object instanceof DecorationHook) {
-							DecorationHook hook = (DecorationHook) object;
-							hook.onViewWillBeDecorated(view);
-						}
-					}
-				} catch (CoreException ex) {
-					System.out.println(ex.getMessage());
-				}
-				
-				// TODO: Make the focusing configurable per selection!
-				if (focusOnSelection) {
-					int x = editPart.getFigure().getBounds().x;
-					int y = editPart.getFigure().getBounds().y;
-
-					FigureCanvas canvas = (FigureCanvas) editPart.getViewer().getControl();
-					canvas.scrollSmoothTo(x, y);
-				}
-
-				editPart.getViewer().reveal(editPart);
-
-				if (view instanceof Node) {
-					IFigure figure = editPart.getFigure();
-
-					IFigure decoration = new SelectionDecorationFigure();
-					decoration.setSize(figure.getSize());
-
-					setDecoration(getDecoratorTarget().addShapeDecoration(
-							decoration, IDecoratorTarget.Direction.CENTER,0, false));
-				} else if (view instanceof Edge) {
-					PolylineConnection connection = (PolylineConnection) editPart.getFigure();
-					decoratedLines.put(connection,
-							new Style(connection.getForegroundColor(), connection.getLineWidth()));
-					connection.setForegroundColor(ColorConstants.red);
-					connection.setLineWidth(2);
-				}
-				return view;
-			}
+		if(controller.getPrefferedDecoratorTarget(view.getElement()) != getDecoratorTarget()
+				|| !selectionContains(view.getElement())) {
+			return null;
 		}
-		return null;
+
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] config = registry.getConfigurationElementsFor(HOOK_ID);
+
+		try {
+			for (IConfigurationElement configElement : config) {
+				final Object object = configElement.createExecutableExtension("hook");
+				
+				if (object instanceof DecorationHook) {
+					DecorationHook hook = (DecorationHook) object;
+					hook.onViewWillBeDecorated(view);
+				}
+			}
+		} catch (CoreException ex) {
+			ex.printStackTrace();
+		}
+
+		IGraphicalEditPart editPart = (IGraphicalEditPart) getDecoratorTarget().getAdapter(EditPart.class);
+		// TODO: Make the focusing configurable per selection!
+		if (focusOnSelection) {
+			int x = editPart.getFigure().getBounds().x;
+			int y = editPart.getFigure().getBounds().y;
+	
+			FigureCanvas canvas = (FigureCanvas) editPart.getViewer().getControl();
+			canvas.scrollSmoothTo(x, y);
+		}
+
+		editPart.getViewer().reveal(editPart);
+
+		if (view instanceof Node) {
+			IFigure figure = editPart.getFigure();
+
+			IFigure decoration = new SelectionDecorationFigure();
+			decoration.setSize(figure.getSize());
+
+			setDecoration(getDecoratorTarget().addShapeDecoration(
+					decoration, IDecoratorTarget.Direction.CENTER,0, false));
+		} else if (view instanceof Edge) {
+			PolylineConnection connection = (PolylineConnection) editPart.getFigure();
+			decoratedLines.put(connection,
+					new Style(connection.getForegroundColor(), connection.getLineWidth()));
+			connection.setForegroundColor(ColorConstants.red);
+			connection.setLineWidth(2);
+		}
+		return view;
 	}
 	
 	private boolean selectionContains(EObject viewDataElement){

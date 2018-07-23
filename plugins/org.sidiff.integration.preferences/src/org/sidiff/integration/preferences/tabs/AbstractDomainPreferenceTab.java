@@ -5,7 +5,7 @@ package org.sidiff.integration.preferences.tabs;
  * @author Robert Müller
  *
  */
-public abstract class AbstractDomainPreferenceTab implements IPreferenceTab, IPreferenceTab.DomainSpecific {
+public abstract class AbstractDomainPreferenceTab extends AbstractPreferenceTab implements IPreferenceTab.DomainSpecific {
 
 	private String documentType;
 

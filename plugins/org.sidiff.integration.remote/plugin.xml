@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.sidiff.integration.remote.loaders" name="Remote Resource Loaders" schema="schema/org.sidiff.integration.remote.loaders.exsd"/>
+   <extension
+         point="org.sidiff.integration.remote.loaders">
+      <ecoreResourceLoader
+            class="org.sidiff.integration.remote.impl.DefaultEcoreResourceLoader">
+      </ecoreResourceLoader>
+      <editabilityResolver
+            class="org.sidiff.integration.remote.impl.DefaultEditabilityResolver">
+      </editabilityResolver>
+      <platformResourceLoader
+            class="org.sidiff.integration.remote.impl.DefaultPlatformResourceLoader">
+      </platformResourceLoader>
+   </extension>
+
+</plugin>

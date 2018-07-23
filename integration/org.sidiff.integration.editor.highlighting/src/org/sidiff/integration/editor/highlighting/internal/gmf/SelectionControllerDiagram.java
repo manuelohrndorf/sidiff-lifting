@@ -95,21 +95,10 @@ public class SelectionControllerDiagram {
 			}
 		});
 	}
-	
+
 	private void highlightDiagrams() {
-		List<EObject> decoratedViews = new ArrayList<EObject>();
-		
-		for (int i = 0; i < decorators.size(); i++) {
-			IDecorator decorator = decorators.get(i);
-			
-			if (decorator instanceof SelectionDecorator) {
-				View decoratedViewOrNull = ((SelectionDecorator) decorator).decorate();
-				if (decoratedViewOrNull != null && !(decoratedViewOrNull instanceof Diagram)) {
-					decoratedViews.add(decoratedViewOrNull);
-				}
-			} else {
-				decorator.refresh();
-			}
+		for(IDecorator decorator : decorators) {
+			decorator.refresh();
 		}
 	}
 }

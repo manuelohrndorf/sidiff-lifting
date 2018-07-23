@@ -97,6 +97,15 @@ public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePag
 		setValid(true);
 	}
 
+	@Override
+	protected String getHelpContextId() {
+		int index = tabFolder.getSelectionIndex();
+		if(index == -1) {
+			return null;
+		}
+		return tabs.get(index).helpContextId;
+	}
+
 	private void createPreferenceFieldControls() {
 		for(Tab tab : tabs) {
 			TabItem tabItem = createTab(tab);
@@ -124,9 +133,10 @@ public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePag
 	 * @param title the title of the tab
 	 * @param tooltip the tooltip of the tab (or <code>null</code>)
 	 * @param fields the preferences fields of the tab
+	 * @param helpContextId the help context id
 	 */
-	protected void addTab(String title, String tooltip, List<IPreferenceField> fields) {
-		tabs.add(new Tab(title, tooltip, fields));
+	protected void addTab(String title, String tooltip, List<IPreferenceField> fields, String helpContextId) {
+		tabs.add(new Tab(title, tooltip, fields, helpContextId));
 	}
 
 	private TabItem createTab(Tab tab) {
@@ -143,14 +153,16 @@ public abstract class TabbedPreferenceFieldPage extends PropertyAndPreferencePag
 	}
 
 	private class Tab {
-		private final String title;
-		private final String tooltip;
-		private final List<IPreferenceField> fields;
+		final String title;
+		final String tooltip;
+		final List<IPreferenceField> fields;
+		final String helpContextId;
 
-		private Tab(String title, String tooltip, List<IPreferenceField> fields) {
+		private Tab(String title, String tooltip, List<IPreferenceField> fields, String helpContextId) {
 			this.title = title;
 			this.tooltip = tooltip;
 			this.fields = fields;
+			this.helpContextId = helpContextId;
 		}
 	}
 }

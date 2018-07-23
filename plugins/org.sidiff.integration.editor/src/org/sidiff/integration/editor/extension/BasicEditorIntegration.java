@@ -49,15 +49,14 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	protected URI getMainDiagramFile(URI modelFile) {
 		URI[] files = getDiagramFiles(modelFile);
-		return files.length >= 0 ? files[0] : null;
+		return files.length > 0 ? files[0] : null;
 	}
 
 	protected URI[] getDiagramFiles(URI modelFile) {
 		String ext = modelFile.fileExtension();
 		if (modelFileExt != null && diagramFileExt != null && modelFileExt.equals(ext)) {
-			int index = modelFile.toString().lastIndexOf(ext);
-			String modelName = modelFile.toString().substring(0, index);
-			return new URI[] { URI.createURI(modelName + this.diagramFileExt) };
+			URI diagramUri = modelFile.trimFileExtension().appendFileExtension(diagramFileExt);
+			return new URI[] { diagramUri };
 		}
 		return new URI[0];
 	}
@@ -127,8 +126,10 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		return docType != null && docType.equals(EMFModelAccess.getCharacteristicDocumentType(model))
-				&& getMainDiagramFile(model.getURI()) != null;
+		if(docType == null || !docType.equals(EMFModelAccess.getCharacteristicDocumentType(model)))
+			return false;
+		URI diagram = getMainDiagramFile(model.getURI());
+		return diagram != null && EMFStorage.uriToFile(diagram).exists();
 	}
 
 	@Override
