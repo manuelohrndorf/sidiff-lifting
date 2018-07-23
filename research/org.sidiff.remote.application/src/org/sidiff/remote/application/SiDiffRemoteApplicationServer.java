@@ -22,6 +22,7 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
+import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.Credentials;
@@ -37,6 +38,8 @@ import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.ListRepositoryContentReply;
+import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -123,6 +126,13 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			File attachment = null;
 			
 			switch(command.getECommand()) {
+			case LIST_REPOSITORY_CONTENT_REQUEST:
+				ListRepositoryContentRequest listRepositoryContentRequest = (ListRepositoryContentRequest) command;
+				ListOperationResult listOperationResult = app.listRepository(listRepositoryContentRequest.getRepositoryUrl(), listRepositoryContentRequest.getRepositoryPort(), listRepositoryContentRequest.getRepositoryPath(), listRepositoryContentRequest.getRepositoryUserName(), listRepositoryContentRequest.getRepositoryPassword());
+				ListRepositoryContentReply listRepositoryContentReply = new ListRepositoryContentReply(listOperationResult.getHost(), listOperationResult.getProxyObjects());
+				this.protocolHandler.write(out, listRepositoryContentReply, null);
+				break;
+				
 			case ADD_REPOSITORY_REQUEST:
 				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
 				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryPath(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());

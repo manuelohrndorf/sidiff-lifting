@@ -20,6 +20,8 @@ import org.sidiff.remote.common.commands.Command;
 import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.ListRepositoryContentReply;
+import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -35,6 +37,19 @@ public class ConnectorFacade {
 	
 	public static final ConnectionHandler CONNECTION_HANDLER = ConnectionHandler.getInstance();
 
+	public static List<ProxyObject> listRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+		ListRepositoryContentRequest listRepositoryContentRequest = new ListRepositoryContentRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
+		
+		Command replyCommand = CONNECTION_HANDLER.handleRequest(listRepositoryContentRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.LIST_REPOSITORY_CONTENT_REPLY)) {
+			ListRepositoryContentReply listRepositoryContentReply = (ListRepositoryContentReply) replyCommand;
+			return listRepositoryContentReply.getProxyObjects();
+		}else {
+			ErrorReply errorReply = (ErrorReply) replyCommand;
+			throw new RemoteApplicationException(errorReply.getErrorReport());
+		}
+	}
+	
 	public static void addRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		AddRepositoryRequest addRepositoryRequest = new AddRepositoryRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
 		

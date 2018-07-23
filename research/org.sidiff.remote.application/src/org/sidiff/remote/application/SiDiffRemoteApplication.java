@@ -21,6 +21,7 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
+import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
@@ -157,6 +158,12 @@ public class SiDiffRemoteApplication {
 		}
 		
 		return treeModel;
+	}
+	
+	public ListOperationResult listRepository(String url, int port, String path, String user, char[] password) throws RepositoryAdapterException {
+		//TODO determine right repository adapter
+		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		return repositoryAdapter.list(url, port, path, user, password);
 	}
 	
 	public CheckoutOperationResult addRepository(String url, int port, String path, String user, char[] password) throws RepositoryAdapterException {

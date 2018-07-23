@@ -8,15 +8,15 @@ import org.sidiff.common.settings.AbstractSettings;
 public class RepositorySettings extends AbstractSettings {
 
 	
-	private String repository_url;
+	private String repository_url = "";
 	
 	private int repository_port = -1;
 	
-	private String repository_path;
+	private String repository_path = "";
 	
-	private String user_name;
+	private String user_name = "";
 	
-	private char[] password;
+	private char[] password = new char[] {};
 	
 	public String getRepositoryURL() {
 		return repository_url;

@@ -13,6 +13,8 @@ public interface IRepositoryAdapter {
 	
 	public static final String ATTRIBUTE_ID = "class";
 	
+	public ListOperationResult list(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException;
+	
 	public CheckoutOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException;
 	
 	public String getKey();
