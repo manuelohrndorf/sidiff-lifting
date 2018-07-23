@@ -17,7 +17,7 @@ import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSetti
 import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
 import org.sidiff.integration.preferences.matching.valueconverters.ServiceValueConverter;
 import org.sidiff.integration.preferences.matching.valueconverters.SimilaritiesValueConverter;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
@@ -31,7 +31,7 @@ import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
  * Class for the matching settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class MatchingEnginesPreferenceTab implements IPreferenceTab {
+public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField matchersField;
 	private Map<String, IPreferenceField> matcherOptions;

@@ -7,7 +7,7 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
 import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -19,7 +19,7 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
  * Class for the patching settings tab.
  * @author Daniel Roedder, Robert Müller
  */
-public class PatchingEnginesPreferenceTab implements IPreferenceTab {
+public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField transformationEngineField;
 	private IPreferenceField executionMode;

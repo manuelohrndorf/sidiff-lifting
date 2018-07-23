@@ -15,6 +15,7 @@ public interface IPreferenceTab {
 
 	String EXTENSION_POINT_ID = "org.sidiff.integration.preferences.preferenceTabs";
 	String EXTENSION_POINT_ATTRIBUTE_PAGE = "page";
+	String EXTENSION_POINT_ATTRIBUTE_HELP_CONTEXT_ID = "helpContextId";
 	String PAGE_GENERAL = "general";
 	String PAGE_ENGINES = "engines";
 	String PAGE_VALIDATION = "validation";
@@ -26,6 +27,12 @@ public interface IPreferenceTab {
 	 * @param list list to add preference fields to
 	 */
 	void createPreferenceFields(List<IPreferenceField> list);
+
+	/**
+	 * Returns the help context for this preference tab.
+	 * @return the help context id, <code>null</code> if none
+	 */
+	String getHelpContextId();
 
 	/**
 	 * This interface may also be implemented by classes implementing {@link IPreferenceTab},
