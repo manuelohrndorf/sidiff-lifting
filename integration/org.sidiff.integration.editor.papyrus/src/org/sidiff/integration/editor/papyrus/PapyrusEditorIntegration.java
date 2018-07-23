@@ -24,8 +24,10 @@ public class PapyrusEditorIntegration extends BasicEditorIntegration {
 	@Override
 	protected URI[] getDiagramFiles(URI modelFile) {
 		if (modelFileExt.equals(modelFile.fileExtension().toLowerCase())) {
-			return new URI[] { URI.createURI(modelFile.toString().replaceAll(modelFileExt + "$", diagramFileExt)),
-					URI.createURI(modelFile.toString().replaceAll(modelFileExt + "$", NOTATION_FILE_EXT)) };
+			return new URI[] {
+				modelFile.trimFileExtension().appendFileExtension(diagramFileExt),
+				modelFile.trimFileExtension().appendFileExtension(NOTATION_FILE_EXT)
+			};
 		}
 		return new URI[0];
 	}

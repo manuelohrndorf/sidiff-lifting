@@ -97,6 +97,15 @@ public abstract class AbstractNestedPreferencePage extends PropertyAndPreference
 		}
 	}
 
+	@Override
+	protected String getHelpContextId() {
+		int index = tabFolder.getSelectionIndex();
+		if(index == -1) {
+			return null;
+		}
+		return getSettingsPages().get(tabFolder.getSelectionIndex()).getHelpContextId();
+	}
+
 	/**
 	 * Creates and returns the pages that are nested within this one.
 	 * A tab is created for each page, using the title of the page as the tab's title.

@@ -5,14 +5,14 @@ import java.util.List;
 import org.sidiff.integration.preferences.common.settingsadapter.BaseSettingsAdapter;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
-import org.sidiff.integration.preferences.tabs.IPreferenceTab;
+import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 
 /**
  * Class for general validation settings
  * @author Daniel Roedder, Robert Müller
  *
  */
-public class GeneralValidationPreferenceTab implements IPreferenceTab {
+public class GeneralValidationPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField validateModelsField;
 

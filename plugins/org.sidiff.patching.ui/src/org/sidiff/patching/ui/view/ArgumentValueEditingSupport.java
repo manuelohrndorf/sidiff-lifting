@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.ecore.NameUtil;
@@ -41,7 +42,8 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		super(viewer);
 		listeners = new ArrayList<IValueChangedListener>();
 		try {
-			operationEView = (OperationExplorerView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.sidiff.patching.ui.view.OperationExplorerView");
+			operationEView = (OperationExplorerView)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage().showView("org.sidiff.patching.ui.view.OperationExplorerView", null, IWorkbenchPage.VIEW_CREATE);
 		} catch (PartInitException e) {			
 			e.printStackTrace();
 		}
