@@ -115,11 +115,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 	private TreeViewer treeViewer;
 	
 	/**
-	 * The {@link Composite} between {@link #treeViewer} and {@link #checkboxTreeViewer}
-	 */
-	private Composite composite_separator;
-	
-	/**
 	 * The {@link CheckboxTreeViewer} for selecting elements of a remote model
 	 */
 	private CheckboxTreeViewer checkboxTreeViewer; 
@@ -138,7 +133,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 	 * Action for browsing the remote model files
 	 */
 	private Action refresh_action;
-	
 	
 	/**
 	 * 
@@ -170,8 +164,14 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 	 */
 	private Action doubleClickAction;
 	
+	/**
+	 * 
+	 */
 	private AdaptableTreeNode treeViewer_selection;
 	
+	/**
+	 * 
+	 */
 	private String selected_model_path;
 
 	@Override
@@ -212,8 +212,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 //				
 //			}
 //		});
-		
-		this.composite_separator = new Composite(composite, SWT.NONE);
 		
 		// initialize checkboxTreeViewer
 		this.checkboxTreeViewer = new CheckboxTreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
@@ -549,6 +547,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 								e.printStackTrace();
 							}
 						}
+						this.checkboxTreeViewer.setInput(null);
 					}else {
 						AdaptableTreeModel treeModel = new AdaptableTreeModel();
 						
