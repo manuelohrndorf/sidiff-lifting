@@ -29,7 +29,7 @@ public class BrowseReply extends ReplyCommand {
 	 */
 	public BrowseReply(List<ProxyObject> treeNodes) {
 		super(null);
-//		this.eCommand = ECommand.BROWSE_REPLY;
+		this.eCommand = ECommand.BROWSE_REPLY;
 		this.proxyObjects = treeNodes;
 	}
 

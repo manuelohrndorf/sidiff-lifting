@@ -35,7 +35,7 @@ public class BrowseRequest extends RequestCommand {
 	 */
 	public BrowseRequest(Credentials credentials, String session_path, String element_id) {
 		super(credentials, null);
-//		this.eCommand = ECommand.BROWSE_REQUEST;
+		this.eCommand = ECommand.BROWSE_REQUEST;
 		
 		this.session_path = session_path;
 		this.element_id = element_id;

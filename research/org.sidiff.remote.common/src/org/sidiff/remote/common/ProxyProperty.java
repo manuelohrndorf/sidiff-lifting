@@ -2,6 +2,11 @@ package org.sidiff.remote.common;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class ProxyProperty implements Serializable {
 
 	/**
@@ -25,6 +30,11 @@ public class ProxyProperty implements Serializable {
 	
 	public String getValue() {
 		return value;
+	}
+	
+	@Override
+	public String toString() {
+		return name + ": " + value;
 	}
 	
 }

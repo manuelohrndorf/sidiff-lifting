@@ -3,6 +3,11 @@ package org.sidiff.remote.common;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 
+ * @author cpietsch
+ *
+ */
 public class ProxyObject implements Serializable{
 
 	/**
@@ -46,5 +51,18 @@ public class ProxyObject implements Serializable{
 	
 	public boolean isContainer() {
 		return container;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("Label: " + label + "\n");
+		stringBuffer.append("ID: " + id + "\n");
+		stringBuffer.append("Type: " + type + "\n");
+		stringBuffer.append("Properties: {\n");
+		for(ProxyProperty property : properties) {
+			stringBuffer.append(property + "\n");
+		}
+		return stringBuffer.toString();
 	}
 }
