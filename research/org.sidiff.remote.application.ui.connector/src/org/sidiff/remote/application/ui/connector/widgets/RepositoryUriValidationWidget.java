@@ -75,7 +75,6 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 				}else {
 					settings.setRepositoryPort(-1);
 				}
-				
 				port_text.notifyListeners(SWT.Selection, new Event());
 			}
 		});
@@ -90,14 +89,11 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 			
 			@Override
 			public void modifyText(ModifyEvent e) {
-				if(isValidPath(path_text.getText())) {
-					settings.setRepositoryPath(path_text.getText());
-				}else {
-					settings.setRepositoryPath("");
-				}
-				
+				settings.setRepositoryPath(path_text.getText());
+				path_text.notifyListeners(SWT.Selection, new Event());
 			}
 		});
+		
 		GridData gd_path_text = new GridData(GridData.FILL_HORIZONTAL);
 		path_text.setLayoutData(gd_path_text);
 		
@@ -134,9 +130,8 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	
 	@Override
 	public void modifyTextHook() {
-		if(super.validate()) {
-			this.settings.setRepositoryURL(this.uri_text.getText());
-		}
+		this.settings.setRepositoryURL(this.uri_text.getText());
+		uri_text.notifyListeners(SWT.Selection, new Event());
 
 	}
 	
