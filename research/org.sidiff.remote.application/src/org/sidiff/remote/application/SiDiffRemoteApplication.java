@@ -170,7 +170,9 @@ public class SiDiffRemoteApplication {
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
 		String target = this.session_folder.getPath();
-		return repositoryAdapter.checkout(url, port, path, user, password, target);
+		CheckoutOperationResult checkoutOperationResult = repositoryAdapter.checkout(url, port, path, user, password, target);
+		modelIndexer.index();
+		return checkoutOperationResult;
 		
 	}
 	

@@ -34,12 +34,22 @@ public class ModelIndexer {
 		this.files.putAll(searchModelFiles(user_folder));
 	}
 	
+	/**
+	 * searches all model files contained contained in the parent folder or any of
+	 * its subfolder
+	 * 
+	 * @param parent
+	 *            the parent folder
+	 * @return all model files contained contained in the parent folder or any of
+	 *         its subfolder
+	 */
 	private Map<String, File> searchModelFiles(File parent){
 		Map<String, File> files = new HashMap<String, File>();
 		for(File file : parent.listFiles()) {
 			if(file.isDirectory()) {
-				if(!file.getName().equals(".sidiff"))
-				files.putAll(searchModelFiles(file));
+				if(!file.getName().matches(".\\S*")) {
+					files.putAll(searchModelFiles(file));
+				}
 			}else if(file_ext.contains(getFileExtension(file))) {
 				files.put(file.getAbsolutePath(), file);
 				File p = file.getParentFile();
