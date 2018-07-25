@@ -30,7 +30,6 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
 import org.eclipse.jface.action.Action;
@@ -43,6 +42,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -79,7 +79,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
+import de.unisiegen.informatik.pi.henshin.interpreter.Argument;
 import de.unisiegen.informatik.pi.henshin.interpreter.HenshinInterpreter;
+import de.unisiegen.informatik.pi.henshin.interpreter.exceptions.UnresolvedArgumentException;
 import de.unisiegen.informatik.pi.henshin.ui.interpreter.HenshinInterpreterUIPlugin;
 
 
@@ -88,7 +90,6 @@ import de.unisiegen.informatik.pi.henshin.ui.interpreter.HenshinInterpreterUIPlu
  * @author cpietsch
  * 
  */
-
 public class HenshinInterpreterView extends ViewPart {
 
 	/**
@@ -161,13 +162,13 @@ public class HenshinInterpreterView extends ViewPart {
 					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 					if (selection.size() == 1 && selection.getFirstElement() instanceof Unit) {
 						Unit unit = (Unit) selection.getFirstElement();
-						List<Parameter> parameters = new ArrayList<Parameter>();
-						for(Parameter parameter : interpreter.getArgumentManager().keySet()) {
-							if(unit.getParameters().contains(parameter)) {
-								parameters.add(parameter);
+						List<Argument> arguments = new ArrayList<Argument>();
+						for(Argument argument: interpreter.getArgumentManager().getArguments()) {
+							if(unit.getParameters().contains(argument.getParameter())) {
+								arguments.add(argument);
 							}
 						}
-						parameter_viewer.setInput(parameters);
+						parameter_viewer.setInput(arguments);
 					}
 				}
 				
@@ -185,7 +186,50 @@ public class HenshinInterpreterView extends ViewPart {
 		column_parameter.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return adapterFactoryLabelProvider.getText(element);
+				Argument argument = (Argument) element;
+				return adapterFactoryLabelProvider.getText(argument.getParameter());
+			}
+		});
+		
+		TableViewerColumn unset = new TableViewerColumn(this.parameter_viewer, SWT.NONE);
+		unset.getColumn().setText("Unset");
+		unset.getColumn().setWidth(50);
+
+		// add a labelProvider (display true, false or nothing)
+		unset.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				Argument argument = (Argument)element;
+				return String.valueOf(argument.isUnset());
+			}
+		});
+
+		// add editingSupport
+		unset.setEditingSupport(new EditingSupport(this.parameter_viewer) {
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				Argument argument = (Argument) element;
+				argument.setUnset((boolean)value);
+				parameter_viewer.refresh();
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				Argument argument = (Argument) element;
+				return argument.isUnset();
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new CheckboxCellEditor(((TableViewer) getViewer()).getTable());
+				
+			}
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return true;
 			}
 		});
 		
@@ -198,11 +242,11 @@ public class HenshinInterpreterView extends ViewPart {
 			
 			@Override
 			public String getText(Object element) {
-				Parameter parameter = (Parameter) element;
-				if(parameter.getType() instanceof EObject) {
-					return adapterFactoryLabelProvider.getText(interpreter.getArgumentManager().get(element));
+				Argument argument = (Argument) element;
+				if(argument.getParameter().getType() instanceof EObject) {
+					return adapterFactoryLabelProvider.getText(argument.getValue());
 				}else {
-					return interpreter.getArgumentManager().get(element).toString();
+					return argument.getValue().toString();
 				}
 			}
 		});
@@ -211,12 +255,13 @@ public class HenshinInterpreterView extends ViewPart {
 			
 			@Override
 			protected void setValue(Object element, Object value) {
+				Argument argument = (Argument) element;
 				if(value instanceof String) {
-					interpreter.getArgumentManager().put((Parameter)element, value);
+					argument.setValue(value);
 				}else {
 					int index = ((Integer) value).intValue();
 					if (index > -1)
-						interpreter.getArgumentManager().put((Parameter)element, argumentCandidates.get(((Parameter)element).getType()).get(((Integer) value).intValue()));
+						argument.setValue(argumentCandidates.get(argument.getParameter().getType()).get(((Integer) value).intValue()));
 				}
 				
 				parameter_viewer.refresh();
@@ -225,22 +270,22 @@ public class HenshinInterpreterView extends ViewPart {
 			
 			@Override
 			protected Object getValue(Object element) {
-				Parameter parameter = (Parameter) element;
-				if(parameter.getType() instanceof EDataType) {
-					return interpreter.getArgumentManager().get(element);
+				Argument argument = (Argument) element;
+				if(argument.getParameter().getType() instanceof EDataType) {
+					return argument.getValue();
 				}else {
-					return argumentCandidates.get(((Parameter)element).getType()).indexOf(interpreter.getArgumentManager().get(element));
+					return argumentCandidates.get(argument.getParameter().getType()).indexOf(argument.getValue());
 				}
 			}
 			
 			@Override
 			protected CellEditor getCellEditor(Object element) {
-				Parameter parameter = (Parameter) element;
-				if(parameter.getType() instanceof EDataType) {
+				Argument argument = (Argument) element;
+				if(argument.getParameter().getType() instanceof EDataType) {
 					return new TextCellEditor(((TableViewer) getViewer()).getTable());
 				}else {
 					List<String> items = new ArrayList<String>();
-					for(EObject eObject : argumentCandidates.get(parameter.getType())) {
+					for(EObject eObject : argumentCandidates.get(argument.getParameter().getType())) {
 						items.add(adapterFactoryLabelProvider.getText(eObject));
 					}
 					return new ComboBoxCellEditor(((TableViewer) getViewer()).getTable(), items.toArray(new String[] {}), SWT.READ_ONLY);
@@ -423,7 +468,14 @@ public class HenshinInterpreterView extends ViewPart {
 		}
 		@Override
 		public void execute() {
-			this.success = interpreter.applyUnit(unit);
+			try {
+				this.success = interpreter.applyUnit(unit);
+				if(!this.success) {
+					MessageDialog.openError(composite.getShell(), "Application Error", unit.getName() + " could not be applied!");
+				}
+			} catch (UnresolvedArgumentException e) {
+				MessageDialog.openError(composite.getShell(), "Unresolved Argument Error", e.getMessage());
+			}
 		}
 
 		@Override
