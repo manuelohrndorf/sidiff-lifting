@@ -5,8 +5,8 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.sidiff.remote.application.connector.ConnectorFacade;
-import org.sidiff.remote.common.Session;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
+import org.sidiff.remote.application.connector.Session;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 
 public class ProjectDecorator implements ILightweightLabelDecorator {
 

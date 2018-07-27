@@ -43,7 +43,6 @@ import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
 import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
@@ -91,7 +90,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				LogUtil.log(LogEvent.INFO, "processing request:");
 				handleRequest(client);
-			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | ModelNotVersionedException | AuthenticationException | RepositoryAdapterException e) {
+			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | AuthenticationException | RepositoryAdapterException e) {
 				handleException(client, e);
 			}finally {
 				client.close();
@@ -105,7 +104,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		// TODO Auto-generated method stub
 	}
 	
-	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, ModelNotVersionedException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException  {
+	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		

@@ -1,4 +1,4 @@
-package org.sidiff.remote.common;
+package org.sidiff.remote.application.connector;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
-import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
+import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 import org.sidiff.remote.common.util.ChecksumUtil;
 
 /**

@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.Session;
 import org.sidiff.remote.common.commands.AddRepositoryRequest;
 import org.sidiff.remote.common.commands.BrowseReply;
 import org.sidiff.remote.common.commands.BrowseRequest;
@@ -25,7 +25,6 @@ import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
 import org.sidiff.remote.common.tree.TreeModel;
 
 /**

@@ -15,13 +15,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.model.AdaptableTreeModel;
 import org.sidiff.remote.application.ui.connector.model.AdaptableTreeNode;
 import org.sidiff.remote.application.ui.connector.model.ModelUtil;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
 public class InteractiveElementTreeSelectionDialog extends ElementTreeSelectionDialog {
 

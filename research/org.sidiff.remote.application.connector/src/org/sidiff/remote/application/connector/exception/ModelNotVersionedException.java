@@ -1,4 +1,4 @@
-package org.sidiff.remote.common.exceptions;
+package org.sidiff.remote.application.connector.exception;
 
 /**
  * 

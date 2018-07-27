@@ -13,9 +13,9 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.sidiff.remote.application.connector.ConnectorFacade;
-import org.sidiff.remote.common.Session;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
-import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
+import org.sidiff.remote.application.connector.Session;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
+import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 import org.sidiff.remote.common.util.ChecksumUtil;
 
 public class ConnectedResourceChangeListener implements IResourceChangeListener {

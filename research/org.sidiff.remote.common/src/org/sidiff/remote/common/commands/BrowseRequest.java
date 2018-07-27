@@ -2,7 +2,6 @@ package org.sidiff.remote.common.commands;
 
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
-import org.sidiff.remote.common.Session;
 
 /**
  * 

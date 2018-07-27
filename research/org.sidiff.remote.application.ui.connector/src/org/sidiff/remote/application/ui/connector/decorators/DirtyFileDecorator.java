@@ -9,8 +9,8 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.sidiff.remote.application.connector.ConnectorFacade;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
-import org.sidiff.remote.common.exceptions.ModelNotVersionedException;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
+import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 
 public class DirtyFileDecorator implements ILightweightLabelDecorator {
 

@@ -11,10 +11,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.resource.ConnectedResourceChangeListener;
 import org.sidiff.remote.common.Credentials;
-import org.sidiff.remote.common.Session;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
 /**
  * 

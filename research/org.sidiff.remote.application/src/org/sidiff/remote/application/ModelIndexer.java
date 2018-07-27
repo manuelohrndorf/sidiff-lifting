@@ -17,12 +17,15 @@ public class ModelIndexer {
 	
 	private File user_folder;
 	
+	private File session_folder;
+	
 	private Set<String> file_ext;
 	
 	private Map<String, File> files;
 	
-	public ModelIndexer(File user_folder) {
-		this.user_folder = user_folder;
+	public ModelIndexer(File session_folder) {
+		this.user_folder = session_folder.getParentFile();
+		this.session_folder = session_folder;
 		this.file_ext = new HashSet<String>();
 		this.file_ext.add("ecore");
 		this.file_ext.add("uml");
@@ -31,7 +34,10 @@ public class ModelIndexer {
 	
 	public void index() {
 		this.files.clear();
-		this.files.putAll(searchModelFiles(user_folder));
+		this.files.putAll(searchModelFiles(session_folder));
+		if(this.files.isEmpty()) {
+			this.files.put(this.session_folder.getAbsolutePath(), session_folder);
+		}
 	}
 	
 	/**
@@ -47,7 +53,7 @@ public class ModelIndexer {
 		Map<String, File> files = new HashMap<String, File>();
 		for(File file : parent.listFiles()) {
 			if(file.isDirectory()) {
-				if(!file.getName().matches(".\\S*")) {
+				if(!file.getName().matches("\\.\\S*")) {
 					files.putAll(searchModelFiles(file));
 				}
 			}else if(file_ext.contains(getFileExtension(file))) {

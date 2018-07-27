@@ -50,6 +50,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
+import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
@@ -62,7 +63,6 @@ import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvid
 import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.exceptions.InvalidSessionException;
 
 
 /**

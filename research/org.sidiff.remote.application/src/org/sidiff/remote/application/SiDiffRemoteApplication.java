@@ -72,7 +72,7 @@ public class SiDiffRemoteApplication {
 		if(!session_folder.exists()) {
 			session_folder.mkdir();
 		}
-		this.modelIndexer = new ModelIndexer(user_folder);
+		this.modelIndexer = new ModelIndexer(session_folder);
 		
 		this.extractionEngine = new ExtractionEngine();
 		
