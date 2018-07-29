@@ -1,14 +1,17 @@
 package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -51,6 +54,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.application.connector.exception.InvalidSessionException;
+import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
@@ -63,6 +67,8 @@ import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvid
 import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
 import org.sidiff.remote.common.ProxyObject;
+import org.sidiff.remote.common.tree.TreeLeaf;
+import org.sidiff.remote.common.util.ProxyUtil;
 
 
 /**
@@ -194,24 +200,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		this.treeViewer.setContentProvider(this.treeModelContentProvider);
 		this.treeViewer.setLabelProvider(this.treeModelLabelProvider);
 		this.treeViewer.addSelectionChangedListener(this);
-//		this.treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//			
-//			@Override
-//			public void selectionChanged(SelectionChangedEvent event) {
-//				IStructuredSelection selection = event.getStructuredSelection();
-//				if(selection.size() == 1 && !selection.getFirstElement().equals(treeViewer_selection))
-//					if(selection.getFirstElement() instanceof TreeLeaf) {
-//						browseModel_action.setEnabled(true);
-//						treeViewer_selection = (TreeLeaf) selection.getFirstElement();
-//					}else {
-//						browseModel_action.setEnabled(false);
-//					}
-//				else {
-//					checkboxTreeViewer.setInput(null);
-//				}
-//				
-//			}
-//		});
 		
 		// initialize checkboxTreeViewer
 		this.checkboxTreeViewer = new CheckboxTreeViewer(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
@@ -223,8 +211,13 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		
 		// Create the help context id for the viewer's control
 		workbench.getHelpSystem().setHelp(treeViewer.getControl(), "org.sidiff.remote.application.ui.connector.viewer");
+		
+		// add selection provider and listener
 		getSite().setSelectionProvider(treeViewer);
 		getSite().setSelectionProvider(checkboxTreeViewer);
+		getSite().getPage().addSelectionListener(this);
+		
+		// make actions and menu contributions
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -466,7 +459,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					String local_model_path = file.getLocation().toOSString();
 					updateRequestedModelElements(local_model_path);
 					selected_model_path = local_model_path;
-				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
+				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException | ModelNotVersionedException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				
@@ -491,37 +484,75 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		}
 	}
 	
-	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException, RemoteApplicationException, ModelNotVersionedException {
 		
-//		TreeModel files = ConnectorFacade.browseModelFiles(localModelPath);
-//		
-//		treeViewer.setInput(files);
-//	
-//		TreeNode selectedModelFile = files.getSelectedElements()[0];
-//		List<TreeNode> visibleModelFilesNodes = new ArrayList<TreeNode>();
-//		TreeNode parent = selectedModelFile.getParent();
-//		while(!parent.equals(files.getRoot())){
-//			visibleModelFilesNodes.add(0, parent);
-//			parent = parent.getParent();
-//		}
-//		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
-//		treeViewer.setSelection(new StructuredSelection(selectedModelFile), true);
-//		
-//		TreeModel model = ConnectorFacade.getRequestedModelElements(localModelPath);
-//		checkboxTreeViewer.setInput(model);
-//		
-//		TreeNode[] selectedModelElements = model.getSelectedElements();
-//		List<TreeNode> visibleModelElements = new ArrayList<TreeNode>();
-//		
-//		for(TreeNode selectedModelElement : selectedModelElements) {
-//			TreeNode parentElement = selectedModelElement.getParent();
-//			while(!parentElement.equals(model.getRoot())){
-//				visibleModelElements.add(0, parentElement);
-//				parentElement = parentElement.getParent();
-//			}
-//		}
-//		checkboxTreeViewer.setExpandedElements(visibleModelElements.toArray());
-//		checkboxTreeViewer.setCheckedElements(selectedModelElements);		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		String local_relative_model_path = localModelPath.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
+		String remoteModelPath = ConnectorFacade.getSession().getRemoteModelPath(local_relative_model_path);
+		
+		ProxyObject proxyFile = ConnectorFacade.getRequestedModelFile(remoteModelPath);
+		
+		AdaptableTreeModel treeModelFiles = null;
+		if(treeViewer.getInput() == null) {
+			treeModelFiles = new AdaptableTreeModel();
+			treeViewer.setInput(treeModelFiles);
+		}else {
+			treeModelFiles = (AdaptableTreeModel) treeViewer.getInput();
+		}
+		
+		AdaptableTreeNode currentFileNode = treeModelFiles.getRoot();
+		for(ProxyObject proxyObject : ProxyUtil.sort(proxyFile)) {
+			if(treeModelFiles.getTreeNode(proxyObject.getId()) == null) {
+				currentFileNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), currentFileNode);
+			}else {
+				currentFileNode = treeModelFiles.getTreeNode(proxyObject.getId());
+			}
+		}
+		
+		currentFileNode.setSelected(true);
+	
+		List<AdaptableTreeNode> visibleModelFilesNodes = new ArrayList<AdaptableTreeNode>();
+		AdaptableTreeNode parentFile = currentFileNode;
+		while(!parentFile.equals(treeModelFiles.getRoot())){
+			visibleModelFilesNodes.add(0, parentFile);
+			parentFile = parentFile.getParent();
+		}
+		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
+		treeViewer.setSelection(new StructuredSelection(currentFileNode), true);
+		
+		List<ProxyObject> proxyElements = ConnectorFacade.getRequestedModelElements(localModelPath);
+		
+		AdaptableTreeModel treeModelElements = null;
+		if(checkboxTreeViewer.getInput() == null) {
+			treeModelElements = new AdaptableTreeModel();
+			checkboxTreeViewer.setInput(treeModelElements);
+		}else {
+			treeModelElements = (AdaptableTreeModel) checkboxTreeViewer.getInput();
+		}
+		
+		AdaptableTreeNode currentElementNode = treeModelElements.getRoot();
+		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
+		for(ProxyObject proxyObject : proxyElements) {
+			proxyObjects.addAll(ProxyUtil.sort(proxyObject));
+		}
+		for(ProxyObject proxyObject : proxyObjects) {
+			if(treeModelElements.getTreeNode(proxyObject.getId()) == null) {
+				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), currentElementNode);
+			}else {
+				currentElementNode = treeModelElements.getTreeNode(proxyObject.getId());
+			}
+			currentElementNode.setSelected(true);
+		}
+		
+	
+		List<AdaptableTreeNode> visibleModelElementNodes = new ArrayList<AdaptableTreeNode>();
+		AdaptableTreeNode parentElement = currentElementNode;
+		while(!parentElement.equals(treeModelElements.getRoot())){
+			visibleModelElementNodes.add(0, parentElement);
+			parentElement = parentElement.getParent();
+		}
+		checkboxTreeViewer.setExpandedElements(visibleModelElementNodes.toArray());
+		checkboxTreeViewer.setCheckedElements(visibleModelElementNodes.toArray());		
 	}
 
 	@Override

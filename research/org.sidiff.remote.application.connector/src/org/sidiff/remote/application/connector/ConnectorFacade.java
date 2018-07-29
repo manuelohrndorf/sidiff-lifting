@@ -20,12 +20,13 @@ import org.sidiff.remote.common.commands.Command;
 import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
+import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
 import org.sidiff.remote.common.commands.ListRepositoryContentReply;
 import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.remote.common.tree.TreeModel;
 
 /**
  * 
@@ -36,6 +37,19 @@ public class ConnectorFacade {
 	
 	public static final ConnectionHandler CONNECTION_HANDLER = ConnectionHandler.getInstance();
 
+	/**
+	 * lists the content of a repository
+	 * 
+	 * @param repository_url
+	 * @param repository_port
+	 * @param repository_path
+	 * @param repository_user_name
+	 * @param repository_password
+	 * @return
+	 * @throws ConnectionException
+	 * @throws InvalidSessionException
+	 * @throws RemoteApplicationException
+	 */
 	public static List<ProxyObject> listRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		ListRepositoryContentRequest listRepositoryContentRequest = new ListRepositoryContentRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
 		
@@ -49,6 +63,18 @@ public class ConnectorFacade {
 		}
 	}
 	
+	/**
+	 * adds a given repository to the remote file system, i.e. checks out the file(s) given by the repository path
+	 * 
+	 * @param repository_url
+	 * @param repository_port
+	 * @param repository_path
+	 * @param repository_user_name
+	 * @param repository_password
+	 * @throws ConnectionException
+	 * @throws InvalidSessionException
+	 * @throws RemoteApplicationException
+	 */
 	public static void addRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		AddRepositoryRequest addRepositoryRequest = new AddRepositoryRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
 		
@@ -62,8 +88,17 @@ public class ConnectorFacade {
 		}
 	}
 	
-	public static List<ProxyObject> browse(String session_path, String element_id) throws ConnectionException, RemoteApplicationException{
-		BrowseRequest browseRequest = new BrowseRequest(getCredentials(), session_path, element_id);
+	/**
+	 * 
+	 * @param remote_model_path
+	 *            the session based remote model path
+	 * @param element_id
+	 * @return
+	 * @throws ConnectionException
+	 * @throws RemoteApplicationException
+	 */
+	public static List<ProxyObject> browse(String remote_model_path, String element_id) throws ConnectionException, RemoteApplicationException{
+		BrowseRequest browseRequest = new BrowseRequest(getCredentials(), remote_model_path, element_id);
 		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRequest, null);
 		if(replayCommand.getECommand().equals(ECommand.BROWSE_REPLY)) {
 			BrowseReply browseReply = (BrowseReply) replayCommand;
@@ -105,6 +140,18 @@ public class ConnectorFacade {
 		
 	}
 	
+	public static ProxyObject getRequestedModelFile(String remote_model_path) throws ConnectionException, RemoteApplicationException {
+		GetRequestedModelFileRequest getRequestedModelFileRequest = new GetRequestedModelFileRequest(getCredentials(), remote_model_path);
+		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(getRequestedModelFileRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.GET_REQUESTED_MODEL_FILE_REPLY)) {
+			GetRequestedModelFileReply getRequestedModelFileReply = (GetRequestedModelFileReply) replyCommand;
+			return getRequestedModelFileReply.getProxyObject();
+		}else {
+			ErrorReply errorReply = (ErrorReply) replyCommand;
+			throw new RemoteApplicationException(errorReply.getErrorReport());
+		}
+	}
+	
 	/**
 	 * 
 	 * @param local_model_path
@@ -113,12 +160,12 @@ public class ConnectorFacade {
 	 * @throws ConnectionException 
 	 * @throws InvalidSessionException 
 	 */
-	public static TreeModel getRequestedModelElements(String local_model_path) throws ConnectionException, InvalidSessionException {
+	public static List<ProxyObject> getRequestedModelElements(String local_model_path) throws ConnectionException, InvalidSessionException {
 		
 		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(getCredentials(), local_model_path);
 		GetRequestedModelElementsReply getRequestedModelElementsReply = (GetRequestedModelElementsReply) CONNECTION_HANDLER.handleRequest(getRequestedModelElementsRequest, null);
 		
-		return getRequestedModelElementsReply.getModel();
+		return getRequestedModelElementsReply.getProxyObjects();
 	}
 	
 	/**
