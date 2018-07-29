@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -26,9 +27,7 @@ import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.remote.common.util.ProxyUtil;
-import org.sidiff.remote.common.util.TreeModelUtil;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -93,8 +92,9 @@ public class SiDiffRemoteApplication {
 	 * @throws NoCorrespondencesException
 	 * @throws NotInitializedException
 	 * @throws ExtendedSlicingCriteriaIntersectionException
+	 * @throws CoreException 
 	 */
-	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds) throws IOException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, CoreException {
 		
 		String absolute_origin_path = user_folder + File.separator + session_path;
 		String absolute_copy_path = session_folder + File.separator + local_model_path;
@@ -102,6 +102,9 @@ public class SiDiffRemoteApplication {
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		
+		// save complete model as uuid resource
+		completeModel.save(completeModel.getDefaultSaveOptions());
 		
 		URI emptyModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
 	
@@ -134,30 +137,31 @@ public class SiDiffRemoteApplication {
 		return this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
 	}
 	
+	public ProxyObject getRequestedModelFile(String session_path){
+		File file = this.modelIndexer.getFile(session_path);
+		return ProxyUtil.convertFileTree(file, session_id);
+	}
+	
 	/**
 	 * 
 	 * @param local_model_path
 	 * 				project relative local model path
 	 * @return
 	 */
-	public TreeModel getRequestedModelElements(String local_model_path) {
+	public List<ProxyObject> getRequestedModelElements(String local_model_path) {
+		
 		String absolute_copy_path = session_folder + File.separator + local_model_path;
 		
-		ResourceSet resourceSet = new ResourceSetImpl();
-		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		URI completeModelURI = EMFStorage.pathToUri(absolute_copy_path);
 		
-		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
+		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModelURI).replace(completeModelURI.lastSegment(), "sliced_" + completeModelURI.lastSegment()));
 
 		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
 		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
 		
-		TreeModel treeModel = TreeModelUtil.convertEMFResource(completeModel);
+		List<ProxyObject> proxyObjects = ProxyUtil.convertEMFResource(slicedModel); 
 		
-		for(String id: slicedModel.getIDToEObjectMap().keySet()) {
-			treeModel.getTreeNode(id).setSelected(true);
-		}
-		
-		return treeModel;
+		return proxyObjects;
 	}
 	
 	public ListOperationResult listRepository(String url, int port, String path, String user, char[] password) throws RepositoryAdapterException {
@@ -200,6 +204,12 @@ public class SiDiffRemoteApplication {
 		if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
 			ResourceSet resourceSet = new ResourceSetImpl();
 			last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
+			try {
+				last_selected_model.save(last_selected_model.getDefaultSaveOptions());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		List<ProxyObject> content = new ArrayList<ProxyObject>();
 		if(elementID == null) {
@@ -231,8 +241,9 @@ public class SiDiffRemoteApplication {
 	 * @throws NoCorrespondencesException
 	 * @throws NotInitializedException
 	 * @throws ExtendedSlicingCriteriaIntersectionException
+	 * @throws CoreException 
 	 */
-	public File updateSubModel(String localPath, Set<String> elementIds) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	public File updateSubModel(String localPath, Set<String> elementIds) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, CoreException {
 		String absolute_copy_path = session_folder + File.separator + localPath;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();

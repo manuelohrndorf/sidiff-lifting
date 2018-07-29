@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -38,12 +39,13 @@ import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.ErrorReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
+import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
+import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
 import org.sidiff.remote.common.commands.ListRepositoryContentReply;
 import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.remote.common.tree.TreeModel;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -90,7 +92,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				LogUtil.log(LogEvent.INFO, "processing request:");
 				handleRequest(client);
-			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | AuthenticationException | RepositoryAdapterException e) {
+			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | AuthenticationException | RepositoryAdapterException | CoreException e) {
 				handleException(client, e);
 			}finally {
 				client.close();
@@ -104,7 +106,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		// TODO Auto-generated method stub
 	}
 	
-	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException {
+	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException, CoreException {
 		InputStream in = client.getInputStream();
 		OutputStream out = client.getOutputStream();
 		
@@ -159,11 +161,18 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				this.protocolHandler.write(out, checkoutSubModelReply, attachment);
 				break;
 				
+			case GET_REQUESTED_MODEL_FILE_REQUEST:
+				GetRequestedModelFileRequest getRequestedModelFileRequest = (GetRequestedModelFileRequest) command;
+				ProxyObject proxyObject = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
+				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObject);
+				this.protocolHandler.write(out, getRequestedModelFileReply, null);
+				break;
+				
 			case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
 				GetRequestedModelElementsRequest getRequestedModelElementsRequest = (GetRequestedModelElementsRequest) command;
 				String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
-				TreeModel treeModelRME = app.getRequestedModelElements(localPathRME);
-				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(treeModelRME);
+				List<ProxyObject> proxyObjects_ = app.getRequestedModelElements(localPathRME);
+				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(proxyObjects_);
 				this.protocolHandler.write(out, getRequestedModelElementsReply, null);
 				break;
 				
