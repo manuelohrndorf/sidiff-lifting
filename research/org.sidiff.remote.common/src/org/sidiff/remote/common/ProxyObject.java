@@ -1,6 +1,7 @@
 package org.sidiff.remote.common;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public class ProxyObject implements Serializable{
 	protected List<ProxyProperty> properties;
 	
 	protected boolean container;
+	
+	protected ProxyObject parent;
+	
+	protected List<ProxyObject> children;
 
 	public ProxyObject(String label, String id, String type, List<ProxyProperty> properties, boolean container) {
 		this.label = label;
@@ -31,6 +36,7 @@ public class ProxyObject implements Serializable{
 		this.type = type;
 		this.properties = properties;
 		this.container = container;
+		this.children = new ArrayList<ProxyObject>();
 	}
 
 	public String getLabel() {
@@ -53,6 +59,22 @@ public class ProxyObject implements Serializable{
 		return container;
 	}
 
+	public ProxyObject getParent() {
+		return parent;
+	}
+
+	public void setParent(ProxyObject parent) {
+		this.parent = parent;
+		this.parent.getChildren().add(this);
+	}
+
+	public boolean hasChildren() {
+		return children.size() > 0;
+	}
+	public List<ProxyObject> getChildren() {
+		return children;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
@@ -61,8 +83,14 @@ public class ProxyObject implements Serializable{
 		stringBuffer.append("Type: " + type + "\n");
 		stringBuffer.append("Properties: {\n");
 		for(ProxyProperty property : properties) {
-			stringBuffer.append(property + "\n");
+			stringBuffer.append("\t" + property + "\n");
 		}
+		stringBuffer.append("}\n");
+		stringBuffer.append("Children: {\n");
+		for(ProxyObject child : children) {
+			stringBuffer.append("\t" + child + "\n");
+		}
+		stringBuffer.append("}\n");
 		return stringBuffer.toString();
 	}
 }

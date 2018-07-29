@@ -82,6 +82,10 @@ public class AdaptableTreeNode implements IAdaptable {
 	}
 	
 	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
 	public AdaptableTreeNode getParent() {
 		return parent;
 	}

@@ -2,7 +2,10 @@ package org.sidiff.remote.common.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -101,5 +104,53 @@ public class ProxyUtil {
 		}
 				
 		return label;
+	}
+	
+	public static List<ProxyObject> convertEMFResource(UUIDResource resource) {
+		Map<EObject, ProxyObject> proxyObjects = new HashMap<EObject, ProxyObject>();
+		
+		for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
+			EObject eObject = iterator.next();
+			ProxyObject proxyObject = convertEObject(eObject);
+			if(eObject.eContainer() != null) {
+				proxyObject.setParent(proxyObjects.get(eObject.eContainer()));
+			}
+			proxyObjects.put(eObject, proxyObject);
+		}
+		
+		List<ProxyObject> contents = new ArrayList<ProxyObject>();
+		for(EObject content : resource.getContents()) {
+			contents.add(proxyObjects.get(content));
+		}
+		
+		return contents;
+	}
+	
+	public static ProxyObject convertFileTree(File file, String rootName) {
+		List<File> files = new ArrayList<File>();
+		while(!file.getName().equals(rootName)) {
+			files.add(0, file);
+			file = file.getParentFile();
+		}
+		
+		Map<File, ProxyObject> proxyObjects = new HashMap<File, ProxyObject>();
+		for(File f : files) {
+			ProxyObject proxyObject = convertFile(f, rootName);
+			proxyObjects.put(f, proxyObject);
+			if(!f.getParentFile().getName().equals(rootName)) {
+				proxyObject.setParent(proxyObjects.get(f.getParentFile()));
+			}
+		}
+		
+		return proxyObjects.get(files.get(0));
+	}
+	
+	public static List<ProxyObject> sort(ProxyObject proxyObject){
+		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
+		proxyObjects.add(proxyObject);
+		for(ProxyObject child : proxyObject.getChildren()) {
+			proxyObjects.addAll(sort(child));
+		}
+		return proxyObjects;
 	}
 }
