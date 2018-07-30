@@ -15,17 +15,13 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
-import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
@@ -46,9 +42,11 @@ import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
-import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
-import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
+import org.sidiff.remote.common.exceptions.AddRepositoryException;
+import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
+import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
+import org.sidiff.remote.common.exceptions.ProtocolHandlerException;
+import org.sidiff.remote.common.exceptions.UpdateSubModelException;
 
 /**
  * 
@@ -92,7 +90,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				LogUtil.log(LogEvent.INFO, "processing request:");
 				handleRequest(client);
-			} catch (IOException | ClassNotFoundException | UncoveredChangesException | InvalidModelException | NoCorrespondencesException | NotInitializedException | ExtendedSlicingCriteriaIntersectionException  | AuthenticationException | RepositoryAdapterException | CoreException e) {
+			} catch (ProtocolHandlerException | ListRepositoryContentException | AddRepositoryException | CheckoutSubModelException | UpdateSubModelException | AuthenticationException e) {
 				handleException(client, e);
 			}finally {
 				client.close();
@@ -106,11 +104,18 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		// TODO Auto-generated method stub
 	}
 	
-	private void handleRequest(Socket client) throws IOException, ClassNotFoundException, UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, AuthenticationException, RepositoryAdapterException, CoreException {
-		InputStream in = client.getInputStream();
-		OutputStream out = client.getOutputStream();
+	private void handleRequest(Socket client) throws ProtocolHandlerException, ListRepositoryContentException, AddRepositoryException, CheckoutSubModelException, UpdateSubModelException, AuthenticationException {
+		InputStream in = null;
+		OutputStream out = null;
+		RequestCommand command = null;
+		try {
+			in = client.getInputStream();
+			out = client.getOutputStream();
+			command = (RequestCommand) this.protocolHandler.read(in);
+		} catch (ClassNotFoundException | IOException e) {
+			throw new ProtocolHandlerException(e);
+		}
 		
-		RequestCommand command = (RequestCommand) this.protocolHandler.read(in);
 		
 		LogUtil.log(LogEvent.INFO, command.toString());
 		
@@ -131,14 +136,22 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				ListRepositoryContentRequest listRepositoryContentRequest = (ListRepositoryContentRequest) command;
 				ListOperationResult listOperationResult = app.listRepository(listRepositoryContentRequest.getRepositoryUrl(), listRepositoryContentRequest.getRepositoryPort(), listRepositoryContentRequest.getRepositoryPath(), listRepositoryContentRequest.getRepositoryUserName(), listRepositoryContentRequest.getRepositoryPassword());
 				ListRepositoryContentReply listRepositoryContentReply = new ListRepositoryContentReply(listOperationResult.getHost(), listOperationResult.getProxyObjects());
-				this.protocolHandler.write(out, listRepositoryContentReply, null);
+				try {
+					this.protocolHandler.write(out, listRepositoryContentReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case ADD_REPOSITORY_REQUEST:
 				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
 				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryPath(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
 				AddRepositoryReply addRepositoryReply = new AddRepositoryReply(checkoutResult.getHost(), checkoutResult.getTargetPath().split("/")[0]);
-				this.protocolHandler.write(out, addRepositoryReply, null);
+				try {
+					this.protocolHandler.write(out, addRepositoryReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case BROWSE_REQUEST:
@@ -147,7 +160,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String element_id = browseRequest.getElementID();
 				List<ProxyObject> proxyObjects = app.browse(session_path, element_id);
 				BrowseReply browseReply = new BrowseReply(proxyObjects);
-				this.protocolHandler.write(out, browseReply, null);
+				try {
+					this.protocolHandler.write(out, browseReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case CHECKOUT_SUB_MODEL_REQUEST:
@@ -158,14 +175,22 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				attachment = app.checkoutModel(remotePath, localPath, elementIds);
 				
 				CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(attachment);
-				this.protocolHandler.write(out, checkoutSubModelReply, attachment);
+				try {
+					this.protocolHandler.write(out, checkoutSubModelReply, attachment);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case GET_REQUESTED_MODEL_FILE_REQUEST:
 				GetRequestedModelFileRequest getRequestedModelFileRequest = (GetRequestedModelFileRequest) command;
 				ProxyObject proxyObject = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
 				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObject);
-				this.protocolHandler.write(out, getRequestedModelFileReply, null);
+				try {
+					this.protocolHandler.write(out, getRequestedModelFileReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
@@ -173,7 +198,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
 				List<ProxyObject> proxyObjects_ = app.getRequestedModelElements(localPathRME);
 				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(proxyObjects_);
-				this.protocolHandler.write(out, getRequestedModelElementsReply, null);
+				try {
+					this.protocolHandler.write(out, getRequestedModelElementsReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 				
 			case UPDATE_SUBMODEL_REQUEST:
@@ -182,7 +211,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
 				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
 				UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(modelSliceZip);
-				this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
+				try {
+					this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
 				break;
 			default:
 			}
