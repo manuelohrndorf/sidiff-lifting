@@ -35,6 +35,8 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 	        
 	        final Set<String> changedModel_paths = new HashSet<String>();
 	        
+	        final Set<String> revertedModel_paths = new HashSet<String>();
+	        
 	        IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
 	
 				@Override
@@ -54,9 +56,11 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 							String checksum;
 							try {
 								checksum = ChecksumUtil.getFileChecksum(new File(resource.getLocation().toOSString()));
-								if (session.getModelChecksum(local_model_path)
+								if (!session.getModelChecksum(local_model_path)
 										.equals(checksum)) {
 									changedModel_paths.add(local_model_path);
+								}else {
+									revertedModel_paths.add(local_model_path);
 								}
 							} catch (NoSuchAlgorithmException | IOException | ModelNotVersionedException e) {
 								// TODO Auto-generated catch block
@@ -75,6 +79,12 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 				session.setModified(changedModel_path, true);
 				ConnectorFacade.saveSession();
 				
+			}
+			
+			for(String revertedModel_path : revertedModel_paths) {
+				if(session.isModified(revertedModel_path)) {
+					session.setModified(revertedModel_path, false);
+				}
 			}
 		} catch (CoreException | ModelNotVersionedException | InvalidSessionException e) {
 			// TODO Auto-generated catch block
