@@ -530,27 +530,30 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			treeModelElements = (AdaptableTreeModel) checkboxTreeViewer.getInput();
 		}
 		
-		AdaptableTreeNode currentElementNode = treeModelElements.getRoot();
 		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
-		//FIXME the hierarchy is wrong
+
 		for(ProxyObject proxyObject : proxyElements) {
 			proxyObjects.addAll(ProxyUtil.sort(proxyObject));
 		}
+		
+		List<AdaptableTreeNode> visibleModelElementNodes = new ArrayList<AdaptableTreeNode>();
+		
 		for(ProxyObject proxyObject : proxyObjects) {
+			
+			AdaptableTreeNode currentElementNode = null;
 			if(treeModelElements.getTreeNode(proxyObject.getId()) == null) {
-				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), currentElementNode);
+				AdaptableTreeNode parent = null;
+				if(proxyObject.getParent() == null) {
+					parent = treeModelElements.getRoot();
+				}else {
+					parent = treeModelElements.getTreeNode(proxyObject.getParent().getId());
+				}
+				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent);
 			}else {
 				currentElementNode = treeModelElements.getTreeNode(proxyObject.getId());
 			}
 			currentElementNode.setSelected(true);
-		}
-		
-	
-		List<AdaptableTreeNode> visibleModelElementNodes = new ArrayList<AdaptableTreeNode>();
-		AdaptableTreeNode parentElement = currentElementNode;
-		while(!parentElement.equals(treeModelElements.getRoot())){
-			visibleModelElementNodes.add(0, parentElement);
-			parentElement = parentElement.getParent();
+			visibleModelElementNodes.add(currentElementNode);
 		}
 		checkboxTreeViewer.setExpandedElements(visibleModelElementNodes.toArray());
 		checkboxTreeViewer.setCheckedElements(visibleModelElementNodes.toArray());		
