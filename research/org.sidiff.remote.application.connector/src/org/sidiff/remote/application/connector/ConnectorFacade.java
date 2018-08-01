@@ -11,9 +11,9 @@ import org.sidiff.remote.application.connector.exception.RemoteApplicationExcept
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.commands.AddRepositoryRequest;
-import org.sidiff.remote.common.commands.BrowseReply;
-import org.sidiff.remote.common.commands.BrowseRequest;
+import org.sidiff.remote.common.commands.CheckoutRepositoryContentRequest;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationContentRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.Command;
@@ -22,8 +22,8 @@ import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
-import org.sidiff.remote.common.commands.ListRepositoryContentReply;
-import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -38,7 +38,9 @@ public class ConnectorFacade {
 	public static final ConnectionHandler CONNECTION_HANDLER = ConnectionHandler.getInstance();
 
 	/**
-	 * lists the content of a repository
+	 * Returns the content of the repository location given by
+	 * repository_URL:repository_prot/repository_path as a list
+	 * of {@link ProxyObject}s
 	 * 
 	 * @param repository_url
 	 * @param repository_port
@@ -50,13 +52,13 @@ public class ConnectorFacade {
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
 	 */
-	public static List<ProxyObject> listRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
-		ListRepositoryContentRequest listRepositoryContentRequest = new ListRepositoryContentRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
+	public static List<ProxyObject> browseRepositoryContent(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+		BrowseRepositoryContentRequest browseRepositoryContentRequest = new BrowseRepositoryContentRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
 		
-		Command replyCommand = CONNECTION_HANDLER.handleRequest(listRepositoryContentRequest, null);
-		if(replyCommand.getECommand().equals(ECommand.LIST_REPOSITORY_CONTENT_REPLY)) {
-			ListRepositoryContentReply listRepositoryContentReply = (ListRepositoryContentReply) replyCommand;
-			return listRepositoryContentReply.getProxyObjects();
+		Command replyCommand = CONNECTION_HANDLER.handleRequest(browseRepositoryContentRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.BROWSE_REPOSITORY_CONTENT_REPLY)) {
+			BrowseRepositoryContentReply browseRepositoryContentReply = (BrowseRepositoryContentReply) replyCommand;
+			return browseRepositoryContentReply.getProxyObjects();
 		}else {
 			ErrorReply errorReply = (ErrorReply) replyCommand;
 			throw new RemoteApplicationException(errorReply.getErrorReport());
@@ -75,11 +77,11 @@ public class ConnectorFacade {
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
 	 */
-	public static void addRepository(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
-		AddRepositoryRequest addRepositoryRequest = new AddRepositoryRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
+	public static void checkoutRepositoryContent(String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+		CheckoutRepositoryContentRequest checkoutRepositoryContentRequest = new CheckoutRepositoryContentRequest(getCredentials(), repository_url, repository_port, repository_path, repository_user_name, repository_password);
 		
-		Command replyCommand = CONNECTION_HANDLER.handleRequest(addRepositoryRequest, null);
-		if(replyCommand.getECommand().equals(ECommand.ADD_REPOSITORY_REPLY)) {
+		Command replyCommand = CONNECTION_HANDLER.handleRequest(checkoutRepositoryContentRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.CHECKOUT_REPOSITORY_CONTENT_REPLY)) {
 			getSession().getRepositories().add(repository_url);
 			saveSession();
 		}else {
@@ -97,12 +99,12 @@ public class ConnectorFacade {
 	 * @throws ConnectionException
 	 * @throws RemoteApplicationException
 	 */
-	public static List<ProxyObject> browse(String remote_model_path, String element_id) throws ConnectionException, RemoteApplicationException{
-		BrowseRequest browseRequest = new BrowseRequest(getCredentials(), remote_model_path, element_id);
-		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRequest, null);
-		if(replayCommand.getECommand().equals(ECommand.BROWSE_REPLY)) {
-			BrowseReply browseReply = (BrowseReply) replayCommand;
-			return browseReply.getProxyObjects();
+	public static List<ProxyObject> browseRemoteApplicationContent(String remote_model_path, String element_id) throws ConnectionException, RemoteApplicationException{
+		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(getCredentials(), remote_model_path, element_id);
+		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRemoteApplicationContentRequest, null);
+		if(replayCommand.getECommand().equals(ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REPLY)) {
+			BrowseRemoteApplicationReply browseRemoteApplicationReply = (BrowseRemoteApplicationReply) replayCommand;
+			return browseRemoteApplicationReply.getProxyObjects();
 		}else {
 			ErrorReply errorReply = (ErrorReply) replayCommand;
 			throw new RemoteApplicationException(errorReply.getErrorReport());

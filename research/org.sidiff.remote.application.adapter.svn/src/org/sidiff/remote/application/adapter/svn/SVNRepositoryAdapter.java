@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sidiff.remote.application.adapters.CheckoutOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
-import org.sidiff.remote.application.adapters.ListOperationResult;
+import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.ProxyProperty;
@@ -36,7 +36,7 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 
 
 	@Override
-	public ListOperationResult list(String url, int port, String path, String username, char[] password)
+	public BrowseRepositoryContentOperationResult list(String url, int port, String path, String username, char[] password)
 			throws RepositoryAdapterException {
 		
 		String domain = url.substring(0, url.lastIndexOf("/"));
@@ -90,7 +90,7 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 		});
 		svnList.run();
 		
-		ListOperationResult listOperationResult = new ListOperationResult(url, svnURL.getHost(), svnURL.getPort(), svnURL.getPath(), proxyObjects, "test", true);
+		BrowseRepositoryContentOperationResult listOperationResult = new BrowseRepositoryContentOperationResult(url, svnURL.getHost(), svnURL.getPort(), svnURL.getPath(), proxyObjects, "test", true);
 		
 		return listOperationResult;
 		
@@ -100,7 +100,7 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 	}
 
 	@Override
-	public CheckoutOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException {
+	public CheckoutRepositoryContentOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException {
 		
 		String domain = url.substring(0, url.lastIndexOf("/"));
 		String repo_name = url.substring(url.lastIndexOf("/"));
@@ -146,7 +146,7 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 		checkout.setSingleTarget(SvnTarget.fromFile(new File(target)));
 		checkout.run();
 		
-		return new CheckoutOperationResult(url, svnURL.getHost(), svnURL.getPort(), svnURL.getPath(), target, "Checkout file/folder successfully!", true);
+		return new CheckoutRepositoryContentOperationResult(url, svnURL.getHost(), svnURL.getPort(), svnURL.getPath(), target, "Checkout file/folder successfully!", true);
 
 
 		} catch (SVNException e) {

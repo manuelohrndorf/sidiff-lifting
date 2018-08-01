@@ -7,7 +7,7 @@ import org.sidiff.remote.common.ECommand;
  * @author cpietsch
  *
  */
-public class AddRepositoryReply extends ReplyCommand {
+public class CheckoutRepositoryContentReply extends ReplyCommand {
 
 	/**
 	 * 
@@ -23,9 +23,9 @@ public class AddRepositoryReply extends ReplyCommand {
 	 * @param host
 	 * @param root_folder
 	 */
-	public AddRepositoryReply(String host, String root_folder) {
+	public CheckoutRepositoryContentReply(String host, String root_folder) {
 		super(null);
-		this.eCommand = ECommand.ADD_REPOSITORY_REPLY;
+		this.eCommand = ECommand.CHECKOUT_REPOSITORY_CONTENT_REPLY;
 		this.host = host;
 		this.root_folder = root_folder;
 	}

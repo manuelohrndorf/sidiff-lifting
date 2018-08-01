@@ -19,17 +19,17 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.CheckoutOperationResult;
-import org.sidiff.remote.application.adapters.ListOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
+import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.commands.AddRepositoryReply;
-import org.sidiff.remote.common.commands.AddRepositoryRequest;
-import org.sidiff.remote.common.commands.BrowseReply;
-import org.sidiff.remote.common.commands.BrowseRequest;
+import org.sidiff.remote.common.commands.CheckoutRepositoryContentReply;
+import org.sidiff.remote.common.commands.CheckoutRepositoryContentRequest;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationContentRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.ErrorReply;
@@ -37,8 +37,8 @@ import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
-import org.sidiff.remote.common.commands.ListRepositoryContentReply;
-import org.sidiff.remote.common.commands.ListRepositoryContentRequest;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -132,36 +132,36 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			File attachment = null;
 			
 			switch(command.getECommand()) {
-			case LIST_REPOSITORY_CONTENT_REQUEST:
-				ListRepositoryContentRequest listRepositoryContentRequest = (ListRepositoryContentRequest) command;
-				ListOperationResult listOperationResult = app.listRepository(listRepositoryContentRequest.getRepositoryUrl(), listRepositoryContentRequest.getRepositoryPort(), listRepositoryContentRequest.getRepositoryPath(), listRepositoryContentRequest.getRepositoryUserName(), listRepositoryContentRequest.getRepositoryPassword());
-				ListRepositoryContentReply listRepositoryContentReply = new ListRepositoryContentReply(listOperationResult.getHost(), listOperationResult.getProxyObjects());
+			case BROWSE_REPOSITORY_CONTENT_REQUEST:
+				BrowseRepositoryContentRequest browseRepositoryContentRequest = (BrowseRepositoryContentRequest) command;
+				BrowseRepositoryContentOperationResult browseRepositoryOperationResult = app.browseRepositoryContent(browseRepositoryContentRequest.getRepositoryUrl(), browseRepositoryContentRequest.getRepositoryPort(), browseRepositoryContentRequest.getRepositoryPath(), browseRepositoryContentRequest.getRepositoryUserName(), browseRepositoryContentRequest.getRepositoryPassword());
+				BrowseRepositoryContentReply browseRepositoryContentReply = new BrowseRepositoryContentReply(browseRepositoryOperationResult.getHost(), browseRepositoryOperationResult.getProxyObjects());
 				try {
-					this.protocolHandler.write(out, listRepositoryContentReply, null);
+					this.protocolHandler.write(out, browseRepositoryContentReply, null);
 				} catch (IOException e) {
 					throw new ProtocolHandlerException(e);
 				}
 				break;
 				
-			case ADD_REPOSITORY_REQUEST:
-				AddRepositoryRequest addRepositoryRequest = (AddRepositoryRequest) command;
-				CheckoutOperationResult checkoutResult = app.addRepository(addRepositoryRequest.getRepositoryUrl(), addRepositoryRequest.getRepositoryPort(), addRepositoryRequest.getRepositoryPath(), addRepositoryRequest.getRepositoryUserName(), addRepositoryRequest.getRepositoryPassword());
-				AddRepositoryReply addRepositoryReply = new AddRepositoryReply(checkoutResult.getHost(), checkoutResult.getTargetPath().split("/")[0]);
+			case CHECKOUT_REPOSITORY_CONTENT_REQUEST:
+				CheckoutRepositoryContentRequest checkoutRepositoryContentRequest = (CheckoutRepositoryContentRequest) command;
+				CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = app.checkoutRepositoryContent(checkoutRepositoryContentRequest.getRepositoryUrl(), checkoutRepositoryContentRequest.getRepositoryPort(), checkoutRepositoryContentRequest.getRepositoryPath(), checkoutRepositoryContentRequest.getRepositoryUserName(), checkoutRepositoryContentRequest.getRepositoryPassword());
+				CheckoutRepositoryContentReply checkoutRepositoryContentReply = new CheckoutRepositoryContentReply(checkoutRepositoryContentOperationResult.getHost(), checkoutRepositoryContentOperationResult.getTargetPath().split("/")[0]);
 				try {
-					this.protocolHandler.write(out, addRepositoryReply, null);
+					this.protocolHandler.write(out, checkoutRepositoryContentReply, null);
 				} catch (IOException e) {
 					throw new ProtocolHandlerException(e);
 				}
 				break;
 				
-			case BROWSE_REQUEST:
-				BrowseRequest browseRequest = (BrowseRequest) command;
-				String session_path = browseRequest.getSessionPath();
-				String element_id = browseRequest.getElementID();
-				List<ProxyObject> proxyObjects = app.browse(session_path, element_id);
-				BrowseReply browseReply = new BrowseReply(proxyObjects);
+			case BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST:
+				BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = (BrowseRemoteApplicationContentRequest) command;
+				String session_path = browseRemoteApplicationContentRequest.getSessionPath();
+				String element_id = browseRemoteApplicationContentRequest.getElementID();
+				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(session_path, element_id);
+				BrowseRemoteApplicationReply browseRemoteApplicationReply = new BrowseRemoteApplicationReply(proxyObjects);
 				try {
-					this.protocolHandler.write(out, browseReply, null);
+					this.protocolHandler.write(out, browseRemoteApplicationReply, null);
 				} catch (IOException e) {
 					throw new ProtocolHandlerException(e);
 				}

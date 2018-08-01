@@ -54,7 +54,7 @@ public class AddRepositoryLocationWizard extends Wizard {
 	public boolean performFinish() {
 		
 		try {
-			ConnectorFacade.addRepository(this.settings.getRepositoryURL(), this.settings.getRepositoryPort(), this.settings.getRepositoryPath(), this.settings.getUserName(), this.settings.getPassword());
+			ConnectorFacade.checkoutRepositoryContent(this.settings.getRepositoryURL(), this.settings.getRepositoryPort(), this.settings.getRepositoryPath(), this.settings.getUserName(), this.settings.getPassword());
 		} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 			this.exception = e;
 		}

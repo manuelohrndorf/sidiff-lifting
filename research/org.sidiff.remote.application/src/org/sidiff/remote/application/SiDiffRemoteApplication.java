@@ -22,9 +22,9 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.CheckoutOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
-import org.sidiff.remote.application.adapters.ListOperationResult;
+import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
@@ -114,6 +114,94 @@ public class SiDiffRemoteApplication {
 		this.modelIndexer.index();
 		
 		this.extractionEngine = new ExtractionEngine();
+	}
+	
+	/**
+	 * Returns the repository content based on the given path
+	 * 
+	 * @param url
+	 * 			the URL of the repository to be listed
+	 * @param port
+	 * 			the port of the repository to be listed
+	 * @param path
+	 * 			a relative path of the repository content to be listed
+	 * @param user
+	 * 			the username for accessing the repository
+	 * @param password
+	 * 			the password for accessing the repository
+	 * 
+	 * @return a {@link BrowseRepositoryContentOperationResult}
+	 * @throws ListRepositoryContentException
+	 */
+	public BrowseRepositoryContentOperationResult browseRepositoryContent(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
+		//TODO determine right repository adapter
+		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		BrowseRepositoryContentOperationResult browseRepositoryContentOperationResult = null;
+		try {
+			browseRepositoryContentOperationResult = repositoryAdapter.list(url, port, path, user, password);
+		} catch (RepositoryAdapterException e) {
+			LogUtil.log(LogEvent.ERROR, e.getMessage());
+			throw new ListRepositoryContentException(e);
+		}
+		return browseRepositoryContentOperationResult;
+	}
+	
+	/**
+	 * Browses the repository files based on the given path and IDs
+	 * 
+	 * @param session_path
+	 *            session based path for the parent file to be browsed
+	 * @param elementID
+	 * 			element ID of the model element to be browsed
+	 * @return a {@link List} of {@link ProxyObject}s containing the browsed content
+	 */
+	public List<ProxyObject> browseRemoteApplicationContent(String session_path, String elementID) {
+
+		File file = this.modelIndexer.getFile(session_path);
+		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
+		if (file.isDirectory()) {
+			for (File child : this.modelIndexer.getChildren(file)) {
+				ProxyObject proxyObject = ProxyUtil.convertFile(child, this.session_id);
+				proxyObjects.add(proxyObject);
+			}
+		} else {
+			proxyObjects.addAll(browseRemoteApplicationModelContent(file, elementID));
+		}
+
+		return proxyObjects;
+	}	
+	
+	
+	private List<ProxyObject> browseRemoteApplicationModelContent(File file, String elementID) {
+		String absolute_path = file.getAbsolutePath();
+		URI uri = EMFStorage.pathToUri(absolute_path);
+		if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
+			ResourceSet resourceSet = new ResourceSetImpl();
+			last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
+			try {
+				last_selected_model.save(last_selected_model.getDefaultSaveOptions());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		List<ProxyObject> content = new ArrayList<ProxyObject>();
+		if(elementID == null) {
+			for(EObject eObject : last_selected_model.getContents()) {
+				ProxyObject proxyObject = ProxyUtil.convertEObject(eObject);
+				content.add(proxyObject);
+			}
+		}else {
+			
+			EObject eObject = last_selected_model.getIDToEObjectMap().get(elementID);
+				
+			for (EObject eObj : eObject.eContents()) {
+				ProxyObject proxyObject = ProxyUtil.convertEObject(eObj);
+				content.add(proxyObject);
+			}
+			
+		}
+		return content;
 	}
 	
 	/**
@@ -240,36 +328,6 @@ public class SiDiffRemoteApplication {
 	}
 	
 	/**
-	 * Lists the repository content based on the given path
-	 * 
-	 * @param url
-	 * 			the URL of the repository to be listed
-	 * @param port
-	 * 			the port of the repository to be listed
-	 * @param path
-	 * 			a relative path of the repository content to be listed
-	 * @param user
-	 * 			the username for accessing the repository
-	 * @param password
-	 * 			the password for accessing the repository
-	 * 
-	 * @return a {@link ListOperationResult}
-	 * @throws ListRepositoryContentException
-	 */
-	public ListOperationResult listRepository(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
-		//TODO determine right repository adapter
-		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
-		ListOperationResult listOperationResult = null;
-		try {
-			listOperationResult = repositoryAdapter.list(url, port, path, user, password);
-		} catch (RepositoryAdapterException e) {
-			LogUtil.log(LogEvent.ERROR, e.getMessage());
-			throw new ListRepositoryContentException(e);
-		}
-		return listOperationResult;
-	}
-	
-	/**
 	 * Adds the repository to the remote application and checks out the files given by the path 
 	 * @param url
 	 * 			the URL of the repository to be added to the remote application
@@ -281,81 +339,23 @@ public class SiDiffRemoteApplication {
 	 * 			the username for accessing the repository
 	 * @param password
 	 * 			the password for accessing the repository
-	 * @return a {@link CheckoutOperationResult}
+	 * @return a {@link CheckoutRepositoryContentOperationResult}
 	 * @throws AddRepositoryException 
 	 */
-	public CheckoutOperationResult addRepository(String url, int port, String path, String user, char[] password) throws AddRepositoryException {
+	public CheckoutRepositoryContentOperationResult checkoutRepositoryContent(String url, int port, String path, String user, char[] password) throws AddRepositoryException {
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
 		String target = this.session_folder.getPath();
-		CheckoutOperationResult checkoutOperationResult = null;
+		CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = null;
 		try {
-			checkoutOperationResult = repositoryAdapter.checkout(url, port, path, user, password, target);
+			checkoutRepositoryContentOperationResult = repositoryAdapter.checkout(url, port, path, user, password, target);
 			modelIndexer.index();
 		} catch (RepositoryAdapterException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new AddRepositoryException(e);
 		}
 		
-		return checkoutOperationResult;
-	}
-	
-	/**
-	 * Browses the repository files based on the given path and IDs
-	 * 
-	 * @param session_path
-	 *            session based path for the parent file to be browsed
-	 * @param elementID
-	 * 			element ID of the model element to be browsed
-	 * @return a {@link List} of {@link ProxyObject}s containing the browsed content
-	 */
-	public List<ProxyObject> browse(String session_path, String elementID) {
-
-		File file = this.modelIndexer.getFile(session_path);
-		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
-		if (file.isDirectory()) {
-			for (File child : this.modelIndexer.getChildren(file)) {
-				ProxyObject proxyObject = ProxyUtil.convertFile(child, this.session_id);
-				proxyObjects.add(proxyObject);
-			}
-		} else {
-			proxyObjects.addAll(browseModel(file, elementID));
-		}
-
-		return proxyObjects;
-	}	
-	
-	
-	private List<ProxyObject> browseModel(File file, String elementID) {
-		String absolute_path = file.getAbsolutePath();
-		URI uri = EMFStorage.pathToUri(absolute_path);
-		if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
-			ResourceSet resourceSet = new ResourceSetImpl();
-			last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
-			try {
-				last_selected_model.save(last_selected_model.getDefaultSaveOptions());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		List<ProxyObject> content = new ArrayList<ProxyObject>();
-		if(elementID == null) {
-			for(EObject eObject : last_selected_model.getContents()) {
-				ProxyObject proxyObject = ProxyUtil.convertEObject(eObject);
-				content.add(proxyObject);
-			}
-		}else {
-			
-			EObject eObject = last_selected_model.getIDToEObjectMap().get(elementID);
-				
-			for (EObject eObj : eObject.eContents()) {
-				ProxyObject proxyObject = ProxyUtil.convertEObject(eObj);
-				content.add(proxyObject);
-			}
-			
-		}
-		return content;
+		return checkoutRepositoryContentOperationResult;
 	}
 	
 	/**

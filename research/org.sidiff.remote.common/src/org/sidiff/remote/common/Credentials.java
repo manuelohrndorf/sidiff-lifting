@@ -14,15 +14,15 @@ public class Credentials implements Serializable {
 	 */
 	private static final long serialVersionUID = -4145279537130783752L;
 	
-	private final String url;
+	private String url;
 	
-	private final int port;
+	private int port;
 	
 	private final String session_id;
 	
-	private final String user;
+	private String user;
 	
-	private final String password;
+	private String password;
 
 	public Credentials(String url, int port, String session_id, String user, String password) {
 		this.url = url;
@@ -32,16 +32,32 @@ public class Credentials implements Serializable {
 		this.session_id = session_id;
 	}
 	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 	public String getUrl() {
 		return url;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
 	}
 	
 	public int getPort() {
 		return port;
 	}
 	
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
 	public String getUser() {
 		return user;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public String getPassword() {

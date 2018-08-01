@@ -8,7 +8,7 @@ import org.sidiff.remote.common.ECommand;
  * @author cpietsch
  *
  */
-public class ListRepositoryContentRequest extends RequestCommand {
+public class BrowseRepositoryContentRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -49,9 +49,9 @@ public class ListRepositoryContentRequest extends RequestCommand {
 	 * @param repository_user_name
 	 * @param repository_password
 	 */
-	public ListRepositoryContentRequest(Credentials credentials, String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) {
+	public BrowseRepositoryContentRequest(Credentials credentials, String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) {
 		super(credentials, null);
-		this.eCommand = ECommand.LIST_REPOSITORY_CONTENT_REQUEST;
+		this.eCommand = ECommand.BROWSE_REPOSITORY_CONTENT_REQUEST;
 		this.repository_url = repository_url;
 		this.repository_port = repository_port;
 		this.repository_path = repository_path;

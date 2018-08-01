@@ -10,7 +10,7 @@ import org.sidiff.remote.common.ProxyObject;
  * @author cpietsch
  *
  */
-public class BrowseReply extends ReplyCommand {
+public class BrowseRemoteApplicationReply extends ReplyCommand {
 
 	/**
 	 * 
@@ -27,9 +27,9 @@ public class BrowseReply extends ReplyCommand {
 	 * @param treeNodes
 	 *            list of {@link ProxyObject}s
 	 */
-	public BrowseReply(List<ProxyObject> treeNodes) {
+	public BrowseRemoteApplicationReply(List<ProxyObject> treeNodes) {
 		super(null);
-		this.eCommand = ECommand.BROWSE_REPLY;
+		this.eCommand = ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REPLY;
 		this.proxyObjects = treeNodes;
 	}
 

@@ -8,7 +8,7 @@ import org.sidiff.remote.common.ECommand;
  * @author cpietsch
  *
  */
-public class BrowseRequest extends RequestCommand {
+public class BrowseRemoteApplicationContentRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -32,9 +32,9 @@ public class BrowseRequest extends RequestCommand {
 	 * @param session_path
 	 * 			a session based location path
 	 */
-	public BrowseRequest(Credentials credentials, String session_path, String element_id) {
+	public BrowseRemoteApplicationContentRequest(Credentials credentials, String session_path, String element_id) {
 		super(credentials, null);
-		this.eCommand = ECommand.BROWSE_REQUEST;
+		this.eCommand = ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST;
 		
 		this.session_path = session_path;
 		this.element_id = element_id;

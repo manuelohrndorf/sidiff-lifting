@@ -53,7 +53,7 @@ public class InteractiveElementTreeSelectionDialog extends ElementTreeSelectionD
 					}
 					try {
 						if(selectedAdaptableTreeNode.getChildren().isEmpty()) {
-							List<ProxyObject> proxyObjects = ConnectorFacade.listRepository(settings.getRepositoryURL(), settings.getRepositoryPort(), settings.getRepositoryPath(), settings.getUserName(), settings.getPassword());
+							List<ProxyObject> proxyObjects = ConnectorFacade.browseRepositoryContent(settings.getRepositoryURL(), settings.getRepositoryPort(), settings.getRepositoryPath(), settings.getUserName(), settings.getPassword());
 							proxyObjects.remove(0);
 							List<AdaptableTreeNode> adaptableTreeNodes = ModelUtil.transform(proxyObjects);
 							selectedAdaptableTreeNode.setChildren(adaptableTreeNodes);

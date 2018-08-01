@@ -10,7 +10,7 @@ import org.sidiff.remote.common.ProxyObject;
  * @author cpietsch
  *
  */
-public class ListRepositoryContentReply extends ReplyCommand {
+public class BrowseRepositoryContentReply extends ReplyCommand {
 
 	/**
 	 * 
@@ -26,9 +26,9 @@ public class ListRepositoryContentReply extends ReplyCommand {
 	 * @param host
 	 * @param root_folder
 	 */
-	public ListRepositoryContentReply(String host, List<ProxyObject> proxyObjects) {
+	public BrowseRepositoryContentReply(String host, List<ProxyObject> proxyObjects) {
 		super(null);
-		this.eCommand = ECommand.LIST_REPOSITORY_CONTENT_REPLY;
+		this.eCommand = ECommand.BROWSE_REPOSITORY_CONTENT_REPLY;
 		this.host = host;
 		this.proxyObjects = proxyObjects;
 	}

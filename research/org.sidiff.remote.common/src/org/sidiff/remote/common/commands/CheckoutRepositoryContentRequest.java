@@ -8,7 +8,7 @@ import org.sidiff.remote.common.ECommand;
  * @author cpietsch
  *
  */
-public class AddRepositoryRequest extends RequestCommand {
+public class CheckoutRepositoryContentRequest extends RequestCommand {
 
 	/**
 	 * 
@@ -48,9 +48,9 @@ public class AddRepositoryRequest extends RequestCommand {
 	 * @param repository_user_name
 	 * @param repository_password
 	 */
-	public AddRepositoryRequest(Credentials credentials, String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) {
+	public CheckoutRepositoryContentRequest(Credentials credentials, String repository_url, int repository_port, String repository_path, String repository_user_name, char[] repository_password) {
 		super(credentials, null);
-		this.eCommand = ECommand.ADD_REPOSITORY_REQUEST;
+		this.eCommand = ECommand.CHECKOUT_REPOSITORY_CONTENT_REQUEST;
 		this.repository_url = repository_url;
 		this.repository_port = repository_port;
 		this.repository_path = repository_path;

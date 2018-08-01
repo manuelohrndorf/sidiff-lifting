@@ -173,6 +173,7 @@ public class Session implements Serializable {
 		for(ModelInfo modelInfo : modelInfos) {
 			if(modelInfo.getLocalPath().equals(local_path)) {
 				modelInfo.setModified(modified);
+				return;
 			}
 		}
 		throw new ModelNotVersionedException(local_path);

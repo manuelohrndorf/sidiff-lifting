@@ -103,7 +103,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-				List<ProxyObject> proxyObjects =  ConnectorFacade.listRepository(settings.getRepositoryURL(), settings.getRepositoryPort(), "", settings.getUserName(), settings.getPassword());
+				List<ProxyObject> proxyObjects =  ConnectorFacade.browseRepositoryContent(settings.getRepositoryURL(), settings.getRepositoryPort(), "", settings.getUserName(), settings.getPassword());
 				AdaptableTreeModel model = new AdaptableTreeModel();
 				AdaptableTreeNode repositoryNode = ModelUtil.transform(proxyObjects.get(0));
 				model.getRoot().getChildren().add(repositoryNode);

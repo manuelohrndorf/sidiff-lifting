@@ -82,7 +82,7 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 			}
 			
 			for(String revertedModel_path : revertedModel_paths) {
-				if(session.isModified(revertedModel_path)) {
+				if(!session.isModified(revertedModel_path)) {
 					session.setModified(revertedModel_path, false);
 				}
 			}

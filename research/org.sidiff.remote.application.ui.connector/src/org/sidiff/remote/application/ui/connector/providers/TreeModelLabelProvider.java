@@ -61,7 +61,7 @@ public class TreeModelLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 		AdaptableTreeNode treeNode = (AdaptableTreeNode) element;
 		String text = treeNode.getLabel();
-		if(treeNode.isLeaf()) {
+		if(treeNode.isLeaf() || !treeNode.getType().equals("Folder")) {
 			text = text + " [" + treeNode.getId() + "]";
 		}
 		return text;

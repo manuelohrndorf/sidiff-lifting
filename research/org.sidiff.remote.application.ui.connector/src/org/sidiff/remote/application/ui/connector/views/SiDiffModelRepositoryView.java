@@ -318,7 +318,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			public void run() {
 				try {
 					AdaptableTreeModel model = new AdaptableTreeModel();
-					List<ProxyObject> proxyObjects = ConnectorFacade.browse(ConnectorFacade.getSession().getSessionID(),null);
+					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(ConnectorFacade.getSession().getSessionID(),null);
 					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
 					model.getRoot().setChildren(treeNodes);
 					treeViewer.setInput(model);
@@ -532,6 +532,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		
 		AdaptableTreeNode currentElementNode = treeModelElements.getRoot();
 		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
+		//FIXME the hierarchy is wrong
 		for(ProxyObject proxyObject : proxyElements) {
 			proxyObjects.addAll(ProxyUtil.sort(proxyObject));
 		}
@@ -569,7 +570,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					if(!(treeNode.isLeaf())) {
 						if(treeNode.getChildren().isEmpty()) {
 							try {
-								List<ProxyObject> proxyObjects = ConnectorFacade.browse(treeNode.getId(), null);
+								List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(treeNode.getId(), null);
 								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 								treeNode.setChildren(children);
 								this.treeViewer.refresh();
@@ -583,7 +584,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						AdaptableTreeModel treeModel = new AdaptableTreeModel();
 						
 						try {
-							List<ProxyObject> proxyObjects = ConnectorFacade.browse(treeNode.getId(), null);
+							List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(treeNode.getId(), null);
 							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 							treeModel.getRoot().setChildren(children);
 							this.checkboxTreeViewer.setInput(treeModel);
@@ -598,7 +599,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						try {
 							
 							String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection().getFirstElement()).getId();
-							List<ProxyObject> proxyObjects = ConnectorFacade.browse(session_path, treeNode.getId());
+							List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(session_path, treeNode.getId());
 							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 							treeNode.setChildren(children);
 							this.checkboxTreeViewer.refresh();
