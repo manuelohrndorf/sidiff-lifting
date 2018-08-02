@@ -26,7 +26,7 @@ import org.sidiff.matcher.IMatcher;
  */
 public class LiftingSettings extends DifferenceSettings {
 
-	private static final String PLUGIN_ID = "org.sidiff.difference.technical.api";
+	private static final String PLUGIN_ID = "org.sidiff.difference.lifting.api";
 
 	/**
 	 * List of active Rulebases.
