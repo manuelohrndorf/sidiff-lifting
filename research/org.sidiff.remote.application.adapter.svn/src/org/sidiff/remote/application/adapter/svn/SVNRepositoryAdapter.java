@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
-import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.ProxyProperty;
@@ -16,9 +16,6 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
-import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
-import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
@@ -50,17 +47,10 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 		
 		try {
 	
-		
-		SVNRepository repository = SVNRepositoryFactory.create(svnURL);
-		
 		ISVNAuthenticationManager authManager =	SVNWCUtil.createDefaultAuthenticationManager(username, password);
-
-		repository.setAuthenticationManager(authManager);
-		
-		SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
-		clientManager.setAuthenticationManager(authManager);
 		
 		SvnOperationFactory operationFactory = new SvnOperationFactory();
+		operationFactory.setAuthenticationManager(authManager);
 		SvnList svnList = operationFactory.createList();
 		svnList.setDepth(SVNDepth.IMMEDIATES);
 		
@@ -112,17 +102,9 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 		}
 		
 		try {
-	
-		
-		SVNRepository repository = SVNRepositoryFactory.create(svnURL);
-		
+			
 		ISVNAuthenticationManager authManager =	SVNWCUtil.createDefaultAuthenticationManager(username, password);
-
-		repository.setAuthenticationManager(authManager);
-		
-		SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
-		clientManager.setAuthenticationManager(authManager);
-		
+	
 		//use SVNUpdateClient to do the checkout
 		
 //		SVNUpdateClient updateClient = clientManager.getUpdateClient( );
@@ -137,6 +119,7 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 //		true);
 		
 		SvnOperationFactory operationFactory = new SvnOperationFactory();
+		operationFactory.setAuthenticationManager(authManager);
 		SvnCheckout checkout = operationFactory.createCheckout();
 		checkout.setSource(SvnTarget.fromURL(svnURL));
 		String[] segments = svnURL.getPath().split("/");
