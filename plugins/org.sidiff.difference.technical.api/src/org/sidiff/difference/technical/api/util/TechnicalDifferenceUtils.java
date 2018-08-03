@@ -68,6 +68,15 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(modelA, modelB);
 	}
 	
+	/**
+	 * Find all available technical difference builders.
+	 * 
+	 * @return All available technical difference builders.
+	 */
+	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders() {
+		return TechnicalDifferenceUtils.getAllAvailableTechnicalDifferenceBuilders();
+	}
+	
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
 		return TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
 	}
