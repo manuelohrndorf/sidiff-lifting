@@ -59,6 +59,26 @@ public class RuleBaseProjectLibrary {
 	}
 	
 	/**
+	 * @param viewType
+	 *            A specific or abstract rulebase type ((sub)class of {@link IBasicRuleBase}).
+	 * @return All registered rulebases (EMF data models) of the given view-type.
+	 */
+	public static <R extends IBasicRuleBase> Set<R> getRuleBases(Class<R> viewType) {
+		
+		Set<R> rulebases = new HashSet<R>();
+		
+		for (IRuleBaseProject rulebaseProject : getRuleBaseProjects()) {
+			R rulebase = rulebaseProject.getRuleBaseView(viewType);
+
+			if (rulebase != null) {
+				rulebases.add(rulebase);
+			}
+		}
+		
+		return rulebases;
+	}
+	
+	/**
 	 * Clear rulebase cache.
 	 */
 	public static void clearRuleBaseCache() {
