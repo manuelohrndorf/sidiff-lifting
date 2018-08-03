@@ -1,15 +1,14 @@
 package org.sidiff.remote.common.settings;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * 
  * @author cpietsch
  *
  */
-public class RemoteApplicationProperty <T> implements Serializable {
+public abstract class RemoteApplicationProperty<T> implements Serializable {
 
 	/**
 	 * 
@@ -17,40 +16,19 @@ public class RemoteApplicationProperty <T> implements Serializable {
 	private static final long serialVersionUID = -1235122538626024568L;
 
 	private String name;
-
-	private T value;
 	
-	private List<T> values;
-	
-	private List<String> documentTypes;
+	private Map<String,T> items;
 
-	public RemoteApplicationProperty(String name, T value, List<String> documentTypes) {
-		super();
+	public RemoteApplicationProperty(String name, Map<String,T> items) {
 		this.name = name;
-		this.value = value;
-		this.values = new ArrayList<T>();
-		this.documentTypes = documentTypes;
+		this.items = items;
 	}
 	
-	public RemoteApplicationProperty(String name, List<T> values, List<String> documentTypes) {
-		this(name, values.get(0), documentTypes);
-		this.values.addAll(values);
-	}
-
 	public String getName() {
 		return name;
 	}
-
-	public T getValue() {
-		return value;
-	}
 	
-	public List<T> getValues() {
-		return values;
-	}
-	
-	public List<String> getDocumentTypes() {
-		return documentTypes;
-	}	
-	
+	public Map<String,T>  getItems() {
+		return items;
+	};
 }

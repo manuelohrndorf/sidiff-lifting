@@ -10,21 +10,21 @@ public class ExtractionProperties implements Serializable {
 	 */
 	private static final long serialVersionUID = -3435023314280625862L;
 
-	private RemoteApplicationProperty<Boolean> mergeImports;
+	private SingleSelectionRemoteApplicationProperty<Boolean> mergeImports;
 	
-	private RemoteApplicationProperty<Boolean> unmergeImports;
+	private SingleSelectionRemoteApplicationProperty<Boolean> unmergeImports;
 	
-	private List<RemoteApplicationProperty<String>> technicalDifferenceBuilderProperties;
+	private List<MultiSelectionRemoteApplicationProperty<String>> technicalDifferenceBuilderProperties;
 	
-	private List<RemoteApplicationProperty<String>> recognitionRuleSorterProperties;
+	private List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties;
 	
-	private List<RemoteApplicationProperty<String>> ruleBaseProperties;
+	private List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties;
 	
-	public ExtractionProperties(RemoteApplicationProperty<Boolean> mergeImports,
-			RemoteApplicationProperty<Boolean> unmergeImports,
-			List<RemoteApplicationProperty<String>> technicalDifferenceBuilderProperties,
-			List<RemoteApplicationProperty<String>> recognitionRuleSorterProperties,
-			List<RemoteApplicationProperty<String>> ruleBaseProperties) {
+	public ExtractionProperties(SingleSelectionRemoteApplicationProperty<Boolean> mergeImports,
+			SingleSelectionRemoteApplicationProperty<Boolean> unmergeImports,
+			List<MultiSelectionRemoteApplicationProperty<String>> technicalDifferenceBuilderProperties,
+			List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties,
+			List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties) {
 		super();
 		this.mergeImports = mergeImports;
 		this.unmergeImports = unmergeImports;
@@ -33,23 +33,23 @@ public class ExtractionProperties implements Serializable {
 		this.ruleBaseProperties = ruleBaseProperties;
 	}
 
-	public RemoteApplicationProperty<Boolean> getMergeImports() {
+	public SingleSelectionRemoteApplicationProperty<Boolean> getMergeImports() {
 		return mergeImports;
 	}
 	
-	public RemoteApplicationProperty<Boolean> getUnmergeImports() {
+	public SingleSelectionRemoteApplicationProperty<Boolean> getUnmergeImports() {
 		return unmergeImports;
 	}
 	
-	public List<RemoteApplicationProperty<String>> getTechnicalDifferenceBuilderProperties() {
+	public List<MultiSelectionRemoteApplicationProperty<String>> getTechnicalDifferenceBuilderProperties() {
 		return technicalDifferenceBuilderProperties;
 	}
 	
-	public List<RemoteApplicationProperty<String>> getRecognitionRuleSorterProperties() {
+	public List<SingleSelectionRemoteApplicationProperty<String>> getRecognitionRuleSorterProperties() {
 		return recognitionRuleSorterProperties;
 	}
 	
-	public List<RemoteApplicationProperty<String>> getRuleBaseProperties() {
+	public List<MultiSelectionRemoteApplicationProperty<String>> getRuleBaseProperties() {
 		return ruleBaseProperties;
 	}
 }
