@@ -74,7 +74,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return All available technical difference builders.
 	 */
 	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders() {
-		return TechnicalDifferenceUtils.getAllAvailableTechnicalDifferenceBuilders();
+		return TechnicalDifferenceBuilderUtil.getAllAvailableTechnicalDifferenceBuilders();
 	}
 	
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
