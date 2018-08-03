@@ -18,6 +18,9 @@ public abstract class RemoteApplicationProperty<T> implements Serializable {
 	private String name;
 	
 	private Map<String,T> items;
+	
+
+	private String documentType = "generic";
 
 	public RemoteApplicationProperty(String name, Map<String,T> items) {
 		this.name = name;
@@ -31,4 +34,12 @@ public abstract class RemoteApplicationProperty<T> implements Serializable {
 	public Map<String,T>  getItems() {
 		return items;
 	};
+	
+	public String getDocumentType() {
+		return documentType;
+	}
+	
+	public void setDocumentType(String documentType) {
+		this.documentType = documentType;
+	}
 }

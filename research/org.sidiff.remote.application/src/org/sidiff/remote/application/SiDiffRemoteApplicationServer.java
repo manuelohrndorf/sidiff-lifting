@@ -37,6 +37,8 @@ import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
+import org.sidiff.remote.common.commands.GetServerPropertiesReply;
+import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
 import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
 import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
@@ -47,6 +49,7 @@ import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
 import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.ProtocolHandlerException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
+import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
  * 
@@ -200,6 +203,17 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(proxyObjects_);
 				try {
 					this.protocolHandler.write(out, getRequestedModelElementsReply, null);
+				} catch (IOException e) {
+					throw new ProtocolHandlerException(e);
+				}
+				break;
+				
+			case GET_SERVER_PROPERTIES_REQUEST:
+				GetServerPropertiesRequest getServerPropertiesRequest = (GetServerPropertiesRequest) command;
+				RemotePreferences remotePreferences = app.getRemotePreferences();
+				GetServerPropertiesReply getServerPropertiesReply = new GetServerPropertiesReply(remotePreferences);
+				try {
+					this.protocolHandler.write(out, getServerPropertiesReply, null);
 				} catch (IOException e) {
 					throw new ProtocolHandlerException(e);
 				}

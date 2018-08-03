@@ -9,7 +9,6 @@ public class SingleSelectionRemoteApplicationProperty<T> extends RemoteApplicati
 	 */
 	private static final long serialVersionUID = 674821124782885169L;
 	
-	private String documentType = "*";
 
 	private T value;
 	
@@ -20,13 +19,5 @@ public class SingleSelectionRemoteApplicationProperty<T> extends RemoteApplicati
 
 	public T getValue() {
 		return value;
-	}
-	
-	public void setDocumentType(String documentType) {
-		this.documentType = documentType;
-	}
-	
-	public String getDocumentType() {
-		return documentType;
 	}
 }

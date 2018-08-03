@@ -22,11 +22,14 @@ import org.sidiff.remote.common.commands.GetRequestedModelElementsReply;
 import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
+import org.sidiff.remote.common.commands.GetServerPropertiesReply;
+import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
 import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
 import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
+import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
  * 
@@ -170,6 +173,13 @@ public class ConnectorFacade {
 		return getRequestedModelElementsReply.getProxyObjects();
 	}
 	
+	
+	public static RemotePreferences getRemotePreferences() throws ConnectionException {
+		GetServerPropertiesRequest getServerPropertiesRequest = new GetServerPropertiesRequest(getCredentials());
+		GetServerPropertiesReply getServerPropertiesReply = (GetServerPropertiesReply) CONNECTION_HANDLER.handleRequest(getServerPropertiesRequest, null);
+	
+		return getServerPropertiesReply.getRemotePreferences();
+	}
 	/**
 	 * 
 	 * @param local_model_path

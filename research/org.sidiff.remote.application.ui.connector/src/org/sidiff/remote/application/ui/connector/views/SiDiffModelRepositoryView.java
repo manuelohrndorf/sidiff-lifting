@@ -323,6 +323,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					model.getRoot().setChildren(treeNodes);
 					treeViewer.setInput(model);
 					checkboxTreeViewer.setInput(null);
+					System.out.println(ConnectorFacade.getRemotePreferences());
 				} catch (ConnectionException | RemoteApplicationException | InvalidSessionException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
@@ -459,8 +460,10 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					String local_model_path = file.getLocation().toOSString();
 					updateRequestedModelElements(local_model_path);
 					selected_model_path = local_model_path;
-				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException | ModelNotVersionedException e) {
+				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+				}catch ( ModelNotVersionedException e) {
+					
 				}
 				
 			}

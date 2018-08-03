@@ -3,6 +3,7 @@ package org.sidiff.remote.application;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -22,9 +24,13 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
+import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
-import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
@@ -33,6 +39,12 @@ import org.sidiff.remote.common.exceptions.AddRepositoryException;
 import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
 import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
+import org.sidiff.remote.common.settings.ExtractionProperties;
+import org.sidiff.remote.common.settings.GeneralProperties;
+import org.sidiff.remote.common.settings.MultiSelectionRemoteApplicationProperty;
+import org.sidiff.remote.common.settings.RemotePreferences;
+import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationProperty;
+import org.sidiff.remote.common.settings.ValidationProperties;
 import org.sidiff.remote.common.util.ProxyUtil;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
@@ -396,4 +408,97 @@ public class SiDiffRemoteApplication {
 		return slicingEditScriptFile;
 	}
 	
+	public RemotePreferences getRemotePreferences() {
+		
+		Map<String,String> scope_items = new HashMap<String, String>();
+		scope_items.put(Scope.RESOURCE.toString(), "Resource");
+		scope_items.put(Scope.RESOURCE_SET.toString(), "Resource Set");
+		
+		SingleSelectionRemoteApplicationProperty<String> scope = new SingleSelectionRemoteApplicationProperty<String>("Scope", scope_items, Scope.RESOURCE.toString());
+		
+		GeneralProperties generalProperties = new GeneralProperties(scope);
+		
+		Map<String,Boolean> boolean_items = new HashMap<String, Boolean>();
+		boolean_items.put(Boolean.toString(true), true);
+		boolean_items.put(Boolean.toString(false), false);
+		
+		SingleSelectionRemoteApplicationProperty<Boolean> mergeImports = new SingleSelectionRemoteApplicationProperty<Boolean>("Merge Imports", boolean_items, true);
+		SingleSelectionRemoteApplicationProperty<Boolean> unmergeImports = new SingleSelectionRemoteApplicationProperty<Boolean>("Unmerge Imports", boolean_items, true);
+
+		Map<String, List<ITechnicalDifferenceBuilder>> builders = new HashMap<String, List<ITechnicalDifferenceBuilder>>();
+		for(ITechnicalDifferenceBuilder technicalDifferenceBuilder : PipelineUtils.getAllAvailableTechnicalDifferenceBuilders()) {
+			for(String documentType : technicalDifferenceBuilder.getDocumentTypes()){
+				if(!builders.containsKey(documentType)) {
+					builders.put(documentType, new ArrayList<ITechnicalDifferenceBuilder>());
+				}
+				builders.get(documentType).add(technicalDifferenceBuilder);
+			}
+		}
+		
+		List<MultiSelectionRemoteApplicationProperty<String>> technicalDifferenceBuilderProperties = new ArrayList<MultiSelectionRemoteApplicationProperty<String>>();
+		for(String documentType : builders.keySet()) {
+			Map<String, String> builder_items = new HashMap<String, String>();
+			List<String> builder_values  = new ArrayList<String>();
+			for(ITechnicalDifferenceBuilder builder : builders.get(documentType)) {
+				builder_items.put(builder.getKey(), builder.getName());
+			}
+			builder_values.add(builder_items.get(builder_items.keySet().iterator().next()));
+			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty = new MultiSelectionRemoteApplicationProperty<String>("Technical Difference Builder", builder_items, builder_values);
+			multiSelectionRemoteApplicationProperty.setDocumentType(documentType);
+			technicalDifferenceBuilderProperties.add(multiSelectionRemoteApplicationProperty);
+		}
+		
+		Map<String, List<IRecognitionRuleSorter>> sorters = new HashMap<String, List<IRecognitionRuleSorter>>();
+		for(IRecognitionRuleSorter recognitionRuleSorter : PipelineUtils.getAllAvailableRecognitionRuleSorters()) {
+			
+				if(!sorters.containsKey(recognitionRuleSorter.getDocumentType())) {
+					sorters.put(recognitionRuleSorter.getDocumentType(), new ArrayList<IRecognitionRuleSorter>());
+				}
+				sorters.get(recognitionRuleSorter.getDocumentType()).add(recognitionRuleSorter);
+		}
+		
+		List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties = new ArrayList<SingleSelectionRemoteApplicationProperty<String>>();
+		for(String documentType : sorters.keySet()) {
+			Map<String, String> sorter_items = new HashMap<String, String>();
+			for(IRecognitionRuleSorter sorter : sorters.get(documentType)) {
+				sorter_items.put(sorter.getKey(), sorter.getName());
+			}
+			SingleSelectionRemoteApplicationProperty<String> singleSelectionRemoteApplicationProperty = new SingleSelectionRemoteApplicationProperty<String>("Recognition Rule Sorter", sorter_items, sorter_items.get(sorter_items.keySet().iterator().next()));
+			singleSelectionRemoteApplicationProperty.setDocumentType(documentType);
+			recognitionRuleSorterProperties.add(singleSelectionRemoteApplicationProperty);
+		}
+		
+		Map<String, List<ILiftingRuleBase>> rules = new HashMap<String, List<ILiftingRuleBase>>();
+		for(ILiftingRuleBase rulesBase : PipelineUtils.getAllAvailableRulebases()) {
+			for(String documentType : rulesBase.getDocumentTypes()) {
+				if(!rules.containsKey(documentType)) {
+					rules.put(documentType, new ArrayList<ILiftingRuleBase>());
+				}
+				rules.get(documentType).add(rulesBase);
+			}
+		}
+		
+		List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties = new ArrayList<MultiSelectionRemoteApplicationProperty<String>>();
+		for(String documentType : rules.keySet()) {
+			Map<String, String> ruleBase_items = new HashMap<String, String>();
+			List<String> ruleBase_values  = new ArrayList<String>();
+			for(ILiftingRuleBase ruleBase : rules.get(documentType)) {
+				ruleBase_items.put(ruleBase.getName(), ruleBase.getName());
+			}
+			ruleBase_values.addAll(ruleBase_items.keySet());
+			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty = new MultiSelectionRemoteApplicationProperty<String>("Recognition Rule Sorter", ruleBase_items, ruleBase_values);
+			multiSelectionRemoteApplicationProperty.setDocumentType(documentType);
+			ruleBaseProperties.add(multiSelectionRemoteApplicationProperty);
+		}
+
+		ExtractionProperties extractionProperties = new ExtractionProperties(mergeImports, unmergeImports, technicalDifferenceBuilderProperties, recognitionRuleSorterProperties, ruleBaseProperties);
+		
+		SingleSelectionRemoteApplicationProperty<Boolean> validateModels = new SingleSelectionRemoteApplicationProperty<Boolean>("Validate Models", boolean_items, true);
+		
+		ValidationProperties validationProperties = new ValidationProperties(validateModels);
+		
+		RemotePreferences remotePreferences = new RemotePreferences(generalProperties, extractionProperties, validationProperties);
+		
+		return remotePreferences;
+	}
 }
