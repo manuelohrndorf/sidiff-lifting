@@ -61,6 +61,16 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	}
 	
 	/**
+	 * Find all available recognition rule sorter
+	 * 
+	 * @return All available recognition rule sorter
+	 * @see LiftingFacade#getDocumentType()
+	 */
+	public static Set<IRecognitionRuleSorter> getAllAvailableRecognitionRuleSorters() {
+		return RecognitionRuleSorterLibrary.getAllAvailableRecognitionRuleSorters();
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -94,6 +104,15 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	}
 
 	/**
+	 * Find all available rulebases.
+	 * 
+	 * @return All available rulebases.
+	 */
+	public static Set<ILiftingRuleBase> getAllAvailableRulebases() {
+		return RuleBaseProjectLibrary.getRuleBases(ILiftingRuleBase.TYPE);
+	}
+
+	/**
 	 * Find all available rulebases matching the given document types.
 	 * 
 	 * @param documentTypes
@@ -104,7 +123,6 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	public static Set<ILiftingRuleBase> getAvailableRulebases(Set<String> documentTypes) {
 		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
-
 
 	/**
 	 * Generates a file name for a new difference between model A and model B.
