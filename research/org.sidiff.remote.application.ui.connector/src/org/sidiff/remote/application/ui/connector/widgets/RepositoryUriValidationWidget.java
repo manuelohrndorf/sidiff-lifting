@@ -27,7 +27,6 @@ import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettingsItem;
 import org.sidiff.remote.application.ui.connector.dialogs.InteractiveElementTreeSelectionDialog;
 import org.sidiff.remote.application.ui.connector.model.AdaptableTreeModel;
-import org.sidiff.remote.application.ui.connector.model.AdaptableTreeNode;
 import org.sidiff.remote.application.ui.connector.model.ModelUtil;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelContentProvider;
 import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvider;
@@ -103,21 +102,17 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-				List<ProxyObject> proxyObjects =  ConnectorFacade.browseRepositoryContent(settings.getRepositoryURL(), settings.getRepositoryPort(), "", settings.getUserName(), settings.getPassword());
-				AdaptableTreeModel model = new AdaptableTreeModel();
-				AdaptableTreeNode repositoryNode = ModelUtil.transform(proxyObjects.get(0));
-				model.getRoot().getChildren().add(repositoryNode);
-				proxyObjects.remove(0);
-				repositoryNode.getChildren().addAll(ModelUtil.transform(proxyObjects));
-				
-				InteractiveElementTreeSelectionDialog dialog = new InteractiveElementTreeSelectionDialog(container.getShell(), new TreeModelLabelProvider(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE)), new TreeModelContentProvider(), settings);
-				
-				dialog.setInput(model);
-				dialog.setTitle("Repository Selection");
-				int result = dialog.open();
-				if(result == InteractiveElementTreeSelectionDialog.CANCEL) {
-					settings.setRepositoryPath("");
-				}
+					List<ProxyObject> proxyObjects =  ConnectorFacade.browseRepositoryContent(settings.getRepositoryURL(), settings.getRepositoryPort(), "", settings.getUserName(), settings.getPassword());
+					AdaptableTreeModel model = new AdaptableTreeModel();
+					model.getRoot().addAllChildren(ModelUtil.transform(proxyObjects));				
+					InteractiveElementTreeSelectionDialog dialog = new InteractiveElementTreeSelectionDialog(container.getShell(), new TreeModelLabelProvider(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE)), new TreeModelContentProvider(), settings);
+					dialog.setInput(model);
+					dialog.setTitle("Repository Selection");
+					int result = dialog.open();
+					
+					if(result == InteractiveElementTreeSelectionDialog.CANCEL) {
+						settings.setRepositoryPath("");
+					}
 				}catch(ConnectionException | InvalidSessionException | RemoteApplicationException exception) {
 					MessageDialog.openError(container.getShell(), "Error", exception.getMessage());
 				}
@@ -160,7 +155,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	}
 	
 	private boolean isValidPath(String s) {
-		return s.matches("([a-zA-z0-9])+(([_\\-\\./])([a-zA-z0-9])+)*");
+		return s.matches("(/?[a-zA-z0-9])+(([_\\-\\./])([a-zA-z0-9])+)*");
 	}
 	
 	// ---------- IWidgetSelection -----------

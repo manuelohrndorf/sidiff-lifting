@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -67,7 +66,6 @@ import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvid
 import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.tree.TreeLeaf;
 import org.sidiff.remote.common.util.ProxyUtil;
 
 
@@ -320,7 +318,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					AdaptableTreeModel model = new AdaptableTreeModel();
 					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(ConnectorFacade.getSession().getSessionID(),null);
 					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
-					model.getRoot().setChildren(treeNodes);
+					model.getRoot().addAllChildren(treeNodes);
 					treeViewer.setInput(model);
 					checkboxTreeViewer.setInput(null);
 					System.out.println(ConnectorFacade.getRemotePreferences());
@@ -570,7 +568,6 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			if(structuredSelection.size() == 1 ) {
 				AdaptableTreeNode treeNode = (AdaptableTreeNode) structuredSelection.getFirstElement();
 				
-				System.out.println(event.getSource());
 				if(event.getSource().equals(this.treeViewer) && (this.treeViewer_selection == null || !this.treeViewer_selection.equals(treeNode))) {
 					this.treeViewer_selection = treeNode;
 					if(!(treeNode.isLeaf())) {
@@ -578,7 +575,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(treeNode.getId(), null);
 								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
-								treeNode.setChildren(children);
+								treeNode.addAllChildren(children);
 								this.treeViewer.refresh();
 							} catch (ConnectionException | RemoteApplicationException e) {
 								MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
@@ -592,7 +589,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						try {
 							List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(treeNode.getId(), null);
 							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
-							treeModel.getRoot().setChildren(children);
+							treeModel.getRoot().addAllChildren(children);
 							this.checkboxTreeViewer.setInput(treeModel);
 						} catch (ConnectionException | RemoteApplicationException e) {
 							// TODO Auto-generated catch block
@@ -600,21 +597,20 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						}
 						
 					}
-				}else {
-					if(!(treeNode.isLeaf()) && treeNode.getChildren().isEmpty()){
-						try {
-							
-							String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection().getFirstElement()).getId();
-							List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(session_path, treeNode.getId());
-							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
-							treeNode.setChildren(children);
-							this.checkboxTreeViewer.refresh();
-							
-							
-						} catch (ConnectionException | RemoteApplicationException e) {
-							MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
-							e.printStackTrace();
-						}
+				}else if(event.getSource().equals(this.checkboxTreeViewer) && !(treeNode.isLeaf()) && treeNode.getChildren().isEmpty()){
+		
+					try {
+						String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection()
+								.getFirstElement()).getId();
+						List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(session_path,
+								treeNode.getId());
+						List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
+						treeNode.addAllChildren(children);
+						this.checkboxTreeViewer.refresh();
+
+					} catch (ConnectionException | RemoteApplicationException e) {
+						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+						e.printStackTrace();
 					}
 				}
 			}

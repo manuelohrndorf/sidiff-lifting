@@ -61,7 +61,6 @@ public class AdaptableTreeNode implements IAdaptable {
 		return label;
 	}
 	
-	
 	public String getId() {
 		return id;
 	}
@@ -91,17 +90,44 @@ public class AdaptableTreeNode implements IAdaptable {
 	}
 	
 	public void setParent(AdaptableTreeNode parent) {
+		if(this.parent != null) {
+			this.parent.removeChildren(this);
+		}
+		
 		this.parent = parent;
+		
+		if(parent != null) {
+			this.parent.addChildren(this);
+		}
 	}
 	
 	public List<AdaptableTreeNode> getChildren() {
-		return children;
+		return Collections.unmodifiableList(children);
+	}
+		
+	public void addChildren(AdaptableTreeNode child) {
+		if(!this.children.contains(child)) {
+			this.children.add(child);
+			child.setParent(this);
+		}
 	}
 	
-	public void setChildren(List<AdaptableTreeNode> children) {
-		this.children = children;
-		for(AdaptableTreeNode treeNode : this.children) {
-			treeNode.setParent(this);
+	public void removeChildren(AdaptableTreeNode child) {
+		if(this.children.contains(child)) {
+			this.children.remove(child);
+			child.setParent(null);
+		}
+	}
+	
+	public void addAllChildren(List<AdaptableTreeNode> children) {
+		for(AdaptableTreeNode child : children) {
+			addChildren(child);
+		}
+	}
+	
+	public void removeAllChildren(List<AdaptableTreeNode> children) {
+		for(AdaptableTreeNode child: children) {
+			removeChildren(child);
 		}
 	}
 	
@@ -136,5 +162,18 @@ public class AdaptableTreeNode implements IAdaptable {
 			return treeNodePropertySource;
 		 }
 		return null;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof AdaptableTreeNode) {
+			return id.equals(((AdaptableTreeNode)obj).getId());
+		}
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
 	}
 }

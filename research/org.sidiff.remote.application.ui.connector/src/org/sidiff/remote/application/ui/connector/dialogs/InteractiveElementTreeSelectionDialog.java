@@ -2,6 +2,7 @@ package org.sidiff.remote.application.ui.connector.dialogs;
 
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -54,14 +55,12 @@ public class InteractiveElementTreeSelectionDialog extends ElementTreeSelectionD
 					try {
 						if(selectedAdaptableTreeNode.getChildren().isEmpty()) {
 							List<ProxyObject> proxyObjects = ConnectorFacade.browseRepositoryContent(settings.getRepositoryURL(), settings.getRepositoryPort(), settings.getRepositoryPath(), settings.getUserName(), settings.getPassword());
-							proxyObjects.remove(0);
-							List<AdaptableTreeNode> adaptableTreeNodes = ModelUtil.transform(proxyObjects);
-							selectedAdaptableTreeNode.setChildren(adaptableTreeNodes);
-							treeViewer.setInput(treeViewer.getInput());
+							selectedAdaptableTreeNode.addAllChildren(ModelUtil.transform(proxyObjects));
+							treeViewer.refresh();
 						}
 						
 					} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
-						// TODO Auto-generated catch block
+						MessageDialog.openError(getShell(), e.getClass().getSimpleName(), e.getMessage());
 						e.printStackTrace();
 					}
 				}

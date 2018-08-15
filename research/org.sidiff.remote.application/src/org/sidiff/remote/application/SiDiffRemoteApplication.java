@@ -177,44 +177,38 @@ public class SiDiffRemoteApplication {
 				proxyObjects.add(proxyObject);
 			}
 		} else {
-			proxyObjects.addAll(browseRemoteApplicationModelContent(file, elementID));
+			String absolute_path = file.getAbsolutePath();
+			URI uri = EMFStorage.pathToUri(absolute_path);
+			if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
+				ResourceSet resourceSet = new ResourceSetImpl();
+				last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
+				try {
+					last_selected_model.save(last_selected_model.getDefaultSaveOptions());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(elementID == null) {
+				for(EObject eObject : last_selected_model.getContents()) {
+					ProxyObject proxyObject = ProxyUtil.convertEObject(eObject);
+					proxyObjects.add(proxyObject);
+				}
+			}else {
+				
+				EObject eObject = last_selected_model.getIDToEObjectMap().get(elementID);
+					
+				for (EObject eObj : eObject.eContents()) {
+					ProxyObject proxyObject = ProxyUtil.convertEObject(eObj);
+					proxyObjects.add(proxyObject);
+				}
+				
+			}
 		}
 
 		return proxyObjects;
 	}	
 	
-	
-	private List<ProxyObject> browseRemoteApplicationModelContent(File file, String elementID) {
-		String absolute_path = file.getAbsolutePath();
-		URI uri = EMFStorage.pathToUri(absolute_path);
-		if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
-			ResourceSet resourceSet = new ResourceSetImpl();
-			last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_path), resourceSet);
-			try {
-				last_selected_model.save(last_selected_model.getDefaultSaveOptions());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		List<ProxyObject> content = new ArrayList<ProxyObject>();
-		if(elementID == null) {
-			for(EObject eObject : last_selected_model.getContents()) {
-				ProxyObject proxyObject = ProxyUtil.convertEObject(eObject);
-				content.add(proxyObject);
-			}
-		}else {
-			
-			EObject eObject = last_selected_model.getIDToEObjectMap().get(elementID);
-				
-			for (EObject eObj : eObject.eContents()) {
-				ProxyObject proxyObject = ProxyUtil.convertEObject(eObj);
-				content.add(proxyObject);
-			}
-			
-		}
-		return content;
-	}
 	
 	/**
 	 * Extracts a submodel containing all requested model elements

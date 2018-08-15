@@ -8,6 +8,6 @@ package org.sidiff.remote.application.ui.connector.model;
 public class AdaptableTreeRoot extends AdaptableTreeNode {
 
 	public AdaptableTreeRoot() {
-		super("/", "root", "na", false);
+		super("", "root", "na", false);
 	}
 }

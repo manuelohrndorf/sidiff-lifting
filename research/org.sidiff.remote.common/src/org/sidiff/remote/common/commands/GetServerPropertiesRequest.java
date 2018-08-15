@@ -1,7 +1,5 @@
 package org.sidiff.remote.common.commands;
 
-import java.io.File;
-
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 

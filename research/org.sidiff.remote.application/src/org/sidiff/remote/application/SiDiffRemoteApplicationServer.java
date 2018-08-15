@@ -138,7 +138,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			case BROWSE_REPOSITORY_CONTENT_REQUEST:
 				BrowseRepositoryContentRequest browseRepositoryContentRequest = (BrowseRepositoryContentRequest) command;
 				BrowseRepositoryContentOperationResult browseRepositoryOperationResult = app.browseRepositoryContent(browseRepositoryContentRequest.getRepositoryUrl(), browseRepositoryContentRequest.getRepositoryPort(), browseRepositoryContentRequest.getRepositoryPath(), browseRepositoryContentRequest.getRepositoryUserName(), browseRepositoryContentRequest.getRepositoryPassword());
-				BrowseRepositoryContentReply browseRepositoryContentReply = new BrowseRepositoryContentReply(browseRepositoryOperationResult.getHost(), browseRepositoryOperationResult.getProxyObjects());
+				BrowseRepositoryContentReply browseRepositoryContentReply = new BrowseRepositoryContentReply(browseRepositoryOperationResult.getProxyObjects());
 				try {
 					this.protocolHandler.write(out, browseRepositoryContentReply, null);
 				} catch (IOException e) {
@@ -149,7 +149,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			case CHECKOUT_REPOSITORY_CONTENT_REQUEST:
 				CheckoutRepositoryContentRequest checkoutRepositoryContentRequest = (CheckoutRepositoryContentRequest) command;
 				CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = app.checkoutRepositoryContent(checkoutRepositoryContentRequest.getRepositoryUrl(), checkoutRepositoryContentRequest.getRepositoryPort(), checkoutRepositoryContentRequest.getRepositoryPath(), checkoutRepositoryContentRequest.getRepositoryUserName(), checkoutRepositoryContentRequest.getRepositoryPassword());
-				CheckoutRepositoryContentReply checkoutRepositoryContentReply = new CheckoutRepositoryContentReply(checkoutRepositoryContentOperationResult.getHost(), checkoutRepositoryContentOperationResult.getTargetPath().split("/")[0]);
+				CheckoutRepositoryContentReply checkoutRepositoryContentReply = new CheckoutRepositoryContentReply();
 				try {
 					this.protocolHandler.write(out, checkoutRepositoryContentReply, null);
 				} catch (IOException e) {

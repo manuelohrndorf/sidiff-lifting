@@ -16,8 +16,6 @@ public class BrowseRepositoryContentReply extends ReplyCommand {
 	 * 
 	 */
 	private static final long serialVersionUID = 8264373009186289395L;
-
-	private String host;
 	
 	private List<ProxyObject> proxyObjects;
 	
@@ -26,15 +24,10 @@ public class BrowseRepositoryContentReply extends ReplyCommand {
 	 * @param host
 	 * @param root_folder
 	 */
-	public BrowseRepositoryContentReply(String host, List<ProxyObject> proxyObjects) {
+	public BrowseRepositoryContentReply(List<ProxyObject> proxyObjects) {
 		super(null);
 		this.eCommand = ECommand.BROWSE_REPOSITORY_CONTENT_REPLY;
-		this.host = host;
 		this.proxyObjects = proxyObjects;
-	}
-
-	public String getHost() {
-		return host;
 	}
 
 	public List<ProxyObject> getProxyObjects() {
