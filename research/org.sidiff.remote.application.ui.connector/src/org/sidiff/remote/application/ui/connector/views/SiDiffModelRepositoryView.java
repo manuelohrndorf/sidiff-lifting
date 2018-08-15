@@ -616,4 +616,10 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			}
 		}
 	}
+	
+	@Override
+	public void dispose() {
+		getSite().getPage().removeSelectionListener(this);
+		super.dispose();
+	}
 }
