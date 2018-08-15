@@ -5,8 +5,8 @@ public class CheckoutRepositoryContentOperationResult extends RepositoryOperatio
 	private String sourcePath;
 	private String targetPath;
 	
-	public CheckoutRepositoryContentOperationResult(String url, String host, int port, String sourcePath, String targetPath, String message, boolean succeeded) {
-		super(url, host, port, message, succeeded);
+	public CheckoutRepositoryContentOperationResult(String url, int port, String sourcePath, String targetPath, String message, boolean succeeded) {
+		super(url, port, message, succeeded);
 		this.sourcePath = sourcePath;
 		this.targetPath = targetPath;
 	}

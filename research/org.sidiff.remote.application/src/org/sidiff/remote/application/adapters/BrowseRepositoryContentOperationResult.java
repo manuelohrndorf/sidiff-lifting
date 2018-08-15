@@ -10,8 +10,8 @@ public class BrowseRepositoryContentOperationResult extends RepositoryOperationR
 	
 	private List<ProxyObject> proxyObjects;
 
-	public BrowseRepositoryContentOperationResult(String url, String host, int port, String sourcePath, List<ProxyObject> proxyObjects, String message, boolean succeeded) {
-		super(url, host, port, message, succeeded);
+	public BrowseRepositoryContentOperationResult(String url, int port, String sourcePath, List<ProxyObject> proxyObjects, String message, boolean succeeded) {
+		super(url, port, message, succeeded);
 		this.sourcePath = sourcePath;
 		this.proxyObjects = proxyObjects;
 	}
