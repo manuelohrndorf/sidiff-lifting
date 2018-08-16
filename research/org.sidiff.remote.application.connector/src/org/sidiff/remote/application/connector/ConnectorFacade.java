@@ -11,9 +11,12 @@ import org.sidiff.remote.application.connector.exception.RemoteApplicationExcept
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ProxyObject;
-import org.sidiff.remote.common.commands.CheckoutRepositoryContentRequest;
-import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
 import org.sidiff.remote.common.commands.BrowseRemoteApplicationContentRequest;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
+import org.sidiff.remote.common.commands.CheckoutRepositoryContentReply;
+import org.sidiff.remote.common.commands.CheckoutRepositoryContentRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.Command;
@@ -24,8 +27,6 @@ import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
 import org.sidiff.remote.common.commands.GetServerPropertiesReply;
 import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
-import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
-import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -41,16 +42,21 @@ public class ConnectorFacade {
 	public static final ConnectionHandler CONNECTION_HANDLER = ConnectionHandler.getInstance();
 
 	/**
-	 * Returns the content of the repository location given by
-	 * repository_URL:repository_prot/repository_path as a list
-	 * of {@link ProxyObject}s
+	 * browses the remote repository content
 	 * 
 	 * @param repository_url
+	 * 			the URL of the repository, i.e. protocol + domain + name
 	 * @param repository_port
+	 * 			the port of the repository
 	 * @param repository_path
+	 * 			an absolute path within the repository
 	 * @param repository_user_name
+	 * 			the user name for accessing the repository content
 	 * @param repository_password
-	 * @return
+	 * 			the password for accessing the repository content
+	 * @return the content of the repository location as {@link List}
+	 * of {@link ProxyObject}s
+	 * 		
 	 * @throws ConnectionException
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
@@ -69,13 +75,18 @@ public class ConnectorFacade {
 	}
 	
 	/**
-	 * adds a given repository to the remote file system, i.e. checks out the file(s) given by the repository path
+	 * checkout to the remote application file system
 	 * 
 	 * @param repository_url
+	 * 			the URL of the repository, i.e. protocol + domain + name
 	 * @param repository_port
+	 * 			the port of the repository
 	 * @param repository_path
+	 * 			an absolute path within the repository
 	 * @param repository_user_name
+	 * 			the user name for accessing the repository content
 	 * @param repository_password
+	 * 			the password for accessing the repository content
 	 * @throws ConnectionException
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
@@ -85,25 +96,34 @@ public class ConnectorFacade {
 		
 		Command replyCommand = CONNECTION_HANDLER.handleRequest(checkoutRepositoryContentRequest, null);
 		if(replyCommand.getECommand().equals(ECommand.CHECKOUT_REPOSITORY_CONTENT_REPLY)) {
-			getSession().getRepositories().add(repository_url);
-			saveSession();
+			CheckoutRepositoryContentReply checkoutRepositoryContentReply = (CheckoutRepositoryContentReply) replyCommand;
+			//TODO return some information about the files
 		}else {
 			ErrorReply errorReply = (ErrorReply) replyCommand;
 			throw new RemoteApplicationException(errorReply.getErrorReport());
 		}
 	}
-	
+
 	/**
+	 * Browses the remote application content. If the requested file is a directory,
+	 * its content is returned. If the requested file is a model file and no
+	 * elementID is given, the root elements of the model are returned. If an
+	 * elementID is given, the elements contained by the identified element are
+	 * returned.
 	 * 
-	 * @param remote_model_path
-	 *            the session based remote model path
+	 * @param session_path
+	 *            a session based path of a requested file, i.e. a path starting
+	 *            with the sessionID
 	 * @param element_id
-	 * @return
+	 *            the ID of a requested model element (only used if the requested
+	 *            file is a model file)
+	 * @return the content of the remote application as {@link List} of
+	 *         {@link ProxyObject}s
 	 * @throws ConnectionException
 	 * @throws RemoteApplicationException
 	 */
-	public static List<ProxyObject> browseRemoteApplicationContent(String remote_model_path, String element_id) throws ConnectionException, RemoteApplicationException{
-		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(getCredentials(), remote_model_path, element_id);
+	public static List<ProxyObject> browseRemoteApplicationContent(String session_path, String element_id) throws ConnectionException, RemoteApplicationException{
+		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(getCredentials(), session_path, element_id);
 		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRemoteApplicationContentRequest, null);
 		if(replayCommand.getECommand().equals(ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REPLY)) {
 			BrowseRemoteApplicationReply browseRemoteApplicationReply = (BrowseRemoteApplicationReply) replayCommand;
@@ -116,14 +136,21 @@ public class ConnectorFacade {
 	
 	/**
 	 * 
+	 * Extracts a submodel containing at least all elements identified by the
+	 * elementIDs
+	 * 
 	 * @param remote_model_path
-	 * 				the session based remote model path
+	 *            a session based path of a requested file, i.e. a path starting
+	 *            with the sessionID
 	 * @param target_model_path
-	 * 				absolute local os-based location path of the model file
+	 *            absolute local os-based location path of the model file
 	 * @param elementIds
+	 *            the IDs of the model elements to be checked out.
+	 * @return a {@link File} containing a submodel with all requested model
+	 *         elements
 	 * @throws ConnectionException
-	 * @throws InvalidSessionException 
-	 * @throws RemoteApplicationException 
+	 * @throws InvalidSessionException
+	 * @throws RemoteApplicationException
 	 */
 	public static File checkoutSubModel(String remote_model_path, String target_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		

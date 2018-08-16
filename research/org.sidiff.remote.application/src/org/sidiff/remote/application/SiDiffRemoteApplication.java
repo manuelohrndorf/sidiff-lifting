@@ -129,20 +129,19 @@ public class SiDiffRemoteApplication {
 	}
 	
 	/**
-	 * Returns the repository content based on the given path
+	 * browses the remote repository content
 	 * 
 	 * @param url
-	 * 			the URL of the repository to be listed
+	 *            the URL of the repository, i.e. protocol + domain + name
 	 * @param port
-	 * 			the port of the repository to be listed
+	 *            the port of the repository
 	 * @param path
-	 * 			a relative path of the repository content to be listed
+	 *            an absolute path within the repository
 	 * @param user
-	 * 			the username for accessing the repository
+	 *            the user name for accessing the repository content
 	 * @param password
-	 * 			the password for accessing the repository
-	 * 
-	 * @return a {@link BrowseRepositoryContentOperationResult}
+	 *            the password for accessing the repository content
+	 * @return the content of the repository location as {@link List}
 	 * @throws ListRepositoryContentException
 	 */
 	public BrowseRepositoryContentOperationResult browseRepositoryContent(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
@@ -159,13 +158,20 @@ public class SiDiffRemoteApplication {
 	}
 	
 	/**
-	 * Browses the repository files based on the given path and IDs
+	 * Browses the remote application content. If the requested file is a directory,
+	 * its content is returned. If the requested file is a model file and no
+	 * elementID is given, the root elements of the model are returned. If an
+	 * elementID is given, the elements contained by the identified element are
+	 * returned.
 	 * 
 	 * @param session_path
-	 *            session based path for the parent file to be browsed
+	 *            a session based path of a requested file, i.e. a path starting
+	 *            with the sessionID
 	 * @param elementID
-	 * 			element ID of the model element to be browsed
-	 * @return a {@link List} of {@link ProxyObject}s containing the browsed content
+	 *            the ID of a requested model element (only used if the requested
+	 *            file is a model file)
+	 * @return the content of the remote application as {@link List} of
+	 *         {@link ProxyObject}s
 	 */
 	public List<ProxyObject> browseRemoteApplicationContent(String session_path, String elementID) {
 
@@ -209,23 +215,23 @@ public class SiDiffRemoteApplication {
 		return proxyObjects;
 	}	
 	
-	
+
 	/**
-	 * Extracts a submodel containing all requested model elements
 	 * 
-	 * @param session_path
-	 *            session based path for the model to be extracted
-	 * @param local_model_path
-	 *            project relative local model path
+	 * Extracts a submodel containing at least all elements identified by the elementIDs
+	 * 
+	 * @param remote_model_path
+	 *            a session based path of a requested file, i.e. a path starting
+	 *            with the sessionID
+	 * @param target_model_path
+	 *            absolute local os-based location path of the model file
 	 * @param elementIds
-	 *            the IDs of the requested model elements
+	 *            the IDs of the model elements to be checked out.
 	 * @return a {@link File} containing a submodel with all requested model
 	 *         elements
 	 * @throws CheckoutSubModelException
 	 */
 	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds) throws CheckoutSubModelException {
-		
-		
 		
 		String absolute_origin_path = user_folder + File.separator + session_path;
 		String absolute_copy_path = sidiff_folder + File.separator + local_model_path;

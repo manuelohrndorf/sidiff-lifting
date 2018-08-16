@@ -107,7 +107,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 					model.getRoot().addAllChildren(ModelUtil.transform(proxyObjects));				
 					InteractiveElementTreeSelectionDialog dialog = new InteractiveElementTreeSelectionDialog(container.getShell(), new TreeModelLabelProvider(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE)), new TreeModelContentProvider(), settings);
 					dialog.setInput(model);
-					dialog.setTitle("Repository Selection");
+					dialog.setTitle("Browse " + settings.getRepositoryURL());
 					int result = dialog.open();
 					
 					if(result == InteractiveElementTreeSelectionDialog.CANCEL) {
