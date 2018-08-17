@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class GeneralProperties implements Serializable {
 
+	public static final String SCOPE = "Scope";
+	
 	/**
 	 * 
 	 */

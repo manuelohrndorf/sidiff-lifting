@@ -8,7 +8,9 @@ import java.util.Map;
  * @author cpietsch
  *
  */
-public abstract class RemoteApplicationProperty<T> implements Serializable {
+public abstract class RemoteApplicationProperty<T extends Serializable> implements Serializable {
+
+	public static final String GENERIC_DOCUMENT_TYPE = "generic";
 
 	/**
 	 * 
@@ -20,7 +22,7 @@ public abstract class RemoteApplicationProperty<T> implements Serializable {
 	private Map<String,T> items;
 	
 
-	private String documentType = "generic";
+	private String documentType = GENERIC_DOCUMENT_TYPE;
 
 	public RemoteApplicationProperty(String name, Map<String,T> items) {
 		this.name = name;

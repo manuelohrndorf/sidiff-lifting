@@ -5,6 +5,12 @@ import java.util.List;
 
 public class ExtractionProperties implements Serializable {
 
+	public static final String MERGE_IMPORTS = "Merge Imports";
+	public static final String UNMERGE_IMPORTS = "Unmerge Imports";
+	public static final String TECHNICAL_DIFFERENCE_BUILDER = "Technical Difference Builder";
+	public static final String RECOGNITION_RULE_SORTER = "Recognition Rule Sorter";
+	public static final String RULE_BASE = "Rule Base";
+	
 	/**
 	 * 
 	 */

@@ -1,9 +1,10 @@
 package org.sidiff.remote.common.settings;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class MultiSelectionRemoteApplicationProperty<T> extends RemoteApplicationProperty<T> {
+public class MultiSelectionRemoteApplicationProperty<T extends Serializable> extends RemoteApplicationProperty<T> {
 
 	/**
 	 * 

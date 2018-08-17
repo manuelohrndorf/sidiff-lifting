@@ -23,10 +23,6 @@ public class RemotePreferences implements Serializable {
 		this.validationProperties = validationProperties;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public GeneralProperties getGeneralProperties() {
 		return generalProperties;
 	}

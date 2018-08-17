@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class ValidationProperties implements Serializable {
 
+	public static final String VALIDATE_MODELS = "Validate Models";
+	
 	/**
 	 * 
 	 */
