@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.fieldeditors;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * An {@link IPreferenceField} represents a field on a preference page.
@@ -38,8 +39,15 @@ public interface IPreferenceField {
 	/**
 	 * Creates the controls for this preference fields for the given parent control.
 	 * @param parent the parent control
+	 * @return the new control
 	 */
-	void createControls(Composite parent);
+	Control createControls(Composite parent);
+
+	/**
+	 * Returns this preference field's control, or <code>null</code> if it was not created yet.
+	 * @return the preference field's control
+	 */
+	Control getControl();
 
 	/**
 	 * Enables/disables this preference field. Disables fields are read-only.
@@ -64,10 +72,4 @@ public interface IPreferenceField {
 	 * @param listener the listener
 	 */
 	void removePropertyChangeListener(IPropertyChangeListener listener);
-
-	/**
-	 * Prefixes this field's preference name with the given prefix.
-	 * @param prefix the prefix
-	 */
-	void setPrefix(String prefix);
 }

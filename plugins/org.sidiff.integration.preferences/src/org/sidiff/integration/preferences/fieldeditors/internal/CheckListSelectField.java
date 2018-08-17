@@ -1,25 +1,101 @@
 package org.sidiff.integration.preferences.fieldeditors.internal;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.sidiff.common.util.StringListSerializer;
+import org.sidiff.integration.preferences.fieldeditors.IMultiPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * Preference field for a List of Checkboxes which can individually be selected
  * @author Felix Breitweiser, Robert Müller
  */
-public class CheckListSelectField extends GroupCompositeField {
+public class CheckListSelectField<T> extends CompositeField<CheckBoxPreferenceField> implements IMultiPreferenceField<T> {
+
+	private Collection<T> inputs = Collections.emptySet();
+	private Map<String,CheckBoxPreferenceField> checkBoxFields;
+	private IPreferenceValueConverter<? super T> valueConverter;
 
 	/**
-	 * @param preferencePrefix the prefix for preference names of the child preferences
+	 * @param preferenceName name of the preference in the store 
 	 * @param title The title, shown above all Checkboxes
-	 * @param inputs the input elements (map of value to label)
+	 * @param inputs the input elements
+	 * @param valueConverter the value converter for the inputs
 	 */
-	public <T> CheckListSelectField(String preferencePrefix, String title,
+	public CheckListSelectField(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
-		super(preferencePrefix, title);
+		super(WrapperSupplier.GROUP, preferenceName, title);
+		this.valueConverter = valueConverter;
+		setInputs(inputs);
+	}
+
+	@Override
+	public void setInputs(Collection<T> inputs) {
+		clearFields();
+		this.inputs = inputs;
+		checkBoxFields = new HashMap<>();
 		for(T input : inputs) {
-			addField(new CheckBoxPreferenceField(valueConverter.getValue(input), valueConverter.getLabel(input)));
+			String value = valueConverter.getValue(input);
+			CheckBoxPreferenceField field = new CheckBoxPreferenceField(value, valueConverter.getLabel(input));
+			addField(field);
+			checkBoxFields.put(value, field);
+		}
+	}
+
+	@Override
+	public Collection<T> getInputs() {
+		return inputs;
+	}
+
+	@Override
+	public void setSelection(T item, boolean selected) {
+		checkBoxFields.get(valueConverter.getValue(item)).setSelection(selected);
+	}
+
+	@Override
+	public boolean isSelected(T item) {
+		return checkBoxFields.get(valueConverter.getValue(item)).getSelection();
+	}
+
+	@Override
+	public Collection<T> getSelection() {
+		return inputs.stream().filter(this::isSelected).collect(Collectors.toList());
+	}
+
+	@Override
+	public void save(IPreferenceStore store) {
+		List<String> values = checkBoxFields.values().stream()
+				.filter(CheckBoxPreferenceField::getSelection)
+				.map(CheckBoxPreferenceField::getPreferenceName)
+				.collect(Collectors.toList());
+		store.setValue(getPreferenceName(), StringListSerializer.DEFAULT.serialize(values));
+	}
+
+	@Override
+	public void load(IPreferenceStore store) {
+		doLoad(store.getString(getPreferenceName()));
+	}
+
+	@Override
+	public void loadDefault(IPreferenceStore store) {
+		doLoad(store.getDefaultString(getPreferenceName()));
+	}
+
+	private void doLoad(String preferenceValue) {
+		for(CheckBoxPreferenceField field : checkBoxFields.values()) {
+			field.setSelection(false);
+		}
+		for(String entry : StringListSerializer.DEFAULT.deserialize(preferenceValue)) {
+			CheckBoxPreferenceField field = checkBoxFields.get(entry);
+			if(field != null) {
+				field.setSelection(true);
+			}
 		}
 	}
 }

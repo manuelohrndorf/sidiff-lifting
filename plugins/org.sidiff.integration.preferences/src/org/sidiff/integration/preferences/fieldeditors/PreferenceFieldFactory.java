@@ -5,9 +5,9 @@ import java.util.Collection;
 
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckListSelectField;
-import org.sidiff.integration.preferences.fieldeditors.internal.ExpandableCompositeField;
+import org.sidiff.integration.preferences.fieldeditors.internal.CompositeField;
 import org.sidiff.integration.preferences.fieldeditors.internal.NumberPreferenceField;
-import org.sidiff.integration.preferences.fieldeditors.internal.OrderListSelectField;
+import org.sidiff.integration.preferences.fieldeditors.internal.OrderedListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.internal.RadioBoxPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -21,7 +21,7 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 public class PreferenceFieldFactory {
 
 	private PreferenceFieldFactory() {
-		// cannot be instantiated
+		throw new AssertionError();
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class PreferenceFieldFactory {
 	 * @param allowUnset whether this radio box can allows an unset value
 	 * @return radio group preference field
 	 */
-	public static <T> IPreferenceField createRadioBox(String preferenceName, String title,
+	public static <T> IMultiPreferenceField<T> createRadioBox(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter, boolean allowUnset) {
 		return new RadioBoxPreferenceField<T>(preferenceName, title, inputs, valueConverter, allowUnset);
 	}
@@ -61,7 +61,7 @@ public class PreferenceFieldFactory {
 	 * @param valueConverter value converter to provider labels and values for the items
 	 * @return radio group preference field
 	 */
-	public static <T> IPreferenceField createRadioBox(String preferenceName, String title,
+	public static <T> IMultiPreferenceField<T> createRadioBox(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		return createRadioBox(preferenceName, title, inputs, valueConverter, false);
 	}
@@ -75,7 +75,7 @@ public class PreferenceFieldFactory {
 	 * @param enumClass class of enum whose constants will be used as radio items
 	 * @return radio group preference field for enum class
 	 */
-	public static <E extends Enum<E>> IPreferenceField createRadioBox(String preferenceName, String title, Class<E> enumClass) {
+	public static <E extends Enum<E>> IMultiPreferenceField<E> createRadioBox(String preferenceName, String title, Class<E> enumClass) {
 		return createRadioBox(preferenceName, title,
 				Arrays.asList(enumClass.getEnumConstants()),
 				new EnumPreferenceValueConverter<E>());
@@ -90,9 +90,9 @@ public class PreferenceFieldFactory {
 	 * @param valueConverter value converter to provide labels and values for the items
 	 * @return checkbox list preference field
 	 */
-	public static <T> IPreferenceField createCheckBoxList(String preferenceName, String title,
+	public static <T> IMultiPreferenceField<T> createCheckBoxList(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
-		return new CheckListSelectField(preferenceName, title, inputs, valueConverter);
+		return new CheckListSelectField<T>(preferenceName, title, inputs, valueConverter);
 	}
 
 	/**
@@ -104,9 +104,9 @@ public class PreferenceFieldFactory {
 	 * @param valueConverter value converter to provide labels and values for the items
 	 * @return ordered list preference field
 	 */
-	public static <T> IPreferenceField createOrderedList(String preferenceName, String title,
+	public static <T> IMultiPreferenceField<T> createOrderedList(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
-		return new OrderListSelectField<T>(preferenceName, title, inputs, valueConverter);
+		return new OrderedListSelectField<T>(preferenceName, title, inputs, valueConverter);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class PreferenceFieldFactory {
 	 * @param title the title of the expandable composite
 	 * @return expandable composite preference field
 	 */
-	public static ICompositePreferenceField createExpandableComposite(String title) {
-		return new ExpandableCompositeField(title);
+	public static ICompositePreferenceField<IPreferenceField> createExpandableComposite(String title) {
+		return new CompositeField<IPreferenceField>(CompositeField.WrapperSupplier.EXPANDABLE, title);
 	}
 }

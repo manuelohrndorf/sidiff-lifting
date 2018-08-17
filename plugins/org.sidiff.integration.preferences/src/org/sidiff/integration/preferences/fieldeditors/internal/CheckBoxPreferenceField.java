@@ -40,9 +40,9 @@ public class CheckBoxPreferenceField extends PreferenceField {
 	}
 
 	@Override
-	public Control doCreateControls(Composite parent, String title) {
+	public Control doCreateControls(Composite parent) {
 		checkBox = new Button(parent, SWT.CHECK);
-		checkBox.setText(title);
+		checkBox.setText(getTitle());
 		checkBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -55,5 +55,13 @@ public class CheckBoxPreferenceField extends PreferenceField {
 	@Override
 	public void setEnabled(boolean enabled) {
 		checkBox.setEnabled(enabled);
+	}
+
+	public void setSelection(boolean selected) {
+		checkBox.setSelection(selected);
+	}
+
+	public boolean getSelection() {
+		return checkBox.getSelection();
 	}
 }
