@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -19,17 +18,19 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
 import org.sidiff.remote.common.ProxyObject;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationContentRequest;
+import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
+import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.CheckoutRepositoryContentReply;
 import org.sidiff.remote.common.commands.CheckoutRepositoryContentRequest;
-import org.sidiff.remote.common.commands.BrowseRemoteApplicationReply;
-import org.sidiff.remote.common.commands.BrowseRemoteApplicationContentRequest;
 import org.sidiff.remote.common.commands.CheckoutSubModelReply;
 import org.sidiff.remote.common.commands.CheckoutSubModelRequest;
 import org.sidiff.remote.common.commands.ErrorReply;
@@ -39,8 +40,6 @@ import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
 import org.sidiff.remote.common.commands.GetServerPropertiesReply;
 import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
-import org.sidiff.remote.common.commands.BrowseRepositoryContentReply;
-import org.sidiff.remote.common.commands.BrowseRepositoryContentRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -58,6 +57,8 @@ import org.sidiff.remote.common.settings.RemotePreferences;
  */
 public class SiDiffRemoteApplicationServer implements IApplication {
 	
+	private volatile boolean running = true;
+	
 	private ServerConfiguration config;
 	
 	private ServerSocket server;
@@ -65,11 +66,9 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	private Map<String, SiDiffRemoteApplication> client_sessions;
 	
 	private IWorkspace workspace;
-	
-	private ProtocolHandler protocolHandler;
-	
+
 	@Override
-	public Object start(IApplicationContext context) throws IOException {
+	public Object start(IApplicationContext context) throws IOException, ProtocolHandlerException {
 		
 		this.workspace = ResourcesPlugin.getWorkspace();
 				
@@ -83,43 +82,32 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		this.server = new ServerSocket(config.PORT);
 		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();	
-		this.protocolHandler = new ProtocolHandler();
-		
+
 		LogUtil.log(LogEvent.CONFIG, config.toString());
 		
-		while(true) {
+		while(running) {
 			LogUtil.log(LogEvent.INFO, "waiting for request");
 			Socket client = server.accept();
+			ProtocolHandler protocolHandler = new ProtocolHandler(client);
 			try {
 				LogUtil.log(LogEvent.INFO, "processing request:");
-				handleRequest(client);
+				handleRequest(protocolHandler);
 			} catch (ProtocolHandlerException | ListRepositoryContentException | AddRepositoryException | CheckoutSubModelException | UpdateSubModelException | AuthenticationException e) {
-				handleException(client, e);
+				handleException(protocolHandler, e);
 			}finally {
 				client.close();
 			}
 		}
-		
+		return null;
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		running = false;
 	}
 	
-	private void handleRequest(Socket client) throws ProtocolHandlerException, ListRepositoryContentException, AddRepositoryException, CheckoutSubModelException, UpdateSubModelException, AuthenticationException {
-		InputStream in = null;
-		OutputStream out = null;
-		RequestCommand command = null;
-		try {
-			in = client.getInputStream();
-			out = client.getOutputStream();
-			command = (RequestCommand) this.protocolHandler.read(in);
-		} catch (ClassNotFoundException | IOException e) {
-			throw new ProtocolHandlerException(e);
-		}
-		
-		
+	private void handleRequest(ProtocolHandler protocolHandler) throws ProtocolHandlerException, ListRepositoryContentException, AddRepositoryException, CheckoutSubModelException, UpdateSubModelException, AuthenticationException {
+		RequestCommand command = (RequestCommand) protocolHandler.read();
 		LogUtil.log(LogEvent.INFO, command.toString());
 		
 		if(authenticate(command.getCredentials())) {
@@ -131,30 +119,20 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				client_sessions.put(command.getCredentials().getSessionID(), app);
 				
 			}
-	
-			File attachment = null;
-			
+
 			switch(command.getECommand()) {
 			case BROWSE_REPOSITORY_CONTENT_REQUEST:
 				BrowseRepositoryContentRequest browseRepositoryContentRequest = (BrowseRepositoryContentRequest) command;
 				BrowseRepositoryContentOperationResult browseRepositoryOperationResult = app.browseRepositoryContent(browseRepositoryContentRequest.getRepositoryUrl(), browseRepositoryContentRequest.getRepositoryPort(), browseRepositoryContentRequest.getRepositoryPath(), browseRepositoryContentRequest.getRepositoryUserName(), browseRepositoryContentRequest.getRepositoryPassword());
 				BrowseRepositoryContentReply browseRepositoryContentReply = new BrowseRepositoryContentReply(browseRepositoryOperationResult.getProxyObjects());
-				try {
-					this.protocolHandler.write(out, browseRepositoryContentReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(browseRepositoryContentReply, null);
 				break;
 				
 			case CHECKOUT_REPOSITORY_CONTENT_REQUEST:
 				CheckoutRepositoryContentRequest checkoutRepositoryContentRequest = (CheckoutRepositoryContentRequest) command;
 				CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = app.checkoutRepositoryContent(checkoutRepositoryContentRequest.getRepositoryUrl(), checkoutRepositoryContentRequest.getRepositoryPort(), checkoutRepositoryContentRequest.getRepositoryPath(), checkoutRepositoryContentRequest.getRepositoryUserName(), checkoutRepositoryContentRequest.getRepositoryPassword());
 				CheckoutRepositoryContentReply checkoutRepositoryContentReply = new CheckoutRepositoryContentReply();
-				try {
-					this.protocolHandler.write(out, checkoutRepositoryContentReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(checkoutRepositoryContentReply, null);
 				break;
 				
 			case BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST:
@@ -163,11 +141,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String element_id = browseRemoteApplicationContentRequest.getElementID();
 				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(session_path, element_id);
 				BrowseRemoteApplicationReply browseRemoteApplicationReply = new BrowseRemoteApplicationReply(proxyObjects);
-				try {
-					this.protocolHandler.write(out, browseRemoteApplicationReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(browseRemoteApplicationReply, null);
 				break;
 				
 			case CHECKOUT_SUB_MODEL_REQUEST:
@@ -175,25 +149,17 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String localPath = checkoutSubModelRequest.getLocalModelPath();
 				String remotePath = checkoutSubModelRequest.getRemoteModelPath();
 				Set<String> elementIds = checkoutSubModelRequest.getElementIds();
-				attachment = app.checkoutModel(remotePath, localPath, elementIds);
+				File attachment = app.checkoutModel(remotePath, localPath, elementIds);
 				
 				CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(attachment);
-				try {
-					this.protocolHandler.write(out, checkoutSubModelReply, attachment);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(checkoutSubModelReply, attachment);
 				break;
 				
 			case GET_REQUESTED_MODEL_FILE_REQUEST:
 				GetRequestedModelFileRequest getRequestedModelFileRequest = (GetRequestedModelFileRequest) command;
 				ProxyObject proxyObject = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
 				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObject);
-				try {
-					this.protocolHandler.write(out, getRequestedModelFileReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(getRequestedModelFileReply, null);
 				break;
 				
 			case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
@@ -201,22 +167,14 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
 				List<ProxyObject> proxyObjects_ = app.getRequestedModelElements(localPathRME);
 				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(proxyObjects_);
-				try {
-					this.protocolHandler.write(out, getRequestedModelElementsReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(getRequestedModelElementsReply, null);
 				break;
 				
 			case GET_SERVER_PROPERTIES_REQUEST:
 				GetServerPropertiesRequest getServerPropertiesRequest = (GetServerPropertiesRequest) command;
 				RemotePreferences remotePreferences = app.getRemotePreferences();
 				GetServerPropertiesReply getServerPropertiesReply = new GetServerPropertiesReply(remotePreferences);
-				try {
-					this.protocolHandler.write(out, getServerPropertiesReply, null);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(getServerPropertiesReply, null);
 				break;
 				
 			case UPDATE_SUBMODEL_REQUEST:
@@ -225,11 +183,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
 				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
 				UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(modelSliceZip);
-				try {
-					this.protocolHandler.write(out, updateSubModelReply, modelSliceZip);
-				} catch (IOException e) {
-					throw new ProtocolHandlerException(e);
-				}
+				protocolHandler.write(updateSubModelReply, modelSliceZip);
 				break;
 			default:
 			}
@@ -238,12 +192,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		}
 	}
 	
-	private void handleException(Socket client, Exception e) throws IOException {
+	private void handleException(ProtocolHandler protocolHandler, Exception e) throws ProtocolHandlerException {
 		LogUtil.log(LogEvent.ERROR, "An error occured", e);
-		OutputStream out = client.getOutputStream();
-		
+
 		ErrorReply errorReply = new ErrorReply(new ErrorReport(e));
-		protocolHandler.write(out, errorReply, null);
+		protocolHandler.write(errorReply, null);
 	}
 	
 	

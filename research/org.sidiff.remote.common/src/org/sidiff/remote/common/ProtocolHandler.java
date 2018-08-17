@@ -6,13 +6,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.net.Socket;
 
 import org.sidiff.remote.common.commands.Command;
-
+import org.sidiff.remote.common.exceptions.ProtocolHandlerException;
 
 /**
  * 
@@ -20,63 +19,63 @@ import org.sidiff.remote.common.commands.Command;
  *
  */
 public class ProtocolHandler {
+
+	private Socket socket;
 	
-	/**
-	 * 
-	 */
-	private ObjectInputStream ois;
-	
-	/**
-	 * 
-	 */
-	private ObjectOutputStream oos;
-	
-	/**
-	 * 
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	public Command read(InputStream inputStream) throws IOException, ClassNotFoundException {
-		
-		this.ois = new ObjectInputStream(inputStream);
-		Command command = (Command) this.ois.readObject();
-		
-		if(command.isAttached()) {
-			
-			File file = new File(command.getAttachmentName());
-			
-			
-			byte[] bytes = new byte[command.getAttachmentSize()];
-			FileOutputStream fos = new FileOutputStream(file);
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			inputStream.read(bytes, 0, bytes.length);
-			bos.write(bytes);
-			bos.close();
-			command.setAttachment(file);
-		}
-		return command;
+	public ProtocolHandler(Socket socket) {
+		this.socket = socket;
 	}
 	
 	/**
 	 * 
-	 * @param outputStream
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public Command read() throws ProtocolHandlerException {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+			Command command = (Command) ois.readObject();
+			
+			if(command.isAttached()) {
+				byte[] bytes = new byte[command.getAttachmentSize()];
+				ois.read(bytes, 0, bytes.length);
+	
+				File file = new File(command.getAttachmentName());
+				try (FileOutputStream fos = new FileOutputStream(file);
+						BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+					bos.write(bytes);
+					command.setAttachment(file);
+				}
+				
+			}
+			return command;
+		} catch(IOException | ClassNotFoundException e) {
+			throw new ProtocolHandlerException(e);
+		}
+	}
+	
+	/**
+	 * 
 	 * @param command
 	 * @param attachment
 	 * @throws IOException
 	 */
-	public void write(OutputStream outputStream, Command command, File attachment) throws IOException {
-		this.oos = new ObjectOutputStream(outputStream);
-		this.oos.writeObject(command);
-		
-		if(attachment != null) {
-			int size = (int) attachment.length();
-			byte[] bytes = new byte[size];
-			BufferedInputStream bis = new BufferedInputStream(new FileInputStream(attachment));
-			bis.read(bytes);
-			outputStream.write(bytes);
-			bis.close();
-		}		
+	public void write(Command command, File attachment) throws ProtocolHandlerException {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.flush(); // flush the header
+			oos.writeObject(command);
+			
+			if(attachment != null) {
+				try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(attachment))) {
+					byte[] bytes = new byte[(int) attachment.length()];
+					bis.read(bytes);
+					oos.write(bytes);
+				}
+			}
+		} catch(IOException e) {
+			throw new ProtocolHandlerException(e);
+		}
 	}
 }
