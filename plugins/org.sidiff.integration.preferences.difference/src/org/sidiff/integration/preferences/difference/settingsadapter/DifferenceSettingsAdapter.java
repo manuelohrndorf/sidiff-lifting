@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -68,7 +69,8 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get keys of all domain specific technical difference builders
 		Set<String> techDiffBuilderKeys = new LinkedHashSet<String>();
 		for(String docType : getDocumentTypes()) {
-			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType)).split(";")) {
+			for(String techDiffBuilderKey : StringListSerializer.DEFAULT.deserialize(
+					store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType)))) {
 				if(!techDiffBuilderKey.isEmpty()) {
 					techDiffBuilderKeys.add(techDiffBuilderKey);
 				}
@@ -76,7 +78,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		}
 		// get keys of all generic technical difference builders, if no domain specific ones are set
 		if(techDiffBuilderKeys.isEmpty()) {
-			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS).split(";")) {
+			for(String techDiffBuilderKey : StringListSerializer.DEFAULT.deserialize(store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS))) {
 				if(!techDiffBuilderKey.isEmpty()) {
 					techDiffBuilderKeys.add(techDiffBuilderKey);
 				}

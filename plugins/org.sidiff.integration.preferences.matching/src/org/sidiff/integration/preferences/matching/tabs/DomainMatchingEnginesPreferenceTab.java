@@ -1,7 +1,6 @@
 package org.sidiff.integration.preferences.matching.tabs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,8 @@ public class DomainMatchingEnginesPreferenceTab extends AbstractDomainPreference
 		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				List<String> newValue = Arrays.asList((String[])event.getNewValue());
+				@SuppressWarnings("unchecked")
+				List<String> newValue = (List<String>)event.getNewValue();
 				for(Entry<String, IPreferenceField> matcherOptions : matcherOptions.entrySet()) {
 					matcherOptions.getValue().setVisible(newValue.contains(matcherOptions.getKey()));
 				}
