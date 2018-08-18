@@ -69,20 +69,13 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get keys of all domain specific technical difference builders
 		Set<String> techDiffBuilderKeys = new LinkedHashSet<String>();
 		for(String docType : getDocumentTypes()) {
-			for(String techDiffBuilderKey : StringListSerializer.DEFAULT.deserialize(
-					store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType)))) {
-				if(!techDiffBuilderKey.isEmpty()) {
-					techDiffBuilderKeys.add(techDiffBuilderKey);
-				}
-			}
+			String value = store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType));
+			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
 		}
 		// get keys of all generic technical difference builders, if no domain specific ones are set
 		if(techDiffBuilderKeys.isEmpty()) {
-			for(String techDiffBuilderKey : StringListSerializer.DEFAULT.deserialize(store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS))) {
-				if(!techDiffBuilderKey.isEmpty()) {
-					techDiffBuilderKeys.add(techDiffBuilderKey);
-				}
-			}
+			String value = store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS);
+			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
 		}
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
@@ -90,7 +83,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 			// generic technical difference builder is not registered, so it must be added manually
 			if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
 				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
-			} else if(!techDiffBuilderKey.isEmpty()) {
+			} else {
 				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);
 				if(techBuilder != null) {
 					technicalDifferenceBuilderList.add(techBuilder);

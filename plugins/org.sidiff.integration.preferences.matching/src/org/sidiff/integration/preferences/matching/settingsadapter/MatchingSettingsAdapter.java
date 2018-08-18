@@ -92,18 +92,10 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		// get keys of all domain specific matchers
 		List<String> matcherKeys = new ArrayList<String>();
 		for(String docType : getDocumentTypes()) {
-			for(String matcherKey : StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS(docType)))) {
-				if(!matcherKey.isEmpty()) {
-					matcherKeys.add(matcherKey);
-				}
-			}
+			matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS(docType))));
 		}
 		// get keys of all generic matchers
-		for(String matcherKey : StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS))) {
-			if(!matcherKey.isEmpty()) {
-				matcherKeys.add(matcherKey);
-			}
-		}
+		matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS)));
 		// get the matchers
 		matchers = new ArrayList<IMatcher>();
 		for(String matcherKey : matcherKeys) {
