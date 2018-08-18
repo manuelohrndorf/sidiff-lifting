@@ -18,10 +18,12 @@ public class GeneralProperties implements Serializable {
 		this.scope = scope;
 	}
 
-
-
 	public SingleSelectionRemoteApplicationProperty<String> getScope() {
 		return scope;
 	}
 
+	@Override
+	public String toString() {
+		return scope.toString();
+	}
 }

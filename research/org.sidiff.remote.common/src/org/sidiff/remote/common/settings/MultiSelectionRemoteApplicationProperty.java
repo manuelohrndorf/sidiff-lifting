@@ -22,4 +22,8 @@ public class MultiSelectionRemoteApplicationProperty<T extends Serializable> ext
 		return values;
 	}
 
+	@Override
+	public String toString() {
+		return getName() + "[" + getDocumentType() + "]=" + values;
+	}
 }

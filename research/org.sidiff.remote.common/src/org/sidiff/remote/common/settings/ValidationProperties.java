@@ -21,4 +21,9 @@ public class ValidationProperties implements Serializable {
 	public SingleSelectionRemoteApplicationProperty<Boolean> getValidateModels() {
 		return validateModels;
 	}
+
+	@Override
+	public String toString() {
+		return validateModels.toString();
+	}
 }

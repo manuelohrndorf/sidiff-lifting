@@ -34,4 +34,13 @@ public class RemotePreferences implements Serializable {
 	public ValidationProperties getValidationProperties() {
 		return validationProperties;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder b = new StringBuilder("RemotePreferences[");
+		b.append(generalProperties.toString()).append(", ");
+		b.append(extractionProperties.toString()).append(", ");
+		b.append(validationProperties.toString()).append("]");
+		return b.toString();
+	}
 }

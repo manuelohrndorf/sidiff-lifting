@@ -21,4 +21,9 @@ public class SingleSelectionRemoteApplicationProperty<T extends Serializable> ex
 	public T getValue() {
 		return value;
 	}
+
+	@Override
+	public String toString() {
+		return getName() + "[" + getDocumentType() + "]=" + value;
+	}
 }

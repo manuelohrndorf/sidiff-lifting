@@ -58,4 +58,15 @@ public class ExtractionProperties implements Serializable {
 	public List<MultiSelectionRemoteApplicationProperty<String>> getRuleBaseProperties() {
 		return ruleBaseProperties;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder b = new StringBuilder();
+		b.append(mergeImports.toString()).append(", ");
+		b.append(unmergeImports.toString()).append(", ");
+		b.append(technicalDifferenceBuilderProperties.toString()).append(", ");
+		b.append(recognitionRuleSorterProperties.toString()).append(", ");
+		b.append(ruleBaseProperties.toString());
+		return b.toString();
+	}
 }
