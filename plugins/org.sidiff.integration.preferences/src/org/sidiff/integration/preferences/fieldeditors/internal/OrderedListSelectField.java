@@ -121,7 +121,7 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 		left.addSelectionListener(getSelectionListener());
 		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		buttonBox = getButtonBox(group);
+		buttonBox = createButtonBox(group);
 		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
 		right = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
@@ -136,15 +136,13 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 	 * @param parent the parent into which the buttons will be placed
 	 * @return the parent
 	 */
-	private Composite getButtonBox(Composite parent) {
-		if(buttonBox == null) {
-			buttonBox = new Composite(parent, SWT.NULL);
-			buttonBox.setLayout(new RowLayout(SWT.VERTICAL));
-			add = createButton(buttonBox, "Add");
-			remove = createButton(buttonBox, "Remove");
-			up = createButton(buttonBox, "Move Up");
-			down = createButton(buttonBox, "Move Down");
-		}
+	private Composite createButtonBox(Composite parent) {
+		buttonBox = new Composite(parent, SWT.NULL);
+		buttonBox.setLayout(new RowLayout(SWT.VERTICAL));
+		add = createButton(buttonBox, "Add");
+		remove = createButton(buttonBox, "Remove");
+		up = createButton(buttonBox, "Move Up");
+		down = createButton(buttonBox, "Move Down");
 		return buttonBox;
 	}
 

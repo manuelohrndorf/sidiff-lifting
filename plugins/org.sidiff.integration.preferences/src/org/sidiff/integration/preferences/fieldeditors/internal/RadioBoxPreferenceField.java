@@ -101,7 +101,7 @@ public class RadioBoxPreferenceField<T> extends PreferenceField implements IMult
 		Button b = new Button(group, SWT.RADIO);
 		b.addSelectionListener(SelectionListener.widgetSelectedAdapter((event) -> setSelection(input, true)));
 		b.setText(valueConverter.getLabel(input));
-		b.setSelection(selectedItem == input);
+		b.setSelection(isSelected(input));
 		buttons.put(valueConverter.getValue(input), b);
 		return b;
 	}
@@ -160,12 +160,12 @@ public class RadioBoxPreferenceField<T> extends PreferenceField implements IMult
 
 	@Override
 	public boolean isSelected(T item) {
-		return valueConverter.getValue(item).equals(valueConverter.getValue(selectedItem));
+		return selectedItem != null && valueConverter.getValue(item).equals(valueConverter.getValue(selectedItem));
 	}
 
 	@Override
 	public Collection<T> getSelection() {
-		return Collections.singleton(selectedItem);
+		return selectedItem == null ? Collections.emptySet() : Collections.singleton(selectedItem);
 	}
 
 	private T findItem(String value) {

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -88,14 +89,10 @@ public class CheckListSelectField<T> extends CompositeField<CheckBoxPreferenceFi
 	}
 
 	private void doLoad(String preferenceValue) {
-		for(CheckBoxPreferenceField field : checkBoxFields.values()) {
-			field.setSelection(false);
-		}
-		for(String entry : StringListSerializer.DEFAULT.deserialize(preferenceValue)) {
-			CheckBoxPreferenceField field = checkBoxFields.get(entry);
-			if(field != null) {
-				field.setSelection(true);
-			}
-		}
+		checkBoxFields.values().stream().forEach(field -> field.setSelection(false));
+		StringListSerializer.DEFAULT.deserialize(preferenceValue).stream()
+			.map(checkBoxFields::get)
+			.filter(Objects::nonNull)
+			.forEach(field -> field.setSelection(true));
 	}
 }
