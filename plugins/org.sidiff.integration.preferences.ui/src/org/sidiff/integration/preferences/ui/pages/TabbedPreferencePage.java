@@ -107,7 +107,6 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 	public void addTab(PropertyAndPreferencePage page, String title, String tooltip) {
 		Tab tab = new Tab(Objects.requireNonNull(page), Objects.requireNonNull(title), tooltip);
 		page.setParentPage(this);
-		page.setPreferenceStore(getPreferenceStore());
 		tabs.add(tab);
 		if(tabFolder != null && !tabFolder.isDisposed()) {
 			tab.createTabControl(tabFolder);

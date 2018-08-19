@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -106,7 +107,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		}
 
 		preferenceControl = doCreateContents(container);
-		preferenceControl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(preferenceControl);
 		reloadPreferences();
 
 		if(isPropertiesPage() && isTopLevelPage()) {
@@ -210,9 +211,16 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		return project != null;
 	}
 
+	/**
+	 * Returns the preference store of this preference/property page.
+	 * If this page has a parent page, the call is delegated to the parent page.
+	 * Else, the default preference store for project specific / global preferences is returned.
+	 */
 	@Override
 	protected IPreferenceStore doGetPreferenceStore() {
-		if(isPropertiesPage()) {
+		if(parentPage != null) {
+			return parentPage.doGetPreferenceStore();
+		} else if(isPropertiesPage()) {
 			return PreferenceStoreUtil.getPreferenceStore(project);
 		} else {
 			return PreferenceStoreUtil.getPreferenceStore();

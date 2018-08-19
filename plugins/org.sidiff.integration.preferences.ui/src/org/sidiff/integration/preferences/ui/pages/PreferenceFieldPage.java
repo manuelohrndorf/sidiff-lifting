@@ -44,14 +44,9 @@ public class PreferenceFieldPage extends PropertyAndPreferencePage {
 	protected Control doCreateContents(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(1, true));
-		container.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		for(IPreferenceField field : preferenceFields) {
-			field.createControls(container);
-			field.addPropertyChangeListener(propertyChangeListener);
-		}
-
-		validatePreferences();
+		updatePreferenceFields();
 
 		return container;
 	}
@@ -103,11 +98,29 @@ public class PreferenceFieldPage extends PropertyAndPreferencePage {
 
 	public void addFields(Collection<IPreferenceField> fields) {
 		preferenceFields.addAll(fields);
+		for(IPreferenceField field : fields) {
+			field.addPropertyChangeListener(propertyChangeListener);
+		}
+	}
 
+	public void clearFields() {
+		for(IPreferenceField field : preferenceFields) {
+			if(field.getControl() != null) {
+				field.getControl().dispose();
+			}
+			field.removePropertyChangeListener(propertyChangeListener);
+		}
+		preferenceFields.clear();
+		validatePreferences();
+	}
+
+	public void updatePreferenceFields() {
 		if(container != null && !container.isDisposed()) {
-			for(IPreferenceField field : fields) {
+			for(IPreferenceField field : preferenceFields) {
+				if(field.getControl() != null) {
+					field.getControl().dispose();
+				}
 				field.createControls(container);
-				field.addPropertyChangeListener(propertyChangeListener);
 			}
 			validatePreferences();
 		}
