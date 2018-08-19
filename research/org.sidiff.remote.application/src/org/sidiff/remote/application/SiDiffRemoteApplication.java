@@ -445,7 +445,7 @@ public class SiDiffRemoteApplication {
 			for(ITechnicalDifferenceBuilder builder : builders.get(documentType)) {
 				builder_items.put(builder.getKey(), builder.getName());
 			}
-			builder_values.add(builder_items.get(builder_items.keySet().iterator().next()));
+			builder_values.add(builder_items.keySet().iterator().next());
 			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty =
 					new MultiSelectionRemoteApplicationProperty<String>(
 							ExtractionProperties.TECHNICAL_DIFFERENCE_BUILDER, builder_items, builder_values);
@@ -470,7 +470,7 @@ public class SiDiffRemoteApplication {
 			}
 			SingleSelectionRemoteApplicationProperty<String> singleSelectionRemoteApplicationProperty =
 					new SingleSelectionRemoteApplicationProperty<String>(ExtractionProperties.RECOGNITION_RULE_SORTER, sorter_items,
-							sorter_items.get(sorter_items.keySet().iterator().next()));
+							sorter_items.keySet().iterator().next());
 			singleSelectionRemoteApplicationProperty.setDocumentType(documentType);
 			recognitionRuleSorterProperties.add(singleSelectionRemoteApplicationProperty);
 		}
@@ -488,11 +488,10 @@ public class SiDiffRemoteApplication {
 		List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties = new ArrayList<>();
 		for(String documentType : rules.keySet()) {
 			Map<String, String> ruleBase_items = new HashMap<String, String>();
-			List<String> ruleBase_values  = new ArrayList<String>();
 			for(ILiftingRuleBase ruleBase : rules.get(documentType)) {
 				ruleBase_items.put(ruleBase.getName(), ruleBase.getName());
 			}
-			ruleBase_values.addAll(ruleBase_items.keySet());
+			List<String> ruleBase_values = new ArrayList<String>(ruleBase_items.keySet());
 			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty =
 					new MultiSelectionRemoteApplicationProperty<String>(ExtractionProperties.RULE_BASE, ruleBase_items, ruleBase_values);
 			multiSelectionRemoteApplicationProperty.setDocumentType(documentType);
