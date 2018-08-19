@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nZG4oKLqEeiHlJ-uMmFFpw" name="SET_ATTRIBUTE_EStructuralFeature_Unsettable" description="Sets EStructuralFeature Unsettable">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_nZG4oaLqEeiHlJ-uMmFFpw" name="setEStructuralFeatureUnsettable" description="Sets the EAttribute unsettable">
+    <parameters xmi:id="_nZG4oqLqEeiHlJ-uMmFFpw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    </parameters>
+    <parameters xmi:id="_nZG4o6LqEeiHlJ-uMmFFpw" name="Unsettable" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_nZG4pKLqEeiHlJ-uMmFFpw" name="Lhs">
+      <nodes xmi:id="_nZG4paLqEeiHlJ-uMmFFpw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_nZG4pqLqEeiHlJ-uMmFFpw" name="Rhs">
+      <nodes xmi:id="_nZG4p6LqEeiHlJ-uMmFFpw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+        <attributes xmi:id="_nZG4qKLqEeiHlJ-uMmFFpw" value="Unsettable">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/unsettable"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_nZG4qaLqEeiHlJ-uMmFFpw" origin="_nZG4paLqEeiHlJ-uMmFFpw" image="_nZG4p6LqEeiHlJ-uMmFFpw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_nZG4qqLqEeiHlJ-uMmFFpw" name="mainUnit" subUnits="_nZG4oaLqEeiHlJ-uMmFFpw">
+    <parameters xmi:id="_nZG4q6LqEeiHlJ-uMmFFpw" name="selectedEObject" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
+    </parameters>
+    <parameters xmi:id="_nZG4rKLqEeiHlJ-uMmFFpw" name="Unsettable" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_nZG4raLqEeiHlJ-uMmFFpw" source="_nZG4q6LqEeiHlJ-uMmFFpw" target="_nZG4oqLqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_nZG4rqLqEeiHlJ-uMmFFpw" source="_nZG4rKLqEeiHlJ-uMmFFpw" target="_nZG4o6LqEeiHlJ-uMmFFpw"/>
+  </units>
+</henshin:Module>

@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_1SC2MC76EeS4JuF_8QNE5Q" name="RemoveEClassTgtEClass" description="Removes EClass's reference eSuperTypes the target EClass">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_napJsKLqEeiHlJ-uMmFFpw" name="REMOVE_EClass_(eSuperTypes)_TGT_EClass" description="Removes EClass's reference eSuperTypes the target EClass">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
-  <units xsi:type="henshin:Rule" xmi:id="_1SC2MS76EeS4JuF_8QNE5Q" name="removeFromEClass_eSuperTypes_EClass" description="Removes from EClass's reference eSuperTypes the target EClass">
-    <parameters xmi:id="_1SC2Mi76EeS4JuF_8QNE5Q" name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_napJsaLqEeiHlJ-uMmFFpw" name="removeFromEClass_eSuperTypes_EClass" description="Removes from EClass's reference eSuperTypes the target EClass">
+    <parameters xmi:id="_napJsqLqEeiHlJ-uMmFFpw" name="Selected" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
-    <parameters xmi:id="_1SC2My76EeS4JuF_8QNE5Q" name="OldTarget">
+    <parameters xmi:id="_napJs6LqEeiHlJ-uMmFFpw" name="OldTarget" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
-    <lhs xmi:id="_1SC2NC76EeS4JuF_8QNE5Q" name="LHS">
-      <nodes xmi:id="_1SC2NS76EeS4JuF_8QNE5Q" name="Selected" outgoing="_1SC2Ny76EeS4JuF_8QNE5Q">
+    <lhs xmi:id="_napJtKLqEeiHlJ-uMmFFpw" name="LHS">
+      <nodes xmi:id="_napJtaLqEeiHlJ-uMmFFpw" name="Selected" outgoing="_napJt6LqEeiHlJ-uMmFFpw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_1SC2Ni76EeS4JuF_8QNE5Q" name="OldTarget" incoming="_1SC2Ny76EeS4JuF_8QNE5Q">
+      <nodes xmi:id="_napJtqLqEeiHlJ-uMmFFpw" name="OldTarget" incoming="_napJt6LqEeiHlJ-uMmFFpw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <edges xmi:id="_1SC2Ny76EeS4JuF_8QNE5Q" source="_1SC2NS76EeS4JuF_8QNE5Q" target="_1SC2Ni76EeS4JuF_8QNE5Q">
+      <edges xmi:id="_napJt6LqEeiHlJ-uMmFFpw" source="_napJtaLqEeiHlJ-uMmFFpw" target="_napJtqLqEeiHlJ-uMmFFpw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_1SC2OC76EeS4JuF_8QNE5Q" name="RHS">
-      <nodes xmi:id="_1SC2OS76EeS4JuF_8QNE5Q" name="Selected">
+    <rhs xmi:id="_napJuKLqEeiHlJ-uMmFFpw" name="RHS">
+      <nodes xmi:id="_napJuaLqEeiHlJ-uMmFFpw" name="Selected">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_1SC2Oi76EeS4JuF_8QNE5Q" name="OldTarget">
+      <nodes xmi:id="_napJuqLqEeiHlJ-uMmFFpw" name="OldTarget">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
     </rhs>
-    <mappings xmi:id="_1SC2Oy76EeS4JuF_8QNE5Q" origin="_1SC2NS76EeS4JuF_8QNE5Q" image="_1SC2OS76EeS4JuF_8QNE5Q"/>
-    <mappings xmi:id="_1SC2PC76EeS4JuF_8QNE5Q" origin="_1SC2Ni76EeS4JuF_8QNE5Q" image="_1SC2Oi76EeS4JuF_8QNE5Q"/>
+    <mappings xmi:id="_napJu6LqEeiHlJ-uMmFFpw" origin="_napJtaLqEeiHlJ-uMmFFpw" image="_napJuaLqEeiHlJ-uMmFFpw"/>
+    <mappings xmi:id="_napJvKLqEeiHlJ-uMmFFpw" origin="_napJtqLqEeiHlJ-uMmFFpw" image="_napJuqLqEeiHlJ-uMmFFpw"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" xmi:id="_1SC2PS76EeS4JuF_8QNE5Q" name="mainUnit" subUnits="_1SC2MS76EeS4JuF_8QNE5Q">
-    <parameters xmi:id="_1SC2Pi76EeS4JuF_8QNE5Q" name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_napJvaLqEeiHlJ-uMmFFpw" name="mainUnit" subUnits="_napJsaLqEeiHlJ-uMmFFpw">
+    <parameters xmi:id="_napJvqLqEeiHlJ-uMmFFpw" name="selectedEObject" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
-    <parameters xmi:id="_1SC2Py76EeS4JuF_8QNE5Q" name="OldTarget">
+    <parameters xmi:id="_napJv6LqEeiHlJ-uMmFFpw" name="OldTarget" kind="INOUT">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
-    <parameterMappings xmi:id="_1SC2QC76EeS4JuF_8QNE5Q" source="_1SC2Pi76EeS4JuF_8QNE5Q" target="_1SC2Mi76EeS4JuF_8QNE5Q"/>
-    <parameterMappings xmi:id="_1SC2QS76EeS4JuF_8QNE5Q" source="_1SC2Py76EeS4JuF_8QNE5Q" target="_1SC2My76EeS4JuF_8QNE5Q"/>
+    <parameterMappings xmi:id="_napJwKLqEeiHlJ-uMmFFpw" source="_napJvqLqEeiHlJ-uMmFFpw" target="_napJsqLqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_napJwaLqEeiHlJ-uMmFFpw" source="_napJv6LqEeiHlJ-uMmFFpw" target="_napJs6LqEeiHlJ-uMmFFpw"/>
   </units>
 </henshin:Module>
