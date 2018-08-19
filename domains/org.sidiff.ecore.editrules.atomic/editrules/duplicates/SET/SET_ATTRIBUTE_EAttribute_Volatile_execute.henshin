@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nbalwKLqEeiHlJ-uMmFFpw" name="SET_ATTRIBUTE_EAttribute_Volatile" description="Sets EAttribute Volatile">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_nbalwaLqEeiHlJ-uMmFFpw" name="setEAttributeVolatile" description="Sets the EAttribute volatile">
+    <parameters xmi:id="_nbalwqLqEeiHlJ-uMmFFpw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameters xmi:id="_nbalw6LqEeiHlJ-uMmFFpw" name="Volatile" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="_nbalxKLqEeiHlJ-uMmFFpw" name="Lhs">
+      <nodes xmi:id="_nbalxaLqEeiHlJ-uMmFFpw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_nbalxqLqEeiHlJ-uMmFFpw" name="Rhs">
+      <nodes xmi:id="_nbalx6LqEeiHlJ-uMmFFpw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_nbalyKLqEeiHlJ-uMmFFpw" value="Volatile">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/volatile"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_nbalyaLqEeiHlJ-uMmFFpw" origin="_nbalxaLqEeiHlJ-uMmFFpw" image="_nbalx6LqEeiHlJ-uMmFFpw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_nbalyqLqEeiHlJ-uMmFFpw" name="mainUnit" subUnits="_nbalwaLqEeiHlJ-uMmFFpw">
+    <parameters xmi:id="_nbaly6LqEeiHlJ-uMmFFpw" name="selectedEObject" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameters xmi:id="_nbalzKLqEeiHlJ-uMmFFpw" name="Volatile" kind="IN">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_nbalzaLqEeiHlJ-uMmFFpw" source="_nbaly6LqEeiHlJ-uMmFFpw" target="_nbalwqLqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_nbalzqLqEeiHlJ-uMmFFpw" source="_nbalzKLqEeiHlJ-uMmFFpw" target="_nbalw6LqEeiHlJ-uMmFFpw"/>
+  </units>
+</henshin:Module>

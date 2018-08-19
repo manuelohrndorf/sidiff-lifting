@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nYz9sKLqEeiHlJ-uMmFFpw" name="UNSET_REFERENCE_EAttribute_(eType)_TGT_EDataType" description="Sets EAttribute's reference eType the target EDataType">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_nYz9saLqEeiHlJ-uMmFFpw" name="setEAttribute_eType_TO_EDataType" description="SetEAttributeRefeTypeToEDataType">
+    <parameters xmi:id="_nYz9sqLqEeiHlJ-uMmFFpw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameters xmi:id="_nYz9s6LqEeiHlJ-uMmFFpw" name="NewTarget" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+    </parameters>
+    <lhs xmi:id="_nYz9tKLqEeiHlJ-uMmFFpw" name="LHS">
+      <nodes xmi:id="_nYz9taLqEeiHlJ-uMmFFpw" name="Selected" outgoing="_nYz9t6LqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <nodes xmi:id="_nYz9tqLqEeiHlJ-uMmFFpw" name="NewTarget" incoming="_nYz9t6LqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+      </nodes>
+      <edges xmi:id="_nYz9t6LqEeiHlJ-uMmFFpw" source="_nYz9taLqEeiHlJ-uMmFFpw" target="_nYz9tqLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_nYz9uKLqEeiHlJ-uMmFFpw" name="RHS">
+      <nodes xmi:id="_nYz9uaLqEeiHlJ-uMmFFpw" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement"/>
+      </nodes>
+      <nodes xmi:id="_nYz9uqLqEeiHlJ-uMmFFpw" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_nYz9u6LqEeiHlJ-uMmFFpw" origin="_nYz9taLqEeiHlJ-uMmFFpw" image="_nYz9uaLqEeiHlJ-uMmFFpw"/>
+    <mappings xmi:id="_nYz9vKLqEeiHlJ-uMmFFpw" origin="_nYz9tqLqEeiHlJ-uMmFFpw" image="_nYz9uqLqEeiHlJ-uMmFFpw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_nYz9vaLqEeiHlJ-uMmFFpw" name="mainUnit" subUnits="_nYz9saLqEeiHlJ-uMmFFpw">
+    <parameters xmi:id="_nYz9vqLqEeiHlJ-uMmFFpw" name="selectedEObject" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameters xmi:id="_nYz9v6LqEeiHlJ-uMmFFpw" name="NewTarget" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+    </parameters>
+    <parameterMappings xmi:id="_nYz9wKLqEeiHlJ-uMmFFpw" source="_nYz9vqLqEeiHlJ-uMmFFpw" target="_nYz9sqLqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_nYz9waLqEeiHlJ-uMmFFpw" source="_nYz9v6LqEeiHlJ-uMmFFpw" target="_nYz9s6LqEeiHlJ-uMmFFpw"/>
+  </units>
+</henshin:Module>

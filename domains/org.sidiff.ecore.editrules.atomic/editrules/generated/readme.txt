@@ -1,3 +1,5 @@
+ecore_20140828.serge
+cpietsch 2018-08-19: partially replaced concrete rules with abstract ones
 Removed the following Rules (because we cannot adjust this in SERGe):
 (please note the wildcard symbol in the rule file names)
 - SET_ATTRIBUTE_EClassifier_*_execute.henshin
@@ -8,6 +10,7 @@ Removed the following Rules (because we cannot adjust this in SERGe):
 - SET_REFERENCE_ETypedElement_*_TGT_EClassifier_execute.henshin
 - UNSET_REFERENCE_EStructuralFeature_(eType)_TGT_EClassifier_execute.henshin
 - UNSET_REFERENCE_ETypedElement_(eType)_TGT_EClassifier_execute.henshin
+
 
 Removed the following rules
 (because we have not en effective meta-model available

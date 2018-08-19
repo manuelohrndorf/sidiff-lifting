@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_nYLEgKLqEeiHlJ-uMmFFpw" name="MOVE_UP_EPackage_FROM_EPackage_(eSubpackages)_TO_EPackage_(eSubpackages)" description="MOVE UPWARDs EPackage from EPackage(Reference:eSubpackages) to EPackage(Reference:eSubpackages">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_nYLEgaLqEeiHlJ-uMmFFpw" name="moveUpEPackage_FROM_EPackage_eSubpackages_TO_EPackage_EPackage" description="Moves up EPackage from EPackage(Reference:eSubpackages) toEPackage(Reference:EPackage)">
+    <parameters xmi:id="_nYLEgqLqEeiHlJ-uMmFFpw" name="Selected" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="_nYLEg6LqEeiHlJ-uMmFFpw" name="OldSource" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="_nYLEhKLqEeiHlJ-uMmFFpw" name="NewSource" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <lhs xmi:id="_nYLEhaLqEeiHlJ-uMmFFpw" name="Lhs">
+      <nodes xmi:id="_nYLEhqLqEeiHlJ-uMmFFpw" name="Selected" incoming="_nYLEiaLqEeiHlJ-uMmFFpw" outgoing="_nYLEiqLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_nYLEh6LqEeiHlJ-uMmFFpw" name="OldSource" incoming="_nYLEiqLqEeiHlJ-uMmFFpw" outgoing="_nYLEiaLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_nYLEiKLqEeiHlJ-uMmFFpw" name="NewSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_nYLEiaLqEeiHlJ-uMmFFpw" source="_nYLEh6LqEeiHlJ-uMmFFpw" target="_nYLEhqLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+      </edges>
+      <edges xmi:id="_nYLEiqLqEeiHlJ-uMmFFpw" source="_nYLEhqLqEeiHlJ-uMmFFpw" target="_nYLEh6LqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_nYLEi6LqEeiHlJ-uMmFFpw">
+        <conclusion xmi:id="_nYLEjKLqEeiHlJ-uMmFFpw" name="cyclePath">
+          <nodes xmi:id="_nYLEjaLqEeiHlJ-uMmFFpw" name="OldSource" incoming="_nYLEj6LqEeiHlJ-uMmFFpw">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+          </nodes>
+          <nodes xmi:id="_nYLEjqLqEeiHlJ-uMmFFpw" name="NewSource" outgoing="_nYLEj6LqEeiHlJ-uMmFFpw">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+          </nodes>
+          <edges xmi:id="_nYLEj6LqEeiHlJ-uMmFFpw" source="_nYLEjqLqEeiHlJ-uMmFFpw" target="_nYLEjaLqEeiHlJ-uMmFFpw">
+            <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_nYLEkKLqEeiHlJ-uMmFFpw" origin="_nYLEiKLqEeiHlJ-uMmFFpw" image="_nYLEjqLqEeiHlJ-uMmFFpw"/>
+        <mappings xmi:id="_nYLEkaLqEeiHlJ-uMmFFpw" origin="_nYLEh6LqEeiHlJ-uMmFFpw" image="_nYLEjaLqEeiHlJ-uMmFFpw"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_nYLEkqLqEeiHlJ-uMmFFpw" name="Rhs">
+      <nodes xmi:id="_nYLEk6LqEeiHlJ-uMmFFpw" name="Selected" incoming="_nYLElqLqEeiHlJ-uMmFFpw" outgoing="_nYLEl6LqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_nYLElKLqEeiHlJ-uMmFFpw" name="OldSource">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="_nYLElaLqEeiHlJ-uMmFFpw" name="NewSource" incoming="_nYLEl6LqEeiHlJ-uMmFFpw" outgoing="_nYLElqLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <edges xmi:id="_nYLElqLqEeiHlJ-uMmFFpw" source="_nYLElaLqEeiHlJ-uMmFFpw" target="_nYLEk6LqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+      </edges>
+      <edges xmi:id="_nYLEl6LqEeiHlJ-uMmFFpw" source="_nYLEk6LqEeiHlJ-uMmFFpw" target="_nYLElaLqEeiHlJ-uMmFFpw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_nYLEmKLqEeiHlJ-uMmFFpw" origin="_nYLEhqLqEeiHlJ-uMmFFpw" image="_nYLEk6LqEeiHlJ-uMmFFpw"/>
+    <mappings xmi:id="_nYLEmaLqEeiHlJ-uMmFFpw" origin="_nYLEh6LqEeiHlJ-uMmFFpw" image="_nYLElKLqEeiHlJ-uMmFFpw"/>
+    <mappings xmi:id="_nYLEmqLqEeiHlJ-uMmFFpw" origin="_nYLEiKLqEeiHlJ-uMmFFpw" image="_nYLElaLqEeiHlJ-uMmFFpw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_nYLEm6LqEeiHlJ-uMmFFpw" name="mainUnit" subUnits="_nYLEgaLqEeiHlJ-uMmFFpw">
+    <parameters xmi:id="_nYLEnKLqEeiHlJ-uMmFFpw" name="selectedEObject" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="_nYLEnaLqEeiHlJ-uMmFFpw" name="OldSource" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="_nYLEnqLqEeiHlJ-uMmFFpw" name="NewSource" kind="INOUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameterMappings xmi:id="_nYLEn6LqEeiHlJ-uMmFFpw" source="_nYLEnKLqEeiHlJ-uMmFFpw" target="_nYLEgqLqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_nYLEoKLqEeiHlJ-uMmFFpw" source="_nYLEnaLqEeiHlJ-uMmFFpw" target="_nYLEg6LqEeiHlJ-uMmFFpw"/>
+    <parameterMappings xmi:id="_nYLEoaLqEeiHlJ-uMmFFpw" source="_nYLEnqLqEeiHlJ-uMmFFpw" target="_nYLEhKLqEeiHlJ-uMmFFpw"/>
+  </units>
+</henshin:Module>
