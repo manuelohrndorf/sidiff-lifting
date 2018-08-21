@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "SiDiff Domain - Atomic Edit Rules for Ecore (2018-08-17 20:02:48)";
+		return "SiDiff Domain - Atomic Edit Rules for Ecore (2018-08-21 16:23:03)";
 	}
 	
 	@Override
