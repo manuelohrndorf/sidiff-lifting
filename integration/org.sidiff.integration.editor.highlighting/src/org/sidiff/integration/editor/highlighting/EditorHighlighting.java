@@ -139,11 +139,11 @@ public class EditorHighlighting {
 		List<EObject> elements = new ArrayList<>();
 
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
-			Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-
-			if (selectedElement instanceof EObject) {
-				if (!elements.contains((EObject) selectedElement)) {
-					elements.add((EObject) selectedElement);
+			for (Object selectedElement : ((IStructuredSelection) selection).toList()) {
+				if (selectedElement instanceof EObject) {
+					if (!elements.contains((EObject) selectedElement)) {
+						elements.add((EObject) selectedElement);
+					}
 				}
 			}
 		}
