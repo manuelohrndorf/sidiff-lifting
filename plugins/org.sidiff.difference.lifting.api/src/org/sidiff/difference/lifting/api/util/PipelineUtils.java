@@ -1,6 +1,5 @@
 package org.sidiff.difference.lifting.api.util;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.Set;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
@@ -47,93 +45,101 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 
 
 	/**
-	 * Find all available recognition rule sorter matching the given document
+	 * Returns all registered recognition rule sorter matching the given document
 	 * type.
 	 * 
 	 * @param documentTypes
-	 *            The document types, i.e. the package namespace URIs of a model.
-	 * @return All available recognition rule sorter matching the given document
-	 *         type.
-	 * @see LiftingFacade#getDocumentType(Resource)
+	 *            The document types, i.e. the package namespace URI of the models.
+	 * @return all registered {@link IRecognitionRuleSorter} matching the given document
+	 *         type
 	 */
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes) {
 		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentTypes);
 	}
 	
 	/**
-	 * Find all available recognition rule sorter
+	 * Returns all registered recognition rule sorter
 	 * 
-	 * @return All available recognition rule sorter
-	 * @see LiftingFacade#getDocumentType()
+	 * @return all registered {@link IRecognitionRuleSorter}
 	 */
 	public static Set<IRecognitionRuleSorter> getAllAvailableRecognitionRuleSorters() {
 		return RecognitionRuleSorterLibrary.getAllAvailableRecognitionRuleSorters();
 	}
 	
 	/**
+	 * Returns a generic recognition rule sorter.
 	 * 
-	 * @return
+	 * @return a generic {@link IRecognitionRuleSorter}
 	 */
 	public static IRecognitionRuleSorter getGenericRecognitionRuleSorter(){
 		return RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
 	}
+	
 	/**
-	 * 
-	 * Returns the default recognition rule sorter for the given documentType: <br/>
+	 * Returns the default recognition rule sorter for the given document types.
 	 * 
 	 * @param documentTypes
-	 * @return
+	 *            The document types, i.e. the package namespace URI of the models.
+	 * @return the default {@link IRecognitionRuleSorter} for the given document
+	 *         types
 	 */
 	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
 		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
 	}
 
+	/**
+	 * Returns the recognition rule sorter identified by the key.
+	 * 
+	 * @param key
+	 *            The key of the recognition rule sorter
+	 * @return the {@link IRecognitionRuleSorter} identified by the key
+	 */
 	public static IRecognitionRuleSorter getRecognitionRuleSorter(String key) {
 		return RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
 	}
 
-	/**
-	 * Find all available rulebases matching the given document type.
-	 * 
-	 * @param documentType
-	 *            The document type, i.e. the package namespace URI of a model.
-	 * @return All available rulebases matching the given document type.
-	 */
-	public static Set<ILiftingRuleBase> getAvailableRulebases(String documentType) {
-		return RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
-	}
+//	/**
+//	 * Returns all registered lifting rulebases matching the given document type.
+//	 * 
+//	 * @param documentType
+//	 *            The document type, i.e. the package namespace URI of a model.
+//	 * @return all registered {@link ILiftingRuleBase}s matching the given document type
+//	 */
+//	public static Set<ILiftingRuleBase> getAvailableRulebases(String documentType) {
+//		return RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
+//	}
 
 	/**
-	 * Find all available rulebases.
+	 * Returns all registered lifting rulebases.
 	 * 
-	 * @return All available rulebases.
+	 * @return all registered {@link ILiftingRuleBase}s
 	 */
 	public static Set<ILiftingRuleBase> getAllAvailableRulebases() {
 		return RuleBaseProjectLibrary.getRuleBases(ILiftingRuleBase.TYPE);
 	}
 
 	/**
-	 * Find all available rulebases matching the given document types.
+	 * Returns all registered lifting rulebases matching the given document types.
 	 * 
 	 * @param documentTypes
 	 *            The document types, i.e. the package namespace URIs used by a
 	 *            model.
-	 * @return All available rulebases matching the given document types.
+	 * @return all registered {@link ILiftingRuleBase}s matching the given document types
 	 */
 	public static Set<ILiftingRuleBase> getAvailableRulebases(Set<String> documentTypes) {
 		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
 
 	/**
-	 * Generates a file name for a new difference between model A and model B.
+	 * Generates a filename for a new difference between model A and model B.
 	 * 
 	 * @param modelA
-	 *            The earlier version of the model.
+	 *            The {@link Resource} of the earlier version of the model.
 	 * @param modelB
-	 *            The later version of the model.
+	 *            The {@link Resource} of the later version of the model.
 	 * @param settings
-	 *            Specifies the settings of the semantic lifting algorithm.
-	 * @return A file name MODELAxMODELB_MATCHINGENGINE_LIFTING_POSTPROCESSING.
+	 *            Specifies the {@link LiftingSettings} of the semantic lifting algorithm.
+	 * @return a filename MODELAxMODELB_MATCHINGENGINE_LIFTING_POSTPROCESSING
 	 */
 	public static String generateDifferenceFileName(Resource modelA, Resource modelB, LiftingSettings settings) {
 		String fileName = TechnicalDifferenceUtils.generateDifferenceFileName(modelA, modelB, settings);
@@ -152,13 +158,13 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	}
 
 	/**
-	 * Generates a file name for a new lifted difference.
+	 * Generates a filename for a new lifted difference.
 	 * 
 	 * @param model
-	 *            The technical difference to lift.
+	 *            The technical {@link SymmetricDifference} to lift.
 	 * @param settings
-	 *            Specifies the settings of the semantic lifting algorithm.
-	 * @return A file name {old filename}_LIFTING_POSTPROCESSING.
+	 *            Specifies the {@link LiftingSettings} of the semantic lifting algorithm.
+	 * @return a filename {old filename}_LIFTING_POSTPROCESSING
 	 */
 	public static String generateDifferenceFileName(Resource model, LiftingSettings settings) {
 		String fileName = extractModelName(EMFStorage.uriToPath(model.getURI()));
@@ -177,7 +183,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * text.
 	 * 
 	 * @param difference
-	 *            The difference to sort.
+	 *            The {@link SymmetricDifference} to sort.
 	 */
 	public static void sortDifference(final SymmetricDifference difference) {
 
@@ -262,8 +268,8 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * Converts the lifting settings to the recognition engine setup.
 	 * 
 	 * @param settings
-	 *            The lifting settings.
-	 * @return The recognition engine setup
+	 *            The {@link LiftingSettings} of the semantic lifting algorithm.
+	 * @return the {@link RecognitionEngineSetup}
 	 */
 	public static RecognitionEngineSetup createRecognitionEngineSetup(LiftingSettings settings) {
 		return new RecognitionEngineSetup(

@@ -42,12 +42,12 @@ import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
 public class TechnicalDifferenceUtils extends MatchingUtils{
 	
 	/**
-	 * Find all available technical difference builders matching the given
+	 * Returns all registered technical difference builders matching the given
 	 * document types.
 	 * 
 	 * @param documentTypes
 	 *            The document types, i.e. the package namespace URI of a model. There can be more than one.
-	 * @return All available technical difference builders matching the given
+	 * @return all registered {@link ITechnicalDifferenceBuilder}s matching the given
 	 *         document types.
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
@@ -56,11 +56,11 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	}
 	
 	/**
-	 * Find all available technical difference builders matching the document types of the given models.
+	 * Returns all registered technical difference builders matching the document types of the given models.
 	 * 
 	 * @param documentTypes
 	 *            The document types, i.e. the package namespace URI of a model. There can be more than one.
-	 * @return All available technical difference builders matching the given
+	 * @return all registered {@link ITechnicalDifferenceBuilder}s matching the given
 	 *         document types.
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
@@ -69,27 +69,35 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	}
 	
 	/**
-	 * Find all available technical difference builders.
+	 * Returns all registered technical difference builders.
 	 * 
-	 * @return All available technical difference builders.
+	 * @return all registered {@link ITechnicalDifferenceBuilder}s.
 	 */
 	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders() {
 		return TechnicalDifferenceBuilderUtil.getAllAvailableTechnicalDifferenceBuilders();
 	}
 	
+	/**
+	 * Returns a generic technical difference builder.
+	 * 
+	 * @return a generic {@link ITechnicalDifferenceBuilder}
+	 */
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
 		return TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
 	}
 
 	/**
 	 * 
-	 * Returns the default technical difference builder for the given
-	 * documentTypes: <br/>
-	 * In case of Ecore: take first non-generics diff builder. <br/>
+	 * Returns the default technical difference builder for the given documentTypes:
+	 * <br/>
+	 * In case of Ecore: take first non-generic difference builder. <br/>
 	 * Otherwise: take first technical difference builder
 	 * 
 	 * @param documentTypes
-	 * @return
+	 *            The document types, i.e. the package namespace URI of a model.
+	 *            There can be more than one.
+	 * @return the default {@link ITechnicalDifferenceBuilder} for the given
+	 *         documentTypes
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
 		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentTypes);
@@ -98,8 +106,9 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	/**
 	 * Returns the technical difference builder with the given key.
 	 * 
-	 * @param name
-	 * @return
+	 * @param key
+	 *            The key of the technical difference builder
+	 * @return the {@link ITechnicalDifferenceBuilder} identified by the key
 	 */
 	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilder(String key){
 		return TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(key);
@@ -121,15 +130,15 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	}
 
 	/**
-	 * Generates a file name for a new difference between model A and model B.
+	 * Generates a filename for a new difference between model A and model B.
 	 * 
 	 * @param modelA
-	 *            The earlier version of the model.
+	 *            The {@link Resource} of the earlier version of the model.
 	 * @param modelB
-	 *            The later version of the model.
+	 *            The {@link Resource} of the later version of the model.
 	 * @param settings
-	 *            Specifies the settings of the semantic lifting algorithm.
-	 * @return A file name MODELAxMODELB_MATCHINGENGINE_LIFTING_POSTPROCESSING.
+	 *            Specifies the {@link DifferenceSettings} of the differencing algorithm.
+	 * @return a filename MODELAxMODELB_MATCHINGENGINE_technical
 	 */
 	public static String generateDifferenceFileName(Resource modelA, Resource modelB, DifferenceSettings settings) {
 		String fileName = extractModelName(EMFStorage.uriToPath(modelA.getURI())) + "_x_"
@@ -149,8 +158,8 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * Cut of the file extension.
 	 * 
 	 * @param filename
-	 *            The file name with extension.
-	 * @return The file name without extension.
+	 *            The filename with extension.
+	 * @return The filename without extension.
 	 */
 	protected static String extractModelName(String filename) {
 		String fName = new File(filename).getName();
@@ -162,7 +171,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * text.
 	 * 
 	 * @param difference
-	 *            The difference to sort.
+	 *            The {@link SymmetricDifference} to sort.
 	 */
 	public static void sortDifference(final SymmetricDifference difference) {
 
