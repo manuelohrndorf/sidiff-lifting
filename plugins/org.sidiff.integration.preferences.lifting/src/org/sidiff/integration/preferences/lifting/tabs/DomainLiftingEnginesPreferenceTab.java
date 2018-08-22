@@ -1,7 +1,9 @@
 package org.sidiff.integration.preferences.lifting.tabs;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
@@ -23,10 +25,12 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
+		Set<String> documentTypes = new HashSet<String>();
+		documentTypes.add(getDocumentType());
 		ruleBasesField = PreferenceFieldFactory.createCheckBoxList(
 				LiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
 				"Rulebases",
-				PipelineUtils.getAvailableRulebases(getDocumentType()),
+				PipelineUtils.getAvailableRulebases(documentTypes),
 				new LiftingRuleBaseValueConverter());
 		list.add(ruleBasesField);
 

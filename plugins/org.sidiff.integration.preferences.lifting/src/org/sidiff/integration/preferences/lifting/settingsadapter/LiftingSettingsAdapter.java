@@ -122,7 +122,9 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		ruleBases = new HashSet<ILiftingRuleBase>();
 		for(String documentType : getDocumentTypes()) {
 			final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
-			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentType)) {
+			Set<String> documentTypes = new HashSet<String>();
+			documentTypes.add(documentType);
+			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentTypes)) {
 				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + valueConverter.getValue(rbase))) {
 					ruleBases.add(rbase);
 				}
