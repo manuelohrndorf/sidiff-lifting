@@ -1,7 +1,6 @@
 package org.sidiff.integration.preferences.lifting.significance;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.integration.preferences.significance.IPreferenceDomainSignificanceProvider;
@@ -15,7 +14,6 @@ public class LiftingPreferenceSignificanceProvider implements IPreferenceDomainS
 
 	@Override
 	public boolean isSignificant(String documentType) {
-		Set<String> documentTypes = new HashSet<String>();
-		return PipelineUtils.getAvailableRulebases(documentTypes).size() > 0;
+		return PipelineUtils.getAvailableRulebases(Collections.singleton(documentType)).size() > 0;
 	}
 }

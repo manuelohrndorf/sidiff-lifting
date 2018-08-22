@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.lifting.settingsadapter;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -122,9 +123,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 		ruleBases = new HashSet<ILiftingRuleBase>();
 		for(String documentType : getDocumentTypes()) {
 			final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
-			Set<String> documentTypes = new HashSet<String>();
-			documentTypes.add(documentType);
-			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(documentTypes)) {
+			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(Collections.singleton(documentType))) {
 				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + valueConverter.getValue(rbase))) {
 					ruleBases.add(rbase);
 				}
