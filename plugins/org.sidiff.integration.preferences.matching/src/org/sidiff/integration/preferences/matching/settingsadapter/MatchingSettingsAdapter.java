@@ -9,6 +9,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
@@ -91,18 +92,10 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		// get keys of all domain specific matchers
 		List<String> matcherKeys = new ArrayList<String>();
 		for(String docType : getDocumentTypes()) {
-			for(String matcherKey : store.getString(KEY_MATCHERS(docType)).split(";")) {
-				if(!matcherKey.isEmpty()) {
-					matcherKeys.add(matcherKey);
-				}
-			}
+			matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS(docType))));
 		}
 		// get keys of all generic matchers
-		for(String matcherKey : store.getString(KEY_MATCHERS).split(";")) {
-			if(!matcherKey.isEmpty()) {
-				matcherKeys.add(matcherKey);
-			}
-		}
+		matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS)));
 		// get the matchers
 		matchers = new ArrayList<IMatcher>();
 		for(String matcherKey : matcherKeys) {
@@ -110,9 +103,9 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 			if(matcher != null) {
 				if(matcher instanceof IConfigurable) {
 					Map<String, Object> matcherOptions = ((IConfigurable)matcher).getConfigurationOptions();
+					List<String> matcherOptionKeys = StringListSerializer.DEFAULT.deserialize(KEY_MATCHER_OPTIONS(matcherKey));
 					for(String optionKey : matcherOptions.keySet()) {
-						((IConfigurable)matcher).setConfigurationOption(optionKey,
-								store.getBoolean(KEY_MATCHER_OPTIONS(matcherKey) + ":" + optionKey));
+						((IConfigurable)matcher).setConfigurationOption(optionKey, matcherOptionKeys.contains(optionKey));
 					}
 				}
 				matchers.add(matcher);

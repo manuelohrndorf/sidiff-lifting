@@ -1,8 +1,10 @@
 package org.sidiff.common.henshin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -416,5 +418,40 @@ public class ParameterInfo {
 	public static boolean isRuleParameter(Parameter param) {
 		assert (param != null && param.getUnit() != null);
 		return param.getUnit() instanceof Rule;
+	}
+	
+	/**
+	 * @param editRule
+	 *            A henshin rule.
+	 * @return A mapping from all parameters of the rule to attributes with the same name.
+	 */
+	public static Map<Parameter, List<Attribute>> getParameterTargets(Rule editRule) {
+		Map<Parameter, List<Attribute>> targets = new HashMap<>();
+		
+		for (Node lhsNode : editRule.getLhs().getNodes()) {
+			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
+				Parameter parameter = editRule.getParameter(lhsAttribute.getValue());
+				
+				if (parameter != null) {
+					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<>());
+					attributeTargets.add(lhsAttribute);
+					targets.put(parameter, attributeTargets);
+				}
+			}
+		}
+		
+		for (Node rhsNode : editRule.getRhs().getNodes()) {
+			for (Attribute rhsAttribute : rhsNode.getAttributes()) {
+				Parameter parameter = editRule.getParameter(rhsAttribute.getValue());
+				
+				if (parameter != null) {
+					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<>());
+					attributeTargets.add(rhsAttribute);
+					targets.put(parameter, attributeTargets);
+				}
+			}
+		}
+		
+		return targets;
 	}
 }

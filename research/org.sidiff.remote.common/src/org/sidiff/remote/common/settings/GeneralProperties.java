@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class GeneralProperties implements Serializable {
 
+	public static final String SCOPE = "Scope";
+	
 	/**
 	 * 
 	 */
@@ -16,10 +18,12 @@ public class GeneralProperties implements Serializable {
 		this.scope = scope;
 	}
 
-
-
 	public SingleSelectionRemoteApplicationProperty<String> getScope() {
 		return scope;
 	}
 
+	@Override
+	public String toString() {
+		return scope.toString();
+	}
 }

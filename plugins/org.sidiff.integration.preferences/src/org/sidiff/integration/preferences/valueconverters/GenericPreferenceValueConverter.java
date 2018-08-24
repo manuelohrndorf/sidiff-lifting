@@ -1,9 +1,9 @@
 package org.sidiff.integration.preferences.valueconverters;
 
 /**
- * 
+ * A generic {@link IPreferenceValueConverter preference value converter}
+ * that uses the {@link Object#toString()} method to calculate value and label.
  * @author Robert Müller
- *
  */
 public class GenericPreferenceValueConverter implements IPreferenceValueConverter<Object> {
 

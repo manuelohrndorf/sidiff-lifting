@@ -1,6 +1,5 @@
 package org.sidiff.integration.preferences.matching.tabs;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,8 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				List<String> newValue = Arrays.asList((String[])event.getNewValue());
+				@SuppressWarnings("unchecked")
+				List<String> newValue = (List<String>)event.getNewValue();
 				for(Entry<String, IPreferenceField> matcherOptions : matcherOptions.entrySet()) {
 					matcherOptions.getValue().setVisible(newValue.contains(matcherOptions.getKey()));
 				}

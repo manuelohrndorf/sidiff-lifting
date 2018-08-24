@@ -2,8 +2,8 @@ package org.sidiff.integration.preferences.fieldeditors.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -58,10 +58,21 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * creates the controls for this field
 	 * @param parent composite into which controls can be created
 	 */
-	public void createControls(Composite parent) {
-		control = doCreateControls(parent, title);
+	@Override
+	public Control createControls(Composite parent) {
+		control = doCreateControls(parent);
 		layoutData = createLayoutData();
 		control.setLayoutData(layoutData);
+		return control;
+	}
+
+	/**
+	 * Returns this preference field's control, or <code>null</code> if it was not created yet.
+	 * @return the preference field's control
+	 */
+	@Override
+	public Control getControl() {
+		return control;
 	}
 
 	/**
@@ -74,36 +85,11 @@ public abstract class PreferenceField implements IPreferenceField {
 	}
 
 	/**
-	 * subclasses should implement this to load the preference into their control
-	 * @param store the store to be used
-	 */
-	public abstract void load(IPreferenceStore store);
-
-	/**
-	 * subclasses should implement this to load the default preference into their control
-	 * @param store the store to be used
-	 */
-	public abstract void loadDefault(IPreferenceStore store);
-
-	/**
-	 * subclasses should implement this to save the preference from their control
-	 * @param store the store to be used
-	 */
-	public abstract void save(IPreferenceStore store);
-
-	/**
 	 * subclasses should implement this to create all their fields
 	 * @param parent the Composite, into which controls can be created
-	 * @param title human readable title to be used
 	 * @return the created control
 	 */
-	protected abstract Control doCreateControls(Composite parent, String title);
-
-	/**
-	 * enables/disables the field 
-	 * @param enabled true if the field is enabled
-	 */
-	public abstract void setEnabled(boolean enabled);
+	protected abstract Control doCreateControls(Composite parent);
 
 	/**
 	 * Makes the preferences field visible/invisible. When it is invisible, it takes up no space.
@@ -127,7 +113,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * @param newValue the new value
 	 */
 	protected void firePropertyChanged(Object oldValue, Object newValue) {
-		if(oldValue != newValue) {
+		if(!Objects.equals(oldValue, newValue)) {
 			for(IPropertyChangeListener listener : listeners) {
 				listener.propertyChange(new PropertyChangeEvent(this, getPreferenceName(), oldValue, newValue));
 			}
@@ -162,10 +148,5 @@ public abstract class PreferenceField implements IPreferenceField {
 	 */
 	protected String getTitle() {
 		return title;
-	}
-
-	@Override
-	public void setPrefix(String prefix) {
-		this.preferenceName = prefix + ":" + this.preferenceName;
 	}
 }

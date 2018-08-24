@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class ValidationProperties implements Serializable {
 
+	public static final String VALIDATE_MODELS = "Validate Models";
+	
 	/**
 	 * 
 	 */
@@ -18,5 +20,10 @@ public class ValidationProperties implements Serializable {
 
 	public SingleSelectionRemoteApplicationProperty<Boolean> getValidateModels() {
 		return validateModels;
+	}
+
+	@Override
+	public String toString() {
+		return validateModels.toString();
 	}
 }

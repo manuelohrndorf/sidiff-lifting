@@ -2,11 +2,13 @@ package org.sidiff.integration.preferences.lifting.settingsadapter;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
@@ -121,10 +123,11 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadRulebases(IPreferenceStore store) {
 		ruleBases = new HashSet<ILiftingRuleBase>();
+		final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
 		for(String documentType : getDocumentTypes()) {
-			final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
+			List<String> ruleBasesKeys = StringListSerializer.DEFAULT.deserialize(store.getString(KEY_RULE_BASES(documentType)));
 			for(ILiftingRuleBase rbase : PipelineUtils.getAvailableRulebases(Collections.singleton(documentType))) {
-				if(store.getBoolean(KEY_RULE_BASES(documentType) + ":" + valueConverter.getValue(rbase))) {
+				if(ruleBasesKeys.contains(valueConverter.getValue(rbase))) {
 					ruleBases.add(rbase);
 				}
 			}
