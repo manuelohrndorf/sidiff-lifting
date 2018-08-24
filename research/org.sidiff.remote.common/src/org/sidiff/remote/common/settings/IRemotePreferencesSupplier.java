@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.Platform;
  */
 public interface IRemotePreferencesSupplier {
 
-	String EXTENSION_POINT_ID = "org.sidiff.remote.common.remotePreferencesSupplier";
+	String EXTENSION_POINT_ID = "org.sidiff.remote.common.remotePreferencesSuppliers";
 	String EXTENSION_POINT_ATTRIBUTE = "class";
 
 	/**
