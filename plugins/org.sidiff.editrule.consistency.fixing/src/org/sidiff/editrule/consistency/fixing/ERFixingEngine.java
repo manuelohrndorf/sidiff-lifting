@@ -102,6 +102,15 @@ public class ERFixingEngine {
 			} else if(type.equals(ValidationType.correctParameterTyping.toString())){
 				Parameter parameter = (Parameter) eObject;
 				EditRuleFixer.fix_correctParameterTyping(parameter);
+			} else if(type.equals(ValidationType.wrongParameterKind_IN_expected.toString())) {
+				Parameter parameter = (Parameter) eObject;
+				EditRuleFixer.fix_wrongParameterKind_IN_expected(parameter);
+			} else if(type.equals(ValidationType.wrongParameterKind_UNKNOWN_expected.toString())) {
+				Parameter parameter = (Parameter) eObject;
+				EditRuleFixer.fix_wrongParameterKind_UNKNOWN_expected(parameter);
+			}else if(type.equals(ValidationType.wrongParameterKind_OUT_expected.toString())) {
+				Parameter parameter = (Parameter) eObject;
+				EditRuleFixer.fix_wrongParameterKind_OUT_expected(parameter);
 			}
 		}
 	}

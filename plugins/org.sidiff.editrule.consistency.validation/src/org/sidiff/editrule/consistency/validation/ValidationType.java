@@ -23,5 +23,8 @@ public enum ValidationType {
 	multiRuleAttributeEmbedding,
 	multiRuleParameterEmbedding,
 	uniqueMultiMappings,
-	knownAnnotation
+	knownAnnotation, 
+	wrongParameterKind_IN_expected, 
+	wrongParameterKind_UNKNOWN_expected, 
+	wrongParameterKind_OUT_expected
 }

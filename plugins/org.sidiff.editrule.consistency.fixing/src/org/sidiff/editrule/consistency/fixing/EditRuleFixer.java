@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -552,6 +553,18 @@ public class EditRuleFixer {
 		acBoundaryNode.getAttributes().clear();
 	}
 
+	public static void fix_wrongParameterKind_IN_expected(Parameter parameter) {
+		parameter.setKind(ParameterKind.IN);
+	}
+	
+	public static void fix_wrongParameterKind_OUT_expected(Parameter parameter) {
+		parameter.setKind(ParameterKind.OUT);
+	}
+	
+	public static void fix_wrongParameterKind_UNKNOWN_expected(Parameter parameter) {
+		parameter.setKind(ParameterKind.UNKNOWN);
+	}
+	
 	public static void fix_mappedAllValueSettingParameters(Parameter parameter){
 		Rule rule = (Rule)parameter.getUnit();
 		Unit mainUnit = rule.getModule().getUnit("mainUnit");

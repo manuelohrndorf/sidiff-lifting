@@ -1,5 +1,7 @@
 package org.sidiff.editrule.tools.util;
 
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRemoteNode;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,8 +19,9 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 import org.sidiff.common.henshin.INamingConventions;
+import org.sidiff.common.henshin.ParameterInfo;
+import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 
 public class EditRuleUtil {
 
@@ -144,5 +147,35 @@ public class EditRuleUtil {
 				unitParameter.setName(newIdentifier);
 			}
 		}
+	}
+	
+	/**
+	 * Returns the parameter to which the given parameter is mapped
+	 * 
+	 * @param parameter
+	 * 			the parameter for which the mapping should be returned
+	 * @return
+	 */
+	public static Parameter getParameterMappingTarget(Parameter parameter) {
+		Unit unit = getMainUnit(parameter.getUnit().getModule());
+	
+		for(ParameterMapping mapping : unit.getParameterMappings()) {
+			if(mapping.getSource().equals(parameter)) {
+				return mapping.getTarget();
+			}else if(mapping.getTarget().equals(parameter)) {
+				return mapping.getSource();
+			}
+		}
+		return null;
+	}
+	
+	public static ParameterDirection getParameterDirection(Parameter parameter) {
+		Parameter unitParameter = parameter;
+		if(ParameterInfo.isRuleParameter(unitParameter)) {
+			unitParameter = getParameterMappingTarget(unitParameter);
+		}
+		
+		return ParameterInfo.getParameterDirection(unitParameter);
+
 	}
 }

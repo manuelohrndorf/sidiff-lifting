@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -35,6 +36,7 @@ import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterKind;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
@@ -50,6 +52,7 @@ import org.sidiff.common.henshin.ParameterInfo.ParameterDirection;
 import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.analysis.annotations.EditRuleAnnotations;
 import org.sidiff.editrule.analysis.conditions.EditRuleConditions;
+import org.sidiff.editrule.tools.util.EditRuleUtil;
 
 /**
  * Checks the Edit-Rule constraints.
@@ -69,6 +72,7 @@ public class EditRuleValidator {
 		// Parameters
 		validations.addAll(EditRuleValidator.validateEditRule_noUnusedParameters(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_uniqueParameterNames(editModule));
+		validations.addAll(EditRuleValidator.validateEditRule_parameterDirection(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_mappedAllRuleObjectInParameters(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_mappedAllCreateNodes(editModule));
 		validations.addAll(EditRuleValidator.validateEditRule_mappedAllValueSettingParameters(editModule));
@@ -383,6 +387,88 @@ public class EditRuleValidator {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param editModule
+	 * @return
+	 */
+	public static List<EditRuleValidation> validateEditRule_parameterDirection(Module editModule) {
+		
+		List<EditRuleValidation> invalids = new LinkedList<EditRuleValidation>();
+		Unit mainUnit = editModule.getUnit(INamingConventions.MAIN_UNIT);
+		
+		if (mainUnit == null) {
+			return invalids;
+		}
+		
+		// Check all rule parameters
+		for (Rule rule : HenshinModuleAnalysis.getAllRules(mainUnit.getModule())) {
+			Map<Parameter, List<Attribute>> attributeParameters = ParameterInfo.getParameterTargets(rule);
+			for (Parameter parameter : rule.getParameters()) {
+				if (EditRuleUtil.getParameterDirection(parameter).equals(ParameterDirection.IN)) {
+					if (isMandatoryInParameter(parameter, attributeParameters)) {
+						if (!parameter.getKind().equals(ParameterKind.IN)) {
+							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+									parameter.getUnit().getModule(), ValidationType.wrongParameterKind_IN_expected, parameter);
+
+							invalids.add(info);
+						}
+					} else {
+						if (!parameter.getKind().equals(ParameterKind.UNKNOWN)) {
+							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+									parameter.getUnit().getModule(), ValidationType.wrongParameterKind_UNKNOWN_expected, parameter);
+							invalids.add(info);
+						}
+					}
+				}else {
+					if(!parameter.getKind().equals(ParameterKind.OUT)) {
+						EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+								parameter.getUnit().getModule(), ValidationType.wrongParameterKind_OUT_expected, parameter);
+						invalids.add(info);
+					}
+				}
+			}
+		}
+		
+				
+		// Check mainUnit parameters
+		for (Parameter parameter : mainUnit.getParameters()) {
+			Parameter mappedParameter = EditRuleUtil.getParameterMappingTarget(parameter);
+			if(!parameter.getKind().equals(mappedParameter.getKind())) {
+				if(ParameterInfo.isRuleParameter(parameter)) {
+					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+							parameter.getUnit().getModule(), ValidationType.valueOf("wrongParameterKind_" + parameter.getKind() + "_expected"), mappedParameter);
+					invalids.add(info);
+				}else {
+					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+							parameter.getUnit().getModule(), ValidationType.valueOf("wrongParameterKind_" + mappedParameter.getKind() + "_expected"), parameter);
+					invalids.add(info);
+				}
+			}
+		}
+		
+		return invalids;
+	
+	}
+	
+	
+	
+	private static boolean isMandatoryInParameter(Parameter parameter, Map<Parameter, List<Attribute>> attributeParameters) {
+		if(ParameterInfo.getParameterKind(parameter).equals(org.sidiff.common.henshin.ParameterInfo.ParameterKind.OBJECT)) {
+			return true;
+		}else {
+			for(Attribute attribute : attributeParameters.get(parameter)) {
+				if(attribute.getType().isRequired()) {
+					return true;
+				}
+			}
+		}
+		return false;
+		
+	}
+	
 
 	/**
 	 * <p>
