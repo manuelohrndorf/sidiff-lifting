@@ -38,7 +38,8 @@ public class LiftingEnginesPreferenceTab extends AbstractPreferenceTab {
 		list.add(recognitionEngineMode);
 
 		// advanced settings
-		ICompositePreferenceField compositeField = PreferenceFieldFactory.createExpandableComposite("Advanced settings");
+		ICompositePreferenceField<IPreferenceField> compositeField =
+				PreferenceFieldFactory.createExpandableComposite("Advanced settings");
 		list.add(compositeField);
 
 		calculateEditRuleMatch = PreferenceFieldFactory.createCheckBox(

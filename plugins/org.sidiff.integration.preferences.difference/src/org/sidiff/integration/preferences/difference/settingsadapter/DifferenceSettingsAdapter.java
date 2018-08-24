@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -68,19 +69,13 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get keys of all domain specific technical difference builders
 		Set<String> techDiffBuilderKeys = new LinkedHashSet<String>();
 		for(String docType : getDocumentTypes()) {
-			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType)).split(";")) {
-				if(!techDiffBuilderKey.isEmpty()) {
-					techDiffBuilderKeys.add(techDiffBuilderKey);
-				}
-			}
+			String value = store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType));
+			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
 		}
 		// get keys of all generic technical difference builders, if no domain specific ones are set
 		if(techDiffBuilderKeys.isEmpty()) {
-			for(String techDiffBuilderKey : store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS).split(";")) {
-				if(!techDiffBuilderKey.isEmpty()) {
-					techDiffBuilderKeys.add(techDiffBuilderKey);
-				}
-			}
+			String value = store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS);
+			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
 		}
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
@@ -88,7 +83,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 			// generic technical difference builder is not registered, so it must be added manually
 			if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
 				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
-			} else if(!techDiffBuilderKey.isEmpty()) {
+			} else {
 				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);
 				if(techBuilder != null) {
 					technicalDifferenceBuilderList.add(techBuilder);

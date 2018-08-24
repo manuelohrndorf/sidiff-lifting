@@ -1,9 +1,10 @@
-package org.sidiff.integration.preferences.ui.pages;
+package org.sidiff.integration.preferences.ui.pages.internal;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.sidiff.integration.preferences.ui.pages.PropertyAndPreferencePage;
 
 /**
  * Preference MainPage that refers to Subpages

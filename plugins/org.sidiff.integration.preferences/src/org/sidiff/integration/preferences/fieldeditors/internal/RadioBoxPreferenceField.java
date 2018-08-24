@@ -10,8 +10,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,21 +18,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.sidiff.integration.preferences.fieldeditors.IMultiPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * A PreferenceField for multiple values, one of which can be selected
  * @author Felix Breitweiser, Robert Müller
  */
-public class RadioBoxPreferenceField<T> extends PreferenceField {
+public class RadioBoxPreferenceField<T> extends PreferenceField implements IMultiPreferenceField<T> {
 
-	private final List<T> inputs;
 	private final IPreferenceValueConverter<? super T> valueConverter;
 	private final boolean allowUnset;
 
-	private String current;
+	private List<T> inputs;
+	private T selectedItem;
+
+	private Composite parent;
+	private Group group;
 	private Map<String, Button> buttons;
-	private SelectionListener selectionListener;
 
 	/**
 	 * @param preferenceName the name of the preference in the store 
@@ -42,53 +43,41 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 	 * @param inputs the input elements (map of value to label)
 	 * @param valueConverter a converter, that returns a value and a label for an element in the input
 	 */
-	public RadioBoxPreferenceField(String preferenceName, String title, Collection<? extends T> inputs,
+	public RadioBoxPreferenceField(String preferenceName, String title, Collection<T> inputs,
 			IPreferenceValueConverter<? super T> valueConverter, boolean allowUnset) {
 		super(preferenceName, title);
-		this.inputs = Collections.unmodifiableList(new ArrayList<T>(inputs));
 		this.valueConverter = valueConverter;
 		this.allowUnset = allowUnset;
+		setInputs(inputs);
 	}
 
 	@Override
 	public void load(IPreferenceStore store) {
-		current = store.getString(getPreferenceName());
-		updateButton();
+		setSelection(findItem(store.getString(getPreferenceName())), true);
 	}
 
 	@Override
 	public void loadDefault(IPreferenceStore store) {
-		current = store.getDefaultString(getPreferenceName());
-		updateButton();
-	}
-
-	/**
-	 * updates the state of the Radioboxes, selecting the correct box if necessary
-	 */
-	protected void updateButton() {
-		for(Button button : buttons.values()) {
-			button.setSelection(false);
-		}
-
-		if(buttons.containsKey(current)) {
-			buttons.get(current).setSelection(true);
-		}
+		setSelection(findItem(store.getDefaultString(getPreferenceName())), true);
 	}
 
 	@Override
 	public void save(IPreferenceStore store) {
-		store.setValue(getPreferenceName(), current);
+		if(selectedItem != null || allowUnset) {
+			store.setValue(getPreferenceName(), valueConverter.getValue(selectedItem));
+		}
 	}
 
 	@Override
-	public Control doCreateControls(Composite parent, String title) {
-		Group group = new Group(parent, SWT.NONE);
-		group.setText(title);
+	public Control doCreateControls(Composite parent) {
+		this.parent = parent;
+		group = new Group(parent, SWT.NONE);
+		group.setText(getTitle());
 		group.setLayout(new GridLayout(1, true));
 
-		buttons = new HashMap<String, Button>();
+		buttons = new HashMap<>();
 		for(T input : inputs) {
-			createRadioButton(group, valueConverter.getValue(input), valueConverter.getLabel(input));
+			createRadioButton(group, input);
 		}
 
 		if(allowUnset) {
@@ -98,7 +87,7 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 				separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			}
 
-			createRadioButton(group, valueConverter.getValue(null), valueConverter.getLabel(null));
+			createRadioButton(group, null);
 		} else if(inputs.isEmpty()) {
 			// unset value is not allowed, so no button is shown at all
 			Label label = new Label(group, SWT.NONE);
@@ -108,41 +97,83 @@ public class RadioBoxPreferenceField<T> extends PreferenceField {
 		return group;
 	}
 
-	protected Button createRadioButton(Group group, String value, String label) {
+	protected Button createRadioButton(Group group, T input) {
 		Button b = new Button(group, SWT.RADIO);
-		b.addSelectionListener(getButtonSelectionListener());
-		b.setText(label);
-		buttons.put(value, b);
+		b.addSelectionListener(SelectionListener.widgetSelectedAdapter((event) -> setSelection(input, true)));
+		b.setText(valueConverter.getLabel(input));
+		b.setSelection(isSelected(input));
+		buttons.put(valueConverter.getValue(input), b);
 		return b;
-	}
-
-	private SelectionListener getButtonSelectionListener() {
-		if(selectionListener == null) {
-			selectionListener = new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					final Button button = (Button)e.getSource();
-					if(button.getSelection()) {
-						for(Map.Entry<String, Button> entry : buttons.entrySet()) {
-							if(entry.getValue() == button) {
-								final String previous = current;
-								current = entry.getKey();
-								firePropertyChanged(previous, current);
-								return;
-							}
-						}
-						
-					}
-				}
-			};
-		}
-		return selectionListener;
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		for(Entry<String, Button> entry : buttons.entrySet()) {
-			entry.getValue().setEnabled(enabled);
+		for(Button button : buttons.values()) {
+			button.setEnabled(enabled);
 		}
+	}
+
+	@Override
+	public void setInputs(Collection<T> inputs) {
+		this.inputs = new ArrayList<>(inputs);
+		// update the selected item to an item from the new inputs
+		if(selectedItem != null || allowUnset) {
+			selectedItem = findItem(valueConverter.getValue(selectedItem));
+		}
+
+		// recreate the controls
+		if(parent != null && !parent.isDisposed()) {
+			group.dispose();
+			doCreateControls(parent);
+		}
+	}
+
+	@Override
+	public Collection<T> getInputs() {
+		return Collections.unmodifiableCollection(inputs);
+	}
+
+	@Override
+	public void setSelection(T item, boolean selected) {
+		T oldSelection = selectedItem;
+		if(selected) {
+			selectedItem = item;
+		} else if (isSelected(item)) {
+			selectedItem = null;
+		}
+
+		if(selectedItem != null || allowUnset) {
+			String itemValue = valueConverter.getValue(selectedItem);
+			for(Entry<String, Button> entry : buttons.entrySet()) {
+				if(entry.getKey().equals(itemValue)) {
+					entry.getValue().setSelection(selected);
+				} else {
+					entry.getValue().setSelection(!selected);
+				}
+			}
+
+			if(oldSelection != null || allowUnset) {
+				firePropertyChanged(valueConverter.getValue(oldSelection), itemValue);
+			}
+		}
+	}
+
+	@Override
+	public boolean isSelected(T item) {
+		return selectedItem != null && valueConverter.getValue(item).equals(valueConverter.getValue(selectedItem));
+	}
+
+	@Override
+	public Collection<T> getSelection() {
+		return selectedItem == null ? Collections.emptySet() : Collections.singleton(selectedItem);
+	}
+
+	private T findItem(String value) {
+		for(T input : inputs) {
+			if(valueConverter.getValue(input).equals(value)) {
+				return input;
+			}
+		}
+		return null;
 	}
 }

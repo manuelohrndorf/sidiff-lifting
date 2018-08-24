@@ -47,9 +47,9 @@ public class NumberPreferenceField extends PreferenceField {
 	}
 
 	@Override
-	protected Control doCreateControls(Composite parent, String title) {
+	protected Control doCreateControls(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
-		group.setText(title);
+		group.setText(getTitle());
 		group.setLayout(new GridLayout(1, true));
 
 		spinner = new Spinner(group, SWT.NULL);

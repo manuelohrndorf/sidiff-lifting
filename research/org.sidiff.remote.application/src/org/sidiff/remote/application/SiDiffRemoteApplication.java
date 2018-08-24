@@ -411,10 +411,11 @@ public class SiDiffRemoteApplication {
 	public RemotePreferences getRemotePreferences() {
 		
 		Map<String,String> scope_items = new HashMap<String, String>();
-		scope_items.put(Scope.RESOURCE.toString(), "Resource");
-		scope_items.put(Scope.RESOURCE_SET.toString(), "Resource Set");
+		scope_items.put(Scope.RESOURCE.name(), "Resource");
+		scope_items.put(Scope.RESOURCE_SET.name(), "Resource Set");
 		
-		SingleSelectionRemoteApplicationProperty<String> scope = new SingleSelectionRemoteApplicationProperty<String>("Scope", scope_items, Scope.RESOURCE.toString());
+		SingleSelectionRemoteApplicationProperty<String> scope =
+				new SingleSelectionRemoteApplicationProperty<String>(GeneralProperties.SCOPE, scope_items, Scope.RESOURCE.name());
 		
 		GeneralProperties generalProperties = new GeneralProperties(scope);
 		
@@ -422,10 +423,12 @@ public class SiDiffRemoteApplication {
 		boolean_items.put(Boolean.toString(true), true);
 		boolean_items.put(Boolean.toString(false), false);
 		
-		SingleSelectionRemoteApplicationProperty<Boolean> mergeImports = new SingleSelectionRemoteApplicationProperty<Boolean>("Merge Imports", boolean_items, true);
-		SingleSelectionRemoteApplicationProperty<Boolean> unmergeImports = new SingleSelectionRemoteApplicationProperty<Boolean>("Unmerge Imports", boolean_items, true);
+		SingleSelectionRemoteApplicationProperty<Boolean> mergeImports =
+				new SingleSelectionRemoteApplicationProperty<Boolean>(ExtractionProperties.MERGE_IMPORTS, boolean_items, true);
+		SingleSelectionRemoteApplicationProperty<Boolean> unmergeImports =
+				new SingleSelectionRemoteApplicationProperty<Boolean>(ExtractionProperties.UNMERGE_IMPORTS, boolean_items, true);
 
-		Map<String, List<ITechnicalDifferenceBuilder>> builders = new HashMap<String, List<ITechnicalDifferenceBuilder>>();
+		Map<String, List<ITechnicalDifferenceBuilder>> builders = new HashMap<>();
 		for(ITechnicalDifferenceBuilder technicalDifferenceBuilder : PipelineUtils.getAllAvailableTechnicalDifferenceBuilders()) {
 			for(String documentType : technicalDifferenceBuilder.getDocumentTypes()){
 				if(!builders.containsKey(documentType)) {
@@ -435,15 +438,17 @@ public class SiDiffRemoteApplication {
 			}
 		}
 		
-		List<MultiSelectionRemoteApplicationProperty<String>> technicalDifferenceBuilderProperties = new ArrayList<MultiSelectionRemoteApplicationProperty<String>>();
+		List<MultiSelectionRemoteApplicationProperty<String>> technicalDifferenceBuilderProperties = new ArrayList<>();
 		for(String documentType : builders.keySet()) {
 			Map<String, String> builder_items = new HashMap<String, String>();
 			List<String> builder_values  = new ArrayList<String>();
 			for(ITechnicalDifferenceBuilder builder : builders.get(documentType)) {
 				builder_items.put(builder.getKey(), builder.getName());
 			}
-			builder_values.add(builder_items.get(builder_items.keySet().iterator().next()));
-			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty = new MultiSelectionRemoteApplicationProperty<String>("Technical Difference Builder", builder_items, builder_values);
+			builder_values.add(builder_items.keySet().iterator().next());
+			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty =
+					new MultiSelectionRemoteApplicationProperty<String>(
+							ExtractionProperties.TECHNICAL_DIFFERENCE_BUILDER, builder_items, builder_values);
 			multiSelectionRemoteApplicationProperty.setDocumentType(documentType);
 			technicalDifferenceBuilderProperties.add(multiSelectionRemoteApplicationProperty);
 		}
@@ -457,13 +462,15 @@ public class SiDiffRemoteApplication {
 				sorters.get(recognitionRuleSorter.getDocumentType()).add(recognitionRuleSorter);
 		}
 		
-		List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties = new ArrayList<SingleSelectionRemoteApplicationProperty<String>>();
+		List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties = new ArrayList<>();
 		for(String documentType : sorters.keySet()) {
 			Map<String, String> sorter_items = new HashMap<String, String>();
 			for(IRecognitionRuleSorter sorter : sorters.get(documentType)) {
 				sorter_items.put(sorter.getKey(), sorter.getName());
 			}
-			SingleSelectionRemoteApplicationProperty<String> singleSelectionRemoteApplicationProperty = new SingleSelectionRemoteApplicationProperty<String>("Recognition Rule Sorter", sorter_items, sorter_items.get(sorter_items.keySet().iterator().next()));
+			SingleSelectionRemoteApplicationProperty<String> singleSelectionRemoteApplicationProperty =
+					new SingleSelectionRemoteApplicationProperty<String>(ExtractionProperties.RECOGNITION_RULE_SORTER, sorter_items,
+							sorter_items.keySet().iterator().next());
 			singleSelectionRemoteApplicationProperty.setDocumentType(documentType);
 			recognitionRuleSorterProperties.add(singleSelectionRemoteApplicationProperty);
 		}
@@ -478,22 +485,24 @@ public class SiDiffRemoteApplication {
 			}
 		}
 		
-		List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties = new ArrayList<MultiSelectionRemoteApplicationProperty<String>>();
+		List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties = new ArrayList<>();
 		for(String documentType : rules.keySet()) {
 			Map<String, String> ruleBase_items = new HashMap<String, String>();
-			List<String> ruleBase_values  = new ArrayList<String>();
 			for(ILiftingRuleBase ruleBase : rules.get(documentType)) {
 				ruleBase_items.put(ruleBase.getName(), ruleBase.getName());
 			}
-			ruleBase_values.addAll(ruleBase_items.keySet());
-			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty = new MultiSelectionRemoteApplicationProperty<String>("Recognition Rule Sorter", ruleBase_items, ruleBase_values);
+			List<String> ruleBase_values = new ArrayList<String>(ruleBase_items.keySet());
+			MultiSelectionRemoteApplicationProperty<String> multiSelectionRemoteApplicationProperty =
+					new MultiSelectionRemoteApplicationProperty<String>(ExtractionProperties.RULE_BASE, ruleBase_items, ruleBase_values);
 			multiSelectionRemoteApplicationProperty.setDocumentType(documentType);
 			ruleBaseProperties.add(multiSelectionRemoteApplicationProperty);
 		}
 
-		ExtractionProperties extractionProperties = new ExtractionProperties(mergeImports, unmergeImports, technicalDifferenceBuilderProperties, recognitionRuleSorterProperties, ruleBaseProperties);
+		ExtractionProperties extractionProperties = new ExtractionProperties(mergeImports, unmergeImports,
+				technicalDifferenceBuilderProperties, recognitionRuleSorterProperties, ruleBaseProperties);
 		
-		SingleSelectionRemoteApplicationProperty<Boolean> validateModels = new SingleSelectionRemoteApplicationProperty<Boolean>("Validate Models", boolean_items, true);
+		SingleSelectionRemoteApplicationProperty<Boolean> validateModels =
+				new SingleSelectionRemoteApplicationProperty<Boolean>(ValidationProperties.VALIDATE_MODELS, boolean_items, true);
 		
 		ValidationProperties validationProperties = new ValidationProperties(validateModels);
 		
