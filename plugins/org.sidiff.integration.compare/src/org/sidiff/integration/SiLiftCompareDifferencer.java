@@ -195,6 +195,9 @@ public class SiLiftCompareDifferencer {
 	}
 
 	public void applyPatch() {
+		if(patchEngine == null) {
+			throw new IllegalStateException("Patch engine is not initialized");
+		}
 		patchEngine.applyPatch(false);
 		notifyRefreshDifference();
 		notifyDirtyResource(Side.LEFT, true);
@@ -209,6 +212,9 @@ public class SiLiftCompareDifferencer {
 	 * @throws Exception if the execution of the operation failed
 	 */
 	public void applyOperation(OperationInvocation operationInvocation) throws Exception {
+		if(patchEngine == null) {
+			throw new IllegalStateException("Patch engine is not initialized");
+		}
 		try {
 			applyOperationImpl(operationInvocation);
 		} finally {
@@ -246,16 +252,25 @@ public class SiLiftCompareDifferencer {
 	}
 
 	public void ignoreOperation(OperationInvocation operationInvocation) {
+		if(patchEngine == null) {
+			throw new IllegalStateException("Patch engine is not initialized");
+		}
 		patchEngine.ignore(operationInvocation);
 		notifyRefreshDifference();
 	}
 
 	public void unignoreOperation(OperationInvocation operationInvocation) {
+		if(patchEngine == null) {
+			throw new IllegalStateException("Patch engine is not initialized");
+		}
 		patchEngine.unignore(operationInvocation);
 		notifyRefreshDifference();
 	}
 
 	public void revertOperation(OperationInvocation operationInvocation) throws Exception {
+		if(patchEngine == null) {
+			throw new IllegalStateException("Patch engine is not initialized");
+		}
 		try {
 			patchEngine.revert(operationInvocation);
 			OperationInvocationWrapper wrapper = patchEngine.getOperationManager().getStatusWrapper(operationInvocation);

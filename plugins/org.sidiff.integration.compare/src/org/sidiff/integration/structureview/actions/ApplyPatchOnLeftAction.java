@@ -29,7 +29,6 @@ public class ApplyPatchOnLeftAction extends Action implements IPropertyChangeLis
 		super("Apply all non conflicting and unignored changes", Activator.getImageDescriptor(Activator.IMAGE_APPLY_PATCH));
 		this.setToolTipText("Apply all non conflicting and unignored changes");
 		this.config = config;
-		// TODO: the listener is not properly removed
 		this.config.addPropertyChangeListener(this);
 		updateEnabledState();
 	}
@@ -52,8 +51,7 @@ public class ApplyPatchOnLeftAction extends Action implements IPropertyChangeLis
 	}
 
 	public void updateEnabledState() {
-		setEnabled(config.getDisplayMode() == DisplayMode.ASYMMETRIC_DIFFERENCE
-				&& config.getDifferencer().getPatchEngine() != null);
+		setEnabled(config.getDisplayMode() == DisplayMode.ASYMMETRIC_DIFFERENCE);
 	}
 
 	@Override

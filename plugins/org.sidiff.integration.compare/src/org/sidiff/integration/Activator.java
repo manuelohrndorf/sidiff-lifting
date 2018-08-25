@@ -15,7 +15,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.sidiff.integration.viewers"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.sidiff.integration.compare"; //$NON-NLS-1$
 
 	public static final String IMAGE_MERGE_TO_RIGHT = "merge_to_right.image";
 	public static final String IMAGE_MERGE_TO_LEFT = "merge_to_left.image";
