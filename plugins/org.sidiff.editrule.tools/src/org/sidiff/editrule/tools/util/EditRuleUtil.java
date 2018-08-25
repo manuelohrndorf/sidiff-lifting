@@ -153,7 +153,7 @@ public class EditRuleUtil {
 	 * Returns the parameter to which the given parameter is mapped
 	 * 
 	 * @param parameter
-	 * 			the parameter for which the mapping should be returned
+	 * 			the parameter for which the mapping should be returned, can be null
 	 * @return
 	 */
 	public static Parameter getParameterMappingTarget(Parameter parameter) {
@@ -169,13 +169,24 @@ public class EditRuleUtil {
 		return null;
 	}
 	
+	/**
+	 * Returns the parameter direction of the given parameter. It is derived from
+	 * the parameter-mapping between a main unit and rule.
+	 * 
+	 * @param parameter
+	 *            The {@link Parameter} of which the direction should be returned
+	 * @return the {@link ParameterDirection} of the given {@link Parameter}
+	 */
 	public static ParameterDirection getParameterDirection(Parameter parameter) {
 		Parameter unitParameter = parameter;
 		if(ParameterInfo.isRuleParameter(unitParameter)) {
 			unitParameter = getParameterMappingTarget(unitParameter);
 		}
 		
-		return ParameterInfo.getParameterDirection(unitParameter);
-
+		if(unitParameter != null) {
+			return ParameterInfo.getParameterDirection(unitParameter);
+		}
+		
+		return ParameterDirection.UNDEFINED;
 	}
 }

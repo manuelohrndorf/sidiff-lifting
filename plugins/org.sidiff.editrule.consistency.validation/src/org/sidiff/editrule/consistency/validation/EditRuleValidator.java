@@ -410,21 +410,21 @@ public class EditRuleValidator {
 				if (EditRuleUtil.getParameterDirection(parameter).equals(ParameterDirection.IN)) {
 					if (isMandatoryInParameter(parameter, attributeParameters)) {
 						if (!parameter.getKind().equals(ParameterKind.IN)) {
-							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
 									parameter.getUnit().getModule(), ValidationType.wrongParameterKind_IN_expected, parameter);
 
 							invalids.add(info);
 						}
 					} else {
 						if (!parameter.getKind().equals(ParameterKind.UNKNOWN)) {
-							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+							EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
 									parameter.getUnit().getModule(), ValidationType.wrongParameterKind_UNKNOWN_expected, parameter);
 							invalids.add(info);
 						}
 					}
 				}else {
 					if(!parameter.getKind().equals(ParameterKind.OUT)) {
-						EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+						EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
 								parameter.getUnit().getModule(), ValidationType.wrongParameterKind_OUT_expected, parameter);
 						invalids.add(info);
 					}
@@ -438,11 +438,11 @@ public class EditRuleValidator {
 			Parameter mappedParameter = EditRuleUtil.getParameterMappingTarget(parameter);
 			if(!parameter.getKind().equals(mappedParameter.getKind())) {
 				if(ParameterInfo.isRuleParameter(parameter)) {
-					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
 							parameter.getUnit().getModule(), ValidationType.valueOf("wrongParameterKind_" + parameter.getKind() + "_expected"), mappedParameter);
 					invalids.add(info);
 				}else {
-					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind",
+					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
 							parameter.getUnit().getModule(), ValidationType.valueOf("wrongParameterKind_" + mappedParameter.getKind() + "_expected"), parameter);
 					invalids.add(info);
 				}

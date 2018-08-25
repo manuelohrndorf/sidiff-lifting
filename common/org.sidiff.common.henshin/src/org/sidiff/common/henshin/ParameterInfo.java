@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.model.Unit;
 public class ParameterInfo {
 
 	public enum ParameterDirection {
-		IN, OUT
+		IN, OUT, UNDEFINED
 	};
 
 	public enum ParameterKind {
@@ -69,9 +69,10 @@ public class ParameterInfo {
 			return ParameterDirection.IN;
 		} else {
 			assert (false) : "Unmapped parameter?: " + parameter.getName();
+			return ParameterDirection.UNDEFINED;
+		
 		}
 
-		return null;
 	}
 
 	/**
