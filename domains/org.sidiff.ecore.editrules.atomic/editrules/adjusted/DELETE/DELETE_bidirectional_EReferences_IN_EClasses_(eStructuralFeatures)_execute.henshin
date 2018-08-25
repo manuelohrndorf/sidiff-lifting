@@ -2,7 +2,7 @@
 <henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_23MtwNk8EeKomu7rfXwhHg" name="DELETE_bidirectional_EReferences_IN_EClasses_(eStructuralFeatures)" description="Deletes a bidirectional reference (two EReferences being opposite to each other) between existing EClasses">
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <units xsi:type="henshin:PriorityUnit" xmi:id="_24d5ENk8EeKomu7rfXwhHg" name="mainUnit" description="Deletes one EReference depending on available contexts in model instance" subUnits="_24d5Fdk8EeKomu7rfXwhHg">
-    <parameters xmi:id="_24d5Etk8EeKomu7rfXwhHg" name="selectedEObject" kind="INOUT">
+    <parameters xmi:id="_24d5Etk8EeKomu7rfXwhHg" name="selectedEObject" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
     <parameters xmi:id="_24d5Edk8EeKomu7rfXwhHg" name="toBeDeleted" kind="IN">
@@ -12,7 +12,7 @@
     <parameterMappings xmi:id="_24d5FNk8EeKomu7rfXwhHg" source="_24d5Edk8EeKomu7rfXwhHg" target="_24d5F9k8EeKomu7rfXwhHg"/>
   </units>
   <units xsi:type="henshin:Rule" xmi:id="_24d5Fdk8EeKomu7rfXwhHg" name="deleteBidirectionalEReferences_IN_EClasses" description="deletes bidirectional EReference in the context: EClass" injectiveMatching="false">
-    <parameters xmi:id="_24d5Ftk8EeKomu7rfXwhHg" name="Selected" kind="INOUT">
+    <parameters xmi:id="_24d5Ftk8EeKomu7rfXwhHg" name="Selected" kind="IN">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </parameters>
     <parameters xmi:id="_24d5F9k8EeKomu7rfXwhHg" name="toBeDeleted" kind="IN">
