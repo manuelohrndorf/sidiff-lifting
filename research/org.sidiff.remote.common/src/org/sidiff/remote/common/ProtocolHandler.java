@@ -39,7 +39,7 @@ public class ProtocolHandler {
 			
 			if(command.isAttached()) {
 				byte[] bytes = new byte[command.getAttachmentSize()];
-				ois.read(bytes, 0, bytes.length);
+				socket.getInputStream().read(bytes, 0, bytes.length);
 	
 				File file = new File(command.getAttachmentName());
 				try (FileOutputStream fos = new FileOutputStream(file);
@@ -71,7 +71,7 @@ public class ProtocolHandler {
 				try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(attachment))) {
 					byte[] bytes = new byte[(int) attachment.length()];
 					bis.read(bytes);
-					oos.write(bytes);
+					socket.getOutputStream().write(bytes);
 				}
 			}
 		} catch(IOException e) {

@@ -129,6 +129,22 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	public static Set<ILiftingRuleBase> getAvailableRulebases(Set<String> documentTypes) {
 		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
+	
+	/**
+	 * Returns the lifting rulebase identified by the name.
+	 * 
+	 * @param name
+	 *            The name of the rulebase
+	 * @return the {@link ILiftingRuleBase} identified by the name
+	 */
+	public static ILiftingRuleBase getRulebase(String name) {
+		for(ILiftingRuleBase rb: getAllAvailableRulebases()) {
+			if(rb.getName().equals(name)) {
+				return rb;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Generates a filename for a new difference between model A and model B.

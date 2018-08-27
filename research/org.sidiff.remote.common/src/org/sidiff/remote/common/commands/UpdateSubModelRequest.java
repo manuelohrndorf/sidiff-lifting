@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
+import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
  * 
@@ -27,19 +28,23 @@ public class UpdateSubModelRequest extends RequestCommand {
 	
 	private Set<String> elementIds;
 	
+	RemotePreferences preferences;
+	
 	/**
 	 * 
 	 * @param credentials
 	 * @param local_model_path
 	 * 				absolute local location path that will be converted into a project relative path
 	 * @param elementIds2
+	 * @param preferences
 	 */
-	public UpdateSubModelRequest(Credentials credentials, String local_model_path, Set<String> elementIds2) {
+	public UpdateSubModelRequest(Credentials credentials, String local_model_path, Set<String> elementIds2, RemotePreferences preferences) {
 		super(credentials, null);
 		this.eCommand = ECommand.UPDATE_SUBMODEL_REQUEST;
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
 		this.elementIds = elementIds2;
+		this.preferences = preferences;
 	}
 
 	/**
@@ -56,6 +61,14 @@ public class UpdateSubModelRequest extends RequestCommand {
 	 */
 	public Set<String> getElementIds() {
 		return elementIds;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public RemotePreferences getPreferences() {
+		return preferences;
 	}
 	
 	@Override

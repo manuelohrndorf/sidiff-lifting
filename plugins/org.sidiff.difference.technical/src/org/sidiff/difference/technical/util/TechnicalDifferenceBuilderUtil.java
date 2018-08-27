@@ -113,6 +113,7 @@ public class TechnicalDifferenceBuilderUtil {
 	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders(){
 		List<ITechnicalDifferenceBuilder> availableTechBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
 		
+		availableTechBuilders.add(new GenericTechnicalDifferenceBuilder());
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(ITechnicalDifferenceBuilder.extensionPointID)) {
 			try {
 				ITechnicalDifferenceBuilder techBuilder = (ITechnicalDifferenceBuilder) configurationElement.createExecutableExtension("difference_builder");

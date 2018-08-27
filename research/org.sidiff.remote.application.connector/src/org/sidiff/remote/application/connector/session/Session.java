@@ -1,10 +1,11 @@
-package org.sidiff.remote.application.connector;
+package org.sidiff.remote.application.connector.session;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
 
@@ -73,12 +74,37 @@ public class Session implements Serializable {
 	 */
 	public void addModel(String local_path, String remote_path, File file) throws InvalidSessionException {
 		try {
-			String checksum = ChecksumUtil.getFileChecksum(file);
-			this.modelInfos.add(new ModelInfo(local_path, remote_path, checksum));
+			this.modelInfos.add(new ModelInfo(local_path, remote_path, file));
 		} catch (NoSuchAlgorithmException | IOException e) {
 			throw new InvalidSessionException(e);
 		}
 		
+	}
+	
+	/**
+	 * 
+	 * @param local_path
+	 * 				project relative path
+	 * @param remote_path
+	 * 				session based relative model path
+	 */
+	public void removeModel(String local_path, String remote_path) {
+		for (Iterator<ModelInfo> iterator = modelInfos.iterator(); iterator.hasNext();) {
+			ModelInfo modelInfo = iterator.next();
+			if(modelInfo.getLocalPath().equals(local_path) && modelInfo.getRemotePath().equals(remote_path)) {
+				iterator.remove();
+			}
+			
+		}
+	}
+	
+	public void validateSession() {
+		for (Iterator<ModelInfo> iterator = modelInfos.iterator(); iterator.hasNext();) {
+			ModelInfo modelInfo = iterator.next();
+			if(!modelInfo.getFile().exists()) {
+				
+			}
+		}
 	}
 	
 	/**
@@ -217,6 +243,11 @@ public class Session implements Serializable {
 		private String remote_path;
 		
 		/**
+		 * The versioned {@link File}
+		 */
+		private File file;
+		
+		/**
 		 * md5 hash
 		 */
 		private String checksum;
@@ -226,10 +257,11 @@ public class Session implements Serializable {
 		 */
 		private boolean modified;
 
-		public ModelInfo(String local_path, String remote_path, String checksum) {
+		public ModelInfo(String local_path, String remote_path, File file) throws NoSuchAlgorithmException, IOException {
 			this.local_path = local_path;
 			this.remote_path = remote_path;
-			this.checksum = checksum;
+			this.file = file;
+			this.checksum = ChecksumUtil.getFileChecksum(file);;
 			this.modified = false;
 		}
 		
@@ -239,6 +271,10 @@ public class Session implements Serializable {
 		
 		public String getRemotePath() {
 			return remote_path;
+		}
+		
+		public File getFile() {
+			return file;
 		}
 		
 		public String getChecksum() {

@@ -149,7 +149,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				String localPath = checkoutSubModelRequest.getLocalModelPath();
 				String remotePath = checkoutSubModelRequest.getRemoteModelPath();
 				Set<String> elementIds = checkoutSubModelRequest.getElementIds();
-				File attachment = app.checkoutModel(remotePath, localPath, elementIds);
+				File attachment = app.checkoutModel(remotePath, localPath, elementIds, checkoutSubModelRequest.getPreferences());
 				
 				CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(attachment);
 				protocolHandler.write(checkoutSubModelReply, attachment);
@@ -181,7 +181,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				UpdateSubModelRequest updateSubModelRequest = (UpdateSubModelRequest) command;
 				String localPathSubModel = updateSubModelRequest.getLocalModelPath();
 				Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
-				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds);
+				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds, updateSubModelRequest.getPreferences());
 				UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(modelSliceZip);
 				protocolHandler.write(updateSubModelReply, modelSliceZip);
 				break;

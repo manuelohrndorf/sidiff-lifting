@@ -66,6 +66,7 @@ import org.sidiff.remote.application.ui.connector.providers.TreeModelLabelProvid
 import org.sidiff.remote.application.ui.connector.wizards.AddRepositoryLocationWizard;
 import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard;
 import org.sidiff.remote.common.ProxyObject;
+import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.util.ProxyUtil;
 
 
@@ -377,7 +378,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					String remote_model_path = treeViewer_selection.getId();
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
-						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds);
+						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
 						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					} catch (ConnectionException | CoreException | InvalidSessionException | RemoteApplicationException e) {

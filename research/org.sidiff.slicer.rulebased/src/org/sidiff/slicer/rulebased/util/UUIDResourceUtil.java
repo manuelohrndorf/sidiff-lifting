@@ -25,7 +25,7 @@ public class UUIDResourceUtil {
 
 	public static UUIDResource copyResource(UUIDResource resource_origin, URI uri_copy) {
 		
-		UUIDResource resource_copy = new UUIDResource(uri_copy);
+		UUIDResource resource_copy = UUIDResource.createUUIDResource(uri_copy);
 		
 		Copier copier = new Copier();
 		copier.copyAll(resource_origin.getContents());
@@ -50,7 +50,7 @@ public class UUIDResourceUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static UUIDResource copyMinimalResource(UUIDResource resource_origin, URI uri_copy) {
-		UUIDResource resource_copy = new UUIDResource(uri_copy);
+		UUIDResource resource_copy = UUIDResource.createUUIDResource(uri_copy);
 	
 		Map<EObject,EObject> copies = new HashMap<EObject, EObject>();
 		Set<EObject> remaining = new HashSet<EObject>(resource_origin.getContents());
@@ -62,7 +62,7 @@ public class UUIDResourceUtil {
 				for(EReference eReference : eObject.eClass().getEAllReferences()){
 					if(eReference.isChangeable() && !eReference.isDerived() && eReference.getLowerBound() > 0){
 						for(EObject target : EMFUtil.getObjectListFromReference(eObject, eReference)) {
-							if(target.eResource().equals(resource_origin)) {
+							if(target.eResource() != null && target.eResource().equals(resource_origin)) {
 								dependencies.add(target);
 							}
 						}

@@ -15,13 +15,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
-import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
@@ -49,6 +47,7 @@ import org.sidiff.remote.common.util.ProxyUtil;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
+import org.sidiff.slicer.rulebased.util.UUIDResourceUtil;
 
 /**
  * 
@@ -227,23 +226,26 @@ public class SiDiffRemoteApplication {
 	 *            absolute local os-based location path of the model file
 	 * @param elementIds
 	 *            the IDs of the model elements to be checked out.
+	 * @param preferences 
 	 * @return a {@link File} containing a submodel with all requested model
 	 *         elements
 	 * @throws CheckoutSubModelException
 	 */
-	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds) throws CheckoutSubModelException {
+	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds, RemotePreferences preferences) throws CheckoutSubModelException {
 		
 		String absolute_origin_path = user_folder + File.separator + session_path;
 		String absolute_copy_path = sidiff_folder + File.separator + local_model_path;
-		try {
-			FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
-		} catch (IOException e) {
-			LogUtil.log(LogEvent.ERROR, e.getMessage());
-			throw new CheckoutSubModelException(e);
-		}
+//		try {
+//			FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
+//		} catch (IOException e) {
+//			LogUtil.log(LogEvent.ERROR, e.getMessage());
+//			throw new CheckoutSubModelException(e);
+//		}
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		UUIDResource sessionModel = new UUIDResource(EMFStorage.pathToUri(absolute_origin_path), resourceSet);
+		
+		UUIDResource completeModel = UUIDResourceUtil.copyResource(sessionModel, EMFStorage.pathToUri(absolute_copy_path));
 		
 		// save complete model as uuid resource
 		try {
@@ -255,16 +257,18 @@ public class SiDiffRemoteApplication {
 		
 		URI emptyModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
 	
-		ResourceSet emptyModelResourceSet = new ResourceSetImpl();
-
-		UUIDResource emptyModel = UUIDResource.createUUIDResource(emptyModelURI, emptyModelResourceSet);
-		Map<EObject, EObject> copies_empty = EMFUtil.copySubModel(new HashSet<EObject>(completeModel.getContents()));
-		emptyModel.getContents().addAll(copies_empty.values());
-		for (EObject origin : copies_empty.keySet()) {
-			String id = EMFUtil.getXmiId(origin);
-			EMFUtil.setXmiId(copies_empty.get(origin), id);
-			System.out.println(EMFUtil.getXmiId(origin) + " : " + EMFUtil.getXmiId(copies_empty.get(origin)));
-		}
+//		ResourceSet emptyModelResourceSet = new ResourceSetImpl();
+//
+//		UUIDResource emptyModel = UUIDResource.createUUIDResource(emptyModelURI, emptyModelResourceSet);
+//		Map<EObject, EObject> copies_empty = EMFUtil.copySubModel(new HashSet<EObject>(completeModel.getContents()));
+//		emptyModel.getContents().addAll(copies_empty.values());
+//		for (EObject origin : copies_empty.keySet()) {
+//			String id = EMFUtil.getXmiId(origin);
+//			EMFUtil.setXmiId(copies_empty.get(origin), id);
+//			System.out.println(EMFUtil.getXmiId(origin) + " : " + EMFUtil.getXmiId(copies_empty.get(origin)));
+//		}
+		
+		UUIDResource emptyModel = UUIDResourceUtil.copyMinimalResource(completeModel, emptyModelURI);
 		try {
 			emptyModel.save(emptyModel.getDefaultSaveOptions());
 		} catch (IOException e) {
@@ -275,15 +279,17 @@ public class SiDiffRemoteApplication {
 	
 		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
 
-		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
-
-		UUIDResource slicedModel = UUIDResource.createUUIDResource(slicedModelURI, slicedModelResourceSet);
-		Map<EObject, EObject> copies_sliced = EMFUtil.copySubModel(new HashSet<EObject>(completeModel.getContents()));
-		slicedModel.getContents().addAll(copies_sliced.values());
-		for (EObject origin : copies_sliced.keySet()) {
-			String id = EMFUtil.getXmiId(origin);
-			EMFUtil.setXmiId(copies_sliced.get(origin), id);
-		}
+//		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
+//
+//		UUIDResource slicedModel = UUIDResource.createUUIDResource(slicedModelURI, slicedModelResourceSet);
+//		Map<EObject, EObject> copies_sliced = EMFUtil.copySubModel(new HashSet<EObject>(completeModel.getContents()));
+//		slicedModel.getContents().addAll(copies_sliced.values());
+//		for (EObject origin : copies_sliced.keySet()) {
+//			String id = EMFUtil.getXmiId(origin);
+//			EMFUtil.setXmiId(copies_sliced.get(origin), id);
+//		}
+		
+		UUIDResource slicedModel = UUIDResourceUtil.copyResource(emptyModel, slicedModelURI);
 		try {
 			slicedModel.save(slicedModel.getDefaultSaveOptions());
 		} catch (IOException e) {
@@ -293,7 +299,7 @@ public class SiDiffRemoteApplication {
 
 		File subModelFile = null;
 		try {
-			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
+			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
 				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException
 				| CoreException e) {
@@ -380,7 +386,7 @@ public class SiDiffRemoteApplication {
 	 * @throws UpdateSubModelException 
 
 	 */
-	public File updateSubModel(String localPath, Set<String> elementIds) throws UpdateSubModelException  {
+	public File updateSubModel(String localPath, Set<String> elementIds, RemotePreferences preferences) throws UpdateSubModelException  {
 		String absolute_copy_path = session_folder + File.separator + localPath;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -398,7 +404,7 @@ public class SiDiffRemoteApplication {
 		
 		File slicingEditScriptFile = null;
 		try {
-			slicingEditScriptFile = this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel);
+			slicingEditScriptFile = this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
 				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | CoreException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
