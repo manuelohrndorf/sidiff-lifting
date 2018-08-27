@@ -9,7 +9,7 @@ import org.sidiff.slicer.slice.ModelSlice;
 
 public interface ISlicer {
 
-	String EXTENSION_POINT_ID = "org.sidiff.slicer.extensionpoint";
+	String EXTENSION_POINT_ID = "org.sidiff.slicer.instantiation";
 
 	public String getKey();
 
