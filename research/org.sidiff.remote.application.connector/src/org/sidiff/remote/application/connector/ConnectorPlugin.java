@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.resource.ConnectedResourceChangeListener;
+import org.sidiff.remote.application.connector.session.Session;
 import org.sidiff.remote.common.Credentials;
 
 /**
@@ -38,6 +39,11 @@ public class ConnectorPlugin extends Plugin {
 	private File session_file;
 	
 	/**
+	 * The {@link IWorkspace}
+	 */
+	private IWorkspace workspace;
+	
+	/**
 	 * The current {@link Session}
 	 */
 	private Session session;
@@ -55,7 +61,7 @@ public class ConnectorPlugin extends Plugin {
 		
 		// get the root of the workspace
 		//
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace = ResourcesPlugin.getWorkspace();
 		workspace.addResourceChangeListener(new ConnectedResourceChangeListener());
 		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator +  META_FOLDER + File.separator + Session.SESSION_EXT;
 		this.session_file = new File(session_path);

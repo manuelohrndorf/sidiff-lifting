@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
+import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
  * 
@@ -34,6 +35,11 @@ public class CheckoutSubModelRequest extends RequestCommand {
 	 * 
 	 */
 	private Set<String> elementIds;
+	
+	/**
+	 * 
+	 */
+	private RemotePreferences preferences;
 
 	/**
 	 * 
@@ -43,14 +49,16 @@ public class CheckoutSubModelRequest extends RequestCommand {
 	 * @param local_model_path
 	 * 			absolute local location path that will be converted into a project relative path
 	 * @param elementIds2
+	 * @param preferences 
 	 */
-	public CheckoutSubModelRequest(Credentials credentials, String remote_model_path, String local_model_path, Set<String> elementIds2) {
+	public CheckoutSubModelRequest(Credentials credentials, String remote_model_path, String local_model_path, Set<String> elementIds2, RemotePreferences preferences) {
 		super(credentials, null);
 		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REQUEST;
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		this.local_model_path = local_model_path.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
 		this.remote_model_path = remote_model_path;
 		this.elementIds = elementIds2;
+		this.preferences = preferences;
 	}
 
 	/**
@@ -77,6 +85,14 @@ public class CheckoutSubModelRequest extends RequestCommand {
 	 */
 	public Set<String> getElementIds() {
 		return elementIds;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public RemotePreferences getPreferences() {
+		return preferences;
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
+import org.sidiff.remote.application.connector.session.Session;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ProxyObject;
@@ -30,6 +31,7 @@ import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
+import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
@@ -97,6 +99,7 @@ public class ConnectorFacade {
 		Command replyCommand = CONNECTION_HANDLER.handleRequest(checkoutRepositoryContentRequest, null);
 		if(replyCommand.getECommand().equals(ECommand.CHECKOUT_REPOSITORY_CONTENT_REPLY)) {
 			CheckoutRepositoryContentReply checkoutRepositoryContentReply = (CheckoutRepositoryContentReply) replyCommand;
+			saveSession();
 			//TODO return some information about the files
 		}else {
 			ErrorReply errorReply = (ErrorReply) replyCommand;
@@ -152,14 +155,18 @@ public class ConnectorFacade {
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
 	 */
-	public static File checkoutSubModel(String remote_model_path, String target_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+	public static File checkoutSubModel(String remote_model_path, String target_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
 		
-		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getCredentials(), remote_model_path, target_model_path, elementIds);		
+		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getCredentials(), remote_model_path, target_model_path, elementIds, preferences);		
 		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(checkoutCommand, null);
 		if(replyCommand.getECommand().equals(ECommand.CHECKOUT_SUB_MODEL_REPLY)) {
 			CheckoutSubModelReply checkoutSubModelReply = (CheckoutSubModelReply) replyCommand;
 			File model_file = checkoutSubModelReply.getAttachment();
 			File target_model = new File(target_model_path);
+			if(target_model.exists()) {
+				target_model.delete();
+				getSession().removeModel(checkoutCommand.getLocalModelPath(), remote_model_path);
+			}
 			model_file.renameTo(target_model); 
 			getSession().addModel(checkoutCommand.getLocalModelPath(), remote_model_path, target_model);
 			saveSession();
@@ -219,7 +226,7 @@ public class ConnectorFacade {
 	 */
 	public static File updateSubModel(String local_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException {
 		
-		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds);
+		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
 		UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) CONNECTION_HANDLER.handleRequest(updateSubModelRequest, null);
 		File resource_file = updateSubModelReply.getAttachment();
 		String path = local_model_path.substring(0, local_model_path.lastIndexOf(File.separator)) + File.separator + updateSubModelReply.getAttachmentName();
