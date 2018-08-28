@@ -26,6 +26,7 @@ import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.exception.WrongConfigurationException;
 import org.sidiff.slicer.slice.ModelSlice;
+import org.sidiff.slicer.slice.SliceFactory;
 import org.sidiff.slicer.slice.SlicedElement;
 import org.sidiff.slicer.slice.util.SliceImporter;
 import org.sidiff.slicer.structural.configuration.Constraint;
@@ -118,6 +119,7 @@ public class StructureBasedSlicer implements ISlicer {
 
 		this.slicingConfiguration = (SlicingConfiguration)config;
 		this.importer = new SliceImporter();
+		this.importer.init(SliceFactory.eINSTANCE.createModelSlice());
 
 		// (re-)initialize inner accessed fields
 		this.slicedEClasses = new HashMap<>();
