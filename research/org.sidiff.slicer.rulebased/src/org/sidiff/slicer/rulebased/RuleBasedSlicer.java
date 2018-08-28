@@ -1,5 +1,4 @@
 package org.sidiff.slicer.rulebased;
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +6,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -20,7 +18,6 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
-import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
@@ -144,9 +141,7 @@ public class RuleBasedSlicer implements ISlicer{
 		
 		
 		this.slicingCriteria_old = this.slicingConfiguration.getOldSlicingCriteria();
-		
-		
-//		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
+		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
 		editScript_create = generateEditScript(emptyResource, completeResource, EditScriptDirection.CREATION);
 		
@@ -209,7 +204,7 @@ public class RuleBasedSlicer implements ISlicer{
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
 			
-			this.slicingCriteria_new = new HashSet<EObject>(input);
+			this.slicingCriteria_new.addAll(input);
 			
 			addSlicingCriteria = new HashSet<EObject>(slicingCriteria_new);
 			addSlicingCriteria.removeAll(this.slicingCriteria_old);

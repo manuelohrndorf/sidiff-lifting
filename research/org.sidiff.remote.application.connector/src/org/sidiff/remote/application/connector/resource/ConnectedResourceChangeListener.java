@@ -33,6 +33,8 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 	        
 	        IResourceDelta resourceDelta = event.getDelta();
 	        
+	        final Set<String> removedModel_paths = new HashSet<String>();
+	        
 	        final Set<String> changedModel_paths = new HashSet<String>();
 	        
 	        final Set<String> revertedModel_paths = new HashSet<String>();
@@ -41,30 +43,32 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 	
 				@Override
 				public boolean visit(IResourceDelta delta) throws CoreException {
-					// only interested in changed resources (not added or removed)
-					if (delta.getKind() != IResourceDelta.CHANGED)
+					// only interested in changed or removed resources (not added)
+					if (delta.getKind() != IResourceDelta.CHANGED || delta.getKind() != IResourceDelta.REMOVED) {
 						return true;
-					// only interested in content changes
-					if ((delta.getFlags() & IResourceDelta.CONTENT) == 0)
-						return true;
+					}
 					IResource resource = delta.getResource();
 					
 					if (resource.getType() == IResource.FILE) {
 						String local_model_path = resource.getLocation().toOSString()
 								.replace(resource.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "");
 						if (session.isVersioned(local_model_path)) {
-							String checksum;
-							try {
-								checksum = ChecksumUtil.getFileChecksum(new File(resource.getLocation().toOSString()));
-								if (!session.getModelChecksum(local_model_path)
-										.equals(checksum)) {
-									changedModel_paths.add(local_model_path);
-								}else {
-									revertedModel_paths.add(local_model_path);
+							if(delta.getKind() == IResourceDelta.CHANGED) {
+								String checksum;
+								try {
+									checksum = ChecksumUtil.getFileChecksum(new File(resource.getLocation().toOSString()));
+									if (!session.getModelChecksum(local_model_path)
+											.equals(checksum)) {
+										changedModel_paths.add(local_model_path);
+									}else {
+										revertedModel_paths.add(local_model_path);
+									}
+								} catch (NoSuchAlgorithmException | IOException | ModelNotVersionedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
-							} catch (NoSuchAlgorithmException | IOException | ModelNotVersionedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+							}else if(delta.getKind() == IResourceDelta.REMOVED) {
+								removedModel_paths.add(local_model_path);
 							}
 						}
 					}
@@ -77,15 +81,19 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 			resourceDelta.accept(visitor);
 			for(String changedModel_path : changedModel_paths) {
 				session.setModified(changedModel_path, true);
-				ConnectorFacade.saveSession();
+				
 				
 			}
 			
 			for(String revertedModel_path : revertedModel_paths) {
-				if(!session.isModified(revertedModel_path)) {
-					session.setModified(revertedModel_path, false);
-				}
+				session.setModified(revertedModel_path, false);
 			}
+			
+			for(String removedModel_path : removedModel_paths) {
+				session.removeModel(removedModel_path);
+			}
+			
+			ConnectorFacade.saveSession();
 		} catch (CoreException | ModelNotVersionedException | InvalidSessionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

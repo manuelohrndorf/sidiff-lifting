@@ -219,11 +219,11 @@ public class SiDiffRemoteApplication {
 	 * 
 	 * Extracts a submodel containing at least all elements identified by the elementIDs
 	 * 
-	 * @param remote_model_path
+	 * @param session_path
 	 *            a session based path of a requested file, i.e. a path starting
 	 *            with the sessionID
-	 * @param target_model_path
-	 *            absolute local os-based location path of the model file
+	 * @param local_model_path
+	 *            workspace location path of the model file
 	 * @param elementIds
 	 *            the IDs of the model elements to be checked out.
 	 * @param preferences 
@@ -231,10 +231,10 @@ public class SiDiffRemoteApplication {
 	 *         elements
 	 * @throws CheckoutSubModelException
 	 */
-	public File checkoutModel(String session_path, String local_model_path, Set<String> elementIds, RemotePreferences preferences) throws CheckoutSubModelException {
+	public File checkoutModel(String session_path, String local_path, Set<String> elementIds, RemotePreferences preferences) throws CheckoutSubModelException {
 		
 		String absolute_origin_path = user_folder + File.separator + session_path;
-		String absolute_copy_path = sidiff_folder + File.separator + local_model_path;
+		String absolute_copy_path = sidiff_folder + File.separator + local_path;
 //		try {
 //			FileOperations.copyFile(absolute_origin_path, absolute_copy_path);
 //		} catch (IOException e) {
@@ -378,16 +378,16 @@ public class SiDiffRemoteApplication {
 	
 	/**
 	 * Returns a slicing edit script for updating the local submodel
-	 * @param localPath
-	 * 				project relative local model path
+	 * @param local_path
+	 * 				workspace location path of the model file
 	 * @param elementIds
 	 * 				the requested model element IDs
 	 * @return a slicing edit script for updating the local submodel
 	 * @throws UpdateSubModelException 
 
 	 */
-	public File updateSubModel(String localPath, Set<String> elementIds, RemotePreferences preferences) throws UpdateSubModelException  {
-		String absolute_copy_path = session_folder + File.separator + localPath;
+	public File updateSubModel(String local_path, Set<String> elementIds, RemotePreferences preferences) throws UpdateSubModelException  {
+		String absolute_copy_path = sidiff_folder + File.separator + local_path;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);

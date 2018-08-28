@@ -207,7 +207,9 @@ public class ExecutableModelSliceCreator {
 			
 			// copy all outgoing DependencyContainer
 			for(DependencyContainer depContainer: opInv.getOutgoing()){
-				copyDependencyContainer(depContainer);
+				if(!ignoredOpInvs.contains(depContainer.getTarget())) {
+					copyDependencyContainer(depContainer);
+				}
 			}
 			
 			//copy and set the SemanticChangeSet

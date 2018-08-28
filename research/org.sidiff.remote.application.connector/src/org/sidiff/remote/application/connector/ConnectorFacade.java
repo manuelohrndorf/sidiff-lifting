@@ -31,7 +31,6 @@ import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
 import org.sidiff.remote.common.commands.ReplyCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
-import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
@@ -165,7 +164,6 @@ public class ConnectorFacade {
 			File target_model = new File(target_model_path);
 			if(target_model.exists()) {
 				target_model.delete();
-				getSession().removeModel(checkoutCommand.getLocalModelPath(), remote_model_path);
 			}
 			model_file.renameTo(target_model); 
 			getSession().addModel(checkoutCommand.getLocalModelPath(), remote_model_path, target_model);
@@ -219,19 +217,24 @@ public class ConnectorFacade {
 	 * @param local_model_path
 	 * 				absolute local os-based location path of the model file
 	 * @param elementIds
+	 * @param remotePreferences 
 	 * @return
 	 * @throws ConnectionException
 	 * @throws InvalidSessionException 
 	 * @throws CoreException
 	 */
-	public static File updateSubModel(String local_model_path, Set<String> elementIds) throws ConnectionException, InvalidSessionException {
+	public static File updateSubModel(String local_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException {
 		
-		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
+		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds, preferences);
 		UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) CONNECTION_HANDLER.handleRequest(updateSubModelRequest, null);
 		File resource_file = updateSubModelReply.getAttachment();
 		String path = local_model_path.substring(0, local_model_path.lastIndexOf(File.separator)) + File.separator + updateSubModelReply.getAttachmentName();
-		resource_file.renameTo(new File(path));
-		return resource_file;
+		File target_file = new File(path);
+		if(target_file.exists()) {
+			target_file.delete();
+		}
+		resource_file.renameTo(target_file);
+		return target_file;
 	}
 	
 	public static Session getSession() throws InvalidSessionException {
@@ -246,7 +249,7 @@ public class ConnectorFacade {
 		
 	}
 	
-	public static Credentials getCredentials() {
+	private static Credentials getCredentials() {
 		return ConnectorPlugin.getInstance().getCredentials();
 	}
 }

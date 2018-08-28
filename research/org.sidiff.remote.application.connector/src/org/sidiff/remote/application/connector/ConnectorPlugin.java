@@ -10,7 +10,9 @@ import java.io.ObjectOutputStream;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleContext;
+import org.sidiff.common.emf.modelstorage.UUIDResourceFactoryImpl;
 import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.resource.ConnectedResourceChangeListener;
 import org.sidiff.remote.application.connector.session.Session;
@@ -65,6 +67,9 @@ public class ConnectorPlugin extends Plugin {
 		workspace.addResourceChangeListener(new ConnectedResourceChangeListener());
 		String session_path = workspace.getRoot().getLocation().toOSString() + File.separator +  META_FOLDER + File.separator + Session.SESSION_EXT;
 		this.session_file = new File(session_path);
+		//TODO add factories in a more generic way
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new UUIDResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("uml", new UUIDResourceFactoryImpl());
 	}
 
 	/**

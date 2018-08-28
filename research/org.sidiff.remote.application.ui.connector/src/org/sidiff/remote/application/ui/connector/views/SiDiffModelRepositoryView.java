@@ -397,8 +397,8 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				try {
 					Set<String> elementIds = getSelectedElementIDs();
 					if(!elementIds.isEmpty()) {
-						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds);
-						IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(file.getPath()));
+						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
+						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
 						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					}
 				} catch (ConnectionException | CoreException | InvalidSessionException e) {

@@ -74,6 +74,7 @@ public class Session implements Serializable {
 	 */
 	public void addModel(String local_path, String remote_path, File file) throws InvalidSessionException {
 		try {
+			removeModel(local_path);
 			this.modelInfos.add(new ModelInfo(local_path, remote_path, file));
 		} catch (NoSuchAlgorithmException | IOException e) {
 			throw new InvalidSessionException(e);
@@ -85,16 +86,13 @@ public class Session implements Serializable {
 	 * 
 	 * @param local_path
 	 * 				project relative path
-	 * @param remote_path
-	 * 				session based relative model path
 	 */
-	public void removeModel(String local_path, String remote_path) {
+	public void removeModel(String local_path) {
 		for (Iterator<ModelInfo> iterator = modelInfos.iterator(); iterator.hasNext();) {
 			ModelInfo modelInfo = iterator.next();
-			if(modelInfo.getLocalPath().equals(local_path) && modelInfo.getRemotePath().equals(remote_path)) {
+			if(modelInfo.getLocalPath().equals(local_path)) {
 				iterator.remove();
 			}
-			
 		}
 	}
 	
@@ -289,6 +287,10 @@ public class Session implements Serializable {
 			this.modified = modified;
 		}
 		
+		public boolean validate() {
+			return this.file.exists();
+		}
+		
 		@Override
 		public String toString() {
 			StringBuilder stringBuilder = new StringBuilder();
@@ -302,9 +304,23 @@ public class Session implements Serializable {
 		}
 	}
 	
-	public boolean validate() {
+	public ValidationResult validate() {
+		ValidationResult validationResult = new ValidationResult();
+		
 		boolean b_sessionID = this.sessionID != null && !this.sessionID.isEmpty();
 		
-		return b_sessionID;
+		if(!b_sessionID) {
+			ValidationEntry validationEntry = new ValidationEntry(ESeverity.ERROR, "Invalid session ID!", null);
+			validationResult.getEntries().add(validationEntry);
+		}
+		
+		for(ModelInfo modelInfo : modelInfos) {
+			if(!modelInfo.validate()) {
+				ValidationEntry validationEntry = new ValidationEntry(ESeverity.WARNING, "The file " + modelInfo.getLocalPath() + " doesn't exists!" , modelInfo);
+				validationResult.getEntries().add(validationEntry);
+			}
+		}
+		
+		return validationResult;
 	}
 }

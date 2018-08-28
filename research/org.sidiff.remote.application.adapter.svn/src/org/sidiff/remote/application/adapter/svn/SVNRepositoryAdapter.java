@@ -36,13 +36,12 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 	private SVNRepository repository;
 
 	private void setUpRepository(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException {
-		String domain = url.substring(0, url.lastIndexOf("/"));
-		String repo_name = url.substring(url.lastIndexOf("/"));
-		SVNURL svnURL;
 		try {
-			svnURL = SVNURL.parseURIEncoded(domain + ":" + port + repo_name + path);
+			String domain = url.substring(0, url.lastIndexOf("/"));
+			String repo_name = url.substring(url.lastIndexOf("/"));
+			SVNURL svnURL = SVNURL.parseURIEncoded(domain + ":" + port + repo_name + path);
 			repository = SVNRepositoryFactory.create(svnURL);
-		} catch (SVNException | ArrayIndexOutOfBoundsException e) {
+		} catch (SVNException | IndexOutOfBoundsException e) {
 			throw new RepositoryAdapterException(e);
 		} 
 		ISVNAuthenticationManager authManager =	SVNWCUtil.createDefaultAuthenticationManager(username, password);
