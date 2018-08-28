@@ -2,7 +2,12 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="slice" nsURI="http://www.sidiff.org/slice/model/1.0" nsPrefix="slice">
   <eClassifiers xsi:type="ecore:EClass" name="ModelSlice">
-    <eOperations name="export" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eOperations name="export" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns a collection of all containers that properly contain all sliced objects.&#xD;&#xA;If the given resource is not null, all objects contained in this resource will be copied.&#xD;&#xA;If the resource is null, all objects will be copied."/>
+      </eAnnotations>
+      <eParameters name="sourceResource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
+    </eOperations>
     <eOperations name="serialize">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }"/>

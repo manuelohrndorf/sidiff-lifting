@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
@@ -121,13 +123,20 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @generated NOT
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<EObject> export() {
-		Map<SlicedElement, EObject> objectCopies = new HashMap<>();
+	public EList<EObject> export(Resource primaryResource) {
+		Set<EObject> copiedObjects = new HashSet<EObject>();
+		Map<SlicedElement, EObject> objectMapping = new HashMap<>();
 
 		// create a copy of the object of every sliced element
 		for (SlicedElement slicedElement : getSlicedElements()) {
-			EObject copy = EMFUtil.copyWithoutReferences(slicedElement.getObject());
-			objectCopies.put(slicedElement, copy);
+			EObject object = slicedElement.getObject();
+			if(primaryResource == null || primaryResource.equals(object.eResource())) {
+				EObject copy = EMFUtil.copyWithoutReferences(object);
+				objectMapping.put(slicedElement, copy);
+				copiedObjects.add(copy);
+			} else {
+				objectMapping.put(slicedElement, object);
+			}
 		}
 
 		// set references for the copied objects
@@ -135,8 +144,8 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 			for (Reference slicedReference : slicedElement.getSlicedReferences()) {
 				EReference type = slicedReference.getType();
 				if (type.isChangeable()) {
-					EObject src = objectCopies.get(slicedReference.getSource());
-					EObject tgt = objectCopies.get(slicedReference.getTarget());
+					EObject src = objectMapping.get(slicedReference.getSource());
+					EObject tgt = objectMapping.get(slicedReference.getTarget());
 					if (type.isMany()) {
 						((EList<EObject>) src.eGet(type)).add(tgt);
 					} else {
@@ -148,7 +157,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 
 		// resolve the top-most container for every copied object
 		EList<EObject> containers = new BasicEList<EObject>();
-		for (EObject slicedElement : objectCopies.values()) {
+		for (EObject slicedElement : copiedObjects) {
 			while (slicedElement.eContainer() != null) {
 				slicedElement = slicedElement.eContainer();
 			}
@@ -259,8 +268,8 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case SlicePackage.MODEL_SLICE___EXPORT:
-				return export();
+			case SlicePackage.MODEL_SLICE___EXPORT__RESOURCE:
+				return export((Resource)arguments.get(0));
 			case SlicePackage.MODEL_SLICE___SERIALIZE__STRING:
 				serialize((String)arguments.get(0));
 				return null;

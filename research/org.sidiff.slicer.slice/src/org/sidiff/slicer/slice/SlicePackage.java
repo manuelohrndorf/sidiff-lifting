@@ -109,7 +109,7 @@ public interface SlicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_SLICE___EXPORT = 0;
+	int MODEL_SLICE___EXPORT__RESOURCE = 0;
 
 	/**
 	 * The operation id for the '<em>Serialize</em>' operation.
@@ -307,14 +307,14 @@ public interface SlicePackage extends EPackage {
 	EReference getModelSlice_Type();
 
 	/**
-	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#export() <em>Export</em>}' operation.
+	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#export(org.eclipse.emf.ecore.resource.Resource) <em>Export</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Export</em>' operation.
-	 * @see org.sidiff.slicer.slice.ModelSlice#export()
+	 * @see org.sidiff.slicer.slice.ModelSlice#export(org.eclipse.emf.ecore.resource.Resource)
 	 * @generated
 	 */
-	EOperation getModelSlice__Export();
+	EOperation getModelSlice__Export__Resource();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#serialize(java.lang.String) <em>Serialize</em>}' operation.
@@ -413,7 +413,7 @@ public interface SlicePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation MODEL_SLICE___EXPORT = eINSTANCE.getModelSlice__Export();
+		EOperation MODEL_SLICE___EXPORT__RESOURCE = eINSTANCE.getModelSlice__Export__Resource();
 
 		/**
 		 * The meta object literal for the '<em><b>Serialize</b></em>' operation.

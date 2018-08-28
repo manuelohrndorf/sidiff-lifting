@@ -93,7 +93,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link RuleBasedSlicePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -105,8 +105,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 		if (isInited) return (RuleBasedSlicePackage)EPackage.Registry.INSTANCE.getEPackage(RuleBasedSlicePackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredRuleBasedSlicePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		RuleBasedSlicePackageImpl theRuleBasedSlicePackage = registeredRuleBasedSlicePackage instanceof RuleBasedSlicePackageImpl ? (RuleBasedSlicePackageImpl)registeredRuleBasedSlicePackage : new RuleBasedSlicePackageImpl();
+		RuleBasedSlicePackageImpl theRuleBasedSlicePackage = (RuleBasedSlicePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RuleBasedSlicePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RuleBasedSlicePackageImpl());
 
 		isInited = true;
 
@@ -128,6 +127,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 		// Mark meta-data to indicate it can't be changed
 		theRuleBasedSlicePackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(RuleBasedSlicePackage.eNS_URI, theRuleBasedSlicePackage);
 		return theRuleBasedSlicePackage;

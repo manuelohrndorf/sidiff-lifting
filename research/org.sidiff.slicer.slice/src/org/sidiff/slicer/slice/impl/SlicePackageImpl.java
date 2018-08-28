@@ -74,7 +74,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link SlicePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -88,8 +88,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		if (isInited) return (SlicePackage)EPackage.Registry.INSTANCE.getEPackage(SlicePackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredSlicePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		SlicePackageImpl theSlicePackage = registeredSlicePackage instanceof SlicePackageImpl ? (SlicePackageImpl)registeredSlicePackage : new SlicePackageImpl();
+		SlicePackageImpl theSlicePackage = (SlicePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SlicePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SlicePackageImpl());
 
 		isInited = true;
 
@@ -106,6 +105,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		// Mark meta-data to indicate it can't be changed
 		theSlicePackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(SlicePackage.eNS_URI, theSlicePackage);
 		return theSlicePackage;
@@ -143,7 +143,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getModelSlice__Export() {
+	public EOperation getModelSlice__Export__Resource() {
 		return modelSliceEClass.getEOperations().get(0);
 	}
 
@@ -214,7 +214,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		modelSliceEClass = createEClass(MODEL_SLICE);
 		createEReference(modelSliceEClass, MODEL_SLICE__SLICED_ELEMENTS);
 		createEReference(modelSliceEClass, MODEL_SLICE__TYPE);
-		createEOperation(modelSliceEClass, MODEL_SLICE___EXPORT);
+		createEOperation(modelSliceEClass, MODEL_SLICE___EXPORT__RESOURCE);
 		createEOperation(modelSliceEClass, MODEL_SLICE___SERIALIZE__STRING);
 
 		slicedElementEClass = createEClass(SLICED_ELEMENT);
@@ -260,9 +260,10 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		initEReference(getModelSlice_SlicedElements(), this.getSlicedElement(), null, "slicedElements", null, 0, -1, ModelSlice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModelSlice_Type(), ecorePackage.getEPackage(), null, "type", null, 1, -1, ModelSlice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEOperation(getModelSlice__Export(), ecorePackage.getEObject(), "export", 0, -1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = initEOperation(getModelSlice__Export__Resource(), ecorePackage.getEObject(), "export", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEResource(), "sourceResource", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		EOperation op = initEOperation(getModelSlice__Serialize__String(), null, "serialize", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getModelSlice__Serialize__String(), null, "serialize", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "path", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(slicedElementEClass, SlicedElement.class, "SlicedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

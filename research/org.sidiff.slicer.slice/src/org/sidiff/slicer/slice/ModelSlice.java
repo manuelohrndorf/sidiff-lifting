@@ -3,9 +3,9 @@
 package org.sidiff.slicer.slice;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,10 +67,15 @@ public interface ModelSlice extends EObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Returns a collection of all containers that properly contain all sliced objects.
+	 * If the given resource is not null, all objects contained in this resource will be copied.
+	 * If the resource is null, all objects will be copied.
+	 * <!-- end-model-doc -->
 	 * @model
 	 * @generated
 	 */
-	EList<EObject> export();
+	EList<EObject> export(Resource sourceResource);
 
 	/**
 	 * <!-- begin-user-doc -->
