@@ -40,7 +40,7 @@ public class Uml2ClassificationApplication implements IApplication {
 
 	private static final URI UML_XMI_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/models/UML.transformed.xmi", true);
 	private static final URI UML_ECORE_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/models/UML.ecore", true);
-	private static final URI SLICING_CONFIG_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/configs/UML.scfg", true);
+	private static final URI SLICING_CONFIG_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/configs/UML_Datatypes.scfg", true);
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
@@ -80,7 +80,7 @@ public class Uml2ClassificationApplication implements IApplication {
 			Resource umlMetaModel = new ResourceSetImpl().getResource(UML_ECORE_URI, true);
 			ModelSlice slice = slicer.slice(umlMetaModel.getContents());
 			URI outputUri = URI.createFileURI(outputDirectory + "/UML." + nestedPackage.getName() + ".ecore");
-			SlicerUtil.serializeModelSlice(outputUri, slice.export());
+			SlicerUtil.serializeModelSlice(outputUri, slice.export(umlMetaModel));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
