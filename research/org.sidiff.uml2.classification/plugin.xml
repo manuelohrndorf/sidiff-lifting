@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.sidiff.uml2.classification.application"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.sidiff.uml2.classification.Uml2ClassificationApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.sidiff.slicer.structural.configuration.constraintinterpreter">
+      <client
+            class="org.sidiff.uml2.classification.NameBasedConstraintInterpreter">
+      </client>
+   </extension>
+
+</plugin>
