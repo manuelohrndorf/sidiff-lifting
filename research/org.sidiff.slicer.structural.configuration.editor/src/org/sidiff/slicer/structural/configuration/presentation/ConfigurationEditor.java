@@ -13,7 +13,6 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,41 +79,27 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
-import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
-import org.eclipse.jface.viewers.DecoratingStyledCellLabelProvider;
-import org.eclipse.jface.viewers.ICheckStateListener;
-import org.eclipse.jface.viewers.ICheckStateProvider;
-import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.IToolTipProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
@@ -132,7 +117,6 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -145,9 +129,6 @@ import org.sidiff.slicer.structural.configuration.ConfigurationPackage;
 import org.sidiff.slicer.structural.configuration.SlicedEClass;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
 import org.sidiff.slicer.structural.configuration.adapters.ImportedModelsEcoreItemProviderAdapterFactory;
-import org.sidiff.slicer.structural.configuration.logic.ISlicingLogic;
-import org.sidiff.slicer.structural.configuration.logic.ISlicingLogic.CheckboxState;
-import org.sidiff.slicer.structural.configuration.logic.SlicingLogic;
 import org.sidiff.slicer.structural.configuration.provider.ConfigurationItemProviderAdapterFactory;
 import org.sidiff.slicer.structural.configuration.views.AlternativeElementsView;
 
@@ -1437,7 +1418,7 @@ public class ConfigurationEditor
 	protected void createModelViewers(IProgressMonitor progressMonitor)
 	{
 		// using a LinkedHashMap for predictable key ordering
-		modelViewersToDelegatesMap = new LinkedHashMap<CheckboxTreeViewer, ConfigurationEditor.SlicingLogicDelegate>();
+		modelViewersToDelegatesMap = new LinkedHashMap<CheckboxTreeViewer, SlicingLogicDelegate>();
 
 		if(slicingConfig == null)
 			return;
@@ -1455,10 +1436,8 @@ public class ConfigurationEditor
 				return;
 			}
 
-			final Resource modelResource = importedPackage.eResource();
-
 			// create no tab if model was not loaded
-			if(modelResource == null)
+			if(importedPackage.eResource() == null)
 			{
 				// decrement the remaining work instead of incrementing
 				// the completed work for a smoother progress bar
@@ -1471,48 +1450,17 @@ public class ConfigurationEditor
 			{
 				public void run()
 				{
-					ViewerPane viewerPane = new ImportedModelViewerPane(getSite().getPage(), ConfigurationEditor.this)
-					{
-						@Override
-						public void requestActivation()
-						{
-							super.requestActivation();
-							setCurrentViewerPane(this);
-						}
-					};
-
+					ImportedModelViewerPane viewerPane = new ImportedModelViewerPane(
+							getSite().getPage(), ConfigurationEditor.this, adapterFactoryImports, importedPackage);
 					viewerPane.createControl(getContainer());
+
 					CheckboxTreeViewer modelViewer = (CheckboxTreeViewer)viewerPane.getViewer();
-					modelViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactoryImports));
-
-					// create a delegate that implements a font and color provider, a check state provider,
-					// a label decorator, and a check state listener for the model viewer and delegates
-					// the functions to the slicing logic
-					final SlicingLogicDelegate slicingLogicDelegate = new SlicingLogicDelegate(adapterFactoryImports, modelViewer, modelResource);
-					modelViewer.setLabelProvider(new DecoratingStyledCellLabelProvider(slicingLogicDelegate, slicingLogicDelegate, null));
-					modelViewer.setCheckStateProvider(slicingLogicDelegate);
-					modelViewer.addCheckStateListener(slicingLogicDelegate);
-					ColumnViewerToolTipSupport.enableFor(modelViewer, ToolTip.RECREATE);
-
-					// set the model
-					modelViewer.setInput(modelResource);
-					modelViewer.setSelection(new StructuredSelection(modelResource));
-					viewerPane.setTitle(importedPackage.getName() + " - " + importedPackage.getNsURI(), //$NON-NLS-1$
-							slicingLogicDelegate.getImage(importedPackage));
-
-					new AdapterFactoryTreeEditor(modelViewer.getTree(), adapterFactoryImports);
-
-					// expand the EPackage and all checked elements
-					modelViewer.expandToLevel(2);
-					modelViewer.setExpandedElements(modelViewer.getCheckedElements());
-
 					createContextMenuFor(modelViewer);
 					int pageIndex = addPage(viewerPane.getControl());
 					setPageText(pageIndex, ConfigurationEditorPlugin.getSubstitutedString("_UI_ModelPage_label", //$NON-NLS-1$
 							importedPackage.getName())); // model name as page text
 
-					// add model viewer to the list
-					modelViewersToDelegatesMap.put(modelViewer, slicingLogicDelegate);
+					modelViewersToDelegatesMap.put(modelViewer, viewerPane.getSlicingLogicDelegate());
 				}
 			});
 
@@ -1699,6 +1647,37 @@ public class ConfigurationEditor
 				if(!propertySheetPage.getControl().isDisposed())
 				{
 					propertySheetPage.selectionChanged(ConfigurationEditor.this, selection);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Refreshes all property sheet pages, if the currently selected element
+	 * equals the specified element.
+	 * @param updatedElement the update that needs updating
+	 */
+	public void refreshPropertySheetPages(Object updatedElement) {
+		// update the tabs in the tabbed property view
+		if(getSelection() instanceof IStructuredSelection)
+		{
+			IStructuredSelection selection = (IStructuredSelection)getSelection();
+			Object element = selection.getFirstElement();
+
+			// only update the tabs if the selected element's checked state changed
+			if(element != null && element.equals(updatedElement))
+			{
+				// update all property sheet pages
+				for(IPropertySheetPage propertySheetPage : propertySheetPages)
+				{
+					if(!propertySheetPage.getControl().isDisposed())
+					{
+						// selectionChanged does nothing if the new selection equals the old one
+						// therefore the selection is changed to an empty selection first
+						// before being changed back to the original one
+						propertySheetPage.selectionChanged(this, StructuredSelection.EMPTY);
+						propertySheetPage.selectionChanged(this, selection);
+					}
 				}
 			}
 		}
@@ -2208,227 +2187,6 @@ public class ConfigurationEditor
 		}
 	}
 
-	/**
-	 * This class implements
-	 * <ul>
-	 * <li>{@link AdapterFactoryLabelProvider.StyledLabelProvider}</li>
-	 * <li>{@link ICheckStateProvider}</li>
-	 * <li>{@link ICheckStateListener}</li>
-	 * <li>{@link ILabelDecorator}</li>
-	 * <li>{@link IToolTipProvider}</li>
-	 * </ul>
-	 * and delegates the implemented functions to the slicing logic.<br>
-	 * The class also implements {@link IDisposable} to dispose all images that were created by the delegate.<br>
-	 * Each delegate creates its own slicing logic.
-	 * @author rmueller
-	 *
-	 */
-	protected class SlicingLogicDelegate extends AdapterFactoryLabelProvider.StyledLabelProvider
-										implements ICheckStateProvider, ICheckStateListener, ILabelDecorator, IDisposable, IToolTipProvider
-	{		
-		/**
-		 * The slicing logic
-		 */
-		protected ISlicingLogic slicingLogic;
-		
-		/**
-		 * The model viewer
-		 */
-		protected CheckboxTreeViewer viewer;
-
-		/**
-		 * Collection of images that need to be disposed when the viewer that uses this SlicingLogicDelegate is disposed
-		 */
-		protected Collection<Image> imagesToDispose;
-
-		/**
-		 * Flag for {@link #dispose()} to only dispose the object once
-		 */
-		private boolean disposed;
-
-		/**
-		 * Create a new SlicingLogicDelegate. The delegate creates a new {@link SlicingLogic}.
-		 * @param adapterFactory adapter factory for model elements
-		 * @param viewer model viewer
-		 * @param modelResource resource of the model
-		 */
-		public SlicingLogicDelegate(AdapterFactory adapterFactory, CheckboxTreeViewer viewer, Resource modelResource)
-		{
-			super(adapterFactory, viewer);
-			Assert.isNotNull(adapterFactory);
-			Assert.isNotNull(viewer);
-			Assert.isNotNull(modelResource);
-			this.viewer = viewer;
-			this.imagesToDispose = new LinkedList<Image>();
-			this.disposed = false;
-			
-			// create slicing logic
-			this.slicingLogic = new SlicingLogic(ConfigurationEditor.this, modelResource);
-		}
-
-		@Override
-		public StyledString getStyledText(Object object)
-		{
-			StyledString original = super.getStyledText(object);
-			StyledString styled = slicingLogic.getDecoratedText(original, object);
-			return styled != null ? styled : original;
-		}
-
-		@Override
-		public Color getForeground(Object object)
-		{
-			return slicingLogic.getForegroundColor(object);
-		}
-
-		@Override
-		public Color getBackground(Object object)
-		{
-			return slicingLogic.getBackgroundColor(object);
-		}
-
-		@Override
-		public Font getFont(Object object)
-		{
-			int fontStyle = slicingLogic.getFontStyle(object);
-
-			// create new font if style is not normal
-			if(fontStyle != SWT.NORMAL)
-			{
-				// copy the font descriptor of the default font
-				FontDescriptor fontDescriptor = FontDescriptor.createFrom(viewer.getControl().getFont());
-
-				// set style and create font from font descriptor
-				return fontDescriptor.setStyle(fontStyle).createFont(Display.getCurrent());
-			}
-
-			// default font
-			return super.getFont(object);
-		}
-
-		@Override
-		public void checkStateChanged(CheckStateChangedEvent event)
-		{
-			Object elem = event.getElement();
-			if(elem instanceof EObject)
-			{
-				Set<EObject> changedElements = slicingLogic.checkStateChanged((EObject)elem, event.getChecked());
-
-				// update layout
-				if(changedElements == null)
-				{
-					viewer.refresh();
-				}
-				else if(!changedElements.isEmpty())
-				{
-					viewer.update(changedElements.toArray(), null);
-				}
-
-				//check selection and imports
-				analyzeImportedResources();
-
-				// update the tabs in the tabbed property view
-				if(getSelection() instanceof IStructuredSelection)
-				{
-					IStructuredSelection selection = (IStructuredSelection)getSelection();
-					Object element = selection.getFirstElement();
-
-					// only update the tabs if the selected element's checked state changed
-					if(element != null && element.equals(elem))
-					{
-						// update all property sheet pages
-						for(IPropertySheetPage propertySheetPage : propertySheetPages)
-						{
-							if(!propertySheetPage.getControl().isDisposed())
-							{
-								// selectionChanged does nothing if the new selection equals the old one
-								// therefore the selection is changed to an empty selection first
-								// before being changed back to the original one
-								propertySheetPage.selectionChanged(ConfigurationEditor.this, StructuredSelection.EMPTY);
-								propertySheetPage.selectionChanged(ConfigurationEditor.this, selection);
-							}
-						}
-					}
-				}
-
-				refreshAlternativeElementsView();
-			}
-
-			updateProblemIndication(false);
-		}
-
-		@Override
-		public boolean isGrayed(Object element)
-		{
-			return slicingLogic.getCheckboxState(element) == CheckboxState.GRAYED;
-		}
-
-		@Override
-		public boolean isChecked(Object element)
-		{
-			return slicingLogic.getCheckboxState(element) != CheckboxState.NOT_CHECKED;
-		}
-
-		@Override
-		public Image decorateImage(Image image, Object element)
-		{
-			// get descriptor of decorated image from slicing logic
-			final ImageDescriptor desc = slicingLogic.getDecoratedImage(image, element);
-			if(desc == null)
-				return null;
-
-			// create image from image descriptor and add it to the image list
-			// so it can be disposed when the viewer is disposed
-			final Image i = desc.createImage();
-			imagesToDispose.add(i);
-			return i;
-		}
-
-		@Override
-		public String decorateText(String text, Object element)
-		{
-			// no text decoration; text is decorated with getStyledText
-			return null;
-		}
-
-		public Set<EObject> getAlternativeElements(EObject element)
-		{		
-			final Set<EObject> elements = slicingLogic.getAlternativeElements(element);
-			return elements == null ? Collections.emptySet() : elements;
-		}
-
-		/**
-		 * Disposes of this delegate. Disposes all images that were created by {@link #decorateImage(Image, Object)}.
-		 * Disposes the slicing logic. Calls through to super.dispose() to dispose of the {@link AdapterFactoryLabelProvider}.
-		 */
-		@Override
-		public void dispose()
-		{
-			// check if already disposed
-			if(disposed)
-				return;
-			disposed = true;
-			
-			// dispose all images that were created by this delegate
-			for(Image i : imagesToDispose)
-			{
-				i.dispose();
-			}
-			imagesToDispose.clear();
-			
-			// dispose the slicing logic
-			slicingLogic.dispose();
-			
-			// call through
-			super.dispose();
-		}
-
-		@Override
-		public String getToolTipText(Object element)
-		{
-			return slicingLogic.getToolTipText(element);
-		}
-	}
-	
 	/**
 	 * The configuration editor's outline page, which is basically a tree. The outline also
 	 * shows the elements that are hidden in the model viewers.
