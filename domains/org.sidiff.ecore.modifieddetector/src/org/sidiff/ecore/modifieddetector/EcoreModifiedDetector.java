@@ -22,10 +22,9 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 		
 		LogUtil.log(LogEvent.DEBUG, "Config: " + ANN_CFG_NAME);	
 		
-			// Configure AnnotationService
+		// Configure AnnotationService
 		IConfigurationCapable cc = (IConfigurationCapable) annotator;
 		cc.configure(XMLParser.parseStream(IOUtil.getInputStream(ANN_CFG_NAME)));
-		
 	}
 
 	@Override
