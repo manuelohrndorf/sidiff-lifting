@@ -1,10 +1,14 @@
 package org.sidiff.ecore.stringresolver;
 
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.stringresolver.AbstractStringResolver;
 import org.sidiff.common.stringresolver.IStringResolver;
@@ -16,16 +20,13 @@ import org.sidiff.common.stringresolver.IStringResolver;
  *
  */
 public class EcoreStringResolver extends AbstractStringResolver {
-
-	private final static String DOC_TYPE = "http://www.eclipse.org/emf/2002/Ecore";
 	
 	private final static String KEY = "EcoreStringResolver";
-	
 	private final static String NAME = "Ecore String Resolver";
 
 	@Override
-	public String getDocType() {
-		return DOC_TYPE;
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(EcorePackage.eNS_URI);
 	}
 
 	@Override
@@ -39,37 +40,34 @@ public class EcoreStringResolver extends AbstractStringResolver {
 	}
 
 	@Override
-	public String resolve(EObject eObject) {
-		String res = eObject.toString();
-		
+	public String resolve(EObject eObject) {		
 		if (eObject instanceof EAnnotation) {
 			EAnnotation eAnnotaion = (EAnnotation) eObject;
-			res = String.format("%s [%s]", eAnnotaion.getSource(), eAnnotaion.eClass().getName());
+			return String.format("%s [%s]", eAnnotaion.getSource(), eAnnotaion.eClass().getName());
 		} else if (eObject instanceof ENamedElement) {
 			ENamedElement eNamedElement = (ENamedElement) eObject;
-			res = String.format("%s [%s]", eNamedElement.getName(), eNamedElement.eClass().getName());
+			String res = String.format("%s [%s]", eNamedElement.getName(), eNamedElement.eClass().getName());
 			if (eObject instanceof EAttribute) {
 				EAttribute eAttribute = (EAttribute) eObject;
 				if (eAttribute.isID()) {
 					res += ": ID";
 				}
 			}
+			return res;
 		} else {
 			String[] fragments = EcoreUtil.getURI(eObject).toString().split("\\.");
 			String indexFragment = fragments[fragments.length - 1];
 
 			if (indexFragment.matches("\\d+")) {
 				if (eObject.eContainingFeature() != null) {
-					res = String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
+					return String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
 							fragments[fragments.length - 1], eObject.eClass().getName());
 				} else {
-					res = String.format("%s [%s]",
+					return String.format("%s [%s]",
 							fragments[fragments.length - 1], eObject.eClass().getName());
 				}
-			} else {
-				res = eObject.eClass().getName();
 			}
+			return eObject.eClass().getName();
 		}
-		return res;
 	}
 }
