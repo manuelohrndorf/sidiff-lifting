@@ -1,5 +1,8 @@
 package org.sidiff.common.symboliclinks.stringresolver;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.stringresolver.IStringResolver;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
@@ -13,23 +16,12 @@ import org.silift.difference.symboliclink.SymbolicLinkObject;
 public class SymbolicLinksStringResolver implements IStringResolver {
 
 	private final static String DOC_TYPE = "http://symboliclink/1.0";
-	
 	private final static String KEY = "SymbolicLinksStringResolver";
-	
 	private final static String NAME = "Symbolic Links String Resolver";
 
 	@Override
-	public boolean canHandleDocType(String docType) {
-		if(docType.equals(DOC_TYPE)){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	@Override
-	public String getDocType() {
-		return DOC_TYPE;
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(DOC_TYPE);
 	}
 
 	@Override
