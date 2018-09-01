@@ -1,4 +1,7 @@
 package org.sidiff.uml2.stringresolver;
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -13,29 +16,23 @@ import org.sidiff.common.stringresolver.IStringResolver;
  */
 public class UML2StringResolver extends AbstractStringResolver {
 
-	private final static String DOC_TYPE = UMLPackage.eNS_URI;
-	
 	private final static String KEY = "UML2StringResolver";
-	
 	private final static String NAME = "UML2 String Resolver";
 
 	@Override
 	public String resolve(EObject eObject) {
-		String res = eObject.toString();
 		if(eObject instanceof NamedElement){
 			NamedElement namedElement = (NamedElement) eObject;
-			res = String.format("%s [%s]", namedElement.getName(),  namedElement.getClass().getSimpleName());
-		}else{
-			//...
+			return String.format("%s [%s]", namedElement.getName(),  namedElement.getClass().getSimpleName());
 		}
-		return res;
+		return eObject.toString();
 	}
 
 	@Override
-	public String getDocType() {
-		return DOC_TYPE;
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(UMLPackage.eNS_URI);
 	}
-
+	
 	@Override
 	public String getKey() {
 		return KEY;
