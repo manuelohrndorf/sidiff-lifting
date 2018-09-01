@@ -26,7 +26,7 @@ import org.sidiff.common.logging.LogUtil;
  * @author Robert Müller
  *
  */
-class CompareResourceLoader {
+final class CompareResourceLoader {
 
 	private static final String EXTENSION_POINT_ID = "org.sidiff.integration.remote.loaders";
 	private static final String ATTRIBUTE_CLASS = "class";
@@ -133,12 +133,12 @@ class CompareResourceLoader {
 	}
 
 	protected URI resolveURI(CompareResource compRes) {
-		final ITypedElement typedElement = compRes.getTypedElement();
 		if(compRes.getPlatformResource() != null) {
 			// use the platform resource to resolve the uri
 			return EMFStorage.iResourceToURI(compRes.getPlatformResource());
 		}
 		// resolve using the registered extensions
+		final ITypedElement typedElement = compRes.getTypedElement();
 		for(IURIResolver r : uriResolvers) {
 			if(r.canHandle(typedElement)) {
 				URI uri = r.getURI(typedElement);
