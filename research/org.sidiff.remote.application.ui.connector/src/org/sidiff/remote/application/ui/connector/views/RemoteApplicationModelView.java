@@ -3,6 +3,7 @@ package org.sidiff.remote.application.ui.connector.views;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -443,10 +444,15 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				String patchPath = patchFile.getAbsolutePath();
 
 				URI uri_patch = null;
-				for (String entry : ZipUtil.getEntries(patchPath)) {
-					if (entry.endsWith("slice")) {
-						uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+				try {
+					for (String entry : ZipUtil.getEntries(Paths.get(patchPath))) {
+						if (entry.endsWith("slice")) {
+							uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+						}
 					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 
 				ResourceSet resourceSet = new ResourceSetImpl();

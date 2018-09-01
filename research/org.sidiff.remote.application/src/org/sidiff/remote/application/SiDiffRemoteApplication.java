@@ -17,6 +17,7 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
+import org.sidiff.common.exceptions.SiDiffRuntimeException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
@@ -25,7 +26,6 @@ import org.sidiff.remote.application.adapters.InfoOperationResult;
 import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
-import org.sidiff.remote.application.util.ExtensionUtil;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.exceptions.AddRepositoryException;
 import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
@@ -120,7 +120,10 @@ public class SiDiffRemoteApplication {
 	 */
 	public ListOperationResult browseRepositoryContent(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
 		//TODO determine right repository adapter
-		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		IRepositoryAdapter repositoryAdapter =
+				IRepositoryAdapter.MANAGER.getExtension("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter")
+					.orElseThrow(() -> new SiDiffRuntimeException("repository adapter not found"));
+
 		ListOperationResult infoOperationResult = null;
 		try {
 			infoOperationResult = repositoryAdapter.list(url, port, path, user, password);
@@ -153,7 +156,9 @@ public class SiDiffRemoteApplication {
 	public List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String elementID, boolean infinite) {
 
 		//TODO determine right repository adapter
-		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		IRepositoryAdapter repositoryAdapter =
+				IRepositoryAdapter.MANAGER.getExtension("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter")
+					.orElseThrow(() -> new SiDiffRuntimeException("repository adapter not found"));
 				
 		File file = this.modelIndexer.getFile(relative_remote_file_path);
 		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
@@ -274,8 +279,9 @@ public class SiDiffRemoteApplication {
 					slicedModel, preferences);
 
 			// TODO determine right repository adapter
-			IRepositoryAdapter repositoryAdapter = ExtensionUtil
-					.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+			IRepositoryAdapter repositoryAdapter =
+					IRepositoryAdapter.MANAGER.getExtension("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter")
+						.orElseThrow(() -> new SiDiffRuntimeException("repository adapter not found"));
 
 			InfoOperationResult infoOperationResult;
 
@@ -371,7 +377,10 @@ public class SiDiffRemoteApplication {
 	 */
 	public CheckoutOperationResult checkoutRepositoryContent(String url, int port, String path, String user, char[] password) throws AddRepositoryException {
 		//TODO determine right repository adapter
-		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		IRepositoryAdapter repositoryAdapter =
+				IRepositoryAdapter.MANAGER.getExtension("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter")
+					.orElseThrow(() -> new SiDiffRuntimeException("repository adapter not found"));
+
 		String target = this.user_folder.getPath();
 		CheckoutOperationResult checkoutOperatoinResult = null;
 		try {
