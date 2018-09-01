@@ -1,15 +1,19 @@
 package org.sidiff.integration.preferences.significance;
 
+import org.sidiff.common.extension.IExtension;
+
 /**
  * A preference domain significance provider is used to find domains (via document type)
  * that are significant for showing the domain specific settings pages.
  * @author Robert Müller
  *
  */
-public interface IPreferenceDomainSignificanceProvider {
+public interface IDomainSignificance extends IExtension {
 
-	public static final String EXTENSION_POINT_ID = "org.sidiff.integration.preferences.domains.significance";
-	public static final String EXTENSION_POINT_ATTRIBUTE = "class";
+	Description<IDomainSignificance> DESCRIPTION = Description.of(IDomainSignificance.class,
+					"org.sidiff.integration.preferences.domains.significance", "significanceProvider", "class");
+
+	DomainSignificanceManager MANAGER = new DomainSignificanceManager();
 
 	/**
 	 * Returns whether the given domain (document type) has non-default settings (e.g. custom rulebases)

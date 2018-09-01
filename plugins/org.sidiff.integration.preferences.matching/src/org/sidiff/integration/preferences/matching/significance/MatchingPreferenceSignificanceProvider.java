@@ -3,7 +3,7 @@ package org.sidiff.integration.preferences.matching.significance;
 import java.util.Collections;
 
 import org.sidiff.common.emf.access.EMFModelAccess;
-import org.sidiff.integration.preferences.significance.IPreferenceDomainSignificanceProvider;
+import org.sidiff.integration.preferences.significance.IDomainSignificance;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
 
@@ -12,7 +12,7 @@ import org.sidiff.matcher.MatcherUtil;
  * @author Robert Müller
  *
  */
-public class MatchingPreferenceSignificanceProvider implements IPreferenceDomainSignificanceProvider {
+public class MatchingPreferenceSignificanceProvider implements IDomainSignificance {
 
 	@Override
 	public boolean isSignificant(String documentType) {

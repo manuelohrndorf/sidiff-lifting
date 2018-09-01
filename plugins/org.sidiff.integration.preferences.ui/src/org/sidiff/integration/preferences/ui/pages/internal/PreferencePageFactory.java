@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
-import org.sidiff.integration.preferences.significance.DomainSignificanceUtil;
+import org.sidiff.integration.preferences.significance.IDomainSignificance;
 import org.sidiff.integration.preferences.tabs.IPreferenceTab;
 import org.sidiff.integration.preferences.tabs.PreferenceTabUtil;
-import org.sidiff.integration.preferences.ui.pages.TabbedPreferencePage;
 import org.sidiff.integration.preferences.ui.pages.PreferenceFieldPage;
 import org.sidiff.integration.preferences.ui.pages.PropertyAndPreferencePage;
+import org.sidiff.integration.preferences.ui.pages.TabbedPreferencePage;
 import org.sidiff.integration.preferences.util.PipelineStepUtil;
 import org.sidiff.integration.preferences.util.PipelineStepUtil.PipelineStep;
 
@@ -52,7 +52,7 @@ public class PreferencePageFactory {
 		// afterwards create tabs for domain specific settings
 		for(IPreferenceTab tab : tabs) {
 			if(tab instanceof IPreferenceTab.DomainSpecific) {
-				for(String docType : DomainSignificanceUtil.getSignificantDocumentTypes()) {
+				for(String docType : IDomainSignificance.MANAGER.getSignificantDocumentTypes()) {
 					((IPreferenceTab.DomainSpecific)tab).setDocumentType(docType);
 					List<IPreferenceField> fields = new ArrayList<IPreferenceField>();
 					tab.createPreferenceFields(fields);
