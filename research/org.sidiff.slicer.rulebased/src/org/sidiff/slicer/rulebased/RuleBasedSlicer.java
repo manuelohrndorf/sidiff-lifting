@@ -116,7 +116,12 @@ public class RuleBasedSlicer implements ISlicer{
 	 * flag that indicates if the slicer is initialized
 	 */
 	private boolean initialized = false;
-	
+
+	@Override
+	public boolean canHandleConfiguration(ISlicingConfiguration config) {
+		return config instanceof RuleBasedSlicingConfiguration;
+	}
+
 	/**
 	 * initializes the slicer
 	 * @param config
@@ -479,7 +484,6 @@ public class RuleBasedSlicer implements ISlicer{
 		return null;
 	}
 
-	@Override
 	public boolean canHandleDocTypes(Set<String> documentTypes) {
 		return !PipelineUtils.getAvailableRulebases(documentTypes).isEmpty();
 	}

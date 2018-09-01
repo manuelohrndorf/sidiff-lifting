@@ -97,11 +97,6 @@ public class StructureBasedSlicer implements ISlicer {
 	}
 
 	@Override
-	public boolean canHandleDocTypes(Set<String> documentTypes) {
-		return getDocumentTypes().containsAll(documentTypes);
-	}
-
-	@Override
 	public boolean canHandleModels(Collection<Resource> models) {
 		Set<String> docTypes = getDocumentTypes();
 		for(Resource model : models) {
@@ -111,6 +106,11 @@ public class StructureBasedSlicer implements ISlicer {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public boolean canHandleConfiguration(ISlicingConfiguration config) {
+		return config instanceof SlicingConfiguration;
 	}
 
 	@Override

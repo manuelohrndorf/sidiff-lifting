@@ -2,8 +2,8 @@ package org.sidiff.slicer.structural.configuration.commands;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -181,10 +181,8 @@ public class RunSlicerActionHandler extends AbstractHandler
 		if(contextIdentifiers == null || contextIdentifiers.isEmpty())
 			return null;
 
-		// find all slicers
-		Set<ISlicer> slicers = SlicerUtil.getAllAvailableSlicers();
-
 		// choose slicer, show dialog if more than 1 available
+		Collection<ISlicer> slicers = ISlicer.MANAGER.getSlicers(cfg);
 		ISlicer slicer = null;
 		if(slicers.isEmpty())
 		{
@@ -212,7 +210,7 @@ public class RunSlicerActionHandler extends AbstractHandler
 		try
 		{
 			// run slicer
-			slicer.init((SlicingConfiguration)cfg);
+			slicer.init(cfg);
 			ModelSlice slice = slicer.slice(contextIdentifiers);
 			SlicerUtil.serializeModelSlice(saveURI, slice.export(object -> model.eResource().equals(object.eResource())));
 

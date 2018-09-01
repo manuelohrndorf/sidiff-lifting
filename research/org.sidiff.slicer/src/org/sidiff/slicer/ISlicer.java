@@ -1,27 +1,22 @@
 package org.sidiff.slicer;
 
 import java.util.Collection;
-import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.extension.ITypedExtension;
 import org.sidiff.slicer.slice.ModelSlice;
 
-public interface ISlicer {
+public interface ISlicer extends ITypedExtension {
 
-	String EXTENSION_POINT_ID = "org.sidiff.slicer.instantiation";
+	Description<ISlicer> DESCRIPTION = Description.of(ISlicer.class, "org.sidiff.slicer.instantiation", "instantiation", "class");
+	SlicerManager MANAGER = new SlicerManager();
 
-	public String getKey();
+	boolean canHandleModels(Collection<Resource> models);
 
-	public String getName();
+	boolean canHandleConfiguration(ISlicingConfiguration config);
 
-	public Set<String> getDocumentTypes();
+	void init(ISlicingConfiguration config) throws Exception;
 
-	public boolean canHandleDocTypes(Set<String> documentTypes);
-
-	public boolean canHandleModels(Collection<Resource> models);
-
-	public void init(ISlicingConfiguration config) throws Exception;
-
-	public ModelSlice slice(Collection<EObject> input) throws Exception;
+	ModelSlice slice(Collection<EObject> input) throws Exception;
 }
