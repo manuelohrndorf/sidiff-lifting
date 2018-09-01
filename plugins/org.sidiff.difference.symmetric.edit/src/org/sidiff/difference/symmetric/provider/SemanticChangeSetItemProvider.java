@@ -9,6 +9,7 @@ package org.sidiff.difference.symmetric.provider;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -25,7 +26,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.sidiff.common.stringresolver.util.StringResolverUtil;
+import org.sidiff.common.stringresolver.IStringResolver;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.SymmetricPackage;
@@ -420,7 +421,10 @@ public class SemanticChangeSetItemProvider
 	@Override
 	public String getText(Object object) {
 		if(object instanceof SemanticChangeSet){
-			return StringResolverUtil.getAvailableStringResolver(SymmetricPackage.eNS_URI).resolve((EObject)object);		
+			Optional<IStringResolver> resolver = IStringResolver.MANAGER.getDefaultExtension(SymmetricPackage.eNS_URI);
+			if(resolver.isPresent()) {
+				return resolver.get().resolve((EObject)object);
+			}
 		}
 		return getString("_UI_SemanticChangeSet_type");
 	}

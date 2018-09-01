@@ -53,7 +53,7 @@ public abstract class ChangeImpl extends EObjectImpl implements Change {
 			return ((SymmetricDifferenceImpl) container).getLabelPrinter();
 		}
 
-		return new LabelPrinter(null);
+		return new LabelPrinter();
 	}
 
 } //ChangeImpl
