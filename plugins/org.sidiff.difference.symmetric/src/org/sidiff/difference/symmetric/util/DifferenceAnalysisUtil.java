@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.sidiff.common.collections.CollectionView;
 import org.sidiff.difference.symmetric.Change;
@@ -537,9 +539,8 @@ public class DifferenceAnalysisUtil {
 	 * 
 	 * @see CollectionView#combine(Collection...)
 	 */
-	@SuppressWarnings("unchecked")
 	public static Collection<SemanticChangeSet> getAllSemanticChangeSets(SymmetricDifference difference) {
-		return CollectionView.combine(difference.getChangeSets(), difference.getUnusedChangeSets());
+		return Stream.concat(difference.getChangeSets().stream(), difference.getUnusedChangeSets().stream()).collect(Collectors.toList());
 	}
 
 	/**
