@@ -157,8 +157,8 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				
 			case GET_REQUESTED_MODEL_FILE_REQUEST:
 				GetRequestedModelFileRequest getRequestedModelFileRequest = (GetRequestedModelFileRequest) command;
-				ProxyObject proxyObject = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
-				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObject);
+				List<ProxyObject> proxyObjectsFile = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
+				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObjectsFile);
 				protocolHandler.write(getRequestedModelFileReply, null);
 				break;
 				

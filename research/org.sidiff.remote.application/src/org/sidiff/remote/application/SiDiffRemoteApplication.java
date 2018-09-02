@@ -311,15 +311,15 @@ public class SiDiffRemoteApplication {
 	}
 	
 	/**
-	 * Returns the file tree as {@link ProxyObject} for the file given by the session path
+	 * Returns the file tree as {@link ProxyObject}s for the file given by the session path
 	 * 
 	 * @param session_path
 	 *            session based path for the requested file
-	 * @return the file tree as {@link ProxyObject} for the file given by the session path
+	 * @return the file tree as {@link ProxyObject}s for the file given by the session path
 	 */
-	public ProxyObject getRequestedModelFile(String session_path){
+	public List<ProxyObject> getRequestedModelFile(String session_path){
 		File file = this.modelIndexer.getFile(session_path);
-		return ProxyUtil.convertFileTree(file, session_id);
+		return ProxyUtil.convertFileTree(file, session_id, this.modelIndexer.getFilteredFiles().values());
 	}
 	
 	/**
