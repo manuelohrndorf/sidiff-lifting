@@ -50,7 +50,7 @@ public class AdaptableTreeNode implements IAdaptable {
 	public AdaptableTreeNode(String label, String id, String type, boolean leaf, AdaptableTreeNode parent) {
 		this(label, id, type, leaf);
 		this.parent = parent;
-		this.parent.getChildren().add(this);
+		this.parent.addChildren(this);
 	}
 	
 	public boolean hasChildren() {
@@ -90,14 +90,15 @@ public class AdaptableTreeNode implements IAdaptable {
 	}
 	
 	public void setParent(AdaptableTreeNode parent) {
-		if(this.parent != null) {
-			this.parent.removeChildren(this);
-		}
-		
-		this.parent = parent;
-		
-		if(parent != null) {
-			this.parent.addChildren(this);
+		if(this.parent != parent) {
+			AdaptableTreeNode oldParent = this.parent;
+			this.parent = parent;
+			if(oldParent != null) {
+				oldParent.removeChildren(this);
+			}
+			if(this.parent != null) {
+				this.parent.addChildren(this);
+			}
 		}
 	}
 	
@@ -109,6 +110,7 @@ public class AdaptableTreeNode implements IAdaptable {
 		if(!this.children.contains(child)) {
 			this.children.add(child);
 			child.setParent(this);
+			this.leaf = false;
 		}
 	}
 	
