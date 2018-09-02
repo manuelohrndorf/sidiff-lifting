@@ -2,6 +2,8 @@ package org.sidiff.remote.common.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -126,11 +128,13 @@ public class ProxyUtil {
 		return contents;
 	}
 	
-	public static ProxyObject convertFileTree(File file, String rootName) {
+	public static List<ProxyObject> convertFileTree(File file, String rootName, Collection<File> blaclist) {
 		List<File> files = new ArrayList<File>();
 		while(!file.getName().equals(rootName)) {
-			files.add(0, file);
 			file = file.getParentFile();
+			List<File> children = new ArrayList<File>(Arrays.asList(file.listFiles()));
+			children.removeAll(blaclist);
+			files.addAll(0, children);
 		}
 		
 		Map<File, ProxyObject> proxyObjects = new HashMap<File, ProxyObject>();
@@ -142,7 +146,14 @@ public class ProxyUtil {
 			}
 		}
 		
-		return proxyObjects.get(files.get(0));
+		List<ProxyObject> rootProxyObjects = new ArrayList<ProxyObject>();
+		for(ProxyObject proxyObject : proxyObjects.values()) {
+			if(proxyObject.getParent() == null) {
+				rootProxyObjects.add(proxyObject);
+			}
+		}
+		
+		return rootProxyObjects;
 	}
 	
 	public static List<ProxyObject> sort(ProxyObject proxyObject){

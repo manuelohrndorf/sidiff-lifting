@@ -1,5 +1,7 @@
 package org.sidiff.remote.common.commands;
 
+import java.util.List;
+
 import org.sidiff.remote.common.ECommand;
 import org.sidiff.remote.common.ProxyObject;
 
@@ -18,26 +20,26 @@ public class GetRequestedModelFileReply extends ReplyCommand {
 	/**
 	 * a tree based representation of a remote model
 	 */
-	private ProxyObject proxyObject;
+	private List<ProxyObject> proxyObjects;
 	
 	/**
 	 * 
 	 * @param session
-	 * @param proxyObject
-	 * 			a tree based representation of a remote model
+	 * @param proxyObjects
+	 *            a tree based representation of a remote model
 	 */
-	public GetRequestedModelFileReply(ProxyObject proxyObject) {
+	public GetRequestedModelFileReply(List<ProxyObject> proxyObjects) {
 		super(null);
 		this.eCommand = ECommand.GET_REQUESTED_MODEL_FILE_REPLY;
-		this.proxyObject = proxyObject;
+		this.proxyObjects = proxyObjects;
 	}
 	
 	/**
 	 * a tree based representation of a remote model
-	 * @return
-	 * 		a tree based representation of a remote model
+	 * 
+	 * @return a tree based representation of a remote model
 	 */
-	public ProxyObject getProxyObject() {
-		return proxyObject;
+	public List<ProxyObject> getProxyObjects() {
+		return proxyObjects;
 	}
 }
