@@ -2,10 +2,6 @@ package org.sidiff.remote.application.ui.connector.decorators;
 
 import java.io.File;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -59,16 +55,14 @@ public class DirtyResourceDecorator implements ILightweightLabelDecorator {
 	}
 	
 	private boolean containsModifedResource(IResource resource) throws ModelNotVersionedException, InvalidSessionException {
-		if(resource instanceof IProject) {
-			
-		}else if(resource instanceof IFolder) {
-			IFolder folder = (IFolder) resource;
-			for(String local_model_path : ConnectorFacade.getSession().getLocalModelPaths()) {
-				if(ConnectorFacade.getSession().isModified(local_model_path) && local_model_path.startsWith(folder.getFullPath().toOSString().substring(1))) {
-					return true;
-				}
+
+		for (String local_model_path : ConnectorFacade.getSession().getLocalModelPaths()) {
+			if (ConnectorFacade.getSession().isModified(local_model_path)
+					&& local_model_path.startsWith(resource.getFullPath().toOSString().substring(1))) {
+				return true;
 			}
 		}
+		
 		return false;
 	}
 
