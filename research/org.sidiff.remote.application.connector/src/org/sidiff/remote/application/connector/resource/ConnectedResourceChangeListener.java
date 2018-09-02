@@ -44,7 +44,7 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 				@Override
 				public boolean visit(IResourceDelta delta) throws CoreException {
 					// only interested in changed or removed resources (not added)
-					if (delta.getKind() != IResourceDelta.CHANGED || delta.getKind() != IResourceDelta.REMOVED) {
+					if (delta.getKind() != IResourceDelta.CHANGED && delta.getKind() != IResourceDelta.REMOVED) {
 						return true;
 					}
 					IResource resource = delta.getResource();
