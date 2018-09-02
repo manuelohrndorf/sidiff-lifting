@@ -1,6 +1,7 @@
-package org.sidiff.integration.preferences.settingsadapter;
+package org.sidiff.integration.preferences.settingsadapter.internal;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
