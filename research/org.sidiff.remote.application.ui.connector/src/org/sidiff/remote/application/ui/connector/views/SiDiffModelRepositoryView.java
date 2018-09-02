@@ -492,7 +492,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		String local_relative_model_path = localModelPath.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
 		String remoteModelPath = ConnectorFacade.getSession().getRemoteModelPath(local_relative_model_path);
 		
-		ProxyObject proxyFile = ConnectorFacade.getRequestedModelFile(remoteModelPath);
+		List<ProxyObject> proxyObjectsFiles = ConnectorFacade.getRequestedModelFile(remoteModelPath);
 		
 		AdaptableTreeModel treeModelFiles = null;
 		if(treeViewer.getInput() == null) {
@@ -502,27 +502,40 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			treeModelFiles = (AdaptableTreeModel) treeViewer.getInput();
 		}
 		
-		AdaptableTreeNode currentFileNode = treeModelFiles.getRoot();
-		for(ProxyObject proxyObject : ProxyUtil.sort(proxyFile)) {
+		List<ProxyObject> proxyFiles = new ArrayList<ProxyObject>();
+
+		for(ProxyObject proxyObject : proxyObjectsFiles) {
+			proxyFiles.addAll(ProxyUtil.sort(proxyObject));
+		}
+	
+		List<AdaptableTreeNode> visibleModelFileNodes = new ArrayList<AdaptableTreeNode>();
+		
+		AdaptableTreeNode selectedFileNode = null;
+		
+		for(ProxyObject proxyObject : proxyFiles) {
+			
+			AdaptableTreeNode currentFileNode = null;
 			if(treeModelFiles.getTreeNode(proxyObject.getId()) == null) {
-				currentFileNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), currentFileNode);
+				AdaptableTreeNode parent = null;
+				if(proxyObject.getParent() == null) {
+					parent = treeModelFiles.getRoot();
+				}else {
+					parent = treeModelFiles.getTreeNode(proxyObject.getParent().getId());
+				}
+				currentFileNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent);
 			}else {
 				currentFileNode = treeModelFiles.getTreeNode(proxyObject.getId());
 			}
+			visibleModelFileNodes.add(currentFileNode);
+			if(currentFileNode.getId().equals(remoteModelPath)) {
+				selectedFileNode = currentFileNode;
+			}
 		}
 		
-		currentFileNode.setSelected(true);
-	
-		List<AdaptableTreeNode> visibleModelFilesNodes = new ArrayList<AdaptableTreeNode>();
-		AdaptableTreeNode parentFile = currentFileNode;
-		while(!parentFile.equals(treeModelFiles.getRoot())){
-			visibleModelFilesNodes.add(0, parentFile);
-			parentFile = parentFile.getParent();
-		}
-		treeViewer.setExpandedElements(visibleModelFilesNodes.toArray());
-		treeViewer.setSelection(new StructuredSelection(currentFileNode), true);
+		treeViewer.setExpandedElements(visibleModelFileNodes.toArray());
+		treeViewer.setSelection(new StructuredSelection(selectedFileNode), true);
 		
-		List<ProxyObject> proxyElements = ConnectorFacade.getRequestedModelElements(localModelPath);
+		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(localModelPath);
 		
 		AdaptableTreeModel treeModelElements = null;
 		if(checkboxTreeViewer.getInput() == null) {
@@ -532,15 +545,15 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			treeModelElements = (AdaptableTreeModel) checkboxTreeViewer.getInput();
 		}
 		
-		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
+		List<ProxyObject> proxyElements = new ArrayList<ProxyObject>();
 
-		for(ProxyObject proxyObject : proxyElements) {
-			proxyObjects.addAll(ProxyUtil.sort(proxyObject));
+		for(ProxyObject proxyObject : proxyObjectsElement) {
+			proxyElements.addAll(ProxyUtil.sort(proxyObject));
 		}
 		
 		List<AdaptableTreeNode> visibleModelElementNodes = new ArrayList<AdaptableTreeNode>();
 		
-		for(ProxyObject proxyObject : proxyObjects) {
+		for(ProxyObject proxyObject : proxyElements) {
 			
 			AdaptableTreeNode currentElementNode = null;
 			if(treeModelElements.getTreeNode(proxyObject.getId()) == null) {
@@ -598,7 +611,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						}
 						
 					}
-				}else if(event.getSource().equals(this.checkboxTreeViewer) && !(treeNode.isLeaf()) && treeNode.getChildren().isEmpty()){
+				}else if(event.getSource().equals(this.checkboxTreeViewer) && treeNode.getChildren().isEmpty()){
 		
 					try {
 						String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection()
