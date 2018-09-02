@@ -177,12 +177,12 @@ public class ConnectorFacade {
 		
 	}
 	
-	public static ProxyObject getRequestedModelFile(String remote_model_path) throws ConnectionException, RemoteApplicationException {
+	public static List<ProxyObject> getRequestedModelFile(String remote_model_path) throws ConnectionException, RemoteApplicationException {
 		GetRequestedModelFileRequest getRequestedModelFileRequest = new GetRequestedModelFileRequest(getCredentials(), remote_model_path);
 		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(getRequestedModelFileRequest, null);
 		if(replyCommand.getECommand().equals(ECommand.GET_REQUESTED_MODEL_FILE_REPLY)) {
 			GetRequestedModelFileReply getRequestedModelFileReply = (GetRequestedModelFileReply) replyCommand;
-			return getRequestedModelFileReply.getProxyObject();
+			return getRequestedModelFileReply.getProxyObjects();
 		}else {
 			ErrorReply errorReply = (ErrorReply) replyCommand;
 			throw new RemoteApplicationException(errorReply.getErrorReport());
