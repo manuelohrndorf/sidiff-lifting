@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
@@ -123,14 +124,14 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @generated NOT
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<EObject> export(Resource primaryResource) {
+	public EList<EObject> export(Predicate<EObject> copySelector) {
 		Set<EObject> copiedObjects = new HashSet<EObject>();
 		Map<SlicedElement, EObject> objectMapping = new HashMap<>();
 
 		// create a copy of the object of every sliced element
 		for (SlicedElement slicedElement : getSlicedElements()) {
 			EObject object = slicedElement.getObject();
-			if(primaryResource == null || primaryResource.equals(object.eResource())) {
+			if(copySelector.test(object)) {
 				EObject copy = EMFUtil.copyWithoutReferences(object);
 				objectMapping.put(slicedElement, copy);
 				copiedObjects.add(copy);
@@ -266,10 +267,11 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case SlicePackage.MODEL_SLICE___EXPORT__RESOURCE:
-				return export((Resource)arguments.get(0));
+			case SlicePackage.MODEL_SLICE___EXPORT__PREDICATE:
+				return export((Predicate<EObject>)arguments.get(0));
 			case SlicePackage.MODEL_SLICE___SERIALIZE__STRING:
 				serialize((String)arguments.get(0));
 				return null;

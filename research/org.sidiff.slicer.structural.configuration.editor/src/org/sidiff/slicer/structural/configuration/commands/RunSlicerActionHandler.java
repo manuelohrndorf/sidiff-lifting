@@ -214,7 +214,7 @@ public class RunSlicerActionHandler extends AbstractHandler
 			// run slicer
 			slicer.init((SlicingConfiguration)cfg);
 			ModelSlice slice = slicer.slice(contextIdentifiers);
-			SlicerUtil.serializeModelSlice(saveURI, slice.export(model.eResource()));
+			SlicerUtil.serializeModelSlice(saveURI, slice.export(object -> model.eResource().equals(object.eResource())));
 
 			URI graphURI = saveURI.appendFileExtension(ConfigurationEditorPlugin.getSubstitutedString("_UI_RunSlicer_GraphFileExt")); //$NON-NLS-1$
 			OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter().createOutputStream(graphURI);

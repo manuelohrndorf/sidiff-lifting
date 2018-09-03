@@ -8,11 +8,12 @@
   <foreignModel>Slice.ecore</foreignModel>
   <genPackages prefix="Slice" basePackage="org.sidiff.slicer" disposableProviderFactory="true"
       ecorePackage="Slice.ecore#/">
+    <genDataTypes ecoreDataType="Slice.ecore#//ICopySelector"/>
     <genClasses ecoreClass="Slice.ecore#//ModelSlice">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Slice.ecore#//ModelSlice/slicedElements"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Slice.ecore#//ModelSlice/type"/>
       <genOperations ecoreOperation="Slice.ecore#//ModelSlice/export">
-        <genParameters ecoreParameter="Slice.ecore#//ModelSlice/export/sourceResource"/>
+        <genParameters ecoreParameter="Slice.ecore#//ModelSlice/export/copySelector"/>
       </genOperations>
       <genOperations ecoreOperation="Slice.ecore#//ModelSlice/serialize">
         <genParameters ecoreParameter="Slice.ecore#//ModelSlice/serialize/path"/>

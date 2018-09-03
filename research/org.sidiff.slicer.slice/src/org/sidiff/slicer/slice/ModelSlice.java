@@ -2,10 +2,10 @@
  */
 package org.sidiff.slicer.slice;
 
+import java.util.function.Predicate;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * <!-- begin-user-doc -->
@@ -69,13 +69,13 @@ public interface ModelSlice extends EObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Returns a collection of all containers that properly contain all sliced objects.
-	 * If the given resource is not null, all objects contained in this resource will be copied.
-	 * If the resource is null, all objects will be copied.
+	 * The copy selector is a predicate that should return true for all objects, that should be copied.
+	 * Returning false references the original object.
 	 * <!-- end-model-doc -->
-	 * @model
+	 * @model copySelectorDataType="org.sidiff.slicer.slice.ICopySelector"
 	 * @generated
 	 */
-	EList<EObject> export(Resource sourceResource);
+	EList<EObject> export(Predicate<EObject> copySelector);
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -72,7 +72,7 @@ public class SiDiffSlicingApplication implements IApplication{
 		final long timerSlice = System.currentTimeMillis();
 		System.out.println("Slicing: " + (timerSlice - timeSlicerInit) + "ms");
 		URI saveURI = StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration)slicing_config);
-		SlicerUtil.serializeModelSlice(saveURI, modelSlice.export(model.eResource()));
+		SlicerUtil.serializeModelSlice(saveURI, modelSlice.export(object -> model.eResource().equals(object.eResource())));
 		String gv_path = loadModelURI.path().replace(loadModelURI.lastSegment(), "graph.dot");
 		FileOperations.writeFile(gv_path, GraphUtil.get(slicer).getOutput());
 

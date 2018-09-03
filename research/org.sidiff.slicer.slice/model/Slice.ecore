@@ -4,9 +4,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="ModelSlice">
     <eOperations name="export" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Returns a collection of all containers that properly contain all sliced objects.&#xD;&#xA;If the given resource is not null, all objects contained in this resource will be copied.&#xD;&#xA;If the resource is null, all objects will be copied."/>
+        <details key="documentation" value="Returns a collection of all containers that properly contain all sliced objects.&#xD;&#xA;The copy selector is a predicate that should return true for all objects, that should be copied.&#xD;&#xA;Returning false references the original object."/>
       </eAnnotations>
-      <eParameters name="sourceResource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"/>
+      <eParameters name="copySelector" eType="#//ICopySelector"/>
     </eOperations>
     <eOperations name="serialize">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -27,4 +27,6 @@
         eType="ecore:EClass ../../org.sidiff.entities/model/EntitiesModel.ecore#//Attribute"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ICopySelector" instanceClassName="java.util.function.Predicate&lt;org.eclipse.emf.ecore.EObject>"
+      serializable="false"/>
 </ecore:EPackage>

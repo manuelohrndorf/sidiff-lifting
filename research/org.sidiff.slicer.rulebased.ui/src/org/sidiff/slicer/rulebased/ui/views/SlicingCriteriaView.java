@@ -221,7 +221,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 
 		this.localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
 		
-		Map<EObject, EObject> copies_empty = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
+		Map<EObject, EObject> copies_empty = EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents()));
 		
 		this.remoteResourceEmpty.getContents().addAll(copies_empty.values());
 		
@@ -230,7 +230,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			EMFUtil.setXmiId(copies_empty.get(origin), id);
 		}
 		
-		Map<EObject, EObject> copies = EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents()));
+		Map<EObject, EObject> copies = EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents()));
 		
 		this.localSlicedResource.getContents().addAll(copies.values());
 		
@@ -268,7 +268,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		}
 		
 		this.checkboxTreeViewer.setGrayChecked(this.remoteResourceComplete, true);
-		for(EObject eObject : EMFUtil.copySubModel(new HashSet<EObject>(remoteResourceComplete.getContents())).keySet()){
+		for(EObject eObject : EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents())).keySet()){
 			checkboxTreeViewer.setGrayChecked(eObject, true);
 		}
 		
