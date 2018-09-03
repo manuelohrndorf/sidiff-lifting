@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -39,7 +44,7 @@ import org.sidiff.slicer.util.SlicerUtil;
 public class Uml2ClassificationApplication implements IApplication {
 
 	private static final URI UML_XMI_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/models/UML.transformed.xmi", true);
-	private static final URI UML_ECORE_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/models/UML.ecore", true);
+	private static final URI UML_ECORE_URI = URI.createURI("platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore", true);
 	private static final URI SLICING_CONFIG_URI = URI.createPlatformPluginURI("/org.sidiff.uml2.classification/configs/UML_Datatypes.scfg", true);
 
 	@Override
@@ -80,7 +85,7 @@ public class Uml2ClassificationApplication implements IApplication {
 			Resource umlMetaModel = new ResourceSetImpl().getResource(UML_ECORE_URI, true);
 			ModelSlice slice = slicer.slice(umlMetaModel.getContents());
 			URI outputUri = URI.createFileURI(outputDirectory + "/UML." + nestedPackage.getName() + ".ecore");
-			SlicerUtil.serializeModelSlice(outputUri, slice.export(umlMetaModel));
+			SlicerUtil.serializeModelSlice(outputUri, slice.export(object -> shouldCopy(umlMetaModel, coreClasses, object)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,6 +114,25 @@ public class Uml2ClassificationApplication implements IApplication {
 				collectSuperClasses(coreClasses, superClass);
 			}
 		}
+	}
+
+	private static boolean shouldCopy(Resource umlMetaModel, Set<String> coreClasses, EObject object) {
+		if(object instanceof EGenericType) {
+			EClassifier classifier = ((EGenericType)object).getEClassifier();
+			if(classifier instanceof EClass) {
+				boolean copy = coreClasses.contains(classifier.getName());
+				if(!copy) {
+					EObject structuralFeature = object.eContainer();
+					if(structuralFeature instanceof EStructuralFeature) {
+						String containingClassName = ((EStructuralFeature)structuralFeature).getEContainingClass().getName();
+						String featureName = ((EStructuralFeature)structuralFeature).getName();
+						System.out.println("   - '" + containingClassName + "." + featureName + "' references '" + classifier.getName() + "'");
+					}
+				}
+				return copy;
+			}
+		}
+		return umlMetaModel.equals(object.eResource());
 	}
 
 	@Override

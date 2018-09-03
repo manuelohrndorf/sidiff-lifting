@@ -4,31 +4,31 @@
   <eClassifiers xsi:type="ecore:EClass" name="BehavioredClassifier" abstract="true"
       eSuperTypes="#//Classifier">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifierBehavior" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Behavior"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceRealization" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//InterfaceRealization"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedBehavior" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Behavior"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="#//Namespace #//RedefinableElement #//Type #//TemplateableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="feature" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Feature"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Property"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="collaborationUse" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//CollaborationUse"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="general" ordered="false"
         upperBound="-1" eType="#//Classifier" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="generalization" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Generalization"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="powertypeExtent" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//GeneralizationSet"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inheritedMember" ordered="false"
         upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
         transient="true" derived="true"/>
@@ -45,20 +45,20 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedClassifier" ordered="false"
         upperBound="-1" eType="#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="representation" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//CollaborationUse"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="substitution" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Substitution"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Namespace" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedRule" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Constraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elementImport" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ElementImport"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="packageImport" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//PackageImport"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMember" ordered="false"
         upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
@@ -72,12 +72,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="clientDependency" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Dependency"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nameExpression" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//StringExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="namespace" ordered="false"
         eType="#//Namespace" changeable="false" volatile="true" transient="true" derived="true"/>
@@ -89,7 +89,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedComment" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Comment"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedElement" ordered="false"
         upperBound="-1" eType="#//Element" changeable="false" volatile="true" transient="true"
@@ -102,17 +102,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="ParameterableElement" abstract="true"
       eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="owningTemplateParameter"
-        ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        ordered="false" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//TemplateParameter"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="templateParameter" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//TemplateParameter"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TemplateableElement" abstract="true"
       eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="templateBinding" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//TemplateBinding"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedTemplateSignature"
-        ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        ordered="false" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//TemplateSignature"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DirectedRelationship" abstract="true"
@@ -137,7 +137,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//PackageableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="package" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Package"
         volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ParameterDirectionKind">
@@ -207,7 +207,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Extend" eSuperTypes="#//NamedElement #//DirectedRelationship">
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Constraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extendedCase" ordered="false"
         lowerBound="1" eType="#//UseCase"/>

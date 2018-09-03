@@ -25,7 +25,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nameExpression" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//StringExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="namespace" ordered="false"
         eType="#//Namespace" changeable="false" volatile="true" transient="true" derived="true"/>
@@ -126,7 +126,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//PackageableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="package" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Package"
         volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="#//NamedElement">
@@ -144,13 +144,13 @@
         eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Integer"
         volatile="true" transient="true" defaultValueLiteral="1" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lowerValue" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upper" ordered="false"
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//UnlimitedNatural"
         volatile="true" transient="true" defaultValueLiteral="1" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="upperValue" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//PackageableElement #//DirectedRelationship">
@@ -161,7 +161,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Abstraction" eSuperTypes="#//Dependency">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mapping" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//OpaqueExpression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ParameterDirectionKind">
@@ -187,7 +187,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="context" ordered="false"
         eType="#//Namespace"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specification" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TransitionKind">
@@ -225,7 +225,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PackageImport" eSuperTypes="#//DirectedRelationship">
     <eStructuralFeatures xsi:type="ecore:EReference" name="importedPackage" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Package"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importingNamespace" ordered="false"
         lowerBound="1" eType="#//Namespace"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" ordered="false"

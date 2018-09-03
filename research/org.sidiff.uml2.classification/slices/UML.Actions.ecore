@@ -3,19 +3,19 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="uml" nsURI="http://www.eclipse.org/uml2/5.0.0/UML" nsPrefix="uml">
   <eClassifiers xsi:type="ecore:EClass" name="Namespace" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedRule" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Constraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elementImport" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ElementImport"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="packageImport" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//PackageImport"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMember" ordered="false"
         upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
         transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="importedMember" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//PackageableElement"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="member" ordered="false"
         upperBound="-1" eType="#//NamedElement" changeable="false" volatile="true"
@@ -23,12 +23,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="clientDependency" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Dependency"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//String"
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nameExpression" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//StringExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="namespace" ordered="false"
         eType="#//Namespace" changeable="false" volatile="true" transient="true" derived="true"/>
@@ -40,7 +40,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedComment" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Comment"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ownedElement" ordered="false"
         upperBound="-1" eType="#//Element" changeable="false" volatile="true" transient="true"
@@ -55,7 +55,7 @@
     <eLiterals name="package" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" ordered="false" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiplicityElement" abstract="true"
       eSuperTypes="#//Element">
@@ -69,13 +69,13 @@
         eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Integer"
         volatile="true" transient="true" defaultValueLiteral="1" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lowerValue" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upper" ordered="false"
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//UnlimitedNatural"
         volatile="true" transient="true" defaultValueLiteral="1" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="upperValue" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ParameterDirectionKind">
@@ -99,7 +99,7 @@
         upperBound="-1" eType="#//RedefinableElement" changeable="false" volatile="true"
         transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="redefinitionContext" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"
         changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CallConcurrencyKind">
@@ -135,13 +135,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityGroup" abstract="true" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="containedEdge" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ActivityEdge"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="containedNode" ordered="false"
         upperBound="-1" eType="#//ActivityNode" changeable="false" volatile="true"
         transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inActivity" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Activity"
         volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subgroup" ordered="false"
         upperBound="-1" eType="#//ActivityGroup" changeable="false" volatile="true"
@@ -152,27 +152,27 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNode" abstract="true" eSuperTypes="#//RedefinableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Activity"
         volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inGroup" ordered="false"
         upperBound="-1" eType="#//ActivityGroup" changeable="false" volatile="true"
         transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inInterruptibleRegion"
-        ordered="false" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        ordered="false" upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//InterruptibleActivityRegion"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inStructuredNode" ordered="false"
         eType="#//StructuredActivityNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ActivityEdge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ActivityEdge"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="redefinedNode" ordered="false"
         upperBound="-1" eType="#//ActivityNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inPartition" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ActivityPartition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StructuredActivityNode" eSuperTypes="#//Action #//Namespace #//ActivityGroup">
     <eStructuralFeatures xsi:type="ecore:EReference" name="edge" ordered="false" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ActivityEdge"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mustIsolate" ordered="false"
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
@@ -182,14 +182,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="structuredNodeOutput" ordered="false"
         upperBound="-1" eType="#//OutputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Variable"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" ordered="false" upperBound="-1"
         eType="#//ActivityNode" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true" eSuperTypes="#//ExecutableNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="context" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"
         changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="input" upperBound="-1"
         eType="#//InputPin" changeable="false" volatile="true" transient="true" derived="true"/>
@@ -197,31 +197,31 @@
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="localPostcondition" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Constraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="localPrecondition" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Constraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" upperBound="-1"
         eType="#//OutputPin" changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExecutableNode" abstract="true" eSuperTypes="#//ActivityNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="handler" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ExceptionHandler"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectNode" abstract="true" eSuperTypes="#//ActivityNode #//TypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="inState" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//State"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isControlType" ordered="false"
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordering" ordered="false"
         lowerBound="1" eType="#//ObjectNodeOrderingKind" defaultValueLiteral="FIFO"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="selection" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Behavior"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="upperBound" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ObjectNodeOrderingKind">
@@ -241,12 +241,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
         lowerBound="1" eType="#//OutputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VariableAction" abstract="true" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="variable" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Variable"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WriteLinkAction" abstract="true" eSuperTypes="#//LinkAction"/>
   <eClassifiers xsi:type="ecore:EClass" name="LinkAction" abstract="true" eSuperTypes="#//Action">
@@ -257,7 +257,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LinkEndData" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="end" ordered="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" ordered="false"
         upperBound="-1" eType="#//QualifierValue" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
@@ -265,7 +265,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QualifierValue" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
         lowerBound="1" eType="#//InputPin"/>
   </eClassifiers>
@@ -281,7 +281,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="structuralFeature" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//StructuralFeature"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WriteVariableAction" abstract="true"
       eSuperTypes="#//VariableAction">
@@ -304,7 +304,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" upperBound="-1"
         eType="#//OutputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" ordered="false"
-        lowerBound="1" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        lowerBound="1" upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Trigger"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionInputPin" eSuperTypes="#//InputPin">
@@ -327,13 +327,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BroadcastSignalAction" eSuperTypes="#//InvocationAction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="signal" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Signal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InvocationAction" abstract="true" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="argument" upperBound="-1"
         eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="onPort" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Port"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CallAction" abstract="true" eSuperTypes="#//InvocationAction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isSynchronous" ordered="false"
@@ -344,11 +344,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CallBehaviorAction" eSuperTypes="#//CallAction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="behavior" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Behavior"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CallOperationAction" eSuperTypes="#//CallAction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Operation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
   </eClassifiers>
@@ -368,7 +368,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ClearAssociationAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="association" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Association"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
   </eClassifiers>
@@ -403,7 +403,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CreateObjectAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifier" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
         lowerBound="1" eType="#//OutputPin" containment="true"/>
   </eClassifiers>
@@ -478,13 +478,13 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReadExtentAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifier" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
         lowerBound="1" eType="#//OutputPin" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReadIsClassifiedObjectAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifier" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDirect" ordered="false"
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
         defaultValueLiteral="false"/>
@@ -499,7 +499,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReadLinkObjectEndAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="end" ordered="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
@@ -509,7 +509,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="qualifier" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Property"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
         lowerBound="1" eType="#//OutputPin" containment="true"/>
   </eClassifiers>
@@ -530,11 +530,11 @@
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="newClassifier" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="oldClassifier" ordered="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReduceAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="collection" ordered="false"
@@ -543,7 +543,7 @@
         lowerBound="1" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.types/model/Types.ecore#//Boolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="reducer" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Behavior"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" ordered="false"
         lowerBound="1" eType="#//OutputPin" containment="true"/>
   </eClassifiers>
@@ -564,7 +564,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReplyAction" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="replyToCall" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Trigger"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="replyValue" upperBound="-1"
         eType="#//InputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="returnInformation" ordered="false"
@@ -578,7 +578,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SendSignalAction" eSuperTypes="#//InvocationAction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="signal" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Signal"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
         lowerBound="1" eType="#//InputPin" containment="true"/>
   </eClassifiers>
@@ -608,11 +608,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="result" lowerBound="1"
         upperBound="-1" eType="#//OutputPin" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unmarshallType" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Classifier"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValuePin" eSuperTypes="#//InputPin">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" ordered="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//ValueSpecification"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="MessageKind">
