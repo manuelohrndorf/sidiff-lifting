@@ -22,13 +22,13 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
 import org.sidiff.integration.selection.SiLiftCompareSelectionController;
-import org.sidiff.integration.util.MessageDialogUtil;
 
 /**
  * Used to show all ecore-files participating in a comparison as trees;

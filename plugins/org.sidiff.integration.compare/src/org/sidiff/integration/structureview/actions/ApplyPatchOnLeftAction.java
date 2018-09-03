@@ -7,10 +7,10 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.Activator;
 import org.sidiff.integration.DisplayMode;
 import org.sidiff.integration.SiLiftCompareConfiguration;
-import org.sidiff.integration.util.MessageDialogUtil;
 
 /**
  * 

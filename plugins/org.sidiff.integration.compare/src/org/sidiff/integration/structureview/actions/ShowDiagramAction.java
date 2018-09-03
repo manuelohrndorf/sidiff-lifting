@@ -29,6 +29,7 @@ import org.eclipse.ui.internal.EditorSite;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.part.WorkbenchPart;
 import org.sidiff.common.io.IOUtil;
+import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
@@ -39,7 +40,6 @@ import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
 import org.sidiff.integration.structureview.SiLiftStructureMergeViewer;
 import org.sidiff.integration.structureview.SiLiftStructureMergeViewerContentProvider;
-import org.sidiff.integration.util.MessageDialogUtil;
 
 /**
  * This action tries to open diagram files corresponding with the

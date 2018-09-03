@@ -5,9 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
-import org.sidiff.integration.util.MessageDialogUtil;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 
 /**

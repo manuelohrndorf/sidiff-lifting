@@ -4,8 +4,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.Activator;
-import org.sidiff.integration.util.MessageDialogUtil;
 
 /**
  * 
