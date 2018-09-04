@@ -427,14 +427,14 @@ public class ParameterInfo {
 	 * @return A mapping from all parameters of the rule to attributes with the same name.
 	 */
 	public static Map<Parameter, List<Attribute>> getParameterTargets(Rule editRule) {
-		Map<Parameter, List<Attribute>> targets = new HashMap<>();
+		Map<Parameter, List<Attribute>> targets = new HashMap<Parameter, List<Attribute>>();
 		
 		for (Node lhsNode : editRule.getLhs().getNodes()) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
 				Parameter parameter = editRule.getParameter(lhsAttribute.getValue());
 				
 				if (parameter != null) {
-					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<>());
+					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<Attribute>());
 					attributeTargets.add(lhsAttribute);
 					targets.put(parameter, attributeTargets);
 				}
@@ -446,7 +446,7 @@ public class ParameterInfo {
 				Parameter parameter = editRule.getParameter(rhsAttribute.getValue());
 				
 				if (parameter != null) {
-					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<>());
+					List<Attribute> attributeTargets = targets.getOrDefault(parameter, new ArrayList<Attribute>());
 					attributeTargets.add(rhsAttribute);
 					targets.put(parameter, attributeTargets);
 				}
