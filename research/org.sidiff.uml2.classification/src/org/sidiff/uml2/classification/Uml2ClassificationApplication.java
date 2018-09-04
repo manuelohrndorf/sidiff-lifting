@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -154,19 +156,21 @@ public class Uml2ClassificationApplication implements IApplication {
 			slicer.init(loadSlicingConfiguration(coreClasses));
 			ModelSlice slice = slicer.slice(umlMetaModel.getContents());
 			URI outputUri = URI.createFileURI(outputDirectory + "/UML." + nestedPackage.getName() + ".ecore");
-			SlicerUtil.serializeModelSlice(outputUri, slice.export(object -> shouldCopy(umlMetaModel, coreClasses, object)));
+			Collection<EObject> exportedSlice = slice.export(object -> shouldCopy(umlMetaModel, coreClasses, object));
+			postprocessModelSlice(nestedPackage.getName(), exportedSlice, coreClasses);
+			SlicerUtil.serializeModelSlice(outputUri, exportedSlice);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private ISlicingConfiguration loadSlicingConfiguration(Set<String> classNames) {
+	private ISlicingConfiguration loadSlicingConfiguration(Set<String> coreClasses) {
 		Resource slicingConfigRes = new ResourceSetImpl().getResource(SLICING_CONFIG_URI, true);
 		SlicingConfiguration config = (SlicingConfiguration)slicingConfigRes.getContents().get(0);
 		for(SlicedEClass slicedClass : config.getSlicedEClasses()) {
 			if(slicedClass.getType().equals(EcorePackage.Literals.ECLASS)) {
 				Constraint constraint = ConfigurationFactory.eINSTANCE.createConstraint();
-				constraint.setExpression(String.join(" ", classNames));
+				constraint.setExpression(String.join(" ", coreClasses));
 				slicedClass.setConstraint(constraint);
 				break;
 			}
@@ -182,6 +186,25 @@ public class Uml2ClassificationApplication implements IApplication {
 			}
 		}
 		return umlMetaModel.equals(object.eResource());
+	}
+
+	private void postprocessModelSlice(String packageName, Collection<EObject> exportedSlice, Set<String> coreClasses) throws FileNotFoundException {
+		try (PrintWriter writer = new PrintWriter(outputDirectory + "/UML." + packageName + ".txt")) {
+			TreeIterator<EObject> iterator = EcoreUtil.getAllProperContents(exportedSlice, true);
+			for(EObject object : (Iterable<EObject>)(() -> iterator)) {
+				if(object instanceof EReference) {
+					EReference reference = (EReference)object;
+					// set lower bound to 0 for all references to non-core classes
+					String refTypeName = reference.getEReferenceType().getName();
+					if(reference.getLowerBound() > 0 && !coreClasses.contains(refTypeName)) {
+						reference.setLowerBound(0);
+						writer.println(reference.getEContainingClass().getName()
+								+ " --- " + reference.getName()
+								+ " --> " + refTypeName + " (in " + class2package.get(refTypeName).getName() + ")");
+					}
+				}
+			}
+		}
 	}
 
 	private void createMandatoryReferenceGraph(Package nestedPackage) throws FileNotFoundException, IOException {
