@@ -2,7 +2,12 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="slice" nsURI="http://www.sidiff.org/slice/model/1.0" nsPrefix="slice">
   <eClassifiers xsi:type="ecore:EClass" name="ModelSlice">
-    <eOperations name="export" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eOperations name="export" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Returns a collection of all containers that properly contain all sliced objects.&#xD;&#xA;The copy selector is a predicate that should return true for all objects, that should be copied.&#xD;&#xA;Returning false references the original object."/>
+      </eAnnotations>
+      <eParameters name="copySelector" eType="#//ICopySelector"/>
+    </eOperations>
     <eOperations name="serialize">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }"/>
@@ -22,4 +27,6 @@
         eType="ecore:EClass ../../org.sidiff.entities/model/EntitiesModel.ecore#//Attribute"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="ICopySelector" instanceClassName="java.util.function.Predicate&lt;org.eclipse.emf.ecore.EObject>"
+      serializable="false"/>
 </ecore:EPackage>

@@ -3,6 +3,7 @@
 package org.sidiff.slicer.slice;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -109,7 +110,7 @@ public interface SlicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_SLICE___EXPORT = 0;
+	int MODEL_SLICE___EXPORT__PREDICATE = 0;
 
 	/**
 	 * The operation id for the '<em>Serialize</em>' operation.
@@ -275,6 +276,16 @@ public interface SlicePackage extends EPackage {
 	int SLICED_ELEMENT_OPERATION_COUNT = EntitiesPackage.ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '<em>ICopy Selector</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.util.function.Predicate
+	 * @see org.sidiff.slicer.slice.impl.SlicePackageImpl#getICopySelector()
+	 * @generated
+	 */
+	int ICOPY_SELECTOR = 2;
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.slicer.slice.ModelSlice <em>Model Slice</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -307,14 +318,14 @@ public interface SlicePackage extends EPackage {
 	EReference getModelSlice_Type();
 
 	/**
-	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#export() <em>Export</em>}' operation.
+	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#export(java.util.function.Predicate) <em>Export</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Export</em>' operation.
-	 * @see org.sidiff.slicer.slice.ModelSlice#export()
+	 * @see org.sidiff.slicer.slice.ModelSlice#export(java.util.function.Predicate)
 	 * @generated
 	 */
-	EOperation getModelSlice__Export();
+	EOperation getModelSlice__Export__Predicate();
 
 	/**
 	 * Returns the meta object for the '{@link org.sidiff.slicer.slice.ModelSlice#serialize(java.lang.String) <em>Serialize</em>}' operation.
@@ -357,6 +368,17 @@ public interface SlicePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSlicedElement_SlicedAttributes();
+
+	/**
+	 * Returns the meta object for data type '{@link java.util.function.Predicate <em>ICopy Selector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>ICopy Selector</em>'.
+	 * @see java.util.function.Predicate
+	 * @model instanceClass="java.util.function.Predicate&lt;org.eclipse.emf.ecore.EObject&gt;" serializeable="false"
+	 * @generated
+	 */
+	EDataType getICopySelector();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -413,7 +435,7 @@ public interface SlicePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation MODEL_SLICE___EXPORT = eINSTANCE.getModelSlice__Export();
+		EOperation MODEL_SLICE___EXPORT__PREDICATE = eINSTANCE.getModelSlice__Export__Predicate();
 
 		/**
 		 * The meta object literal for the '<em><b>Serialize</b></em>' operation.
@@ -448,6 +470,16 @@ public interface SlicePackage extends EPackage {
 		 * @generated
 		 */
 		EReference SLICED_ELEMENT__SLICED_ATTRIBUTES = eINSTANCE.getSlicedElement_SlicedAttributes();
+
+		/**
+		 * The meta object literal for the '<em>ICopy Selector</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.util.function.Predicate
+		 * @see org.sidiff.slicer.slice.impl.SlicePackageImpl#getICopySelector()
+		 * @generated
+		 */
+		EDataType ICOPY_SELECTOR = eINSTANCE.getICopySelector();
 
 	}
 

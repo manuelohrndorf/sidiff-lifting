@@ -3,13 +3,21 @@ package org.sidiff.slicer.structural.configuration.presentation;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
+import org.eclipse.jface.viewers.DecoratingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
@@ -29,7 +37,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.sidiff.slicer.structural.configuration.preferences.ColorPreferencePage;
 import org.sidiff.slicer.structural.configuration.preferences.PreferenceConstants;
@@ -40,10 +47,15 @@ import org.sidiff.slicer.structural.configuration.preferences.PreferenceConstant
  * @author rmueller
  *
  */
-public class ImportedModelViewerPane extends ViewerPane implements IPropertyChangeListener
+class ImportedModelViewerPane extends ViewerPane implements IPropertyChangeListener
 {
 	private List<Color> disposeableColors;
 
+	protected ConfigurationEditor editor;
+	protected AdapterFactory adapterFactory;
+	protected EPackage modelPackage;
+	protected SlicingLogicDelegate slicingLogicDelegate;
+	
 	protected Control helpControl;
 	protected SashForm sashForm;
 
@@ -52,16 +64,46 @@ public class ImportedModelViewerPane extends ViewerPane implements IPropertyChan
 	protected Label referencedElementMandatoryLabel;
 	protected Label danglingReferenceLabel;
 	
-	public ImportedModelViewerPane(IWorkbenchPage page, IWorkbenchPart part)
+	public ImportedModelViewerPane(IWorkbenchPage page, ConfigurationEditor editor, AdapterFactory adapterFactory, EPackage modelPackage)
 	{
-		super(page, part);
+		super(page, editor);
+		this.editor = editor;
+		this.adapterFactory = adapterFactory;
+		this.modelPackage = modelPackage;
 		this.disposeableColors = new LinkedList<Color>();
 	}
 
 	@Override
 	public Viewer createViewer(Composite composite)
 	{
-		return new CheckboxTreeViewer(composite);
+		CheckboxTreeViewer viewer = new CheckboxTreeViewer(composite);
+		viewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+
+		// create a delegate that implements a font and color provider, a check state provider,
+		// a label decorator, and a check state listener for the model viewer and delegates
+		// the functions to the slicing logic
+		slicingLogicDelegate = new SlicingLogicDelegate(editor, adapterFactory, viewer, modelPackage.eResource());
+		viewer.setLabelProvider(new DecoratingStyledCellLabelProvider(slicingLogicDelegate, slicingLogicDelegate, null));
+		viewer.setCheckStateProvider(slicingLogicDelegate);
+		viewer.addCheckStateListener(slicingLogicDelegate);
+		ColumnViewerToolTipSupport.enableFor(viewer, ToolTip.RECREATE);
+
+		// set the model
+		viewer.setInput(modelPackage.eResource());
+		viewer.setSelection(new StructuredSelection(modelPackage.eResource()));
+
+		new AdapterFactoryTreeEditor(viewer.getTree(), adapterFactory);
+
+		// expand the EPackage and all checked elements
+		viewer.expandToLevel(2);
+		viewer.setExpandedElements(viewer.getCheckedElements());
+
+		setTitle(modelPackage.getName() + " - " + modelPackage.getNsURI(), //$NON-NLS-1$
+				slicingLogicDelegate.getImage(modelPackage));
+
+		viewer.setComparator(new EcoreLexicalViewerComparator());
+
+		return viewer;
 	}
 
 	/**
@@ -252,5 +294,17 @@ public class ImportedModelViewerPane extends ViewerPane implements IPropertyChan
 		Color c = new Color(Display.getCurrent(), rgb);
 		disposeableColors.add(c);
 		return c;
+	}
+
+	@Override
+	protected void requestActivation()
+	{
+		super.requestActivation();
+		editor.setCurrentViewerPane(this);
+	}
+
+	public SlicingLogicDelegate getSlicingLogicDelegate()
+	{
+		return slicingLogicDelegate;
 	}
 }

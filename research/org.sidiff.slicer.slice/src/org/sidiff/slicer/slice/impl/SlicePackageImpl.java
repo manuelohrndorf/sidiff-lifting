@@ -2,7 +2,9 @@
  */
 package org.sidiff.slicer.slice.impl;
 
+import java.util.function.Predicate;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -47,6 +49,13 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	private EClass slicedElementEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType iCopySelectorEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -74,7 +83,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 *
+	 * 
 	 * <p>This method is used to initialize {@link SlicePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -88,8 +97,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		if (isInited) return (SlicePackage)EPackage.Registry.INSTANCE.getEPackage(SlicePackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredSlicePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		SlicePackageImpl theSlicePackage = registeredSlicePackage instanceof SlicePackageImpl ? (SlicePackageImpl)registeredSlicePackage : new SlicePackageImpl();
+		SlicePackageImpl theSlicePackage = (SlicePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof SlicePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new SlicePackageImpl());
 
 		isInited = true;
 
@@ -106,6 +114,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		// Mark meta-data to indicate it can't be changed
 		theSlicePackage.freeze();
 
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(SlicePackage.eNS_URI, theSlicePackage);
 		return theSlicePackage;
@@ -143,7 +152,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getModelSlice__Export() {
+	public EOperation getModelSlice__Export__Predicate() {
 		return modelSliceEClass.getEOperations().get(0);
 	}
 
@@ -188,6 +197,15 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getICopySelector() {
+		return iCopySelectorEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SliceFactory getSliceFactory() {
 		return (SliceFactory)getEFactoryInstance();
 	}
@@ -214,12 +232,15 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		modelSliceEClass = createEClass(MODEL_SLICE);
 		createEReference(modelSliceEClass, MODEL_SLICE__SLICED_ELEMENTS);
 		createEReference(modelSliceEClass, MODEL_SLICE__TYPE);
-		createEOperation(modelSliceEClass, MODEL_SLICE___EXPORT);
+		createEOperation(modelSliceEClass, MODEL_SLICE___EXPORT__PREDICATE);
 		createEOperation(modelSliceEClass, MODEL_SLICE___SERIALIZE__STRING);
 
 		slicedElementEClass = createEClass(SLICED_ELEMENT);
 		createEReference(slicedElementEClass, SLICED_ELEMENT__SLICED_REFERENCES);
 		createEReference(slicedElementEClass, SLICED_ELEMENT__SLICED_ATTRIBUTES);
+
+		// Create data types
+		iCopySelectorEDataType = createEDataType(ICOPY_SELECTOR);
 	}
 
 	/**
@@ -260,14 +281,18 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 		initEReference(getModelSlice_SlicedElements(), this.getSlicedElement(), null, "slicedElements", null, 0, -1, ModelSlice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModelSlice_Type(), ecorePackage.getEPackage(), null, "type", null, 1, -1, ModelSlice.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEOperation(getModelSlice__Export(), ecorePackage.getEObject(), "export", 0, -1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = initEOperation(getModelSlice__Export__Predicate(), ecorePackage.getEObject(), "export", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getICopySelector(), "copySelector", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		EOperation op = initEOperation(getModelSlice__Serialize__String(), null, "serialize", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getModelSlice__Serialize__String(), null, "serialize", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "path", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(slicedElementEClass, SlicedElement.class, "SlicedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSlicedElement_SlicedReferences(), theEntitiesPackage.getReference(), null, "slicedReferences", null, 0, -1, SlicedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSlicedElement_SlicedAttributes(), theEntitiesPackage.getAttribute(), null, "slicedAttributes", null, 0, -1, SlicedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize data types
+		initEDataType(iCopySelectorEDataType, Predicate.class, "ICopySelector", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS, "java.util.function.Predicate<org.eclipse.emf.ecore.EObject>");
 
 		// Create resource
 		createResource(eNS_URI);

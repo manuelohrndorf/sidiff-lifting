@@ -118,7 +118,7 @@ public interface RuleBasedSlicePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXECUTABLE_MODEL_SLICE___EXPORT = SlicePackage.MODEL_SLICE___EXPORT;
+	int EXECUTABLE_MODEL_SLICE___EXPORT__PREDICATE = SlicePackage.MODEL_SLICE___EXPORT__PREDICATE;
 
 	/**
 	 * The operation id for the '<em>Serialize</em>' operation.
