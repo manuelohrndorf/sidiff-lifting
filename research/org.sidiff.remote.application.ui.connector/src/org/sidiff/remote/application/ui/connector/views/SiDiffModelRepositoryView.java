@@ -317,13 +317,12 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			public void run() {
 				try {
 					AdaptableTreeModel model = new AdaptableTreeModel();
-					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(ConnectorFacade.getSession().getSessionID(),null);
+					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent("",null);
 					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
 					model.getRoot().addAllChildren(treeNodes);
 					treeViewer.setInput(model);
 					checkboxTreeViewer.setInput(null);
-					System.out.println(ConnectorFacade.getRemotePreferences());
-				} catch (ConnectionException | RemoteApplicationException | InvalidSessionException e) {
+				} catch (ConnectionException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
@@ -374,12 +373,12 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				wizardDialog.setBlockOnOpen(true);
 				int return_code = wizardDialog.open();
 				if(return_code == WizardDialog.OK) {
-					String target_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
 					String remote_model_path = treeViewer_selection.getId();
+					String target_model_path = settings.getTargetPath().toOSString() + File.separator + treeViewer_selection.getLabel();
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
 						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
-						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
+						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(file.getAbsolutePath()));
 						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					} catch (ConnectionException | CoreException | InvalidSessionException | RemoteApplicationException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
@@ -397,7 +396,8 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				try {
 					Set<String> elementIds = getSelectedElementIDs();
 					if(!elementIds.isEmpty()) {
-						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
+						String remote_model_path = treeViewer_selection.getId();
+						File file = ConnectorFacade.updateSubModel(remote_model_path, selected_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
 						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					}
@@ -535,7 +535,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		treeViewer.setExpandedElements(visibleModelFileNodes.toArray());
 		treeViewer.setSelection(new StructuredSelection(selectedFileNode), true);
 		
-		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(localModelPath);
+		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(remoteModelPath, localModelPath);
 		
 		AdaptableTreeModel treeModelElements = null;
 		if(checkboxTreeViewer.getInput() == null) {
