@@ -563,12 +563,14 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				}else {
 					parent = treeModelElements.getTreeNode(proxyObject.getParent().getId());
 				}
-				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent);
+				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent, proxyObject.isSelected());
 			}else {
 				currentElementNode = treeModelElements.getTreeNode(proxyObject.getId());
+				currentElementNode.setSelected(proxyObject.isSelected());
 			}
-			currentElementNode.setSelected(true);
-			visibleModelElementNodes.add(currentElementNode);
+			if(currentElementNode.isSelected()) {
+				visibleModelElementNodes.add(currentElementNode);
+			}
 		}
 		checkboxTreeViewer.setExpandedElements(visibleModelElementNodes.toArray());
 		checkboxTreeViewer.setCheckedElements(visibleModelElementNodes.toArray());		

@@ -108,6 +108,61 @@ public class ProxyUtil {
 		return label;
 	}
 	
+	public static List<ProxyObject> convertEMFResource(UUIDResource subResource, UUIDResource completeResource) {
+		Map<EObject, ProxyObject> proxyObjects = new HashMap<EObject, ProxyObject>();
+
+		for (String uuid : subResource.getEObjectToIDMap().values()) {
+
+			EObject eObject = completeResource.getIDToEObjectMap().get(uuid);
+			// for (Iterator<EObject> iterator = completeResource.getAllContents();
+			// iterator.hasNext();) {
+			// EObject eObject = iterator.next();
+			if (!proxyObjects.containsKey(eObject)) {
+				ProxyObject proxyObject = convertEObject(eObject);
+				proxyObject.setSelected(true);
+
+				proxyObjects.put(eObject, proxyObject);
+
+				EObject parentEObject = eObject.eContainer();
+
+				while (parentEObject != null) {
+					ProxyObject parentProxyObject = proxyObjects.get(parentEObject);
+					
+					if (parentProxyObject == null) {
+						parentProxyObject = convertEObject(parentEObject);
+						proxyObjects.put(parentEObject, parentProxyObject);
+					}
+					
+					proxyObject.setParent(parentProxyObject);
+					parentProxyObject.setSelected(true);
+					
+					for (EObject childEObject : parentEObject.eContents()) {
+						ProxyObject childProxyObject = proxyObjects.get(childEObject);
+						
+						if (childProxyObject == null) {
+							childProxyObject = convertEObject(childEObject);
+							childProxyObject.setSelected(subResource.getEObjectToIDMap()
+									.containsValue(completeResource.getID(childEObject)));
+							childProxyObject.setParent(parentProxyObject);
+
+							proxyObjects.put(childEObject, childProxyObject);
+						}
+					}
+					
+					proxyObject = parentProxyObject;
+					parentEObject = parentEObject.eContainer();
+				}
+			}
+		}
+
+		List<ProxyObject> contents = new ArrayList<ProxyObject>();
+		for (EObject content : completeResource.getContents()) {
+			contents.add(proxyObjects.get(content));
+		}
+
+		return contents;
+	}
+	
 	public static List<ProxyObject> convertEMFResource(UUIDResource resource) {
 		Map<EObject, ProxyObject> proxyObjects = new HashMap<EObject, ProxyObject>();
 		

@@ -29,6 +29,8 @@ public class ProxyObject implements Serializable{
 	protected ProxyObject parent;
 	
 	protected List<ProxyObject> children;
+	
+	protected boolean selected;
 
 	public ProxyObject(String label, String id, String type, List<ProxyProperty> properties, boolean container) {
 		this.label = label;
@@ -37,8 +39,14 @@ public class ProxyObject implements Serializable{
 		this.properties = properties;
 		this.container = container;
 		this.children = new ArrayList<ProxyObject>();
+		this.selected = false;
 	}
 
+	public ProxyObject(String label, String id, String type, List<ProxyProperty> properties, boolean container, boolean selected) {
+		this(label, id, type, properties, container);
+		this.selected = selected;
+	}
+	
 	public String getLabel() {
 		return label;
 	}
@@ -75,12 +83,21 @@ public class ProxyObject implements Serializable{
 		return children;
 	}
 	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("Label: " + label + "\n");
 		stringBuffer.append("ID: " + id + "\n");
 		stringBuffer.append("Type: " + type + "\n");
+		stringBuffer.append("Selected: " + selected + "\n");
 		stringBuffer.append("Properties: {\n");
 		for(ProxyProperty property : properties) {
 			stringBuffer.append("\t" + property + "\n");

@@ -292,12 +292,15 @@ public class SiDiffRemoteApplication {
 		
 		URI completeModelURI = EMFStorage.pathToUri(absolute_copy_path);
 		
+		ResourceSet completeModelResourceSet = new ResourceSetImpl();
+		UUIDResource completeModel = new UUIDResource(completeModelURI, completeModelResourceSet);
+		
 		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModelURI).replace(completeModelURI.lastSegment(), "sliced_" + completeModelURI.lastSegment()));
 
 		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
 		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
 		
-		List<ProxyObject> proxyObjects = ProxyUtil.convertEMFResource(slicedModel); 
+		List<ProxyObject> proxyObjects = ProxyUtil.convertEMFResource(slicedModel, completeModel); 
 		
 		return proxyObjects;
 	}

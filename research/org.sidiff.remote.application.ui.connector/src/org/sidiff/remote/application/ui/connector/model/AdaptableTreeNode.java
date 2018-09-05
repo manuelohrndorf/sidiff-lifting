@@ -53,6 +53,11 @@ public class AdaptableTreeNode implements IAdaptable {
 		this.parent.addChildren(this);
 	}
 	
+	public AdaptableTreeNode(String label, String id, String type, boolean leaf, AdaptableTreeNode parent, boolean selected) {
+		this(label, id, type, leaf, parent);
+		this.selected = selected;
+	}
+	
 	public boolean hasChildren() {
 		return this.children.size() > 0;
 	}
