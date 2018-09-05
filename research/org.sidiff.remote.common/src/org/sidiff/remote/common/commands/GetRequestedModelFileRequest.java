@@ -16,28 +16,29 @@ public class GetRequestedModelFileRequest extends RequestCommand {
 	private static final long serialVersionUID = 5810529056867944138L;
 	
 	/**
-	 * project relative model path
+	 * path for the requested remote model relative to the current user directory
 	 */
-	private String session_path;
+	private String relative_remote_file_path;
 
 	/**
 	 * 
 	 * @param credentials
-	 * @param session_path
-	 * 				a session based location path
+	 * @param relative_remote_file_path
+	 * 				path for the requested remote model relative to the current user directory
 	 */
-	public GetRequestedModelFileRequest(Credentials credentials, String session_path) {
+	public GetRequestedModelFileRequest(Credentials credentials, String relative_remote_file_path) {
 		super(credentials, null);
 		this.eCommand = ECommand.GET_REQUESTED_MODEL_FILE_REQUEST;
-		this.session_path = session_path;
+		this.relative_remote_file_path = relative_remote_file_path;
 	}
 
 	/**
-	 * session based location path, can be <code>null</code>
+	 * Path for the requested remote model relative to the current user directory, can be <code>null</code>.
+	 * 
 	 * @return
-	 * 		session based location path or <code>null</code>
+	 * 		path for the requested remote model relative to the current user directory or <code>null</code>
 	 */
-	public String getSessionPath() {
-		return session_path;
+	public String getRelativeRemoteFilePath() {
+		return relative_remote_file_path;
 	}
 }

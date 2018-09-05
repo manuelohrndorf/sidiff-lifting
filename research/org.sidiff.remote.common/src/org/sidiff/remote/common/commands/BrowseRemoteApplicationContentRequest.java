@@ -16,45 +16,50 @@ public class BrowseRemoteApplicationContentRequest extends RequestCommand {
 	private static final long serialVersionUID = -1057205512420394166L;
 	
 	/**
-	 * a session based location path;
+	 * path of a requested remote file relative to the current user directory
 	 */
-	private String session_path;
+	private String relative_remote_file_path;
 
 	/**
 	 * ID of a model element
 	 */
-	private String element_id;
+	private String elementID;
 	
 	/**
 	 * 
 	 * @param credentials
-	 * 			The current {@link Session}
-	 * @param session_path
-	 * 			a session based location path
+	 *            The current {@link Credentials}
+	 * @param relative_remote_file_path
+	 *            path of a requested remote file relative to the current user
+	 *            directory
+	 * @param elementID
+	 *            the ID of a requested model element (only used if the requested
+	 *            file is a model file)
 	 */
-	public BrowseRemoteApplicationContentRequest(Credentials credentials, String session_path, String element_id) {
+	public BrowseRemoteApplicationContentRequest(Credentials credentials, String relative_remote_file_path, String elementID) {
 		super(credentials, null);
 		this.eCommand = ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST;
-		
-		this.session_path = session_path;
-		this.element_id = element_id;
+		this.relative_remote_file_path = relative_remote_file_path;
+		this.elementID = elementID;
 	}
 	
 	/**
-	 * session based location path, can be <code>null</code>
-	 * @return
-	 * 		session based location path or <code>null</code>
+	 * Path of a requested remote file relative to the current user directory.
+	 * 
+	 * @return path of a requested remote file relative to the current user
+	 *         directory
 	 */
-	public String getSessionPath() {
-		return session_path;
+	public String getRelativeRemoteFilePath() {
+		return relative_remote_file_path;
 	}
 	
 	/**
-	 * ID of a model element
+	 * ID of a model element.
+	 * 
 	 * @return
 	 * 		ID of a model element
 	 */
 	public String getElementID() {
-		return element_id;
+		return elementID;
 	}
 }

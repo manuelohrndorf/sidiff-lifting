@@ -66,9 +66,9 @@ public class ProxyUtil {
 		return new ProxyProperty(name, value);
 	}
 	
-	public static ProxyObject convertFile(File file, String rootName) {
+	public static ProxyObject convertFile(File file, File rootFolder) {
 		String label = file.getName();
-		String id = file.getPath().toString().substring(file.getPath().toString().indexOf(rootName));
+		String id = file.getPath().toString().replace(rootFolder.getPath().toString() + File.separator, "");
 		String type = file.isDirectory()? "Folder" : "File";
 		boolean container = file.isDirectory();
 		List<ProxyProperty> properties = new ArrayList<ProxyProperty>();
@@ -128,20 +128,20 @@ public class ProxyUtil {
 		return contents;
 	}
 	
-	public static List<ProxyObject> convertFileTree(File file, String rootName, Collection<File> blaclist) {
+	public static List<ProxyObject> convertFileTree(File file, File rootFolder, Collection<File> blacklist) {
 		List<File> files = new ArrayList<File>();
-		while(!file.getName().equals(rootName)) {
+		while(!file.equals(rootFolder)) {
 			file = file.getParentFile();
 			List<File> children = new ArrayList<File>(Arrays.asList(file.listFiles()));
-			children.removeAll(blaclist);
+			children.removeAll(blacklist);
 			files.addAll(0, children);
 		}
 		
 		Map<File, ProxyObject> proxyObjects = new HashMap<File, ProxyObject>();
 		for(File f : files) {
-			ProxyObject proxyObject = convertFile(f, rootName);
+			ProxyObject proxyObject = convertFile(f, rootFolder);
 			proxyObjects.put(f, proxyObject);
-			if(!f.getParentFile().getName().equals(rootName)) {
+			if(!f.getParentFile().equals(rootFolder)) {
 				proxyObject.setParent(proxyObjects.get(f.getParentFile()));
 			}
 		}
