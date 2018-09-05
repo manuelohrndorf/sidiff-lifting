@@ -8,7 +8,7 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.util.StatisticsUtil;
+import org.sidiff.common.statistics.StatisticsUtil;
 import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;

@@ -22,8 +22,8 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.util.StatisticsUtil;
-import org.sidiff.common.util.StatisticsUtil.StatisticType;
+import org.sidiff.common.statistics.StatisticsUtil;
+import org.sidiff.common.statistics.StatisticsUtil.StatisticType;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngineStatistics;
 import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphFactory;
 import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
@@ -347,7 +347,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 		STATISTICS = true;
 		
 		// Enable StatisticsUtil
-		StatisticsUtil.reenable();
+		statisticsUtil.setEnabled(true);
 		
 		// Create CSV-Output-File
 		csvFile = new File(CSVpath);
@@ -365,7 +365,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 		STATISTICS = false;
 		
 		// Disable StatisticsUtil:
-		StatisticsUtil.disable();
+		statisticsUtil.setEnabled(false);
 	}
 	
 	/**
