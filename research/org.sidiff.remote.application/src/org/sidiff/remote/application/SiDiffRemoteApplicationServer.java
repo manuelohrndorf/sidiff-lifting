@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,6 +20,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
+import org.sidiff.remote.application.preferences.RemotePreferencesSupplier;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
@@ -39,7 +39,6 @@ import org.sidiff.remote.common.commands.GetRequestedModelElementsRequest;
 import org.sidiff.remote.common.commands.GetRequestedModelFileReply;
 import org.sidiff.remote.common.commands.GetRequestedModelFileRequest;
 import org.sidiff.remote.common.commands.GetServerPropertiesReply;
-import org.sidiff.remote.common.commands.GetServerPropertiesRequest;
 import org.sidiff.remote.common.commands.RequestCommand;
 import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
@@ -48,6 +47,7 @@ import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
 import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.ProtocolHandlerException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
+import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
@@ -61,9 +61,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 	
 	private ServerConfiguration config;
 	
+	private RemotePreferences preferences;
+	
 	private ServerSocket server;
 	
-	private Map<String, SiDiffRemoteApplication> client_sessions;
+	private Map<String, SiDiffRemoteApplication> client_apps;
 	
 	private IWorkspace workspace;
 
@@ -80,8 +82,10 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		this.config = readConfig(config_path);
 		
+		this.preferences = IRemotePreferencesSupplier.getAllSuppliers().get(RemotePreferencesSupplier.class.getName()).getRemotePreference();
+		
 		this.server = new ServerSocket(config.PORT);
-		this.client_sessions = new HashMap<String, SiDiffRemoteApplication>();	
+		this.client_apps = new HashMap<String, SiDiffRemoteApplication>();	
 
 		LogUtil.log(LogEvent.CONFIG, config.toString());
 		
@@ -112,11 +116,11 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		if(authenticate(command.getCredentials())) {
 		
-			SiDiffRemoteApplication app = client_sessions.get(command.getCredentials().getSessionID());
+			SiDiffRemoteApplication app = client_apps.get(command.getCredentials().getUser());
 			if(app == null) {
 				LogUtil.log(LogEvent.INFO, "initialize remote session");
-				app = new SiDiffRemoteApplication(this.workspace, command.getCredentials().getUser(), command.getCredentials().getSessionID());
-				client_sessions.put(command.getCredentials().getSessionID(), app);
+				app = new SiDiffRemoteApplication(this.workspace, command.getCredentials().getUser());
+				client_apps.put(command.getCredentials().getUser(), app);
 				
 			}
 
@@ -137,19 +141,14 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				
 			case BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST:
 				BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = (BrowseRemoteApplicationContentRequest) command;
-				String session_path = browseRemoteApplicationContentRequest.getSessionPath();
-				String element_id = browseRemoteApplicationContentRequest.getElementID();
-				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(session_path, element_id);
+				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(browseRemoteApplicationContentRequest.getRelativeRemoteFilePath(), browseRemoteApplicationContentRequest.getElementID());
 				BrowseRemoteApplicationReply browseRemoteApplicationReply = new BrowseRemoteApplicationReply(proxyObjects);
 				protocolHandler.write(browseRemoteApplicationReply, null);
 				break;
 				
 			case CHECKOUT_SUB_MODEL_REQUEST:
 				CheckoutSubModelRequest checkoutSubModelRequest = (CheckoutSubModelRequest) command;
-				String localPath = checkoutSubModelRequest.getLocalModelPath();
-				String remotePath = checkoutSubModelRequest.getRemoteModelPath();
-				Set<String> elementIds = checkoutSubModelRequest.getElementIds();
-				File attachment = app.checkoutModel(remotePath, localPath, elementIds, checkoutSubModelRequest.getPreferences());
+				File attachment = app.checkoutModel(checkoutSubModelRequest.getRelativeRemoteModelPath(), checkoutSubModelRequest.getRelativeLocalModelPath(), checkoutSubModelRequest.getElementIDs(), checkoutSubModelRequest.getPreferences());
 				
 				CheckoutSubModelReply checkoutSubModelReply = new CheckoutSubModelReply(attachment);
 				protocolHandler.write(checkoutSubModelReply, attachment);
@@ -157,31 +156,26 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				
 			case GET_REQUESTED_MODEL_FILE_REQUEST:
 				GetRequestedModelFileRequest getRequestedModelFileRequest = (GetRequestedModelFileRequest) command;
-				List<ProxyObject> proxyObjectsFile = app.getRequestedModelFile(getRequestedModelFileRequest.getSessionPath());
+				List<ProxyObject> proxyObjectsFile = app.getRequestedModelFile(getRequestedModelFileRequest.getRelativeRemoteFilePath());
 				GetRequestedModelFileReply getRequestedModelFileReply = new GetRequestedModelFileReply(proxyObjectsFile);
 				protocolHandler.write(getRequestedModelFileReply, null);
 				break;
 				
 			case GET_REQUESTED_MODEL_ELEMENTS_REQUEST:
 				GetRequestedModelElementsRequest getRequestedModelElementsRequest = (GetRequestedModelElementsRequest) command;
-				String localPathRME = getRequestedModelElementsRequest.getLocalModelPath();
-				List<ProxyObject> proxyObjects_ = app.getRequestedModelElements(localPathRME);
+				List<ProxyObject> proxyObjects_ = app.getRequestedModelElements(getRequestedModelElementsRequest.getRelativeRemoteModelPath(), getRequestedModelElementsRequest.getRelativeLocalModelPath());
 				GetRequestedModelElementsReply getRequestedModelElementsReply = new GetRequestedModelElementsReply(proxyObjects_);
 				protocolHandler.write(getRequestedModelElementsReply, null);
 				break;
 				
 			case GET_SERVER_PROPERTIES_REQUEST:
-				GetServerPropertiesRequest getServerPropertiesRequest = (GetServerPropertiesRequest) command;
-				RemotePreferences remotePreferences = app.getRemotePreferences();
-				GetServerPropertiesReply getServerPropertiesReply = new GetServerPropertiesReply(remotePreferences);
+				GetServerPropertiesReply getServerPropertiesReply = new GetServerPropertiesReply(preferences);
 				protocolHandler.write(getServerPropertiesReply, null);
 				break;
 				
 			case UPDATE_SUBMODEL_REQUEST:
 				UpdateSubModelRequest updateSubModelRequest = (UpdateSubModelRequest) command;
-				String localPathSubModel = updateSubModelRequest.getLocalModelPath();
-				Set<String> updatedElementIds = updateSubModelRequest.getElementIds();
-				File modelSliceZip = app.updateSubModel(localPathSubModel, updatedElementIds, updateSubModelRequest.getPreferences());
+				File modelSliceZip = app.updateSubModel(updateSubModelRequest.getRelativeRemoteModelPath(), updateSubModelRequest.getRelativeLocalModelPath(), updateSubModelRequest.getElementIDs(), updateSubModelRequest.getPreferences());
 				UpdateSubModelReply updateSubModelReply = new UpdateSubModelReply(modelSliceZip);
 				protocolHandler.write(updateSubModelReply, modelSliceZip);
 				break;

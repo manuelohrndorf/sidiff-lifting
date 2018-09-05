@@ -19,37 +19,51 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
  */
 public class ModelIndexer {
 	
+	/**
+	 * All supported file extensions, i.e. all file extensions of model files for which a rule base is available
+	 */
 	private static final Set<String> SUPPORTED_FILE_EXTENSIONS = PipelineUtils.getAllAvailableRulebases().stream()
 			.flatMap(liftingRuleBase -> liftingRuleBase.getDocumentTypes().stream())
 			.flatMap(documentType -> EMFGenModelAccess.getFileExtensionFromDocumentType(documentType).stream())
 			.collect(Collectors.toSet());
 	
+	/**
+	 * Filter regex for (hidden) files and directories
+	 */
 	private static final String FILTER_REGEX = "\\.\\S*";
 	
-	private File user_folder;
+	/**
+	 * The root folder
+	 */
+	private File root_folder;
 	
-	private File session_folder;
-	
+	/**
+	 * absolute file path to file
+	 */
 	private Map<String, File> files;
 	
+	/**
+	 * absolute file path to file
+	 */
 	private Map<String, File> filteredFiles;
 	
-	public ModelIndexer(File session_folder) {
-		this.user_folder = session_folder.getParentFile();
-		this.session_folder = session_folder;
+	/**
+	 * 
+	 * @param root_folder
+	 */
+	public ModelIndexer(File root_folder) {
+		this.root_folder = root_folder;
 		this.files = new HashMap<String, File>();
 		this.filteredFiles = new HashMap<String, File>();
 	}
 	
 	/**
-	 * indexes all supported model files
+	 * builds an index of all files (and directories) contained in {@link #root_folder}
 	 */
 	public void index() {
 		this.files.clear();
-		this.files.putAll(searchModelFiles(session_folder));
-		if(this.files.isEmpty()) {
-			this.files.put(this.session_folder.getAbsolutePath(), session_folder);
-		}
+		this.files.put(this.root_folder.getAbsolutePath(), root_folder);
+		this.files.putAll(searchModelFiles(root_folder));			
 	}
 	
 	/**
@@ -73,7 +87,7 @@ public class ModelIndexer {
 			}else if(SUPPORTED_FILE_EXTENSIONS.contains(getFileExtension(file))) {
 				files.put(file.getAbsolutePath(), file);
 				File p = file.getParentFile();
-				while(!p.equals(user_folder)) {
+				while(!p.equals(root_folder)) {
 					files.put(p.getAbsolutePath(), p);
 					p = p.getParentFile();
 				}
@@ -86,22 +100,27 @@ public class ModelIndexer {
 	}
 	
 	/**
-	 * Gets the file extension of the given file
+	 * Returns the root folder for which an index is built.
 	 * 
-	 * @param file
-	 *            the {@link IFile} for which the file extension should be returned
-	 * @return the file extension of the given {@link IFile}
+	 * @return the {@link #root_folder}
 	 */
-	private String getFileExtension(File file) {
-        String fileName = file.getName();
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-        	return fileName.substring(fileName.lastIndexOf(".")+1);
-        }
-        else return "";
-    }
+	public File getRootFolder() {
+		return root_folder;
+	}
 	
-	public File getFile(String session_path) {
-		String absolute_path = user_folder.getAbsolutePath() + File.separator + session_path;
+	/**
+	 * Returns the file for the given path.
+	 * The path must be relative to the root folder
+	 * 
+	 * @param relative_path
+	 *  		path of a file relative to the root folder
+	 * @return a {@link File} for the given path or <code>null</code>
+	 * 
+	 * @see {@link #getRootFolder()}
+	 */
+	public File getFile(String relative_path) {
+		String absolute_path = root_folder.getAbsolutePath()
+				+ (!relative_path.isEmpty() ? File.separator + relative_path : "");
 		return files.get(absolute_path);
 	}
 	
@@ -118,4 +137,19 @@ public class ModelIndexer {
 	public Map<String, File> getFilteredFiles() {
 		return filteredFiles;
 	}
+	
+	/**
+	 * Returns the file extension of the given file
+	 * 
+	 * @param file
+	 *            the {@link IFile} for which the file extension should be returned
+	 * @return the file extension of the given {@link IFile}
+	 */
+	private String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+        	return fileName.substring(fileName.lastIndexOf(".")+1);
+        }
+        else return "";
+    }
 }
