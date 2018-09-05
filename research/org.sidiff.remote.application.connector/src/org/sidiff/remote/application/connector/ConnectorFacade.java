@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
@@ -113,9 +116,8 @@ public class ConnectorFacade {
 	 * elementID is given, the elements contained by the identified element are
 	 * returned.
 	 * 
-	 * @param session_path
-	 *            a session based path of a requested file, i.e. a path starting
-	 *            with the sessionID
+	 * @param relative_remote_file_path
+	 *             path of a requested remote file relative to the current user directory
 	 * @param element_id
 	 *            the ID of a requested model element (only used if the requested
 	 *            file is a model file)
@@ -124,8 +126,8 @@ public class ConnectorFacade {
 	 * @throws ConnectionException
 	 * @throws RemoteApplicationException
 	 */
-	public static List<ProxyObject> browseRemoteApplicationContent(String session_path, String element_id) throws ConnectionException, RemoteApplicationException{
-		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(getCredentials(), session_path, element_id);
+	public static List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String element_id) throws ConnectionException, RemoteApplicationException{
+		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(getCredentials(), relative_remote_file_path, element_id);
 		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRemoteApplicationContentRequest, null);
 		if(replayCommand.getECommand().equals(ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REPLY)) {
 			BrowseRemoteApplicationReply browseRemoteApplicationReply = (BrowseRemoteApplicationReply) replayCommand;
@@ -141,10 +143,9 @@ public class ConnectorFacade {
 	 * Extracts a submodel containing at least all elements identified by the
 	 * elementIDs
 	 * 
-	 * @param remote_model_path
-	 *            a session based path of a requested file, i.e. a path starting
-	 *            with the sessionID
-	 * @param target_model_path
+	 * @param relative_remote_model_path
+	 *            path of a requested remote model file relative to the current user directory
+	 * @param absolute_local_model_path
 	 *            absolute local os-based location path of the model file
 	 * @param elementIds
 	 *            the IDs of the model elements to be checked out.
@@ -154,19 +155,21 @@ public class ConnectorFacade {
 	 * @throws InvalidSessionException
 	 * @throws RemoteApplicationException
 	 */
-	public static File checkoutSubModel(String remote_model_path, String target_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
-		
-		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getCredentials(), remote_model_path, target_model_path, elementIds, preferences);		
+	public static File checkoutSubModel(String relative_remote_model_path, String absolute_local_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException, RemoteApplicationException {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IFile file = workspace.getRoot().getFileForLocation(new Path(absolute_local_model_path));
+		String relative_local_model_path = file.getProject().getName() + File.separator + file.getProjectRelativePath().toOSString();
+		CheckoutSubModelRequest checkoutCommand = new CheckoutSubModelRequest(getCredentials(), relative_remote_model_path, relative_local_model_path, elementIds, preferences);		
 		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(checkoutCommand, null);
 		if(replyCommand.getECommand().equals(ECommand.CHECKOUT_SUB_MODEL_REPLY)) {
 			CheckoutSubModelReply checkoutSubModelReply = (CheckoutSubModelReply) replyCommand;
 			File model_file = checkoutSubModelReply.getAttachment();
-			File target_model = new File(target_model_path);
+			File target_model = new File(absolute_local_model_path);
 			if(target_model.exists()) {
 				target_model.delete();
 			}
 			model_file.renameTo(target_model); 
-			getSession().addModel(checkoutCommand.getLocalModelPath(), remote_model_path, target_model);
+			getSession().addModel(checkoutCommand.getRelativeLocalModelPath(), relative_remote_model_path, target_model);
 			saveSession();
 			return target_model;
 		}else {
@@ -177,8 +180,20 @@ public class ConnectorFacade {
 		
 	}
 	
-	public static List<ProxyObject> getRequestedModelFile(String remote_model_path) throws ConnectionException, RemoteApplicationException {
-		GetRequestedModelFileRequest getRequestedModelFileRequest = new GetRequestedModelFileRequest(getCredentials(), remote_model_path);
+	/**
+	 * Returns all folder and files which are reachable by any step of the relative
+	 * remote model path as hierarchically structured proxy objects
+	 * 
+	 * @param relative_remote_model_path
+	 *            path for the requested remote model file relative to the current
+	 *            user directory
+	 * @return list of {@link ProxyObject}s representing the folders and files
+	 *         reachable by any step of the given path
+	 * @throws ConnectionException
+	 * @throws RemoteApplicationException
+	 */
+	public static List<ProxyObject> getRequestedModelFile(String relative_remote_model_path) throws ConnectionException, RemoteApplicationException {
+		GetRequestedModelFileRequest getRequestedModelFileRequest = new GetRequestedModelFileRequest(getCredentials(), relative_remote_model_path);
 		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(getRequestedModelFileRequest, null);
 		if(replyCommand.getECommand().equals(ECommand.GET_REQUESTED_MODEL_FILE_REPLY)) {
 			GetRequestedModelFileReply getRequestedModelFileReply = (GetRequestedModelFileReply) replyCommand;
@@ -190,16 +205,25 @@ public class ConnectorFacade {
 	}
 	
 	/**
+	 * Returns the requested model elements as hierarchically structured proxy
+	 * objects
 	 * 
-	 * @param local_model_path
-	 * 				absolute local os-based location path of the model file
-	 * @return
-	 * @throws ConnectionException 
-	 * @throws InvalidSessionException 
+	 * @param relative_remote_model_path
+	 *            path for the requested remote model file relative to the current
+	 *            user directory
+	 * @param absolute_local_model_path
+	 *            absolute local os-based location path of the model file
+	 * @return list of {@link ProxyObject}s representing the requested model
+	 *         elements
+	 * @throws ConnectionException
+	 * @throws InvalidSessionException
 	 */
-	public static List<ProxyObject> getRequestedModelElements(String local_model_path) throws ConnectionException, InvalidSessionException {
+	public static List<ProxyObject> getRequestedModelElements(String relative_remote_model_path, String absolute_local_model_path) throws ConnectionException, InvalidSessionException {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IFile file = workspace.getRoot().getFileForLocation(new Path(absolute_local_model_path));
+		String relative_local_model_path = file.getProject().getName() + File.separator + file.getProjectRelativePath().toOSString();
 		
-		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(getCredentials(), local_model_path);
+		GetRequestedModelElementsRequest getRequestedModelElementsRequest = new GetRequestedModelElementsRequest(getCredentials(), relative_remote_model_path, relative_local_model_path);
 		GetRequestedModelElementsReply getRequestedModelElementsReply = (GetRequestedModelElementsReply) CONNECTION_HANDLER.handleRequest(getRequestedModelElementsRequest, null);
 		
 		return getRequestedModelElementsReply.getProxyObjects();
@@ -212,24 +236,33 @@ public class ConnectorFacade {
 	
 		return getServerPropertiesReply.getRemotePreferences();
 	}
+	
 	/**
+	 * Returns a slicing edit script for updating the local submodel
 	 * 
-	 * @param local_model_path
-	 * 				absolute local os-based location path of the model file
+	 * @param relative_remote_model_path
+	 *            path of a requested remote model file relative to the current user
+	 *            directory
+	 * @param absolute_local_model_path
+	 *            absolute local os-based location path of the model file
 	 * @param elementIds
-	 * @param remotePreferences 
-	 * @return
+	 *            the requested model element IDs
+	 * @param preferences
+	 * @return a slicing edit script for updating the local submodel
+	 * 
 	 * @throws ConnectionException
-	 * @throws InvalidSessionException 
-	 * @throws CoreException
+	 * @throws InvalidSessionException
 	 */
-	public static File updateSubModel(String local_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException {
+	public static File updateSubModel(String relative_remote_model_path, String absolute_local_model_path, Set<String> elementIds, RemotePreferences preferences) throws ConnectionException, InvalidSessionException {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IFile file = workspace.getRoot().getFileForLocation(new Path(absolute_local_model_path));
+		String relative_local_model_path = file.getProject().getName() + File.separator + file.getProjectRelativePath().toOSString();
 		
-		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), local_model_path, elementIds, preferences);
+		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(), relative_remote_model_path, relative_local_model_path, elementIds, preferences);
 		UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) CONNECTION_HANDLER.handleRequest(updateSubModelRequest, null);
 		File resource_file = updateSubModelReply.getAttachment();
-		String path = local_model_path.substring(0, local_model_path.lastIndexOf(File.separator)) + File.separator + updateSubModelReply.getAttachmentName();
-		File target_file = new File(path);
+		
+		File target_file = new File(absolute_local_model_path);
 		if(target_file.exists()) {
 			target_file.delete();
 		}
@@ -249,7 +282,7 @@ public class ConnectorFacade {
 		
 	}
 	
-	private static Credentials getCredentials() {
+	public static Credentials getCredentials() {
 		return ConnectorPlugin.getInstance().getCredentials();
 	}
 }
