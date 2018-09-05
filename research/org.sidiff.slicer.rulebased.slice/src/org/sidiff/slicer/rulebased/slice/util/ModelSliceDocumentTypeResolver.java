@@ -9,7 +9,6 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.doctype.IDocumentTypeResolver;
 import org.sidiff.slicer.rulebased.slice.RuleBasedSlicePackage;
 import org.sidiff.slicer.slice.ModelSlice;
-import org.sidiff.slicer.slice.SlicePackage;
 
 /**
  * 
@@ -18,10 +17,12 @@ import org.sidiff.slicer.slice.SlicePackage;
  */
 public class ModelSliceDocumentTypeResolver implements IDocumentTypeResolver {
 
+	private static final String NS_URI = RuleBasedSlicePackage.eNS_URI;
+	
 	@Override
 	public List<String> resolve(Resource resource) {
 		List<String> docTypes = new ArrayList<String>();
-		if(EMFModelAccess.getDocumentType(resource).equals(RuleBasedSlicePackage.eNS_URI)) {
+		if(EMFModelAccess.getDocumentType(resource).equals(NS_URI)) {
 			ModelSlice modelSlice = (ModelSlice) resource.getContents().get(0);
 			for(EPackage ePackage : modelSlice.getType()) {
 				docTypes.add(ePackage.getNsURI());
@@ -33,7 +34,7 @@ public class ModelSliceDocumentTypeResolver implements IDocumentTypeResolver {
 
 	@Override
 	public String getDocumentType() {
-		return SlicePackage.eNS_URI;
+		return NS_URI;
 	}
 
 }
