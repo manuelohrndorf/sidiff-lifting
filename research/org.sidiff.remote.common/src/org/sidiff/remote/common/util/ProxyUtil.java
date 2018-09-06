@@ -185,9 +185,10 @@ public class ProxyUtil {
 	
 	public static List<ProxyObject> convertFileTree(File file, File rootFolder, Collection<File> blacklist) {
 		List<File> files = new ArrayList<File>();
-		while(!file.equals(rootFolder)) {
-			file = file.getParentFile();
-			List<File> children = new ArrayList<File>(Arrays.asList(file.listFiles()));
+		File currentFile = file;
+		while(!currentFile.equals(rootFolder)) {
+			currentFile = currentFile.getParentFile();
+			List<File> children = new ArrayList<File>(Arrays.asList(currentFile.listFiles()));
 			children.removeAll(blacklist);
 			files.addAll(0, children);
 		}
