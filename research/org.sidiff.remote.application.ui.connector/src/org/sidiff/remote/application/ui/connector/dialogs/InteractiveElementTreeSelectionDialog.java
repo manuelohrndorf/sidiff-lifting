@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
-import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.ui.connector.model.AdaptableTreeModel;
@@ -59,7 +58,7 @@ public class InteractiveElementTreeSelectionDialog extends ElementTreeSelectionD
 							treeViewer.refresh();
 						}
 						
-					} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
+					} catch (ConnectionException | RemoteApplicationException e) {
 						MessageDialog.openError(getShell(), e.getClass().getSimpleName(), e.getMessage());
 						e.printStackTrace();
 					}

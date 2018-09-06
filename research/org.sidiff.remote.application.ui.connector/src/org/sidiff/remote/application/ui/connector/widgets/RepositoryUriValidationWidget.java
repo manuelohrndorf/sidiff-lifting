@@ -21,7 +21,6 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.common.ui.widgets.UriValidationWidget;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
-import org.sidiff.remote.application.connector.exception.InvalidSessionException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 import org.sidiff.remote.application.connector.settings.RepositorySettingsItem;
@@ -113,7 +112,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 					if(result == InteractiveElementTreeSelectionDialog.CANCEL) {
 						settings.setRepositoryPath("");
 					}
-				}catch(ConnectionException | InvalidSessionException | RemoteApplicationException exception) {
+				}catch(ConnectionException | RemoteApplicationException exception) {
 					MessageDialog.openError(container.getShell(), "Error", exception.getMessage());
 				}
 			}

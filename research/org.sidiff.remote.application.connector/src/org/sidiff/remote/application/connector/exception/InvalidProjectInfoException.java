@@ -1,6 +1,6 @@
 package org.sidiff.remote.application.connector.exception;
 
-public class InvalidSessionException extends Exception {
+public class InvalidProjectInfoException extends Exception {
 
 	/**
 	 * 
@@ -9,16 +9,16 @@ public class InvalidSessionException extends Exception {
 
 	private Exception exception;
 	
-	public InvalidSessionException() {
+	public InvalidProjectInfoException() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public InvalidSessionException(Exception exception){
+	public InvalidProjectInfoException(Exception exception){
 		this.exception = exception;
 	}
 	
 	@Override
 	public String getMessage() {
-		return "Invalid session: " + exception == null ?  "no session file found!" : exception.getMessage();
+		return "Invalid project info: " + exception == null ?  "no project info file found!" : exception.getMessage();
 	}
 }

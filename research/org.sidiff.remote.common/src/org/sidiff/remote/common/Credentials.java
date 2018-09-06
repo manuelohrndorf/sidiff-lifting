@@ -18,18 +18,15 @@ public class Credentials implements Serializable {
 	
 	private int port;
 	
-	private final String session_id;
-	
 	private String user;
 	
 	private String password;
 
-	public Credentials(String url, int port, String session_id, String user, String password) {
+	public Credentials(String url, int port, String user, String password) {
 		this.url = url;
 		this.port = port;
 		this.user = user;
 		this.password = password;
-		this.session_id = session_id;
 	}
 	
 	public void setUrl(String url) {
@@ -63,9 +60,4 @@ public class Credentials implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	
-	public String getSessionID() {
-		return session_id;
-	}
-
 }

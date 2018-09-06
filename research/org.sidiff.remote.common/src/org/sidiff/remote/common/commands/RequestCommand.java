@@ -42,7 +42,7 @@ public abstract class RequestCommand extends Command {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder(super.toString());
-		stringBuilder.append(" (user: " + this.credentials.getUser() + "; session ID: " + this.credentials.getSessionID() + ")\n");
+		stringBuilder.append(" (user: " + this.credentials.getUser()  + ")\n");
 		return stringBuilder.toString();
 	}
 }

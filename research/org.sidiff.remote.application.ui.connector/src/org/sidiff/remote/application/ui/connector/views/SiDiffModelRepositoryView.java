@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -52,7 +51,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
-import org.sidiff.remote.application.connector.exception.InvalidSessionException;
+import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
 import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 import org.sidiff.remote.application.connector.exception.RemoteApplicationException;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
@@ -380,7 +379,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(file.getAbsolutePath()));
 						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					} catch (ConnectionException | CoreException | InvalidSessionException | RemoteApplicationException e) {
+					} catch (ConnectionException | CoreException | InvalidProjectInfoException | RemoteApplicationException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}
 				}
@@ -396,12 +395,11 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				try {
 					Set<String> elementIds = getSelectedElementIDs();
 					if(!elementIds.isEmpty()) {
-						String remote_model_path = treeViewer_selection.getId();
-						File file = ConnectorFacade.updateSubModel(remote_model_path, selected_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
+						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds, IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(file.getAbsolutePath().replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "")));
 						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					}
-				} catch (ConnectionException | CoreException | InvalidSessionException e) {
+				} catch (ConnectionException | CoreException | InvalidProjectInfoException | ModelNotVersionedException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				super.run();
@@ -459,7 +457,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					String local_model_path = file.getLocation().toOSString();
 					updateRequestedModelElements(local_model_path);
 					selected_model_path = local_model_path;
-				} catch (ConnectionException | InvalidSessionException | RemoteApplicationException e) {
+				} catch (ConnectionException | InvalidProjectInfoException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}catch ( ModelNotVersionedException e) {
 					
@@ -486,13 +484,9 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		}
 	}
 	
-	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidSessionException, RemoteApplicationException, ModelNotVersionedException {
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidProjectInfoException, RemoteApplicationException, ModelNotVersionedException {
 		
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String local_relative_model_path = localModelPath.replace(workspace.getRoot().getLocation().toOSString() + File.separator, "");
-		String remoteModelPath = ConnectorFacade.getSession().getRemoteModelPath(local_relative_model_path);
-		
-		List<ProxyObject> proxyObjectsFiles = ConnectorFacade.getRequestedModelFile(remoteModelPath);
+		List<ProxyObject> proxyObjectsFiles = ConnectorFacade.getRequestedModelFile(localModelPath);
 		
 		AdaptableTreeModel treeModelFiles = null;
 		if(treeViewer.getInput() == null) {
@@ -522,12 +516,13 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 				}else {
 					parent = treeModelFiles.getTreeNode(proxyObject.getParent().getId());
 				}
-				currentFileNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent);
+				currentFileNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent, proxyObject.isSelected());
 			}else {
 				currentFileNode = treeModelFiles.getTreeNode(proxyObject.getId());
+				currentFileNode.setSelected(proxyObject.isSelected());
 			}
 			visibleModelFileNodes.add(currentFileNode);
-			if(currentFileNode.getId().equals(remoteModelPath)) {
+			if(currentFileNode.isSelected()) {
 				selectedFileNode = currentFileNode;
 			}
 		}
@@ -535,7 +530,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		treeViewer.setExpandedElements(visibleModelFileNodes.toArray());
 		treeViewer.setSelection(new StructuredSelection(selectedFileNode), true);
 		
-		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(remoteModelPath, localModelPath);
+		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(localModelPath);
 		
 		AdaptableTreeModel treeModelElements = null;
 		if(checkboxTreeViewer.getInput() == null) {

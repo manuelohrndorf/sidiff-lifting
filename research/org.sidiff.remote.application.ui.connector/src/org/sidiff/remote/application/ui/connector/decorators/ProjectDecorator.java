@@ -4,9 +4,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
-import org.sidiff.remote.application.connector.ConnectorFacade;
-import org.sidiff.remote.application.connector.exception.InvalidSessionException;
-import org.sidiff.remote.application.connector.session.Session;
+import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
+import org.sidiff.remote.application.connector.meta.ProjectInfo;
 
 public class ProjectDecorator implements ILightweightLabelDecorator {
 
@@ -38,16 +37,12 @@ public class ProjectDecorator implements ILightweightLabelDecorator {
 	public void decorate(Object element, IDecoration decoration) {
 	
 		try {
-			Session session = ConnectorFacade.getSession();
 			IProject project = (IProject) element;
-			for (String model : session.getLocalModelPaths()) {
-				if (model.startsWith(project.getName())) {
-					decoration.addSuffix(" [sidiff]");
-					break;
-				}
-			}
-		} catch (InvalidSessionException e) {
-			// TODO Auto-generated catch block
+			ProjectInfo.readProjectInfo(project.getName());
+			// if no exception is thrown the project is connected to the remote application
+			decoration.addSuffix(" [sidiff]");
+			
+		} catch (InvalidProjectInfoException e) {
 			e.printStackTrace();
 		}
 	}

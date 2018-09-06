@@ -195,6 +195,7 @@ public class ProxyUtil {
 		Map<File, ProxyObject> proxyObjects = new HashMap<File, ProxyObject>();
 		for(File f : files) {
 			ProxyObject proxyObject = convertFile(f, rootFolder);
+			proxyObject.setSelected(f.equals(file));
 			proxyObjects.put(f, proxyObject);
 			if(!f.getParentFile().equals(rootFolder)) {
 				proxyObject.setParent(proxyObjects.get(f.getParentFile()));

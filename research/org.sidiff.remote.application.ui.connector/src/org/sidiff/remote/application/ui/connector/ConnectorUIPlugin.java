@@ -15,7 +15,6 @@ import org.osgi.framework.BundleContext;
 import org.sidiff.integration.preferences.connector.ConnectorPreferencesConstants;
 import org.sidiff.integration.preferences.connector.ConnectorPreferencesPlugin;
 import org.sidiff.integration.preferences.connector.ConnectorPropertyChangeListener;
-import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.ConnectorPlugin;
 import org.sidiff.remote.application.ui.connector.console.SiDiffClientConnectorConsole;
 
@@ -77,8 +76,6 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 		ConnectorPlugin.getInstance().init(url, port, user, password);
 		
 		store.addPropertyChangeListener(new ConnectorPropertyChangeListener(ConnectorPlugin.getInstance().getCredentials()));
-		
-		printMessage(ConnectorFacade.getSession().toString());
 	}
 
 	/*

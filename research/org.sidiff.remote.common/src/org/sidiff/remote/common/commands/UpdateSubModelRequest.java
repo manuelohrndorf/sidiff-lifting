@@ -69,7 +69,7 @@ public class UpdateSubModelRequest extends RequestCommand {
 	 * 		path of the local model file starting with the project name
 	 */
 	public String getRelativeLocalModelPath() {
-		return relative_remote_model_path;
+		return relative_local_model_path;
 	}
 
 	/**

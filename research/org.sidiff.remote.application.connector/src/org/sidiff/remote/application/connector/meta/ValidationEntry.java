@@ -1,4 +1,4 @@
-package org.sidiff.remote.application.connector.session;
+package org.sidiff.remote.application.connector.meta;
 
 public class ValidationEntry {
 
