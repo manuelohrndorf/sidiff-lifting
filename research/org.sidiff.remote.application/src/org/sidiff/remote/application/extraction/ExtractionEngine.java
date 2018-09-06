@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
@@ -52,7 +51,7 @@ public class ExtractionEngine {
 	
 	private PatchEngine patchEngine;
 	
-	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, CoreException {
+	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException {
 		
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
@@ -87,7 +86,7 @@ public class ExtractionEngine {
 		return new File(EMFStorage.uriToPath(slicedModel.getURI()));
 	}
 	
-	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, CoreException {
+	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
 		config.setEmtpyResource(emptyModel);
@@ -114,7 +113,7 @@ public class ExtractionEngine {
 		return new File(file_path);
 	}
 	
-	private void initSettings(UUIDResource completeModel, RemotePreferences preferences) throws CoreException {
+	private void initSettings(UUIDResource completeModel, RemotePreferences preferences) {
 		Set<String> documentTypes = new HashSet<String>(EMFDocumentTypeUtil.resolve(completeModel));
 		Scope scope = Scope.valueOf(preferences.getGeneralProperties().getScope().getValue());
 		

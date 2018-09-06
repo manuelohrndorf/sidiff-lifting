@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -248,8 +247,7 @@ public class SiDiffRemoteApplication {
 		try {
 			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException
-				| CoreException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new CheckoutSubModelException(e);
 		}
@@ -376,7 +374,7 @@ public class SiDiffRemoteApplication {
 		try {
 			slicingEditScriptFile = this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | CoreException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new UpdateSubModelException(e);
 		}
