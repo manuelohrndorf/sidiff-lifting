@@ -1,7 +1,9 @@
 package org.sidiff.slicer.slice.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -31,8 +33,7 @@ public class ModelSliceDocumentTypeResolver implements IDocumentTypeResolver {
 	}
 
 	@Override
-	public String getDocumentType() {
-		return SlicePackage.eNS_URI;
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(SlicePackage.eNS_URI);
 	}
-
 }
