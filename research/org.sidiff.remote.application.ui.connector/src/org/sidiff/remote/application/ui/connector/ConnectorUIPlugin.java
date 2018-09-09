@@ -27,6 +27,55 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.sidiff.remote.application.ui.connector"; //$NON-NLS-1$
+	
+	// View Icons
+	public static final ImageDescriptor IMG_CONSOLE_VIEW = ConnectorUIPlugin.getImageDescriptor("full/obj16/console_view.gif");
+	
+	// Object Icons
+	public static final ImageDescriptor IMG_OBJ16_FILE = ConnectorUIPlugin.getImageDescriptor("full/obj16/file_obj.gif");
+	
+	public static final ImageDescriptor IMG_OBJ16_FOLDER = ConnectorUIPlugin.getImageDescriptor("full/obj16/folder_obj.gif");
+	
+	// Enabled Action Icons
+	public static final ImageDescriptor IMG_ELCL16_CHECKIN_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/checkin_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_CHECKOUT_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/checkout_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_COLLAPSEALL_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/collapseall_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_EXPANDALL_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/expandall_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_NEW_LOCATION_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/new_location_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_REFRESH_REMOTE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/refresh_remote_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_SELECT_SUBTREE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/select_subtree_action.gif");
+
+	public static final ImageDescriptor IMG_ELCL16_SYNCED_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/synced_action.png");
+	
+	public static final ImageDescriptor IMG_ELCL16_UPDATE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/update_action.png");
+	
+	// Disabled Action Icons
+	public static final ImageDescriptor IMG_DLCL16_CHECKIN_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/checkin_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_CHECKOUT_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/checkout_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_COLLAPSEALL_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/collapseall_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_EXPANDALL_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/expandall_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_NEW_LOCATION_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/new_location_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_REFRESH_REMOTE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/refresh_remote_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_SELECT_SUBTREE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/select_subtree_action.gif");
+
+	public static final ImageDescriptor IMG_DLCL16_SYNCED_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/synced_action.png");
+	
+	public static final ImageDescriptor IMG_DLCL16_UPDATE_ACTION = ConnectorUIPlugin.getImageDescriptor("full/elcl16/update_action.png");
+
+	// Overlay Icons
+	public static final ImageDescriptor IMG_OVR_VERSION_CONTROLLED = ConnectorUIPlugin.getImageDescriptor("full/ovr/version_controlled.png");
 
 	// The shared instance
 	private static ConnectorUIPlugin plugin;

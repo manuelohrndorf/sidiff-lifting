@@ -7,13 +7,11 @@ import org.eclipse.ui.console.IOConsole;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 
 public class SiDiffClientConnectorConsole extends IOConsole {
-
-	public static final ImageDescriptor CONSOLE_VIEW_IMG = ConnectorUIPlugin.getImageDescriptor("full/obj16/console_view.gif");
 	
 	public static final String CONSOLE_NAME = "SiDiff Client Connector Console";
 	
 	public SiDiffClientConnectorConsole () {
-		this(CONSOLE_NAME, CONSOLE_VIEW_IMG);
+		this(CONSOLE_NAME, ConnectorUIPlugin.IMG_CONSOLE_VIEW);
 	}
 	
 	public SiDiffClientConnectorConsole(String name, ImageDescriptor imageDescriptor) {

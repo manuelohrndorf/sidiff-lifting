@@ -21,9 +21,6 @@ import org.sidiff.remote.application.ui.connector.model.AdaptableTreeNode;
  */
 public class TreeModelLabelProvider extends LabelProvider {
 
-	private static final Image FOLDER_IMG = ConnectorUIPlugin.getImageDescriptor("full/obj16/folder_obj.gif").createImage();
-	private static final Image FILE_IMG = ConnectorUIPlugin.getImageDescriptor("full/obj16/file_obj.gif").createImage();
-	
 	private AdapterFactoryLabelProvider adapterFactoryLabelProvider;
 	
 	private Map<EClass, EObject> eClassInstances;
@@ -37,9 +34,9 @@ public class TreeModelLabelProvider extends LabelProvider {
 	public Image getImage(Object element) {
 		AdaptableTreeNode treeNode = (AdaptableTreeNode) element;
 		if(treeNode.getType().equals("File")) {
-			return FILE_IMG;
+			return ConnectorUIPlugin.IMG_OBJ16_FILE.createImage();
 		}else if(treeNode.getType().equals("Folder")) {
-			return FOLDER_IMG;
+			return ConnectorUIPlugin.IMG_OBJ16_FOLDER.createImage();
 		}else {
 			String [] nsURI2Type = treeNode.getType().split("#//");
 			EFactory eFactory = EPackage.Registry.INSTANCE.getEPackage(nsURI2Type[0]).getEFactoryInstance();

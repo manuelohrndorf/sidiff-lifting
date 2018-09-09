@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
 import org.sidiff.remote.application.connector.meta.ProjectInfo;
+import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 
 public class ProjectDecorator implements ILightweightLabelDecorator {
 
@@ -41,6 +42,7 @@ public class ProjectDecorator implements ILightweightLabelDecorator {
 			ProjectInfo.readProjectInfo(project.getName());
 			// if no exception is thrown the project is connected to the remote application
 			decoration.addSuffix(" [sidiff]");
+			decoration.addOverlay(ConnectorUIPlugin.IMG_OVR_VERSION_CONTROLLED, IDecoration.BOTTOM_RIGHT);
 			
 		} catch (InvalidProjectInfoException e) {
 			e.printStackTrace();
