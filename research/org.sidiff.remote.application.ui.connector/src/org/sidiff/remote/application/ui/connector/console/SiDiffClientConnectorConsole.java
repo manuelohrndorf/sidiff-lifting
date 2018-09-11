@@ -1,9 +1,11 @@
 package org.sidiff.remote.application.ui.connector.console;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.console.IOConsole;
+import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.sidiff.remote.application.ui.connector.ConnectorUIPlugin;
 
 public class SiDiffClientConnectorConsole extends IOConsole {
@@ -42,6 +44,29 @@ public class SiDiffClientConnectorConsole extends IOConsole {
 		// TODO Auto-generated constructor stub
 	}
 
-	
+	public void log(LogEvent logEvent, String message) {
+		 IOConsoleOutputStream out = newOutputStream();
+		 try {
+			out.write(logEvent + ": " + message);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
 
+	public enum LogEvent {
+		ERROR,
+		NOTICE,
+		WARNING
+	}
 }
