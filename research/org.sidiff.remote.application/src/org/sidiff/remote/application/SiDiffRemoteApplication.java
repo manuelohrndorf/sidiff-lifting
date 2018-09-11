@@ -22,6 +22,7 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
+import org.sidiff.remote.application.adapters.RepositoryInfo;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
@@ -144,12 +145,27 @@ public class SiDiffRemoteApplication {
 	 */
 	public List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String elementID) {
 
+		//TODO determine right repository adapter
+		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+				
 		File file = this.modelIndexer.getFile(relative_remote_file_path);
 		List<ProxyObject> proxyObjects = new ArrayList<ProxyObject>();
 		if (file.isDirectory()) {
 			for (File child : this.modelIndexer.getChildren(file)) {
 				ProxyObject proxyObject = ProxyUtil.convertFile(child, user_folder);
 				proxyObjects.add(proxyObject);
+				try {
+					RepositoryInfo repositoryInfo = repositoryAdapter.getRepositoryInfo(child);
+					
+					ProxyUtil.addProperty(proxyObject, "Host", repositoryInfo.getUrl());
+					ProxyUtil.addProperty(proxyObject, "Path", repositoryInfo.getPath());
+					ProxyUtil.addProperty(proxyObject, "Revision", repositoryInfo.getRevision());
+					ProxyUtil.addProperty(proxyObject, "Author", repositoryInfo.getAuthor());
+					
+				} catch (RepositoryAdapterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else {
 			String absolute_file_path = file.getAbsolutePath();
