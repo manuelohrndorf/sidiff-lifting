@@ -79,6 +79,11 @@ public class ProxyUtil {
 		return proxyObject;
 	}
 	
+	public static void addProperty(ProxyObject proxyObject, String name, String value) {
+		ProxyProperty property = new ProxyProperty(name, value);
+		proxyObject.getProperties().add(property);
+	}
+	
 	private static String getLabel(Object object) {
 		String label = "";
 		
