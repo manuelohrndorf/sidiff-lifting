@@ -209,6 +209,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 		// add selection provider and listener
 		getSite().setSelectionProvider(treeViewer);
 		getSite().setSelectionProvider(checkboxTreeViewer);
+		getSite().getPage().addSelectionListener(this);
 		
 		// make actions and menu contributions
 		makeActions();
