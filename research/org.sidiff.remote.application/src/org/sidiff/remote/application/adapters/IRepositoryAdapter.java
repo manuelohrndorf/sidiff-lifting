@@ -1,5 +1,7 @@
 package org.sidiff.remote.application.adapters;
 
+import java.io.File;
+
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 
 /**
@@ -16,6 +18,8 @@ public interface IRepositoryAdapter {
 	public BrowseRepositoryContentOperationResult list(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException;
 	
 	public CheckoutRepositoryContentOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException;
+	
+	public RepositoryInfo getRepositoryInfo(File wcFile) throws RepositoryAdapterException;
 	
 	public String getKey();
 	
