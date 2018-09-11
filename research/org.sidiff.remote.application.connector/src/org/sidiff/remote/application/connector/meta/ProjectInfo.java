@@ -45,9 +45,21 @@ public class ProjectInfo implements Serializable {
 	 */
 	private Set<ModelInfo> modelInfos;
 	
+	/**
+	 * 
+	 * @param id
+	 */
 	public ProjectInfo(String id) {
 		this.ID = id;
 		this.modelInfos = new HashSet<ModelInfo>();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isConnected() {
+		return this.modelInfos.size() > 0;
 	}
 	
 	/**
@@ -134,8 +146,17 @@ public class ProjectInfo implements Serializable {
 		return Collections.unmodifiableSet(modelInfos);
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Project: " + ID + "\n");
+		for(ModelInfo modelInfo : modelInfos) {
+			stringBuilder.append(modelInfo.toString() + "\n");
+		}
+		return stringBuilder.toString();
+	}
 	/**
-	 * Reads the version meta data from project.
+	 * Reads the version meta data from project and cleans up the entries.
 	 * 
 	 * @return the {@link ProjectInfo} of the project identified by the name
 	 * @throws IOException
@@ -153,6 +174,7 @@ public class ProjectInfo implements Serializable {
 				FileInputStream fis = new FileInputStream(file);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				projectInfo = (ProjectInfo) ois.readObject();
+				projectInfo.cleanUp();
 				ois.close();
 			}else {
 				projectInfo = new ProjectInfo(id);
@@ -188,6 +210,14 @@ public class ProjectInfo implements Serializable {
 
 		} catch (IOException e) {
 			throw new InvalidProjectInfoException(e);
+		}
+	}
+	
+	public void cleanUp() {
+		for(ModelInfo modelInfo : getModelInfos()) {
+			if(!modelInfo.getFile().exists()) {
+				modelInfos.remove(modelInfo);
+			}
 		}
 	}
 }
