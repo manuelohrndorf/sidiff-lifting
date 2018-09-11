@@ -74,6 +74,11 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 	 */
 	private String selected_model_path;
 	
+	/**
+	 * 
+	 */
+	private String selecetd_model_name;
+	
 	// ########## AbstractRemoteApplicationView ##########
 	@Override
 	public void createPartControl(Composite parent) {
@@ -120,7 +125,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 					try {
 						String local_model_path = file.getLocation().toOSString();
 						updateRequestedModelElements(local_model_path);
-					} catch (ConnectionException | InvalidProjectInfoException | RemoteApplicationException e) {
+					} catch (ConnectionException | InvalidProjectInfoException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}catch ( ModelNotVersionedException e) {
 						
@@ -131,6 +136,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 						if(!treeNode.getId().equals(selected_model_path)) {
 							AdaptableTreeModel treeModel = new AdaptableTreeModel();
 							selected_model_path = treeNode.getId();
+							selecetd_model_name = treeNode.getLabel();
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade
 										.browseRemoteApplicationContent(treeNode.getId(), null);
@@ -144,6 +150,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 						}
 					}else {
 						selected_model_path = null;
+						selecetd_model_name = null;
 						this.treeViewer.setInput(null);
 					}
 				}
@@ -192,9 +199,9 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				wizardDialog.setBlockOnOpen(true);
 				int return_code = wizardDialog.open();
 				if (return_code == WizardDialog.OK) {
-					String remote_model_path = treeViewer_selection.getId();
+					String remote_model_path = selected_model_path;
 					String target_model_path = settings.getTargetPath().toOSString() + File.separator
-							+ treeViewer_selection.getLabel();
+							+ selecetd_model_name;
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
 						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds,
@@ -279,9 +286,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 		return elementIds;
 	}
 	
-	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidProjectInfoException, RemoteApplicationException, ModelNotVersionedException {
-		
-		
+	private void updateRequestedModelElements(String localModelPath) throws ConnectionException, InvalidProjectInfoException, ModelNotVersionedException {
 	
 		List<ProxyObject> proxyObjectsElement = ConnectorFacade.getRequestedModelElements(localModelPath);
 		

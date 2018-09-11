@@ -2,13 +2,26 @@ package org.sidiff.remote.application.ui.connector;
 
 import java.io.IOException;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -16,7 +29,10 @@ import org.sidiff.integration.preferences.connector.ConnectorPreferencesConstant
 import org.sidiff.integration.preferences.connector.ConnectorPreferencesPlugin;
 import org.sidiff.integration.preferences.connector.ConnectorPropertyChangeListener;
 import org.sidiff.remote.application.connector.ConnectorPlugin;
+import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
+import org.sidiff.remote.application.connector.meta.ProjectInfo;
 import org.sidiff.remote.application.ui.connector.console.SiDiffClientConnectorConsole;
+import org.sidiff.remote.application.ui.connector.console.SiDiffClientConnectorConsole.LogEvent;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -155,7 +171,46 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 				}
 			}
 			ConnectorUIPlugin.console = new SiDiffClientConnectorConsole();
+			consoleManager.addConsoles(new IConsole[] { console });
+			consoleManager.showConsoleView( console );
 		}
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+		IWorkbenchPage page = win.getActivePage();
+		
+		String id = IConsoleConstants.ID_CONSOLE_VIEW;
+		try {
+			IConsoleView view = (IConsoleView) page.showView(id);
+			view.display(console);
+			view.getSite().getPage().addSelectionListener(IPageLayout.ID_PROJECT_EXPLORER, new ISelectionListener() {
+
+				@Override
+				public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+					if (selection instanceof IStructuredSelection) {
+						IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+						if (structuredSelection.size() == 1) {
+							if (part.getSite().getId().equals(IPageLayout.ID_PROJECT_EXPLORER)
+									&& structuredSelection.getFirstElement() instanceof IProject) {
+								IProject project = (IProject) structuredSelection.getFirstElement();
+								try {
+									ProjectInfo projectInfo = ProjectInfo.readProjectInfo(project.getName());
+									if (projectInfo.isConnected()) {
+										console.log(LogEvent.NOTICE, projectInfo.toString());
+									}
+								} catch (InvalidProjectInfoException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						}
+					}
+				}
+			});
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static void printMessage(String msg) {
@@ -174,5 +229,8 @@ public class ConnectorUIPlugin extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, "icons/" + path);
 	}
-
+	
+	public static SiDiffClientConnectorConsole getClientConnectorConsole() {
+		return console;
+	}
 }
