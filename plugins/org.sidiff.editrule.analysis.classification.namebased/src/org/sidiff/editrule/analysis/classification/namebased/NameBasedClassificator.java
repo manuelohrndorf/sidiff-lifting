@@ -1,10 +1,9 @@
 package org.sidiff.editrule.analysis.classification.namebased;
 
-import org.sidiff.common.collections.Classifier;
 import org.sidiff.editrule.analysis.classification.IClassificator;
 import org.sidiff.editrule.rulebase.EditRule;
 
-public class NameBasedClassificator implements IClassificator, Classifier<String,EditRule> {
+public class NameBasedClassificator implements IClassificator {
 
 	public static final int ID = 0;
 	public static final String NAME = "Name Based Classificator";
@@ -22,8 +21,17 @@ public class NameBasedClassificator implements IClassificator, Classifier<String
 	
 	@Override
 	public String createClassification(EditRule rule) {
-	
-		return classify(rule);
+		String ruleName = rule.getExecuteModule().getName();
+		if (ruleName.startsWith("CREATE") || ruleName.startsWith("Create") || ruleName.startsWith("ADD") || ruleName.startsWith("Add") || ruleName.startsWith("INSERT") || ruleName.startsWith("Insert")) {
+			return "INCREASE";
+		} else if (ruleName.startsWith("DELETE") || ruleName.startsWith("Delete") || ruleName.startsWith("REMOVE") || ruleName.startsWith("Remove")) {
+			return "REDUCE";
+		} else if (ruleName.startsWith("MOVE") || ruleName.startsWith("Move") || ruleName.startsWith("CHANGE") || ruleName.startsWith("Change")) {
+			return "STRUCTURAL CHANGE";
+		} else if (ruleName.startsWith("SET") || ruleName.startsWith("Set")) {
+			return "VALUE CHANGE";
+		}
+		return "UNKNOWN";
 	}
 	
 	@Override
@@ -40,23 +48,4 @@ public class NameBasedClassificator implements IClassificator, Classifier<String
 	public boolean canHandle(EditRule rule) {
 		return true;
 	}
-
-	@Override
-	public String classify(EditRule rule) {
-		String ruleName = rule.getExecuteModule().getName();
-		
-		if (ruleName.startsWith("CREATE") || ruleName.startsWith("Create") || ruleName.startsWith("ADD") || ruleName.startsWith("Add") || ruleName.startsWith("INSERT") || ruleName.startsWith("Insert")) {
-			return "INCREASE";
-		} else if (ruleName.startsWith("DELETE") || ruleName.startsWith("Delete") || ruleName.startsWith("REMOVE") || ruleName.startsWith("Remove")) {
-			return "REDUCE";
-		} else if (ruleName.startsWith("MOVE") || ruleName.startsWith("Move") || ruleName.startsWith("CHANGE") || ruleName.startsWith("Change")) {
-			return "STRUCTURAL CHANGE";
-		} else if (ruleName.startsWith("SET") || ruleName.startsWith("Set")) {
-			return "VALUE CHANGE";
-		} else
-			return "UNKNOWN";
-	}
-
-	
-
 }

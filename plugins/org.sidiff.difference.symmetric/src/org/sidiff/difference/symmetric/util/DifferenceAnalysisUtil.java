@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.sidiff.common.collections.CollectionView;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -537,7 +536,6 @@ public class DifferenceAnalysisUtil {
 	 *            the difference containing the semantic change sets.
 	 * @return all semantic change sets of the difference.
 	 * 
-	 * @see CollectionView#combine(Collection...)
 	 */
 	public static Collection<SemanticChangeSet> getAllSemanticChangeSets(SymmetricDifference difference) {
 		return Stream.concat(difference.getChangeSets().stream(), difference.getUnusedChangeSets().stream()).collect(Collectors.toList());
