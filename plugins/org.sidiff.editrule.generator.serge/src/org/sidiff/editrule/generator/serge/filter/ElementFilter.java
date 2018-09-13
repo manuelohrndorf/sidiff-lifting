@@ -16,6 +16,7 @@ import org.sidiff.common.emf.metamodel.analysis.Mask;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
 //import org.sidiff.common.emf.metamodelslicer.impl.MetaModelSlicer;
 import org.sidiff.editrule.generator.serge.configuration.Configuration;
+import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
 import org.sidiff.editrule.generator.types.OperationType;
 
@@ -390,6 +391,37 @@ public class ElementFilter {
 		
 	}
 	
+	/**
+	 * Returns if inherited Features Only should be generated for it's containing supertype;
+	 * e.i, it returns if reduceToContext is enabled and a super type is defined as dangling node
+	 * with inclusion type setting not set to "never" 
+	 * or default dangling node inclusion behavior is simply set to "always":
+	 * just generate rules for the attributes of the super type but not also 
+	 * redundantly in the context of the sub typ.
+	 * <br />
+	 * Example: one wants SET_EATTRIBUTE_ENamedElement_Name but not
+	 * SET_EATTRIBUTE_EClass_Name (because EClass inherits from ENamedElement
+	 * and the former rule applies also to EClass)
+	 * @param superType
+	 * @return
+	 * 		true | false
+	 */
+	public boolean shouldInheritedFeaturesOnlyBeGeneratedForItsContainingSupertype(EClassifier superType, OperationTypeGroup operationTypeGroup) {
+	
+		if (config.preferSuperTypesOnContexts(operationTypeGroup)) {	
+		
+			if((CIC.getDanglingInclusionType(superType) != null &&
+				CIC.getDanglingInclusionType(superType) != InclusionType.NEVER)
+				||
+				(CIC.getDanglingInclusionType(superType) == null &&
+				CIC.getDefaultDanglingInclusionType() == InclusionType.ALWAYS)) {
+					return true;
+				
+				}
+		}
+		
+		return false;
+	}
 	
 	/*****
 	 * Convenience Methods
