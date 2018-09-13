@@ -28,6 +28,7 @@ import org.sidiff.editrule.generator.serge.configuration.Configuration.Operation
 import org.sidiff.editrule.generator.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
+import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
 import org.sidiff.editrule.generator.serge.generators.actions.AddGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.AttachGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.ChangeLiteralGenerator;
@@ -545,26 +546,26 @@ public class GenerationActionDelegator {
 			// EAttributes which shall be considered
 			List<EAttribute> easToConsider = new ArrayList<>();
 			ClassifierInclusionConfiguration CIC = ClassifierInclusionConfiguration.getInstance();
-			if (c.preferSuperTypesOnContexts(OperationTypeGroup.SET_UNSET_ATTRIBUTE)) {
-				// if reduceToContext is enabled but the super type itself was not
-				// added by the user on the config to generate modules for
-				// then there will be lots of rules missing. Thus, the following
-				// workaround for missing super type config declarations adds only the
-				// own and inherited eattributes of missing super types to this list:
-				for(EAttribute ea: eClass.getEAllAttributes()) {
-					EClassifier container = (EClassifier) ea.eContainer();
-					if(!ea.eContainer().equals(eClass)
-							&& CIC.getFocusInclusionType(container)==null) {
-						easToConsider.add(ea);
+			
+			
+			// find which inherited attributes should also be considered
+			for(EClassifier superType: eClass.getEAllSuperTypes()) {
+				if (!FILTER.shouldInheritedFeaturesOnlyBeGeneratedForItsContainingSupertype(superType, OperationTypeGroup.SET_UNSET_ATTRIBUTE)) {
+					for(EAttribute ea: ((EClass)superType).getEAttributes()) {
+						EClassifier container = (EClassifier) ea.eContainer();
+						if(!ea.eContainer().equals(eClass)
+								&& CIC.getFocusInclusionType(container)==null) {
+							easToConsider.add(ea);
+						}
 					}
+					
 				}
-				// all own eattributes
-				easToConsider.addAll(eClass.getEAttributes());
-			} else {
-				// all own and inherited eattributes
-				easToConsider = eClass.getEAllAttributes();
 			}
-
+			
+			// all own eattributes
+			easToConsider.addAll(eClass.getEAttributes());			
+		
+			// Now process all gathered attributes
 			for (EAttribute ea : easToConsider) {
 				// don't consider derived, not changeable, and transient
 				// attributes
@@ -659,28 +660,25 @@ public class GenerationActionDelegator {
 			
 			// Findout which EReferences should be considered
 			ClassifierInclusionConfiguration CIC = ClassifierInclusionConfiguration.getInstance();
-			if (c.preferSuperTypesOnContexts(OperationTypeGroup.SET_UNSET_REFERENCE)) {
-				// if reduceToContext is enabled but the super type itself was not
-				// added by the user on the config to generate modules for
-				// then there will be lots of rules missing. Thus, the following
-				// workaround for missing super type config declarations adds only the
-				// own and inherited EReferences of missing super types to this list:
-				for(EReference eRef: eClass.getEAllReferences()) {
-					EClassifier container = (EClassifier) eRef.eContainer();
-					if(!eRef.eContainer().equals(eClass)
-							&& CIC.getFocusInclusionType(container)==null) {
-						eRefsToConsider.add(eRef);
+			
+			// find which inherited eReferences should also be considered
+			for(EClassifier superType: eClass.getEAllSuperTypes()) {
+				if (!FILTER.shouldInheritedFeaturesOnlyBeGeneratedForItsContainingSupertype(superType, OperationTypeGroup.SET_UNSET_ATTRIBUTE)) {
+					for(EReference eRef: ((EClass)superType).getEReferences()) {
+						EClassifier container = (EClassifier) eRef.eContainer();
+						if(!eRef.eContainer().equals(eClass)
+								&& CIC.getFocusInclusionType(container)==null) {
+							eRefsToConsider.add(eRef);
+						}
 					}
+					
 				}
-				// all own EReferences
-				eRefsToConsider.addAll(eClass.getEReferences());
-			} else {
-				// all own and inherited EReferences
-				eRefsToConsider = eClass.getEAllReferences();
 			}
 			
-			
-			// EReferences and their EOpposites, if any
+			// all own eattributes
+			eRefsToConsider.addAll(eClass.getEReferences());			
+		
+			// Now process all gathered References and their EOpposites
 			for (EReference eRef : eRefsToConsider) {
 
 				// don't consider derived, not changeable, and transient
