@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
@@ -150,11 +151,18 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 					}
 				}
 			}
+
 			// check for each doc type if a builder is selected that can handle it
 			Set<String> unsupportedDocTypes = inputModels.getDocumentTypes();
+			
 			for(String key : list_builders.getSelection()){
 				if(builders.get(key).canHandleDocTypes(inputModels.getDocumentTypes())){
-					unsupportedDocTypes.removeAll(builders.get(key).getDocumentTypes());
+					if(builders.get(key).getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
+						unsupportedDocTypes.clear();
+						break;
+					}else {
+						unsupportedDocTypes.removeAll(builders.get(key).getDocumentTypes());
+					}
 				}
 			}
 			if(!unsupportedDocTypes.isEmpty()){
