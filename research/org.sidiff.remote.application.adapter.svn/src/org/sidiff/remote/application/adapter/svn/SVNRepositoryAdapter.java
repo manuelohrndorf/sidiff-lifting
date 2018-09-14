@@ -7,13 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.team.svn.core.connector.SVNEntry;
-import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
-import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
+import org.sidiff.remote.application.adapters.InfoOperationResult;
+import org.sidiff.remote.application.adapters.InitBranchResult;
+import org.sidiff.remote.application.adapters.ImportFileOperationResult;
+import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.adapters.RepositoryInfo;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.ProxyProperty;
+import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
@@ -39,21 +43,37 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 	private SVNRepository repository;
 
 	private void setUpRepository(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException {
+		SVNURL svnURL = parseURL(url, port, path);
+		try {
+			repository = SVNRepositoryFactory.create(svnURL);
+		} catch (SVNException e) {
+			throw new RepositoryAdapterException(e);
+		}
+		
+		ISVNAuthenticationManager authManager = null;
+		if(username == null || password == null) {
+			authManager = SVNWCUtil.createDefaultAuthenticationManager();
+		}else {
+			authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password);
+		}
+		repository.setAuthenticationManager(authManager);
+	}
+	
+	private SVNURL parseURL(String url, int port, String path) throws RepositoryAdapterException {
+		path = path.replaceAll("\\\\", "/");
 		try {
 			String domain = url.substring(0, url.lastIndexOf("/"));
 			String repo_name = url.substring(url.lastIndexOf("/"));
 			SVNURL svnURL = SVNURL.parseURIEncoded(domain + ":" + port + repo_name + path);
-			repository = SVNRepositoryFactory.create(svnURL);
-		} catch (SVNException | IndexOutOfBoundsException e) {
+			return svnURL;
+		} catch (SVNException e) {
 			throw new RepositoryAdapterException(e);
-		} 
-		ISVNAuthenticationManager authManager =	SVNWCUtil.createDefaultAuthenticationManager(username, password);
-		repository.setAuthenticationManager(authManager);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public BrowseRepositoryContentOperationResult list(String url, int port, String path, String username, char[] password)
+	public ListOperationResult list(String url, int port, String path, String username, char[] password)
 			throws RepositoryAdapterException {	
 		
 		setUpRepository(url, port, path, username, password);
@@ -81,38 +101,70 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 			proxyObjects.add(proxyObject);
 		}
 		
-		BrowseRepositoryContentOperationResult listOperationResult = new BrowseRepositoryContentOperationResult(url, port, path, proxyObjects, "Content of " + path, true);
+		ListOperationResult listOperationResult = new ListOperationResult(url, port, path, proxyObjects, "Content of " + path, true);
 		
 		return listOperationResult;		
 	}
 
 	@Override
-	public CheckoutRepositoryContentOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException {
+	public CheckoutOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException {
 		setUpRepository(url, port, path, username, password);
 		SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
 		SVNUpdateClient updateClient = clientManager.getUpdateClient( );
 		try {
 			target += repository.getLocation().getPath();
 			updateClient.doCheckout(repository.getLocation() , new File(target) , SVNRevision.HEAD , SVNRevision.HEAD , SVNDepth.INFINITY , false);
-			return new CheckoutRepositoryContentOperationResult(url, port, path, target, "Checkout file/folder successful!", true);		
+			return new CheckoutOperationResult(url, port, path, target, true);		
 
 		} catch (SVNException e) {
 			throw new RepositoryAdapterException(e);
 		}		
 	}
 	
+	public ImportFileOperationResult importFile(String url, int port, String path, File file, String username, char[] password, String message) throws RepositoryAdapterException {
+		setUpRepository(url, port, path, username, password);
+		try {
+			SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
+			clientManager.getCommitClient().doImport(file, repository.getLocation(), "<import> " + message, null, false, true, SVNDepth.fromRecurse(true));
+			SVNUpdateClient updateClient = clientManager.getUpdateClient( );
+			updateClient.doCheckout(repository.getLocation() , file , SVNRevision.HEAD , SVNRevision.HEAD , SVNDepth.INFINITY , true);
+			return new ImportFileOperationResult(url, port, true);
+		} catch (SVNException e) {
+			throw new RepositoryAdapterException(e);
+		}
+	}
+	
 	@Override
-	public RepositoryInfo getRepositoryInfo(File wcFile) throws RepositoryAdapterException {
+	public InfoOperationResult info(File wcFile) throws RepositoryAdapterException {
 		SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
 		SVNWCClient wcClient = clientManager.getWCClient();
 		try {
-			SVNInfo info = wcClient.doInfo(wcFile, SVNRevision.HEAD);
+			SVNInfo info = wcClient.doInfo(wcFile, SVNRevision.WORKING);
 			SVNURL svnURL = info.getURL();
-			String url = svnURL.getProtocol() + "://" + svnURL.getHost();
+			String repoName = svnURL.getPath().substring(1, svnURL.getPath().substring(1).indexOf("/")+1);
+			String url = svnURL.getProtocol() + "://" + svnURL.getHost() + "/" + repoName;
+			int port = svnURL.getPort();
 			String path = svnURL.getPath();
 			String revision = info.getRevision().getID()+"";
 			String author = info.getAuthor();
-			return new RepositoryInfo(url, path, revision, author);
+			return new InfoOperationResult(url, port,  path, revision, author, true);
+		} catch (SVNException e) {
+			throw new RepositoryAdapterException(e);
+		}
+	}
+	
+	@Override
+	public InitBranchResult initBranch(String url, int port, String id, String username, char[] password) throws RepositoryAdapterException {
+		setUpRepository(url, port, "/branches", username, password);
+		try {
+			SVNURL svnURL = repository.getLocation().appendPath(id, true);
+			String path = "/branches/"+id;
+			if(repository.checkPath(path, -1) == SVNNodeKind.NONE) {
+				SVNClientManager clientManager = SVNClientManager.newInstance(SVNWCUtil.createDefaultOptions(true));
+			
+				clientManager.getCommitClient( ).doMkDir( new SVNURL[] { svnURL } , "<init> branch " + id );
+			}
+			return new InitBranchResult(url, port, path, true);
 		} catch (SVNException e) {
 			throw new RepositoryAdapterException(e);
 		}
@@ -127,4 +179,5 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 	public String getName() {
 		return "SVN Repository Adapter";
 	}
+
 }

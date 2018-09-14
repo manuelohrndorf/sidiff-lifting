@@ -17,8 +17,8 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
-import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
+import org.sidiff.remote.application.adapters.ListOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
 import org.sidiff.remote.application.preferences.RemotePreferencesSupplier;
 import org.sidiff.remote.common.Credentials;
@@ -127,14 +127,14 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			switch(command.getECommand()) {
 			case BROWSE_REPOSITORY_CONTENT_REQUEST:
 				BrowseRepositoryContentRequest browseRepositoryContentRequest = (BrowseRepositoryContentRequest) command;
-				BrowseRepositoryContentOperationResult browseRepositoryOperationResult = app.browseRepositoryContent(browseRepositoryContentRequest.getRepositoryUrl(), browseRepositoryContentRequest.getRepositoryPort(), browseRepositoryContentRequest.getRepositoryPath(), browseRepositoryContentRequest.getRepositoryUserName(), browseRepositoryContentRequest.getRepositoryPassword());
+				ListOperationResult browseRepositoryOperationResult = app.browseRepositoryContent(browseRepositoryContentRequest.getRepositoryUrl(), browseRepositoryContentRequest.getRepositoryPort(), browseRepositoryContentRequest.getRepositoryPath(), browseRepositoryContentRequest.getRepositoryUserName(), browseRepositoryContentRequest.getRepositoryPassword());
 				BrowseRepositoryContentReply browseRepositoryContentReply = new BrowseRepositoryContentReply(browseRepositoryOperationResult.getProxyObjects());
 				protocolHandler.write(browseRepositoryContentReply, null);
 				break;
 				
 			case CHECKOUT_REPOSITORY_CONTENT_REQUEST:
 				CheckoutRepositoryContentRequest checkoutRepositoryContentRequest = (CheckoutRepositoryContentRequest) command;
-				CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = app.checkoutRepositoryContent(checkoutRepositoryContentRequest.getRepositoryUrl(), checkoutRepositoryContentRequest.getRepositoryPort(), checkoutRepositoryContentRequest.getRepositoryPath(), checkoutRepositoryContentRequest.getRepositoryUserName(), checkoutRepositoryContentRequest.getRepositoryPassword());
+				CheckoutOperationResult checkoutRepositoryContentOperationResult = app.checkoutRepositoryContent(checkoutRepositoryContentRequest.getRepositoryUrl(), checkoutRepositoryContentRequest.getRepositoryPort(), checkoutRepositoryContentRequest.getRepositoryPath(), checkoutRepositoryContentRequest.getRepositoryUserName(), checkoutRepositoryContentRequest.getRepositoryPassword());
 				CheckoutRepositoryContentReply checkoutRepositoryContentReply = new CheckoutRepositoryContentReply();
 				protocolHandler.write(checkoutRepositoryContentReply, null);
 				break;

@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.sidiff.remote.common.ProxyObject;
 
-public class BrowseRepositoryContentOperationResult extends RepositoryOperationResult {
+public class ListOperationResult extends RepositoryOperationResult {
 	
 	private String sourcePath;
 	
 	private List<ProxyObject> proxyObjects;
 
-	public BrowseRepositoryContentOperationResult(String url, int port, String sourcePath, List<ProxyObject> proxyObjects, String message, boolean succeeded) {
-		super(url, port, message, succeeded);
+	public ListOperationResult(String url, int port, String sourcePath, List<ProxyObject> proxyObjects, String message, boolean succeeded) {
+		super(url, port, succeeded);
 		this.sourcePath = sourcePath;
 		this.proxyObjects = proxyObjects;
 	}

@@ -15,11 +15,15 @@ public interface IRepositoryAdapter {
 	
 	public static final String ATTRIBUTE_ID = "class";
 	
-	public BrowseRepositoryContentOperationResult list(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException;
+	public CheckoutOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException;
 	
-	public CheckoutRepositoryContentOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException;
+	public InfoOperationResult info(File wcFile) throws RepositoryAdapterException;
 	
-	public RepositoryInfo getRepositoryInfo(File wcFile) throws RepositoryAdapterException;
+	public ListOperationResult list(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException;
+	
+	public ImportFileOperationResult importFile(String url, int port, String path, File file, String username, char[] password, String message) throws RepositoryAdapterException;
+	
+	public InitBranchResult initBranch(String url, int port, String id, String username, char[] password) throws RepositoryAdapterException;
 	
 	public String getKey();
 	

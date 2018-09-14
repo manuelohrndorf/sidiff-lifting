@@ -19,10 +19,11 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.BrowseRepositoryContentOperationResult;
-import org.sidiff.remote.application.adapters.CheckoutRepositoryContentOperationResult;
+import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
-import org.sidiff.remote.application.adapters.RepositoryInfo;
+import org.sidiff.remote.application.adapters.InfoOperationResult;
+import org.sidiff.remote.application.adapters.InitBranchResult;
+import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
 import org.sidiff.remote.application.util.ExtensionUtil;
@@ -115,17 +116,17 @@ public class SiDiffRemoteApplication {
 	 * @return the content of the repository location as {@link List}
 	 * @throws ListRepositoryContentException
 	 */
-	public BrowseRepositoryContentOperationResult browseRepositoryContent(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
+	public ListOperationResult browseRepositoryContent(String url, int port, String path, String user, char[] password) throws ListRepositoryContentException {
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
-		BrowseRepositoryContentOperationResult browseRepositoryContentOperationResult = null;
+		ListOperationResult infoOperationResult = null;
 		try {
-			browseRepositoryContentOperationResult = repositoryAdapter.list(url, port, path, user, password);
+			infoOperationResult = repositoryAdapter.list(url, port, path, user, password);
 		} catch (RepositoryAdapterException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new ListRepositoryContentException(e);
 		}
-		return browseRepositoryContentOperationResult;
+		return infoOperationResult;
 	}
 	
 	/**
@@ -155,12 +156,13 @@ public class SiDiffRemoteApplication {
 				ProxyObject proxyObject = ProxyUtil.convertFile(child, user_folder);
 				proxyObjects.add(proxyObject);
 				try {
-					RepositoryInfo repositoryInfo = repositoryAdapter.getRepositoryInfo(child);
+					InfoOperationResult inforOperationResult = repositoryAdapter.info(child);
 					
-					ProxyUtil.addProperty(proxyObject, "Host", repositoryInfo.getUrl());
-					ProxyUtil.addProperty(proxyObject, "Path", repositoryInfo.getPath());
-					ProxyUtil.addProperty(proxyObject, "Revision", repositoryInfo.getRevision());
-					ProxyUtil.addProperty(proxyObject, "Author", repositoryInfo.getAuthor());
+					ProxyUtil.addProperty(proxyObject, "URL", inforOperationResult.getUrl());
+					ProxyUtil.addProperty(proxyObject, "Port", String.valueOf(inforOperationResult.getPort()));
+					ProxyUtil.addProperty(proxyObject, "Path", inforOperationResult.getPath());
+					ProxyUtil.addProperty(proxyObject, "Revision", inforOperationResult.getRevision());
+					ProxyUtil.addProperty(proxyObject, "Author", inforOperationResult.getAuthor());
 					
 				} catch (RepositoryAdapterException e) {
 					// TODO Auto-generated catch block
@@ -222,6 +224,22 @@ public class SiDiffRemoteApplication {
 		String sidiff_inf_path = new Path(absolute_origin_path).removeLastSegments(1).toOSString() + File.separator + SIDIFF_INF;
 		String absolute_copy_path = sidiff_inf_path + File.separator + relative_local_model_path;
 		
+		//init branch
+		//TODO determine right repository adapter
+		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+		InfoOperationResult infoOperationResult;
+		try {
+			infoOperationResult = repositoryAdapter.info(new File (absolute_origin_path));
+		} catch (RepositoryAdapterException e) {
+			throw new CheckoutSubModelException(e);
+		}
+		InitBranchResult initBranchResult;
+		try {
+			initBranchResult = repositoryAdapter.initBranch(infoOperationResult.getUrl(), infoOperationResult.getPort(), user_folder.getName(), "cpietsch", new char[] {'*','F','E', '6', '5', '6', '*'});
+		} catch (RepositoryAdapterException e) {
+			throw new CheckoutSubModelException(e);
+		}	
+		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource sessionModel = new UUIDResource(EMFStorage.pathToUri(absolute_origin_path), resourceSet);
 		
@@ -262,8 +280,15 @@ public class SiDiffRemoteApplication {
 		File subModelFile = null;
 		try {
 			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
+
+			try {
+				repositoryAdapter.info(subModelFile);
+			}catch(RepositoryAdapterException e) {
+				String path = initBranchResult.getPath() + File.separator + relative_local_model_path.substring(0, relative_local_model_path.lastIndexOf(File.separator));
+				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), "cpietsch", new char[] {'*','F','E', '6', '5', '6', '*'}, "import submodel " + subModelFile.getName());
+			}
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new CheckoutSubModelException(e);
 		}
@@ -334,23 +359,23 @@ public class SiDiffRemoteApplication {
 	 *            the username for accessing the repository
 	 * @param password
 	 *            the password for accessing the repository
-	 * @return a {@link CheckoutRepositoryContentOperationResult}
+	 * @return a {@link CheckoutOperationResult}
 	 * @throws AddRepositoryException
 	 */
-	public CheckoutRepositoryContentOperationResult checkoutRepositoryContent(String url, int port, String path, String user, char[] password) throws AddRepositoryException {
+	public CheckoutOperationResult checkoutRepositoryContent(String url, int port, String path, String user, char[] password) throws AddRepositoryException {
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
 		String target = this.user_folder.getPath();
-		CheckoutRepositoryContentOperationResult checkoutRepositoryContentOperationResult = null;
+		CheckoutOperationResult checkoutOperatoinResult = null;
 		try {
-			checkoutRepositoryContentOperationResult = repositoryAdapter.checkout(url, port, path, user, password, target);
+			checkoutOperatoinResult = repositoryAdapter.checkout(url, port, path, user, password, target);
 			modelIndexer.index();
 		} catch (RepositoryAdapterException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new AddRepositoryException(e);
 		}
 		
-		return checkoutRepositoryContentOperationResult;
+		return checkoutOperatoinResult;
 	}
 	
 	/**

@@ -1,12 +1,12 @@
 package org.sidiff.remote.application.adapters;
 
-public class CheckoutRepositoryContentOperationResult extends RepositoryOperationResult {
+public class CheckoutOperationResult extends RepositoryOperationResult {
 
 	private String sourcePath;
 	private String targetPath;
 	
-	public CheckoutRepositoryContentOperationResult(String url, int port, String sourcePath, String targetPath, String message, boolean succeeded) {
-		super(url, port, message, succeeded);
+	public CheckoutOperationResult(String url, int port, String sourcePath, String targetPath, boolean succeeded) {
+		super(url, port, succeeded);
 		this.sourcePath = sourcePath;
 		this.targetPath = targetPath;
 	}
