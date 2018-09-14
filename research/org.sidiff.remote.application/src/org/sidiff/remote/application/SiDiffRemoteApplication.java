@@ -235,7 +235,7 @@ public class SiDiffRemoteApplication {
 		}
 		InitBranchResult initBranchResult;
 		try {
-			initBranchResult = repositoryAdapter.initBranch(infoOperationResult.getUrl(), infoOperationResult.getPort(), user_folder.getName(), "cpietsch", new char[] {'*','F','E', '6', '5', '6', '*'});
+			initBranchResult = repositoryAdapter.initBranch(infoOperationResult.getUrl(), infoOperationResult.getPort(), user_folder.getName(), null, null);
 		} catch (RepositoryAdapterException e) {
 			throw new CheckoutSubModelException(e);
 		}	
@@ -285,7 +285,7 @@ public class SiDiffRemoteApplication {
 				repositoryAdapter.info(subModelFile);
 			}catch(RepositoryAdapterException e) {
 				String path = initBranchResult.getPath() + File.separator + relative_local_model_path.substring(0, relative_local_model_path.lastIndexOf(File.separator));
-				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), "cpietsch", new char[] {'*','F','E', '6', '5', '6', '*'}, "import submodel " + subModelFile.getName());
+				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), null, null, "import submodel " + subModelFile.getName());
 			}
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
 				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException e) {
