@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -37,6 +36,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.slice.ModelSlice;
@@ -190,10 +190,10 @@ public class Uml2ClassificationApplication implements IApplication {
 
 	private void postprocessModelSlice(String packageName, Collection<EObject> exportedSlice, Set<String> coreClasses) throws FileNotFoundException {
 		try (PrintWriter writer = new PrintWriter(outputDirectory + "/UML." + packageName + ".txt")) {
-			TreeIterator<EObject> iterator = EcoreUtil.getAllProperContents(exportedSlice, true);
-			for(EObject object : (Iterable<EObject>)(() -> iterator)) {
-				if(object instanceof EReference) {
-					EReference reference = (EReference)object;
+			CollectionUtil.asStream(EcoreUtil.getAllProperContents(exportedSlice, true))
+				.filter(EReference.class::isInstance)
+				.map(EReference.class::cast)
+				.forEach(reference -> {
 					// set lower bound to 0 for all references to non-core classes
 					String refTypeName = reference.getEReferenceType().getName();
 					if(reference.getLowerBound() > 0 && !coreClasses.contains(refTypeName)) {
@@ -202,8 +202,7 @@ public class Uml2ClassificationApplication implements IApplication {
 								+ " --- " + reference.getName()
 								+ " --> " + refTypeName + " (in " + class2package.get(refTypeName).getName() + ")");
 					}
-				}
-			}
+				});
 		}
 	}
 
