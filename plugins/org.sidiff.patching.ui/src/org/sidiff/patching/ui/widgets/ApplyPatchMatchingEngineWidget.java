@@ -87,7 +87,7 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 		// Set selection:
 		if(list_matchers.getItems().length != 0) {
 			updateSelection();
-			if(settings.getMatcher() == null) {
+			if(settings.getMatcher() == null || !settings.getMatcher().equals(getSelection())) {
 				settings.setMatcher(getSelection());
 			}
 		} else {

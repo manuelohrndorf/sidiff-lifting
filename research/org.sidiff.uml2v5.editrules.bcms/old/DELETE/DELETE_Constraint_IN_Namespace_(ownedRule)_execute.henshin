@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hRd6x1tMEeesAqvk4oi7fQ" name="DELETE_Constraint_IN_Namespace_(ownedRule)" description="Deletes one Constraint in Namespace">
+  <annotations xmi:id="_hRd6yFtMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_Constraint_IN_Namespace_(ownedRule)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hRd6yVtMEeesAqvk4oi7fQ" name="deleteConstraint_IN_Namespace" description="deletes one Constraint in the context: Namespace">
+    <parameters xmi:id="_hRd6yltMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_hRd6y1tMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_hRd6zFtMEeesAqvk4oi7fQ" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <lhs xmi:id="_hRd6zVtMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hRd6zltMEeesAqvk4oi7fQ" name="Selected" incoming="_hRd61FtMEeesAqvk4oi7fQ" outgoing="_hRd601tMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hRd6z1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
+      </nodes>
+      <nodes xmi:id="_hRd60FtMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hRd601tMEeesAqvk4oi7fQ" outgoing="_hRd61FtMEeesAqvk4oi7fQ _hRd61VtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hRd60VtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_hRd60ltMEeesAqvk4oi7fQ" name="Child" incoming="_hRd61VtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+      </nodes>
+      <edges xmi:id="_hRd601tMEeesAqvk4oi7fQ" source="_hRd6zltMEeesAqvk4oi7fQ" target="_hRd60FtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace/ownedRule"/>
+      </edges>
+      <edges xmi:id="_hRd61FtMEeesAqvk4oi7fQ" source="_hRd60FtMEeesAqvk4oi7fQ" target="_hRd6zltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/context"/>
+      </edges>
+      <edges xmi:id="_hRd61VtMEeesAqvk4oi7fQ" source="_hRd60FtMEeesAqvk4oi7fQ" target="_hRd60ltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hRd61ltMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hRd611tMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hRd62FtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hRd62VtMEeesAqvk4oi7fQ" origin="_hRd6zltMEeesAqvk4oi7fQ" image="_hRd611tMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hRd62ltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hRd6yVtMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hRd621tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hRd63FtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
+    </parameters>
+    <parameters xmi:id="_hRd63VtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hRd63ltMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_hRd631tMEeesAqvk4oi7fQ" name="Child">
+      <annotations xmi:id="_hRd64FtMEeesAqvk4oi7fQ" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameterMappings xmi:id="_hRd64VtMEeesAqvk4oi7fQ" source="_hRd621tMEeesAqvk4oi7fQ" target="_hRd6yltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hRd64ltMEeesAqvk4oi7fQ" source="_hRd63VtMEeesAqvk4oi7fQ" target="_hRd6y1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hRd641tMEeesAqvk4oi7fQ" source="_hRd631tMEeesAqvk4oi7fQ" target="_hRd6zFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

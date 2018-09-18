@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hbv34FtMEeesAqvk4oi7fQ" name="DELETE_Constraint_IN_Action_(localPostcondition)" description="Deletes one Constraint in Action">
+  <annotations xmi:id="_hbv34VtMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_Constraint_IN_Action_(localPostcondition)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hbv34ltMEeesAqvk4oi7fQ" name="deleteConstraint_IN_Action" description="deletes one Constraint in the context: Action">
+    <parameters xmi:id="_hbv341tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+    </parameters>
+    <parameters xmi:id="_hbv35FtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_hbv35VtMEeesAqvk4oi7fQ" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <lhs xmi:id="_hbv35ltMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hbv351tMEeesAqvk4oi7fQ" name="Selected" outgoing="_hbv37FtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hbv36FtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+      </nodes>
+      <nodes xmi:id="_hbv36VtMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hbv37FtMEeesAqvk4oi7fQ" outgoing="_hbv37VtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hbv36ltMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_hbv361tMEeesAqvk4oi7fQ" name="Child" incoming="_hbv37VtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+      </nodes>
+      <edges xmi:id="_hbv37FtMEeesAqvk4oi7fQ" source="_hbv351tMEeesAqvk4oi7fQ" target="_hbv36VtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action/localPostcondition"/>
+      </edges>
+      <edges xmi:id="_hbv37VtMEeesAqvk4oi7fQ" source="_hbv36VtMEeesAqvk4oi7fQ" target="_hbv361tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hbv37ltMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hbv371tMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hbv38FtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hbv38VtMEeesAqvk4oi7fQ" origin="_hbv351tMEeesAqvk4oi7fQ" image="_hbv371tMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hbv38ltMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hbv34ltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hbv381tMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hbv39FtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+    </parameters>
+    <parameters xmi:id="_hbv39VtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hbv39ltMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameters xmi:id="_hbv391tMEeesAqvk4oi7fQ" name="Child">
+      <annotations xmi:id="_hbv3-FtMEeesAqvk4oi7fQ" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
+    </parameters>
+    <parameterMappings xmi:id="_hbv3-VtMEeesAqvk4oi7fQ" source="_hbv381tMEeesAqvk4oi7fQ" target="_hbv341tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hbv3-ltMEeesAqvk4oi7fQ" source="_hbv39VtMEeesAqvk4oi7fQ" target="_hbv35FtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hbv3-1tMEeesAqvk4oi7fQ" source="_hbv391tMEeesAqvk4oi7fQ" target="_hbv35VtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

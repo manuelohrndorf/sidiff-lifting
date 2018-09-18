@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hNJbMFtMEeesAqvk4oi7fQ" name="SET_REFERENCE_Property_(association)_TGT_Association" description="Sets Property's reference association the target Association">
+  <annotations xmi:id="_hNJbMVtMEeesAqvk4oi7fQ" key="INVERSE" value="UNSET_REFERENCE_Property_(association)_TGT_Association"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hNJbMltMEeesAqvk4oi7fQ" name="setProperty_association_TO_Association" description="SetPropertyRefassociationToAssociation">
+    <parameters xmi:id="_hNJbM1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_hNJbNFtMEeesAqvk4oi7fQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <lhs xmi:id="_hNJbNVtMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hNJbNltMEeesAqvk4oi7fQ" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_hNJbN1tMEeesAqvk4oi7fQ" name="NewTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hNJbOFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hNJbOVtMEeesAqvk4oi7fQ" name="Selected" incoming="_hNJbPFtMEeesAqvk4oi7fQ" outgoing="_hNJbO1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_hNJbOltMEeesAqvk4oi7fQ" name="NewTarget" incoming="_hNJbO1tMEeesAqvk4oi7fQ" outgoing="_hNJbPFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+      <edges xmi:id="_hNJbO1tMEeesAqvk4oi7fQ" source="_hNJbOVtMEeesAqvk4oi7fQ" target="_hNJbOltMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/association"/>
+      </edges>
+      <edges xmi:id="_hNJbPFtMEeesAqvk4oi7fQ" source="_hNJbOltMEeesAqvk4oi7fQ" target="_hNJbOVtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/memberEnd"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hNJbPVtMEeesAqvk4oi7fQ" origin="_hNJbNltMEeesAqvk4oi7fQ" image="_hNJbOVtMEeesAqvk4oi7fQ"/>
+    <mappings xmi:id="_hNJbPltMEeesAqvk4oi7fQ" origin="_hNJbN1tMEeesAqvk4oi7fQ" image="_hNJbOltMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hNJbP1tMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hNJbMltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hNJbQFtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hNJbQVtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_hNJbQltMEeesAqvk4oi7fQ" name="NewTarget">
+      <annotations xmi:id="_hNJbQ1tMEeesAqvk4oi7fQ" key="INVERSE" value="NewTarget"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameterMappings xmi:id="_hNJbRFtMEeesAqvk4oi7fQ" source="_hNJbQFtMEeesAqvk4oi7fQ" target="_hNJbM1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hNJbRVtMEeesAqvk4oi7fQ" source="_hNJbQltMEeesAqvk4oi7fQ" target="_hNJbNFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

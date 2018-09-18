@@ -20,22 +20,25 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.AddObject;
+import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
+import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
- * @author Jonas Schmeck, Robert Müller
+ * @author Jonas Schmeck, Robert Müller, cpietsch
  *
  */
 class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.ColorProvider implements ISelectionChangedListener {
 
-	private final Color COLOR_ATTRIBUTE_VALUE_CHANGED = new Color(Display.getCurrent(), 255, 0, 127);
-	private final Color COLOR_REMOVE_OBJECT = new Color(Display.getCurrent(), 190, 10, 10);
-	private final Color COLOR_ADD_OBJECT = new Color(Display.getCurrent(), 10, 190, 10);
+	private final Color CHANGE = new Color(Display.getCurrent(), 0, 128, 255);
+	private final Color REMOVE = new Color(Display.getCurrent(), 204, 0, 0);
+	private final Color ADD = new Color(Display.getCurrent(), 0, 204, 00);
 
 	private final TreeViewer treeViewer;
 	private final Map<Object, Color> objectColors;
@@ -108,18 +111,52 @@ class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.
 
 	private void highlightChange(Change change) {
 		if (change instanceof AttributeValueChange) {
-			applyHighlight(((AttributeValueChange)change).getObjA(), COLOR_ATTRIBUTE_VALUE_CHANGED);
-			applyHighlight(((AttributeValueChange)change).getObjB(), COLOR_ATTRIBUTE_VALUE_CHANGED);
+			applyHighlight(((AttributeValueChange)change).getObjA(), CHANGE);
+			applyHighlight(((AttributeValueChange)change).getObjB(), CHANGE);
 		}
 		else if (change instanceof RemoveObject) {
-			applyHighlight(((RemoveObject)change).getObj(), COLOR_REMOVE_OBJECT);
+			applyHighlight(((RemoveObject)change).getObj(), REMOVE);
 		}
 		else if (change instanceof AddObject) {
-			applyHighlight(((AddObject)change).getObj(), COLOR_ADD_OBJECT);
+			applyHighlight(((AddObject)change).getObj(), ADD);
+		}else if(change instanceof AddReference) {
+			AddReference addReference = (AddReference)change;
+			EObject srcB = addReference.getSrc();
+			EObject tgtB = addReference.getTgt();
+			EObject srcA = ((SymmetricDifference)change.eContainer()).getCorrespondingObjectInA(srcB);
+			EObject tgtA = ((SymmetricDifference)change.eContainer()).getCorrespondingObjectInA(tgtB);
+			
+
+			applyHighlight(srcB, CHANGE);
+			
+
+			applyHighlight(tgtB, CHANGE);
+			
+			if(srcA != null) {
+				applyHighlight(srcA, CHANGE);
+			}
+			if(tgtA != null) {
+				applyHighlight(tgtA, CHANGE);
+			}
+		}else if(change instanceof RemoveReference) {
+			RemoveReference remReference = (RemoveReference)change;
+			EObject srcA = remReference.getSrc();
+			EObject tgtA = remReference.getTgt();
+			EObject srcB = ((SymmetricDifference)change.eContainer()).getCorrespondingObjectInB(srcA);
+			EObject tgtB = ((SymmetricDifference)change.eContainer()).getCorrespondingObjectInB(tgtA);
+	
+			applyHighlight(srcA, CHANGE);
+			
+
+			applyHighlight(tgtA, CHANGE);
+			
+			if(srcB != null) 
+				applyHighlight(srcB, CHANGE);
+			
+			if(tgtB != null) 
+				applyHighlight(tgtB, CHANGE);
+			
 		}
-		// else
-		// either instanceof 'RemoveReference' or 'AddReference'
-		// we don't want to highlight these
 	}
 
 	private void applyHighlight(EObject eObject, Color color) {
@@ -130,7 +167,11 @@ class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.
 		if(resolvedObject == null)
 			return;
 
-		objectColors.put(resolvedObject, color);
+		if(objectColors.get(resolvedObject) == null) {
+			objectColors.put(resolvedObject, color);
+		}else if(color.equals(ADD) || color.equals(REMOVE)) {
+			objectColors.put(resolvedObject, color);
+		}
 		treeViewer.expandToLevel(resolvedObject, 0);
 		changedObjects.add(resolvedObject);
 	}
@@ -147,9 +188,9 @@ class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.
 	@Override
 	public void dispose() {
 		objectColors.clear();
-		COLOR_ADD_OBJECT.dispose();
-		COLOR_REMOVE_OBJECT.dispose();
-		COLOR_ATTRIBUTE_VALUE_CHANGED.dispose();
+		ADD.dispose();
+		REMOVE.dispose();
+		CHANGE.dispose();
 		selectionProvider.removeSelectionChangedListener(this);
 		super.dispose();
 	}

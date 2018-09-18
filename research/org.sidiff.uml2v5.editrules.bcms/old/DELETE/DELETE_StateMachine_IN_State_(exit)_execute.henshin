@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hQRnxltMEeesAqvk4oi7fQ" name="DELETE_StateMachine_IN_State_(exit)" description="Deletes one StateMachine in State">
+  <annotations xmi:id="_hQRnx1tMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_StateMachine_IN_State_(exit)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hQRnyFtMEeesAqvk4oi7fQ" name="deleteStateMachine_IN_State" description="deletes one StateMachine in the context: State">
+    <parameters xmi:id="_hQRnyVtMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_hQRnyltMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_hQRny1tMEeesAqvk4oi7fQ" name="Child">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <lhs xmi:id="_hQRnzFtMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hQRnzVtMEeesAqvk4oi7fQ" name="Selected" outgoing="_hQRn0ltMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hQRnzltMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_hQRnz1tMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hQRn0ltMEeesAqvk4oi7fQ _hQRn1FtMEeesAqvk4oi7fQ" outgoing="_hQRn01tMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hQRn0FtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_hQRn0VtMEeesAqvk4oi7fQ" name="Child" incoming="_hQRn01tMEeesAqvk4oi7fQ" outgoing="_hQRn1FtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_hQRn0ltMEeesAqvk4oi7fQ" source="_hQRnzVtMEeesAqvk4oi7fQ" target="_hQRnz1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/exit"/>
+      </edges>
+      <edges xmi:id="_hQRn01tMEeesAqvk4oi7fQ" source="_hQRnz1tMEeesAqvk4oi7fQ" target="_hQRn0VtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_hQRn1FtMEeesAqvk4oi7fQ" source="_hQRn0VtMEeesAqvk4oi7fQ" target="_hQRnz1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hQRn1VtMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hQRn1ltMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hQRn11tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hQRn2FtMEeesAqvk4oi7fQ" origin="_hQRnzVtMEeesAqvk4oi7fQ" image="_hQRn1ltMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hQRn2VtMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hQRnyFtMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hQRn2ltMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hQRn21tMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_hQRn3FtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hQRn3VtMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_hQRn3ltMEeesAqvk4oi7fQ" name="Child">
+      <annotations xmi:id="_hQRn31tMEeesAqvk4oi7fQ" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_hQRn4FtMEeesAqvk4oi7fQ" source="_hQRn2ltMEeesAqvk4oi7fQ" target="_hQRnyVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQRn4VtMEeesAqvk4oi7fQ" source="_hQRn3FtMEeesAqvk4oi7fQ" target="_hQRnyltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQRn4ltMEeesAqvk4oi7fQ" source="_hQRn3ltMEeesAqvk4oi7fQ" target="_hQRny1tMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

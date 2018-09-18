@@ -10,16 +10,18 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.common.emf.EMFUtil;
 
 /**
  * The <code>CompareResource</code> class encapsulates a object
  * of type {@link ITypedElement} which is one of the sides of a {@link ICompareInput}.
  * A <code>CompareResource</code> can be loaded using the {@link #load(ITypedElement)} method.
- * @author Robert Müller
+ * @author Robert Müller, cpietsch
  *
  */
 public class CompareResource {
@@ -166,9 +168,15 @@ public class CompareResource {
 		// create a complete copy of the resource
 		if(this.getURI() != null) {
 			Resource res = new ResourceSetImpl().createResource(this.getURI());
+	
 			Copier copier = new EcoreUtil.Copier();
+			
 			res.getContents().addAll(copier.copyAll(this.getResource().getContents()));
 			copier.copyReferences();
+			for (EObject origin : copier.keySet()) {
+				String id = EMFUtil.getXmiId(origin);
+				EMFUtil.setXmiId(copier.get(origin), id);
+			}
 			replacement.setResource(res);
 		} else {
 			replacement.setResource(null);

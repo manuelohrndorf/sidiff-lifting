@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hPOe8ltMEeesAqvk4oi7fQ" name="CREATE_LiteralString_IN_InteractionConstraint_(minint)" description="Creates one LiteralString in InteractionConstraint">
+  <annotations xmi:id="_hPOe81tMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_LiteralString_IN_InteractionConstraint_(minint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hPOe9FtMEeesAqvk4oi7fQ" name="createLiteralString_IN_InteractionConstraint" description="creates one LiteralString in the context: InteractionConstraint">
+    <parameters xmi:id="_hPOe9VtMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hPOe9ltMEeesAqvk4oi7fQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_hPOe91tMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hPOe-FtMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hPOe-VtMEeesAqvk4oi7fQ" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_hPOe-ltMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hPOe-1tMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hPOe_FtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hPOe_VtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hPOe_ltMEeesAqvk4oi7fQ" name="Selected" outgoing="_hPOfBVtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hPOe_1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+      <nodes xmi:id="_hPOfAFtMEeesAqvk4oi7fQ" name="New" incoming="_hPOfBVtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hPOfAVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+        <attributes xmi:id="_hPOfAltMEeesAqvk4oi7fQ" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_hPOfA1tMEeesAqvk4oi7fQ" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_hPOfBFtMEeesAqvk4oi7fQ" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString/value"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_hPOfBVtMEeesAqvk4oi7fQ" source="_hPOe_ltMEeesAqvk4oi7fQ" target="_hPOfAFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint/minint"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hPOfBltMEeesAqvk4oi7fQ" origin="_hPOe-1tMEeesAqvk4oi7fQ" image="_hPOe_ltMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hPOfB1tMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hPOe9FtMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hPOfCFtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hPOfCVtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hPOfCltMEeesAqvk4oi7fQ" name="New">
+      <annotations xmi:id="_hPOfC1tMEeesAqvk4oi7fQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
+    </parameters>
+    <parameters xmi:id="_hPOfDFtMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hPOfDVtMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hPOfDltMEeesAqvk4oi7fQ" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_hPOfD1tMEeesAqvk4oi7fQ" source="_hPOfCFtMEeesAqvk4oi7fQ" target="_hPOe9VtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hPOfEFtMEeesAqvk4oi7fQ" source="_hPOe9ltMEeesAqvk4oi7fQ" target="_hPOfCltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hPOfEVtMEeesAqvk4oi7fQ" source="_hPOfDFtMEeesAqvk4oi7fQ" target="_hPOe91tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hPOfEltMEeesAqvk4oi7fQ" source="_hPOfDVtMEeesAqvk4oi7fQ" target="_hPOe-FtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hPOfE1tMEeesAqvk4oi7fQ" source="_hPOfDltMEeesAqvk4oi7fQ" target="_hPOe-VtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

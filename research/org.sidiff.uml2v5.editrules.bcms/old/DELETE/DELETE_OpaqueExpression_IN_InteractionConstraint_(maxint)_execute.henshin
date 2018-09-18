@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hghDIFtMEeesAqvk4oi7fQ" name="DELETE_OpaqueExpression_IN_InteractionConstraint_(maxint)" description="Deletes one OpaqueExpression in InteractionConstraint">
+  <annotations xmi:id="_hghDIVtMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_OpaqueExpression_IN_InteractionConstraint_(maxint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hghDIltMEeesAqvk4oi7fQ" name="deleteOpaqueExpression_IN_InteractionConstraint" description="deletes one OpaqueExpression in the context: InteractionConstraint">
+    <parameters xmi:id="_hghDI1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hghDJFtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <lhs xmi:id="_hghDJVtMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hghDJltMEeesAqvk4oi7fQ" name="Selected" outgoing="_hghDKltMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hghDJ1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+      <nodes xmi:id="_hghDKFtMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hghDKltMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hghDKVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+      </nodes>
+      <edges xmi:id="_hghDKltMEeesAqvk4oi7fQ" source="_hghDJltMEeesAqvk4oi7fQ" target="_hghDKFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint/maxint"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hghDK1tMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hghDLFtMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hghDLVtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hghDLltMEeesAqvk4oi7fQ" origin="_hghDJltMEeesAqvk4oi7fQ" image="_hghDLFtMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hghDL1tMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hghDIltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hghDMFtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hghDMVtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InteractionConstraint"/>
+    </parameters>
+    <parameters xmi:id="_hghDMltMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hghDM1tMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameterMappings xmi:id="_hghDNFtMEeesAqvk4oi7fQ" source="_hghDMFtMEeesAqvk4oi7fQ" target="_hghDI1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hghDNVtMEeesAqvk4oi7fQ" source="_hghDMltMEeesAqvk4oi7fQ" target="_hghDJFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

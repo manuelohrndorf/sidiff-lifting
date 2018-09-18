@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hjWUsFtMEeesAqvk4oi7fQ" name="DELETE_Interaction_IN_BehavioredClassifier_(ownedBehavior)" description="Deletes one Interaction in BehavioredClassifier">
+  <annotations xmi:id="_hjWUsVtMEeesAqvk4oi7fQ" key="INVERSE" value="CREATE_Interaction_IN_BehavioredClassifier_(ownedBehavior)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hjWUsltMEeesAqvk4oi7fQ" name="deleteInteraction_IN_BehavioredClassifier" description="deletes one Interaction in the context: BehavioredClassifier">
+    <parameters xmi:id="_hjWUs1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_hjWUtFtMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <lhs xmi:id="_hjWUtVtMEeesAqvk4oi7fQ" name="LHS">
+      <nodes xmi:id="_hjWUtltMEeesAqvk4oi7fQ" name="Selected" outgoing="_hjWUultMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hjWUt1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+      <nodes xmi:id="_hjWUuFtMEeesAqvk4oi7fQ" name="ToBeDeleted" incoming="_hjWUultMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hjWUuVtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+      </nodes>
+      <edges xmi:id="_hjWUultMEeesAqvk4oi7fQ" source="_hjWUtltMEeesAqvk4oi7fQ" target="_hjWUuFtMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hjWUu1tMEeesAqvk4oi7fQ" name="RHS">
+      <nodes xmi:id="_hjWUvFtMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hjWUvVtMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_hjWUvltMEeesAqvk4oi7fQ" origin="_hjWUtltMEeesAqvk4oi7fQ" image="_hjWUvFtMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hjWUv1tMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hjWUsltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hjWUwFtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hjWUwVtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_hjWUwltMEeesAqvk4oi7fQ" name="ToBeDeleted">
+      <annotations xmi:id="_hjWUw1tMEeesAqvk4oi7fQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interaction"/>
+    </parameters>
+    <parameterMappings xmi:id="_hjWUxFtMEeesAqvk4oi7fQ" source="_hjWUwFtMEeesAqvk4oi7fQ" target="_hjWUs1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hjWUxVtMEeesAqvk4oi7fQ" source="_hjWUwltMEeesAqvk4oi7fQ" target="_hjWUtFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>

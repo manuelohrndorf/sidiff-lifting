@@ -95,7 +95,7 @@ public class Activator extends AbstractUIPlugin {
 		reg.put(IMAGE_APPLIED, ImageDescriptor.createFromURL(
 				FileLocator.find(bundle, new Path("icons/applied.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_CONFLICT, ImageDescriptor.createFromURL(
-				FileLocator.find(bundle, new Path("icons/conflict.gif"), null))); //$NON-NLS-1$
+				FileLocator.find(bundle, new Path("icons/conflict.png"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_IGNORED, ImageDescriptor.createFromURL(
 				FileLocator.find(bundle, new Path("icons/ignored.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_WARNING, ImageDescriptor.createFromURL(

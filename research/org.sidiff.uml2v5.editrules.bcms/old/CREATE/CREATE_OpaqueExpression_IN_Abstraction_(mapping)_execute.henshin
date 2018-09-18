@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_hQ3dkFtMEeesAqvk4oi7fQ" name="CREATE_OpaqueExpression_IN_Abstraction_(mapping)" description="Creates one OpaqueExpression in Abstraction">
+  <annotations xmi:id="_hQ3dkVtMEeesAqvk4oi7fQ" key="INVERSE" value="DELETE_OpaqueExpression_IN_Abstraction_(mapping)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_hQ3dkltMEeesAqvk4oi7fQ" name="createOpaqueExpression_IN_Abstraction" description="creates one OpaqueExpression in the context: Abstraction">
+    <parameters xmi:id="_hQ3dk1tMEeesAqvk4oi7fQ" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dlFtMEeesAqvk4oi7fQ" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dlVtMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dlltMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dl1tMEeesAqvk4oi7fQ" name="Body">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dmFtMEeesAqvk4oi7fQ" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_hQ3dmVtMEeesAqvk4oi7fQ" name="Lhs">
+      <nodes xmi:id="_hQ3dmltMEeesAqvk4oi7fQ" name="Selected">
+        <annotations xmi:id="_hQ3dm1tMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_hQ3dnFtMEeesAqvk4oi7fQ" name="Rhs">
+      <nodes xmi:id="_hQ3dnVtMEeesAqvk4oi7fQ" name="Selected" outgoing="_hQ3dpVtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hQ3dnltMEeesAqvk4oi7fQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+      </nodes>
+      <nodes xmi:id="_hQ3dn1tMEeesAqvk4oi7fQ" name="New" incoming="_hQ3dpVtMEeesAqvk4oi7fQ">
+        <annotations xmi:id="_hQ3doFtMEeesAqvk4oi7fQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+        <attributes xmi:id="_hQ3doVtMEeesAqvk4oi7fQ" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_hQ3doltMEeesAqvk4oi7fQ" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_hQ3do1tMEeesAqvk4oi7fQ" value="Body">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression/body"/>
+        </attributes>
+        <attributes xmi:id="_hQ3dpFtMEeesAqvk4oi7fQ" value="Language">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression/language"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_hQ3dpVtMEeesAqvk4oi7fQ" source="_hQ3dnVtMEeesAqvk4oi7fQ" target="_hQ3dn1tMEeesAqvk4oi7fQ">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction/mapping"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_hQ3dpltMEeesAqvk4oi7fQ" origin="_hQ3dmltMEeesAqvk4oi7fQ" image="_hQ3dnVtMEeesAqvk4oi7fQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_hQ3dp1tMEeesAqvk4oi7fQ" name="mainUnit" subUnits="_hQ3dkltMEeesAqvk4oi7fQ">
+    <parameters xmi:id="_hQ3dqFtMEeesAqvk4oi7fQ" name="selectedEObject">
+      <annotations xmi:id="_hQ3dqVtMEeesAqvk4oi7fQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Abstraction"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dqltMEeesAqvk4oi7fQ" name="New">
+      <annotations xmi:id="_hQ3dq1tMEeesAqvk4oi7fQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
+    </parameters>
+    <parameters xmi:id="_hQ3drFtMEeesAqvk4oi7fQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hQ3drVtMEeesAqvk4oi7fQ" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_hQ3drltMEeesAqvk4oi7fQ" name="Body">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_hQ3dr1tMEeesAqvk4oi7fQ" name="Language">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_hQ3dsFtMEeesAqvk4oi7fQ" source="_hQ3dqFtMEeesAqvk4oi7fQ" target="_hQ3dk1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQ3dsVtMEeesAqvk4oi7fQ" source="_hQ3dlFtMEeesAqvk4oi7fQ" target="_hQ3dqltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQ3dsltMEeesAqvk4oi7fQ" source="_hQ3drFtMEeesAqvk4oi7fQ" target="_hQ3dlVtMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQ3ds1tMEeesAqvk4oi7fQ" source="_hQ3drVtMEeesAqvk4oi7fQ" target="_hQ3dlltMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQ3dtFtMEeesAqvk4oi7fQ" source="_hQ3drltMEeesAqvk4oi7fQ" target="_hQ3dl1tMEeesAqvk4oi7fQ"/>
+    <parameterMappings xmi:id="_hQ3dtVtMEeesAqvk4oi7fQ" source="_hQ3dr1tMEeesAqvk4oi7fQ" target="_hQ3dmFtMEeesAqvk4oi7fQ"/>
+  </units>
+</henshin:Module>
