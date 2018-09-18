@@ -1,6 +1,5 @@
 package org.sidiff.integration;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -48,7 +47,7 @@ import org.sidiff.patching.ui.view.ReportView;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class SiLiftCompareDifferencer {
@@ -158,7 +157,7 @@ public class SiLiftCompareDifferencer {
 				try {
 					modifiedDetector.init(getAncestor().getResource(), getModifiedLeft().getResource(),
 							patchingSettings.getMatcher(), patchingSettings.getScope());
-				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
 					Activator.logError("SiLiftCompareDifferencer could not initialize modified detector", e);
 				}
 			}

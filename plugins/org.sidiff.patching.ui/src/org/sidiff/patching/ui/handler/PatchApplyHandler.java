@@ -1,5 +1,8 @@
 package org.sidiff.patching.ui.handler;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -48,17 +51,21 @@ public class PatchApplyHandler extends AbstractHandler {
 					String patchPath = iFile.getLocation().toOSString();
 					// TODO own util class
 					// Search manifest:
-					URI uri_patch = null;
-					for (String entry : ZipUtil.getEntries(patchPath)) {
-						if (entry.endsWith("MF")) {
-							uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+					try {
+						for (String entry : ZipUtil.getEntries(Paths.get(patchPath))) {
+							if (entry.endsWith("MF")) {
+								URI uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+								patchResource = resourceSet.getResource(uri_patch, true);
+							}
 						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 
-					patchResource = resourceSet.getResource(uri_patch, true);
 				}
 				
-				if (patchResource.getContents().size() == 0) {
+				if (patchResource == null || patchResource.getContents().size() == 0) {
 					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model", "There is something wrong with this patch!");
 					return null;
 				}

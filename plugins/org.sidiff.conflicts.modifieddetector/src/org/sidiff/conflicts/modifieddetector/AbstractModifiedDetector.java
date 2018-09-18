@@ -1,6 +1,6 @@
 package org.sidiff.conflicts.modifieddetector;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,9 +15,8 @@ public abstract class AbstractModifiedDetector implements IModifiedDetector {
 	}
 
 	@Override
-	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws FileNotFoundException {
+	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws IOException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

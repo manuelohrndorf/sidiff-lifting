@@ -1,6 +1,6 @@
 package org.sidiff.conflicts.modifieddetector;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -48,9 +48,9 @@ public interface IModifiedDetector {
 	 * @param modelB the modelB to use
 	 * @param matcher the matcher to use
 	 * @param scope the scope to use
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
-	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws FileNotFoundException;
+	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws IOException;
 
 	/**
 	 * 

@@ -1,5 +1,6 @@
 package org.sidiff.slicer.structural.run;
 
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,7 +10,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.common.file.FileOperations;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.slice.ModelSlice;
@@ -73,8 +73,11 @@ public class SiDiffSlicingApplication implements IApplication{
 		System.out.println("Slicing: " + (timerSlice - timeSlicerInit) + "ms");
 		URI saveURI = StructureBasedSlicerUtil.generateSaveURI(loadModelURI, (SlicingConfiguration)slicing_config);
 		SlicerUtil.serializeModelSlice(saveURI, modelSlice.export(object -> model.eResource().equals(object.eResource())));
-		String gv_path = loadModelURI.path().replace(loadModelURI.lastSegment(), "graph.dot");
-		FileOperations.writeFile(gv_path, GraphUtil.get(slicer).getOutput());
+
+		try (OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter()
+				.createOutputStream(saveURI.appendFileExtension("dot"))) {
+			graphOutput.write(GraphUtil.get(slicer).getOutput().getBytes());
+		}
 
 		// String command = "cmd /c start C:\\\"Program Files (x86)\"\\Graphviz2.38\\bin\\gvedit.exe " + gv_path;
 		// Runtime runtime = Runtime.getRuntime();

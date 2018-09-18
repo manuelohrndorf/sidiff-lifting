@@ -1,6 +1,8 @@
 package org.sidiff.patching.patch.patch;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.URI;
@@ -95,14 +97,13 @@ public class PatchCreator {
 		this.asymmetricDifference.initializeRuleBase();
 	}
 
-	public String serializePatch(String path, String filename)
-			throws FileNotFoundException {
+	public String serializePatch(String path, String filename) throws IOException {
 
 		this.filename = filename;
 		return serializePatch(path);
 	}
 
-	public String serializePatch(String path) throws FileNotFoundException {
+	public String serializePatch(String path) throws IOException {
 
 		resourceA_name = resourceA.getURI().lastSegment();
 		resourceB_name = resourceB.getURI().lastSegment();
@@ -210,9 +211,10 @@ public class PatchCreator {
 		patch.setAsymmetricDifference(asymmetricDifference);
 		String manifest = savePath + separator + "Manifest.MF";
 		EMFStorage.eSaveAs(EMFStorage.pathToUri(manifest), patch, true);
+
 		// zip all necessary files
-		ZipUtil.zip(savePath, savePath, AsymmetricDiffFacade.PATCH_EXTENSION);
-		FileOperations.removeFolder(savePath);
+		ZipUtil.zip(Paths.get(savePath), Paths.get(savePath + "." + AsymmetricDiffFacade.PATCH_EXTENSION));
+		FileOperations.removeFolder(Paths.get(savePath));
 
 		// Return path of saved zip:
 		return savePath + "." + AsymmetricDiffFacade.PATCH_EXTENSION;

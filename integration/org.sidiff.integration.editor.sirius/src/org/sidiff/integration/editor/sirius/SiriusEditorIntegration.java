@@ -2,6 +2,7 @@ package org.sidiff.integration.editor.sirius;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -124,8 +125,11 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 				return null;
 			String fileString = diagramURI.toString().substring(diagramURI.toString().indexOf(diagramURI.authority())+ diagramURI.authority().length()).replaceAll("\\\\", "/");
 			if (fileString.startsWith("/")) fileString=fileString.substring(1);
-			for (String s : ZipUtil.getEntries(authorityFile.getAbsolutePath())) {
-				if (s != null && s.equals(fileString)) return diagramURI;
+			try {
+				if(ZipUtil.getEntries(authorityFile.toPath()).contains(fileString)) {
+					return diagramURI;
+				}
+			} catch (IOException e) {
 			}
 			return null;
 		} else if (EMFStorage.uriToFile(diagramURI).exists()) {

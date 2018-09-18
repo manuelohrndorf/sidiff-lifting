@@ -1,6 +1,6 @@
 package org.sidiff.patching.api;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -28,9 +28,9 @@ public class PatchingFacade extends AsymmetricDiffFacade{
 	 * @param patchCreator
 	 * @param path
 	 * @param filename
-	 * @throws FileNotFoundException
+	 * @throws IOException  
 	 */
-	public static void createPatch(PatchCreator patchCreator, String path, String filename) throws FileNotFoundException{
+	public static void createPatch(PatchCreator patchCreator, String path, String filename) throws IOException {
 		PatchingFacade.patchCreator = patchCreator;
 		if(filename == null || filename.isEmpty()){
 			patchPath = patchCreator.serializePatch(path);
@@ -44,9 +44,9 @@ public class PatchingFacade extends AsymmetricDiffFacade{
 	 * @param settings
 	 * @param path
 	 * @param filename
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void createPatch(AsymmetricDifference asymmetricDifference, PatchingSettings settings, String path, String filename) throws FileNotFoundException{
+	public static void createPatch(AsymmetricDifference asymmetricDifference, PatchingSettings settings, String path, String filename) throws IOException{
 		patchCreator = new PatchCreator(asymmetricDifference, settings.getMatcher(), settings.useSymbolicLinks(), settings.getSymbolicLinkHandler());
 		createPatch(patchCreator, path, filename);
 	}
@@ -56,9 +56,9 @@ public class PatchingFacade extends AsymmetricDiffFacade{
 	 * @param settings
 	 * @param path
 	 * @param filename
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void createPatch(SymmetricDifference symmetricDifference, PatchingSettings settings, String path, String filename) throws FileNotFoundException{
+	public static void createPatch(SymmetricDifference symmetricDifference, PatchingSettings settings, String path, String filename) throws IOException{
 		Difference difference = deriveLiftedAsymmetricDifference(symmetricDifference, settings);
 		createPatch(difference.getAsymmetric(), settings, path, filename);
 	}
@@ -70,10 +70,10 @@ public class PatchingFacade extends AsymmetricDiffFacade{
 	 * @param path
 	 * @param filename
 	 * @throws InvalidModelException
-	 * @throws FileNotFoundException
 	 * @throws NoCorrespondencesException
+	 * @throws IOException 
 	 */
-	public static void createPatch(Resource modelA, Resource modelB, PatchingSettings settings, String path, String filename) throws InvalidModelException, FileNotFoundException, NoCorrespondencesException{
+	public static void createPatch(Resource modelA, Resource modelB, PatchingSettings settings, String path, String filename) throws InvalidModelException, NoCorrespondencesException, IOException{
 		Difference difference = deriveLiftedAsymmetricDifference(modelA, modelB, settings);
 		createPatch(difference.getAsymmetric(), settings, path, filename);
 	}
@@ -85,9 +85,9 @@ public class PatchingFacade extends AsymmetricDiffFacade{
 	 * @param filename
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void createPatch(InputModels models, PatchingSettings settings, String path, String filename) throws InvalidModelException, NoCorrespondencesException, FileNotFoundException{
+	public static void createPatch(InputModels models, PatchingSettings settings, String path, String filename) throws InvalidModelException, NoCorrespondencesException, IOException{
 		Difference difference = deriveLiftedAsymmetricDifference(models, settings);
 		createPatch(difference.getAsymmetric(), settings, path, filename);
 	}

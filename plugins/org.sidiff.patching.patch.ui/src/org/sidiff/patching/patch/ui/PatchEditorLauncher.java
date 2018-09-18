@@ -1,4 +1,6 @@
 package org.sidiff.patching.patch.ui;
+import java.io.IOException;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -23,10 +25,14 @@ public class PatchEditorLauncher implements IEditorLauncher {
 			// Search asymmetric difference:
 			URI uri = null;
 			
-			for (String entry : ZipUtil.getEntries(path.toOSString())) {
-				if (entry.endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
-					uri = URI.createURI(ARCHIVE_URI_PREFIX + path.toOSString() + ARCHIVE_SEPERATOR + entry);
+			try {
+				for (String entry : ZipUtil.getEntries(path.toFile().toPath())) {
+					if (entry.endsWith(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
+						uri = URI.createURI(ARCHIVE_URI_PREFIX + path.toOSString() + ARCHIVE_SEPERATOR + entry);
+					}
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			
 			// Open editor:

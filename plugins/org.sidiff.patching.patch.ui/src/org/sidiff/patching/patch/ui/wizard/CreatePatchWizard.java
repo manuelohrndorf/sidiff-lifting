@@ -1,6 +1,7 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -144,6 +145,9 @@ public class CreatePatchWizard extends Wizard {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (NoCorrespondencesException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

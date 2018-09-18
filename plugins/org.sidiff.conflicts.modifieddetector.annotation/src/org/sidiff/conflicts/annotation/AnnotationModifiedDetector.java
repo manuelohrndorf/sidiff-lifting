@@ -1,6 +1,7 @@
 package org.sidiff.conflicts.annotation;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 	@Override
 	public void init(Resource modelA, Resource modelB,
 			IMatcher matcher,
-			Scope scope) throws FileNotFoundException {
+			Scope scope) throws IOException {
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "--------- Initializing Annotation Modified Detector --------");
@@ -165,7 +166,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 	 * @param annotationService
 	 * @throws FileNotFoundException 
 	 */
-	public abstract void initAnnotator(IAnnotation annotationService, Resource model) throws FileNotFoundException;
+	public abstract void initAnnotator(IAnnotation annotationService, Resource model) throws IOException;
 
 
 }

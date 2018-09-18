@@ -1,6 +1,8 @@
 package org.sidiff.patching.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
@@ -11,7 +13,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.sidiff.common.exceptions.FileAlreadyExistsException;
+import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.file.ZipUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 
@@ -54,19 +56,13 @@ public class PatchUtil {
 	 * @param path
 	 *            The system path of the compressed patch.
 	 * @return The folder of the uncompressed patch.
+	 * @throws IOException 
 	 */
-	public static File extractPatch(IPath path) {
-		String compressedPath = path.toOSString();
-		File uncompressedPath = new File(compressedPath.substring(0, compressedPath.length()
-				- (AsymmetricDiffFacade.PATCH_EXTENSION.length() + 1)));
-
-		try {
-			ZipUtil.extractFiles(compressedPath, uncompressedPath.getAbsolutePath(), "", true);
-		} catch (FileAlreadyExistsException e) {
-			e.printStackTrace();
-		}
-
-		return uncompressedPath;
+	public static File extractPatch(IPath path) throws IOException {
+		Path directoryPath = path.removeFileExtension().toFile().toPath();
+		FileOperations.removeFolder(directoryPath);
+		ZipUtil.unzip(path.toFile().toPath(), directoryPath);
+		return directoryPath.toFile();
 	}
 
 	/**
