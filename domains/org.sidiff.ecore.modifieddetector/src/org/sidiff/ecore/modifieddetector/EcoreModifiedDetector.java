@@ -1,6 +1,6 @@
 package org.sidiff.ecore.modifieddetector;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -11,20 +11,19 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.configuration.IConfigurationCapable;
 import org.sidiff.conflicts.annotation.AnnotationModifiedDetector;
+import org.sidiff.ecore.modifieddetector.internal.Activator;
 
 public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 
+	private static final String CONFIG_PATH = "/config/org.sidiff.ecore.core.annotations.xml";
+
 	@Override
-	public void initAnnotator(IAnnotation annotator, Resource model) throws FileNotFoundException {
-		
-		String ANN_CFG_NAME = "platform:/plugin/org.sidiff.ecore.modifieddetector/config/"
-				+ "org.sidiff.ecore.core.annotations.xml";
-		
-		LogUtil.log(LogEvent.DEBUG, "Config: " + ANN_CFG_NAME);	
+	public void initAnnotator(IAnnotation annotator, Resource model) throws IOException {
+		LogUtil.log(LogEvent.DEBUG, "Config: " + CONFIG_PATH);	
 		
 		// Configure AnnotationService
 		IConfigurationCapable cc = (IConfigurationCapable) annotator;
-		cc.configure(XMLParser.parseStream(IOUtil.getInputStream(ANN_CFG_NAME)));
+		cc.configure(XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
 	}
 
 	@Override
