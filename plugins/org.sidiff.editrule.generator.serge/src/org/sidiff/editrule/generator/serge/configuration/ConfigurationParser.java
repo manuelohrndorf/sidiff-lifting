@@ -2,6 +2,9 @@ package org.sidiff.editrule.generator.serge.configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +31,6 @@ import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodel.analysis.Mask;
 import org.sidiff.common.emf.modelstorage.ModelStorage;
-import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
@@ -82,7 +84,7 @@ public class ConfigurationParser {
 	 * 
 	 * @throws Exception
 	 */
-	public void setupDefaultConfig(String metaModelNsURI, String pathToDefaultConfigTemplate) throws Exception {
+	public void setupDefaultConfig(String metaModelNsURI, Path pathToDefaultConfigTemplate) throws Exception {
 		ConfigurationParser.metaModelForDefaultConfig = metaModelNsURI;
 		parse(pathToDefaultConfigTemplate);
 	}
@@ -99,12 +101,15 @@ public class ConfigurationParser {
 	 * @throws ParserConfigurationException
 	 * @throws IOException
 	 */
-	public void parse(String pathToConfig) throws SERGeConfigParserException, EPackageNotFoundException,
+	public void parse(Path pathToConfig) throws SERGeConfigParserException, EPackageNotFoundException,
 			EClassifierUnresolvableException, NoEncapsulatedTypeInformationException, EAttributeNotFoundException,
 			ParserConfigurationException, IOException {
 		
 		// create XML Document Object from file path
-		Document doc = XMLParser.parseStream(IOUtil.getInputStream(pathToConfig));	
+		Document doc = null;
+		try (InputStream inStream = Files.newInputStream(pathToConfig)) {
+			doc = XMLParser.parseStream(inStream);
+		}
 		Element docElem = doc.getDocumentElement();
 		
 		c.EPACKAGESSTACK = new Stack<EPackage>();

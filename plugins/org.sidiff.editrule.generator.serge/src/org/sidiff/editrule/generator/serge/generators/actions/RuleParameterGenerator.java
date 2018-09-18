@@ -18,8 +18,8 @@ public class RuleParameterGenerator {
 
 	private Rule rule;
 	
-	private Map<Parameter, Node> parameterNodeMap = new HashMap();
-	private Map<Parameter, Attribute> parameterAttributeMap = new HashMap();
+	private Map<Parameter, Node> parameterNodeMap = new HashMap<>();
+	private Map<Parameter, Attribute> parameterAttributeMap = new HashMap<>();
 	
 
 	public RuleParameterGenerator(Rule rule) {

@@ -383,11 +383,7 @@ public class GenerationActionDelegator {
 				for (EClass oldParent : contexts_eRefA) {
 
 					// get all other EReferences
-					ArrayList<EReference> allOtherEReferences = new ArrayList<>();
-					allOtherEReferences.addAll(allAllowedParents.keySet());
-					allOtherEReferences.remove(oldParent);
-
-					for (EReference newERefToNewParent : allOtherEReferences) {
+					for (EReference newERefToNewParent : allAllowedParents.keySet()) {
 						for (EClass newParent : allAllowedParents.get(newERefToNewParent)) {
 
 							// generate move (does not include masked

@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
-import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.w3c.dom.Document;
@@ -47,7 +46,7 @@ public class ConfigSerializer {
 		// If default config creation was used build a serge config xml file
 		// based on the defaultconfig template and the given meta-model nsURIs.
 		if(settings.isUseDefaultConfig()) {			
-			Document doc = XMLParser.parseStream(IOUtil.getInputStream(sourceConfig.toString()));	
+			Document doc = XMLParser.parseStream(Files.newInputStream(sourceConfig));	
 			Element docElem = doc.getDocumentElement();
 			doc.getElementsByTagName("MainModel").item(0).setTextContent(settings.getMetaModelNsUri());
 			String content = doc.toString();			

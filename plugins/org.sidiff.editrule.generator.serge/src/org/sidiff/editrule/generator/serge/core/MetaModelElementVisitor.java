@@ -11,7 +11,6 @@ import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.EClassVisitor;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.editrule.generator.serge.configuration.Configuration;
 import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.types.OperationType;
 

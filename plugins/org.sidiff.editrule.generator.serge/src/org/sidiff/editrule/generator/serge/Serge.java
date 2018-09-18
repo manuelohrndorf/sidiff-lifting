@@ -1,6 +1,8 @@
 package org.sidiff.editrule.generator.serge;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +11,7 @@ import java.util.Stack;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.ecore.ECoreTraversal;
@@ -17,7 +20,6 @@ import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.io.IOUtil;
-import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLResolver;
@@ -78,13 +80,13 @@ public class Serge implements IEditRuleGenerator {
 	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException, WrongSettingsInstanceException {
 
 		// Start monitor
-		monitor.beginTask("Initializing SERGe", 100);
+		SubMonitor progress = SubMonitor.convert(monitor, "Initializing SERGe", 100);
 		
 		// Check for valid settings
-		validateSettings(settings, monitor);
+		validateSettings(settings, progress.split(10));
 		
 		// Parse configuration
-		parseConfiguration(monitor);
+		parseConfiguration(progress.split(40));
 		
 		// Create Instance of global EClassifierInfoManagement
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
@@ -93,11 +95,11 @@ public class Serge implements IEditRuleGenerator {
 		ElementFilter.getInstance();
 		
 		// Analyze meta model
-		monitor.subTask("Analyzing MetaModel");
+		progress.subTask("Analyzing MetaModel");
 		ECM.gatherInformation(	config.metaModel_is_profile,
 								config.EPACKAGESSTACK,
 								config.enable_inner_containment_cycle_detection);		
-		monitor.worked(80);
+		progress.worked(40);
 
 		// Effective/Sliced-Metamodel Derivation Phase:
 		// Decide by user config and meta-model analysis..
@@ -109,7 +111,7 @@ public class Serge implements IEditRuleGenerator {
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredFocalClassifiers();
 		
 		// Finish monitor
-		monitor.done();
+		progress.done();
 	}
 
 	/**
@@ -269,49 +271,53 @@ public class Serge implements IEditRuleGenerator {
 	 * @throws EditRuleGenerationException
 	 */
 	private void parseConfiguration(IProgressMonitor monitor) throws EditRuleGenerationException {
-
+		SubMonitor progress = SubMonitor.convert(monitor, 40);
+		
 		// Load config's DTD
-		ResourceUtil.registerClassLoader(this.getClass().getClassLoader());
-		XMLResolver.getInstance().includeMapping(IOUtil
-				.getInputStream("platform:/plugin/" + PLUGIN_NAME + "/config/Editrulesgeneratorconfig.dtdmap.xml"));
+		try (InputStream inStream = IOUtil.openInputStream(PLUGIN_NAME, "/config/Editrulesgeneratorconfig.dtdmap.xml")) {
+			XMLResolver.getInstance().includeMapping(inStream);
+		} catch (IOException e) {
+			throw new EditRuleGenerationException(
+					"Error when loading config dtdmap\n" + e.getMessage(), e);
+		}
 
 		// Create empty instance of the SergeConfiguration
 		this.config = Configuration.getInstance();
 
 		// Use default config (if config path not set in settings).
 		if (settings.getConfigPath() == null) {
-			monitor.subTask("Setting up default configuration..");
+			progress.subTask("Setting up default configuration..");
 			this.settings.setConfigPath("platform:/plugin/" + PLUGIN_NAME + "/config/DefaultConfigTemplate.xml");
 			ConfigurationParser parser = new ConfigurationParser();
 			try {
-				parser.setupDefaultConfig(settings.getMetaModelNsUri(), this.settings.getConfigPath());
-				monitor.worked(20);
+				parser.setupDefaultConfig(settings.getMetaModelNsUri(), Paths.get(this.settings.getConfigPath()));
+				progress.worked(20);
 			} catch (Exception e) {
-				monitor.done();
+				progress.done();
 				throw new EditRuleGenerationException(
-						"Error when loading selected meta model NsUri\n" + e.getMessage());
+						"Error when loading selected meta model NsUri\n" + e.getMessage(), e);
 			}
 		}
 		// .. or use refined config and parse it.
 		else {
-			monitor.subTask("Loading configuration..");
+			progress.subTask("Loading configuration..");
 			ConfigurationParser parser = new ConfigurationParser();
 			try {
-				parser.parse(this.settings.getConfigPath());
-				monitor.worked(20);
+				parser.parse(Paths.get(this.settings.getConfigPath()));
+				progress.worked(20);
 			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
 					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
 					| IOException e) {
-				monitor.done();
+				progress.done();
 				throw new EditRuleGenerationException("Error when parsing config file."
-						+ "Check for typos, validity and wellformedness.\n" + e.getMessage());
+						+ "Check for typos, validity and wellformedness.\n" + e.getMessage(), e);
 			}
 		}
 		
 		// set the EPackage Stack
 		this.ePackagesStack = config.EPACKAGESSTACK;		
 		if ((ePackagesStack == null) || (ePackagesStack.isEmpty())) {
-			monitor.done();
+			progress.done();
 			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
 		}
 	}

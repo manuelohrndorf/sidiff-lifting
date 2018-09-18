@@ -1,10 +1,15 @@
 package org.sidiff.editrule.generator.exceptions;
 
-@SuppressWarnings("serial")
 public class EditRuleGenerationException extends Exception {
 
-	public EditRuleGenerationException(String s) {
-		super(s);
+	private static final long serialVersionUID = -2553605012765905838L;
+
+	public EditRuleGenerationException(String message) {
+		super(message);
+	}
+	
+	public EditRuleGenerationException(String message, Throwable cause) {
+		super(message, cause);
 	}
 	
 }

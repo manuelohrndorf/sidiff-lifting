@@ -6,7 +6,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -32,7 +32,6 @@ import org.sidiff.editrule.generator.serge.settings.SergeSettings;
  * as a template) is registered for the same extension, it will
  * be able to open it.
  */
-@SuppressWarnings("deprecation")
 public class SergeWizard extends Wizard implements INewWizard {
 	private SergeWizardPage1 page;
 	
@@ -79,23 +78,13 @@ public class SergeWizard extends Wizard implements INewWizard {
 			
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				monitor.beginTask("Generating Edit Rules", 100);		
+				SubMonitor progress = SubMonitor.convert(monitor, "Generating Edit Rules", 100);
 
 				Serge serge = new Serge();
 				try {					
-					serge.init(settings, new SubProgressMonitor(monitor, 20));
-					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (EditRuleGenerationException e) {
-					Display.getDefault().syncExec(new Runnable() {
-					    @Override
-					    public void run() {
-					    	MessageDialog.openError(
-					    			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					    			"An Error occurred during generation",
-					    			e.getMessage());
-					    }
-					});
-				} catch (WrongSettingsInstanceException e) {
+					serge.init(settings, progress.split(50));
+					serge.generateEditRules(progress.split(50));
+				} catch (EditRuleGenerationException | WrongSettingsInstanceException e) {
 					Display.getDefault().syncExec(new Runnable() {
 					    @Override
 					    public void run() {
@@ -107,14 +96,12 @@ public class SergeWizard extends Wizard implements INewWizard {
 					});
 				}
 				finally{
-					monitor.done();
+					progress.done();
 				}
 				
 				if (monitor.isCanceled()){
 					return Status.CANCEL_STATUS;
 				}
-				
-								
 				return Status.OK_STATUS;
 			}
 		};
