@@ -41,7 +41,6 @@ public class RevertOperationAction extends AbstractOperationWrapperAction {
 	@Override
 	public boolean isVisible() {
 		return super.isVisible()
-				&& getSelectedOperation().getStatus() == OperationInvocationStatus.PASSED
-				&& getSelectedOperation().getStatus() != OperationInvocationStatus.IGNORED;
+				&& getSelectedOperation().getStatus() == OperationInvocationStatus.PASSED;
 	}
 }

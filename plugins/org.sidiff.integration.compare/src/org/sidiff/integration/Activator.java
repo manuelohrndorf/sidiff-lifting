@@ -31,6 +31,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String IMAGE_APPLY = "apply.image";
 	public static final String IMAGE_UNIGNORE = "unignore.image";
 	public static final String IMAGE_REVERT = "revert.image";
+	public static final String IMAGE_FILTER = "filter.image";
 
 	// The shared instance
 	private static Activator plugin;
@@ -108,6 +109,8 @@ public class Activator extends AbstractUIPlugin {
 				FileLocator.find(bundle, new Path("icons/apply.gif"), null))); //$NON-NLS-1$
 		reg.put(IMAGE_UNIGNORE, ImageDescriptor.createFromURL(
 				FileLocator.find(bundle, new Path("icons/unignore.gif"), null))); //$NON-NLS-1$
+		reg.put(IMAGE_FILTER, ImageDescriptor.createFromURL(
+				FileLocator.find(bundle, new Path("icons/filter_applied.gif"), null))); //$NON-NLS-1$
 	}
 
 	// logging utility functions
