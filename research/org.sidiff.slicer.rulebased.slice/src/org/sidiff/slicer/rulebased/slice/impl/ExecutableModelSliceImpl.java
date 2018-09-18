@@ -5,6 +5,7 @@ package org.sidiff.slicer.rulebased.slice.impl;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -118,7 +119,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String serialize(final String path, final boolean zip) {
 		String absolute_path = path;
@@ -128,9 +129,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 		String foldername = "RuleBasedSlice";
 		String separator = File.separator;
 		for (SlicedElement slicedElement : this.getSlicedElements()) {
-			if (!slicedElement.isExternal()) {
-				slicedElement.setObject(null);
-			}
+			slicedElement.setObject(null);
 		}
 		if (!absolute_path.endsWith(separator)) {
 			absolute_path += separator;
@@ -151,9 +150,6 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 		resourceSet.createResource(EMFStorage.pathToUri(resAsymDiffSavePath)).getContents().add(asymmetricDifference);
 		String resModelSliceSavePath = absolute_path + separator + modelslice_name;
 		resourceSet.createResource(EMFStorage.pathToUri(resModelSliceSavePath)).getContents().add(this);
-		
-		asymmetricDifference.initializeRuleBase();
-		
 		for (Resource resource : resourceSet.getResources()) {
 			try {
 				resource.save(null);
@@ -162,10 +158,14 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 			}
 		}
 		if (zip) {
-			ZipUtil.zip(absolute_path, absolute_path, AsymmetricDiffFacade.PATCH_EXTENSION);
-			FileOperations.removeFolder(absolute_path);
+			try {
+				ZipUtil.zip(Paths.get(absolute_path), Paths.get(absolute_path + "." + AsymmetricDiffFacade.PATCH_EXTENSION));
+				FileOperations.removeFolder(Paths.get(absolute_path));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		return zip ? absolute_path + "." + AsymmetricDiffFacade.PATCH_EXTENSION : absolute_path;
+		return zip ? (absolute_path + "." + AsymmetricDiffFacade.PATCH_EXTENSION) : absolute_path;
 	}
 
 	/**
