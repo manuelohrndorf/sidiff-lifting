@@ -6,6 +6,7 @@ import org.eclipse.compare.ITypedElement;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.team.svn.ui.compare.ResourceCompareInput;
+import org.eclipse.team.svn.ui.compare.ResourceCompareInput.ResourceElement;
 import org.sidiff.integration.remote.IPlatformResourceLoader;
 
 /**
@@ -22,6 +23,8 @@ public class SVNPlatformResourceLoader implements IPlatformResourceLoader {
 
 	@Override
 	public IResource loadPlatformResource(ITypedElement input) throws IOException, CoreException {
-		return ((ResourceCompareInput.ResourceElement)input).getLocalResource().getResource();
+		ResourceElement resourceElement = (ResourceCompareInput.ResourceElement) input;
+		if(resourceElement.getLocalResource() != null) return resourceElement.getLocalResource().getResource();
+		return null;
 	}
 }
