@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Widget;
 import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.integration.preferences.fieldeditors.IMultiPreferenceField;
@@ -49,6 +50,8 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 	private org.eclipse.swt.widgets.List left, right;
 	private Composite buttonBox;
 	private Button up, down, add, remove;
+	private Label descriptionLabel;
+	private GridData descriptionData;
 	private SelectionListener selectionListener;
 
 	/**
@@ -115,18 +118,28 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 	public Control doCreateControls(Composite parent) {
 		group = new Group(parent, SWT.NONE);
 		group.setText(getTitle());
-		group.setLayout(new GridLayout(3, false));
+		group.setLayout(new GridLayout());
 
-		left = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+		Composite listContainer = new Composite(group, SWT.NONE);
+		listContainer.setLayout(new GridLayout(3, false));
+		listContainer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		left = new org.eclipse.swt.widgets.List(listContainer, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		left.addSelectionListener(getSelectionListener());
 		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		buttonBox = createButtonBox(group);
+		buttonBox = createButtonBox(listContainer);
 		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 
-		right = new org.eclipse.swt.widgets.List(group, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
+		right = new org.eclipse.swt.widgets.List(listContainer, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		right.addSelectionListener(getSelectionListener());
 		right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		descriptionLabel = new Label(group, SWT.NONE);
+		descriptionData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		descriptionData.exclude = true;
+		descriptionLabel.setLayoutData(descriptionData);
+		descriptionLabel.setVisible(false);
 
 		return group;
 	}
@@ -178,8 +191,12 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 						swap(false);
 					} else if (widget == down) {
 						swap(true);
+					} else if(widget == left && left.getSelectionIndex() != -1) {
+						updateDescription(selected.get(left.getSelectionIndex()));
+					} else if(widget == right && right.getSelectionIndex() != -1) {
+						updateDescription(notSelected.get(right.getSelectionIndex()));
 					}
-	
+
 					// all actions update the button states
 					updateButtonStates();
 				}
@@ -245,6 +262,19 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 		left.pack();
 		right.pack();
 		group.requestLayout();
+	}
+
+	private void updateDescription(T selection) {
+		String descriptionText = valueConverter.getDescription(selection);
+		if(descriptionText == null) {
+			descriptionData.exclude = true;
+			descriptionLabel.setVisible(false);
+		} else {
+			descriptionLabel.setText(valueConverter.getLabel(selection) + ": " + descriptionText);
+			descriptionData.exclude = false;
+			descriptionLabel.setVisible(true);
+		}
+		descriptionLabel.requestLayout();
 	}
 
 	@Override

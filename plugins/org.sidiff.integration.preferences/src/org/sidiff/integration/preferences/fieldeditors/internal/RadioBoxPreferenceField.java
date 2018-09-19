@@ -101,6 +101,7 @@ public class RadioBoxPreferenceField<T> extends PreferenceField implements IMult
 		Button b = new Button(group, SWT.RADIO);
 		b.addSelectionListener(SelectionListener.widgetSelectedAdapter((event) -> setSelection(input, true)));
 		b.setText(valueConverter.getLabel(input));
+		b.setToolTipText(valueConverter.getDescription(input));
 		b.setSelection(isSelected(input));
 		buttons.put(valueConverter.getValue(input), b);
 		return b;

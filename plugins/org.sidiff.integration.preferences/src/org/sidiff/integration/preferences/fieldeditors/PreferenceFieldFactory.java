@@ -31,7 +31,18 @@ public class PreferenceFieldFactory {
 	 * @return checkbox preference field
 	 */
 	public static IPreferenceField createCheckBox(String preferenceName, String title) {
-		return new CheckBoxPreferenceField(preferenceName, title);
+		return createCheckBox(preferenceName, title, null);
+	}
+	
+	/**
+	 * Creates a preference field with a checkbox.
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the field
+	 * @param tooltip the tooltip of the field
+	 * @return checkbox preference field
+	 */
+	public static IPreferenceField createCheckBox(String preferenceName, String title, String tooltip) {
+		return new CheckBoxPreferenceField(preferenceName, title, tooltip);
 	}
 
 	/**

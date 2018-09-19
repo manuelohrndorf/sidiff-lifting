@@ -15,13 +15,16 @@ import org.eclipse.swt.widgets.Control;
 public class CheckBoxPreferenceField extends PreferenceField {
 
 	private Button checkBox;
+	private String tooltip;
 
 	/**
 	 * @param preferenceName the name of the preference in the store 
 	 * @param title The title shown beside the checkbox
+	 * @param tooltip The tooltip of the field, may be <code>null</code>
 	 */
-	public CheckBoxPreferenceField(String preferenceName, String title) {
+	public CheckBoxPreferenceField(String preferenceName, String title, String tooltip) {
 		super(preferenceName, title);
+		this.tooltip = tooltip;
 	}
 
 	@Override
@@ -43,6 +46,7 @@ public class CheckBoxPreferenceField extends PreferenceField {
 	public Control doCreateControls(Composite parent) {
 		checkBox = new Button(parent, SWT.CHECK);
 		checkBox.setText(getTitle());
+		checkBox.setToolTipText(tooltip);
 		checkBox.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {

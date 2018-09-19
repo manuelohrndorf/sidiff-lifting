@@ -11,12 +11,17 @@ import org.sidiff.matcher.IMatcher;
 public class MatcherValueConverter implements IPreferenceValueConverter<IMatcher> {
 
 	@Override
-	public String getValue(IMatcher value) {
-		return value.getKey();
+	public String getValue(IMatcher object) {
+		return object.getKey();
 	}
 
 	@Override
-	public String getLabel(IMatcher value) {
-		return value.getName();
+	public String getLabel(IMatcher object) {
+		return object.getName();
+	}
+
+	@Override
+	public String getDescription(IMatcher object) {
+		return object.getDescription();
 	}
 }
