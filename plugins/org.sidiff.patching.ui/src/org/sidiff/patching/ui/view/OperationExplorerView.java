@@ -364,7 +364,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.toggleHighlightAction = new Action("Highlighting of Changes", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
-				System.out.println("TOGGLE");
 				DifferenceSelectionController.getInstance().toggleHighlight();
 			}
 		};
