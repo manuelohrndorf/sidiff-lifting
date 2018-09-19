@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.remote.common.settings.ExtractionProperties;
 import org.sidiff.remote.common.settings.GeneralProperties;
@@ -98,11 +97,10 @@ public class RemotePreferenceAdapter {
 		return new SingleSelectionRemoteApplicationProperty<Boolean>(name, null, preferenceStore.getBoolean(name));
 	}
 
-	public void setRemotePreferences(RemotePreferences remotePreferences) throws BackingStoreException {
+	public void setRemotePreferences(RemotePreferences remotePreferences) {
 		setGeneralProperties(remotePreferences.getGeneralProperties());
 		setExtractionProperties(remotePreferences.getExtractionProperties());
 		setValidationProperties(remotePreferences.getValidationProperties());
-		InstanceScope.INSTANCE.getNode(REMOTE_APPLICATION_PREFERENCE_QUALIFIER).flush();
 	}
 
 	private void setGeneralProperties(GeneralProperties generalProperties) {
@@ -144,15 +142,21 @@ public class RemotePreferenceAdapter {
 	}
 
 	private void setRemoteProperty(MultiSelectionRemoteApplicationProperty<String> property) {
-		preferenceStore.setValue(getKey(property), StringListSerializer.DEFAULT.serialize(property.getValues()));
+		if(!preferenceStore.contains(getKey(property))) {
+			preferenceStore.setValue(getKey(property), StringListSerializer.DEFAULT.serialize(property.getValues()));
+		}
 	}
 
 	private void setRemoteProperty(SingleSelectionRemoteApplicationProperty<String> property) {
-		preferenceStore.setValue(getKey(property), property.getValue());
+		if(!preferenceStore.contains(getKey(property))) {
+			preferenceStore.setValue(getKey(property), property.getValue());
+		}
 	}
 
 	private void setRemotePropertyBoolean(SingleSelectionRemoteApplicationProperty<Boolean> property) {
-		preferenceStore.setValue(getKey(property), property.getValue());
+		if(!preferenceStore.contains(getKey(property))) {
+			preferenceStore.setValue(getKey(property), property.getValue());
+		}
 	}
 
 	static String getKey(RemoteApplicationProperty<?> property) {
