@@ -260,8 +260,9 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 
 		// update the size of the lists
 		left.pack();
+		left.requestLayout();
 		right.pack();
-		group.requestLayout();
+		right.requestLayout();
 	}
 
 	private void updateDescription(T selection) {
