@@ -3,9 +3,7 @@ package org.sidiff.integration.preferences.lifting.tabs;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
