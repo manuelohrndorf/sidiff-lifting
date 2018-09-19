@@ -1,4 +1,5 @@
 package org.sidiff.slicer.rulebased;
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -18,6 +20,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
+import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
@@ -337,17 +340,18 @@ public class RuleBasedSlicer implements ISlicer{
 		String asymmetricDifferencePath = path + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
 		
 		// Try to load an existing patch:
-//		if (new File(asymmetricDifferencePath).exists()) {
-//			try {
-//				URI asymmetricDifferenceURI = EMFStorage.pathToUri(asymmetricDifferencePath);
-//				Resource asymmetricDifferenceResource = originModel.getResourceSet().getResource(asymmetricDifferenceURI, true);
-//				AsymmetricDifference asymmetricDifference = (AsymmetricDifference) asymmetricDifferenceResource.getContents().get(0);
-//				
-//				return asymmetricDifference;
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if (new File(asymmetricDifferencePath).exists()) {
+			try {
+				URI asymmetricDifferenceURI = EMFStorage.pathToUri(asymmetricDifferencePath);
+				changedModel.getResourceSet().getResources().add(originModel);
+				Resource asymmetricDifferenceResource = changedModel.getResourceSet().getResource(asymmetricDifferenceURI, true);
+				AsymmetricDifference asymmetricDifference = (AsymmetricDifference) asymmetricDifferenceResource.getContents().get(0);
+				
+				return asymmetricDifference;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		// Create new patch:
 		Difference diff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(originModel, changedModel, this.slicingConfiguration.getLiftingSettings());
@@ -355,9 +359,9 @@ public class RuleBasedSlicer implements ISlicer{
 		asymDiff.setUriOriginModel(originModel.getURI().toString());
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
 		
-		if (DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size() > 0){
-//			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
-//			throw new UncoveredChangesException();
+		if (LogUtil.log(LogEvent.DEBUG, "uncovered changes: " + DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size())){
+			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
+			throw new UncoveredChangesException();
 		}
 		
 		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);
