@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.eclipse.org/uml2/5.0.0/UML"
+			isProfile="false" />
+		<RequiredModel nsUri="http://www.eclipse.org/uml2/5.0.0/Types" />
+		<RequiredModel nsUri="http://www.eclipse.org/emf/2002/Ecore" />
+		<RootModelElement name="Model" canBeNested="true" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="true" allowReferenceSwitching="false"
+			allowReferenceCombinations="false" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="false" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="false" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions
+			enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" />
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true" />
+			<DanglingNodeSettings defaultTypeInclusion="ifRequired">
+				<DanglingNodeSetting type="Activity" include="always" />
+				<DanglingNodeSetting type="Behavior" include="always" />
+				<DanglingNodeSetting type="Class" include="always" />
+				<DanglingNodeSetting type="BehavioredClassifier" include="always" />
+				<DanglingNodeSetting type="Classifier" include="always" />
+				<DanglingNodeSetting type="Namespace" include="always" />
+				<DanglingNodeSetting type="NamedElement" include="always" />
+				<DanglingNodeSetting type="Element" include="always" />
+				<DanglingNodeSetting type="PackageableElement" include="always" />
+				<DanglingNodeSetting type="ParameterableElement" include="always" />
+				<DanglingNodeSetting type="TemplateableElement" include="always" />
+				<DanglingNodeSetting type="VisibilityKind" include="always" />
+				<DanglingNodeSetting type="Type" include="always" />
+				<DanglingNodeSetting type="ConnectableElement" include="always" />
+				<DanglingNodeSetting type="TypedElement" include="always" />
+				<DanglingNodeSetting type="MultiplicityElement" include="always" />
+				<DanglingNodeSetting type="ParameterDirectionKind" include="always" />
+				<DanglingNodeSetting type="ParameterEffectKind" include="always" />
+				<DanglingNodeSetting type="RedefinableElement" include="always" />
+				<DanglingNodeSetting type="CallConcurrencyKind" include="always" />
+				<DanglingNodeSetting type="TransitionKind" include="always" />
+				<DanglingNodeSetting type="PseudostateKind" include="always" />
+				<DanglingNodeSetting type="AggregationKind" include="always" />
+				<DanglingNodeSetting type="StructuredClassifier" include="always" />
+				<DanglingNodeSetting type="ConnectorKind" include="always" />
+				<DanglingNodeSetting type="EncapsulatedClassifier" include="always" />
+				<DanglingNodeSetting type="ActivityGroup" include="always" />
+				<DanglingNodeSetting type="ActivityEdge" include="always" />
+				<DanglingNodeSetting type="ActivityPartition" include="always" />
+				<DanglingNodeSetting type="ActivityNode" include="always" />
+				<DanglingNodeSetting type="InterruptibleActivityRegion" include="always" />
+				<DanglingNodeSetting type="ExecutableNode" include="always" />
+				<DanglingNodeSetting type="ExceptionHandler" include="always" />
+				<DanglingNodeSetting type="ObjectNode" include="always" />
+				<DanglingNodeSetting type="ObjectNodeOrderingKind" include="always" />
+				<DanglingNodeSetting type="Variable" include="always" />
+				<DanglingNodeSetting type="ExpansionKind" include="always" />
+				<DanglingNodeSetting type="ActivityFinalNode" include="always" />
+				<DanglingNodeSetting type="FinalNode" include="always" />
+				<DanglingNodeSetting type="ControlNode" include="always" />
+				<DanglingNodeSetting type="ActivityParameterNode" include="always" />
+				<DanglingNodeSetting type="CentralBufferNode" include="always" />
+				<DanglingNodeSetting type="ControlFlow" include="always" />
+				<DanglingNodeSetting type="DataStoreNode" include="always" />
+				<DanglingNodeSetting type="DecisionNode" include="always" />
+				<DanglingNodeSetting type="ObjectFlow" include="always" />
+				<DanglingNodeSetting type="FlowFinalNode" include="always" />
+				<DanglingNodeSetting type="ForkNode" include="always" />
+				<DanglingNodeSetting type="InitialNode" include="always" />
+				<DanglingNodeSetting type="JoinNode" include="always" />
+				<DanglingNodeSetting type="MergeNode" include="always" />
+				<DanglingNodeSetting type="MessageKind" include="always" />
+				<DanglingNodeSetting type="MessageSort" include="always" />
+				<DanglingNodeSetting type="InteractionOperatorKind" include="always" />
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings
+				defaultGenerationCase="ifRequired">
+				<GenerateModulesFor type="Namespace" case="always" />
+				<GenerateModulesFor type="Activity" case="always" />
+				<GenerateModulesFor type="Behavior" case="always" />
+				<GenerateModulesFor type="Class" case="always" />
+				<GenerateModulesFor type="BehavioredClassifier" case="always" />
+				<GenerateModulesFor type="Classifier" case="always" />
+				<GenerateModulesFor type="Namespace" case="always" />
+				<GenerateModulesFor type="NamedElement" case="always" />
+				<GenerateModulesFor type="Element" case="always" />
+				<GenerateModulesFor type="PackageableElement" case="always" />
+				<GenerateModulesFor type="ParameterableElement" case="always" />
+				<GenerateModulesFor type="TemplateableElement" case="always" />
+				<GenerateModulesFor type="VisibilityKind" case="always" />
+				<GenerateModulesFor type="Type" case="always" />
+				<GenerateModulesFor type="ConnectableElement" case="always" />
+				<GenerateModulesFor type="TypedElement" case="always" />
+				<GenerateModulesFor type="MultiplicityElement" case="always" />
+				<GenerateModulesFor type="ParameterDirectionKind" case="always" />
+				<GenerateModulesFor type="ParameterEffectKind" case="always" />
+				<GenerateModulesFor type="RedefinableElement" case="always" />
+				<GenerateModulesFor type="CallConcurrencyKind" case="always" />
+				<GenerateModulesFor type="TransitionKind" case="always" />
+				<GenerateModulesFor type="PseudostateKind" case="always" />
+				<GenerateModulesFor type="AggregationKind" case="always" />
+				<GenerateModulesFor type="StructuredClassifier" case="always" />
+				<GenerateModulesFor type="ConnectorKind" case="always" />
+				<GenerateModulesFor type="EncapsulatedClassifier" case="always" />
+				<GenerateModulesFor type="ActivityGroup" case="always" />
+				<GenerateModulesFor type="ActivityEdge" case="always" />
+				<GenerateModulesFor type="ActivityPartition" case="always" />
+				<GenerateModulesFor type="ActivityNode" case="always" />
+				<GenerateModulesFor type="InterruptibleActivityRegion" case="always" />
+				<GenerateModulesFor type="ExecutableNode" case="always" />
+				<GenerateModulesFor type="ExceptionHandler" case="always" />
+				<GenerateModulesFor type="ObjectNode" case="always" />
+				<GenerateModulesFor type="ObjectNodeOrderingKind" case="always" />
+				<GenerateModulesFor type="Variable" case="always" />
+				<GenerateModulesFor type="ExpansionKind" case="always" />
+				<GenerateModulesFor type="ActivityFinalNode" case="always" />
+				<GenerateModulesFor type="FinalNode" case="always" />
+				<GenerateModulesFor type="ControlNode" case="always" />
+				<GenerateModulesFor type="ActivityParameterNode" case="always" />
+				<GenerateModulesFor type="CentralBufferNode" case="always" />
+				<GenerateModulesFor type="ControlFlow" case="always" />
+				<GenerateModulesFor type="DataStoreNode" case="always" />
+				<GenerateModulesFor type="DecisionNode" case="always" />
+				<GenerateModulesFor type="ObjectFlow" case="always" />
+				<GenerateModulesFor type="FlowFinalNode" case="always" />
+				<GenerateModulesFor type="ForkNode" case="always" />
+				<GenerateModulesFor type="InitialNode" case="always" />
+				<GenerateModulesFor type="JoinNode" case="always" />
+				<GenerateModulesFor type="MergeNode" case="always" />
+				<GenerateModulesFor type="MessageKind" case="always" />
+				<GenerateModulesFor type="MessageSort" case="always" />
+				<GenerateModulesFor type="InteractionOperatorKind" case="always" />
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

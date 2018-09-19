@@ -1,5 +1,7 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -48,7 +50,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 	 */
 	public SergeWizard(IFile configFile) {		
 
-		String outputPath = configFile.getProject().getLocationURI().getSchemeSpecificPart() + System.getProperty("file.separator") + "editrules";
+		String outputPath = configFile.getProject().getLocationURI().getSchemeSpecificPart() + File.separator + "editrules" + File.separator + "generated";
 		settings = new SergeSettings(outputPath, configFile.getLocation().toOSString(), true);
 		setNeedsProgressMonitor(true);
 	}

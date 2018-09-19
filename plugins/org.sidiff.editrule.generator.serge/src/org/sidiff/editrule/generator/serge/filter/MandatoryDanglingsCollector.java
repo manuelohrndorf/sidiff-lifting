@@ -120,7 +120,7 @@ public abstract class MandatoryDanglingsCollector {
 						InclusionType own_subtype_ict = CIC.getDanglingInclusionType(subTypeOfChild);
 						if( (default_ict.equals(InclusionType.ALWAYS)
 							|| default_ict.equals(InclusionType.IF_REQUIRED))
-							&& (own_ict!=null && !own_subtype_ict.equals(InclusionType.NEVER))) {
+							&& (own_ict!=null && own_subtype_ict != null && !own_subtype_ict.equals(InclusionType.NEVER))) {
 							
 							if(!resultSet.contains(subTypeOfChild)) {
 								resultSet.add(subTypeOfChild);

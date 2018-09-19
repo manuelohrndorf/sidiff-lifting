@@ -102,7 +102,7 @@ public class RuleParameterGenerator {
 			// <<preserve>> Node --> ParameterKind.INOUT 
 			if(HenshinRuleAnalysisUtilEx.isPreservedNode(n)) {
 				Parameter p = entry.getKey();
-				p.setKind(ParameterKind.INOUT);
+				p.setKind(ParameterKind.IN);
 			}
 			
 		}

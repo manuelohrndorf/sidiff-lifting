@@ -146,18 +146,20 @@ public class SiLiftCompareDifferencer {
 	 */
 	private void createPatchEngine() throws CoreException {
 		PatchingSettings patchingSettings = createPatchingSettings();
-		patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
+		
 
 		// init modified detector
 		IModifiedDetector modifiedDetector = patchingSettings.getModifiedDetector();
 		if (modifiedDetector != null) {
 			try {
-				modifiedDetector.init(getAsymmetricDifference().getOriginModel(), getRight().getResource(),
+				modifiedDetector.init(getAncestor().getResource(), getModifiedLeft().getResource(),
 						patchingSettings.getMatcher(), patchingSettings.getScope());
 			} catch (FileNotFoundException e) {
 				Activator.logError("SiLiftCompareDifferencer could not initialize modified detector", e);
 			}
 		}
+		
+		patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
 	}
 
 	protected PatchingSettings createPatchingSettings() throws CoreException {

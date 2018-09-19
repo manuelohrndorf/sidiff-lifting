@@ -312,8 +312,9 @@ public class ConnectorFacade {
 				.handleRequest(updateSubModelRequest, null);
 
 		File resource_file = updateSubModelReply.getAttachment();
-		String path = absolute_local_model_path.substring(0, absolute_local_model_path.lastIndexOf(File.separator))
-				+ File.separator + updateSubModelReply.getAttachmentName();
+		
+		String path = file.getProject().getLocation().toOSString() + File.separator + 
+				ProjectInfo.META_FOLDER_NAME + File.separator + updateSubModelReply.getAttachmentName();
 		File target_file = new File(path);
 		if (target_file.exists()) {
 			target_file.delete();

@@ -31,7 +31,7 @@ public class ProjectInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = -6517018944191750899L;
 	
-	private static final String META_FOLDER_NAME = ".SiDiff";
+	public static final String META_FOLDER_NAME = ".SiDiff";
 	
 	public static final String META_EXT = ".meta";
 
