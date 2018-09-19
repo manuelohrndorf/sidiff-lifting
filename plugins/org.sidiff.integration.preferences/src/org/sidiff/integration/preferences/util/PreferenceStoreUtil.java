@@ -9,11 +9,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 
@@ -55,22 +53,6 @@ public class PreferenceStoreUtil {
 			specificPreferenceStores.put(project, store);
 		}
 		return store;
-	}
-
-	/**
-	 * Flushes all preference stores previously returned by {@link #getPreferenceStore()} and {@link #getPreferenceStore(IProject)},
-	 * storing all non-default preference values persistently.
-	 * @throws BackingStoreException if flushing the preferences failed
-	 */
-	public static void flushPreferenceStores() throws BackingStoreException {
-		InstanceScope.INSTANCE.getNode(PreferencesPlugin.PREFERENCE_QUALIFIER).flush();
-		if(specificPreferenceStores != null) {
-			for(ScopedPreferenceStore store : specificPreferenceStores.values()) {
-				for(IEclipsePreferences prefs : store.getPreferenceNodes(false)) {
-					prefs.flush();
-				}
-			}
-		}
 	}
 
 	private static final QualifiedName KEY_USE_RESOURCE_SETTINGS =

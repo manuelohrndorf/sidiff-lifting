@@ -43,7 +43,8 @@ public class CheckListSelectField<T> extends CompositeField<CheckBoxPreferenceFi
 		checkBoxFields = new HashMap<>();
 		for(T input : inputs) {
 			String value = valueConverter.getValue(input);
-			CheckBoxPreferenceField field = new CheckBoxPreferenceField(value, valueConverter.getLabel(input));
+			CheckBoxPreferenceField field = new CheckBoxPreferenceField(value,
+					valueConverter.getLabel(input), valueConverter.getDescription(input));
 			addField(field);
 			checkBoxFields.put(value, field);
 		}

@@ -15,7 +15,6 @@ import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
 import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
 import org.sidiff.integration.preferences.matching.valueconverters.ServiceValueConverter;
-import org.sidiff.integration.preferences.matching.valueconverters.SimilaritiesValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -86,7 +85,7 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
 				"Similarities Service",
 				SimilaritiesServiceUtil.getAvailableSimilaritiesService(),
-				new SimilaritiesValueConverter());
+				serviceValueConverter);
 		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(

@@ -1,5 +1,7 @@
 package org.sidiff.integration.preferences.ui.pages;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
@@ -9,6 +11,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -24,7 +27,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 import org.eclipse.ui.PlatformUI;
-import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
@@ -237,9 +239,12 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		if(isValid()) {
 			savePreferences();
 			try {
-				PreferenceStoreUtil.flushPreferenceStores();
+				IPreferenceStore store = doGetPreferenceStore();
+				if(store instanceof IPersistentPreferenceStore) {
+					((IPersistentPreferenceStore)store).save();
+				}
 				return true;
-			} catch (BackingStoreException e) {
+			} catch (IOException e) {
 				ErrorDialog.openError(getShell(), "Saving preferences failed", null,
 						new Status(IStatus.ERROR, PreferencesUiPlugin.PLUGIN_ID, "Preference store could not be saved", e));
 			}

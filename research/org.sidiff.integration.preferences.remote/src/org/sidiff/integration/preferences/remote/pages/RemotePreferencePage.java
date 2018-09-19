@@ -12,7 +12,6 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.service.prefs.BackingStoreException;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.remote.Activator;
@@ -165,8 +164,6 @@ public class RemotePreferencePage extends TabbedPreferencePage {
 				result = Status.OK_STATUS;
 			} catch (ConnectionException e) {
 				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Connecting to remote server failed", e);
-			} catch (BackingStoreException e) {
-				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Storing remote preferences locally failed", e);
 			}
 		}
 
