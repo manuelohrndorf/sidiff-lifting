@@ -2,6 +2,7 @@ package org.sidiff.integration.structureview;
 
 import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.CompareViewerPane;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -9,6 +10,8 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.IOpenListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -22,13 +25,15 @@ import org.sidiff.integration.structureview.actions.AbstractAction;
 import org.sidiff.integration.structureview.actions.ApplyOperationAction;
 import org.sidiff.integration.structureview.actions.ApplyPatchOnLeftAction;
 import org.sidiff.integration.structureview.actions.IgnoreOperationAction;
+import org.sidiff.integration.structureview.actions.OperationInvocationViewerFilterAction;
 import org.sidiff.integration.structureview.actions.RevertOperationAction;
 import org.sidiff.integration.structureview.actions.ShowDiagramAction;
 import org.sidiff.integration.structureview.actions.ShowPropertiesViewAction;
 import org.sidiff.integration.structureview.actions.SwitchDisplayModeAction;
 import org.sidiff.integration.structureview.actions.UnignoreOperationAction;
+import org.sidiff.patching.operation.OperationInvocationStatus;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
 
-// TODO: Double-clicking on items in the structure viewer clears the input of the content viewer, needs major rewriting to work
 // TODO: Reuse further Actions from OperationExplorerView? Validation Mode, Highlighting, etc
 /**
  * Used to show {@link AsymmetricDifference}s and {@link SymmetricDifference}s
@@ -37,6 +42,24 @@ import org.sidiff.integration.structureview.actions.UnignoreOperationAction;
  * @author Adrian Bingener, Robert Müller
  */
 public class SiLiftStructureMergeViewer extends TreeViewer {
+
+	private Action applyOperationAction;
+	private Action revertOperationAction;
+	private OperationInvocationViewerFilterAction filterAction;
+	
+	private IOpenListener openListener = event -> {
+		if(event.getSelection() instanceof IStructuredSelection) {
+			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+			if(selection.getFirstElement() instanceof OperationInvocationWrapper) {
+				OperationInvocationWrapper wrapper = (OperationInvocationWrapper)selection.getFirstElement();
+				if(wrapper.getStatus() == OperationInvocationStatus.PASSED) {
+					revertOperationAction.run();
+				} else if(wrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+					applyOperationAction.run();
+				}
+			}
+		}
+	};
 
 	/**
 	 * Creates a new {@link SiLiftStructureMergeViewer} with the given compare
@@ -57,9 +80,14 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 
 		initToolbarActions(CompareViewerPane.getToolBarManager(parent), config);
 		initContextMenu(config);
+
+		addOpenListener(openListener);
 	}
 
 	protected void initToolbarActions(ToolBarManager toolbarManager, SiLiftCompareConfiguration config) {
+		filterAction = new OperationInvocationViewerFilterAction();
+		toolbarManager.add(filterAction);
+		filterAction.addViewer(this);
 		toolbarManager.add(new ApplyPatchOnLeftAction(config));
 		toolbarManager.add(new ShowDiagramAction(config));
 		toolbarManager.add(new SwitchDisplayModeAction(this, config));
@@ -83,8 +111,10 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 			}
 		});
 
-		menuMgr.add(new ApplyOperationAction(this, config));
-		menuMgr.add(new RevertOperationAction(this, config));
+		applyOperationAction = new ApplyOperationAction(this, config);
+		menuMgr.add(applyOperationAction);
+		revertOperationAction = new RevertOperationAction(this, config);
+		menuMgr.add(revertOperationAction);
 		menuMgr.add(new IgnoreOperationAction(this, config));
 		menuMgr.add(new UnignoreOperationAction(this, config));
 		menuMgr.add(new ShowPropertiesViewAction());
@@ -105,5 +135,26 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 		});
 
 		getControl().setMenu(menu);
+	}
+
+	@Override
+	protected void handleDispose(DisposeEvent event) {
+		applyOperationAction = null;
+		revertOperationAction = null;
+		if(filterAction != null) {
+			filterAction.removeViewer(this);
+			filterAction = null;
+		}
+		removeOpenListener(openListener);
+		super.handleDispose(event);
+	}
+
+	@Override
+	public void addOpenListener(IOpenListener listener) {
+		// We only allow our own open listener, because the one
+		// the framework provides breaks the content viewers.
+		if(listener == openListener) {
+			super.addOpenListener(listener);
+		}
 	}
 }
