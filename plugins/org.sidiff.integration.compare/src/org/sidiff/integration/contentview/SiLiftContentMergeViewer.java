@@ -68,7 +68,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 
 		setContentProvider(new SiLiftContentMergeViewerContentProvider(config));
 		buildControl(parent);
-		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift ContentViewer");
+		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Model Compare");
 
 		customizeToolbar(getToolBarManager(parent));
 
@@ -148,7 +148,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	@Override
 	protected void createControls(Composite composite) {
 		for(Side side : Side.values()) {
-			TreeViewer treeViewer = new TreeViewer(composite);
+			TreeViewer treeViewer = new TreeViewer(composite,SWT.MULTI);
 			treeViewer.setContentProvider(contentProvider);
 			SiLiftContentMergeViewerLabelProvider labelProvider =
 					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(),

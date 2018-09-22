@@ -72,7 +72,7 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 	public SiLiftStructureMergeViewer(Composite parent, SiLiftCompareConfiguration config) {
 		super(parent);
 		config.getContainer().getWorkbenchPart().getSite().setSelectionProvider(SiLiftCompareSelectionController.getInstance());
-		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Viewer");
+		getControl().setData(CompareUI.COMPARE_VIEWER_TITLE, "SiLift Model Differences");
 
 		setContentProvider(new SiLiftStructureMergeViewerContentProvider(config));
 		setLabelProvider(new SiLiftStructureMergeViewerLabelProvider(config.getAdapterFactory(), this));

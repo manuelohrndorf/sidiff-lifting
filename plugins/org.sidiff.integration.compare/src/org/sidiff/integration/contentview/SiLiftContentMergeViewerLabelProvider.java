@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -174,6 +175,8 @@ class SiLiftContentMergeViewerLabelProvider extends AdapterFactoryLabelProvider.
 		}
 		treeViewer.expandToLevel(resolvedObject, 0);
 		changedObjects.add(resolvedObject);
+		treeViewer.setSelection(new StructuredSelection(changedObjects.toArray()));
+		treeViewer.setSelection(null);
 	}
 
 	@Override
