@@ -7,6 +7,15 @@
 	</head>
 	<body>
 		<h1>Difference</h1>
-		<p>TODO</p>
+		<p> Based on a given set of <i>correspondences</i>, a difference is built by a <b>Technical Difference Builder</b>. 
+		The difference basically consists of</p>
+		<ul>
+			<li>model elements that are deleted and created,</li>
+   	 		<li>model references that are deleted and created,</li>
+    		<li>and changed values of attributes of model elements.</li>
+		</ul>
+		<p>A Technical Difference Builder can exclude predefined element, reference and attribute types from the difference.
+		For instance, SiLift already provides several Technical Difference Builder for Ecore excluding <code>EAnnotations</code> or <code>EGenericTypes</code>.</p>
+		<p>Further Technical Difference Builder can be added via the <i>extension point</i> <code>technical_difference_builder_extension</code>.</p>
 	</body>
 </head>
