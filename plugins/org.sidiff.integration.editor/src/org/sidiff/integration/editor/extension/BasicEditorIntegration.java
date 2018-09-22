@@ -31,6 +31,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -126,7 +127,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public boolean supportsDiagramming(Resource model) {
-		if(docType == null || !docType.equals(EMFModelAccess.getCharacteristicDocumentType(model)))
+		if(docType == null || !EMFModelAccess.getDocumentTypes(model, Scope.RESOURCE).contains(docType))
 			return false;
 		URI diagram = getMainDiagramFile(model.getURI());
 		return diagram != null && EMFStorage.uriToFile(diagram).exists();
