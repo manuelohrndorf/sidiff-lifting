@@ -378,8 +378,10 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 	@Override
 	public boolean canHandleDocTypes(Set<String> documentTypes) {
 		// generic td builders can handle every model
+		Set<String> intersection = new HashSet<String>(documentTypes);
+		intersection.retainAll(getDocumentTypes());
 		return getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)
-				|| getDocumentTypes().containsAll(documentTypes);
+				||!intersection.isEmpty();
 	}
 	
 	@Override
