@@ -15,7 +15,7 @@
       <genOperations ecoreOperation="Slice.ecore#//ModelSlice/export">
         <genParameters ecoreParameter="Slice.ecore#//ModelSlice/export/copySelector"/>
       </genOperations>
-      <genOperations ecoreOperation="Slice.ecore#//ModelSlice/serialize">
+      <genOperations ecoreOperation="Slice.ecore#//ModelSlice/serialize" body="ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }">
         <genParameters ecoreParameter="Slice.ecore#//ModelSlice/serialize/path"/>
       </genOperations>
     </genClasses>
