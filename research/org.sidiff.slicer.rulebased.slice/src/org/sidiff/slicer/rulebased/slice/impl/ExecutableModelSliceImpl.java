@@ -121,7 +121,48 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 	 * @generated
 	 */
 	public String serialize(final String path, final boolean zip) {
-		String absolute_path = path; String modelslice_name = "ExecutableSlice.slice"; String symmetricdiff_name = "ExecutableSlice." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT; String asymmetricdiff_name = "ExecutableSlice." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT; String foldername = "RuleBasedSlice"; String separator = File.separator; for (SlicedElement slicedElement : this.getSlicedElements()) { slicedElement.setObject(null); } if (!absolute_path.endsWith(separator)) { absolute_path += separator; } absolute_path += foldername; SymmetricDifference symmetricDifference = this.getAsymmetricDifference().getSymmetricDifference(); symmetricDifference.getMatching().setUriA(modelslice_name); symmetricDifference.getMatching().setUriB(modelslice_name); symmetricDifference.setUriModelA(modelslice_name); symmetricDifference.setUriModelB(modelslice_name); AsymmetricDifference asymmetricDifference = this.getAsymmetricDifference(); asymmetricDifference.setUriOriginModel(modelslice_name); asymmetricDifference.setUriChangedModel(modelslice_name); ResourceSet resourceSet = new ResourceSetImpl(); String resSymDiffSavePath = absolute_path + separator + symmetricdiff_name; resourceSet.createResource(EMFStorage.pathToUri(resSymDiffSavePath)).getContents().add(symmetricDifference); String resAsymDiffSavePath = absolute_path + separator + asymmetricdiff_name; resourceSet.createResource(EMFStorage.pathToUri(resAsymDiffSavePath)).getContents().add(asymmetricDifference); String resModelSliceSavePath = absolute_path + separator + modelslice_name; resourceSet.createResource(EMFStorage.pathToUri(resModelSliceSavePath)).getContents().add(this); for (Resource resource : resourceSet.getResources()) { try { resource.save(null); } catch (IOException e) { e.printStackTrace(); } } if (zip) { ZipUtil.zip(absolute_path, absolute_path, AsymmetricDiffFacade.PATCH_EXTENSION); FileOperations.removeFolder(absolute_path); }  return zip? absolute_path + "." + AsymmetricDiffFacade.PATCH_EXTENSION: absolute_path;
+		String absolute_path = path;
+		String modelslice_name = "ExecutableSlice.slice";
+		String symmetricdiff_name = "ExecutableSlice." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT;
+		String asymmetricdiff_name = "ExecutableSlice." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
+		String foldername = "RuleBasedSlice";
+		String separator = File.separator;
+		for (SlicedElement slicedElement : this.getSlicedElements()) {
+			if (!slicedElement.isFromReg()) {
+				slicedElement.setObject(null);
+			}
+		}
+		if (!absolute_path.endsWith(separator)) {
+			absolute_path += separator;
+		}
+		absolute_path += foldername;
+		SymmetricDifference symmetricDifference = this.getAsymmetricDifference().getSymmetricDifference();
+		symmetricDifference.getMatching().setUriA(modelslice_name);
+		symmetricDifference.getMatching().setUriB(modelslice_name);
+		symmetricDifference.setUriModelA(modelslice_name);
+		symmetricDifference.setUriModelB(modelslice_name);
+		AsymmetricDifference asymmetricDifference = this.getAsymmetricDifference();
+		asymmetricDifference.setUriOriginModel(modelslice_name);
+		asymmetricDifference.setUriChangedModel(modelslice_name);
+		ResourceSet resourceSet = new ResourceSetImpl();
+		String resSymDiffSavePath = absolute_path + separator + symmetricdiff_name;
+		resourceSet.createResource(EMFStorage.pathToUri(resSymDiffSavePath)).getContents().add(symmetricDifference);
+		String resAsymDiffSavePath = absolute_path + separator + asymmetricdiff_name;
+		resourceSet.createResource(EMFStorage.pathToUri(resAsymDiffSavePath)).getContents().add(asymmetricDifference);
+		String resModelSliceSavePath = absolute_path + separator + modelslice_name;
+		resourceSet.createResource(EMFStorage.pathToUri(resModelSliceSavePath)).getContents().add(this);
+		for (Resource resource : resourceSet.getResources()) {
+			try {
+				resource.save(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (zip) {
+			ZipUtil.zip(absolute_path, absolute_path, AsymmetricDiffFacade.PATCH_EXTENSION);
+			FileOperations.removeFolder(absolute_path);
+		}
+		return zip ? absolute_path + "." + AsymmetricDiffFacade.PATCH_EXTENSION : absolute_path;
 	}
 
 	/**
