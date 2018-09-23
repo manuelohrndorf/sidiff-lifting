@@ -155,6 +155,7 @@ public class ProjectInfo implements Serializable {
 		}
 		return stringBuilder.toString();
 	}
+	
 	/**
 	 * Reads the version meta data from project and cleans up the entries.
 	 * 
