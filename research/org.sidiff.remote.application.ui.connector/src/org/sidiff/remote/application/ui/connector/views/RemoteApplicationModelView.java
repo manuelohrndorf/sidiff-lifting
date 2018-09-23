@@ -1,10 +1,14 @@
 package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -12,6 +16,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -26,10 +35,29 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.UUIDResource;
+import org.sidiff.common.file.ZipUtil;
+import org.sidiff.difference.asymmetric.AsymmetricDifference;
+import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.operation.OperationInvocationWrapper;
+import org.sidiff.patching.ui.adapter.ModelAdapter;
+import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.view.OperationExplorerView;
+import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.remote.application.connector.ConnectorFacade;
 import org.sidiff.remote.application.connector.exception.ConnectionException;
 import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
@@ -44,6 +72,8 @@ import org.sidiff.remote.application.ui.connector.wizards.CheckoutSubModelWizard
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.util.ProxyUtil;
+import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
+import org.sidiff.slicer.rulebased.slice.arguments.ModelSliceBasedArgumentManager;
 
 public class RemoteApplicationModelView extends AbstractRemoteApplicationView<CheckboxTreeViewer> implements ICheckStateListener {
 
@@ -72,12 +102,18 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 	/**
 	 * 
 	 */
-	private String selected_model_path;
+	private String selected_remote_model_path;
+	
+	/**
+	 * 
+	 */
+	private String selected_local_model_path;
 	
 	/**
 	 * 
 	 */
 	private String selecetd_model_name;
+	
 	
 	// ########## AbstractRemoteApplicationView ##########
 	@Override
@@ -123,19 +159,20 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 					IFile file = (IFile) structuredSelection.getFirstElement();
 	
 					try {
-						String local_model_path = file.getLocation().toOSString();
-						updateRequestedModelElements(local_model_path);
+						selected_local_model_path = file.getLocation().toOSString();
+						updateRequestedModelElements(selected_local_model_path);
 					} catch (ConnectionException | InvalidProjectInfoException e) {
 						MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 					}catch ( ModelNotVersionedException e) {
-						
+						selected_local_model_path = null;
 					}
 				}else if(part.getSite().getId().equals(RemoteApplicationFileView.ID) && structuredSelection.getFirstElement() instanceof AdaptableTreeNode) {
 					AdaptableTreeNode treeNode = (AdaptableTreeNode) structuredSelection.getFirstElement();
 					if(treeNode.isLeaf()) {
-						if(!treeNode.getId().equals(selected_model_path)) {
+						if(!treeNode.getId().equals(selected_remote_model_path)) {
+							selected_local_model_path = null;
 							AdaptableTreeModel treeModel = new AdaptableTreeModel();
-							selected_model_path = treeNode.getId();
+							selected_remote_model_path = treeNode.getId();
 							selecetd_model_name = treeNode.getLabel();
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade
@@ -149,12 +186,14 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 							}
 						}
 					}else {
-						selected_model_path = null;
+						selected_local_model_path = null;
+						selected_remote_model_path = null;
 						selecetd_model_name = null;
 						this.treeViewer.setInput(null);
 					}
 				}
 			}
+			validateActions();
 		}
 	}
 
@@ -168,7 +207,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				AdaptableTreeNode treeNode = (AdaptableTreeNode) structuredSelection.getFirstElement();
 				if (event.getSource().equals(this.treeViewer) && treeNode.getChildren().isEmpty()) {
 					try {
-						List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(selected_model_path,
+						List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(selected_remote_model_path,
 								treeNode.getId());
 						List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 						treeNode.addAllChildren(children);
@@ -199,12 +238,11 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				wizardDialog.setBlockOnOpen(true);
 				int return_code = wizardDialog.open();
 				if (return_code == WizardDialog.OK) {
-					String remote_model_path = selected_model_path;
 					String target_model_path = settings.getTargetPath().toOSString() + File.separator
 							+ selecetd_model_name;
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
-						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds,
+						File file = ConnectorFacade.checkoutSubModel(selected_remote_model_path, target_model_path, elementIds,
 								IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFileForLocation(new Path(file.getAbsolutePath()));
@@ -235,13 +273,16 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				try {
 					Set<String> elementIds = getSelectedElementIDs();
 					if (!elementIds.isEmpty()) {
-						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds,
+						File file = ConnectorFacade.updateSubModel(selected_local_model_path, elementIds,
 								IRemotePreferencesSupplier.getDefaultRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFile(new Path(file.getAbsolutePath()
 										.replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()
 												+ File.separator, "")));
 						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+						ResourceSet resourceSet = new ResourceSetImpl();
+						UUIDResource localModelResource = new UUIDResource(EMFStorage.pathToUri(selected_local_model_path), resourceSet);
+						merge(localModelResource, file);
 					}
 				} catch (ConnectionException | CoreException | InvalidProjectInfoException
 						| ModelNotVersionedException e) {
@@ -251,7 +292,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 			}
 		};
 		this.update_action.setToolTipText("Update local (Sub-) Model");
-		this.update_action.setImageDescriptor(ConnectorUIPlugin.IMG_ELCL16_UPDATE_ACTION);
+		validateActions();
 	}
 
 	// ########## Make Menu Contributions ##########
@@ -330,4 +371,138 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 		treeViewer.refresh();
 	}
 
+	private void merge(UUIDResource localModelResource, File patchFile) {
+
+		final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
+		final AtomicReference<ReportView> reportViewReference = new AtomicReference<ReportView>();
+		final AtomicReference<Resource> targetResource = new AtomicReference<Resource>();
+		final AtomicReference<PatchEngine> patchEngineReference = new AtomicReference<PatchEngine>();
+		final AtomicReference<PatchingSettings> patchingSettingsReference = new AtomicReference<PatchingSettings>();
+		
+		Display.getDefault().syncExec(new Runnable() {
+
+			@Override
+			public void run() {
+
+				IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance()
+						.getIntegrationEditorForModel(localModelResource);
+				IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localModelResource.getURI());
+				EditingDomain editingDomain = domainEditor.getEditingDomain(editorPart);
+				targetResource.set(domainEditor.getResource(editorPart));
+
+				String ARCHIVE_URI_PREFIX = "archive:file:///";
+				String ARCHIVE_SEPERATOR = "!/";
+				String patchPath = patchFile.getAbsolutePath();
+
+				URI uri_patch = null;
+				for (String entry : ZipUtil.getEntries(patchPath)) {
+					if (entry.endsWith("slice")) {
+						uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+					}
+				}
+
+				ResourceSet resourceSet = new ResourceSetImpl();
+				Resource executableModelSliceResource = resourceSet.getResource(uri_patch, true);
+				ExecutableModelSlice executableModelSlice = executableModelSliceResource.getContents().stream()
+						.filter(c -> c instanceof ExecutableModelSlice).map(c -> (ExecutableModelSlice) c).findFirst()
+						.get();
+				AsymmetricDifference asymmetricDifference = executableModelSlice.getAsymmetricDifference();
+
+				PatchingSettings patchingSettings = new PatchingSettings();
+				SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings,
+						EMFModelAccess.getDocumentTypes(localModelResource, Scope.RESOURCE),
+						Collections.<Enum<?>>emptySet());
+				patchingSettings.setArgumentManager(new ModelSliceBasedArgumentManager());
+				patchingSettingsReference.set(patchingSettings);
+				
+				if (asymmetricDifference != null) {
+					PatchEngine patchEngine = new PatchEngine(asymmetricDifference, targetResource.get(),
+							patchingSettings);
+					patchEngine.setPatchedEditingDomain(editingDomain);
+					// Init detector if available
+					try {
+						if (patchingSettings.getModifiedDetector() != null) {
+							patchingSettings.getModifiedDetector().init(asymmetricDifference.getChangedModel(),
+									targetResource.get(), patchingSettings.getMatcher(), Scope.RESOURCE);
+						}
+					} catch (FileNotFoundException e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+					patchEngineReference.set(patchEngine);
+
+					// Opening and setting operation explorer view
+
+					try {
+						OperationExplorerView operationExplorerView = (OperationExplorerView) PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow().getActivePage().showView(OperationExplorerView.ID);
+						operationExplorerView.setPatchEngine(patchEngine);
+						operationExplorerViewReference.set(operationExplorerView);
+					} catch (PartInitException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					// Opening and setting report view
+					try {
+						ReportView reportView = (ReportView) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+								.getActivePage().showView(ReportView.ID);
+						reportView.setPatchReportManager(patchEngine.getPatchReportManager());
+						reportViewReference.set(reportView);
+					} catch (PartInitException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		if(patchEngineReference.get() != null){
+			boolean conflicting = false;
+			for(OperationInvocationWrapper wrapper : patchEngineReference.get().getOperationManager().getOrderedOperationWrappers()){
+				if(wrapper.hasUnresolvedInArguments()){
+					conflicting = true;
+					break;
+				}
+			}
+			
+			if(conflicting){
+				OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
+				ModelAdapter adapter = new ModelAdapter(
+						targetResource.get());
+				try {
+					adapter.addListener(new ModelChangeHandler(patchingSettingsReference.get().getArgumentManager()));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				adapter.addListener(operationExplorerView);
+			}else{
+				patchEngineReference.get().applyPatch(true);
+			}
+		}
+	}
+	
+	private void validateActions() {
+		
+		if(selected_local_model_path == null) {
+			update_action.setEnabled(false);
+			update_action.setImageDescriptor(ConnectorUIPlugin.IMG_DLCL16_UPDATE_ACTION);
+		}else {
+			update_action.setImageDescriptor(ConnectorUIPlugin.IMG_ELCL16_UPDATE_ACTION);
+			update_action.setEnabled(true);
+		}
+		
+		if(selected_remote_model_path == null) {
+			checkout_action.setEnabled(false);
+			checkout_action.setImageDescriptor(ConnectorUIPlugin.IMG_DLCL16_CHECKOUT_ACTION);
+		}else {
+			checkout_action.setEnabled(true);
+			checkout_action.setImageDescriptor(ConnectorUIPlugin.IMG_ELCL16_CHECKOUT_ACTION);
+		}
+	}
 }

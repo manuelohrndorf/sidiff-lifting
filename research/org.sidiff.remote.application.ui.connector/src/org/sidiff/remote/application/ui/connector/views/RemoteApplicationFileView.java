@@ -57,6 +57,14 @@ public class RemoteApplicationFileView extends AbstractRemoteApplicationView<Tre
 		return treeViewer;
 	}
 
+	// ########## ViewPart ##########
+	
+	@Override
+	public void createPartControl(Composite parent) {
+		super.createPartControl(parent);
+		refreshRemote_action.run();
+	}
+	
 	// ########## ISelectionChangedListener ############
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -213,8 +221,10 @@ public class RemoteApplicationFileView extends AbstractRemoteApplicationView<Tre
 				selectedFileNode = currentFileNode;
 			}
 		}
-		treeViewer.refresh();
+		
 		treeViewer.setExpandedElements(visibleModelFileNodes.toArray());
+		treeViewer.refresh();
+		
 		treeViewer.setSelection(new StructuredSelection(selectedFileNode), true);
 				
 	}
