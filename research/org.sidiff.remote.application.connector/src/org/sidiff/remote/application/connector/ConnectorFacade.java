@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -339,8 +340,9 @@ public class ConnectorFacade {
 		return file.getProject().getName() + File.separator + file.getProjectRelativePath().toOSString();		
 	}
 	
-	public static ProjectInfo getProjectInfo(IFile file) throws InvalidProjectInfoException {		
-		ProjectInfo projectInfo = ProjectInfo.readProjectInfo(file.getProject().getName());
+	public static ProjectInfo getProjectInfo(IResource resource) throws InvalidProjectInfoException {	
+		
+		ProjectInfo projectInfo = ProjectInfo.readProjectInfo(resource.getProject().getName());
 		
 		return projectInfo;
 	}
