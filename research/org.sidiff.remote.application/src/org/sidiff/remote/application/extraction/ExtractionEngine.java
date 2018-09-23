@@ -30,6 +30,7 @@ import org.sidiff.remote.common.settings.RemotePreferences;
 import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationProperty;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
+import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -51,7 +52,7 @@ public class ExtractionEngine {
 	
 	private PatchEngine patchEngine;
 	
-	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException {
+	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException {
 		
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
@@ -86,7 +87,7 @@ public class ExtractionEngine {
 		return new File(EMFStorage.uriToPath(slicedModel.getURI()));
 	}
 	
-	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException {
+	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException {
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
 		config.setEmtpyResource(emptyModel);
@@ -109,6 +110,12 @@ public class ExtractionEngine {
 		ExecutableModelSlice modelSlice = (ExecutableModelSlice) slicer.slice(eObjects);
 		String path = EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "");
 		String file_path = modelSlice.serialize(path, true);
+		
+		this.patchEngine = new PatchEngine(modelSlice.getAsymmetricDifference(), slicedModel, patchingSettings);
+		
+		this.patchEngine.applyPatch(false);
+		
+		slicedModel.save(slicedModel.getDefaultSaveOptions());
 		
 		return new File(file_path);
 	}

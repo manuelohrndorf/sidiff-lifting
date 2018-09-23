@@ -1,6 +1,7 @@
 package org.sidiff.remote.application;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IFile;
 import org.sidiff.common.emf.access.EMFGenModelAccess;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.patching.api.PatchingFacade;
 
 /**
  * 
@@ -32,6 +34,7 @@ public class ModelIndexer {
 	 */
 	private static final String FILTER_REGEX = "\\.\\S*";
 	
+	
 	/**
 	 * The root folder
 	 */
@@ -48,6 +51,11 @@ public class ModelIndexer {
 	private Map<String, File> filteredFiles;
 	
 	/**
+	 * Filter for finding all difference files
+	 */
+	private FileFilter differenceFileFilter;
+	
+	/**
 	 * 
 	 * @param root_folder
 	 */
@@ -55,6 +63,14 @@ public class ModelIndexer {
 		this.root_folder = root_folder;
 		this.files = new HashMap<String, File>();
 		this.filteredFiles = new HashMap<String, File>();
+		
+		this.differenceFileFilter = new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return !(getFileExtension(pathname).equals(PatchingFacade.ASYMMETRIC_DIFF_EXT) && getFileExtension(pathname).equals(PatchingFacade.SYMMETRIC_DIFF_EXT));
+			}
+		};
 	}
 	
 	/**
@@ -96,6 +112,21 @@ public class ModelIndexer {
 			}
 		}
 		
+		return files;
+	}
+	
+	/**
+	 * searches all difference files contained in the parent folder
+	 * 
+	 * @param parent
+	 *            the parent folder
+	 * @return all difference files contained in the parent folder
+	 */
+	public Map<String, File> searchDifferenceFiles(File parent){
+		Map<String, File> files = new HashMap<String, File>();
+		for(File file : parent.listFiles(differenceFileFilter)) {
+			files.put(file.getAbsolutePath(), file);
+		}
 		return files;
 	}
 	

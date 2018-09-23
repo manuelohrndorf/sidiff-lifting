@@ -34,6 +34,7 @@ import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
 import org.sidiff.remote.common.settings.RemotePreferences;
 import org.sidiff.remote.common.util.ProxyUtil;
+import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -224,6 +225,15 @@ public class SiDiffRemoteApplication {
 		String sidiff_inf_path = new Path(absolute_origin_path).removeLastSegments(1).toOSString() + File.separator + SIDIFF_INF;
 		String absolute_copy_path = sidiff_inf_path + File.separator + relative_local_model_path;
 		
+		File sidiff_inf_file = new File(sidiff_inf_path);
+		
+		// remove existing difference files
+		if(sidiff_inf_file.exists()) {
+			for(File file : modelIndexer.searchDifferenceFiles(sidiff_inf_file).values()) {
+				file.delete();
+			}
+		}
+		
 		//init branch
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
@@ -288,7 +298,7 @@ public class SiDiffRemoteApplication {
 				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), null, null, "import submodel " + subModelFile.getName());
 			}
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException | EmptySlicingCriteriaException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new CheckoutSubModelException(e);
 		}
@@ -415,7 +425,7 @@ public class SiDiffRemoteApplication {
 		try {
 			slicingEditScriptFile = this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | EmptySlicingCriteriaException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new UpdateSubModelException(e);
 		}
