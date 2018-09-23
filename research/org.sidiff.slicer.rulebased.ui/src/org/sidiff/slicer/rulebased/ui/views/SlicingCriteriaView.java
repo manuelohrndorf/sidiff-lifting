@@ -74,6 +74,7 @@ import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
+import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -393,7 +394,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							}			
 					
 						
-						} catch (IOException | NotInitializedException e) {
+						} catch (IOException | NotInitializedException | EmptySlicingCriteriaException e) {
 							MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
 							e.printStackTrace();
 						} catch (PartInitException e) {

@@ -29,6 +29,7 @@ import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
+import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -199,10 +200,11 @@ public class RuleBasedSlicer implements ISlicer{
 	 * @throws UncoveredChangesException 
 	 * @throws NotInitializedException 
 	 * @throws ExtendedSlicingCriteriaIntersectionException 
+	 * @throws EmptySlicingCriteriaException 
 	 */
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public ModelSlice slice(Collection<EObject> input) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException{
+	public ModelSlice slice(Collection<EObject> input) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException, EmptySlicingCriteriaException{
 
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
@@ -215,7 +217,7 @@ public class RuleBasedSlicer implements ISlicer{
 			remSlicingCriteria = new HashSet<EObject>(slicingCriteria_old);
 			remSlicingCriteria.removeAll(slicingCriteria_new);
 			
-
+			if(!(addSlicingCriteria.isEmpty() && remSlicingCriteria.isEmpty())) {
 			Set<EObject> extend_slicingCriteria_old = new HashSet<EObject>(slicingCriteria_old);
 			
 			for(EObject in : slicingCriteria_old){
@@ -313,6 +315,9 @@ public class RuleBasedSlicer implements ISlicer{
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
 			
 			return  executableModelSlice;
+			}else {
+				throw new EmptySlicingCriteriaException();
+			}
 			
 		}else{
 			throw new NotInitializedException();
@@ -359,9 +364,13 @@ public class RuleBasedSlicer implements ISlicer{
 		asymDiff.setUriOriginModel(originModel.getURI().toString());
 		asymDiff.setUriChangedModel(changedModel.getURI().toString());
 		
-		if (LogUtil.log(LogEvent.DEBUG, "uncovered changes: " + DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size())){
-			LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
-			throw new UncoveredChangesException();
+		if (LogUtil.getLogEvents().contains(LogEvent.DEBUG.name())){
+			int uncoveredChanges = DifferenceAnalysisUtil.getRemainingChanges(asymDiff.getSymmetricDifference()).size();
+			LogUtil.log(LogEvent.DEBUG, "uncovered changes: " + uncoveredChanges);
+			if(uncoveredChanges > 0) {
+				LiftingFacade.serializeLiftedDifference(asymDiff.getSymmetricDifference(), path, fileName + "." + AsymmetricDiffFacade.SYMMETRIC_DIFF_EXT);
+				throw new UncoveredChangesException();
+			}
 		}
 		
 		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);
