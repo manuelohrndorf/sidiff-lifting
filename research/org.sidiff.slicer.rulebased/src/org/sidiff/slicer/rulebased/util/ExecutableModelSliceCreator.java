@@ -53,38 +53,50 @@ public class ExecutableModelSliceCreator {
 	
 	/**
 	 * Holds the copy for each {@link OperationInvocation}
+	 * 
+	 * @see #copyOperationInvocation(OperationInvocation)
 	 */
 	protected Map<OperationInvocation, OperationInvocation> opInvCopies;
 	
 	/**
 	 * Holds the copy for each {@link DependencyContainer}
+	 * 
+	 * @see #copyDependencyContainer(DependencyContainer)
 	 */
 	protected Map<DependencyContainer, DependencyContainer> depConCopies;
 	
 	/**
 	 * Holds the copy for each {@link ParameterMapping}
+	 * 
+	 * @see #copyParameterMapping(ParameterMapping)
 	 */
 	protected Map<ParameterMapping, ParameterMapping> pmCopies;
 	
 	/**
 	 * Holds the copy for each {@link SemanticChangeSet}
+	 * 
+	 * @see #copySemanticChangeSet(SemanticChangeSet)
 	 */
 	protected Map<SemanticChangeSet, SemanticChangeSet> scsCopies;
 	
 	/**
 	 * Holds the copy for each {@link Change}
+	 * 
+	 * @see #copyChange(Change)
 	 */
 	protected Map<Change, Change> changeCopies;
 	
 	/**
-	 * Holds the copy for each {@link Correspondence}
+	 * Set of {@link Correspondence}s that will be derived from the difference
+	 * 
+	 * @see #calculateCorrespondences()
 	 */
-	protected Map<Correspondence, Correspondence> correspondenceCopies;
-	
 	protected Set<Correspondence> correspondences;
 	
 	/**
 	 * Holds the copy for each {@link ObjectParameterBinding}
+	 * 
+	 * @see #copyOperationInvocation(OperationInvocation)
 	 */
 	protected Map<ObjectParameterBinding, ObjectParameterBinding> opbCopies;
 	
@@ -96,12 +108,17 @@ public class ExecutableModelSliceCreator {
 	
 	/**
 	 * A list of {@link OperationInvocation} which are ignored when re-linking the respective {@link ParameterMapping}s
+	 *
 	 * @see #relinkObjectParameterBindings(ObjectParameterBinding)
 	 */
 	protected Set<OperationInvocation> ignoredOpInvs;
-	
-	
-	protected Set<ObjectParameterBinding> changedPBs;
+
+	/**
+	 * Holds all unmatchedElements to derive the correspondences
+	 * 
+	 * @see #calculateCorrespondences()
+	 */
+	protected Set<SlicedElement> unmatchedElements;
 	
 	public ExecutableModelSliceCreator() {
 		this.modelSlice = RuleBasedSliceFactory.eINSTANCE.createExecutableModelSlice();
@@ -114,13 +131,12 @@ public class ExecutableModelSliceCreator {
 		this.pmCopies = new HashMap<ParameterMapping, ParameterMapping>();
 		this.scsCopies = new HashMap<SemanticChangeSet, SemanticChangeSet>();
 		this.changeCopies = new HashMap<Change,Change>();
-		this.correspondenceCopies = new HashMap<Correspondence, Correspondence>();
 		this.correspondences = new HashSet<Correspondence>();
 		this.opbCopies = new HashMap<ObjectParameterBinding, ObjectParameterBinding>();
 		this.objCopies = new HashMap<EObject, SlicedElement>();
 		this.ignoredOpInvs = new HashSet<OperationInvocation>();
 		
-		this.changedPBs = new HashSet<ObjectParameterBinding>();
+		this.unmatchedElements = new HashSet<SlicedElement>();
 	}
 	
 	public ExecutableModelSlice createExecutableModelSlice(Set<OperationInvocation> extendOpInvsCreate, Set<OperationInvocation> extendOpInvsDelete, Set<OperationInvocation> ignoredOpInvs) {
@@ -143,7 +159,6 @@ public class ExecutableModelSliceCreator {
 		AsymmetricDifference asymmetricDifference = AsymmetricFactory.eINSTANCE.createAsymmetricDifference();
 		asymmetricDifference.setSymmetricDifference(symmetricDifference);
 				
-		matching.getCorrespondences().addAll(correspondenceCopies.values());
 		matching.getCorrespondences().addAll(correspondences);
 		
 		symmetricDifference.getChanges().addAll(changeCopies.values());
@@ -196,9 +211,6 @@ public class ExecutableModelSliceCreator {
 							// if the target of a parameter mapping is contained by an operation invocation contained in the ignore list, then
 							// the actualA object has to be set manually.
 							opbCopies.get(opb).setActualA(opb.getActualB());
-							changedPBs.add(opbCopies.get(opb));
-							// Hold the object in order to create respective edit rule matches later
-//							ermElements.add(opb.getActualB());
 						}
 					}
 					relinkObjectParameterBinding(opbCopies.get(opb));
@@ -407,16 +419,20 @@ public class ExecutableModelSliceCreator {
 		semanticChangeSet.getSubsets().addAll(subsets_copy);
 	}
 	
-
+	/**
+	 * Calculates the correspondences between sliced elements. For each sliced
+	 * element that is not referenced by an add/remove object change a
+	 * correspondence is created.
+	 */
 	public void calculateCorrespondences() {
-		SymmetricDifference symDiff = (SymmetricDifference) scsCopies.keySet().iterator().next().eContainer();
-		for(Correspondence c : symDiff.getMatching().getCorrespondences()){
-			if(objCopies.containsKey(c.getMatchedA()) && objCopies.containsKey(c.getMatchedB())){
-				correspondenceCopies.put(c, EcoreUtil.copy(c));
-				correspondenceCopies.get(c).setMatchedA(objCopies.get(c.getMatchedA()));
-				correspondenceCopies.get(c).setMatchedB(objCopies.get(c.getMatchedB()));
+		for(SlicedElement element : objCopies.values()) {
+			if(!unmatchedElements.contains(element)) {
+				Correspondence c = MatchingModelFactory.eINSTANCE.createCorrespondence();
+				c.setMatchedA(element);
+				c.setMatchedB(element);
+				correspondences.add(c);
 			}
-		}
+		}		
 	}
 	
 	protected void relinkObjectParameterBinding(ObjectParameterBinding objectParameterBinding) {
@@ -441,15 +457,7 @@ public class ExecutableModelSliceCreator {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		if(changedPBs.contains(objectParameterBinding) &&  elementA.equals(elementB)){
-			Correspondence c = MatchingModelFactory.eINSTANCE.createCorrespondence();
-			c.setMatchedA(elementA);
-			c.setMatchedB(elementB);
-			correspondences.add(c);
-		}
-		
+		}		
 	}
 
 	protected void relinkAddObjectChange(AddObject addObjectChange) {
@@ -457,6 +465,7 @@ public class ExecutableModelSliceCreator {
 			SlicedElement element = this.sliceImporter.importEObject(addObjectChange.getObj());
 			objCopies.put(addObjectChange.getObj(), element);
 			addObjectChange.setObj(element);
+			unmatchedElements.add(element);
 		} catch (ImportFailedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -468,6 +477,7 @@ public class ExecutableModelSliceCreator {
 			SlicedElement element = this.sliceImporter.importEObject(removeObjectChange.getObj());
 			objCopies.put(removeObjectChange.getObj(), element);
 			removeObjectChange.setObj(element);
+			unmatchedElements.add(element);
 		} catch (ImportFailedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
