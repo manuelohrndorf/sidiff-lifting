@@ -16,6 +16,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -39,6 +42,7 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.view.ReportView;
 
 /**
  * 
@@ -131,6 +135,7 @@ public class SiLiftCompareDifferencer {
 				left.getResource(), right.getResource(), settings);
 
 		createPatchEngine();
+		initPatchReportView(patchEngine);
 
 		notifyRefreshDifference();
 	}
@@ -166,7 +171,7 @@ public class SiLiftCompareDifferencer {
 		patchEngine = new PatchEngine(getAsymmetricDifference(), getModifiedLeft().getResource(), patchingSettings);
 	}
 
-	protected PatchingSettings createPatchingSettings() throws CoreException {
+	private PatchingSettings createPatchingSettings() throws CoreException {
 		// get document type
 		CompareResource left = getLeft();
 		Set<String> documentTypes = new HashSet<>(EMFDocumentTypeUtil.resolve(left.getResource()));
@@ -198,6 +203,21 @@ public class SiLiftCompareDifferencer {
 		patchingSettings.setInterruptHandler(new DialogPatchInterruptHandler());
 
 		return patchingSettings;
+	}
+
+	private static void initPatchReportView(final PatchEngine patchEngine) {
+		Display.getCurrent().asyncExec(() -> {
+			try {
+				ReportView reportView = (ReportView)PlatformUI
+						.getWorkbench()
+						.getActiveWorkbenchWindow()
+						.getActivePage()
+						.showView(ReportView.ID);
+				reportView.setPatchReportManager(patchEngine.getPatchReportManager());
+			} catch (PartInitException e) {
+				Activator.logWarning("Could not initialize ReportView", e);
+			}
+		});
 	}
 
 	public void applyPatch() {

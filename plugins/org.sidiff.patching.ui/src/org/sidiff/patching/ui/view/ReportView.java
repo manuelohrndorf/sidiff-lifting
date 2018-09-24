@@ -67,6 +67,8 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	private Button revertedButton;
 	private Button execFailedButton;
 	private Button revertFailedButton;
+	
+	private boolean disposed = false;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -174,9 +176,12 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	@Override
 	public void dispose() {
 		super.dispose();
+		disposed = true;
 
-		if(reportManager!=null)
+		if(reportManager != null) {
 			reportManager.removePatchReportListener(this);
+			reportManager = null;
+		}
 
 		PASSED_IMG.dispose();
 		WARNING_IMG.dispose();
@@ -400,29 +405,32 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		reportStackEntry = reportManager.getReports().size()-1;
 	}
 	
-	private void clearView(){		
-		reportStackEntry = 0;
-		reportStackAction.clearMenu();
-		reportStackAction.setEnabled(false);
-		reportViewer.getTable().clearAll();;
-		reportViewer.getTable().setVisible(false);
-		
-		this.reportFilterAction.setEnabled(false);
-		this.passedButton.setEnabled(false);
-		this.warningButton.setEnabled(false);
-		this.revertedButton.setEnabled(false);
-		this.execFailedButton.setEnabled(false);
-		this.revertFailedButton.setEnabled(false);		
-		
-		if(reportManager != null)
+	private void clearView() {
+		if(!disposed) {
+			reportStackEntry = 0;
+			reportStackAction.clearMenu();
+			reportStackAction.setEnabled(false);
+			reportViewer.getTable().clearAll();
+			reportViewer.getTable().setVisible(false);
+
+			this.reportFilterAction.setEnabled(false);
+			this.passedButton.setEnabled(false);
+			this.warningButton.setEnabled(false);
+			this.revertedButton.setEnabled(false);
+			this.execFailedButton.setEnabled(false);
+			this.revertFailedButton.setEnabled(false);
+		}
+
+		if(reportManager != null) {
 			reportManager.removePatchReportListener(this);
+		}
 	}
 	
-	private void initView(){
-		
-		if(reportManager != null)
+	private void initView() {
+		if(reportManager != null) {
 			reportManager.addPatchReportListener(this);
-		
+		}
+
 		reportViewer.getTable().setVisible(true);
 		this.reportFilterAction.setEnabled(true);
 		this.passedButton.setEnabled(true);
