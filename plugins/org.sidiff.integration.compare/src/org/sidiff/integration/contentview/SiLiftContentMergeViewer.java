@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.sidiff.common.ui.util.MessageDialogUtil;
+import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
@@ -241,7 +241,7 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 				return out.toByteArray();
 			}
 		} catch (IOException e) {
-			MessageDialogUtil.showExceptionDialog(e);
+			Activator.logError("Could not save CompareResource", e);
 		}
 		return null;
 	}
