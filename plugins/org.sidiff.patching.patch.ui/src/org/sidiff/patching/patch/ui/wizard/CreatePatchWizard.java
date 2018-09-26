@@ -1,34 +1,17 @@
 package org.sidiff.patching.patch.ui.wizard;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.widgets.Display;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.matching.input.InputModels;
-import org.sidiff.patching.api.PatchingFacade;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.Activator;
+import org.sidiff.patching.patch.ui.jobs.CreatePatchJob;
 
 public class CreatePatchWizard extends Wizard {
 
@@ -68,90 +51,8 @@ public class CreatePatchWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		
-		Job job = new Job("Creating Patch") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				boolean status = finish(settings);
-				
-				if (status) {
-					return Status.OK_STATUS;
-				} else {
-					return Status.CANCEL_STATUS;
-				}
-			}
-		};
+		Job job = new CreatePatchJob(inputModels, settings);
 		job.schedule();
-		return true;
-	}
-	
-	private boolean finish(PatchingSettings settings) {
-
-		/*
-		 *  Start calculation:
-		 */
-		
-//		Resource resourceA = inputModels.getResourceA();
-//		Resource resourceB = inputModels.getResourceB();
-//		Difference fullDiff = calculateDifference(resourceA, resourceB);
-//		
-//		if (fullDiff == null) {
-//			return false;
-//		}
-		
-		/*
-		 * Create patch:
-		 */
-
-		try {
-			
-			// Print report:
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			
-			PatchingFacade.createPatch(inputModels, settings, inputModels.getFiles().get(0).getParent().getLocation().toOSString(), null);
-
-			LogUtil.log(LogEvent.NOTICE, "done...");
-			
-			/*
-			 * Update workspace UI
-			 */
-			
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						inputModels.getFiles().get(0).getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-						UIUtil.openEditor(PatchingFacade.getPatchPath());
-					} catch (CoreException e) {
-						e.printStackTrace();
-					} catch (OperationCanceledException e) {
-
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-
-			MessageDialog dialog = new MessageDialog(getShell(),
-					"Error", null, "File not found!", MessageDialog.ERROR,
-					new String[] { "OK" }, 0);
-			dialog.open();
-			return false;
-		} catch (InvalidModelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NoCorrespondencesException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		return true;
 	}
 
