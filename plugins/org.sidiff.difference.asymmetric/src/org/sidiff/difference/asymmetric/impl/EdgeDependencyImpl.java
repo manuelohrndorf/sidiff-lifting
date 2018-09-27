@@ -17,12 +17,12 @@ import org.sidiff.difference.asymmetric.EdgeDependency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.EdgeDependencyImpl#getSrcObject <em>Src Object</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.EdgeDependencyImpl#getTgtObject <em>Tgt Object</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.EdgeDependencyImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

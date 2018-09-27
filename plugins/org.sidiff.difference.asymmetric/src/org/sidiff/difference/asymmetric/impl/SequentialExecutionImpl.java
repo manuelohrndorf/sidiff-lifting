@@ -21,10 +21,10 @@ import org.sidiff.difference.asymmetric.SequentialExecution;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.SequentialExecutionImpl#getSubExecutions <em>Sub Executions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

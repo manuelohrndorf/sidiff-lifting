@@ -12,12 +12,12 @@ import org.eclipse.emf.ecore.EReference;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.EdgeDependency#getSrcObject <em>Src Object</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.EdgeDependency#getTgtObject <em>Tgt Object</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.EdgeDependency#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getEdgeDependency()
  * @model

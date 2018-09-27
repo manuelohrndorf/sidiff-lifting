@@ -15,8 +15,6 @@ import org.sidiff.difference.asymmetric.Execution;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Execution</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

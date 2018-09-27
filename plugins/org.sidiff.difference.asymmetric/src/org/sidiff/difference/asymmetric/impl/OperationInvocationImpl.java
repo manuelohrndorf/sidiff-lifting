@@ -40,6 +40,7 @@ import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
  * <em><b>Operation Invocation</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getEditRuleName <em>Edit Rule Name</em>}</li>
@@ -50,7 +51,6 @@ import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
  *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getChangeSet <em>Change Set</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl#getAsymmetricDifference <em>Asymmetric Difference</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -646,8 +646,8 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 
 		// Get it from the patch
 		AsymmetricDifference diff = (AsymmetricDifference) this.eContainer();
-		if (diff.getTransientRulebase() != null) {
-			RuleBase rb = diff.getTransientRulebase();
+		if (diff.getRulebase() != null) {
+			RuleBase rb = diff.getRulebase();
 			for (EditRule editrule : rb.getEditRules()) {
 				if (editrule.getExecuteModule().getName().equals(this.getChangeSet().getEditRName())) {
 					this.editRule = editrule;

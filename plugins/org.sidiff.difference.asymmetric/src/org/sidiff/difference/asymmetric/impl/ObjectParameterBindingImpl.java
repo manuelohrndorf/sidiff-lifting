@@ -27,13 +27,13 @@ import org.sidiff.difference.asymmetric.ParameterMapping;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ObjectParameterBindingImpl#getActualA <em>Actual A</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ObjectParameterBindingImpl#getActualB <em>Actual B</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ObjectParameterBindingImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ObjectParameterBindingImpl#getIncoming <em>Incoming</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

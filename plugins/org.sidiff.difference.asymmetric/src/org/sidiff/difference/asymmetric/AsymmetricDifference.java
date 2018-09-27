@@ -19,6 +19,7 @@ import org.sidiff.editrule.rulebase.RuleBase;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getOperationInvocations <em>Operation Invocations</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getOriginModel <em>Origin Model</em>}</li>
@@ -29,8 +30,8 @@ import org.sidiff.editrule.rulebase.RuleBase;
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getSymmetricDifference <em>Symmetric Difference</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriOriginModel <em>Uri Origin Model</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getUriChangedModel <em>Uri Changed Model</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getRulebase <em>Rulebase</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference()
  * @model
@@ -211,8 +212,38 @@ public interface AsymmetricDifference extends EObject {
 	 */
 	void setUriChangedModel(String value);
 
-	void initTransientRulebase();
-	
-	RuleBase getTransientRulebase();
+	/**
+	 * Returns the value of the '<em><b>Rulebase</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Rulebase</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Rulebase</em>' containment reference.
+	 * @see #setRulebase(RuleBase)
+	 * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getAsymmetricDifference_Rulebase()
+	 * @model containment="true"
+	 * @generated
+	 */
+	RuleBase getRulebase();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getRulebase <em>Rulebase</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Rulebase</em>' containment reference.
+	 * @see #getRulebase()
+	 * @generated
+	 */
+	void setRulebase(RuleBase value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void initializeRuleBase();
 
 } // AsymmetricDifference

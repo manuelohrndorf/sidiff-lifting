@@ -33,6 +33,8 @@ import org.sidiff.difference.asymmetric.ParameterMapping;
 import org.sidiff.difference.asymmetric.SequentialExecution;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.difference.symmetric.SymmetricPackage;
+import org.sidiff.editrule.rulebase.RulebasePackage;
+import org.sidiff.matching.model.MatchingModelPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -200,8 +202,11 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		isInited = true;
 
 		// Initialize simple dependencies
-		SymmetricPackage.eINSTANCE.eClass();
+		EcorePackage.eINSTANCE.eClass();
 		HenshinPackage.eINSTANCE.eClass();
+		MatchingModelPackage.eINSTANCE.eClass();
+		RulebasePackage.eINSTANCE.eClass();
+		SymmetricPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theAsymmetricPackage.createPackageContents();
@@ -306,6 +311,15 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 */
 	public EAttribute getAsymmetricDifference_UriChangedModel() {
 		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAsymmetricDifference_Rulebase() {
+		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -760,6 +774,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		createEReference(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE);
 		createEAttribute(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__URI_ORIGIN_MODEL);
 		createEAttribute(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL);
+		createEReference(asymmetricDifferenceEClass, ASYMMETRIC_DIFFERENCE__RULEBASE);
 
 		operationInvocationEClass = createEClass(OPERATION_INVOCATION);
 		createEAttribute(operationInvocationEClass, OPERATION_INVOCATION__NAME);
@@ -850,6 +865,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		// Obtain other dependent packages
 		SymmetricPackage theSymmetricPackage = (SymmetricPackage)EPackage.Registry.INSTANCE.getEPackage(SymmetricPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		RulebasePackage theRulebasePackage = (RulebasePackage)EPackage.Registry.INSTANCE.getEPackage(RulebasePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -877,6 +893,9 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		initEReference(getAsymmetricDifference_SymmetricDifference(), theSymmetricPackage.getSymmetricDifference(), null, "symmetricDifference", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAsymmetricDifference_UriOriginModel(), theEcorePackage.getEString(), "uriOriginModel", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAsymmetricDifference_UriChangedModel(), theEcorePackage.getEString(), "uriChangedModel", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAsymmetricDifference_Rulebase(), theRulebasePackage.getRuleBase(), null, "rulebase", null, 0, 1, AsymmetricDifference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(asymmetricDifferenceEClass, null, "initializeRuleBase", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(operationInvocationEClass, OperationInvocation.class, "OperationInvocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperationInvocation_Name(), theEcorePackage.getEString(), "name", null, 0, 1, OperationInvocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -894,8 +913,8 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		addEOperation(parameterBindingEClass, theEcorePackage.getEBoolean(), "isDefaultValue", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(objectParameterBindingEClass, ObjectParameterBinding.class, "ObjectParameterBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getObjectParameterBinding_ActualA(), ecorePackage.getEObject(), null, "actualA", null, 0, 1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getObjectParameterBinding_ActualB(), ecorePackage.getEObject(), null, "actualB", null, 0, 1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectParameterBinding_ActualA(), theEcorePackage.getEObject(), null, "actualA", null, 0, 1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getObjectParameterBinding_ActualB(), theEcorePackage.getEObject(), null, "actualB", null, 0, 1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getObjectParameterBinding_Outgoing(), this.getParameterMapping(), this.getParameterMapping_Source(), "outgoing", null, 0, -1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getObjectParameterBinding_Incoming(), this.getParameterMapping(), this.getParameterMapping_Target(), "incoming", null, 0, 1, ObjectParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -925,15 +944,15 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		initEReference(getMultiParameterBinding_ParameterBindings(), this.getParameterBinding(), null, "parameterBindings", null, 0, -1, MultiParameterBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeDependencyEClass, NodeDependency.class, "NodeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNodeDependency_Object(), ecorePackage.getEObject(), null, "object", null, 0, 1, NodeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNodeDependency_Object(), theEcorePackage.getEObject(), null, "object", null, 0, 1, NodeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(edgeDependencyEClass, EdgeDependency.class, "EdgeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEdgeDependency_SrcObject(), ecorePackage.getEObject(), null, "srcObject", null, 0, 1, EdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEdgeDependency_TgtObject(), ecorePackage.getEObject(), null, "tgtObject", null, 0, 1, EdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdgeDependency_SrcObject(), theEcorePackage.getEObject(), null, "srcObject", null, 0, 1, EdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdgeDependency_TgtObject(), theEcorePackage.getEObject(), null, "tgtObject", null, 0, 1, EdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEdgeDependency_Type(), theEcorePackage.getEReference(), null, "type", null, 0, 1, EdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeDependencyEClass, AttributeDependency.class, "AttributeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAttributeDependency_Object(), ecorePackage.getEObject(), null, "object", null, 0, 1, AttributeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAttributeDependency_Object(), theEcorePackage.getEObject(), null, "object", null, 0, 1, AttributeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttributeDependency_Type(), theEcorePackage.getEAttribute(), null, "type", null, 0, 1, AttributeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyEClass, Dependency.class, "Dependency", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

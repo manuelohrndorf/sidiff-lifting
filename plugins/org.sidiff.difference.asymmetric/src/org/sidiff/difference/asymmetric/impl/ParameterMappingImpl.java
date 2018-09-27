@@ -22,11 +22,11 @@ import org.sidiff.difference.asymmetric.ParameterMapping;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ParameterMappingImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ParameterMappingImpl#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

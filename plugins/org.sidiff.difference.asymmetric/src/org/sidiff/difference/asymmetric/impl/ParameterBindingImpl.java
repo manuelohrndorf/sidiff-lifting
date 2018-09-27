@@ -23,10 +23,10 @@ import org.sidiff.editrule.rulebase.Parameter;
  * <em><b>Parameter Binding</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ParameterBindingImpl#getFormalName <em>Formal Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
