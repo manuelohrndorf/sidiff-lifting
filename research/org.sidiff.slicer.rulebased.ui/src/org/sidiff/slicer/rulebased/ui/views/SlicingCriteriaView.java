@@ -209,10 +209,11 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * loads the origin resource and shows the content in the {@link #checkboxTreeViewer}
 	 * @param input
 	 * 			the {@link IFile} representing the origin resource
+	 * @throws IOException 
 	 * @throws UnsupportedFeatureLevelException 
 	 * @throws InvalidSettingsException 
 	 */
-	public void init(IFile input) {
+	public void init(IFile input) throws IOException {
 
 		ResourceSet remoteRSS = new ResourceSetImpl();
 		
