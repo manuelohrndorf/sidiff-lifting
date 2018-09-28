@@ -215,10 +215,11 @@ public class ProjectInfo implements Serializable {
 	}
 	
 	public void cleanUp() {
-		for(ModelInfo modelInfo : getModelInfos()) {
+		for (Iterator<ModelInfo> iterator = modelInfos.iterator(); iterator.hasNext();) {
+			ModelInfo modelInfo = iterator.next();
 			if(!modelInfo.getFile().exists()) {
-				modelInfos.remove(modelInfo);
-			}
+				iterator.remove();
+			}	
 		}
 	}
 }
