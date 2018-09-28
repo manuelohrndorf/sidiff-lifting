@@ -166,7 +166,7 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	protected static void unmergeImports(DifferenceSettings settings) {
 		
 		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
-			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			LogUtil.log(LogEvent.NOTICE, "Unmerge imports");
 			settings.getImports().unmerge();
 			settings.setImports(null);
 		}
