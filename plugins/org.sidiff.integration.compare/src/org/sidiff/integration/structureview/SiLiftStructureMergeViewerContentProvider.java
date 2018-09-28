@@ -1,20 +1,17 @@
 package org.sidiff.integration.structureview;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.sidiff.common.emf.exceptions.InvalidModelException;
-import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.ui.util.MessageDialogUtil;
+import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.lifting.api.LiftingFacade;
@@ -65,13 +62,12 @@ public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryCon
 		super.inputChanged(viewer, oldInput, newInput);
 
 		if(newInput != null) {
-			try {
+			Exceptions.show(() -> {
 				SiLiftCompareDifferencer differencer = config.getDifferencer();
 				differencer.loadCompareInput((ICompareInput)newInput);
 				differencer.recalculateDifferences();
-			} catch (IOException | CoreException | InvalidModelException | NoCorrespondencesException e) {
-				MessageDialogUtil.showExceptionDialog(e);
-			}
+				return Status.OK_STATUS;
+			});
 		}
 	}
 
