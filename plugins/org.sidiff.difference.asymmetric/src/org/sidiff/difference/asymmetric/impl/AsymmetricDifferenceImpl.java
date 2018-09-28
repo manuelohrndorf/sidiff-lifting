@@ -19,11 +19,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -243,14 +244,23 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if ((originModel == null) && (getSymmetricDifference() != null)) {
 			originModel = getSymmetricDifference().getModelA();
 		}
-		
+
 		// Load the model from the relative URI: (-> new resource)
 		if (originModel == null) {
-			Resource resource = this.eResource();
-			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriOriginModel()));
-			originModel = EMFStorage.eLoad(uri).eResource();
+			URI uri = URI.createURI(getUriOriginModel());
+			if (uri.isRelative() && this.eResource() != null) {
+				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriOriginModel());
+			}
+			ResourceSet resourceSet = null;
+        	if(this.eResource() == null) {
+        		resourceSet = new ResourceSetImpl();
+        	}else {
+        		resourceSet = this.eResource().getResourceSet();
+        	}
+			originModel = resourceSet.getResource(uri, true);
+
 		}
-		
+
 		return originModel;
 	}
 
@@ -266,14 +276,22 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if ((changedModel == null) && (getSymmetricDifference() != null)) {
 			changedModel = getSymmetricDifference().getModelB();
 		}
-		
+
 		// Load the model from the relative URI: (-> new resource)
 		if (changedModel == null) {
-			Resource resource = this.eResource();
-			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriChangedModel()));
-			changedModel = EMFStorage.eLoad(uri).eResource();
+			URI uri = URI.createURI(getUriChangedModel());
+			if (uri.isRelative() && this.eResource() != null) {
+				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriChangedModel());
+			}
+			ResourceSet resourceSet = null;
+        	if(this.eResource() == null) {
+        		resourceSet = new ResourceSetImpl();
+        	}else {
+        		resourceSet = this.eResource().getResourceSet();
+        	}
+			changedModel = resourceSet.getResource(uri, true);
 		}
-		
+
 		return changedModel;
 	}
 
