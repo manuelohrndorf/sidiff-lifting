@@ -6,9 +6,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.logging.StatusWrapper;
+import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.PatchingFacade;
@@ -44,10 +46,11 @@ public class CreatePatchJob extends Job {
 			 * Update workspace UI
 			 */
 
-			UIUtil.runAsyncSafe(() -> {
+			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
 				inputModels.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				UIUtil.openEditor(PatchingFacade.getPatchPath());	
-			});
+				UIUtil.openEditor(PatchingFacade.getPatchPath());
+				return Status.OK_STATUS;
+			}));
 			return Status.OK_STATUS;
 		});
 	}

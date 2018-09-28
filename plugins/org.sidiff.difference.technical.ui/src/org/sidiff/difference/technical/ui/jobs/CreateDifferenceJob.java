@@ -8,10 +8,12 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.StatusWrapper;
+import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
@@ -56,10 +58,11 @@ public class CreateDifferenceJob extends Job {
 
 			final String diffPath = EMFStorage.uriToPath(symmetricDiff.eResource().getURI());
 
-			UIUtil.runAsyncSafe(() -> {
+			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
 				inputModels.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 				UIUtil.openEditor(diffPath);
-			});
+				return Status.OK_STATUS;
+			}));
 			return Status.OK_STATUS;
 		});
 	}

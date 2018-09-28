@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.StatusWrapper;
-import org.sidiff.common.ui.util.MessageDialogUtil;
+import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -20,17 +20,25 @@ import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftingJob extends Job {
 
+	private IFile differenceFile;
 	private SymmetricDifference symmetricDiff;
-	private String diffSavePath;
-	private InputModels inputModels;
 	private LiftingSettings settings;
+	private InputModels inputModels;
 
-	public CreateLiftingJob(IFile differenceFile, LiftingSettings settings) {
+	public CreateLiftingJob(IFile differenceFile) {
 		super("Lifting technical Difference");
-		this.settings = settings;
+		this.differenceFile = differenceFile;
 		this.symmetricDiff = LiftingFacade.loadLiftedDifference(differenceFile.getLocation().toOSString());
-		this.diffSavePath = differenceFile.getParent().getLocation().toOSString();
 		this.inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
+		this.settings = new LiftingSettings(inputModels.getDocumentTypes());
+	}
+
+	public InputModels getInputModels() {
+		return inputModels;
+	}
+
+	public LiftingSettings getSettings() {
+		return settings;
 	}
 
 	@Override
@@ -46,6 +54,7 @@ public class CreateLiftingJob extends Job {
 			 * Serialize lifted symmetricDiff
 			 */
 
+			String diffSavePath = differenceFile.getParent().getLocation().toOSString();
 			LiftingFacade.serializeLiftedDifference(symmetricDiff, diffSavePath,
 			PipelineUtils.generateDifferenceFileName(symmetricDiff.eResource(), settings));
 
@@ -55,19 +64,12 @@ public class CreateLiftingJob extends Job {
 			
 			final String diffPath = EMFStorage.uriToPath(symmetricDiff.eResource().getURI());
 			
-			Display.getDefault().asyncExec(() -> {
-				try {
-					inputModels.getFiles().get(0).getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					UIUtil.openEditor(diffPath);	
-				} catch(Exception e) {
-					MessageDialogUtil.showExceptionDialog(e);
-				}
-			});
+			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
+				differenceFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				UIUtil.openEditor(diffPath);
+				return Status.OK_STATUS;
+			}));
 			return Status.OK_STATUS;
 		});
-	}
-
-	public InputModels getInputModels() {
-		return inputModels;
 	}
 }
