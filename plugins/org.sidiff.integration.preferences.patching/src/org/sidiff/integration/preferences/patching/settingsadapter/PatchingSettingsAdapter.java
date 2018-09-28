@@ -7,8 +7,6 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
-import org.sidiff.patching.ExecutionMode;
-import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.transformation.ITransformationEngine;
@@ -31,16 +29,12 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public static String KEY_TRANSFORMATION_ENGINE(String documentType) {
 		return KEY_TRANSFORMATION_ENGINE + "[" + documentType + "]";
 	}
-	public static final String KEY_EXECUTION_MODE = "executionMode";
-	public static final String KEY_PATCH_MODE = "patchMode";
 	public static final String KEY_MIN_RELIABILITY = "minReliability";
 	public static final String KEY_VALIDATION_MODE = "validationMode";
 	public static final String KEY_SYMBOLIC_LINK_HANDLER = "symbolicLinkHandler";
 
 	private ITransformationEngine transformationEngine;
 	private IModifiedDetector modifiedDetector;
-	private ExecutionMode executionMode;
-	private PatchMode patchMode;
 	private int minReliability;
 	private ValidationMode validationMode;
 	private ISymbolicLinkHandler symbolicLinkHandler;
@@ -60,12 +54,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(modifiedDetector != null && isConsidered(PatchingSettingsItem.MODIFIED_DETECTOR)) {
 			patchingSettings.setModifiedDetector(modifiedDetector);
 		}
-		if(executionMode != null && isConsidered(PatchingSettingsItem.EXEC_MODE)) {
-			patchingSettings.setExecutionMode(executionMode);
-		}
-		if(patchMode != null && isConsidered(PatchingSettingsItem.PATCH_MODE)) {
-			patchingSettings.setPatchMode(patchMode);
-		}
 		if(minReliability != -1 && isConsidered(PatchingSettingsItem.RELIABILITY)) {
 			patchingSettings.setMinReliability(minReliability);
 		}
@@ -81,8 +69,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void load(IPreferenceStore store) {
 		loadTransformationEngine(store);
 		loadModifiedDetector(store);
-		loadExecutionMode(store);
-		loadPatchMode(store);
 		loadMinReliability(store);
 		loadValidationMode(store);
 		loadSymbolicLinkHandler(store);
@@ -136,26 +122,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		// modified detector is allowed to be unset
 	}
 
-	protected void loadExecutionMode(IPreferenceStore store) {
-		String executionModeValue = store.getString(KEY_EXECUTION_MODE);
-		try {
-			executionMode = ExecutionMode.valueOf(executionModeValue);
-		} catch (IllegalArgumentException e) {
-			executionMode = null;
-			addError("Invalid value for Execution Mode: '" + executionModeValue + "'", e);
-		}
-	}
-
-	protected void loadPatchMode(IPreferenceStore store) {
-		String patchModeValue = store.getString(KEY_PATCH_MODE);
-		try {
-			patchMode = PatchMode.valueOf(patchModeValue);
-		} catch (IllegalArgumentException e) {
-			patchMode = null;
-			addError("Invalid value for Patch Mode: '" + patchModeValue + "'", e);
-		}
-	}
-
 	protected void loadMinReliability(IPreferenceStore store) {
 		String minReliabilityValue = store.getString(KEY_MIN_RELIABILITY);
 		try {
@@ -197,8 +163,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		store.setDefault(KEY_MODIFIED_DETECTOR("http://www.eclipse.org/emf/2002/Ecore"),
 				"org.sidiff.ecore.modifieddetector.EcoreModifiedDetector");
 		store.setDefault(KEY_TRANSFORMATION_ENGINE, "HenshinTransformationEngine");
-		store.setDefault(KEY_EXECUTION_MODE, ExecutionMode.INTERACTIVE.name());
-		store.setDefault(KEY_PATCH_MODE, PatchMode.PATCHING.name());
 		store.setDefault(KEY_MIN_RELIABILITY, -1);
 		store.setDefault(KEY_VALIDATION_MODE, ValidationMode.MODEL_VALIDATION.name());
 		store.setDefault(KEY_SYMBOLIC_LINK_HANDLER, "");

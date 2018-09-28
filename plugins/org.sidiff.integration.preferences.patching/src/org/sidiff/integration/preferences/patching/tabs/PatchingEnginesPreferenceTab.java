@@ -8,8 +8,6 @@ import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSetti
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
 import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
-import org.sidiff.patching.ExecutionMode;
-import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
@@ -22,8 +20,6 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField transformationEngineField;
-	private IPreferenceField executionMode;
-	private IPreferenceField patchMode;
 	private IPreferenceField minReliability;
 	private IPreferenceField symbolicLinkHandlers;
 
@@ -35,18 +31,6 @@ public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 				TransformationEngineUtil.getAvailableTransformationEngines(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
 				new TransformationEngineValueConverter());
 		list.add(transformationEngineField);
-		
-		executionMode = PreferenceFieldFactory.createRadioBox(
-				PatchingSettingsAdapter.KEY_EXECUTION_MODE,
-				"Execution Mode",
-				ExecutionMode.class);
-		list.add(executionMode);
-
-		patchMode = PreferenceFieldFactory.createRadioBox(
-				PatchingSettingsAdapter.KEY_PATCH_MODE,
-				"Patch Mode",
-				PatchMode.class);
-		list.add(patchMode);
 
 		minReliability = PreferenceFieldFactory.createNumber(
 				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
