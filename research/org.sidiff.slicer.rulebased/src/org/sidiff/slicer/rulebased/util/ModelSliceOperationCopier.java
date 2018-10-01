@@ -27,11 +27,11 @@ import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.entities.Reference;
-import org.sidiff.entities.util.ImportFailedException;
+import org.sidiff.entities.importer.ImportFailedException;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.slice.SlicedElement;
-import org.sidiff.slicer.slice.util.SliceImporter;
+import org.sidiff.slicer.slice.importer.SliceImporter;
 
 public class ModelSliceOperationCopier {
 		

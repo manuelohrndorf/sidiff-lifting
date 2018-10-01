@@ -1,0 +1,84 @@
+package org.sidiff.slicer.slice.importer;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.sidiff.common.emf.EMFUtil;
+import org.sidiff.entities.Attribute;
+import org.sidiff.entities.Reference;
+import org.sidiff.entities.importer.EntitiesImporter;
+import org.sidiff.entities.importer.ImportFailedException;
+import org.sidiff.entities.importer.filter.DefaultImporterFilter;
+import org.sidiff.entities.importer.signature.NameBasedImporterSignatureResolver;
+import org.sidiff.entities.importer.uuid.XmiIdImporterUuidResolver;
+import org.sidiff.slicer.slice.ModelSlice;
+import org.sidiff.slicer.slice.SlicedElement;
+
+/**
+ * 
+ * @author rmueller, cpietsch
+ *
+ */
+public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attribute> {
+
+	/**
+	 * The model slice that is being created by this importer.
+	 */
+	private ModelSlice modelSlice;
+
+	/**
+	 * Create a SliceImporter to import a new {@link ModelSlice}.
+	 * The model slice must be initialized with {@link #init(ModelSlice)}.
+	 */
+	public SliceImporter() {
+		super(SlicedElement.class, Reference.class, Attribute.class);
+		setFactory(new SliceImporterFactory());
+		setFilter(new DefaultImporterFilter());
+		setUuidResolver(new XmiIdImporterUuidResolver());
+		setSignatureResolver(new NameBasedImporterSignatureResolver());
+	}
+
+	public void init(ModelSlice modelSlice) {
+		this.modelSlice = modelSlice;
+
+		clearIndices();
+		for(SlicedElement element : modelSlice.getSlicedElements()) {
+			updateIndices(element);
+			for(Reference reference : element.getSlicedReferences()) {
+				updateIndices(reference);
+			}
+			for(Attribute attribute : element.getSlicedAttributes()) {
+				updateIndices(attribute);
+			}
+		}
+	}
+
+	@Override
+	protected SlicedElement doImportEObject(EObject eObject) throws ImportFailedException {
+		SlicedElement element = (SlicedElement)getUuidIndex().get(EMFUtil.getXmiId(eObject));
+		if(element == null) {
+			element = (SlicedElement)super.doImportEObject(eObject);
+		}
+		modelSlice.getType().add(eObject.eClass().getEPackage());
+		modelSlice.getSlicedElements().add(element);
+		return element;
+	}
+
+	@Override
+	protected Reference doImportEReference(EReference eReference, SlicedElement srcElement, SlicedElement tgtElement) throws ImportFailedException {
+		Reference reference = super.doImportEReference(eReference, srcElement, tgtElement);
+		srcElement.getSlicedReferences().add(reference);
+		return reference;
+	}
+
+	@Override
+	protected Attribute doImportEAttribute(EAttribute eAttribute, SlicedElement element) throws ImportFailedException {
+		Attribute attribute = super.doImportEAttribute(eAttribute, element);
+		element.getSlicedAttributes().add(attribute);
+		return attribute;
+	}
+
+	public ModelSlice getModelSlice() {
+		return modelSlice;
+	}
+}
