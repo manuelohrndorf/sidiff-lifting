@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__M0IgMWTEei7ftrYh-o2YQ" name="CREATE_EOperation_IN_EClass_(eOperations)" description="Creates one EOperation in EClass">
+  <annotations xmi:id="__M0IgcWTEei7ftrYh-o2YQ" key="INVERSE" value="DELETE_EOperation_IN_EClass_(eOperations)"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__M0IgsWTEei7ftrYh-o2YQ" name="createEOperation_IN_EClass" description="creates one EOperation in the context: EClass">
+    <parameters xmi:id="__M0Ig8WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__M0IhMWTEei7ftrYh-o2YQ" name="New" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="__M0IhcWTEei7ftrYh-o2YQ" name="Name" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M0IhsWTEei7ftrYh-o2YQ" name="Ordered" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="__M0Ih8WTEei7ftrYh-o2YQ" name="Unique" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="__M0IiMWTEei7ftrYh-o2YQ" name="LowerBound" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="__M0IicWTEei7ftrYh-o2YQ" name="UpperBound" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <lhs xmi:id="__M0IisWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__M0Ii8WTEei7ftrYh-o2YQ" name="Selected">
+        <annotations xmi:id="__M0IjMWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__M0IjcWTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__M0IjsWTEei7ftrYh-o2YQ" name="Selected" incoming="__M0ImMWTEei7ftrYh-o2YQ" outgoing="__M0Il8WTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__M0Ij8WTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="__M0IkMWTEei7ftrYh-o2YQ" name="New" incoming="__M0Il8WTEei7ftrYh-o2YQ" outgoing="__M0ImMWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__M0IkcWTEei7ftrYh-o2YQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+        <attributes xmi:id="__M0IksWTEei7ftrYh-o2YQ" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="__M0Ik8WTEei7ftrYh-o2YQ" value="Ordered">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/ordered"/>
+        </attributes>
+        <attributes xmi:id="__M0IlMWTEei7ftrYh-o2YQ" value="Unique">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/unique"/>
+        </attributes>
+        <attributes xmi:id="__M0IlcWTEei7ftrYh-o2YQ" value="LowerBound">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/lowerBound"/>
+        </attributes>
+        <attributes xmi:id="__M0IlsWTEei7ftrYh-o2YQ" value="UpperBound">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/upperBound"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="__M0Il8WTEei7ftrYh-o2YQ" source="__M0IjsWTEei7ftrYh-o2YQ" target="__M0IkMWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eOperations"/>
+      </edges>
+      <edges xmi:id="__M0ImMWTEei7ftrYh-o2YQ" source="__M0IkMWTEei7ftrYh-o2YQ" target="__M0IjsWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eContainingClass"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__M0ImcWTEei7ftrYh-o2YQ" origin="__M0Ii8WTEei7ftrYh-o2YQ" image="__M0IjsWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__M0ImsWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__M0IgsWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__M0Im8WTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__M0InMWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__M0IncWTEei7ftrYh-o2YQ" name="New">
+      <annotations xmi:id="__M0InsWTEei7ftrYh-o2YQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="__M0In8WTEei7ftrYh-o2YQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M0IoMWTEei7ftrYh-o2YQ" name="Ordered">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="__M0IocWTEei7ftrYh-o2YQ" name="Unique">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameters xmi:id="__M0IosWTEei7ftrYh-o2YQ" name="LowerBound">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameters xmi:id="__M0Io8WTEei7ftrYh-o2YQ" name="UpperBound">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </parameters>
+    <parameterMappings xmi:id="__M0IpMWTEei7ftrYh-o2YQ" source="__M0Im8WTEei7ftrYh-o2YQ" target="__M0Ig8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0IpcWTEei7ftrYh-o2YQ" source="__M0IhMWTEei7ftrYh-o2YQ" target="__M0IncWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0IpsWTEei7ftrYh-o2YQ" source="__M0In8WTEei7ftrYh-o2YQ" target="__M0IhcWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0Ip8WTEei7ftrYh-o2YQ" source="__M0IoMWTEei7ftrYh-o2YQ" target="__M0IhsWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0IqMWTEei7ftrYh-o2YQ" source="__M0IocWTEei7ftrYh-o2YQ" target="__M0Ih8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0IqcWTEei7ftrYh-o2YQ" source="__M0IosWTEei7ftrYh-o2YQ" target="__M0IiMWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M0IqsWTEei7ftrYh-o2YQ" source="__M0Io8WTEei7ftrYh-o2YQ" target="__M0IicWTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

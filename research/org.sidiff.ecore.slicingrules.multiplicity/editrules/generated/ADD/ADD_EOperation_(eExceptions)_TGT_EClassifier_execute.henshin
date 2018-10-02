@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__NHDcMWTEei7ftrYh-o2YQ" name="ADD_EOperation_(eExceptions)_TGT_EClassifier" description="Adds to EOperation's reference eExceptions the target EClassifier">
+  <annotations xmi:id="__NHDccWTEei7ftrYh-o2YQ" key="INVERSE" value="REMOVE_EOperation_(eExceptions)_TGT_EClassifier"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__NHDcsWTEei7ftrYh-o2YQ" name="addToEOperation_eExceptions_EClassifier" description="Adds to EOperation's reference eExceptions the target EClassifier">
+    <parameters xmi:id="__NHDc8WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="__NHDdMWTEei7ftrYh-o2YQ" name="NewTarget" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    </parameters>
+    <lhs xmi:id="__NHDdcWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__NHqgMWTEei7ftrYh-o2YQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="__NHqgcWTEei7ftrYh-o2YQ" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__NHqgsWTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__NHqg8WTEei7ftrYh-o2YQ" name="Selected" outgoing="__NHqhcWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+      </nodes>
+      <nodes xmi:id="__NHqhMWTEei7ftrYh-o2YQ" name="NewTarget" incoming="__NHqhcWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+      </nodes>
+      <edges xmi:id="__NHqhcWTEei7ftrYh-o2YQ" source="__NHqg8WTEei7ftrYh-o2YQ" target="__NHqhMWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EOperation/eExceptions"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__NHqhsWTEei7ftrYh-o2YQ" origin="__NHqgMWTEei7ftrYh-o2YQ" image="__NHqg8WTEei7ftrYh-o2YQ"/>
+    <mappings xmi:id="__NHqh8WTEei7ftrYh-o2YQ" origin="__NHqgcWTEei7ftrYh-o2YQ" image="__NHqhMWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__NHqiMWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__NHDcsWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__NHqicWTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__NHqisWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EOperation"/>
+    </parameters>
+    <parameters xmi:id="__NHqi8WTEei7ftrYh-o2YQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+    </parameters>
+    <parameterMappings xmi:id="__NHqjMWTEei7ftrYh-o2YQ" source="__NHqicWTEei7ftrYh-o2YQ" target="__NHDc8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__NHqjcWTEei7ftrYh-o2YQ" source="__NHqi8WTEei7ftrYh-o2YQ" target="__NHDdMWTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

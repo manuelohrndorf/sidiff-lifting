@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__NCK8MWTEei7ftrYh-o2YQ" name="SET_ATTRIBUTE_EReference_Containment" description="Sets EReference Containment">
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__NCK8cWTEei7ftrYh-o2YQ" name="setEReferenceContainment" description="Sets the EAttribute containment">
+    <parameters xmi:id="__NCK8sWTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="__NCK88WTEei7ftrYh-o2YQ" name="Containment" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="__NCK9MWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__NCK9cWTEei7ftrYh-o2YQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__NCK9sWTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__NCK98WTEei7ftrYh-o2YQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="__NCK-MWTEei7ftrYh-o2YQ" value="Containment">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/containment"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="__NCK-cWTEei7ftrYh-o2YQ" origin="__NCK9cWTEei7ftrYh-o2YQ" image="__NCK98WTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__NCK-sWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__NCK8cWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__NCK-8WTEei7ftrYh-o2YQ" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="__NCK_MWTEei7ftrYh-o2YQ" name="Containment">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="__NCK_cWTEei7ftrYh-o2YQ" source="__NCK-8WTEei7ftrYh-o2YQ" target="__NCK8sWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__NCK_sWTEei7ftrYh-o2YQ" source="__NCK_MWTEei7ftrYh-o2YQ" target="__NCK88WTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

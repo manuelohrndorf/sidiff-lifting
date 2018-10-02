@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__OjN4MWTEei7ftrYh-o2YQ" name="CREATE_EDataType_IN_EPackage_(eClassifiers)" description="Creates one EDataType in EPackage">
+  <annotations xmi:id="__OjN4cWTEei7ftrYh-o2YQ" key="INVERSE" value="DELETE_EDataType_IN_EPackage_(eClassifiers)"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__OjN4sWTEei7ftrYh-o2YQ" name="createEDataType_IN_EPackage" description="creates one EDataType in the context: EPackage">
+    <parameters xmi:id="__OjN48WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__OjN5MWTEei7ftrYh-o2YQ" name="New" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+    </parameters>
+    <parameters xmi:id="__OjN5cWTEei7ftrYh-o2YQ" name="Name" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjN5sWTEei7ftrYh-o2YQ" name="InstanceClassName" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjN58WTEei7ftrYh-o2YQ" name="InstanceTypeName" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjN6MWTEei7ftrYh-o2YQ" name="Serializable" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <lhs xmi:id="__OjN6cWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__OjN6sWTEei7ftrYh-o2YQ" name="Selected">
+        <annotations xmi:id="__OjN68WTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__OjN7MWTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__OjN7cWTEei7ftrYh-o2YQ" name="Selected" incoming="__OjN9sWTEei7ftrYh-o2YQ" outgoing="__OjN9cWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__OjN7sWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="__OjN78WTEei7ftrYh-o2YQ" name="New" incoming="__OjN9cWTEei7ftrYh-o2YQ" outgoing="__OjN9sWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__OjN8MWTEei7ftrYh-o2YQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+        <attributes xmi:id="__OjN8cWTEei7ftrYh-o2YQ" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="__OjN8sWTEei7ftrYh-o2YQ" value="InstanceClassName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceClassName"/>
+        </attributes>
+        <attributes xmi:id="__OjN88WTEei7ftrYh-o2YQ" value="InstanceTypeName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/instanceTypeName"/>
+        </attributes>
+        <attributes xmi:id="__OjN9MWTEei7ftrYh-o2YQ" value="Serializable">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EDataType/serializable"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="__OjN9cWTEei7ftrYh-o2YQ" source="__OjN7cWTEei7ftrYh-o2YQ" target="__OjN78WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eClassifiers"/>
+      </edges>
+      <edges xmi:id="__OjN9sWTEei7ftrYh-o2YQ" source="__OjN78WTEei7ftrYh-o2YQ" target="__OjN7cWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClassifier/ePackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__OjN98WTEei7ftrYh-o2YQ" origin="__OjN6sWTEei7ftrYh-o2YQ" image="__OjN7cWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__OjN-MWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__OjN4sWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__OjN-cWTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__OjN-sWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__OjN-8WTEei7ftrYh-o2YQ" name="New">
+      <annotations xmi:id="__OjN_MWTEei7ftrYh-o2YQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EDataType"/>
+    </parameters>
+    <parameters xmi:id="__OjN_cWTEei7ftrYh-o2YQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjN_sWTEei7ftrYh-o2YQ" name="InstanceClassName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjN_8WTEei7ftrYh-o2YQ" name="InstanceTypeName">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__OjOAMWTEei7ftrYh-o2YQ" name="Serializable">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </parameters>
+    <parameterMappings xmi:id="__OjOAcWTEei7ftrYh-o2YQ" source="__OjN-cWTEei7ftrYh-o2YQ" target="__OjN48WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OjOAsWTEei7ftrYh-o2YQ" source="__OjN5MWTEei7ftrYh-o2YQ" target="__OjN-8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OjOA8WTEei7ftrYh-o2YQ" source="__OjN_cWTEei7ftrYh-o2YQ" target="__OjN5cWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OjOBMWTEei7ftrYh-o2YQ" source="__OjN_sWTEei7ftrYh-o2YQ" target="__OjN5sWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OjOBcWTEei7ftrYh-o2YQ" source="__OjN_8WTEei7ftrYh-o2YQ" target="__OjN58WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OjOBsWTEei7ftrYh-o2YQ" source="__OjOAMWTEei7ftrYh-o2YQ" target="__OjN6MWTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

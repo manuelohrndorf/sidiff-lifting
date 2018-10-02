@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__OEswMWTEei7ftrYh-o2YQ" name="REMOVE_EClass_(eSuperTypes)_TGT_EClass" description="Removes EClass's reference eSuperTypes the target EClass">
+  <annotations xmi:id="__OEswcWTEei7ftrYh-o2YQ" key="INVERSE" value="ADD_EClass_(eSuperTypes)_TGT_EClass"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__OEswsWTEei7ftrYh-o2YQ" name="removeFromEClass_eSuperTypes_EClass" description="Removes from EClass's reference eSuperTypes the target EClass">
+    <parameters xmi:id="__OEsw8WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__OEsxMWTEei7ftrYh-o2YQ" name="OldTarget" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <lhs xmi:id="__OEsxcWTEei7ftrYh-o2YQ" name="LHS">
+      <nodes xmi:id="__OEsxsWTEei7ftrYh-o2YQ" name="Selected" outgoing="__OEsyMWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="__OEsx8WTEei7ftrYh-o2YQ" name="OldTarget" incoming="__OEsyMWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="__OEsyMWTEei7ftrYh-o2YQ" source="__OEsxsWTEei7ftrYh-o2YQ" target="__OEsx8WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eSuperTypes"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="__OEsycWTEei7ftrYh-o2YQ" name="RHS">
+      <nodes xmi:id="__OEsysWTEei7ftrYh-o2YQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="__OEsy8WTEei7ftrYh-o2YQ" name="OldTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="__OEszMWTEei7ftrYh-o2YQ" origin="__OEsxsWTEei7ftrYh-o2YQ" image="__OEsysWTEei7ftrYh-o2YQ"/>
+    <mappings xmi:id="__OEszcWTEei7ftrYh-o2YQ" origin="__OEsx8WTEei7ftrYh-o2YQ" image="__OEsy8WTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__OEszsWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__OEswsWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__OEsz8WTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__OEs0MWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__OEs0cWTEei7ftrYh-o2YQ" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameterMappings xmi:id="__OEs0sWTEei7ftrYh-o2YQ" source="__OEsz8WTEei7ftrYh-o2YQ" target="__OEsw8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OEs08WTEei7ftrYh-o2YQ" source="__OEs0cWTEei7ftrYh-o2YQ" target="__OEsxMWTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>
