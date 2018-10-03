@@ -169,6 +169,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 	public void setPatchReportManager(PatchReportManager reportManager) {
 		this.reportManager = reportManager;
+		this.clearView();
 		this.initView();
 		update();
 	}
