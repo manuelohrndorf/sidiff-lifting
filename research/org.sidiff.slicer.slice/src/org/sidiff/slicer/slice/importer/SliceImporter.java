@@ -9,7 +9,7 @@ import org.sidiff.entities.Reference;
 import org.sidiff.entities.importer.EntitiesImporter;
 import org.sidiff.entities.importer.ImportFailedException;
 import org.sidiff.entities.importer.filter.DefaultImporterFilter;
-import org.sidiff.entities.importer.signature.NameBasedImporterSignatureResolver;
+import org.sidiff.entities.importer.signature.DefaultImporterSignatureResolver;
 import org.sidiff.entities.importer.uuid.XmiIdImporterUuidResolver;
 import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.slice.SlicedElement;
@@ -35,7 +35,7 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 		setFactory(new SliceImporterFactory());
 		setFilter(new DefaultImporterFilter());
 		setUuidResolver(new XmiIdImporterUuidResolver());
-		setSignatureResolver(new NameBasedImporterSignatureResolver());
+		setSignatureResolver(new DefaultImporterSignatureResolver());
 	}
 
 	public void init(ModelSlice modelSlice) {
