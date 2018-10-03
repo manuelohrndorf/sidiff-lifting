@@ -23,7 +23,7 @@ public class UpdateSubModelReply extends ReplyCommand {
 	 */
 	public UpdateSubModelReply(File attachment) {
 		super(attachment);
-		this.eCommand = ECommand.CHECKOUT_SUB_MODEL_REPLY;
+		this.eCommand = ECommand.UPDATE_SUBMODEL_REPLY;
 	}
 
 }
