@@ -168,8 +168,6 @@ public class ExecutableModelSliceCreator {
 		asymmetricDifference.getParameterMappings().addAll(pmCopies.values());
 		asymmetricDifference.getDepContainers().addAll(depConCopies.values());
 		
-		asymmetricDifference.initializeRuleBase();
-		
 		this.modelSlice.setAsymmetricDifference(asymmetricDifference);
 		
 		return modelSlice;
