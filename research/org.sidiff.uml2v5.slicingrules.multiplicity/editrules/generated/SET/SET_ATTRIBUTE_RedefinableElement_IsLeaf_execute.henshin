@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uLXr1sZ6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_RedefinableElement_IsLeaf" description="Sets RedefinableElement IsLeaf">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uLXr18Z6EeieD6s2Z9krAw" name="setRedefinableElementIsLeaf" description="Sets the EAttribute isLeaf">
+    <parameters xmi:id="_uLXr2MZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement"/>
+    </parameters>
+    <parameters xmi:id="_uLXr2cZ6EeieD6s2Z9krAw" name="IsLeaf" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_uLXr2sZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uLXr28Z6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uLXr3MZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uLXr3cZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement"/>
+        <attributes xmi:id="_uLXr3sZ6EeieD6s2Z9krAw" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uLXr38Z6EeieD6s2Z9krAw" origin="_uLXr28Z6EeieD6s2Z9krAw" image="_uLXr3cZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uLXr4MZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uLXr18Z6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uLXr4cZ6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement"/>
+    </parameters>
+    <parameters xmi:id="_uLXr4sZ6EeieD6s2Z9krAw" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_uLXr48Z6EeieD6s2Z9krAw" source="_uLXr4cZ6EeieD6s2Z9krAw" target="_uLXr2MZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLXr5MZ6EeieD6s2Z9krAw" source="_uLXr4sZ6EeieD6s2Z9krAw" target="_uLXr2cZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

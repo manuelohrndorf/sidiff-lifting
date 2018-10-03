@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IfRAEMasEeiLPenzS8lffg" name="RR: DELETE_Property_IN_DataType_(ownedAttribute)" description="Recognize: Deletes one Property in DataType">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IfRAEcasEeiLPenzS8lffg" name="rr:deleteProperty_IN_DataType" description="Recognize: deletes one Property in the context: DataType">
+    <parameters xmi:id="_IfRAEsasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//DataType"/>
+    </parameters>
+    <parameters xmi:id="_IfRAE8asEeiLPenzS8lffg" name="ToBeDeleted">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_IfRAFMasEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IfRAFcasEeiLPenzS8lffg" name="A.Selected" incoming="_IfRAIMasEeiLPenzS8lffg _IfRAJcasEeiLPenzS8lffg _IfRAJ8asEeiLPenzS8lffg" outgoing="_IfRAI8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//DataType"/>
+      </nodes>
+      <nodes xmi:id="_IfRAFsasEeiLPenzS8lffg" name="" outgoing="_IfRAH8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_IfRAF8asEeiLPenzS8lffg" name="A.ToBeDeleted" incoming="_IfRAH8asEeiLPenzS8lffg _IfRAIcasEeiLPenzS8lffg _IfRAI8asEeiLPenzS8lffg _IfRAJMasEeiLPenzS8lffg" outgoing="_IfRAJ8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_IfRAGMasEeiLPenzS8lffg" name="" outgoing="_IfRAIMasEeiLPenzS8lffg _IfRAIcasEeiLPenzS8lffg _IfRAIsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRAGcasEeiLPenzS8lffg" name="" incoming="_IfRAIsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IfRAGsasEeiLPenzS8lffg" value="&quot;ownedAttribute&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IfRAG8asEeiLPenzS8lffg" name="" outgoing="_IfRAJMasEeiLPenzS8lffg _IfRAJcasEeiLPenzS8lffg _IfRAJsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRAHMasEeiLPenzS8lffg" name="" incoming="_IfRAJsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IfRAHcasEeiLPenzS8lffg" value="&quot;datatype&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IfRAHsasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IfRAH8asEeiLPenzS8lffg" source="_IfRAFsasEeiLPenzS8lffg" target="_IfRAF8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_IfRAIMasEeiLPenzS8lffg" source="_IfRAGMasEeiLPenzS8lffg" target="_IfRAFcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IfRAIcasEeiLPenzS8lffg" source="_IfRAGMasEeiLPenzS8lffg" target="_IfRAF8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IfRAIsasEeiLPenzS8lffg" source="_IfRAGMasEeiLPenzS8lffg" target="_IfRAGcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IfRAI8asEeiLPenzS8lffg" source="_IfRAFcasEeiLPenzS8lffg" target="_IfRAF8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//DataType/ownedAttribute"/>
+      </edges>
+      <edges xmi:id="_IfRAJMasEeiLPenzS8lffg" source="_IfRAG8asEeiLPenzS8lffg" target="_IfRAF8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IfRAJcasEeiLPenzS8lffg" source="_IfRAG8asEeiLPenzS8lffg" target="_IfRAFcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IfRAJsasEeiLPenzS8lffg" source="_IfRAG8asEeiLPenzS8lffg" target="_IfRAHMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IfRAJ8asEeiLPenzS8lffg" source="_IfRAF8asEeiLPenzS8lffg" target="_IfRAFcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/datatype"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IfRAKMasEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IfRAKcasEeiLPenzS8lffg" name="A.Selected" incoming="_IfRAO8asEeiLPenzS8lffg _IfRAQMasEeiLPenzS8lffg _IfRAQsasEeiLPenzS8lffg" outgoing="_IfRAPsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//DataType"/>
+      </nodes>
+      <nodes xmi:id="_IfRAKsasEeiLPenzS8lffg" name="" incoming="_IfRAQ8asEeiLPenzS8lffg" outgoing="_IfRAOsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject"/>
+      </nodes>
+      <nodes xmi:id="_IfRAK8asEeiLPenzS8lffg" name="A.ToBeDeleted" incoming="_IfRAOsasEeiLPenzS8lffg _IfRAPMasEeiLPenzS8lffg _IfRAPsasEeiLPenzS8lffg _IfRAP8asEeiLPenzS8lffg" outgoing="_IfRAQsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_IfRALMasEeiLPenzS8lffg" name="" incoming="_IfRARMasEeiLPenzS8lffg" outgoing="_IfRAO8asEeiLPenzS8lffg _IfRAPMasEeiLPenzS8lffg _IfRAPcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRALcasEeiLPenzS8lffg" name="" incoming="_IfRAPcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRALsasEeiLPenzS8lffg" name="" incoming="_IfRARcasEeiLPenzS8lffg" outgoing="_IfRAP8asEeiLPenzS8lffg _IfRAQMasEeiLPenzS8lffg _IfRAQcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRAL8asEeiLPenzS8lffg" name="" incoming="_IfRAQcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IfRAMMasEeiLPenzS8lffg" name="ChangeSet" incoming="_IfRARsasEeiLPenzS8lffg" outgoing="_IfRAQ8asEeiLPenzS8lffg _IfRARMasEeiLPenzS8lffg _IfRARcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IfRAMcasEeiLPenzS8lffg" value="&quot;DELETE_Property_IN_DataType_(ownedAttribute)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IfRAMsasEeiLPenzS8lffg" value="&quot;Deletes one Property in DataType&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IfRAM8asEeiLPenzS8lffg" value="&quot;DELETE_Property_IN_DataType_(ownedAttribute)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IfRANMasEeiLPenzS8lffg" value="&quot;RR: DELETE_Property_IN_DataType_(ownedAttribute)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IfRANcasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IfRANsasEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IfRAN8asEeiLPenzS8lffg" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IfRAOMasEeiLPenzS8lffg" value="23">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IfRAOcasEeiLPenzS8lffg" name="" outgoing="_IfRARsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IfRAOsasEeiLPenzS8lffg" source="_IfRAKsasEeiLPenzS8lffg" target="_IfRAK8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveObject/obj"/>
+      </edges>
+      <edges xmi:id="_IfRAO8asEeiLPenzS8lffg" source="_IfRALMasEeiLPenzS8lffg" target="_IfRAKcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IfRAPMasEeiLPenzS8lffg" source="_IfRALMasEeiLPenzS8lffg" target="_IfRAK8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IfRAPcasEeiLPenzS8lffg" source="_IfRALMasEeiLPenzS8lffg" target="_IfRALcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IfRAPsasEeiLPenzS8lffg" source="_IfRAKcasEeiLPenzS8lffg" target="_IfRAK8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//DataType/ownedAttribute"/>
+      </edges>
+      <edges xmi:id="_IfRAP8asEeiLPenzS8lffg" source="_IfRALsasEeiLPenzS8lffg" target="_IfRAK8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IfRAQMasEeiLPenzS8lffg" source="_IfRALsasEeiLPenzS8lffg" target="_IfRAKcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IfRAQcasEeiLPenzS8lffg" source="_IfRALsasEeiLPenzS8lffg" target="_IfRAL8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IfRAQsasEeiLPenzS8lffg" source="_IfRAK8asEeiLPenzS8lffg" target="_IfRAKcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/datatype"/>
+      </edges>
+      <edges xmi:id="_IfRAQ8asEeiLPenzS8lffg" source="_IfRAMMasEeiLPenzS8lffg" target="_IfRAKsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IfRARMasEeiLPenzS8lffg" source="_IfRAMMasEeiLPenzS8lffg" target="_IfRALMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IfRARcasEeiLPenzS8lffg" source="_IfRAMMasEeiLPenzS8lffg" target="_IfRALsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IfRARsasEeiLPenzS8lffg" source="_IfRAOcasEeiLPenzS8lffg" target="_IfRAMMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IfRAR8asEeiLPenzS8lffg" origin="_IfRAFcasEeiLPenzS8lffg" image="_IfRAKcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRASMasEeiLPenzS8lffg" origin="_IfRAFsasEeiLPenzS8lffg" image="_IfRAKsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRAScasEeiLPenzS8lffg" origin="_IfRAF8asEeiLPenzS8lffg" image="_IfRAK8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRASsasEeiLPenzS8lffg" origin="_IfRAGMasEeiLPenzS8lffg" image="_IfRALMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRAS8asEeiLPenzS8lffg" origin="_IfRAGcasEeiLPenzS8lffg" image="_IfRALcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRATMasEeiLPenzS8lffg" origin="_IfRAG8asEeiLPenzS8lffg" image="_IfRALsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRATcasEeiLPenzS8lffg" origin="_IfRAHMasEeiLPenzS8lffg" image="_IfRAL8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IfRATsasEeiLPenzS8lffg" origin="_IfRAHsasEeiLPenzS8lffg" image="_IfRAOcasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IVO6UMasEeiLPenzS8lffg" name="RR: CREATE_Region_IN_StateMachine_(region)" description="Recognize: Creates one Region in StateMachine">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IVO6UcasEeiLPenzS8lffg" name="rr:createRegion_IN_StateMachine" description="Recognize: creates one Region in the context: StateMachine">
+    <parameters xmi:id="_IVO6UsasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_IVO6U8asEeiLPenzS8lffg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_IVO6VMasEeiLPenzS8lffg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_IVO6VcasEeiLPenzS8lffg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_IVO6VsasEeiLPenzS8lffg" name="IsLeaf">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_IVO6V8asEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IVO6WMasEeiLPenzS8lffg" name="B.Selected" incoming="_IVO6ZsasEeiLPenzS8lffg _IVO6a8asEeiLPenzS8lffg _IVO6bcasEeiLPenzS8lffg" outgoing="_IVO6acasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_IVO6WcasEeiLPenzS8lffg" name="" outgoing="_IVO6ZcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IVO6WsasEeiLPenzS8lffg" name="B.New" incoming="_IVO6ZcasEeiLPenzS8lffg _IVO6Z8asEeiLPenzS8lffg _IVO6acasEeiLPenzS8lffg _IVO6asasEeiLPenzS8lffg" outgoing="_IVO6bcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+        <attributes xmi:id="_IVO6W8asEeiLPenzS8lffg" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_IVO6XMasEeiLPenzS8lffg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_IVO6XcasEeiLPenzS8lffg" value="IsLeaf">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IVO6XsasEeiLPenzS8lffg" name="" outgoing="_IVO6ZsasEeiLPenzS8lffg _IVO6Z8asEeiLPenzS8lffg _IVO6aMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6X8asEeiLPenzS8lffg" name="" incoming="_IVO6aMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IVO6YMasEeiLPenzS8lffg" value="&quot;region&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IVO6YcasEeiLPenzS8lffg" name="" outgoing="_IVO6asasEeiLPenzS8lffg _IVO6a8asEeiLPenzS8lffg _IVO6bMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6YsasEeiLPenzS8lffg" name="" incoming="_IVO6bMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IVO6Y8asEeiLPenzS8lffg" value="&quot;stateMachine&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IVO6ZMasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IVO6ZcasEeiLPenzS8lffg" source="_IVO6WcasEeiLPenzS8lffg" target="_IVO6WsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IVO6ZsasEeiLPenzS8lffg" source="_IVO6XsasEeiLPenzS8lffg" target="_IVO6WMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IVO6Z8asEeiLPenzS8lffg" source="_IVO6XsasEeiLPenzS8lffg" target="_IVO6WsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IVO6aMasEeiLPenzS8lffg" source="_IVO6XsasEeiLPenzS8lffg" target="_IVO6X8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IVO6acasEeiLPenzS8lffg" source="_IVO6WMasEeiLPenzS8lffg" target="_IVO6WsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_IVO6asasEeiLPenzS8lffg" source="_IVO6YcasEeiLPenzS8lffg" target="_IVO6WsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IVO6a8asEeiLPenzS8lffg" source="_IVO6YcasEeiLPenzS8lffg" target="_IVO6WMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IVO6bMasEeiLPenzS8lffg" source="_IVO6YcasEeiLPenzS8lffg" target="_IVO6YsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IVO6bcasEeiLPenzS8lffg" source="_IVO6WsasEeiLPenzS8lffg" target="_IVO6WMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IVO6bsasEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IVO6b8asEeiLPenzS8lffg" name="B.Selected" incoming="_IVO6gcasEeiLPenzS8lffg _IVO6hsasEeiLPenzS8lffg _IVO6iMasEeiLPenzS8lffg" outgoing="_IVO6hMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_IVO6cMasEeiLPenzS8lffg" name="" incoming="_IVO6icasEeiLPenzS8lffg" outgoing="_IVO6gMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IVO6ccasEeiLPenzS8lffg" name="B.New" incoming="_IVO6gMasEeiLPenzS8lffg _IVO6gsasEeiLPenzS8lffg _IVO6hMasEeiLPenzS8lffg _IVO6hcasEeiLPenzS8lffg" outgoing="_IVO6iMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_IVO6csasEeiLPenzS8lffg" name="" incoming="_IVO6isasEeiLPenzS8lffg" outgoing="_IVO6gcasEeiLPenzS8lffg _IVO6gsasEeiLPenzS8lffg _IVO6g8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6c8asEeiLPenzS8lffg" name="" incoming="_IVO6g8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6dMasEeiLPenzS8lffg" name="" incoming="_IVO6i8asEeiLPenzS8lffg" outgoing="_IVO6hcasEeiLPenzS8lffg _IVO6hsasEeiLPenzS8lffg _IVO6h8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6dcasEeiLPenzS8lffg" name="" incoming="_IVO6h8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IVO6dsasEeiLPenzS8lffg" name="ChangeSet" incoming="_IVO6jMasEeiLPenzS8lffg" outgoing="_IVO6icasEeiLPenzS8lffg _IVO6isasEeiLPenzS8lffg _IVO6i8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IVO6d8asEeiLPenzS8lffg" value="&quot;CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IVO6eMasEeiLPenzS8lffg" value="&quot;Creates one Region in StateMachine&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IVO6ecasEeiLPenzS8lffg" value="&quot;CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IVO6esasEeiLPenzS8lffg" value="&quot;RR: CREATE_Region_IN_StateMachine_(region)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IVO6e8asEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IVO6fMasEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IVO6fcasEeiLPenzS8lffg" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IVO6fsasEeiLPenzS8lffg" value="22">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IVO6f8asEeiLPenzS8lffg" name="" outgoing="_IVO6jMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IVO6gMasEeiLPenzS8lffg" source="_IVO6cMasEeiLPenzS8lffg" target="_IVO6ccasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IVO6gcasEeiLPenzS8lffg" source="_IVO6csasEeiLPenzS8lffg" target="_IVO6b8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IVO6gsasEeiLPenzS8lffg" source="_IVO6csasEeiLPenzS8lffg" target="_IVO6ccasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IVO6g8asEeiLPenzS8lffg" source="_IVO6csasEeiLPenzS8lffg" target="_IVO6c8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IVO6hMasEeiLPenzS8lffg" source="_IVO6b8asEeiLPenzS8lffg" target="_IVO6ccasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_IVO6hcasEeiLPenzS8lffg" source="_IVO6dMasEeiLPenzS8lffg" target="_IVO6ccasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IVO6hsasEeiLPenzS8lffg" source="_IVO6dMasEeiLPenzS8lffg" target="_IVO6b8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IVO6h8asEeiLPenzS8lffg" source="_IVO6dMasEeiLPenzS8lffg" target="_IVO6dcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IVO6iMasEeiLPenzS8lffg" source="_IVO6ccasEeiLPenzS8lffg" target="_IVO6b8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
+      </edges>
+      <edges xmi:id="_IVO6icasEeiLPenzS8lffg" source="_IVO6dsasEeiLPenzS8lffg" target="_IVO6cMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IVO6isasEeiLPenzS8lffg" source="_IVO6dsasEeiLPenzS8lffg" target="_IVO6csasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IVO6i8asEeiLPenzS8lffg" source="_IVO6dsasEeiLPenzS8lffg" target="_IVO6dMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IVO6jMasEeiLPenzS8lffg" source="_IVO6f8asEeiLPenzS8lffg" target="_IVO6dsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IVO6jcasEeiLPenzS8lffg" origin="_IVO6WMasEeiLPenzS8lffg" image="_IVO6b8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6jsasEeiLPenzS8lffg" origin="_IVO6WcasEeiLPenzS8lffg" image="_IVO6cMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6j8asEeiLPenzS8lffg" origin="_IVO6WsasEeiLPenzS8lffg" image="_IVO6ccasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6kMasEeiLPenzS8lffg" origin="_IVO6XsasEeiLPenzS8lffg" image="_IVO6csasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6kcasEeiLPenzS8lffg" origin="_IVO6X8asEeiLPenzS8lffg" image="_IVO6c8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6ksasEeiLPenzS8lffg" origin="_IVO6YcasEeiLPenzS8lffg" image="_IVO6dMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6k8asEeiLPenzS8lffg" origin="_IVO6YsasEeiLPenzS8lffg" image="_IVO6dcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IVO6lMasEeiLPenzS8lffg" origin="_IVO6ZMasEeiLPenzS8lffg" image="_IVO6f8asEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

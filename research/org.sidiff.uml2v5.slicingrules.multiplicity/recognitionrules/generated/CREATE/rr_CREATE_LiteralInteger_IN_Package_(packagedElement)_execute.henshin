@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IP_N8MasEeiLPenzS8lffg" name="RR: CREATE_LiteralInteger_IN_Package_(packagedElement)" description="Recognize: Creates one LiteralInteger in Package">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IP_N8casEeiLPenzS8lffg" name="rr:createLiteralInteger_IN_Package" description="Recognize: creates one LiteralInteger in the context: Package">
+    <parameters xmi:id="_IP_N8sasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_IP_N88asEeiLPenzS8lffg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+    </parameters>
+    <parameters xmi:id="_IP_N9MasEeiLPenzS8lffg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_IP_N9casEeiLPenzS8lffg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_IP_N9sasEeiLPenzS8lffg" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+    </parameters>
+    <lhs xmi:id="_IP_N98asEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IP_N-MasEeiLPenzS8lffg" name="B.Selected" incoming="_IP_OA8asEeiLPenzS8lffg" outgoing="_IP_OBsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_IP_N-casEeiLPenzS8lffg" name="" outgoing="_IP_OAsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IP_N-sasEeiLPenzS8lffg" name="B.New" incoming="_IP_OAsasEeiLPenzS8lffg _IP_OBMasEeiLPenzS8lffg _IP_OBsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+        <attributes xmi:id="_IP_N-8asEeiLPenzS8lffg" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_IP_N_MasEeiLPenzS8lffg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_IP_N_casEeiLPenzS8lffg" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IP_N_sasEeiLPenzS8lffg" name="" outgoing="_IP_OA8asEeiLPenzS8lffg _IP_OBMasEeiLPenzS8lffg _IP_OBcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IP_N_8asEeiLPenzS8lffg" name="" incoming="_IP_OBcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IP_OAMasEeiLPenzS8lffg" value="&quot;packagedElement&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IP_OAcasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IP_OAsasEeiLPenzS8lffg" source="_IP_N-casEeiLPenzS8lffg" target="_IP_N-sasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IP_OA8asEeiLPenzS8lffg" source="_IP_N_sasEeiLPenzS8lffg" target="_IP_N-MasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IP_OBMasEeiLPenzS8lffg" source="_IP_N_sasEeiLPenzS8lffg" target="_IP_N-sasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IP_OBcasEeiLPenzS8lffg" source="_IP_N_sasEeiLPenzS8lffg" target="_IP_N_8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IP_OBsasEeiLPenzS8lffg" source="_IP_N-MasEeiLPenzS8lffg" target="_IP_N-sasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IP_OB8asEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IP_OCMasEeiLPenzS8lffg" name="B.Selected" incoming="_IP_OGMasEeiLPenzS8lffg" outgoing="_IP_OG8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_IP_OCcasEeiLPenzS8lffg" name="" incoming="_IP_OHMasEeiLPenzS8lffg" outgoing="_IP_OF8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IP_OCsasEeiLPenzS8lffg" name="B.New" incoming="_IP_OF8asEeiLPenzS8lffg _IP_OGcasEeiLPenzS8lffg _IP_OG8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralInteger"/>
+      </nodes>
+      <nodes xmi:id="_IP_OC8asEeiLPenzS8lffg" name="" incoming="_IP_OHcasEeiLPenzS8lffg" outgoing="_IP_OGMasEeiLPenzS8lffg _IP_OGcasEeiLPenzS8lffg _IP_OGsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IP_ODMasEeiLPenzS8lffg" name="" incoming="_IP_OGsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IP_ODcasEeiLPenzS8lffg" name="ChangeSet" incoming="_IP_OHsasEeiLPenzS8lffg" outgoing="_IP_OHMasEeiLPenzS8lffg _IP_OHcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IP_ODsasEeiLPenzS8lffg" value="&quot;CREATE_LiteralInteger_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IP_OD8asEeiLPenzS8lffg" value="&quot;Creates one LiteralInteger in Package&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IP_OEMasEeiLPenzS8lffg" value="&quot;CREATE_LiteralInteger_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IP_OEcasEeiLPenzS8lffg" value="&quot;RR: CREATE_LiteralInteger_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IP_OEsasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IP_OE8asEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IP_OFMasEeiLPenzS8lffg" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IP_OFcasEeiLPenzS8lffg" value="17">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IP_OFsasEeiLPenzS8lffg" name="" outgoing="_IP_OHsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IP_OF8asEeiLPenzS8lffg" source="_IP_OCcasEeiLPenzS8lffg" target="_IP_OCsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IP_OGMasEeiLPenzS8lffg" source="_IP_OC8asEeiLPenzS8lffg" target="_IP_OCMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IP_OGcasEeiLPenzS8lffg" source="_IP_OC8asEeiLPenzS8lffg" target="_IP_OCsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IP_OGsasEeiLPenzS8lffg" source="_IP_OC8asEeiLPenzS8lffg" target="_IP_ODMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IP_OG8asEeiLPenzS8lffg" source="_IP_OCMasEeiLPenzS8lffg" target="_IP_OCsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_IP_OHMasEeiLPenzS8lffg" source="_IP_ODcasEeiLPenzS8lffg" target="_IP_OCcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IP_OHcasEeiLPenzS8lffg" source="_IP_ODcasEeiLPenzS8lffg" target="_IP_OC8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IP_OHsasEeiLPenzS8lffg" source="_IP_OFsasEeiLPenzS8lffg" target="_IP_ODcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IP_OH8asEeiLPenzS8lffg" origin="_IP_N-MasEeiLPenzS8lffg" image="_IP_OCMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IP_OIMasEeiLPenzS8lffg" origin="_IP_N-casEeiLPenzS8lffg" image="_IP_OCcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IP_OIcasEeiLPenzS8lffg" origin="_IP_N-sasEeiLPenzS8lffg" image="_IP_OCsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IP_OIsasEeiLPenzS8lffg" origin="_IP_N_sasEeiLPenzS8lffg" image="_IP_OC8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IP_OI8asEeiLPenzS8lffg" origin="_IP_N_8asEeiLPenzS8lffg" image="_IP_ODMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IP_OJMasEeiLPenzS8lffg" origin="_IP_OAcasEeiLPenzS8lffg" image="_IP_OFsasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

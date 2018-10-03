@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IQqjYMasEeiLPenzS8lffg" name="RR: CREATE_LiteralUnlimitedNatural_IN_MultiplicityElement_(lowerValue)" description="Recognize: Creates one LiteralUnlimitedNatural in MultiplicityElement">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IQqjYcasEeiLPenzS8lffg" name="rr:createLiteralUnlimitedNatural_IN_MultiplicityElement" description="Recognize: creates one LiteralUnlimitedNatural in the context: MultiplicityElement">
+    <parameters xmi:id="_IQqjYsasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+    </parameters>
+    <parameters xmi:id="_IQqjY8asEeiLPenzS8lffg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+    </parameters>
+    <parameters xmi:id="_IQqjZMasEeiLPenzS8lffg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_IQqjZcasEeiLPenzS8lffg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_IQqjZsasEeiLPenzS8lffg" name="Value">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//UnlimitedNatural"/>
+    </parameters>
+    <lhs xmi:id="_IQqjZ8asEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IQqjaMasEeiLPenzS8lffg" name="B.Selected" incoming="_IQqjc8asEeiLPenzS8lffg" outgoing="_IQqjdsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+      <nodes xmi:id="_IQqjacasEeiLPenzS8lffg" name="" outgoing="_IQqjcsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IQqjasasEeiLPenzS8lffg" name="B.New" incoming="_IQqjcsasEeiLPenzS8lffg _IQqjdMasEeiLPenzS8lffg _IQqjdsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+        <attributes xmi:id="_IQqja8asEeiLPenzS8lffg" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_IQqjbMasEeiLPenzS8lffg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_IQqjbcasEeiLPenzS8lffg" value="Value">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural/value"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IQqjbsasEeiLPenzS8lffg" name="" outgoing="_IQqjc8asEeiLPenzS8lffg _IQqjdMasEeiLPenzS8lffg _IQqjdcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IQqjb8asEeiLPenzS8lffg" name="" incoming="_IQqjdcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IQqjcMasEeiLPenzS8lffg" value="&quot;lowerValue&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IQqjccasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IQqjcsasEeiLPenzS8lffg" source="_IQqjacasEeiLPenzS8lffg" target="_IQqjasasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IQqjc8asEeiLPenzS8lffg" source="_IQqjbsasEeiLPenzS8lffg" target="_IQqjaMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IQqjdMasEeiLPenzS8lffg" source="_IQqjbsasEeiLPenzS8lffg" target="_IQqjasasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IQqjdcasEeiLPenzS8lffg" source="_IQqjbsasEeiLPenzS8lffg" target="_IQqjb8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IQqjdsasEeiLPenzS8lffg" source="_IQqjaMasEeiLPenzS8lffg" target="_IQqjasasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement/lowerValue"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IQqjd8asEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IQqjeMasEeiLPenzS8lffg" name="B.Selected" incoming="_IQqjiMasEeiLPenzS8lffg" outgoing="_IQqji8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement"/>
+      </nodes>
+      <nodes xmi:id="_IQqjecasEeiLPenzS8lffg" name="" incoming="_IQqjjMasEeiLPenzS8lffg" outgoing="_IQqjh8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IQqjesasEeiLPenzS8lffg" name="B.New" incoming="_IQqjh8asEeiLPenzS8lffg _IQqjicasEeiLPenzS8lffg _IQqji8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralUnlimitedNatural"/>
+      </nodes>
+      <nodes xmi:id="_IQqje8asEeiLPenzS8lffg" name="" incoming="_IQqjjcasEeiLPenzS8lffg" outgoing="_IQqjiMasEeiLPenzS8lffg _IQqjicasEeiLPenzS8lffg _IQqjisasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IQqjfMasEeiLPenzS8lffg" name="" incoming="_IQqjisasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IQqjfcasEeiLPenzS8lffg" name="ChangeSet" incoming="_IQqjjsasEeiLPenzS8lffg" outgoing="_IQqjjMasEeiLPenzS8lffg _IQqjjcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IQqjfsasEeiLPenzS8lffg" value="&quot;CREATE_LiteralUnlimitedNatural_IN_MultiplicityElement_(lowerValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IQqjf8asEeiLPenzS8lffg" value="&quot;Creates one LiteralUnlimitedNatural in MultiplicityElement&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IQqjgMasEeiLPenzS8lffg" value="&quot;CREATE_LiteralUnlimitedNatural_IN_MultiplicityElement_(lowerValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IQqjgcasEeiLPenzS8lffg" value="&quot;RR: CREATE_LiteralUnlimitedNatural_IN_MultiplicityElement_(lowerValue)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IQqjgsasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IQqjg8asEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IQqjhMasEeiLPenzS8lffg" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IQqjhcasEeiLPenzS8lffg" value="12">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IQqjhsasEeiLPenzS8lffg" name="" outgoing="_IQqjjsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IQqjh8asEeiLPenzS8lffg" source="_IQqjecasEeiLPenzS8lffg" target="_IQqjesasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IQqjiMasEeiLPenzS8lffg" source="_IQqje8asEeiLPenzS8lffg" target="_IQqjeMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IQqjicasEeiLPenzS8lffg" source="_IQqje8asEeiLPenzS8lffg" target="_IQqjesasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IQqjisasEeiLPenzS8lffg" source="_IQqje8asEeiLPenzS8lffg" target="_IQqjfMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IQqji8asEeiLPenzS8lffg" source="_IQqjeMasEeiLPenzS8lffg" target="_IQqjesasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//MultiplicityElement/lowerValue"/>
+      </edges>
+      <edges xmi:id="_IQqjjMasEeiLPenzS8lffg" source="_IQqjfcasEeiLPenzS8lffg" target="_IQqjecasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IQqjjcasEeiLPenzS8lffg" source="_IQqjfcasEeiLPenzS8lffg" target="_IQqje8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IQqjjsasEeiLPenzS8lffg" source="_IQqjhsasEeiLPenzS8lffg" target="_IQqjfcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IQqjj8asEeiLPenzS8lffg" origin="_IQqjaMasEeiLPenzS8lffg" image="_IQqjeMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IQqjkMasEeiLPenzS8lffg" origin="_IQqjacasEeiLPenzS8lffg" image="_IQqjecasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IQqjkcasEeiLPenzS8lffg" origin="_IQqjasasEeiLPenzS8lffg" image="_IQqjesasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IQqjksasEeiLPenzS8lffg" origin="_IQqjbsasEeiLPenzS8lffg" image="_IQqje8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IQqjk8asEeiLPenzS8lffg" origin="_IQqjb8asEeiLPenzS8lffg" image="_IQqjfMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IQqjlMasEeiLPenzS8lffg" origin="_IQqjccasEeiLPenzS8lffg" image="_IQqjhsasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

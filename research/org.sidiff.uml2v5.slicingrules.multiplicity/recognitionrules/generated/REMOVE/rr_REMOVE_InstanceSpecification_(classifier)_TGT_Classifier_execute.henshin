@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IkT4IMasEeiLPenzS8lffg" name="RR: REMOVE_InstanceSpecification_(classifier)_TGT_Classifier" description="Recognize: Removes InstanceSpecification's reference classifier the target Classifier">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IkT4IcasEeiLPenzS8lffg" name="rr:removeFromInstanceSpecification_classifier_Classifier" description="Recognize: Removes from InstanceSpecification's reference classifier the target Classifier">
+    <parameters xmi:id="_IkT4IsasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+    </parameters>
+    <parameters xmi:id="_IkT4I8asEeiLPenzS8lffg" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+    </parameters>
+    <lhs xmi:id="_IkT4JMasEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IkT4JcasEeiLPenzS8lffg" name="A.Selected" incoming="_IkT4K8asEeiLPenzS8lffg" outgoing="_IkT4LsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_IkT4JsasEeiLPenzS8lffg" name="A.OldTarget" incoming="_IkT4LMasEeiLPenzS8lffg _IkT4LsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_IkT4J8asEeiLPenzS8lffg" name="" outgoing="_IkT4K8asEeiLPenzS8lffg _IkT4LMasEeiLPenzS8lffg _IkT4LcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IkT4KMasEeiLPenzS8lffg" name="" incoming="_IkT4LcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IkT4KcasEeiLPenzS8lffg" value="&quot;classifier&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IkT4KsasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IkT4K8asEeiLPenzS8lffg" source="_IkT4J8asEeiLPenzS8lffg" target="_IkT4JcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IkT4LMasEeiLPenzS8lffg" source="_IkT4J8asEeiLPenzS8lffg" target="_IkT4JsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IkT4LcasEeiLPenzS8lffg" source="_IkT4J8asEeiLPenzS8lffg" target="_IkT4KMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IkT4LsasEeiLPenzS8lffg" source="_IkT4JcasEeiLPenzS8lffg" target="_IkT4JsasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification/classifier"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IkT4L8asEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IkT4MMasEeiLPenzS8lffg" name="A.Selected" incoming="_IkT4PsasEeiLPenzS8lffg" outgoing="_IkT4QcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_IkT4McasEeiLPenzS8lffg" name="A.OldTarget" incoming="_IkT4P8asEeiLPenzS8lffg _IkT4QcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+      </nodes>
+      <nodes xmi:id="_IkT4MsasEeiLPenzS8lffg" name="" incoming="_IkT4QsasEeiLPenzS8lffg" outgoing="_IkT4PsasEeiLPenzS8lffg _IkT4P8asEeiLPenzS8lffg _IkT4QMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference"/>
+      </nodes>
+      <nodes xmi:id="_IkT4M8asEeiLPenzS8lffg" name="" incoming="_IkT4QMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IkT4NMasEeiLPenzS8lffg" name="ChangeSet" incoming="_IkT4Q8asEeiLPenzS8lffg" outgoing="_IkT4QsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IkT4NcasEeiLPenzS8lffg" value="&quot;REMOVE_InstanceSpecification_(classifier)_TGT_Classifier&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IkT4NsasEeiLPenzS8lffg" value="&quot;Removes InstanceSpecification's reference classifier the target Classifier&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IkT4N8asEeiLPenzS8lffg" value="&quot;REMOVE_InstanceSpecification_(classifier)_TGT_Classifier&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IkT4OMasEeiLPenzS8lffg" value="&quot;RR: REMOVE_InstanceSpecification_(classifier)_TGT_Classifier&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IkT4OcasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IkT4OsasEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IkT4O8asEeiLPenzS8lffg" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IkT4PMasEeiLPenzS8lffg" value="18">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IkT4PcasEeiLPenzS8lffg" name="" outgoing="_IkT4Q8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IkT4PsasEeiLPenzS8lffg" source="_IkT4MsasEeiLPenzS8lffg" target="_IkT4MMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/src"/>
+      </edges>
+      <edges xmi:id="_IkT4P8asEeiLPenzS8lffg" source="_IkT4MsasEeiLPenzS8lffg" target="_IkT4McasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IkT4QMasEeiLPenzS8lffg" source="_IkT4MsasEeiLPenzS8lffg" target="_IkT4M8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//RemoveReference/type"/>
+      </edges>
+      <edges xmi:id="_IkT4QcasEeiLPenzS8lffg" source="_IkT4MMasEeiLPenzS8lffg" target="_IkT4McasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification/classifier"/>
+      </edges>
+      <edges xmi:id="_IkT4QsasEeiLPenzS8lffg" source="_IkT4NMasEeiLPenzS8lffg" target="_IkT4MsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IkT4Q8asEeiLPenzS8lffg" source="_IkT4PcasEeiLPenzS8lffg" target="_IkT4NMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IkT4RMasEeiLPenzS8lffg" origin="_IkT4JcasEeiLPenzS8lffg" image="_IkT4MMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IkT4RcasEeiLPenzS8lffg" origin="_IkT4JsasEeiLPenzS8lffg" image="_IkT4McasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IkT4RsasEeiLPenzS8lffg" origin="_IkT4J8asEeiLPenzS8lffg" image="_IkT4MsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IkT4R8asEeiLPenzS8lffg" origin="_IkT4KMasEeiLPenzS8lffg" image="_IkT4M8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IkT4SMasEeiLPenzS8lffg" origin="_IkT4KsasEeiLPenzS8lffg" image="_IkT4PcasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

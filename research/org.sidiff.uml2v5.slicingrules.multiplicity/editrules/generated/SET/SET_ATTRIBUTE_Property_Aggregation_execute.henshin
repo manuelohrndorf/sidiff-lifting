@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uKmPv8Z6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_Property_Aggregation" description="Sets Property Aggregation">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uKmPwMZ6EeieD6s2Z9krAw" name="setPropertyAggregation" description="Sets the EAttribute aggregation">
+    <parameters xmi:id="_uKmPwcZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_uKmPwsZ6EeieD6s2Z9krAw" name="Aggregation" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <lhs xmi:id="_uKmPw8Z6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uKmPxMZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uKmPxcZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uKmPxsZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+        <attributes xmi:id="_uKmPx8Z6EeieD6s2Z9krAw" value="Aggregation">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/aggregation"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uKmPyMZ6EeieD6s2Z9krAw" origin="_uKmPxMZ6EeieD6s2Z9krAw" image="_uKmPxsZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uKmPycZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uKmPwMZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uKmPysZ6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_uKmPy8Z6EeieD6s2Z9krAw" name="Aggregation">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_uKmPzMZ6EeieD6s2Z9krAw" source="_uKmPysZ6EeieD6s2Z9krAw" target="_uKmPwcZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uKmPzcZ6EeieD6s2Z9krAw" source="_uKmPy8Z6EeieD6s2Z9krAw" target="_uKmPwsZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IO9TMMasEeiLPenzS8lffg" name="RR: CREATE_InstanceSpecification_IN_Package_(packagedElement)" description="Recognize: Creates one InstanceSpecification in Package">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IO9TMcasEeiLPenzS8lffg" name="rr:createInstanceSpecification_IN_Package" description="Recognize: creates one InstanceSpecification in the context: Package">
+    <parameters xmi:id="_IO9TMsasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_IO9TM8asEeiLPenzS8lffg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+    </parameters>
+    <parameters xmi:id="_IO9TNMasEeiLPenzS8lffg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_IO9TNcasEeiLPenzS8lffg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_IO9TNsasEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IO9TN8asEeiLPenzS8lffg" name="B.Selected" incoming="_IO9TQcasEeiLPenzS8lffg" outgoing="_IO9TRMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_IO9TOMasEeiLPenzS8lffg" name="" outgoing="_IO9TQMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IO9TOcasEeiLPenzS8lffg" name="B.New" incoming="_IO9TQMasEeiLPenzS8lffg _IO9TQsasEeiLPenzS8lffg _IO9TRMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+        <attributes xmi:id="_IO9TOsasEeiLPenzS8lffg" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_IO9TO8asEeiLPenzS8lffg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IO9TPMasEeiLPenzS8lffg" name="" outgoing="_IO9TQcasEeiLPenzS8lffg _IO9TQsasEeiLPenzS8lffg _IO9TQ8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IO9TPcasEeiLPenzS8lffg" name="" incoming="_IO9TQ8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IO9TPsasEeiLPenzS8lffg" value="&quot;packagedElement&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IO9TP8asEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IO9TQMasEeiLPenzS8lffg" source="_IO9TOMasEeiLPenzS8lffg" target="_IO9TOcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IO9TQcasEeiLPenzS8lffg" source="_IO9TPMasEeiLPenzS8lffg" target="_IO9TN8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IO9TQsasEeiLPenzS8lffg" source="_IO9TPMasEeiLPenzS8lffg" target="_IO9TOcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IO9TQ8asEeiLPenzS8lffg" source="_IO9TPMasEeiLPenzS8lffg" target="_IO9TPcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IO9TRMasEeiLPenzS8lffg" source="_IO9TN8asEeiLPenzS8lffg" target="_IO9TOcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IO9TRcasEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IO9TRsasEeiLPenzS8lffg" name="B.Selected" incoming="_IO9TVsasEeiLPenzS8lffg" outgoing="_IO9TWcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_IO9TR8asEeiLPenzS8lffg" name="" incoming="_IO9TWsasEeiLPenzS8lffg" outgoing="_IO9TVcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IO9TSMasEeiLPenzS8lffg" name="B.New" incoming="_IO9TVcasEeiLPenzS8lffg _IO9TV8asEeiLPenzS8lffg _IO9TWcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
+      </nodes>
+      <nodes xmi:id="_IO9TScasEeiLPenzS8lffg" name="" incoming="_IO9TW8asEeiLPenzS8lffg" outgoing="_IO9TVsasEeiLPenzS8lffg _IO9TV8asEeiLPenzS8lffg _IO9TWMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IO9TSsasEeiLPenzS8lffg" name="" incoming="_IO9TWMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IO9TS8asEeiLPenzS8lffg" name="ChangeSet" incoming="_IO9TXMasEeiLPenzS8lffg" outgoing="_IO9TWsasEeiLPenzS8lffg _IO9TW8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IO9TTMasEeiLPenzS8lffg" value="&quot;CREATE_InstanceSpecification_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IO9TTcasEeiLPenzS8lffg" value="&quot;Creates one InstanceSpecification in Package&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IO9TTsasEeiLPenzS8lffg" value="&quot;CREATE_InstanceSpecification_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IO9TT8asEeiLPenzS8lffg" value="&quot;RR: CREATE_InstanceSpecification_IN_Package_(packagedElement)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IO9TUMasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IO9TUcasEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IO9TUsasEeiLPenzS8lffg" value="4">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IO9TU8asEeiLPenzS8lffg" value="16">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IO9TVMasEeiLPenzS8lffg" name="" outgoing="_IO9TXMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IO9TVcasEeiLPenzS8lffg" source="_IO9TR8asEeiLPenzS8lffg" target="_IO9TSMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IO9TVsasEeiLPenzS8lffg" source="_IO9TScasEeiLPenzS8lffg" target="_IO9TRsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IO9TV8asEeiLPenzS8lffg" source="_IO9TScasEeiLPenzS8lffg" target="_IO9TSMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IO9TWMasEeiLPenzS8lffg" source="_IO9TScasEeiLPenzS8lffg" target="_IO9TSsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IO9TWcasEeiLPenzS8lffg" source="_IO9TRsasEeiLPenzS8lffg" target="_IO9TSMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+      <edges xmi:id="_IO9TWsasEeiLPenzS8lffg" source="_IO9TS8asEeiLPenzS8lffg" target="_IO9TR8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IO9TW8asEeiLPenzS8lffg" source="_IO9TS8asEeiLPenzS8lffg" target="_IO9TScasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IO9TXMasEeiLPenzS8lffg" source="_IO9TVMasEeiLPenzS8lffg" target="_IO9TS8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IO9TXcasEeiLPenzS8lffg" origin="_IO9TN8asEeiLPenzS8lffg" image="_IO9TRsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IO9TXsasEeiLPenzS8lffg" origin="_IO9TOMasEeiLPenzS8lffg" image="_IO9TR8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IO9TX8asEeiLPenzS8lffg" origin="_IO9TOcasEeiLPenzS8lffg" image="_IO9TSMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IO9TYMasEeiLPenzS8lffg" origin="_IO9TPMasEeiLPenzS8lffg" image="_IO9TScasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IO9TYcasEeiLPenzS8lffg" origin="_IO9TPcasEeiLPenzS8lffg" image="_IO9TSsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IO9TYsasEeiLPenzS8lffg" origin="_IO9TP8asEeiLPenzS8lffg" image="_IO9TVMasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>

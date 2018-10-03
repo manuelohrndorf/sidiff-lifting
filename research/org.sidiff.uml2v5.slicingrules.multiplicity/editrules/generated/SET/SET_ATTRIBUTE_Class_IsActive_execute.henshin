@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uMMyMMZ6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_Class_IsActive" description="Sets Class IsActive">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uMMyMcZ6EeieD6s2Z9krAw" name="setClassIsActive" description="Sets the EAttribute isActive">
+    <parameters xmi:id="_uMMyMsZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_uMMyM8Z6EeieD6s2Z9krAw" name="IsActive" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <lhs xmi:id="_uMMyNMZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uMMyNcZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uMMyNsZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uMMyN8Z6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+        <attributes xmi:id="_uMMyOMZ6EeieD6s2Z9krAw" value="IsActive">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uMMyOcZ6EeieD6s2Z9krAw" origin="_uMMyNcZ6EeieD6s2Z9krAw" image="_uMMyN8Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uMMyOsZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uMMyMcZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uMMyO8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_uMMyPMZ6EeieD6s2Z9krAw" name="IsActive">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+    </parameters>
+    <parameterMappings xmi:id="_uMMyPcZ6EeieD6s2Z9krAw" source="_uMMyO8Z6EeieD6s2Z9krAw" target="_uMMyMsZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMMyPsZ6EeieD6s2Z9krAw" source="_uMMyPMZ6EeieD6s2Z9krAw" target="_uMMyM8Z6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

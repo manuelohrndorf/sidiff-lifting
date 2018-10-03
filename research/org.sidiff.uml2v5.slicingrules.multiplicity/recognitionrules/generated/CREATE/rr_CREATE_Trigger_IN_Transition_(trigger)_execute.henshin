@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_IZ-3cMasEeiLPenzS8lffg" name="RR: CREATE_Trigger_IN_Transition_(trigger)" description="Recognize: Creates one Trigger in Transition">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_IZ-3ccasEeiLPenzS8lffg" name="rr:createTrigger_IN_Transition" description="Recognize: creates one Trigger in the context: Transition">
+    <parameters xmi:id="_IZ-3csasEeiLPenzS8lffg" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_IZ-3c8asEeiLPenzS8lffg" name="Existing">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+    </parameters>
+    <parameters xmi:id="_IZ-3dMasEeiLPenzS8lffg" name="New">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+    </parameters>
+    <parameters xmi:id="_IZ-3dcasEeiLPenzS8lffg" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_IZ-3dsasEeiLPenzS8lffg" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_IZ-3d8asEeiLPenzS8lffg" name="Lhs">
+      <nodes xmi:id="_IZ-3eMasEeiLPenzS8lffg" name="B.Selected" incoming="_IZ-3hsasEeiLPenzS8lffg" outgoing="_IZ-3icasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3ecasEeiLPenzS8lffg" name="B.Existing" incoming="_IZ-3i8asEeiLPenzS8lffg _IZ-3jcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3esasEeiLPenzS8lffg" name="" outgoing="_IZ-3hcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3e8asEeiLPenzS8lffg" name="B.New" incoming="_IZ-3hcasEeiLPenzS8lffg _IZ-3h8asEeiLPenzS8lffg _IZ-3icasEeiLPenzS8lffg _IZ-3isasEeiLPenzS8lffg" outgoing="_IZ-3jcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+        <attributes xmi:id="_IZ-3fMasEeiLPenzS8lffg" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3fcasEeiLPenzS8lffg" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IZ-3fsasEeiLPenzS8lffg" name="" outgoing="_IZ-3hsasEeiLPenzS8lffg _IZ-3h8asEeiLPenzS8lffg _IZ-3iMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3f8asEeiLPenzS8lffg" name="" incoming="_IZ-3iMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IZ-3gMasEeiLPenzS8lffg" value="&quot;trigger&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IZ-3gcasEeiLPenzS8lffg" name="" outgoing="_IZ-3isasEeiLPenzS8lffg _IZ-3i8asEeiLPenzS8lffg _IZ-3jMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3gsasEeiLPenzS8lffg" name="" incoming="_IZ-3jMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_IZ-3g8asEeiLPenzS8lffg" value="&quot;event&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IZ-3hMasEeiLPenzS8lffg" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IZ-3hcasEeiLPenzS8lffg" source="_IZ-3esasEeiLPenzS8lffg" target="_IZ-3e8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IZ-3hsasEeiLPenzS8lffg" source="_IZ-3fsasEeiLPenzS8lffg" target="_IZ-3eMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IZ-3h8asEeiLPenzS8lffg" source="_IZ-3fsasEeiLPenzS8lffg" target="_IZ-3e8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IZ-3iMasEeiLPenzS8lffg" source="_IZ-3fsasEeiLPenzS8lffg" target="_IZ-3f8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IZ-3icasEeiLPenzS8lffg" source="_IZ-3eMasEeiLPenzS8lffg" target="_IZ-3e8asEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/trigger"/>
+      </edges>
+      <edges xmi:id="_IZ-3isasEeiLPenzS8lffg" source="_IZ-3gcasEeiLPenzS8lffg" target="_IZ-3e8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IZ-3i8asEeiLPenzS8lffg" source="_IZ-3gcasEeiLPenzS8lffg" target="_IZ-3ecasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IZ-3jMasEeiLPenzS8lffg" source="_IZ-3gcasEeiLPenzS8lffg" target="_IZ-3gsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IZ-3jcasEeiLPenzS8lffg" source="_IZ-3e8asEeiLPenzS8lffg" target="_IZ-3ecasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_IZ-3jsasEeiLPenzS8lffg" name="Rhs">
+      <nodes xmi:id="_IZ-3j8asEeiLPenzS8lffg" name="B.Selected" incoming="_IZ-3osasEeiLPenzS8lffg" outgoing="_IZ-3pcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3kMasEeiLPenzS8lffg" name="B.Existing" incoming="_IZ-3p8asEeiLPenzS8lffg _IZ-3qcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3kcasEeiLPenzS8lffg" name="" incoming="_IZ-3qsasEeiLPenzS8lffg" outgoing="_IZ-3ocasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3ksasEeiLPenzS8lffg" name="B.New" incoming="_IZ-3ocasEeiLPenzS8lffg _IZ-3o8asEeiLPenzS8lffg _IZ-3pcasEeiLPenzS8lffg _IZ-3psasEeiLPenzS8lffg" outgoing="_IZ-3qcasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3k8asEeiLPenzS8lffg" name="" incoming="_IZ-3q8asEeiLPenzS8lffg" outgoing="_IZ-3osasEeiLPenzS8lffg _IZ-3o8asEeiLPenzS8lffg _IZ-3pMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3lMasEeiLPenzS8lffg" name="" incoming="_IZ-3pMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3lcasEeiLPenzS8lffg" name="" incoming="_IZ-3rMasEeiLPenzS8lffg" outgoing="_IZ-3psasEeiLPenzS8lffg _IZ-3p8asEeiLPenzS8lffg _IZ-3qMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3lsasEeiLPenzS8lffg" name="" incoming="_IZ-3qMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_IZ-3l8asEeiLPenzS8lffg" name="ChangeSet" incoming="_IZ-3rcasEeiLPenzS8lffg" outgoing="_IZ-3qsasEeiLPenzS8lffg _IZ-3q8asEeiLPenzS8lffg _IZ-3rMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_IZ-3mMasEeiLPenzS8lffg" value="&quot;CREATE_Trigger_IN_Transition_(trigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3mcasEeiLPenzS8lffg" value="&quot;Creates one Trigger in Transition&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3msasEeiLPenzS8lffg" value="&quot;CREATE_Trigger_IN_Transition_(trigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3m8asEeiLPenzS8lffg" value="&quot;RR: CREATE_Trigger_IN_Transition_(trigger)&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3nMasEeiLPenzS8lffg" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3ncasEeiLPenzS8lffg" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3nsasEeiLPenzS8lffg" value="5">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_IZ-3n8asEeiLPenzS8lffg" value="16">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_IZ-3oMasEeiLPenzS8lffg" name="" outgoing="_IZ-3rcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_IZ-3ocasEeiLPenzS8lffg" source="_IZ-3kcasEeiLPenzS8lffg" target="_IZ-3ksasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddObject/obj"/>
+      </edges>
+      <edges xmi:id="_IZ-3osasEeiLPenzS8lffg" source="_IZ-3k8asEeiLPenzS8lffg" target="_IZ-3j8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IZ-3o8asEeiLPenzS8lffg" source="_IZ-3k8asEeiLPenzS8lffg" target="_IZ-3ksasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IZ-3pMasEeiLPenzS8lffg" source="_IZ-3k8asEeiLPenzS8lffg" target="_IZ-3lMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IZ-3pcasEeiLPenzS8lffg" source="_IZ-3j8asEeiLPenzS8lffg" target="_IZ-3ksasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/trigger"/>
+      </edges>
+      <edges xmi:id="_IZ-3psasEeiLPenzS8lffg" source="_IZ-3lcasEeiLPenzS8lffg" target="_IZ-3ksasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_IZ-3p8asEeiLPenzS8lffg" source="_IZ-3lcasEeiLPenzS8lffg" target="_IZ-3kMasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_IZ-3qMasEeiLPenzS8lffg" source="_IZ-3lcasEeiLPenzS8lffg" target="_IZ-3lsasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_IZ-3qcasEeiLPenzS8lffg" source="_IZ-3ksasEeiLPenzS8lffg" target="_IZ-3kMasEeiLPenzS8lffg">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/event"/>
+      </edges>
+      <edges xmi:id="_IZ-3qsasEeiLPenzS8lffg" source="_IZ-3l8asEeiLPenzS8lffg" target="_IZ-3kcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IZ-3q8asEeiLPenzS8lffg" source="_IZ-3l8asEeiLPenzS8lffg" target="_IZ-3k8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IZ-3rMasEeiLPenzS8lffg" source="_IZ-3l8asEeiLPenzS8lffg" target="_IZ-3lcasEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_IZ-3rcasEeiLPenzS8lffg" source="_IZ-3oMasEeiLPenzS8lffg" target="_IZ-3l8asEeiLPenzS8lffg">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_IZ-3rsasEeiLPenzS8lffg" origin="_IZ-3eMasEeiLPenzS8lffg" image="_IZ-3j8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3r8asEeiLPenzS8lffg" origin="_IZ-3ecasEeiLPenzS8lffg" image="_IZ-3kMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3sMasEeiLPenzS8lffg" origin="_IZ-3esasEeiLPenzS8lffg" image="_IZ-3kcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3scasEeiLPenzS8lffg" origin="_IZ-3e8asEeiLPenzS8lffg" image="_IZ-3ksasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3ssasEeiLPenzS8lffg" origin="_IZ-3fsasEeiLPenzS8lffg" image="_IZ-3k8asEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3s8asEeiLPenzS8lffg" origin="_IZ-3f8asEeiLPenzS8lffg" image="_IZ-3lMasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3tMasEeiLPenzS8lffg" origin="_IZ-3gcasEeiLPenzS8lffg" image="_IZ-3lcasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3tcasEeiLPenzS8lffg" origin="_IZ-3gsasEeiLPenzS8lffg" image="_IZ-3lsasEeiLPenzS8lffg"/>
+    <mappings xmi:id="_IZ-3tsasEeiLPenzS8lffg" origin="_IZ-3hMasEeiLPenzS8lffg" image="_IZ-3oMasEeiLPenzS8lffg"/>
+  </units>
+</henshin:Module>
