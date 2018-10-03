@@ -26,6 +26,11 @@ public class BrowseRemoteApplicationContentRequest extends RequestCommand {
 	private String elementID;
 	
 	/**
+	 * Flag for getting all contained elements 
+	 */
+	private boolean infinite;
+	
+	/**
 	 * 
 	 * @param credentials
 	 *            The current {@link Credentials}
@@ -35,12 +40,16 @@ public class BrowseRemoteApplicationContentRequest extends RequestCommand {
 	 * @param elementID
 	 *            the ID of a requested model element (only used if the requested
 	 *            file is a model file)
+	 * @param infinite
+	 * 			  flag for infinitely gathering all contained elements of the requested model element (only used if
+	 *            the requested file is a model file)
 	 */
-	public BrowseRemoteApplicationContentRequest(Credentials credentials, String relative_remote_file_path, String elementID) {
+	public BrowseRemoteApplicationContentRequest(Credentials credentials, String relative_remote_file_path, String elementID, boolean infinite) {
 		super(credentials, null);
 		this.eCommand = ECommand.BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST;
 		this.relative_remote_file_path = relative_remote_file_path;
 		this.elementID = elementID;
+		this.infinite = infinite;
 	}
 	
 	/**
@@ -61,5 +70,14 @@ public class BrowseRemoteApplicationContentRequest extends RequestCommand {
 	 */
 	public String getElementID() {
 		return elementID;
+	}
+	
+	/**
+	 * Flag for infinitely gathering all children of a given element
+	 * 
+	 * @return <code>true</code> if all children should be gathered
+	 */
+	public boolean isInfinite() {
+		return infinite;
 	}
 }

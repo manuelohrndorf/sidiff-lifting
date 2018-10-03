@@ -183,4 +183,12 @@ public class AdaptableTreeNode implements IAdaptable {
 	public int hashCode() {
 		return id.hashCode();
 	}
+	
+	public int getSize() {
+		int size = 1;
+		for(AdaptableTreeNode child: children) {
+			size += child.getSize();
+		}
+		return size;
+	}
 }

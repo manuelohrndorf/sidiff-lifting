@@ -35,6 +35,7 @@ import org.sidiff.remote.common.exceptions.UpdateSubModelException;
 import org.sidiff.remote.common.settings.RemotePreferences;
 import org.sidiff.remote.common.util.ProxyUtil;
 import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
+import org.sidiff.slicer.rulebased.exceptions.EmtpyModelSliceException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -138,14 +139,18 @@ public class SiDiffRemoteApplication {
 	 * returned.
 	 * 
 	 * @param relative_remote_file_path
-	 *            path of a requested remote file relative to the current user directory
+	 *            path of a requested remote file relative to the current user
+	 *            directory
 	 * @param elementID
 	 *            the ID of a requested model element (only used if the requested
 	 *            file is a model file)
+	 * @param infinite
+	 *            flag for gathering contained elements of the requested model element (only used if
+	 *            the requested file is a model file)
 	 * @return the content of the remote application as {@link List} of
 	 *         {@link ProxyObject}s
 	 */
-	public List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String elementID) {
+	public List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String elementID, boolean infinite) {
 
 		//TODO determine right repository adapter
 		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
@@ -185,7 +190,7 @@ public class SiDiffRemoteApplication {
 			}
 			if(elementID == null) {
 				for(EObject eObject : last_selected_model.getContents()) {
-					ProxyObject proxyObject = ProxyUtil.convertEObject(eObject);
+					ProxyObject proxyObject = ProxyUtil.convertEObject(eObject, infinite);
 					proxyObjects.add(proxyObject);
 				}
 			}else {
@@ -193,7 +198,7 @@ public class SiDiffRemoteApplication {
 				EObject eObject = last_selected_model.getIDToEObjectMap().get(elementID);
 					
 				for (EObject eObj : eObject.eContents()) {
-					ProxyObject proxyObject = ProxyUtil.convertEObject(eObj);
+					ProxyObject proxyObject = ProxyUtil.convertEObject(eObj, infinite);
 					proxyObjects.add(proxyObject);
 				}
 				
@@ -291,14 +296,17 @@ public class SiDiffRemoteApplication {
 		try {
 			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 
+			//FIXME check-in updated submodel
+			if(false) {
 			try {
 				repositoryAdapter.info(subModelFile);
 			}catch(RepositoryAdapterException e) {
 				String path = initBranchResult.getPath() + File.separator + relative_local_model_path.substring(0, relative_local_model_path.lastIndexOf(File.separator));
 				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), null, null, "import submodel " + subModelFile.getName());
 			}
+			}
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException | EmptySlicingCriteriaException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException | EmptySlicingCriteriaException | EmtpyModelSliceException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new CheckoutSubModelException(e);
 		}
@@ -425,7 +433,7 @@ public class SiDiffRemoteApplication {
 		try {
 			slicingEditScriptFile = this.extractionEngine.update(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
-				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | EmptySlicingCriteriaException e) {
+				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | EmptySlicingCriteriaException | EmtpyModelSliceException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
 			throw new UpdateSubModelException(e);
 		}

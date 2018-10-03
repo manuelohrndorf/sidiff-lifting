@@ -51,6 +51,7 @@ import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -176,7 +177,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 							selecetd_model_name = treeNode.getLabel();
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade
-										.browseRemoteApplicationContent(treeNode.getId(), null);
+										.browseRemoteApplicationContent(treeNode.getId(), null, false);
 								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 								treeModel.getRoot().addAllChildren(children);
 								this.treeViewer.setInput(treeModel);
@@ -205,10 +206,10 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 			if(structuredSelection.size() == 1) {
 				AdaptableTreeNode treeNode = (AdaptableTreeNode) structuredSelection.getFirstElement();
-				if (event.getSource().equals(this.treeViewer) && treeNode.getChildren().isEmpty()) {
+				if (event.getSource().equals(this.treeViewer) && treeNode.getChildren().isEmpty() && selected_remote_model_path != null) {
 					try {
 						List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(selected_remote_model_path,
-								treeNode.getId());
+								treeNode.getId(), false);
 						List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 						treeNode.addAllChildren(children);
 						this.treeViewer.refresh();
@@ -259,9 +260,54 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 
 		this.selectSubTree_action = new Action("Select Subtree", Action.AS_PUSH_BUTTON) {
 			public void run() {
-				for (TreeItem treeItem : treeViewer.getTree().getSelection()) {
-					treeViewer.setSubtreeChecked(treeItem.getData(), true);
+				TreeItem selectedTreeItem = treeViewer.getTree().getSelection()[0];
+				AdaptableTreeNode selectedTreeNode = (AdaptableTreeNode) selectedTreeItem.getData();
+				selectedTreeNode.setSelected(true);
+				String elementId = ((AdaptableTreeNode)selectedTreeItem.getData()).getId();
+				
+				
+				AdaptableTreeModel treeModelElements = (AdaptableTreeModel) treeViewer.getInput();
+				
+				List<ProxyObject> proxyObjectsElement;
+				try {
+					proxyObjectsElement = ConnectorFacade.browseRemoteApplicationContent(selected_remote_model_path, elementId, true);
+				} catch (ConnectionException | RemoteApplicationException e) {
+					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
+					return;
 				}
+				List<ProxyObject> proxyElements = new ArrayList<ProxyObject>();
+
+				for(ProxyObject proxyObject : proxyObjectsElement) {
+					proxyElements.addAll(ProxyUtil.sort(proxyObject));
+				}
+				
+				List<AdaptableTreeNode> visibleModelElementNodes = new ArrayList<AdaptableTreeNode>();
+				visibleModelElementNodes.add(selectedTreeNode);
+				
+				for(ProxyObject proxyObject : proxyElements) {
+					
+					AdaptableTreeNode currentElementNode = null;
+					if(treeModelElements.getTreeNode(proxyObject.getId()) == null) {
+						AdaptableTreeNode parent = null;
+						if(proxyObject.getParent() == null) {
+							parent = treeModelElements.getRoot();
+						}else {
+							parent = treeModelElements.getTreeNode(proxyObject.getParent().getId());
+						}
+						currentElementNode = ModelUtil.transform(proxyObject);
+						currentElementNode.setParent(parent);
+					}else {
+						currentElementNode = treeModelElements.getTreeNode(proxyObject.getId());
+					}
+					currentElementNode.setSelected(true);
+					if(currentElementNode.isSelected()) {
+						visibleModelElementNodes.add(currentElementNode);
+					}
+				}
+				treeViewer.setExpandedElements(visibleModelElementNodes.toArray());
+				treeViewer.setCheckedElements(visibleModelElementNodes.toArray());		
+			
+				
 			}
 		};
 		this.selectSubTree_action.setToolTipText("Select Subtree");
@@ -285,7 +331,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 						merge(localModelResource, file);
 					}
 				} catch (ConnectionException | CoreException | InvalidProjectInfoException
-						| ModelNotVersionedException e) {
+						| ModelNotVersionedException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				super.run();
@@ -298,7 +344,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 	// ########## Make Menu Contributions ##########
 	@Override
 	protected void fillContextMenuTreeViewer(IMenuManager manager) {
-		// TODO Auto-generated method stub
+		manager.add(this.selectSubTree_action);
 		
 	}
 
@@ -341,6 +387,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 		
 		List<ProxyObject> proxyElements = new ArrayList<ProxyObject>();
 
+		System.out.println("Proxy:" + proxyObjectsElement.size());
 		for(ProxyObject proxyObject : proxyObjectsElement) {
 			proxyElements.addAll(ProxyUtil.sort(proxyObject));
 		}
@@ -357,7 +404,8 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				}else {
 					parent = treeModelElements.getTreeNode(proxyObject.getParent().getId());
 				}
-				currentElementNode = new AdaptableTreeNode(proxyObject.getLabel(), proxyObject.getId(), proxyObject.getType(), !proxyObject.isContainer(), parent, proxyObject.isSelected());
+				currentElementNode = ModelUtil.transform(proxyObject);
+				currentElementNode.setParent(parent);
 			}else {
 				currentElementNode = treeModelElements.getTreeNode(proxyObject.getId());
 				currentElementNode.setSelected(proxyObject.isSelected());
@@ -367,8 +415,8 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 			}
 		}
 		treeViewer.setExpandedElements(visibleModelElementNodes.toArray());
+		System.out.println("tree items: " + treeModelElements.getSize());
 		treeViewer.setCheckedElements(visibleModelElementNodes.toArray());		
-		treeViewer.refresh();
 	}
 
 	private void merge(UUIDResource localModelResource, File patchFile) {
@@ -413,6 +461,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 						EMFModelAccess.getDocumentTypes(localModelResource, Scope.RESOURCE),
 						Collections.<Enum<?>>emptySet());
 				patchingSettings.setArgumentManager(new ModelSliceBasedArgumentManager());
+				patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 				patchingSettingsReference.set(patchingSettings);
 				
 				if (asymmetricDifference != null) {

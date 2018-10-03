@@ -80,7 +80,7 @@ public class RemoteApplicationFileView extends AbstractRemoteApplicationView<Tre
 						if (treeNode.getChildren().isEmpty()) {
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade
-										.browseRemoteApplicationContent(treeNode.getId(), null);
+										.browseRemoteApplicationContent(treeNode.getId(), null, false);
 								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 								treeNode.addAllChildren(children);
 								this.treeViewer.refresh();
@@ -143,7 +143,7 @@ public class RemoteApplicationFileView extends AbstractRemoteApplicationView<Tre
 			public void run() {
 				try {
 					AdaptableTreeModel model = new AdaptableTreeModel();
-					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent("", null);
+					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent("", null, false);
 					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
 					model.getRoot().addAllChildren(treeNodes);
 					treeViewer.setInput(model);
