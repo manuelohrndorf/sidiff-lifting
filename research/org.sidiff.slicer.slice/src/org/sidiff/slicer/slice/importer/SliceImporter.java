@@ -8,8 +8,8 @@ import org.sidiff.entities.Attribute;
 import org.sidiff.entities.Reference;
 import org.sidiff.entities.importer.EntitiesImporter;
 import org.sidiff.entities.importer.ImportFailedException;
-import org.sidiff.entities.importer.filter.DefaultImporterFilter;
-import org.sidiff.entities.importer.signature.DefaultImporterSignatureResolver;
+import org.sidiff.entities.importer.factory.IImporterFactory;
+import org.sidiff.entities.importer.uuid.IImporterUuidResolver;
 import org.sidiff.entities.importer.uuid.XmiIdImporterUuidResolver;
 import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.slice.SlicedElement;
@@ -32,10 +32,6 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 	 */
 	public SliceImporter() {
 		super(SlicedElement.class, Reference.class, Attribute.class);
-		setFactory(new SliceImporterFactory());
-		setFilter(new DefaultImporterFilter());
-		setUuidResolver(new XmiIdImporterUuidResolver());
-		setSignatureResolver(new DefaultImporterSignatureResolver());
 	}
 
 	public void init(ModelSlice modelSlice) {
@@ -80,5 +76,15 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 
 	public ModelSlice getModelSlice() {
 		return modelSlice;
+	}
+
+	@Override
+	protected IImporterFactory<? extends SlicedElement, ? extends Reference, ? extends Attribute> createFactory() {
+		return new SliceImporterFactory();
+	}
+
+	@Override
+	protected IImporterUuidResolver createUuidResolver() {
+		return new XmiIdImporterUuidResolver();
 	}
 }
