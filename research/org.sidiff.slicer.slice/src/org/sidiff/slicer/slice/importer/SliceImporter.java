@@ -1,5 +1,7 @@
 package org.sidiff.slicer.slice.importer;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -68,8 +70,8 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 	}
 
 	@Override
-	protected Attribute doImportEAttribute(EAttribute eAttribute, SlicedElement element) throws ImportFailedException {
-		Attribute attribute = super.doImportEAttribute(eAttribute, element);
+	protected Attribute doImportEAttribute(EAttribute eAttribute, SlicedElement element, List<String> values) throws ImportFailedException {
+		Attribute attribute = super.doImportEAttribute(eAttribute, element, values);
 		element.getSlicedAttributes().add(attribute);
 		return attribute;
 	}
