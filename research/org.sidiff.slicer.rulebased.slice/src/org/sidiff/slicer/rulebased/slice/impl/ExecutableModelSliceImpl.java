@@ -128,7 +128,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 		String foldername = "RuleBasedSlice";
 		String separator = File.separator;
 		for (SlicedElement slicedElement : this.getSlicedElements()) {
-			if (!slicedElement.isFromReg()) {
+			if (!slicedElement.isExternal()) {
 				slicedElement.setObject(null);
 			}
 		}
