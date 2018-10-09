@@ -61,7 +61,8 @@ public class IntegrationEditorAccess {
 		IEditorIntegration candidate = null;
 		for (IEditorIntegration de : integrationEditors) {
 			if (de.supportsDiagramming(model) && de.isDiagramEditorPresent()) {
-				return de;
+				candidate = de;
+				break;
 			} else if (de.supportsModel(model) && de.isDefaultEditorPresent()){
 				candidate = de;
 			}
