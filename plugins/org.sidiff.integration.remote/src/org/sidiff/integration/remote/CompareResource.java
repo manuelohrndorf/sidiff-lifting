@@ -122,8 +122,10 @@ public class CompareResource {
 	 * 
 	 * @param extension the new file extension, might also be the original file extension
 	 * @return URI of the related file, might be a platform URI or a file URI for a temporary file
+	 * @throws IOException if an I/O error occurred
+	 * @throws CoreException if some other error occurred
 	 */
-	public URI resolveRelatedFile(String extension) {
+	public URI resolveRelatedFile(String extension) throws IOException, CoreException {
 		URI resolved = null;
 		if(this.getRelatedFileResolver() != null) {
 			resolved = this.getRelatedFileResolver().resolveRelatedFile(this.getTypedElement(), extension);
@@ -168,9 +170,7 @@ public class CompareResource {
 		// create a complete copy of the resource
 		if(this.getURI() != null) {
 			Resource res = new ResourceSetImpl().createResource(this.getURI());
-	
 			Copier copier = new EcoreUtil.Copier();
-			
 			res.getContents().addAll(copier.copyAll(this.getResource().getContents()));
 			copier.copyReferences();
 			for (EObject origin : copier.keySet()) {
