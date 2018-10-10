@@ -20,54 +20,39 @@ import org.eclipse.ui.internal.WorkbenchPage;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
-//import org.eclipse.ui.internal.EditorPane;
-//import org.eclipse.ui.internal.EditorSashContainer;
-//import org.eclipse.ui.internal.EditorStack;
-//import org.eclipse.ui.internal.PageLayout;
-
 
 @SuppressWarnings("restriction")
 public class LayoutCompareViewHandler extends AbstractHandler implements IHandler {
 
-	private IEditorPart differenceEditor = null;
 	
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		differenceEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		
+		IEditorPart differenceEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		EditingDomain editingDomain = ((IEditingDomainProvider) differenceEditor).getEditingDomain();
-		//IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		
-		Resource resourceA = null;
-		Resource resourceB = null;
-		SymmetricDifference difference = null;
-		
-		IEditorPart editorA = null;
-		IEditorPart editorAT = null;
-		IEditorPart editorB = null;
-		IEditorPart editorBT = null;
-		
+
 		//first get the difference object to retrieve the two compared ecore resources
+		SymmetricDifference difference = null;
 		for(Resource resource : editingDomain.getResourceSet().getResources()){
 			if(resource.getContents().get(0) instanceof SymmetricDifference){
 				difference = (SymmetricDifference) resource.getContents().get(0);
+				break;
 			}
 		}
-		resourceA = difference.getModelA();
-		resourceB = difference.getModelB();
+		Resource resourceA = difference.getModelA();
+		Resource resourceB = difference.getModelB();
 		
 		URI uriA = resourceA.getURI();
 		URI uriB = resourceB.getURI();
 	
-		IEditorIntegration deA = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriA);
-		IEditorIntegration deB = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriB);
+		IEditorIntegration deA = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(resourceA);
+		IEditorIntegration deB = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(resourceB);
 
-		editorAT = deA.openModelInDefaultEditor(uriA);
-		editorA = deA.openDiagramForModel(uriA);
+		IEditorPart editorAT = deA.openModelInDefaultEditor(uriA);
+		IEditorPart editorA = deA.openDiagramForModel(uriA);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorAT);
 
-		editorBT = deB.openModelInDefaultEditor(uriB);
-		editorB = deB.openDiagramForModel(uriB);
+		IEditorPart editorBT = deB.openModelInDefaultEditor(uriB);
+		IEditorPart editorB = deB.openDiagramForModel(uriB);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().activate(editorBT);
 		
 		//The EditorSashContainer is the LayoutPart that contains all EditorStacks and can be used to add new Stacks,
