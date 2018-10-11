@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 
@@ -175,23 +176,43 @@ public class VariantConsolidator {
 		if(!subTypes.isEmpty()) {
 			for(EClassifier subtype: subTypes) {
 
-				// - create new Sequence
+				// create new Sequence
 				Sequence replicatedSequence = new Sequence();
+				
+				// history log of node replication (Map<old,new>)
+				Map<SequenceEntry, SequenceEntry> historyMap = new HashMap<SequenceEntry, SequenceEntry>();
 
-				// - create a copies of nodes and substitute the corresponding node type which has sub types
+				// replicate nodes / sequence entries and..
 				for(SequenceEntry originalEntry: originalSequence) {
 
 					Node originalNode = originalEntry.getKey();
 					Node replicatedNode = HenshinRuleAnalysisUtilEx.copyNode(originalNode.getGraph(), originalNode, true);
-					
-					// copy all incoming references
-					for(Edge incEdge: originalNode.getIncoming()) {
-						HenshinRuleAnalysisUtilEx.copyEdge(incEdge, incEdge.getSource(), replicatedNode);
-					}					
-
-					// copy the rest of the sequence in order
 					SequenceEntry entryInReplicatedSequence = replicatedSequence.addEntry(replicatedNode);
 
+					// log replication (Map<old,new>)
+					historyMap.put(originalEntry, entryInReplicatedSequence);
+					
+					// copy all incoming references (and recurve edges to replicated sources)
+					for(Edge incEdge: originalNode.getIncoming()) {
+						
+						Node replicatedEdgeSource = getReplicatedNodeInHistory(incEdge.getSource(), historyMap);
+						
+						//TODO need more documentation / explanation here
+						if(incEdge.getSource().equals(currentNodeInOriginalSequence) && originalNode != currentNodeInOriginalSequence) {
+							SequenceEntry replicatedAndSubstitutedEntry = historyMap.get(entryInOriginalSequence);
+							HenshinRuleAnalysisUtilEx.copyEdge(incEdge, replicatedAndSubstitutedEntry.getKey(), replicatedNode);
+							
+						}
+						else if(replicatedEdgeSource !=null && replicatedEdgeSource != currentNodeInOriginalSequence) {
+							HenshinRuleAnalysisUtilEx.copyEdge(incEdge, replicatedEdgeSource, replicatedNode);
+						}				
+						else {
+							HenshinRuleAnalysisUtilEx.copyEdge(incEdge, incEdge.getSource(), replicatedNode);
+						}
+					}					
+
+
+					
 					// in case it was the node with sub types...
 					if(originalNode.equals(currentNodeInOriginalSequence)) {
 
@@ -216,6 +237,16 @@ public class VariantConsolidator {
 			}
 		}
 
+	}
+	
+	private Node getReplicatedNodeInHistory(Node node, Map<SequenceEntry, SequenceEntry> historyMap) {
+		
+		for(Entry<SequenceEntry, SequenceEntry> historyEntry: historyMap.entrySet()) {
+			if(historyEntry.getKey().getKey().equals(node)) {
+				return historyEntry.getValue().getKey();
+			}
+		}
+		return null;
 	}
 	
 	private void createNodeAnnotations(Sequence replicatedSequence) {
