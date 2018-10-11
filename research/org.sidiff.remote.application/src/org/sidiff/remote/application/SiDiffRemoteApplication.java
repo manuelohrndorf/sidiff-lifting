@@ -22,7 +22,6 @@ import org.sidiff.common.logging.LogUtil;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
 import org.sidiff.remote.application.adapters.IRepositoryAdapter;
 import org.sidiff.remote.application.adapters.InfoOperationResult;
-import org.sidiff.remote.application.adapters.InitBranchResult;
 import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.RepositoryAdapterException;
 import org.sidiff.remote.application.extraction.ExtractionEngine;
@@ -239,72 +238,45 @@ public class SiDiffRemoteApplication {
 			}
 		}
 		
-		//init branch
-		//TODO determine right repository adapter
-		IRepositoryAdapter repositoryAdapter = ExtensionUtil.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
-		InfoOperationResult infoOperationResult;
-		try {
-			infoOperationResult = repositoryAdapter.info(new File (absolute_origin_path));
-		} catch (RepositoryAdapterException e) {
-			throw new CheckoutSubModelException(e);
-		}
-		InitBranchResult initBranchResult;
-		try {
-			initBranchResult = repositoryAdapter.initBranch(infoOperationResult.getUrl(), infoOperationResult.getPort(), user_folder.getName(), null, null);
-		} catch (RepositoryAdapterException e) {
-			throw new CheckoutSubModelException(e);
-		}	
-		
 		ResourceSet resourceSet = new ResourceSetImpl();
 		UUIDResource sessionModel = new UUIDResource(EMFStorage.pathToUri(absolute_origin_path), resourceSet);
 		
 		UUIDResource completeModel = UUIDResourceUtil.copyResource(sessionModel, EMFStorage.pathToUri(absolute_copy_path));
-		
-		// save complete model as uuid resource
-		try {
-			completeModel.save(completeModel.getDefaultSaveOptions());
-		} catch (IOException e) {
-			LogUtil.log(LogEvent.ERROR, e.getMessage());
-			throw new CheckoutSubModelException(e);
-		}
-		
-		URI emptyModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
-		
-		UUIDResource emptyModel = UUIDResourceUtil.copyMinimalResource(completeModel, emptyModelURI);
-		
-		// save empty model as uuid resource
-		try {
-			emptyModel.save(emptyModel.getDefaultSaveOptions());
-		} catch (IOException e) {
-			LogUtil.log(LogEvent.ERROR, e.getMessage());
-			throw new CheckoutSubModelException(e);
-		}
-
-	
-		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
-		
-		UUIDResource slicedModel = UUIDResourceUtil.copyResource(emptyModel, slicedModelURI);
-		// save sliced model as uuid resource
-		try {
-			slicedModel.save(slicedModel.getDefaultSaveOptions());
-		} catch (IOException e) {
-			LogUtil.log(LogEvent.ERROR, e.getMessage());
-			throw new CheckoutSubModelException(e);
-		}
-
 		File subModelFile = null;
+		
 		try {
-			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel, slicedModel, preferences);
+			// save complete model as uuid resource
+			completeModel.save(completeModel.getDefaultSaveOptions());
 
-			//FIXME check-in updated submodel
-			if(false) {
-			try {
-				repositoryAdapter.info(subModelFile);
-			}catch(RepositoryAdapterException e) {
-				String path = initBranchResult.getPath() + File.separator + relative_local_model_path.substring(0, relative_local_model_path.lastIndexOf(File.separator));
-				repositoryAdapter.importFile(infoOperationResult.getUrl(), infoOperationResult.getPort(), path , subModelFile.getParentFile(), null, null, "import submodel " + subModelFile.getName());
-			}
-			}
+			URI emptyModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI())
+					.replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
+
+			UUIDResource emptyModel = UUIDResourceUtil.copyMinimalResource(completeModel, emptyModelURI);
+
+			// save empty model as uuid resource
+			emptyModel.save(emptyModel.getDefaultSaveOptions());
+
+			URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI())
+					.replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
+
+			UUIDResource slicedModel = UUIDResourceUtil.copyResource(emptyModel, slicedModelURI);
+			
+			// save sliced model as uuid resource
+			slicedModel.save(slicedModel.getDefaultSaveOptions());
+
+			subModelFile = this.extractionEngine.extract(new HashSet<String>(elementIds), completeModel, emptyModel,
+					slicedModel, preferences);
+
+			// TODO determine right repository adapter
+			IRepositoryAdapter repositoryAdapter = ExtensionUtil
+					.getRepositoryAdapter("org.sidiff.remote.application.adapter.svn.SVNRepositoryAdapter");
+
+			InfoOperationResult infoOperationResult;
+
+			infoOperationResult = repositoryAdapter.info(new File(absolute_origin_path).getParentFile());
+			repositoryAdapter.commit(infoOperationResult.getUrl(), infoOperationResult.getPort(),
+					infoOperationResult.getPath(), sidiff_inf_file, null, null, "<commit>");
+			
 		} catch (UncoveredChangesException | InvalidModelException | NoCorrespondencesException
 				| NotInitializedException | ExtendedSlicingCriteriaIntersectionException | IOException | RepositoryAdapterException | EmptySlicingCriteriaException | EmtpyModelSliceException e) {
 			LogUtil.log(LogEvent.ERROR, e.getMessage());
