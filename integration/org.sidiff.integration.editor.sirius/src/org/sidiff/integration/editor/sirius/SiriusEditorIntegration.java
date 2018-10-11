@@ -64,8 +64,9 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public boolean supportsDiagram(URI diagramFile) {
-		return diagramFile.fileExtension().toLowerCase().endsWith(DIAGRAM_FILE_EXT);
+	public boolean supportsDiagram(URI modelFile) {
+		return modelFile.fileExtension().toLowerCase().endsWith(DIAGRAM_FILE_EXT)
+				|| getDiagramForModel(modelFile) != null;
 	}
 
 	@Override
