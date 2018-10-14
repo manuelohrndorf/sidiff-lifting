@@ -1,20 +1,26 @@
 package org.sidiff.integration.editor.highlighting;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.INullSelectionListener;
 import org.eclipse.ui.ISelectionListener;
 import org.sidiff.integration.editor.highlighting.internal.SelectionController;
+import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControllerTreeViewer;
 
 /**
  * Singleton ({@link #getInstance()}) which registers the highlighting adapters
@@ -23,7 +29,7 @@ import org.sidiff.integration.editor.highlighting.internal.SelectionController;
  * ({@link #getSelectionListener()}, {@link #getSelectionChangedListener()},
  * {@link #getNullSelectionListener()})
  * 
- * @author Manuel Ohrndorf
+ * @author Manuel Ohrndorf, Robert Müller
  */
 public class EditorHighlighting {
 
@@ -104,7 +110,7 @@ public class EditorHighlighting {
 	/**
 	 * @return The current selection.
 	 */
-	public List<EObject> getSelection() {
+	public Collection<StyledObject> getSelection() {
 		return SelectionController.getInstance().getSelected();
 	}
 
@@ -118,7 +124,7 @@ public class EditorHighlighting {
 	 * @see #getSelectionChangedListener()
 	 * @see #getNullSelectionListener()
 	 */
-	public void setSelection(List<EObject> selected) {
+	public void setSelection(Collection<StyledObject> selected) {
 		SelectionController.getInstance().setSelection(selected);
 	}
 
@@ -126,7 +132,7 @@ public class EditorHighlighting {
 	 * @param selection
 	 *            The selection that will be appended.
 	 */
-	public void appendSelection(List<EObject> selection) {
+	public void appendSelection(Collection<StyledObject> selection) {
 		SelectionController.getInstance().appendSelection(selection);
 	}
 
@@ -135,32 +141,67 @@ public class EditorHighlighting {
 	 *            A UI selection.
 	 * @return The selected model elements that will be highlighted.
 	 */
-	public List<EObject> getElements(ISelection selection) {
-		List<EObject> elements = new ArrayList<>();
+	public Collection<StyledObject> getElements(ISelection selection) {
+		Set<StyledObject> elements = new HashSet<>();
 
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
-			for (Object selectedElement : ((IStructuredSelection) selection).toList()) {
+			for (Object selectedElement : ((IStructuredSelection)selection).toList()) {
 				if (selectedElement instanceof EObject) {
-					if (!elements.contains((EObject) selectedElement)) {
-						elements.add((EObject) selectedElement);
-					}
+					elements.add(new StyledObject((EObject)selectedElement, ColorConstants.red));
 				}
 			}
 		}
 
 		// Check registered adapter:
 		for (ISelectionHighlightingAdapter adapter : adapters) {
-			Iterator<? extends EObject> modelIterator = adapter.getElements(selection);
-
-			if (modelIterator != null) {
-				modelIterator.forEachRemaining(element -> {
-					if (!elements.contains(element)) {
-						elements.add(element);
-					}
-				});
-			}
+			adapter.getElements(selection).forEach(elements::add);
 		}
 
 		return elements;
+	}
+
+	/**
+	 * Returns whether the highlighting is enabled.
+	 * @return <code>true</code> if highlighting is enabled, <code>false</code> otherwise
+	 */
+	public boolean isEnabled() {
+		return SelectionController.getInstance().isEnabled();
+	}
+
+	/**
+	 * Enables/disables highlighting globally.
+	 * @param enabled <code>true</code> to enabled, <code>false</code> to disable
+	 */
+	public void setEnabled(boolean enabled) {
+		SelectionController.getInstance().setEnabled(enabled);
+	}
+
+	/**
+	 * Adds a manually managed TreeViewer to receive highlighting.
+	 * Only necessary for some editors that do not directly expose the TreeViewer.
+	 * The TreeViewer will automatically be unregistered, when its underlying
+	 * control is disposed. If, however it has no control when it is added,
+	 * it must be manually removed.
+	 * @param treeViewer the tree viewer
+	 */
+	public void addHighlightingReceiver(TreeViewer treeViewer) {
+		SelectionControllerTreeViewer.getInstance().addTreeViewer(treeViewer);
+		if(treeViewer.getControl() != null) {
+			treeViewer.getControl().addDisposeListener(new DisposeListener() {
+				@Override
+				public void widgetDisposed(DisposeEvent e) {
+					removeHighlightingReceiver(treeViewer);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Removes a manually managed TreeViewer, removing the highlighting.
+	 * Only necessary for some editors that do not directly expose the TreeViewer.
+	 * @param treeViewer the tree viewer
+	 */
+	public void removeHighlightingReceiver(TreeViewer treeViewer) {
+		SelectionControllerTreeViewer.getInstance().removeTreeViewer(treeViewer);
 	}
 }

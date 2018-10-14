@@ -1,11 +1,13 @@
 package org.sidiff.integration.editor.highlighting.adapter.difference;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -18,19 +20,27 @@ import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.editor.highlighting.ISelectionHighlightingAdapter;
+import org.sidiff.integration.editor.highlighting.StyledObject;
+import org.sidiff.matching.model.Correspondence;
+import org.sidiff.matching.model.Matching;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Müller, cpietsch
  *
  */
 public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlightingAdapter {
 
+	private static final Color CHANGE = new Color(Display.getCurrent(), 0, 128, 255);
+	private static final Color REMOVE = new Color(Display.getCurrent(), 204, 0, 0);
+	private static final Color ADD = new Color(Display.getCurrent(), 0, 204, 00);
+	
 	@Override
-	public Iterator<? extends EObject> getElements(ISelection selection) {
-		Set<EObject> result = new HashSet<EObject>();
+	public Stream<StyledObject> getElements(ISelection selection) {
+		Set<StyledObject> result = new HashSet<>();
 
 		Object selectedObject = ISelectionHighlightingAdapter.getFirstElement(selection);
 		if(selectedObject instanceof OperationInvocationWrapper) {
@@ -43,57 +53,58 @@ public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlig
 			collectChangeElements((Change)selectedObject, result);
 		} else if(selectedObject instanceof ParameterBinding) {
 			collectParameterBindingElements((ParameterBinding)selectedObject, result);
+		} else if(selectedObject instanceof Matching) {
+			collectMatchingElements((Matching)selectedObject, result);
+		} else if(selectedObject instanceof Correspondence) {
+			collectCorrespondenceElements((Correspondence)selectedObject, result);
 		}
 
-		// A null-element might have been added before and
-		// is now removed from the set. Removing it at the
-		// end makes the other functions more readable.
-		result.remove(null);
-
-		return result.iterator();
+		return result.stream();
 	}
 
-	private void collectOperationInvocationElements(OperationInvocation operation, Set<EObject> result) {
+	private void collectOperationInvocationElements(OperationInvocation operation, Set<StyledObject> result) {
 		collectSemanticChangeSetElements(operation.getChangeSet(), result);
 		for(ParameterBinding binding : operation.getParameterBindings()) {
 			collectParameterBindingElements(binding, result);
 		}
 	}
 
-	private void collectSemanticChangeSetElements(SemanticChangeSet changeSet, Set<EObject> result) {
+	private void collectSemanticChangeSetElements(SemanticChangeSet changeSet, Set<StyledObject> result) {
 		for(Change change : changeSet.getChanges()) {
 			collectChangeElements(change, result);
 		}
 	}
 
-	private void collectChangeElements(Change change, Set<EObject> result) {
+	private void collectChangeElements(Change change, Set<StyledObject> result) {
+		SymmetricDifference symmetric = (SymmetricDifference)change.eContainer();
 		if(change instanceof AddObject) {
-			result.add(((AddObject)change).getObj());
+			highlight(((AddObject)change).getObj(), ADD, result);
 		} else if(change instanceof RemoveObject) {
-			result.add(((RemoveObject)change).getObj());
+			highlight(((RemoveObject)change).getObj(), REMOVE, result);
 		} else if(change instanceof AddReference) {
 			AddReference addRef = (AddReference)change;
-			result.add(addRef.getSrc());
-			result.add(addRef.getTgt());
-			result.add(addRef.getType());
+			highlight(addRef.getSrc(), CHANGE, result);
+			highlight(addRef.getTgt(), CHANGE, result);
+			highlight(symmetric.getCorrespondingObjectInA(addRef.getSrc()), CHANGE, result);
+			highlight(symmetric.getCorrespondingObjectInA(addRef.getTgt()), CHANGE, result);
 		} else if(change instanceof RemoveReference) {
 			RemoveReference remRef = (RemoveReference)change;
-			result.add(remRef.getSrc());
-			result.add(remRef.getTgt());
-			result.add(remRef.getType());
+			highlight(remRef.getSrc(), CHANGE, result);
+			highlight(remRef.getTgt(), CHANGE, result);
+			highlight(symmetric.getCorrespondingObjectInB(remRef.getSrc()), CHANGE, result);
+			highlight(symmetric.getCorrespondingObjectInB(remRef.getTgt()), CHANGE, result);
 		} else if(change instanceof AttributeValueChange) {
 			AttributeValueChange attrChange = (AttributeValueChange)change;
-			result.add(attrChange.getObjA());
-			result.add(attrChange.getObjB());
-			result.add(attrChange.getType());
+			highlight(attrChange.getObjA(), CHANGE, result);
+			highlight(attrChange.getObjB(), CHANGE, result);
 		}
 	}
 
-	private void collectParameterBindingElements(ParameterBinding selectedObject, Set<EObject> result) {
+	private void collectParameterBindingElements(ParameterBinding selectedObject, Set<StyledObject> result) {
 		if(selectedObject instanceof ObjectParameterBinding) {
 			ObjectParameterBinding objParam = (ObjectParameterBinding)selectedObject;
-			result.add(objParam.getActualA());
-			result.add(objParam.getActualB());
+			highlight(objParam.getActualA(), CHANGE, result);
+			highlight(objParam.getActualB(), CHANGE, result);
 		} else if(selectedObject instanceof ValueParameterBinding) {
 			// there is nothing to highlight for value parameter bindings
 		} else if(selectedObject instanceof MultiParameterBinding) {
@@ -101,5 +112,28 @@ public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlig
 				collectParameterBindingElements(binding, result);
 			}
 		}
+	}
+
+	private void collectMatchingElements(Matching matching, Set<StyledObject> result) {
+		for(Correspondence correspondence : matching.getCorrespondences()) {
+			collectCorrespondenceElements(correspondence, result);
+		}
+	}
+
+	private void collectCorrespondenceElements(Correspondence correspondence, Set<StyledObject> result) {
+		highlight(correspondence.getMatchedA(), CHANGE, result);
+		highlight(correspondence.getMatchedB(), CHANGE, result);
+	}
+
+	private void highlight(EObject eObject, Color color, Set<StyledObject> result) {
+		if(eObject != null) {
+			result.add(new StyledObject(eObject, color));
+		}
+	}
+
+	static void dispose() {
+		CHANGE.dispose();
+		REMOVE.dispose();
+		ADD.dispose();
 	}
 }
