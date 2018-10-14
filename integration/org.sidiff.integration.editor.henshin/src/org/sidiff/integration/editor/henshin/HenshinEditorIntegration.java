@@ -1,6 +1,7 @@
 package org.sidiff.integration.editor.henshin;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -60,7 +61,8 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 	 */
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		Collection<EObject> res = super.getHighlightableElements(element);
+		Collection<EObject> res = new HashSet<>();
+		res.add(element);
 
 		if (element instanceof Node) {
 			Node node = (Node) element;
