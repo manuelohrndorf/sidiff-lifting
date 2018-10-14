@@ -22,16 +22,16 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.menus.CommandContributionItem;
+import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.sidiff.difference.symmetric.compareview.internal.DifferenceSelectionController;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -52,8 +52,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
 	private final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
 	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
-	private final ImageDescriptor toggle = PlatformUI.getWorkbench().getSharedImages()
-			.getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED);
 
 	private PatchEngine engine;
 
@@ -67,9 +65,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private Action collapseAllAction;
 	// Expand
 	private Action expandAllAction;
-
-	// ----------- Toggle Highlight -------------
-	private Action toggleHighlightAction;
 
 	// ----------- Filter -------------------
 	private Action filterOperationsAction;
@@ -354,21 +349,11 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			@Override
 			public void run() {
 				treeViewer.expandAll();
-				;
 			}
 		};
 		this.expandAllAction.setToolTipText("Expand all");
 		this.expandAllAction.setImageDescriptor(Activator.getImageDescriptor("expandall.gif"));
-
-		// ----------- Toggle Highlight ------------------
-		this.toggleHighlightAction = new Action("Highlighting of Changes", IAction.AS_CHECK_BOX) {
-			@Override
-			public void run() {
-				DifferenceSelectionController.getInstance().toggleHighlight();
-			}
-		};
-		this.toggleHighlightAction.setToolTipText("Highlighting of Changes");
-		this.toggleHighlightAction.setImageDescriptor(toggle);
+		
 	}
 
 	private void updateFilter(Action action) {
@@ -402,7 +387,10 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		toolbarManager.add(filterOperationsAction);
 		toolbarManager.add(collapseAllAction);
 		toolbarManager.add(expandAllAction);
-		toolbarManager.add(toggleHighlightAction);
+		toolbarManager.add(new CommandContributionItem(
+				new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+						"org.sidiff.integration.editor.highlighting.commands.Toggle",
+						CommandContributionItem.STYLE_CHECK)));
 		toolbarManager.add(validateMenu);
 	}
 
@@ -514,7 +502,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.applyPatchAction.setEnabled(false);
 		this.collapseAllAction.setEnabled(false);
 		this.expandAllAction.setEnabled(false);
-		this.toggleHighlightAction.setEnabled(false);
 		this.filterOperationsAction.setEnabled(false);
 		this.validateMenu.setEnabled(false);
 
@@ -534,7 +521,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.applyPatchAction.setEnabled(true);
 		this.collapseAllAction.setEnabled(true);
 		this.expandAllAction.setEnabled(true);
-		this.toggleHighlightAction.setEnabled(true);
 		this.filterOperationsAction.setEnabled(true);
 		this.validateMenu.setEnabled(true);
 	}
