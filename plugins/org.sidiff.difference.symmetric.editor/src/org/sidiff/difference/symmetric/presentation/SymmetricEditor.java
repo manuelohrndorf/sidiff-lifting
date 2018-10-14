@@ -85,6 +85,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
@@ -103,9 +104,12 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.menus.CommandContributionItem;
+import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -115,9 +119,9 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.compareview.widgets.CompareViewToolbar;
 import org.sidiff.difference.symmetric.provider.AdapterToolTipLabelProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.matching.model.provider.MatchingModelItemProviderAdapterFactory;
 
 
@@ -984,11 +988,11 @@ public class SymmetricEditor
 
 			for (Resource resource : editingDomain.getResourceSet().getResources()) {
 				Object root = resource.getContents().get(0);
-
 				if (root instanceof SymmetricDifference) {
 					difference = (SymmetricDifference) root;
 				}
 			}
+			EcoreUtil.resolveAll(getEditingDomain().getResourceSet());
 			
 			// Create a page for the selection tree view.
 			//
@@ -1015,11 +1019,11 @@ public class SymmetricEditor
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 				selectionViewer.setUseHashlookup(true);
 
-				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				selectionViewer.setLabelProvider(new AdapterToolTipLabelProvider(adapterFactory, selectionViewer));
 				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-				viewerPane.setTitle(editingDomain.getResourceSet());
 
+				ColumnViewerToolTipSupport.enableFor(selectionViewer, ToolTip.RECREATE);
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
 				createContextMenuFor(selectionViewer);
@@ -1044,187 +1048,38 @@ public class SymmetricEditor
 						viewer.setExpandedState(selectedNode, !viewer.getExpandedState(selectedNode));
 					}
 				});
-				
-				// Set tool tip:
-				ColumnViewerToolTipSupport.enableFor(selectionViewer);
-				AdapterToolTipLabelProvider toolTip = new AdapterToolTipLabelProvider(adapterFactory);
-				selectionViewer.setLabelProvider(toolTip);
-				
+
 				// Toolbar:
-				CompareViewToolbar contribution = new CompareViewToolbar();
-				contribution.createItems(viewerPane.getToolBarManager().getControl(), null);
+				CommandContributionItemParameter showModelsParameter =
+						new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+								"org.sidiff.integration.editor.commands.ShowModels",
+								CommandContributionItem.STYLE_PUSH);
+				Map<String,String> showModelParameterValues = new HashMap<>();
+				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelA", difference.getUriModelA());
+				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelB", difference.getUriModelB());
+				showModelsParameter.parameters = showModelParameterValues;
+				viewerPane.getToolBarManager().add(new CommandContributionItem(showModelsParameter));
+				viewerPane.getToolBarManager().add(new CommandContributionItem(
+						new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+								"org.sidiff.integration.editor.commands.HideModels",
+								CommandContributionItem.STYLE_PUSH)));
+				viewerPane.getToolBarManager().add(new CommandContributionItem(
+						new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+								"org.sidiff.integration.editor.highlighting.commands.Toggle",
+								CommandContributionItem.STYLE_CHECK)));
+				viewerPane.getToolBarManager().update(true);
+
+				try {
+					selectionViewer.addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
+				} catch(NoClassDefFoundError e) {
+					// The editor highlighting plugin is optional.
+					// This exception might be thrown when it is unavailable.
+				}
 				
 				// Initial selection:
 				selectionViewer.setExpandedState(difference, true);
 				selectionViewer.setSelection(new StructuredSelection(difference));
 			}
-
-//			// Create a page for the parent tree view.
-//			//
-//			{
-//				ViewerPane viewerPane =
-//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-//						@Override
-//						public Viewer createViewer(Composite composite) {
-//							Tree tree = new Tree(composite, SWT.MULTI);
-//							TreeViewer newTreeViewer = new TreeViewer(tree);
-//							return newTreeViewer;
-//						}
-//						@Override
-//						public void requestActivation() {
-//							super.requestActivation();
-//							setCurrentViewerPane(this);
-//						}
-//					};
-//				viewerPane.createControl(getContainer());
-//
-//				parentViewer = (TreeViewer)viewerPane.getViewer();
-//				parentViewer.setAutoExpandLevel(30);
-//				parentViewer.setContentProvider(new ReverseAdapterFactoryContentProvider(adapterFactory));
-//				parentViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//
-//				createContextMenuFor(parentViewer);
-//				int pageIndex = addPage(viewerPane.getControl());
-//				setPageText(pageIndex, getString("_UI_ParentPage_label"));
-//			}
-
-//			// This is the page for the list viewer
-//			//
-//			{
-//				ViewerPane viewerPane =
-//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-//						@Override
-//						public Viewer createViewer(Composite composite) {
-//							return new ListViewer(composite);
-//						}
-//						@Override
-//						public void requestActivation() {
-//							super.requestActivation();
-//							setCurrentViewerPane(this);
-//						}
-//					};
-//				viewerPane.createControl(getContainer());
-//				listViewer = (ListViewer)viewerPane.getViewer();
-//				listViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-//				listViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//
-//				createContextMenuFor(listViewer);
-//				int pageIndex = addPage(viewerPane.getControl());
-//				setPageText(pageIndex, getString("_UI_TreePage_label"));
-//			}
-
-//			// This is the page for the tree viewer
-//			//
-//			{
-//				ViewerPane viewerPane =
-//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-//						@Override
-//						public Viewer createViewer(Composite composite) {
-//							return new TreeViewer(composite);
-//						}
-//						@Override
-//						public void requestActivation() {
-//							super.requestActivation();
-//							setCurrentViewerPane(this);
-//						}
-//					};
-//				viewerPane.createControl(getContainer());
-//				treeViewer = (TreeViewer)viewerPane.getViewer();
-//				treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-//				treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//
-//				new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
-//
-//				createContextMenuFor(treeViewer);
-//				int pageIndex = addPage(viewerPane.getControl());
-//				setPageText(pageIndex, getString("_UI_TreePage_label"));
-//			}
-
-//			// This is the page for the table viewer.
-//			//
-//			{
-//				ViewerPane viewerPane =
-//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-//						@Override
-//						public Viewer createViewer(Composite composite) {
-//							return new TableViewer(composite);
-//						}
-//						@Override
-//						public void requestActivation() {
-//							super.requestActivation();
-//							setCurrentViewerPane(this);
-//						}
-//					};
-//				viewerPane.createControl(getContainer());
-//				tableViewer = (TableViewer)viewerPane.getViewer();
-//
-//				Table table = tableViewer.getTable();
-//				TableLayout layout = new TableLayout();
-//				table.setLayout(layout);
-//				table.setHeaderVisible(true);
-//				table.setLinesVisible(true);
-//
-//				TableColumn objectColumn = new TableColumn(table, SWT.NONE);
-//				layout.addColumnData(new ColumnWeightData(3, 100, true));
-//				objectColumn.setText(getString("_UI_ObjectColumn_label"));
-//				objectColumn.setResizable(true);
-//
-//				TableColumn selfColumn = new TableColumn(table, SWT.NONE);
-//				layout.addColumnData(new ColumnWeightData(2, 100, true));
-//				selfColumn.setText(getString("_UI_SelfColumn_label"));
-//				selfColumn.setResizable(true);
-//
-//				tableViewer.setColumnProperties(new String [] {"a", "b"});
-//				tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-//				tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//
-//				createContextMenuFor(tableViewer);
-//				int pageIndex = addPage(viewerPane.getControl());
-//				setPageText(pageIndex, getString("_UI_TablePage_label"));
-//			}
-
-//			// This is the page for the table tree viewer.
-//			//
-//			{
-//				ViewerPane viewerPane =
-//					new ViewerPane(getSite().getPage(), SymmetricEditor.this) {
-//						@Override
-//						public Viewer createViewer(Composite composite) {
-//							return new TreeViewer(composite);
-//						}
-//						@Override
-//						public void requestActivation() {
-//							super.requestActivation();
-//							setCurrentViewerPane(this);
-//						}
-//					};
-//				viewerPane.createControl(getContainer());
-//
-//				treeViewerWithColumns = (TreeViewer)viewerPane.getViewer();
-//
-//				Tree tree = treeViewerWithColumns.getTree();
-//				tree.setLayoutData(new FillLayout());
-//				tree.setHeaderVisible(true);
-//				tree.setLinesVisible(true);
-//
-//				TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
-//				objectColumn.setText(getString("_UI_ObjectColumn_label"));
-//				objectColumn.setResizable(true);
-//				objectColumn.setWidth(250);
-//
-//				TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
-//				selfColumn.setText(getString("_UI_SelfColumn_label"));
-//				selfColumn.setResizable(true);
-//				selfColumn.setWidth(200);
-//
-//				treeViewerWithColumns.setColumnProperties(new String [] {"a", "b"});
-//				treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-//				treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-//
-//				createContextMenuFor(treeViewerWithColumns);
-//				int pageIndex = addPage(viewerPane.getControl());
-//				setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));
-//			}
 
 			getSite().getShell().getDisplay().asyncExec
 				(new Runnable() {
