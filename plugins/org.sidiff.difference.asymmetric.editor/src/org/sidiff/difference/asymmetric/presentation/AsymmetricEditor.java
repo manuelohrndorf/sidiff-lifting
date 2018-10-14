@@ -95,9 +95,12 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.menus.CommandContributionItem;
+import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.ContentOutline;
@@ -109,10 +112,9 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.editor.AsymmetricViewer;
 import org.sidiff.difference.asymmetric.provider.AsymmetricItemProviderAdapterFactory;
-import org.sidiff.difference.asymmetric.util.AsymmetricDifferenceHighlightingAdapter;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.difference.symmetric.compareview.widgets.CompareViewToolbar;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 
 
 /**
@@ -998,8 +1000,31 @@ public class AsymmetricEditor
 			}
 
 			// Toolbar:
-			CompareViewToolbar contribution = new CompareViewToolbar();
-			contribution.createItems(viewerPane.getToolBarManager().getControl(), AsymmetricDifferenceHighlightingAdapter.getInstance());
+			CommandContributionItemParameter showModelsParameter =
+					new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+							"org.sidiff.integration.editor.commands.ShowModels",
+							CommandContributionItem.STYLE_PUSH);
+			Map<String,String> showModelParameterValues = new HashMap<>();
+			showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelA", difference.getUriOriginModel());
+			showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelB", difference.getUriChangedModel());
+			showModelsParameter.parameters = showModelParameterValues;
+			viewerPane.getToolBarManager().add(new CommandContributionItem(showModelsParameter));
+			viewerPane.getToolBarManager().add(new CommandContributionItem(
+					new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+							"org.sidiff.integration.editor.commands.HideModels",
+							CommandContributionItem.STYLE_PUSH)));
+			viewerPane.getToolBarManager().add(new CommandContributionItem(
+					new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+							"org.sidiff.integration.editor.highlighting.commands.Toggle",
+							CommandContributionItem.STYLE_CHECK)));
+			viewerPane.getToolBarManager().update(true);
+			
+			try {
+				asymmetricViewer.addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
+			} catch(NoClassDefFoundError e) {
+				// The editor highlighting plugin is optional.
+				// This exception might be thrown when it is unavailable.
+			}
 
 			// Add page to editor:
 			int pageIndex = addPage(viewerPane.getControl());
