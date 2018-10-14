@@ -9,7 +9,6 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -147,7 +146,7 @@ public class EditorHighlighting {
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 			for (Object selectedElement : ((IStructuredSelection)selection).toList()) {
 				if (selectedElement instanceof EObject) {
-					elements.add(new StyledObject((EObject)selectedElement, ColorConstants.red));
+					elements.add(new StyledObject((EObject)selectedElement));
 				}
 			}
 		}

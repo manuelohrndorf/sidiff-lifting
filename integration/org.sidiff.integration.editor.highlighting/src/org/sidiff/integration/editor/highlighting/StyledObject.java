@@ -16,11 +16,11 @@ public class StyledObject {
 	private boolean focus;
 
 	/**
-	 * Convenience constructor for <code>StyledObject(eObject, ColorConstants.red, true)</code>.
+	 * Convenience constructor for <code>StyledObject(eObject, ColorConstants.cyan, true)</code>.
 	 * @param eObject the EObject
 	 */
 	public StyledObject(EObject eObject) {
-		this(eObject, ColorConstants.red, true);
+		this(eObject, ColorConstants.cyan, true);
 	}
 
 	/**

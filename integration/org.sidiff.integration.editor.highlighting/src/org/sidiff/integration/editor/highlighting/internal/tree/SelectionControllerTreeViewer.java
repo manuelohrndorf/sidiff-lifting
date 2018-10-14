@@ -163,11 +163,11 @@ public class SelectionControllerTreeViewer {
 
 	private static class Selection {
 		final TreeViewer treeViewer;
-		final Collection<StyledObject> selection;
+		final Set<StyledObject> selection;
 
 		Selection(TreeViewer treeViewer, Collection<StyledObject> selection) {
 			this.treeViewer = treeViewer;
-			this.selection = Collections.unmodifiableCollection(selection);
+			this.selection = Collections.unmodifiableSet(new HashSet<>(selection));
 		}
 
 		static Optional<Selection> create(TreeViewer treeViewer, Collection<StyledObject> selection) {
