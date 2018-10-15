@@ -1055,8 +1055,8 @@ public class SymmetricEditor
 								"org.sidiff.integration.editor.commands.ShowModels",
 								CommandContributionItem.STYLE_PUSH);
 				Map<String,String> showModelParameterValues = new HashMap<>();
-				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelA", difference.getUriModelA());
-				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelB", difference.getUriModelB());
+				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelA", difference.getModelA().getURI().toString());
+				showModelParameterValues.put("org.sidiff.integration.editor.commands.ShowModels.ModelB", difference.getModelB().getURI().toString());
 				showModelsParameter.parameters = showModelParameterValues;
 				viewerPane.getToolBarManager().add(new CommandContributionItem(showModelsParameter));
 				viewerPane.getToolBarManager().add(new CommandContributionItem(
