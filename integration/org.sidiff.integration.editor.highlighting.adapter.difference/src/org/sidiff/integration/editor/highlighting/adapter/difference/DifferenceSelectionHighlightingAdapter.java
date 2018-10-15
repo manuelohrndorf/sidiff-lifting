@@ -127,7 +127,7 @@ public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlig
 
 	private void highlight(EObject eObject, Color color, Set<StyledObject> result) {
 		if(eObject != null) {
-			result.add(new StyledObject(eObject, color));
+			result.add(new StyledObject(eObject).setColor(color));
 		}
 	}
 
