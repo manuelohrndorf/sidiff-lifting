@@ -2,5 +2,39 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.sidiff.integration.editor" name="Integration Editor" schema="schema/org.sidiff.integration.editor.exsd"/>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.integration.editor.handlers.ShowModelsHandler"
+            id="org.sidiff.integration.editor.commands.ShowModels"
+            name="Show Models">
+         <commandParameter
+               id="org.sidiff.integration.editor.commands.ShowModels.ModelA"
+               name="Resource A"
+               optional="false">
+         </commandParameter>
+         <commandParameter
+               id="org.sidiff.integration.editor.commands.ShowModels.ModelB"
+               name="Resource B"
+               optional="false">
+         </commandParameter>
+      </command>
+      <command
+            defaultHandler="org.sidiff.integration.editor.handlers.HideModelsHandler"
+            id="org.sidiff.integration.editor.commands.HideModels"
+            name="Hide Models">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.sidiff.integration.editor.commands.ShowModels"
+            icon="icons/show_models.png">
+      </image>
+      <image
+            commandId="org.sidiff.integration.editor.commands.HideModels"
+            icon="icons/hide_models.png">
+      </image>
+   </extension>
 
 </plugin>

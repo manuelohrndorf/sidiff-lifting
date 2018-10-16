@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 
 /**
@@ -33,7 +32,9 @@ public class AsymmetricMergeImports extends MergeImports {
 
 	public void setAsymmetricDifference(AsymmetricDifference asymmetricDifference) {
 		this.asymmetricDifference = asymmetricDifference;
-		((AsymmetricPackageRegistryAdapter)registryAdapter).setAsymmetricDifference(asymmetricDifference);
+		if(registryAdapter != null) {
+			((AsymmetricPackageRegistryAdapter)registryAdapter).setAsymmetricDifference(asymmetricDifference);
+		}
 	}
 
 	public AsymmetricPackageRegistryAdapter getRegistryAdapter() {

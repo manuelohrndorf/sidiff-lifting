@@ -17,6 +17,9 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.menus.CommandContributionItem;
+import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.SiLiftCompareConfiguration;
@@ -90,6 +93,10 @@ public class SiLiftStructureMergeViewer extends TreeViewer {
 		filterAction.addViewer(this);
 		toolbarManager.add(new ApplyPatchOnLeftAction(config));
 		toolbarManager.add(new ShowDiagramAction(config));
+		toolbarManager.add(new CommandContributionItem(
+				new CommandContributionItemParameter(PlatformUI.getWorkbench(), null,
+						"org.sidiff.integration.editor.highlighting.commands.Toggle",
+						CommandContributionItem.STYLE_CHECK)));
 		toolbarManager.add(new SwitchDisplayModeAction(this, config));
 		toolbarManager.update(true);
 	}

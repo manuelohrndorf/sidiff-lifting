@@ -20,4 +20,24 @@
          </context>
       </decoratorProvider>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.sidiff.integration.editor.highlighting.ui.ToggleHighlightingHandler"
+            description="Toggle the highlighting of changes in other model editors."
+            id="org.sidiff.integration.editor.highlighting.commands.Toggle"
+            name="Toggle Highlighting">
+         <state
+               class="org.eclipse.ui.handlers.RegistryToggleState:false"
+               id="org.eclipse.ui.commands.toggleState">
+         </state>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="org.sidiff.integration.editor.highlighting.commands.Toggle"
+            icon="IMG_ELCL_SYNCED">
+      </image>
+   </extension>
 </plugin>

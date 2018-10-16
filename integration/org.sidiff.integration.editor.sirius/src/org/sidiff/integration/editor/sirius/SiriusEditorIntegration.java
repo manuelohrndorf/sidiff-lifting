@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -64,8 +65,9 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public boolean supportsDiagram(URI diagramFile) {
-		return diagramFile.fileExtension().toLowerCase().endsWith(DIAGRAM_FILE_EXT);
+	public boolean supportsDiagram(URI modelFile) {
+		return modelFile.fileExtension().toLowerCase().endsWith(DIAGRAM_FILE_EXT)
+				|| getDiagramForModel(modelFile) != null;
 	}
 
 	@Override
@@ -178,11 +180,10 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		ArrayList<EObject> res = new ArrayList<EObject>();
-		if (element instanceof DRepresentationElement) {
-			res.add(((DRepresentationElement) element).getTarget());
-		} 
-		return res;
+		if(element instanceof DRepresentationElement) {
+			return new ArrayList<>(((DRepresentationElement)element).getSemanticElements());
+		}
+		return Collections.emptyList();
 	}
 
 	@Override

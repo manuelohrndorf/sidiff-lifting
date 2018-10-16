@@ -1,25 +1,39 @@
 package org.sidiff.integration.editor.highlighting.internal;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.core.commands.State;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INullSelectionListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
+import org.sidiff.integration.editor.highlighting.StyledObject;
 import org.sidiff.integration.editor.highlighting.internal.gmf.SelectionControllerDiagram;
 import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControllerTreeViewer;
 
 public class SelectionController implements ISelectionListener, ISelectionChangedListener, INullSelectionListener {
 
 	private static SelectionController instance;
-	
-	private List<EObject> selected = new ArrayList<>();
+
+	private Collection<StyledObject> selected = new ArrayList<>();
+	private boolean enabled;
+
+	private SelectionController() {
+		this.enabled = getInitialEnabledState();
+	}
+
+	private boolean getInitialEnabledState() {
+		State state = PlatformUI.getWorkbench().getService(ICommandService.class)
+				.getCommand("org.sidiff.integration.editor.highlighting.commands.Toggle")
+				.getState("org.eclipse.ui.commands.toggleState");
+		return (Boolean)state.getValue();
+	}
 
 	public static SelectionController getInstance() {
 		if (instance == null) {
@@ -27,36 +41,30 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 		}
 		return instance;
 	}
-	
-	public List<EObject> getSelected() {
-		return selected;
+
+	public Collection<StyledObject> getSelected() {
+		synchronized (selected) {
+			return new ArrayList<>(selected);
+		}
 	}
-	
-	public synchronized void setSelection(List<EObject> selected) {
-		
-		// Set new selection:
-		this.selected = selected;
-		
-		// Start the highlighting:
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				try {
-					SelectionControllerDiagram.getInstance().setSelection(selected);
-					SelectionControllerTreeViewer.getInstance().setSelection(selected);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
+	public void setSelection(Collection<StyledObject> newSelection) {
+		synchronized (selected) {
+			selected.clear();
+			selected.addAll(newSelection);			
+		}
+		refresh();
 	}
-	
-	public synchronized void setSelection(ISelection selection) {
+
+	public void setSelection(ISelection selection) {
 		setSelection(EditorHighlighting.getInstance().getElements(selection));
 	}
-	
-	public synchronized void appendSelection(List<EObject> selection) {
-		this.selected.addAll(selection);
-		setSelection(this.selected);
+
+	public void appendSelection(Collection<StyledObject> appendedSelection) {
+		synchronized (selected) {
+			selected.addAll(appendedSelection);
+		}
+		refresh();
 	}
 
 	@Override
@@ -67,5 +75,19 @@ public class SelectionController implements ISelectionListener, ISelectionChange
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		setSelection(event.getSelection());
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		refresh();
+	}
+
+	private void refresh() {
+		SelectionControllerDiagram.getInstance().refresh();
+		SelectionControllerTreeViewer.getInstance().refresh();
 	}
 }

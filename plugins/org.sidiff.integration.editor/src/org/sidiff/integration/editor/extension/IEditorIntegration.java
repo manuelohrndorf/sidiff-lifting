@@ -29,7 +29,7 @@ public interface IEditorIntegration {
 	 * 
 	 * @param obj
 	 * @return Highlightable elements corresponding to "element", "element"
-	 *         itself or null
+	 *         itself or empty
 	 */
 	public Collection<EObject> getHighlightableElements(EObject element);
 

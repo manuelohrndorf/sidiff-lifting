@@ -1,17 +1,15 @@
 package org.sidiff.integration.editor.highlighting;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
  * A highlighting adapters that convert a selection to highlightable model elements.
  * 
- * @author Manuel Ohrndorf
+ * @author Manuel Ohrndorf, Robert Müller
  */
 public interface ISelectionHighlightingAdapter {
 
@@ -19,28 +17,12 @@ public interface ISelectionHighlightingAdapter {
 	public static final String ATTRIBUTE_CLASS = "class";
 
 	/**
-	 * Empty iteration.
+	 * Returns a stream of styled objects.
+	 * @param selection The actual selection to highlight.
+	 * @return A stream of {@link StyledObject}s, or {@link Stream#empty()}.
 	 */
-	public static Iterator<? extends EObject> EMPTY_ITERATOR = new Iterator<EObject>() {
+	Stream<StyledObject> getElements(ISelection selection);
 
-		@Override
-		public boolean hasNext() {
-			return false;
-		}
-
-		@Override
-		public EObject next() {
-			throw new NoSuchElementException();
-		}
-	};
-	
-	/**
-	 * @param selection
-	 *            The actual selection to highlight.
-	 * @return A model element iterator or <code>null</code>.
-	 */
-	Iterator<? extends EObject> getElements(ISelection selection);
-	
 	/**
 	 * Convenience function to convert a selection.
 	 * 
@@ -62,13 +44,10 @@ public interface ISelectionHighlightingAdapter {
 	 * @param selection A (structured) selection.
 	 * @return The selected elements.
 	 */
-	@SuppressWarnings("unchecked")
-	public static List<? extends Object> getAllElement(ISelection selection) {
-
+	public static List<?> getAllElement(ISelection selection) {
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
-			return ((IStructuredSelection) selection).toList();
+			return ((IStructuredSelection)selection).toList();
 		}
-		
 		return null;
 	}
 }

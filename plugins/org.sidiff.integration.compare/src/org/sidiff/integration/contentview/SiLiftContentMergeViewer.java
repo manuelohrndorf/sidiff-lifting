@@ -9,12 +9,14 @@ import java.util.ResourceBundle;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.compare.contentmergeviewer.ContentMergeViewer;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
+import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -22,6 +24,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
 import org.sidiff.integration.selection.SiLiftCompareSelectionController;
@@ -45,7 +48,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 	private Map<Side, CompareResource> resources;
 
 	private AdapterFactoryContentProvider contentProvider;
-	private Map<Side, SiLiftContentMergeViewerLabelProvider> labelProviders;
 
 	private SiLiftCompareDifferencer.IModelViewerAdapter modelViewerAdapter;
 	private IPropertyChangeListener propertyChangeListener;
@@ -64,7 +66,6 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 		this.contentProvider = new AdapterFactoryContentProvider(config.getAdapterFactory());
 		this.treeViewers = new EnumMap<>(Side.class);
 		this.resources = new EnumMap<>(Side.class);
-		this.labelProviders = new EnumMap<>(Side.class);
 
 		setContentProvider(new SiLiftContentMergeViewerContentProvider(config));
 		buildControl(parent);
@@ -150,14 +151,17 @@ public class SiLiftContentMergeViewer extends ContentMergeViewer {
 		for(Side side : Side.values()) {
 			TreeViewer treeViewer = new TreeViewer(composite,SWT.MULTI);
 			treeViewer.setContentProvider(contentProvider);
-			SiLiftContentMergeViewerLabelProvider labelProvider =
-					new SiLiftContentMergeViewerLabelProvider(config.getAdapterFactory(),
-							treeViewer, SiLiftCompareSelectionController.getInstance());
+			ILabelProvider labelProvider = new AdapterFactoryLabelProvider.ColorProvider(config.getAdapterFactory(), treeViewer);
 			treeViewer.setLabelProvider(labelProvider);
 			treeViewer.addSelectionChangedListener(SiLiftCompareSelectionController.getInstance());
-
 			treeViewers.put(side, treeViewer);
-			labelProviders.put(side, labelProvider);
+
+			try {
+				EditorHighlighting.getInstance().addHighlightingReceiver(treeViewer);
+			} catch(NoClassDefFoundError e) {
+				// The editor highlighting plugin is optional.
+				// This exception might be thrown when it is unavailable.
+			}
 		}
 	}
 
