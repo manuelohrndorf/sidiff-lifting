@@ -317,7 +317,7 @@ public class VariantConsolidator {
 		
 		Sequence subSequenceForChildren = new Sequence();
 		
-		HashMap<EReference,List<EClassifier>> mandatoryChildren = ECM.getEClassifierInfo(type).getAllDirectLocalChildren(type);
+		HashMap<EReference,List<EClassifier>> mandatoryChildren = ECM.getEClassifierInfo(type).getAllDirectLocalMandatoryChildren(type);
 		if(!mandatoryChildren.isEmpty()) {
 			
 			
@@ -345,10 +345,12 @@ public class VariantConsolidator {
 		
 		Sequence subSequenceForNeighbors = new Sequence();
 		
-		HashMap<EReference,List<EClassifier>> mandatoryNeighbors = ECM.getEClassifierInfo(type).getAllDirectLocalNeighbors(type);
+		// local, direct, mandatory neighbors & inherited, direct, mandatory neighbors
+		HashMap<EReference,List<EClassifier>> mandatoryNeighbors = ECM.getEClassifierInfo(type).getAllDirectLocalMandatoryNeighbors(type);
+		mandatoryNeighbors.putAll(ECM.getEClassifierInfo(type).getAllDirectInheritedMandatoryNeighbors(type));
+	
 		if(!mandatoryNeighbors.isEmpty()) {
-			
-			
+						
 			for(Map.Entry<EReference, List<EClassifier>> neighborEntry: mandatoryNeighbors.entrySet()) {
 				
 				EReference eRef = neighborEntry.getKey();
@@ -362,8 +364,7 @@ public class VariantConsolidator {
 					
 				}
 
-			}
-			
+			}			
 		}
 		
 		return subSequenceForNeighbors;
