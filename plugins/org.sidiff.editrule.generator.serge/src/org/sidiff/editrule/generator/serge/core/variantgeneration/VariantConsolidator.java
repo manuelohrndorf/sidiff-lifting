@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -36,7 +37,6 @@ import org.sidiff.editrule.generator.types.OperationType;
  * Notes:
  * - Only <<create>> modules are supported so far
  * - No type exclusions as defined on the config file are considered
- * - Neighbors are not considered yet
  * - Sequences with abstract entries are not dismissed yet
  * 
  * 
@@ -155,6 +155,8 @@ public class VariantConsolidator {
 			
 			// adjust sequence inspection flag to complete
 			currentSequence.setInspectionFlag(InspectionFlag.complete);
+			// update existing annotations accordingly
+			updateAnnotation(currentSequence);
 			
 			sequenceSet.getEntryIdentityMap();
 			sequenceSet = findAllSequences(sequenceSet);
@@ -251,27 +253,30 @@ public class VariantConsolidator {
 	}
 	
 	private void createNodeAnnotations(Sequence replicatedSequence) {
-		
-		for(SequenceEntry entry: replicatedSequence) {
-						
-			Annotation anno = HenshinFactory.eINSTANCE.createAnnotation();
-			anno.setKey(VARIANT_ANNOTATION_KEY);
-			anno.setValue(replicatedSequence.toString());
-			entry.getKey().getAnnotations().add(anno);
-						
-		}
+
+		Annotation anno = HenshinFactory.eINSTANCE.createAnnotation();
+		anno.setKey(VARIANT_ANNOTATION_KEY);
+		anno.setValue(replicatedSequence.toString());
+
+		originalModule.getAnnotations().add(anno);
 		
 	}
-
-	private Integer getVariantAnnotationValue(Node n) {
+	
+	private void updateAnnotation(Sequence sequence) {
 		
-		for (Annotation a : n.getAnnotations()) {
-			if (a.getKey().equals(VARIANT_ANNOTATION_KEY)) {
-				return  Integer.valueOf(a.getValue());
+		String sequenceString = sequence.getSequenceWithoutInspectionFlag();
+		
+		for(Annotation anno: originalModule.getAnnotations()) {
+			if(anno.getKey().equals(VARIANT_ANNOTATION_KEY)) {
+				String valueWithoutFlagInfo = anno.getValue().split(Pattern.quote(" ("))[0];
+				if(valueWithoutFlagInfo.contentEquals(sequenceString)) {
+					anno.setValue(sequence.toString());
+				}
 			}
 		}
-
-		return null;
+		
+		
+		
 	}
 		
 	private Sequence addDirectDescendantsToSequence(Sequence sequence, Node node) {

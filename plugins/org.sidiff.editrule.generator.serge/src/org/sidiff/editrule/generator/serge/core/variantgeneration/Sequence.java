@@ -102,6 +102,22 @@ public class Sequence extends LinkedHashSet<SequenceEntry>{
 		}
 	}
 	
+	public String getSequenceWithoutInspectionFlag() {
+		
+		String output = "";
+
+		for(SequenceEntry entry: this) {
+			
+			output += entry.getKey().getType().getName();
+			
+			if(!entry.equals(this.getLastEntry())) {
+				output += " ";
+			}
+		}
+		
+		return output;
+	}
+	
 	@Override
 	public String toString() {
 
