@@ -96,6 +96,12 @@ public class Sequence extends LinkedHashSet<SequenceEntry>{
 
 	}
 	
+	public void concatSequence(Sequence furtherSequence) {
+		for(SequenceEntry entry: furtherSequence) {
+			this.add(entry);
+		}
+	}
+	
 	@Override
 	public String toString() {
 

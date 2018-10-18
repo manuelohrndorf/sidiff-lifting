@@ -222,6 +222,7 @@ public class VariantConsolidator {
 						// create new mandatory child nodes and place them at this
 						// position of the newSequence
 						Sequence subSequence = createSubSequenceForMandatoryChildren(replicatedNode,subtype);
+						subSequence.concatSequence(createSubSequenceForMandatoryNeighbors(replicatedNode, subtype));
 						replicatedSequence.addAll(subSequence);
 					}
 					else {
@@ -338,5 +339,33 @@ public class VariantConsolidator {
 		}
 		
 		return subSequenceForChildren;
+	}
+	
+	private Sequence createSubSequenceForMandatoryNeighbors(Node node, EClassifier type) {
+		
+		Sequence subSequenceForNeighbors = new Sequence();
+		
+		HashMap<EReference,List<EClassifier>> mandatoryNeighbors = ECM.getEClassifierInfo(type).getAllDirectLocalNeighbors(type);
+		if(!mandatoryNeighbors.isEmpty()) {
+			
+			
+			for(Map.Entry<EReference, List<EClassifier>> neighborEntry: mandatoryNeighbors.entrySet()) {
+				
+				EReference eRef = neighborEntry.getKey();
+				
+				for(EClassifier neighborType: neighborEntry.getValue()) {
+					
+					String neighborNodeName = ModuleInternalsApplicator.getFreeAttributeName("Existing", node.getGraph().getRule());
+					Node neighborNode = HenshinRuleAnalysisUtilEx.createPreservedNode(((Rule)originalModule.getUnits().get(0)), neighborNodeName, (EClass) neighborType).getRhsNode();
+					HenshinRuleAnalysisUtilEx.createCreateEdge(node, neighborNode, eRef);
+					subSequenceForNeighbors.addEntry(neighborNode);
+					
+				}
+
+			}
+			
+		}
+		
+		return subSequenceForNeighbors;
 	}
 }
