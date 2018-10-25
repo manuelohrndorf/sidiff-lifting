@@ -3,12 +3,14 @@ package org.sidiff.editrule.generator.serge.core.variantgeneration;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Node;
 
 public class SequenceEntry implements Map.Entry<Node, Enum>{
 
 	private Node k;
 	private EntryFlag v;
+	private Sequence containingSequence;
 	
 	public enum EntryFlag {
 		uninspected,
@@ -16,9 +18,10 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 		isConcreteAndWasReplaced;
 	}
 	
-	public SequenceEntry(Node n) {
+	public SequenceEntry(Node n, Sequence containingSequence) {
 		k = n;
 		v = EntryFlag.uninspected;
+		this.containingSequence = containingSequence;
 	}
 	
 
@@ -32,6 +35,10 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 		return v;
 	}
 	
+	public Sequence getContainingSequence() {
+		return containingSequence;
+	}
+
 	/**
 	 * Convenience method for returning the EntryFlag
 	 * @return
@@ -48,6 +55,7 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 	}
 
 	
+
 	/**
 	 * Convenience method for setting the EntryFlag
 	 * @return
@@ -57,8 +65,7 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 		this.v = value;
 		return v;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 

@@ -20,7 +20,6 @@ public class ConsolidatedVariantGenerator {
 	 * The operation type of the original input model.
 	 */
 	private OperationType opType;
-	private OperationTypeGroup opTypeGroup;
 	
 	
 
@@ -31,14 +30,13 @@ public class ConsolidatedVariantGenerator {
 	public ConsolidatedVariantGenerator(Module originalModule, OperationType opType, OperationTypeGroup opTypeGroup) {
 		this.originalModule = originalModule;
 		this.opType = opType;
-		this.opTypeGroup=opTypeGroup;
 	}
 
 	public Set<Module> generate() throws OperationTypeNotImplementedException{
 		
 		Set<Module> modules = new HashSet<Module>();
 			
-		VariantConsolidator consolidator = new VariantConsolidator(originalModule, opType, opTypeGroup, 0);
+		VariantConsolidator consolidator = new VariantConsolidator(originalModule, opType);
 		modules.add(consolidator.replace());
 		
 		return modules;

@@ -33,7 +33,7 @@ public class Sequence extends LinkedHashSet<SequenceEntry>{
 
 	public SequenceEntry addEntry(Node n) {
 		
-		SequenceEntry se = new SequenceEntry(n);
+		SequenceEntry se = new SequenceEntry(n, this);
 		this.add(se);
 		
 		return se;

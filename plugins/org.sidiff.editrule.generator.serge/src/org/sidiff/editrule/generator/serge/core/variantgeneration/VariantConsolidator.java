@@ -51,35 +51,37 @@ public class VariantConsolidator {
 	private Module originalModule;
 
 	/**
-	 * The operaiton type of the originalModule
+	 * The operation type of the originalModule
 	 */
 	private OperationType opType;
 
-	private static String VARIANT_ANNOTATION_KEY = "presenceCondition";
+	/**
+	 * The String for the annotation on a sequence entry / node which tells
+	 * to which presence condition (=variant) it belongs
+	 */
+	private static String ANNOTATION_PRESENCECONDITION = "presenceCondition";
 	
-	private Integer variantCounter;
+	/**
+	 * The String for the annotation which lists all found variants
+	 */
+	private static String ANNOTATION_ALL_VARIANTS = "allVariants";
+	
 	
 	/**
 	 * The EClassifierInfoManagement.
 	 */
 	private EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
-	/**
-	 * 
-	 */
-	private Configuration c = Configuration.getInstance();
 
-	private OperationTypeGroup opTypeGroup;
 
 	/**
 	 * Constructor
 	 */
-	public VariantConsolidator(Module originalModule, OperationType opType, OperationTypeGroup opTypeGroup, Integer variantCounter)
-			throws OperationTypeNotImplementedException {
+	public VariantConsolidator(Module originalModule, OperationType opType) {
+		
 		this.originalModule = originalModule;
 		this.opType = opType;
-		this.opTypeGroup = opTypeGroup;
-		this.variantCounter = variantCounter;
 		ECM = EClassifierInfoManagement.getInstance();
+		
 	}
 
 	public Module replace() throws OperationTypeNotImplementedException {
@@ -109,6 +111,9 @@ public class VariantConsolidator {
 			System.out.println(s.toString());
 		}
 		
+		// annotate the module with all found variants as a summary
+		annotateModuleWithAllFoundVariants(sequenceSet);		
+		
 		// clear sequences(-sets) up (just for performance aspects)
 		sequenceSet.clearIdentityMap();
 		sequenceSet.clear();
@@ -116,6 +121,23 @@ public class VariantConsolidator {
 		return originalModule;
 	}
 	
+	private void annotateModuleWithAllFoundVariants(SequenceSet sequenceSet) {
+		
+		// create variant annotation
+		Annotation anno = HenshinFactory.eINSTANCE.createAnnotation();
+		anno.setKey(ANNOTATION_ALL_VARIANTS);
+		
+		for(Sequence sequence: sequenceSet) {
+			if(anno.getValue()!=null) {
+				anno.setValue(anno.getValue() + "," + sequence.getSequenceWithoutInspectionFlag());
+			}else {
+				anno.setValue(sequence.getSequenceWithoutInspectionFlag());
+			}
+		}
+		
+		originalModule.getAnnotations().add(anno);
+	}
+
 	private SequenceSet findAllSequences(SequenceSet sequenceSet) {
 		
 		for(Sequence currentSequence: sequenceSet) {
@@ -155,12 +177,10 @@ public class VariantConsolidator {
 			
 			// adjust sequence inspection flag to complete
 			currentSequence.setInspectionFlag(InspectionFlag.complete);
-			// update existing annotations accordingly
-			updateAnnotation(currentSequence);
 			
-			sequenceSet.getEntryIdentityMap();
+			// recursively: find further resulting sequences
 			sequenceSet = findAllSequences(sequenceSet);
-
+			
 			return sequenceSet;
 		}
 
@@ -232,9 +252,14 @@ public class VariantConsolidator {
 						// (We don't need identity mappings for entries which have replaced node types, so skip these)
 						sequenceSet.addToIdentity(originalEntry, replicatedSequence, entryInReplicatedSequence);
 					}
+					
+					// create variant annotation on node
+					createVariantAnnotationOnNode(entryInReplicatedSequence, replicatedSequence);
 				}			
 				
-				createNodeAnnotations(replicatedSequence);
+				// update variant annotations on nodes with full sequence information
+				updateVariantAnnotationOnNodes(replicatedSequence);
+				
 				sequenceSet.add(replicatedSequence);
 				sequenceSet.getEntryIdentityMap();
 			}
@@ -252,30 +277,29 @@ public class VariantConsolidator {
 		return null;
 	}
 	
-	private void createNodeAnnotations(Sequence replicatedSequence) {
+	private void createVariantAnnotationOnNode(SequenceEntry entryInReplicatedSequence, Sequence replicatedSequence) {
 
+		// create variant annotation
 		Annotation anno = HenshinFactory.eINSTANCE.createAnnotation();
-		anno.setKey(VARIANT_ANNOTATION_KEY);
+		anno.setKey(ANNOTATION_PRESENCECONDITION);
 		anno.setValue(replicatedSequence.toString());
-
-		originalModule.getAnnotations().add(anno);
 		
+		// add annotation to the replicated node
+		entryInReplicatedSequence.getKey().getAnnotations().add(anno);
 	}
 	
-	private void updateAnnotation(Sequence sequence) {
-		
-		String sequenceString = sequence.getSequenceWithoutInspectionFlag();
-		
-		for(Annotation anno: originalModule.getAnnotations()) {
-			if(anno.getKey().equals(VARIANT_ANNOTATION_KEY)) {
-				String valueWithoutFlagInfo = anno.getValue().split(Pattern.quote(" ("))[0];
-				if(valueWithoutFlagInfo.contentEquals(sequenceString)) {
-					anno.setValue(sequence.toString());
+	private void updateVariantAnnotationOnNodes(Sequence sequence) {
+			
+		for(SequenceEntry entry: sequence) {
+			
+			for(Annotation anno: entry.getKey().getAnnotations()) {
+				
+				if(anno.getKey().equals(ANNOTATION_PRESENCECONDITION)) {				
+					String valueWithoutFlagInfo = sequence.toString().split(Pattern.quote(" ("))[0];
+					anno.setValue(valueWithoutFlagInfo);
 				}
-			}
+			}	
 		}
-		
-		
 		
 	}
 		
