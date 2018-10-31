@@ -55,7 +55,7 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 	protected SlicedElement doImportEObject(EObject eObject) throws ImportFailedException {
 		SlicedElement element = (SlicedElement)getUuidIndex().get(EMFUtil.getXmiId(eObject));
 		if(element == null) {
-			element = (SlicedElement)super.doImportEObject(eObject);
+			element = super.doImportEObject(eObject);
 		}
 		modelSlice.getType().add(eObject.eClass().getEPackage());
 		modelSlice.getSlicedElements().add(element);
@@ -87,6 +87,6 @@ public class SliceImporter extends EntitiesImporter<SlicedElement,Reference,Attr
 
 	@Override
 	protected IImporterUuidResolver createUuidResolver() {
-		return new XmiIdImporterUuidResolver();
+		return new XmiIdImporterUuidResolver(false);
 	}
 }
