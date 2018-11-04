@@ -9,7 +9,7 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public String getName() {
-		return "SiDiff Domain - Mulitplicity Slicing Rules for UML 2.5 (2018-10-03 03:32:01)";
+		return "SiDiff Domain - Mulitplicity Slicing Rules for UML 2.5 (2018-10-11 15:17:58)";
 	}
 	
 	@Override

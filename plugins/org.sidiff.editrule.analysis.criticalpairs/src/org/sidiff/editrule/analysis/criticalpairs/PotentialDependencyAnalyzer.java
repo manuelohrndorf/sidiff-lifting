@@ -1407,7 +1407,7 @@ public abstract class PotentialDependencyAnalyzer {
 			}
 			
 			for (Edge predecessorEdge : forbidPredecessors) {
-				if (isDeleteForbidDependency(predecessorEdge, successorEdge, potRuleDep)) {
+				if (isForbidCreateDependency(predecessorEdge, successorEdge, potRuleDep)) {
 					// Change-Forbid dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 
@@ -1456,8 +1456,8 @@ public abstract class PotentialDependencyAnalyzer {
 			if (isCreationNode(predecessorSrc)) {
 				srcOK = hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc);
 			} else {
-				assert isPreservedNode(predecessorSrc) : "<< preserve >> predecessor source node expected!";
-				srcOK = true;
+//				assert isPreservedNode(predecessorSrc) : "<< preserve >> predecessor source node expected!";
+				srcOK = isPreservedNode(predecessorSrc);
 			}
 
 			// Tgt
@@ -1466,8 +1466,8 @@ public abstract class PotentialDependencyAnalyzer {
 			if (isCreationNode(succesorTgt)) {
 				tgtOK = hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt);
 			} else {
-				assert isPreservedNode(predecessorTgt) : "<< preserve >> predecessor target node expected!";
-				tgtOK = true;
+//				assert isPreservedNode(predecessorTgt) : "<< preserve >> predecessor target node expected!";
+				tgtOK = isPreservedNode(predecessorTgt);
 			}
 
 			// Tgt & Src

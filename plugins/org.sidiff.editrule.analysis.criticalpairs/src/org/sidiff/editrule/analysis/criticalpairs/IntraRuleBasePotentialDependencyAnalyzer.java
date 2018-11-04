@@ -53,7 +53,7 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * 		#IntraRuleBasePotentialDependencyAnalyzer(RuleBase, boolean, boolean)
 	 */
 	public IntraRuleBasePotentialDependencyAnalyzer(RuleBase rulebase) {
-		this(rulebase, false, true);
+		this(rulebase, true, true);
 	}
 
 	/**

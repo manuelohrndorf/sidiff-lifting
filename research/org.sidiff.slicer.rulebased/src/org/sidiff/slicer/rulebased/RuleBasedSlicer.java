@@ -181,7 +181,7 @@ public class RuleBasedSlicer implements ISlicer{
 			if(inverseEditRule == null && editRule.getClassification().stream().anyMatch(classification -> classification.getName().equals("VALUE CHANGE"))) {
 				inverseEditRule = editRule;
 			}
-			assert inverseEditRule != null: "no inversive Edit Rule found for " + opInv.getEditRuleName();
+//			assert inverseEditRule != null: "no inversive Edit Rule found for " + opInv.getEditRuleName();
 			if (inverseEditRules != null && inverseEditRule != null) {
 				inverseEditRules.add(inverseEditRule);
 			} else {
