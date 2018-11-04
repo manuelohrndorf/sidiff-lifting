@@ -132,16 +132,19 @@ public class ConnectorFacade {
 	 * @param element_id
 	 *            the ID of a requested model element (only used if the requested
 	 *            file is a model file)
+	 * @param infinite
+	 *            flag for gathering all contained elements of the requested model
+	 *            element (only used if the requested file is a model file)
 	 * @return the content of the remote application as {@link List} of
 	 *         {@link ProxyObject}s
 	 * @throws ConnectionException
 	 * @throws RemoteApplicationException
 	 */
-	public static List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String element_id)
+	public static List<ProxyObject> browseRemoteApplicationContent(String relative_remote_file_path, String element_id, boolean infinite)
 			throws ConnectionException, RemoteApplicationException {
 		
 		BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = new BrowseRemoteApplicationContentRequest(
-				getCredentials(), relative_remote_file_path, element_id);
+				getCredentials(), relative_remote_file_path, element_id, infinite);
 		
 		Command replayCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(browseRemoteApplicationContentRequest,
 				null);
@@ -297,10 +300,11 @@ public class ConnectorFacade {
 	 * @throws ConnectionException
 	 * @throws InvalidProjectInfoException
 	 * @throws ModelNotVersionedException
+	 * @throws RemoteApplicationException 
 	 */
 	public static File updateSubModel(String absolute_local_model_path, Set<String> elementIds,
 			RemotePreferences preferences)
-			throws ConnectionException, InvalidProjectInfoException, ModelNotVersionedException {
+			throws ConnectionException, InvalidProjectInfoException, ModelNotVersionedException, RemoteApplicationException {
 
 		IFile file = resolveIFile(absolute_local_model_path);
 
@@ -309,19 +313,25 @@ public class ConnectorFacade {
 
 		UpdateSubModelRequest updateSubModelRequest = new UpdateSubModelRequest(getCredentials(),
 				relative_remote_model_path, relative_local_model_path, elementIds, preferences);
-		UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) CONNECTION_HANDLER
-				.handleRequest(updateSubModelRequest, null);
-
-		File resource_file = updateSubModelReply.getAttachment();
 		
-		String path = file.getProject().getLocation().toOSString() + File.separator + 
-				ProjectInfo.META_FOLDER_NAME + File.separator + updateSubModelReply.getAttachmentName();
-		File target_file = new File(path);
-		if (target_file.exists()) {
-			target_file.delete();
+		ReplyCommand replyCommand = (ReplyCommand) CONNECTION_HANDLER.handleRequest(updateSubModelRequest, null);
+		if(replyCommand.getECommand().equals(ECommand.UPDATE_SUBMODEL_REPLY)) {
+			UpdateSubModelReply updateSubModelReply = (UpdateSubModelReply) replyCommand;
+	
+			File resource_file = updateSubModelReply.getAttachment();
+			
+			String path = file.getProject().getLocation().toOSString() + File.separator + 
+					ProjectInfo.META_FOLDER_NAME + File.separator + updateSubModelReply.getAttachmentName();
+			File target_file = new File(path);
+			if (target_file.exists()) {
+				target_file.delete();
+			}
+			resource_file.renameTo(target_file);
+			return target_file;
+		}else {
+			ErrorReply errorReply = (ErrorReply) replyCommand;
+			throw new RemoteApplicationException(errorReply.getErrorReport());
 		}
-		resource_file.renameTo(target_file);
-		return target_file;
 	}
 	
 	public static Credentials getCredentials() {

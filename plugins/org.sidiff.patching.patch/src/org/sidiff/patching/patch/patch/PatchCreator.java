@@ -92,7 +92,7 @@ public class PatchCreator {
 				.getSymmetricDifference();
 
 		this.asymmetricDifference = asymmetricDifference;
-		this.asymmetricDifference.initTransientRulebase();
+		this.asymmetricDifference.initializeRuleBase();
 	}
 
 	public String serializePatch(String path, String filename)

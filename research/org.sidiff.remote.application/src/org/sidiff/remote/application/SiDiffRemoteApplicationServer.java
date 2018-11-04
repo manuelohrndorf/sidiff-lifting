@@ -142,7 +142,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 				
 			case BROWSE_REMOTE_APPLICATION_CONTENT_REQUEST:
 				BrowseRemoteApplicationContentRequest browseRemoteApplicationContentRequest = (BrowseRemoteApplicationContentRequest) command;
-				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(browseRemoteApplicationContentRequest.getRelativeRemoteFilePath(), browseRemoteApplicationContentRequest.getElementID());
+				List<ProxyObject> proxyObjects = app.browseRemoteApplicationContent(browseRemoteApplicationContentRequest.getRelativeRemoteFilePath(), browseRemoteApplicationContentRequest.getElementID(), browseRemoteApplicationContentRequest.isInfinite());
 				BrowseRemoteApplicationReply browseRemoteApplicationReply = new BrowseRemoteApplicationReply(proxyObjects);
 				protocolHandler.write(browseRemoteApplicationReply, null);
 				break;

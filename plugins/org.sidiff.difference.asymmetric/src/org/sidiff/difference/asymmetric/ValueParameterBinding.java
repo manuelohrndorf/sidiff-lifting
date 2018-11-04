@@ -14,10 +14,10 @@ package org.sidiff.difference.asymmetric;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.ValueParameterBinding#getActual <em>Actual</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getValueParameterBinding()
  * @model

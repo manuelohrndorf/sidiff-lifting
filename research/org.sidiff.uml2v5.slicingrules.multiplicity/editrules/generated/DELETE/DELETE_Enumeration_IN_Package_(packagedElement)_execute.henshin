@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uLWdoMZ6EeieD6s2Z9krAw" name="DELETE_Enumeration_IN_Package_(packagedElement)" description="Deletes one Enumeration in Package">
+  <annotations xmi:id="_uLWdocZ6EeieD6s2Z9krAw" key="INVERSE" value="CREATE_Enumeration_IN_Package_(packagedElement)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uLWdosZ6EeieD6s2Z9krAw" name="deleteEnumeration_IN_Package" description="deletes one Enumeration in the context: Package">
+    <parameters xmi:id="_uLWdo8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_uLWdpMZ6EeieD6s2Z9krAw" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <lhs xmi:id="_uLWdpcZ6EeieD6s2Z9krAw" name="LHS">
+      <nodes xmi:id="_uLWdpsZ6EeieD6s2Z9krAw" name="Selected" outgoing="_uLWdqsZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLWdp8Z6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+      <nodes xmi:id="_uLWdqMZ6EeieD6s2Z9krAw" name="ToBeDeleted" incoming="_uLWdqsZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLWdqcZ6EeieD6s2Z9krAw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+      </nodes>
+      <edges xmi:id="_uLWdqsZ6EeieD6s2Z9krAw" source="_uLWdpsZ6EeieD6s2Z9krAw" target="_uLWdqMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uLWdq8Z6EeieD6s2Z9krAw" name="RHS">
+      <nodes xmi:id="_uLWdrMZ6EeieD6s2Z9krAw" name="Selected">
+        <annotations xmi:id="_uLWdrcZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uLWdrsZ6EeieD6s2Z9krAw" origin="_uLWdpsZ6EeieD6s2Z9krAw" image="_uLWdrMZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uLWdr8Z6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uLWdosZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uLWdsMZ6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uLWdscZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+    </parameters>
+    <parameters xmi:id="_uLWdssZ6EeieD6s2Z9krAw" name="ToBeDeleted">
+      <annotations xmi:id="_uLWds8Z6EeieD6s2Z9krAw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Enumeration"/>
+    </parameters>
+    <parameterMappings xmi:id="_uLWdtMZ6EeieD6s2Z9krAw" source="_uLWdsMZ6EeieD6s2Z9krAw" target="_uLWdo8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLWdtcZ6EeieD6s2Z9krAw" source="_uLWdssZ6EeieD6s2Z9krAw" target="_uLWdpMZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

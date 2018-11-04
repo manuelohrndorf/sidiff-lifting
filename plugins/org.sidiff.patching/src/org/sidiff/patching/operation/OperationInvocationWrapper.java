@@ -220,7 +220,7 @@ public class OperationInvocationWrapper implements HighlightableElement {
 	
 	public String getText() {
 		return operationManager.getOrderedOperationWrappers().indexOf(this) + 1 + ": "
-				+ NameUtil.beautifyName(operationInvocation.getChangeSet().getName());
+				+ NameUtil.beautifyName(operationInvocation.getEditRuleName());
 	}
 
 	public boolean hasUnresolvedInArguments() {

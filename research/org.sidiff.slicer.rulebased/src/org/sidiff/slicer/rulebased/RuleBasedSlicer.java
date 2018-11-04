@@ -1,5 +1,6 @@
 package org.sidiff.slicer.rulebased;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -21,15 +23,19 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.LiftingFacade;
+import org.sidiff.difference.lifting.api.util.PipelineUtils;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.RemoveObject;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
+import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
+import org.sidiff.slicer.rulebased.exceptions.EmtpyModelSliceException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -131,7 +137,11 @@ public class RuleBasedSlicer implements ISlicer{
 		UUIDResource emptyResource = this.slicingConfiguration.getEmtpyResource();
 		UUIDResource completeResource = this.slicingConfiguration.getCompleteResource();
 		
+		Set<EObject> postProcessorElements = new HashSet<EObject>();
+		Set<EditRule> inverseEditRules = new HashSet<EditRule>();
+		
 		this.complete2emptyResource = new HashMap<EObject, EObject>();
+		
 		for (Iterator<EObject> iterator_empty = emptyResource.getAllContents(); iterator_empty.hasNext();) {
 			EObject eObject_empty = iterator_empty.next();
 			for (Iterator<EObject> iterator_complete = completeResource.getAllContents(); iterator_complete.hasNext();) {
@@ -147,33 +157,42 @@ public class RuleBasedSlicer implements ISlicer{
 		this.slicingCriteria_old = this.slicingConfiguration.getOldSlicingCriteria();
 		this.slicingCriteria_new = new HashSet<EObject>(this.complete2emptyResource.keySet());
 		
-		editScript_create = generateEditScript(emptyResource, completeResource, EditScriptDirection.CREATION);
+		this.editScript_create = generateEditScript(emptyResource, completeResource, EditScriptDirection.CREATION);
 		
-		opInvsCreate = new HashMap<EObject, OperationInvocation>();
-		for (OperationInvocation opInv : editScript_create.getOperationInvocations()) {
+		this.opInvsCreate = new HashMap<EObject, OperationInvocation>();
+		
+		for (OperationInvocation opInv : this.editScript_create.getOperationInvocations()) {
+
+			Set<EObject> addedElements = new HashSet<EObject>();
 			for(Change change : opInv.getChangeSet().getChanges()){
 				if(change instanceof AddObject){
 					EObject obj = ((AddObject)change).getObj();
-					opInvsCreate.put(obj, opInv);
+					addedElements.add(obj);
+					this.opInvsCreate.put(obj, opInv);
 				}
 			}
-		}
-		
-		Set<EObject> postProcessorElements = new HashSet<EObject>();
-		for(OperationInvocation opInv : editScript_create.getOperationInvocations()){
-			for(Change change : opInv.getChangeSet().getChanges()){
-				Set<EObject> addedElements = new HashSet<EObject>();
-				if(change instanceof AddObject){
-					AddObject addObject = (AddObject)change;
-					addedElements.add(addObject.getObj());
-				}
-				if(addedElements.size()>1){
-					postProcessorElements.addAll(addedElements);
-				}
+			
+			if(addedElements.size()>1){
+				postProcessorElements.addAll(addedElements);
 			}
+			
+			EditRule editRule = opInv.resolveEditRule();
+			EditRule inverseEditRule = editRule.getInverse();
+			if(inverseEditRule == null && editRule.getClassification().stream().anyMatch(classification -> classification.getName().equals("VALUE CHANGE"))) {
+				inverseEditRule = editRule;
+			}
+//			assert inverseEditRule != null: "no inversive Edit Rule found for " + opInv.getEditRuleName();
+			if (inverseEditRules != null && inverseEditRule != null) {
+				inverseEditRules.add(inverseEditRule);
+			} else {
+				inverseEditRules = null;
+			}
+			
 		}
 		
 		this.slicingConfiguration.getLiftingSettings().setComparator(new SlicingChangeSetPriorityComparator(postProcessorElements));
+		
+		updateRuleBase(inverseEditRules);
 		
 		editScript_delete = generateEditScript(completeResource, emptyResource, EditScriptDirection.DELETION);
 		
@@ -187,6 +206,8 @@ public class RuleBasedSlicer implements ISlicer{
 			}
 		}
 
+		updateRuleBase(null);
+		
 		this.initialized = true;
 	}
 
@@ -201,10 +222,11 @@ public class RuleBasedSlicer implements ISlicer{
 	 * @throws NotInitializedException 
 	 * @throws ExtendedSlicingCriteriaIntersectionException 
 	 * @throws EmptySlicingCriteriaException 
+	 * @throws EmtpyModelSliceException 
 	 */
 	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public ModelSlice slice(Collection<EObject> input) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException, EmptySlicingCriteriaException{
+	public ModelSlice slice(Collection<EObject> input) throws NotInitializedException, ExtendedSlicingCriteriaIntersectionException, EmptySlicingCriteriaException, EmtpyModelSliceException{
 
 		if(initialized){
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer Started ###############");
@@ -313,7 +335,9 @@ public class RuleBasedSlicer implements ISlicer{
 			ExecutableModelSlice executableModelSlice = new ExecutableModelSliceCreator().createExecutableModelSlice(extendOpInvsCreate, extendOpInvsDelete, ignoredOpInvs);
 			
 			LogUtil.log(LogEvent.MESSAGE, "############### Slicer FINISHED ###############");
-			
+			if(executableModelSlice.getAsymmetricDifference().getOperationInvocations().isEmpty()) {
+				throw new EmtpyModelSliceException();
+			}
 			return  executableModelSlice;
 			}else {
 				throw new EmptySlicingCriteriaException();
@@ -379,6 +403,26 @@ public class RuleBasedSlicer implements ISlicer{
 	}
 	
 	/**
+	 * enables all edit rules contained in activeEditRules
+	 * @param activeEditRules
+	 * 			{@link EditRule}s to be activated
+	 * 			if the parameter is null, all edit rules will be enabled
+	 */
+	private void updateRuleBase(Set<EditRule> activeEditRules) {
+		for(ILiftingRuleBase ruleBase : this.slicingConfiguration.getLiftingSettings().getRuleBases()) {
+			if(activeEditRules == null) {
+				ruleBase.activateAllEditRules();
+			}else {
+				for(EditRule editRule: ruleBase.getActiveEditRules()) {
+					if(!activeEditRules.contains(editRule)) {
+						editRule.getRuleBaseItem().setActive(false);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -437,13 +481,12 @@ public class RuleBasedSlicer implements ISlicer{
 
 	@Override
 	public boolean canHandleDocTypes(Set<String> documentTypes) {
-		// TODO Auto-generated method stub
-		return false;
+		return !PipelineUtils.getAvailableRulebases(documentTypes).isEmpty();
 	}
 
 	@Override
 	public boolean canHandleModels(Collection<Resource> models) {
-		// TODO Auto-generated method stub
-		return false;
+		Set<String> documentTypes = EMFModelAccess.getDocumentTypes(new ArrayList<Resource>(models));
+		return canHandleDocTypes(documentTypes);
 	}
 }

@@ -1,5 +1,7 @@
 package org.sidiff.editrule.rulebase.project.runtime.util;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,35 +18,35 @@ public class RuleBaseProjectUtil {
 	
 	/**
 	 * Resolve an EditRule by its name. We lookup in all rulebases which are
-	 * suitable for the given document type.
+	 * suitable for the given document types.
 	 * 
-	 * @param documentType
-	 *            The document (metamodel) type of the edit rule.
+	 * @param documentTypes
+	 *            The document (metamodel) types of the edit rule.
 	 * @param editRuleName
 	 *            The identifying name of the edit rule.
 	 * @return The edit rule with given name.
+	 * @throws NoSuchElementException if no edit rule is found
 	 */
-	public static EditRule resolveEditRule(Set<String> documentTypes, String editRuleName) {
-		
-		for (IEditRuleBase iRulebase : RuleBaseProjectLibrary.getRuleBases(documentTypes, IEditRuleBase.TYPE)) {
-			EditRule editRule = iRulebase.getEditRule(editRuleName);
-			
-			if (editRule != null) {
-				return editRule;
-			}
-		}
-
-		return null;
+	public static EditRule resolveEditRule(Set<String> documentTypes, String editRuleName) throws NoSuchElementException {
+		return RuleBaseProjectLibrary.getRuleBases(documentTypes, IEditRuleBase.TYPE)
+			.stream()
+			.map(rulebase -> rulebase.getEditRule(editRuleName))
+			.filter(Objects::nonNull)
+			.findFirst().orElseThrow(NoSuchElementException::new);
 	}
-	
-	public static <R extends IBasicRuleBase> R resolveIEditRuleBase(EditRule editRule, Class<R> viewType){
+
+	/**
+	 * Resolves the RuleBase that contains the given EditRule.
+	 * @param editRule the edit rule
+	 * @param viewType the type of the rule base
+	 * @return rulebase that contains the edit rule
+	 * @throws NoSuchElementException if no rulebase is found
+	 */
+	public static <R extends IBasicRuleBase> R resolveIEditRuleBase(EditRule editRule, Class<R> viewType) {
 		Set<String> documentTypes = editRule.getExecuteModule().getImports().stream().map(EPackage::getNsURI).collect(Collectors.toSet());
-		for(R iEditRuleBase : RuleBaseProjectLibrary.getRuleBases(documentTypes, viewType)){
-			if(iEditRuleBase.getRuleBase().getEditRules().contains(editRule)){
-				return iEditRuleBase;
-			}
-		}
-		return null;
-//		forEach(ePackage -> documentTypes.add(ePackage.getNsURI()));
+		return RuleBaseProjectLibrary.getRuleBases(documentTypes, viewType)
+				.stream()
+				.filter(editRuleBase -> editRuleBase.getRuleBase().getEditRules().contains(editRule))
+				.findFirst().orElseThrow(NoSuchElementException::new);
 	}
 }

@@ -5,24 +5,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.ProxyProperty;
 
 public class ProxyUtil {
 
-	public static ProxyObject convertEObject(EObject eObject) {
+	public static ProxyObject convertEObject(EObject eObject, boolean infinite) {
 		String label = getLabel(eObject);
 		String id = ((UUIDResource) eObject.eResource()).getID(eObject);
 		String type = eObject.eClass().getEPackage().getNsURI() + "#//" + eObject.eClass().getName();
+		
+		Set<EObject> children = new HashSet<EObject>();
+		
 		List<ProxyProperty> properties = new ArrayList<ProxyProperty>();
 		for(EAttribute eAttribute : eObject.eClass().getEAllAttributes()) {
 			ProxyProperty porperty = convertEStructuralFeature(eObject, eAttribute);
@@ -33,12 +39,19 @@ public class ProxyUtil {
 			if(!eReference.isContainment()) {
 				ProxyProperty porperty = convertEStructuralFeature(eObject, eReference);
 				properties.add(porperty);
+			}else if(infinite) {
+				children.addAll(EMFModelAccess.getChildren(eObject, eReference));					
 			}
 		}
 		boolean container = !eObject.eContents().isEmpty();
 		
 		
 		ProxyObject proxyObject = new ProxyObject(label, id, type, properties, container);
+		
+		for(EObject child : children) {
+			ProxyObject childProxyObject = convertEObject(child, infinite);
+			childProxyObject.setParent(proxyObject);
+		}
 		
 		return proxyObject;
 	}
@@ -123,7 +136,7 @@ public class ProxyUtil {
 			// iterator.hasNext();) {
 			// EObject eObject = iterator.next();
 			if (!proxyObjects.containsKey(eObject)) {
-				ProxyObject proxyObject = convertEObject(eObject);
+				ProxyObject proxyObject = convertEObject(eObject, false);
 				proxyObject.setSelected(true);
 
 				proxyObjects.put(eObject, proxyObject);
@@ -134,7 +147,7 @@ public class ProxyUtil {
 					ProxyObject parentProxyObject = proxyObjects.get(parentEObject);
 					
 					if (parentProxyObject == null) {
-						parentProxyObject = convertEObject(parentEObject);
+						parentProxyObject = convertEObject(parentEObject, false);
 						proxyObjects.put(parentEObject, parentProxyObject);
 					}
 					
@@ -145,7 +158,7 @@ public class ProxyUtil {
 						ProxyObject childProxyObject = proxyObjects.get(childEObject);
 						
 						if (childProxyObject == null) {
-							childProxyObject = convertEObject(childEObject);
+							childProxyObject = convertEObject(childEObject, false);
 							childProxyObject.setSelected(subResource.getEObjectToIDMap()
 									.containsValue(completeResource.getID(childEObject)));
 							childProxyObject.setParent(parentProxyObject);
@@ -173,7 +186,7 @@ public class ProxyUtil {
 		
 		for (Iterator<EObject> iterator = resource.getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
-			ProxyObject proxyObject = convertEObject(eObject);
+			ProxyObject proxyObject = convertEObject(eObject, false);
 			if(eObject.eContainer() != null) {
 				proxyObject.setParent(proxyObjects.get(eObject.eContainer()));
 			}

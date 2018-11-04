@@ -11,6 +11,8 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
 import org.sidiff.difference.symmetric.provider.SymmetricEditPlugin;
+import org.sidiff.editrule.rulebase.provider.RuleBaseEditPlugin;
+import org.sidiff.matching.model.model.provider.MatchingModelEditPlugin;
 
 /**
  * This is the central singleton for the Asymmetric edit plugin.
@@ -45,8 +47,10 @@ public final class AsymmetricEditPlugin extends EMFPlugin {
 		super
 		  (new ResourceLocator [] {
 		     EcoreEditPlugin.INSTANCE,
-		     SymmetricEditPlugin.INSTANCE,
 		     HenshinEditPlugin.INSTANCE,
+		     MatchingModelEditPlugin.INSTANCE,
+		     RuleBaseEditPlugin.INSTANCE,
+		     SymmetricEditPlugin.INSTANCE,
 		   });
 	}
 

@@ -1,6 +1,9 @@
 package org.sidiff.integration.remote;
 
+import java.io.IOException;
+
 import org.eclipse.compare.ITypedElement;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 
 /**
@@ -19,6 +22,8 @@ public interface IRelatedFileResolver extends ILoader {
 	 * @param input the typed element
 	 * @param extension the file extension
 	 * @return URI for related file, <code>null</code> if resolution failed
+	 * @throws IOException if an I/O error occurred
+	 * @throws CoreException if some other error occurred
 	 */
-	URI resolveRelatedFile(ITypedElement input, String extension);
+	URI resolveRelatedFile(ITypedElement input, String extension) throws IOException, CoreException;
 }

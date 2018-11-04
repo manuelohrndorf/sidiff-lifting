@@ -2,7 +2,6 @@ package org.sidiff.difference.asymmetric.editor;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -11,6 +10,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,11 +49,12 @@ public class AsymmetricViewer extends ContentViewer {
 		container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(1, false));
 
-		// Set item and label provider:
+		// Set item and label provider, and enable tooltips:
 		treeViewer = new TreeViewer(container, SWT.MULTI);
 		{
 			treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-			treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+			treeViewer.setLabelProvider(new AdapterToolTipLabelProvider(adapterFactory, treeViewer));
+			ColumnViewerToolTipSupport.enableFor(treeViewer, ToolTip.RECREATE);
 		}
 
 		Tree tree = treeViewer.getTree();
@@ -69,12 +70,6 @@ public class AsymmetricViewer extends ContentViewer {
 				}
 			});
 		}
-
-		// Set tool tip:
-		ColumnViewerToolTipSupport.enableFor(treeViewer);
-		AdapterToolTipLabelProvider toolTip = new AdapterToolTipLabelProvider(adapterFactory);
-		toolTip.setDefaultFont(getControl().getFont());
-		treeViewer.setLabelProvider(toolTip);
 
 		return container;
 	}

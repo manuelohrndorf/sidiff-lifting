@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +69,14 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public boolean supportsDiagram(URI diagramFile) {
-		return diagramFile != null && diagramFileExt != null
-				&& diagramFile.fileExtension().toLowerCase().endsWith(diagramFileExt);
+	public boolean supportsDiagram(URI modelFile) {
+		if(diagramFileExt == null) {
+			return false;
+		} else if(modelFile.fileExtension().toLowerCase().endsWith(diagramFileExt)) {
+			return true;
+		}
+		URI diagram = getMainDiagramFile(modelFile);
+		return diagram != null && EMFStorage.uriToFile(diagram).exists();
 	}
 
 	@Override
@@ -246,9 +252,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public Collection<EObject> getHighlightableElements(EObject element) {
-		ArrayList<EObject> res = new ArrayList<EObject>();
-		res.add(element);
-		return res;
+		return Collections.singleton(element);
 	}
 
 	@Override

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uKSGoMZ6EeieD6s2Z9krAw" name="REMOVE_Behavior_(precondition)_TGT_Constraint" description="Removes Behavior's reference precondition the target Constraint">
+  <annotations xmi:id="_uKSGocZ6EeieD6s2Z9krAw" key="INVERSE" value="ADD_Behavior_(precondition)_TGT_Constraint"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uKSGosZ6EeieD6s2Z9krAw" name="removeFromBehavior_precondition_Constraint" description="Removes from Behavior's reference precondition the target Constraint">
+    <parameters xmi:id="_uKSGo8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_uKSGpMZ6EeieD6s2Z9krAw" name="OldTarget" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_uKSGpcZ6EeieD6s2Z9krAw" name="LHS">
+      <nodes xmi:id="_uKSGpsZ6EeieD6s2Z9krAw" name="Selected" outgoing="_uKSGqMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_uKSGp8Z6EeieD6s2Z9krAw" name="OldTarget" incoming="_uKSGqMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <edges xmi:id="_uKSGqMZ6EeieD6s2Z9krAw" source="_uKSGpsZ6EeieD6s2Z9krAw" target="_uKSGp8Z6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior/precondition"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uKSGqcZ6EeieD6s2Z9krAw" name="RHS">
+      <nodes xmi:id="_uKSGqsZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+      </nodes>
+      <nodes xmi:id="_uKSGq8Z6EeieD6s2Z9krAw" name="OldTarget">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uKSGrMZ6EeieD6s2Z9krAw" origin="_uKSGpsZ6EeieD6s2Z9krAw" image="_uKSGqsZ6EeieD6s2Z9krAw"/>
+    <mappings xmi:id="_uKSGrcZ6EeieD6s2Z9krAw" origin="_uKSGp8Z6EeieD6s2Z9krAw" image="_uKSGq8Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uKSGrsZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uKSGosZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uKSGr8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uKSGsMZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+    </parameters>
+    <parameters xmi:id="_uKSGscZ6EeieD6s2Z9krAw" name="OldTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <parameterMappings xmi:id="_uKSGssZ6EeieD6s2Z9krAw" source="_uKSGr8Z6EeieD6s2Z9krAw" target="_uKSGo8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uKSGs8Z6EeieD6s2Z9krAw" source="_uKSGscZ6EeieD6s2Z9krAw" target="_uKSGpMZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

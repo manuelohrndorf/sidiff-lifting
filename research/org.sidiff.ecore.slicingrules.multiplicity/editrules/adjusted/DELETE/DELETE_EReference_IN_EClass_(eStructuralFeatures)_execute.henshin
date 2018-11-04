@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__OvbL8WTEei7ftrYh-o2YQ" name="DELETE_EReference_IN_EClass_(eStructuralFeatures)" description="Deletes one EReference in EClass">
+  <annotations xmi:id="__OvbMMWTEei7ftrYh-o2YQ" key="INVERSE" value="CREATE_EReference_IN_EClass_(eStructuralFeatures)"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__OvbMcWTEei7ftrYh-o2YQ" name="deleteEReference_IN_EClass" description="deletes one EReference in the context: EClass">
+    <parameters xmi:id="__OvbMsWTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__OvbM8WTEei7ftrYh-o2YQ" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <lhs xmi:id="__OvbNMWTEei7ftrYh-o2YQ" name="LHS">
+      <nodes xmi:id="__OvbNcWTEei7ftrYh-o2YQ" name="Selected" incoming="__OvbOsWTEei7ftrYh-o2YQ" outgoing="__OvbOcWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__OvbNsWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="__OvbN8WTEei7ftrYh-o2YQ" name="ToBeDeleted" incoming="__OvbOcWTEei7ftrYh-o2YQ" outgoing="__OvbOsWTEei7ftrYh-o2YQ _iawzMMZ0EeieD6s2Z9krAw">
+        <annotations xmi:id="__OvbOMWTEei7ftrYh-o2YQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_hJweUMZ0EeieD6s2Z9krAw" incoming="_iawzMMZ0EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <edges xmi:id="__OvbOcWTEei7ftrYh-o2YQ" source="__OvbNcWTEei7ftrYh-o2YQ" target="__OvbN8WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+      </edges>
+      <edges xmi:id="__OvbOsWTEei7ftrYh-o2YQ" source="__OvbN8WTEei7ftrYh-o2YQ" target="__OvbNcWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+      </edges>
+      <edges xmi:id="_iawzMMZ0EeieD6s2Z9krAw" source="__OvbN8WTEei7ftrYh-o2YQ" target="_hJweUMZ0EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="__OvbO8WTEei7ftrYh-o2YQ" name="RHS">
+      <nodes xmi:id="__OvbPMWTEei7ftrYh-o2YQ" name="Selected">
+        <annotations xmi:id="__OvbPcWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+      <nodes xmi:id="_hJweUcZ0EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="__OvbPsWTEei7ftrYh-o2YQ" origin="__OvbNcWTEei7ftrYh-o2YQ" image="__OvbPMWTEei7ftrYh-o2YQ"/>
+    <mappings xmi:id="_hJweUsZ0EeieD6s2Z9krAw" origin="_hJweUMZ0EeieD6s2Z9krAw" image="_hJweUcZ0EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__OvbP8WTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__OvbMcWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__OvbQMWTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__OvbQcWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </parameters>
+    <parameters xmi:id="__OvbQsWTEei7ftrYh-o2YQ" name="ToBeDeleted">
+      <annotations xmi:id="__OvbQ8WTEei7ftrYh-o2YQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameterMappings xmi:id="__OvbRMWTEei7ftrYh-o2YQ" source="__OvbQMWTEei7ftrYh-o2YQ" target="__OvbMsWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__OvbRcWTEei7ftrYh-o2YQ" source="__OvbQsWTEei7ftrYh-o2YQ" target="__OvbM8WTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

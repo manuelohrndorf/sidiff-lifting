@@ -1,10 +1,10 @@
 package org.sidiff.integration.editor.highlighting.internal.gmf;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecorator;
@@ -17,10 +17,7 @@ public class SelectionControllerDiagram {
 
 	private static SelectionControllerDiagram instance;
 	
-	private List<EObject> selected = new ArrayList<>();
-
-	private List<IDecorator> decorators = new ArrayList<>();
-
+	private Set<IDecorator> decorators = new HashSet<>();
 	private Map<EObject, IDecoratorTarget> decoratorTargets = new HashMap<>();
 
 	public static SelectionControllerDiagram getInstance() {
@@ -70,30 +67,13 @@ public class SelectionControllerDiagram {
 		
 		decorators.add(decorator);
 	}
-	
+
 	public IDecoratorTarget getPrefferedDecoratorTarget(EObject element) {
 		return decoratorTargets.get(element);
 	}
-	
-	public List<EObject> getSelected() {
-		return selected;
-	}
-	
-	public synchronized void setSelection(List<EObject> selected) {
-		
-		// Set new selection:
-		this.selected = selected;
-		
-		// Start the highlighting:
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				try {
-					highlightDiagrams();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
+	public void refresh() {
+		Display.getDefault().asyncExec(this::highlightDiagrams);
 	}
 
 	private void highlightDiagrams() {

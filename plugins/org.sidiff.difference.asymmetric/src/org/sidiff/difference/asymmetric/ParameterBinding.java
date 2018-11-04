@@ -16,10 +16,10 @@ import org.sidiff.editrule.rulebase.Parameter;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.ParameterBinding#getFormalName <em>Formal Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getParameterBinding()
  * @model abstract="true"

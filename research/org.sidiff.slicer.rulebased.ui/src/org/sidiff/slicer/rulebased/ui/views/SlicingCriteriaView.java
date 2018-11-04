@@ -75,6 +75,7 @@ import org.sidiff.patching.validation.ValidationMode;
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
+import org.sidiff.slicer.rulebased.exceptions.EmtpyModelSliceException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -402,6 +403,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (ExtendedSlicingCriteriaIntersectionException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (EmtpyModelSliceException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}

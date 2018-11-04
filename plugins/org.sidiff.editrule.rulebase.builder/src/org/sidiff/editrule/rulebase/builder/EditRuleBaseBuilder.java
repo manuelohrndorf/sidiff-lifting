@@ -111,8 +111,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) {
 		
 		if (editRuleChanged) {
-			buildRuleBase(monitor, ruleBaseWrapper);
 			addInverseEditRules(monitor, ruleBaseWrapper);
+			buildRuleBase(monitor, ruleBaseWrapper);
 			buildRuleBaseClass(monitor, ruleBaseWrapper, attachmentBuilders);
 
 			editRuleChanged = false;

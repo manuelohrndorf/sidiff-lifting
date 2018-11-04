@@ -35,7 +35,9 @@ import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
 import org.sidiff.integration.util.MessageDialogUtil;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
+import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
@@ -100,12 +102,9 @@ public class SiLiftCompareDifferencer {
 
 	/**
 	 * Recalculates the model differences.
-	 * 
 	 * @throws InvalidModelException If one of the given models is invalid
-	 * @throws NoCorrespondencesException If no correspondences could be found
-	 *             between the models
-	 * @throws UnsupportedFeatureLevelException
-	 * @throws InvalidSettingsException
+	 * @throws NoCorrespondencesException If no correspondences could be found between the models
+	 * @throws CoreException
 	 */
 	public void recalculateDifferences() throws InvalidModelException, NoCorrespondencesException, CoreException {
 		CompareResource left = getLeft();
@@ -151,7 +150,6 @@ public class SiLiftCompareDifferencer {
 	 */
 	private void createPatchEngine() throws CoreException {
 		PatchingSettings patchingSettings = createPatchingSettings();
-		
 
 		// init modified detector
 		if(getAncestor().getResource() != null) {
@@ -164,7 +162,7 @@ public class SiLiftCompareDifferencer {
 					Activator.logError("SiLiftCompareDifferencer could not initialize modified detector", e);
 				}
 			}
-		}else {
+		} else {
 			patchingSettings.setModifiedDetector(null);
 		}
 		
@@ -190,12 +188,14 @@ public class SiLiftCompareDifferencer {
 			SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings, documentTypes, 
 					Collections.<Enum<?>>emptySet());
 		}
+		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
+		patchingSettings.setPatchMode(ancestor.getResource() == null ? PatchMode.PATCHING : PatchMode.MERGING);
 
 		// Use interactive argument manager
 		IArgumentManager argumentManager = PatchingUtils.getArgumentManager(getAsymmetricDifference(),
 				left.getResource(), patchingSettings, patchingSettings.getExecutionMode());
 		if(argumentManager == null) {
-			throw new RuntimeException("No argument manager found");
+			throw new RuntimeException("No suitable argument manager found");
 		}
 		patchingSettings.setArgumentManager(argumentManager);
 

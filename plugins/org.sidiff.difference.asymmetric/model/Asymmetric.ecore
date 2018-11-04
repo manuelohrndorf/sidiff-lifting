@@ -3,6 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="asymmetric" nsURI="http://www.sidiff.org/difference/asymmetric/1.0"
     nsPrefix="asymmetric">
   <eClassifiers xsi:type="ecore:EClass" name="AsymmetricDifference">
+    <eOperations name="initializeRuleBase"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operationInvocations" upperBound="-1"
         eType="#//OperationInvocation" containment="true" eOpposite="#//OperationInvocation/asymmetricDifference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="originModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
@@ -18,6 +19,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="symmetricDifference" eType="ecore:EClass ../../org.sidiff.difference.symmetric/model/Symmetric.ecore#//SymmetricDifference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uriOriginModel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uriChangedModel" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rulebase" eType="ecore:EClass ../../org.sidiff.editrule.rulebase/model/RuleBase.ecore#//RuleBase"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OperationInvocation" eSuperTypes="#//Execution">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>

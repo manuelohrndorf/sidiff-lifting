@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uMno8MZ6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_NamedElement_Visibility" description="Sets NamedElement Visibility">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uMno8cZ6EeieD6s2Z9krAw" name="setNamedElementVisibility" description="Sets the EAttribute visibility">
+    <parameters xmi:id="_uMno8sZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_uMno88Z6EeieD6s2Z9krAw" name="Visibility" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <lhs xmi:id="_uMno9MZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uMno9cZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uMno9sZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uMno98Z6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+        <attributes xmi:id="_uMno-MZ6EeieD6s2Z9krAw" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uMno-cZ6EeieD6s2Z9krAw" origin="_uMno9cZ6EeieD6s2Z9krAw" image="_uMno98Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uMno-sZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uMno8cZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uMno-8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
+    </parameters>
+    <parameters xmi:id="_uMno_MZ6EeieD6s2Z9krAw" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_uMno_cZ6EeieD6s2Z9krAw" source="_uMno-8Z6EeieD6s2Z9krAw" target="_uMno8sZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMno_sZ6EeieD6s2Z9krAw" source="_uMno_MZ6EeieD6s2Z9krAw" target="_uMno88Z6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

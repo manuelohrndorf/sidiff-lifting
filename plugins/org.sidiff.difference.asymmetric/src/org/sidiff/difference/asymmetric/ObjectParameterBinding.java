@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.ObjectParameterBinding#getActualA <em>Actual A</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.ObjectParameterBinding#getActualB <em>Actual B</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.ObjectParameterBinding#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.ObjectParameterBinding#getIncoming <em>Incoming</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getObjectParameterBinding()
  * @model

@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.Dependency#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.Dependency#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.Dependency#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getDependency()
  * @model abstract="true"

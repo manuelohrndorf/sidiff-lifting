@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__M7dQMWTEei7ftrYh-o2YQ" name="CREATE_EPackage_IN_EPackage_(eSubpackages)" description="Creates one EPackage in EPackage">
+  <annotations xmi:id="__M7dQcWTEei7ftrYh-o2YQ" key="INVERSE" value="DELETE_EPackage_IN_EPackage_(eSubpackages)"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__M7dQsWTEei7ftrYh-o2YQ" name="createEPackage_IN_EPackage" description="creates one EPackage in the context: EPackage">
+    <parameters xmi:id="__M7dQ8WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__M7dRMWTEei7ftrYh-o2YQ" name="New" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__M7dRcWTEei7ftrYh-o2YQ" name="Name" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M7dRsWTEei7ftrYh-o2YQ" name="NsURI" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M7dR8WTEei7ftrYh-o2YQ" name="NsPrefix" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="__M7dSMWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__M7dScWTEei7ftrYh-o2YQ" name="Selected">
+        <annotations xmi:id="__M7dSsWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__M7dS8WTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__M7dTMWTEei7ftrYh-o2YQ" name="Selected" incoming="__M7dVMWTEei7ftrYh-o2YQ" outgoing="__M7dU8WTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__M7dTcWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+      </nodes>
+      <nodes xmi:id="__M7dTsWTEei7ftrYh-o2YQ" name="New" incoming="__M7dU8WTEei7ftrYh-o2YQ" outgoing="__M7dVMWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__M7dT8WTEei7ftrYh-o2YQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="__M7dUMWTEei7ftrYh-o2YQ" value="Name">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="__M7dUcWTEei7ftrYh-o2YQ" value="NsURI">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsURI"/>
+        </attributes>
+        <attributes xmi:id="__M7dUsWTEei7ftrYh-o2YQ" value="NsPrefix">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/nsPrefix"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="__M7dU8WTEei7ftrYh-o2YQ" source="__M7dTMWTEei7ftrYh-o2YQ" target="__M7dTsWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSubpackages"/>
+      </edges>
+      <edges xmi:id="__M7dVMWTEei7ftrYh-o2YQ" source="__M7dTsWTEei7ftrYh-o2YQ" target="__M7dTMWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage/eSuperPackage"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__M7dVcWTEei7ftrYh-o2YQ" origin="__M7dScWTEei7ftrYh-o2YQ" image="__M7dTMWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__M7dVsWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__M7dQsWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__M7dV8WTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__M7dWMWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__M7dWcWTEei7ftrYh-o2YQ" name="New">
+      <annotations xmi:id="__M7dWsWTEei7ftrYh-o2YQ" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    </parameters>
+    <parameters xmi:id="__M7dW8WTEei7ftrYh-o2YQ" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M7dXMWTEei7ftrYh-o2YQ" name="NsURI">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="__M7dXcWTEei7ftrYh-o2YQ" name="NsPrefix">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameterMappings xmi:id="__M7dXsWTEei7ftrYh-o2YQ" source="__M7dV8WTEei7ftrYh-o2YQ" target="__M7dQ8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M7dX8WTEei7ftrYh-o2YQ" source="__M7dRMWTEei7ftrYh-o2YQ" target="__M7dWcWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M7dYMWTEei7ftrYh-o2YQ" source="__M7dW8WTEei7ftrYh-o2YQ" target="__M7dRcWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M7dYcWTEei7ftrYh-o2YQ" source="__M7dXMWTEei7ftrYh-o2YQ" target="__M7dRsWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__M7dYsWTEei7ftrYh-o2YQ" source="__M7dXcWTEei7ftrYh-o2YQ" target="__M7dR8WTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

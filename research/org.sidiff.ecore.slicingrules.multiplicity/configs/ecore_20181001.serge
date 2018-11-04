@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Config SYSTEM "http://pi.informatik.uni-siegen.de/SiDiff/Editrulesgeneratorconfig.dtd" >
+<!-- Based on org.sidiff.ecore.editrules.atomic/editrules/generated/usedConfig_20140828.serge -->
+<Config>
+	<MetaModel>
+		<MainModel nsUri="http://www.eclipse.org/emf/2002/Ecore"
+			isProfile="false" />
+		<RootModelElement name="EPackage" canBeNested="true" />
+	</MetaModel>
+
+	<Transformations>
+		<CREATE enable="true" />
+		<DELETE enable="true" />
+		<MOVE enable="false" allowReferenceSwitching="false"
+			allowReferenceCombinations="false" />
+		<MOVE_UP enable="false" />
+		<MOVE_DOWN enable="false" />
+		<SET_ATTRIBUTE enable="true" />
+		<UNSET_ATTRIBUTE enable="false" />
+		<SET_REFERENCE enable="true" />
+		<UNSET_REFERENCE enable="true" />
+		<ADD enable="true" />
+		<REMOVE enable="true" />
+		<CHANGE_LITERAL enable="true" allowLiteralSwitching="true" />
+		<CHANGE_REFERENCE enable="true" />
+	</Transformations>
+
+	<ConsistencyLevel>
+		<CreateMandatoryChildren enable="true" />
+		<CreateMandatoryNeighbours enable="true" />
+		<CreateMultiplicityPreconditions
+			enable="true" />
+	</ConsistencyLevel>
+
+	<CompletnessLevel>
+		<AbstractReplacements>
+			<AbstractReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE" reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" />
+			<AbstractReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" />
+		</AbstractReplacements>
+		<SupertypeReplacements>
+			<SupertypeReplacement ruleType="CREATE_DELETE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="ADD_REMOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_UP"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="MOVE_DOWN"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_ATTRIBUTE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="SET_UNSET_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_LITERAL"
+				reduceDanglings="true" reduceContext="true" />
+			<SupertypeReplacement ruleType="CHANGE_REFERENCE"
+				reduceDanglings="true" reduceContext="true" />
+		</SupertypeReplacements>
+
+		<ModuleInternalOptions>
+			<CreateOptionalAttributes enable="true" />
+			<DanglingNodeSettings defaultTypeInclusion="always">
+				<DanglingNodeSetting type="EFactory" include="never" />
+				<DanglingNodeSetting type="EGenericType" include="never" />
+				<DanglingNodeSetting type="ETypeParameter" include="never" />
+				<DanglingNodeSetting type="EObject" include="never" />
+			</DanglingNodeSettings>
+		</ModuleInternalOptions>
+
+		<ModuleSetOptions>
+			<ModuleGenerationSettings defaultGenerationCase="always">
+				<GenerateModulesFor type="EFactory" case="never" />
+				<GenerateModulesFor type="EGenericType" case="never" />
+				<GenerateModulesFor type="ETypeParameter" case="never" />
+				<GenerateModulesFor type="EObject" case="never" />
+				<!-- <GenerateModulesFor type="EStringToStringMapEntry"
+					case="never" />  -->
+			</ModuleGenerationSettings>
+		</ModuleSetOptions>
+	</CompletnessLevel>
+</Config>

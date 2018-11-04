@@ -72,4 +72,8 @@ public class AdaptableTreeModel implements IAdaptable {
 		// TODO Auto-generated method stub
 		return null;
 	}	
+	
+	public int getSize() {
+		return root.getSize();
+	}
 }

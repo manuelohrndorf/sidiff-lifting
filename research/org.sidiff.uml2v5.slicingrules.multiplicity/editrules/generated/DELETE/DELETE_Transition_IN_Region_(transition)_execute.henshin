@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uLK3cMZ6EeieD6s2Z9krAw" name="DELETE_Transition_IN_Region_(transition)" description="Deletes one Transition in Region">
+  <annotations xmi:id="_uLK3ccZ6EeieD6s2Z9krAw" key="INVERSE" value="CREATE_Transition_IN_Region_(transition)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uLK3csZ6EeieD6s2Z9krAw" name="deleteTransition_IN_Region" description="deletes one Transition in the context: Region">
+    <parameters xmi:id="_uLK3c8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_uLK3dMZ6EeieD6s2Z9krAw" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_uLK3dcZ6EeieD6s2Z9krAw" name="Existing" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_uLK3dsZ6EeieD6s2Z9krAw" name="Existing1" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+    </parameters>
+    <lhs xmi:id="_uLK3d8Z6EeieD6s2Z9krAw" name="LHS">
+      <nodes xmi:id="_uLK3eMZ6EeieD6s2Z9krAw" name="Selected" incoming="_uLK3f8Z6EeieD6s2Z9krAw" outgoing="_uLK3fsZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLK3ecZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_uLK3esZ6EeieD6s2Z9krAw" name="ToBeDeleted" incoming="_uLK3fsZ6EeieD6s2Z9krAw" outgoing="_uLK3f8Z6EeieD6s2Z9krAw _uLK3gMZ6EeieD6s2Z9krAw _uLK3gcZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLK3e8Z6EeieD6s2Z9krAw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+      </nodes>
+      <nodes xmi:id="_uLK3fMZ6EeieD6s2Z9krAw" name="Existing" incoming="_uLK3gMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_uLK3fcZ6EeieD6s2Z9krAw" name="Existing1" incoming="_uLK3gcZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+      <edges xmi:id="_uLK3fsZ6EeieD6s2Z9krAw" source="_uLK3eMZ6EeieD6s2Z9krAw" target="_uLK3esZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/transition"/>
+      </edges>
+      <edges xmi:id="_uLK3f8Z6EeieD6s2Z9krAw" source="_uLK3esZ6EeieD6s2Z9krAw" target="_uLK3eMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/container"/>
+      </edges>
+      <edges xmi:id="_uLK3gMZ6EeieD6s2Z9krAw" source="_uLK3esZ6EeieD6s2Z9krAw" target="_uLK3fMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/source"/>
+      </edges>
+      <edges xmi:id="_uLK3gcZ6EeieD6s2Z9krAw" source="_uLK3esZ6EeieD6s2Z9krAw" target="_uLK3fcZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/target"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uLK3gsZ6EeieD6s2Z9krAw" name="RHS">
+      <nodes xmi:id="_uLK3g8Z6EeieD6s2Z9krAw" name="Selected">
+        <annotations xmi:id="_uLK3hMZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <nodes xmi:id="_uLK3hcZ6EeieD6s2Z9krAw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+      <nodes xmi:id="_uLK3hsZ6EeieD6s2Z9krAw" name="Existing1">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uLK3h8Z6EeieD6s2Z9krAw" origin="_uLK3eMZ6EeieD6s2Z9krAw" image="_uLK3g8Z6EeieD6s2Z9krAw"/>
+    <mappings xmi:id="_uLK3iMZ6EeieD6s2Z9krAw" origin="_uLK3fMZ6EeieD6s2Z9krAw" image="_uLK3hcZ6EeieD6s2Z9krAw"/>
+    <mappings xmi:id="_uLK3icZ6EeieD6s2Z9krAw" origin="_uLK3fcZ6EeieD6s2Z9krAw" image="_uLK3hsZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uLK3isZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uLK3csZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uLK3i8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uLK3jMZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameters xmi:id="_uLK3jcZ6EeieD6s2Z9krAw" name="ToBeDeleted">
+      <annotations xmi:id="_uLK3jsZ6EeieD6s2Z9krAw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_uLK3j8Z6EeieD6s2Z9krAw" name="Existing">
+      <annotations xmi:id="_uLK3kMZ6EeieD6s2Z9krAw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameters xmi:id="_uLK3kcZ6EeieD6s2Z9krAw" name="Existing1">
+      <annotations xmi:id="_uLK3ksZ6EeieD6s2Z9krAw" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
+    </parameters>
+    <parameterMappings xmi:id="_uLK3k8Z6EeieD6s2Z9krAw" source="_uLK3i8Z6EeieD6s2Z9krAw" target="_uLK3c8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLK3lMZ6EeieD6s2Z9krAw" source="_uLK3jcZ6EeieD6s2Z9krAw" target="_uLK3dMZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLK3lcZ6EeieD6s2Z9krAw" source="_uLK3j8Z6EeieD6s2Z9krAw" target="_uLK3dcZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLK3lsZ6EeieD6s2Z9krAw" source="_uLK3kcZ6EeieD6s2Z9krAw" target="_uLK3dsZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

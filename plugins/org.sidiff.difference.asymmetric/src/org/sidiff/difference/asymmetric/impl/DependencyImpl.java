@@ -23,12 +23,12 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyImpl#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

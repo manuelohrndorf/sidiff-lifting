@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__PlvsMWTEei7ftrYh-o2YQ" name="ADD_EReference_(eKeys)_TGT_EAttribute" description="Adds to EReference's reference eKeys the target EAttribute">
+  <annotations xmi:id="__PlvscWTEei7ftrYh-o2YQ" key="INVERSE" value="REMOVE_EReference_(eKeys)_TGT_EAttribute"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__PlvssWTEei7ftrYh-o2YQ" name="addToEReference_eKeys_EAttribute" description="Adds to EReference's reference eKeys the target EAttribute">
+    <parameters xmi:id="__Plvs8WTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="__PlvtMWTEei7ftrYh-o2YQ" name="NewTarget" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <lhs xmi:id="__PlvtcWTEei7ftrYh-o2YQ" name="Lhs">
+      <nodes xmi:id="__PlvtsWTEei7ftrYh-o2YQ" name="Selected">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="__Plvt8WTEei7ftrYh-o2YQ" name="NewTarget">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__PlvuMWTEei7ftrYh-o2YQ" name="Rhs">
+      <nodes xmi:id="__PlvucWTEei7ftrYh-o2YQ" name="Selected" outgoing="__Plvu8WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="__PlvusWTEei7ftrYh-o2YQ" name="NewTarget" incoming="__Plvu8WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      </nodes>
+      <edges xmi:id="__Plvu8WTEei7ftrYh-o2YQ" source="__PlvucWTEei7ftrYh-o2YQ" target="__PlvusWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/eKeys"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="__PlvvMWTEei7ftrYh-o2YQ" origin="__PlvtsWTEei7ftrYh-o2YQ" image="__PlvucWTEei7ftrYh-o2YQ"/>
+    <mappings xmi:id="__PlvvcWTEei7ftrYh-o2YQ" origin="__Plvt8WTEei7ftrYh-o2YQ" image="__PlvusWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__PlvvsWTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__PlvssWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__Plvv8WTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__PlvwMWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </parameters>
+    <parameters xmi:id="__PlvwcWTEei7ftrYh-o2YQ" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </parameters>
+    <parameterMappings xmi:id="__PlvwsWTEei7ftrYh-o2YQ" source="__Plvv8WTEei7ftrYh-o2YQ" target="__Plvs8WTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__Plvw8WTEei7ftrYh-o2YQ" source="__PlvwcWTEei7ftrYh-o2YQ" target="__PlvtMWTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

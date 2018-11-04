@@ -17,11 +17,11 @@ import org.sidiff.difference.asymmetric.AttributeDependency;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AttributeDependencyImpl#getObject <em>Object</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AttributeDependencyImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

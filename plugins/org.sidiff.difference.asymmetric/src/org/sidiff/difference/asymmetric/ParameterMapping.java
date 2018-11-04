@@ -15,11 +15,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.ParameterMapping#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.ParameterMapping#getTarget <em>Target</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getParameterMapping()
  * @model

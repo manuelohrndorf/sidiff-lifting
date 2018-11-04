@@ -36,7 +36,6 @@ public class ConnectorPlugin extends Plugin {
 	
 	@Override
 	public void start(BundleContext context) throws Exception {
-		// TODO Auto-generated method stub
 		super.start(context);
 		plugin = this;
 		
@@ -47,7 +46,8 @@ public class ConnectorPlugin extends Plugin {
 
 		//TODO add factories in a more generic way
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new UUIDResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("uml", new UUIDResourceFactoryImpl());
+		//FIXME UML should usually use xmi ids, however to force it, we have to extend the UMLResourceFactory
+//		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("uml", new UUIDResourceFactoryImpl());
 	}
 	
 	/**

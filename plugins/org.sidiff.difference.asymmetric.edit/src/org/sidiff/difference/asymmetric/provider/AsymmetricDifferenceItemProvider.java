@@ -33,6 +33,7 @@ import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.util.TopologicalSorter;
+import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * This is the item provider adapter for a {@link org.sidiff.difference.asymmetric.AsymmetricDifference} object.
@@ -303,6 +304,7 @@ public class AsymmetricDifferenceItemProvider
 			childrenFeatures.add(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__DEP_CONTAINERS);
 			childrenFeatures.add(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__PARAMETER_MAPPINGS);
 			childrenFeatures.add(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__EXECUTIONS);
+			childrenFeatures.add(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__RULEBASE);
 		}
 		return childrenFeatures;
 	}
@@ -370,6 +372,7 @@ public class AsymmetricDifferenceItemProvider
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__DEP_CONTAINERS:
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__PARAMETER_MAPPINGS:
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__EXECUTIONS:
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -416,6 +419,11 @@ public class AsymmetricDifferenceItemProvider
 			(createChildParameter
 				(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__EXECUTIONS,
 				 AsymmetricFactory.eINSTANCE.createSequentialExecution()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(AsymmetricPackage.Literals.ASYMMETRIC_DIFFERENCE__RULEBASE,
+				 RulebaseFactory.eINSTANCE.createRuleBase()));
 	}
 
 	/**

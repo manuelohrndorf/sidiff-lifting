@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uKgJEMZ6EeieD6s2Z9krAw" name="DELETE_Association_IN_Class_(nestedClassifier)" description="Deletes one Association in Class">
+  <annotations xmi:id="_uKgJEcZ6EeieD6s2Z9krAw" key="INVERSE" value="CREATE_Association_IN_Class_(nestedClassifier)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uKgJEsZ6EeieD6s2Z9krAw" name="deleteAssociation_IN_Class" description="deletes one Association in the context: Class">
+    <parameters xmi:id="_uKgJE8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_uKgJFMZ6EeieD6s2Z9krAw" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_uKgJFcZ6EeieD6s2Z9krAw" name="Existing" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_uKgJFsZ6EeieD6s2Z9krAw" name="Existing1" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <lhs xmi:id="_uKgJF8Z6EeieD6s2Z9krAw" name="LHS">
+      <nodes xmi:id="_uKgJGMZ6EeieD6s2Z9krAw" name="Selected" outgoing="_uKgJHsZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uKgJGcZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_uKgJGsZ6EeieD6s2Z9krAw" name="ToBeDeleted" incoming="_uKgJHsZ6EeieD6s2Z9krAw _uKgJIMZ6EeieD6s2Z9krAw _uKgJIsZ6EeieD6s2Z9krAw" outgoing="_uKgJH8Z6EeieD6s2Z9krAw _uKgJIcZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uKgJG8Z6EeieD6s2Z9krAw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+      </nodes>
+      <nodes xmi:id="_uKgJHMZ6EeieD6s2Z9krAw" name="Existing" incoming="_uKgJH8Z6EeieD6s2Z9krAw" outgoing="_uKgJIMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_uKgJHcZ6EeieD6s2Z9krAw" name="Existing1" incoming="_uKgJIcZ6EeieD6s2Z9krAw" outgoing="_uKgJIsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <edges xmi:id="_uKgJHsZ6EeieD6s2Z9krAw" source="_uKgJGMZ6EeieD6s2Z9krAw" target="_uKgJGsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/nestedClassifier"/>
+      </edges>
+      <edges xmi:id="_uKgJH8Z6EeieD6s2Z9krAw" source="_uKgJGsZ6EeieD6s2Z9krAw" target="_uKgJHMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/memberEnd"/>
+      </edges>
+      <edges xmi:id="_uKgJIMZ6EeieD6s2Z9krAw" source="_uKgJHMZ6EeieD6s2Z9krAw" target="_uKgJGsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/association"/>
+      </edges>
+      <edges xmi:id="_uKgJIcZ6EeieD6s2Z9krAw" source="_uKgJGsZ6EeieD6s2Z9krAw" target="_uKgJHcZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Association/memberEnd"/>
+      </edges>
+      <edges xmi:id="_uKgJIsZ6EeieD6s2Z9krAw" source="_uKgJHcZ6EeieD6s2Z9krAw" target="_uKgJGsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/association"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uKgJI8Z6EeieD6s2Z9krAw" name="RHS">
+      <nodes xmi:id="_uKgJJMZ6EeieD6s2Z9krAw" name="Selected">
+        <annotations xmi:id="_uKgJJcZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+      </nodes>
+      <nodes xmi:id="_uKgJJsZ6EeieD6s2Z9krAw" name="Existing">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+      <nodes xmi:id="_uKgJJ8Z6EeieD6s2Z9krAw" name="Existing1">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uKgJKMZ6EeieD6s2Z9krAw" origin="_uKgJGMZ6EeieD6s2Z9krAw" image="_uKgJJMZ6EeieD6s2Z9krAw"/>
+    <mappings xmi:id="_uKgJKcZ6EeieD6s2Z9krAw" origin="_uKgJHMZ6EeieD6s2Z9krAw" image="_uKgJJsZ6EeieD6s2Z9krAw"/>
+    <mappings xmi:id="_uKgJKsZ6EeieD6s2Z9krAw" origin="_uKgJHcZ6EeieD6s2Z9krAw" image="_uKgJJ8Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uKgJK8Z6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uKgJEsZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uKgJLMZ6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uKgJLcZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+    </parameters>
+    <parameters xmi:id="_uKgJLsZ6EeieD6s2Z9krAw" name="ToBeDeleted">
+      <annotations xmi:id="_uKgJL8Z6EeieD6s2Z9krAw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Association"/>
+    </parameters>
+    <parameters xmi:id="_uKgJMMZ6EeieD6s2Z9krAw" name="Existing">
+      <annotations xmi:id="_uKgJMcZ6EeieD6s2Z9krAw" key="INVERSE" value="Existing"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameters xmi:id="_uKgJMsZ6EeieD6s2Z9krAw" name="Existing1">
+      <annotations xmi:id="_uKgJM8Z6EeieD6s2Z9krAw" key="INVERSE" value="Existing1"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+    </parameters>
+    <parameterMappings xmi:id="_uKgJNMZ6EeieD6s2Z9krAw" source="_uKgJLMZ6EeieD6s2Z9krAw" target="_uKgJE8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uKgJNcZ6EeieD6s2Z9krAw" source="_uKgJLsZ6EeieD6s2Z9krAw" target="_uKgJFMZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uKgJNsZ6EeieD6s2Z9krAw" source="_uKgJMMZ6EeieD6s2Z9krAw" target="_uKgJFcZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uKgJN8Z6EeieD6s2Z9krAw" source="_uKgJMsZ6EeieD6s2Z9krAw" target="_uKgJFsZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

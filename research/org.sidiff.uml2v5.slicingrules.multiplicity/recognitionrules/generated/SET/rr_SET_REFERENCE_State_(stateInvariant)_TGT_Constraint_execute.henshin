@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_FpuQMM1YEeiPqccUOI2h-g" name="RR: SET_REFERENCE_State_(stateInvariant)_TGT_Constraint" description="Recognize: Sets State's reference stateInvariant the target Constraint">
+  <imports href="http://www.sidiff.org/difference/symmetric/1.0#/"/>
+  <imports href="http://www.sidiff.org/matching/model#/"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_FpuQMc1YEeiPqccUOI2h-g" name="rr:setState_stateInvariant_TO_Constraint" description="Recognize: SetStateRefstateInvariantToConstraint">
+    <parameters xmi:id="_FpuQMs1YEeiPqccUOI2h-g" name="Selected">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+    </parameters>
+    <parameters xmi:id="_FpuQM81YEeiPqccUOI2h-g" name="NewTarget">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+    </parameters>
+    <lhs xmi:id="_FpuQNM1YEeiPqccUOI2h-g" name="Lhs">
+      <nodes xmi:id="_FpuQNc1YEeiPqccUOI2h-g" name="B.Selected" incoming="_FpuQO81YEeiPqccUOI2h-g" outgoing="_FpuQPs1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_FpuQNs1YEeiPqccUOI2h-g" name="B.NewTarget" incoming="_FpuQPM1YEeiPqccUOI2h-g _FpuQPs1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_FpuQN81YEeiPqccUOI2h-g" name="" outgoing="_FpuQO81YEeiPqccUOI2h-g _FpuQPM1YEeiPqccUOI2h-g _FpuQPc1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_FpuQOM1YEeiPqccUOI2h-g" name="" incoming="_FpuQPc1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_FpuQOc1YEeiPqccUOI2h-g" value="&quot;stateInvariant&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FpuQOs1YEeiPqccUOI2h-g" name="">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FpuQO81YEeiPqccUOI2h-g" source="_FpuQN81YEeiPqccUOI2h-g" target="_FpuQNc1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_FpuQPM1YEeiPqccUOI2h-g" source="_FpuQN81YEeiPqccUOI2h-g" target="_FpuQNs1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_FpuQPc1YEeiPqccUOI2h-g" source="_FpuQN81YEeiPqccUOI2h-g" target="_FpuQOM1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_FpuQPs1YEeiPqccUOI2h-g" source="_FpuQNc1YEeiPqccUOI2h-g" target="_FpuQNs1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/stateInvariant"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_FpuQP81YEeiPqccUOI2h-g" name="Rhs">
+      <nodes xmi:id="_FpuQQM1YEeiPqccUOI2h-g" name="B.Selected" incoming="_FpuQTs1YEeiPqccUOI2h-g" outgoing="_FpuQUc1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
+      </nodes>
+      <nodes xmi:id="_FpuQQc1YEeiPqccUOI2h-g" name="B.NewTarget" incoming="_FpuQT81YEeiPqccUOI2h-g _FpuQUc1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
+      </nodes>
+      <nodes xmi:id="_FpuQQs1YEeiPqccUOI2h-g" name="" incoming="_FpuQUs1YEeiPqccUOI2h-g" outgoing="_FpuQTs1YEeiPqccUOI2h-g _FpuQT81YEeiPqccUOI2h-g _FpuQUM1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference"/>
+      </nodes>
+      <nodes xmi:id="_FpuQQ81YEeiPqccUOI2h-g" name="" incoming="_FpuQUM1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      </nodes>
+      <nodes xmi:id="_FpuQRM1YEeiPqccUOI2h-g" name="ChangeSet" incoming="_FpuQU81YEeiPqccUOI2h-g" outgoing="_FpuQUs1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet"/>
+        <attributes xmi:id="_FpuQRc1YEeiPqccUOI2h-g" value="&quot;SET_REFERENCE_State_(stateInvariant)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/name"/>
+        </attributes>
+        <attributes xmi:id="_FpuQRs1YEeiPqccUOI2h-g" value="&quot;Sets State's reference stateInvariant the target Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/description"/>
+        </attributes>
+        <attributes xmi:id="_FpuQR81YEeiPqccUOI2h-g" value="&quot;SET_REFERENCE_State_(stateInvariant)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/editRName"/>
+        </attributes>
+        <attributes xmi:id="_FpuQSM1YEeiPqccUOI2h-g" value="&quot;RR: SET_REFERENCE_State_(stateInvariant)_TGT_Constraint&quot;">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/recognitionRName"/>
+        </attributes>
+        <attributes xmi:id="_FpuQSc1YEeiPqccUOI2h-g" value="1">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/priority"/>
+        </attributes>
+        <attributes xmi:id="_FpuQSs1YEeiPqccUOI2h-g" value="0">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfACs"/>
+        </attributes>
+        <attributes xmi:id="_FpuQS81YEeiPqccUOI2h-g" value="2">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/numberOfParams"/>
+        </attributes>
+        <attributes xmi:id="_FpuQTM1YEeiPqccUOI2h-g" value="13">
+          <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/refinementLevel"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_FpuQTc1YEeiPqccUOI2h-g" name="" outgoing="_FpuQU81YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference"/>
+      </nodes>
+      <edges xmi:id="_FpuQTs1YEeiPqccUOI2h-g" source="_FpuQQs1YEeiPqccUOI2h-g" target="_FpuQQM1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/src"/>
+      </edges>
+      <edges xmi:id="_FpuQT81YEeiPqccUOI2h-g" source="_FpuQQs1YEeiPqccUOI2h-g" target="_FpuQQc1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/tgt"/>
+      </edges>
+      <edges xmi:id="_FpuQUM1YEeiPqccUOI2h-g" source="_FpuQQs1YEeiPqccUOI2h-g" target="_FpuQQ81YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//AddReference/type"/>
+      </edges>
+      <edges xmi:id="_FpuQUc1YEeiPqccUOI2h-g" source="_FpuQQM1YEeiPqccUOI2h-g" target="_FpuQQc1YEeiPqccUOI2h-g">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/stateInvariant"/>
+      </edges>
+      <edges xmi:id="_FpuQUs1YEeiPqccUOI2h-g" source="_FpuQRM1YEeiPqccUOI2h-g" target="_FpuQQs1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SemanticChangeSet/changes"/>
+      </edges>
+      <edges xmi:id="_FpuQU81YEeiPqccUOI2h-g" source="_FpuQTc1YEeiPqccUOI2h-g" target="_FpuQRM1YEeiPqccUOI2h-g">
+        <type href="http://www.sidiff.org/difference/symmetric/1.0#//SymmetricDifference/changeSets"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_FpuQVM1YEeiPqccUOI2h-g" origin="_FpuQNc1YEeiPqccUOI2h-g" image="_FpuQQM1YEeiPqccUOI2h-g"/>
+    <mappings xmi:id="_FpuQVc1YEeiPqccUOI2h-g" origin="_FpuQNs1YEeiPqccUOI2h-g" image="_FpuQQc1YEeiPqccUOI2h-g"/>
+    <mappings xmi:id="_FpuQVs1YEeiPqccUOI2h-g" origin="_FpuQN81YEeiPqccUOI2h-g" image="_FpuQQs1YEeiPqccUOI2h-g"/>
+    <mappings xmi:id="_FpuQV81YEeiPqccUOI2h-g" origin="_FpuQOM1YEeiPqccUOI2h-g" image="_FpuQQ81YEeiPqccUOI2h-g"/>
+    <mappings xmi:id="_FpuQWM1YEeiPqccUOI2h-g" origin="_FpuQOs1YEeiPqccUOI2h-g" image="_FpuQTc1YEeiPqccUOI2h-g"/>
+  </units>
+</henshin:Module>

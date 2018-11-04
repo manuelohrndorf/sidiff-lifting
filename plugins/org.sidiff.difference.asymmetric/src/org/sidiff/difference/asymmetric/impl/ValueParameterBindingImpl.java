@@ -18,10 +18,10 @@ import org.sidiff.difference.asymmetric.ValueParameterBinding;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.ValueParameterBindingImpl#getActual <em>Actual</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

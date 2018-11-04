@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uLCUkMZ6EeieD6s2Z9krAw" name="DELETE_StateMachine_IN_BehavioredClassifier_(ownedBehavior)" description="Deletes one StateMachine in BehavioredClassifier">
+  <annotations xmi:id="_uLCUkcZ6EeieD6s2Z9krAw" key="INVERSE" value="CREATE_StateMachine_IN_BehavioredClassifier_(ownedBehavior)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uLCUksZ6EeieD6s2Z9krAw" name="deleteStateMachine_IN_BehavioredClassifier" description="deletes one StateMachine in the context: BehavioredClassifier">
+    <parameters xmi:id="_uLCUk8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_uLCUlMZ6EeieD6s2Z9krAw" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_uLCUlcZ6EeieD6s2Z9krAw" name="Child" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <lhs xmi:id="_uLCUlsZ6EeieD6s2Z9krAw" name="LHS">
+      <nodes xmi:id="_uLCUl8Z6EeieD6s2Z9krAw" name="Selected" outgoing="_uLCUnMZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLCUmMZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+      <nodes xmi:id="_uLCUmcZ6EeieD6s2Z9krAw" name="ToBeDeleted" incoming="_uLCUnMZ6EeieD6s2Z9krAw _uLCUnsZ6EeieD6s2Z9krAw" outgoing="_uLCUncZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uLCUmsZ6EeieD6s2Z9krAw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_uLCUm8Z6EeieD6s2Z9krAw" name="Child" incoming="_uLCUncZ6EeieD6s2Z9krAw" outgoing="_uLCUnsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+      </nodes>
+      <edges xmi:id="_uLCUnMZ6EeieD6s2Z9krAw" source="_uLCUl8Z6EeieD6s2Z9krAw" target="_uLCUmcZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier/ownedBehavior"/>
+      </edges>
+      <edges xmi:id="_uLCUncZ6EeieD6s2Z9krAw" source="_uLCUmcZ6EeieD6s2Z9krAw" target="_uLCUm8Z6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/region"/>
+      </edges>
+      <edges xmi:id="_uLCUnsZ6EeieD6s2Z9krAw" source="_uLCUm8Z6EeieD6s2Z9krAw" target="_uLCUmcZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/stateMachine"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_uLCUn8Z6EeieD6s2Z9krAw" name="RHS">
+      <nodes xmi:id="_uLCUoMZ6EeieD6s2Z9krAw" name="Selected">
+        <annotations xmi:id="_uLCUocZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uLCUosZ6EeieD6s2Z9krAw" origin="_uLCUl8Z6EeieD6s2Z9krAw" image="_uLCUoMZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uLCUo8Z6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uLCUksZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uLCUpMZ6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uLCUpcZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioredClassifier"/>
+    </parameters>
+    <parameters xmi:id="_uLCUpsZ6EeieD6s2Z9krAw" name="ToBeDeleted">
+      <annotations xmi:id="_uLCUp8Z6EeieD6s2Z9krAw" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_uLCUqMZ6EeieD6s2Z9krAw" name="Child">
+      <annotations xmi:id="_uLCUqcZ6EeieD6s2Z9krAw" key="INVERSE" value="Child"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
+    </parameters>
+    <parameterMappings xmi:id="_uLCUqsZ6EeieD6s2Z9krAw" source="_uLCUpMZ6EeieD6s2Z9krAw" target="_uLCUk8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLCUq8Z6EeieD6s2Z9krAw" source="_uLCUpsZ6EeieD6s2Z9krAw" target="_uLCUlMZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uLCUrMZ6EeieD6s2Z9krAw" source="_uLCUqMZ6EeieD6s2Z9krAw" target="_uLCUlcZ6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

@@ -263,7 +263,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						if (treeNode.getChildren().isEmpty()) {
 							try {
 								List<ProxyObject> proxyObjects = ConnectorFacade
-										.browseRemoteApplicationContent(treeNode.getId(), null);
+										.browseRemoteApplicationContent(treeNode.getId(), null, false);
 								List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 								treeNode.addAllChildren(children);
 								this.treeViewer.refresh();
@@ -279,7 +279,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 
 						try {
 							List<ProxyObject> proxyObjects = ConnectorFacade
-									.browseRemoteApplicationContent(treeNode.getId(), null);
+									.browseRemoteApplicationContent(treeNode.getId(), null, false);
 							List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 							treeModel.getRoot().addAllChildren(children);
 							this.checkboxTreeViewer.setInput(treeModel);
@@ -295,7 +295,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						String session_path = ((AdaptableTreeNode) this.treeViewer.getStructuredSelection()
 								.getFirstElement()).getId();
 						List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent(session_path,
-								treeNode.getId());
+								treeNode.getId(), false);
 						List<AdaptableTreeNode> children = ModelUtil.transform(proxyObjects);
 						treeNode.addAllChildren(children);
 						this.checkboxTreeViewer.refresh();
@@ -366,7 +366,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 			public void run() {
 				try {
 					AdaptableTreeModel model = new AdaptableTreeModel();
-					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent("", null);
+					List<ProxyObject> proxyObjects = ConnectorFacade.browseRemoteApplicationContent("", null, false);
 					List<AdaptableTreeNode> treeNodes = ModelUtil.transform(proxyObjects);
 					model.getRoot().addAllChildren(treeNodes);
 					treeViewer.setInput(model);
@@ -455,7 +455,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 						resource.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 					}
 				} catch (ConnectionException | CoreException | InvalidProjectInfoException
-						| ModelNotVersionedException e) {
+						| ModelNotVersionedException | RemoteApplicationException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				super.run();

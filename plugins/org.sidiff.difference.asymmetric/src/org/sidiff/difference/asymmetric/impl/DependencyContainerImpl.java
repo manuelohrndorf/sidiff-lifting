@@ -24,12 +24,12 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyContainerImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyContainerImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.DependencyContainerImpl#getDependencies <em>Dependencies</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

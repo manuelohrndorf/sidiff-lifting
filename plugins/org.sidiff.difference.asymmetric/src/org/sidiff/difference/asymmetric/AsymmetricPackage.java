@@ -152,13 +152,22 @@ public interface AsymmetricPackage extends EPackage {
 	int ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL = 8;
 
 	/**
+	 * The feature id for the '<em><b>Rulebase</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASYMMETRIC_DIFFERENCE__RULEBASE = 9;
+
+	/**
 	 * The number of structural features of the '<em>Difference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASYMMETRIC_DIFFERENCE_FEATURE_COUNT = 9;
+	int ASYMMETRIC_DIFFERENCE_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.asymmetric.impl.ExecutionImpl <em>Execution</em>}' class.
@@ -933,6 +942,17 @@ public interface AsymmetricPackage extends EPackage {
 	EAttribute getAsymmetricDifference_UriChangedModel();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.sidiff.difference.asymmetric.AsymmetricDifference#getRulebase <em>Rulebase</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Rulebase</em>'.
+	 * @see org.sidiff.difference.asymmetric.AsymmetricDifference#getRulebase()
+	 * @see #getAsymmetricDifference()
+	 * @generated
+	 */
+	EReference getAsymmetricDifference_Rulebase();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.asymmetric.OperationInvocation <em>Operation Invocation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1526,6 +1546,14 @@ public interface AsymmetricPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL = eINSTANCE.getAsymmetricDifference_UriChangedModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Rulebase</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASYMMETRIC_DIFFERENCE__RULEBASE = eINSTANCE.getAsymmetricDifference_Rulebase();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.asymmetric.impl.OperationInvocationImpl <em>Operation Invocation</em>}' class.

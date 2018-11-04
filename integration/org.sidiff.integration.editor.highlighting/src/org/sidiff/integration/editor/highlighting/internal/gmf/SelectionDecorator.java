@@ -1,57 +1,32 @@
 package org.sidiff.integration.editor.highlighting.internal.gmf;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.gef.EditPart;
+import org.eclipse.gef.handles.MoveHandleLocator;
 import org.eclipse.gmf.runtime.diagram.core.listener.DiagramEventBroker;
 import org.eclipse.gmf.runtime.diagram.core.listener.NotificationListener;
+import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.AbstractDecorator;
 import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget;
-import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.swt.graphics.Color;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.highlighting.StyledObject;
+import org.sidiff.integration.editor.highlighting.internal.SelectionController;
 
 public class SelectionDecorator extends AbstractDecorator {
 
-	private static final String HOOK_ID = "org.sidiff.integration.editor.highlighting";
-	
-	private static boolean focusOnSelection = true;
-
-	private SelectionControllerDiagram controller = SelectionControllerDiagram.getInstance();
-
-	private Map<PolylineConnection, Style> decoratedLines = new HashMap<>();
-
-	private static class Style {
-
-		public Color color = null;
-
-		public int lineWidth = 0;
-
-		public Style(Color c, int lw) {
-			color = c;
-			lineWidth = lw;
-		}
-	}
-	
 	private NotificationListener notificationListener = new NotificationListener() {
-
 		@Override
 		public void notifyChanged(Notification notification) {
 			refresh();
@@ -65,12 +40,10 @@ public class SelectionDecorator extends AbstractDecorator {
 	@Override
 	public void activate() {
 		IGraphicalEditPart gep = (IGraphicalEditPart) getDecoratorTarget().getAdapter(IGraphicalEditPart.class);
-
-		if (gep != null) {
-			DiagramEventBroker.getInstance(gep.getEditingDomain()).addNotificationListener(gep.getNotationView(),
-					NotationPackage.eINSTANCE.getDescriptionStyle_Description(), notificationListener);
-			controller.registerDecorator(this, getDecoratorTarget());
-		}
+		DiagramEventBroker.getInstance(gep.getEditingDomain()).addNotificationListener(gep.getNotationView(),
+				NotationPackage.eINSTANCE.getDescriptionStyle_Description(), notificationListener);
+		SelectionControllerDiagram.getInstance().registerDecorator(this, getDecoratorTarget());
+		refresh();
 	}
 
 	@Override
@@ -78,57 +51,29 @@ public class SelectionDecorator extends AbstractDecorator {
 		removeDecoration();
 
 		IGraphicalEditPart gep = (IGraphicalEditPart) getDecoratorTarget().getAdapter(IGraphicalEditPart.class);
-
-		if (gep != null) {
-			DiagramEventBroker.getInstance(gep.getEditingDomain()).removeNotificationListener(gep.getNotationView(),
-					NotationPackage.eINSTANCE.getDescriptionStyle_Description(), notificationListener);
-			controller.unregisterDecorator(this, getDecoratorTarget());
-		}
-	}
-
-	@Override
-	protected void removeDecoration() {
-		super.removeDecoration();
-
-		for (PolylineConnection connection : decoratedLines.keySet()) {
-			connection.setForegroundColor(decoratedLines.get(connection).color);
-			connection.setLineWidth(decoratedLines.get(connection).lineWidth);
-		}
+		DiagramEventBroker.getInstance(gep.getEditingDomain()).removeNotificationListener(gep.getNotationView(),
+				NotationPackage.eINSTANCE.getDescriptionStyle_Description(), notificationListener);
+		SelectionControllerDiagram.getInstance().unregisterDecorator(this, getDecoratorTarget());
 	}
 
 	@Override
 	public void refresh() {
-		decorate();
-	}
-
-	public View decorate() {
 		removeDecoration();
-
-		View view = (View) getDecoratorTarget().getAdapter(View.class);
-		if(controller.getPrefferedDecoratorTarget(view.getElement()) != getDecoratorTarget()
-				|| !selectionContains(view.getElement())) {
-			return null;
+		if(!SelectionController.getInstance().isEnabled()) {
+			return;
 		}
 
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IConfigurationElement[] config = registry.getConfigurationElementsFor(HOOK_ID);
-
-		try {
-			for (IConfigurationElement configElement : config) {
-				final Object object = configElement.createExecutableExtension("hook");
-				
-				if (object instanceof DecorationHook) {
-					DecorationHook hook = (DecorationHook) object;
-					hook.onViewWillBeDecorated(view);
-				}
-			}
-		} catch (CoreException ex) {
-			ex.printStackTrace();
+		IGraphicalEditPart editPart = (IGraphicalEditPart)getDecoratorTarget().getAdapter(IGraphicalEditPart.class);
+		View view = (View)getDecoratorTarget().getAdapter(View.class);
+		if(SelectionControllerDiagram.getInstance().getPrefferedDecoratorTarget(view.getElement()) != getDecoratorTarget()) {
+			return;
+		}
+		Optional<StyledObject> styled = findStyledObject(ViewUtil.resolveSemanticElement(view));
+		if(!styled.isPresent()) {
+			return;
 		}
 
-		IGraphicalEditPart editPart = (IGraphicalEditPart) getDecoratorTarget().getAdapter(EditPart.class);
-		// TODO: Make the focusing configurable per selection!
-		if (focusOnSelection) {
+		if (styled.get().isFocus()) {
 			int x = editPart.getFigure().getBounds().x;
 			int y = editPart.getFigure().getBounds().y;
 	
@@ -139,41 +84,20 @@ public class SelectionDecorator extends AbstractDecorator {
 		editPart.getViewer().reveal(editPart);
 
 		if (view instanceof Node) {
-			IFigure figure = editPart.getFigure();
-
-			IFigure decoration = new SelectionDecorationFigure();
-			decoration.setSize(figure.getSize());
-
-			setDecoration(getDecoratorTarget().addShapeDecoration(
-					decoration, IDecoratorTarget.Direction.CENTER,0, false));
-		} else if (view instanceof Edge) {
-			PolylineConnection connection = (PolylineConnection) editPart.getFigure();
-			decoratedLines.put(connection,
-					new Style(connection.getForegroundColor(), connection.getLineWidth()));
-			connection.setForegroundColor(ColorConstants.red);
-			connection.setLineWidth(2);
+			IFigure decoration = new SelectionNodeDecorationFigure(editPart.getFigure(), styled.get());
+			setDecoration(getDecoratorTarget().addShapeDecoration(decoration, IDecoratorTarget.Direction.CENTER, 0, false));
+		} else if (editPart.getFigure() instanceof PolylineConnection) {
+			SelectionEdgeDecorationFigure decoration = new SelectionEdgeDecorationFigure((PolylineConnection)editPart.getFigure(), styled.get());
+			setDecoration(getDecoratorTarget().addDecoration(decoration, new MoveHandleLocator((PolylineConnection)editPart.getFigure()), false));
 		}
-		return view;
 	}
-	
-	private boolean selectionContains(EObject viewDataElement){
-		Collection<EObject> viewDataElements = IntegrationEditorAccess.getInstance().getHighlightableElements(viewDataElement);
-		
-		if(viewDataElements != null && !viewDataElements.isEmpty()){
-			for(EObject selected : controller.getSelected()){
-				for (EObject element : viewDataElements){
-					if ((selected.eResource() != null) && (element.eResource() != null)) {
-						String fragmentA = EcoreUtil.getURI(selected).fragment();
-						String fragmentB = EcoreUtil.getURI(element).fragment();
-						
-						if (fragmentA.equals(fragmentB)){
-							return true;
-						}					
-					}
-				}			
-			}
-		}
-			
-		return false;
+
+	private Optional<StyledObject> findStyledObject(EObject viewDataElement) {
+		final Collection<EObject> highlightable = IntegrationEditorAccess.getInstance().getHighlightableElements(viewDataElement);
+		return SelectionController.getInstance().getSelected().stream()
+			.filter(styled -> highlightable.stream().anyMatch(
+					e -> Objects.equals(EcoreUtil.getURI(styled.getEObject()).fragment(), EcoreUtil.getURI(e).fragment())
+							|| EcoreUtil.equals(styled.getEObject(), e)))
+			.findFirst();
 	}
 }

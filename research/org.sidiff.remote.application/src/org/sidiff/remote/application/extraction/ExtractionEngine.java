@@ -31,6 +31,7 @@ import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationPropert
 import org.sidiff.slicer.rulebased.RuleBasedSlicer;
 import org.sidiff.slicer.rulebased.configuration.RuleBasedSlicingConfiguration;
 import org.sidiff.slicer.rulebased.exceptions.EmptySlicingCriteriaException;
+import org.sidiff.slicer.rulebased.exceptions.EmtpyModelSliceException;
 import org.sidiff.slicer.rulebased.exceptions.ExtendedSlicingCriteriaIntersectionException;
 import org.sidiff.slicer.rulebased.exceptions.NotInitializedException;
 import org.sidiff.slicer.rulebased.exceptions.UncoveredChangesException;
@@ -52,7 +53,7 @@ public class ExtractionEngine {
 	
 	private PatchEngine patchEngine;
 	
-	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException {
+	public File extract(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException, EmtpyModelSliceException {
 		
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
@@ -60,8 +61,10 @@ public class ExtractionEngine {
 		Set<EObject> eObjects = new HashSet<EObject>();
 		
 		Set<EObject> old_slicing_criteria = new HashSet<EObject>();
-		for(String uuid : emptyModel.getIDToEObjectMap().keySet()) {
-			old_slicing_criteria.add(completeModel.getIDToEObjectMap().get(uuid));
+		for(String id : emptyModel.getIDToEObjectMap().keySet()) {
+			//FIXME EGenerics lead to NullPointerException
+			if(completeModel.getIDToEObjectMap().get(id) != null)
+				old_slicing_criteria.add(completeModel.getIDToEObjectMap().get(id));
 		}
 		
 		config.setOldSlicingCriteria(old_slicing_criteria);
@@ -87,12 +90,14 @@ public class ExtractionEngine {
 		return new File(EMFStorage.uriToPath(slicedModel.getURI()));
 	}
 	
-	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException {
+	public File update(Set<String> uuids, UUIDResource completeModel, UUIDResource emptyModel, UUIDResource slicedModel, RemotePreferences preferences) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException, NotInitializedException, ExtendedSlicingCriteriaIntersectionException, IOException, EmptySlicingCriteriaException, EmtpyModelSliceException {
 		RuleBasedSlicingConfiguration config = new RuleBasedSlicingConfiguration();
 		config.setCompleteResource(completeModel);
 		config.setEmtpyResource(emptyModel);
 		Set<EObject> oldEObjects = new HashSet<EObject>();
 		for(String id : slicedModel.getIDToEObjectMap().keySet()) {
+			//FIXME EGenerics lead to NullPointerException
+			if(completeModel.getIDToEObjectMap().get(id) != null)
 			oldEObjects.add(completeModel.getIDToEObjectMap().get(id));
 		}
 		config.setOldSlicingCriteria(oldEObjects);
@@ -136,10 +141,15 @@ public class ExtractionEngine {
 		}
 		
 		ITechnicalDifferenceBuilder technicalDifferenceBuilder = null;
-		if(technicalDifferenceBuilders.size()>1) {
-			technicalDifferenceBuilder = new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilders);
-		}else {
+		switch(technicalDifferenceBuilders.size()) {
+		case 0:
+			technicalDifferenceBuilder = PipelineUtils.getGenericTechnicalDifferenceBuilder();
+			break;
+		case 1:
 			technicalDifferenceBuilder = technicalDifferenceBuilders.iterator().next();
+			break;
+		default:
+			technicalDifferenceBuilder = new IncrementalTechnicalDifferenceBuilder(technicalDifferenceBuilders);
 		}
 		
 		boolean mergeImports = preferences.getExtractionProperties().getMergeImports().getValue();
@@ -162,6 +172,11 @@ public class ExtractionEngine {
 				recognitionRuleSorter = PipelineUtils.getRecognitionRuleSorter(property.getValue());
 			}
 		}
+		
+		if(recognitionRuleSorter == null) {
+			recognitionRuleSorter = PipelineUtils.getGenericRecognitionRuleSorter();
+		}
+		
 		
 		boolean validate = preferences.getValidationProperties().getValidateModels().getValue();
 		

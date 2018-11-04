@@ -20,10 +20,10 @@ import org.sidiff.difference.asymmetric.ParameterBinding;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.MultiParameterBindingImpl#getParameterBindings <em>Parameter Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

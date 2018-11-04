@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uMyoJMZ6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_Model_Viewpoint" description="Sets Model Viewpoint">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uMyoJcZ6EeieD6s2Z9krAw" name="setModelViewpoint" description="Sets the EAttribute viewpoint">
+    <parameters xmi:id="_uMyoJsZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
+    </parameters>
+    <parameters xmi:id="_uMyoJ8Z6EeieD6s2Z9krAw" name="Viewpoint" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <lhs xmi:id="_uMyoKMZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uMyoKcZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uMyoKsZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uMyoK8Z6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
+        <attributes xmi:id="_uMyoLMZ6EeieD6s2Z9krAw" value="Viewpoint">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Model/viewpoint"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uMyoLcZ6EeieD6s2Z9krAw" origin="_uMyoKcZ6EeieD6s2Z9krAw" image="_uMyoK8Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uMyoLsZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uMyoJcZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uMyoL8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
+    </parameters>
+    <parameters xmi:id="_uMyoMMZ6EeieD6s2Z9krAw" name="Viewpoint">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameterMappings xmi:id="_uMyoMcZ6EeieD6s2Z9krAw" source="_uMyoL8Z6EeieD6s2Z9krAw" target="_uMyoJsZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMyoMsZ6EeieD6s2Z9krAw" source="_uMyoMMZ6EeieD6s2Z9krAw" target="_uMyoJ8Z6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

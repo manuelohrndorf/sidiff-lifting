@@ -151,6 +151,9 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 		resourceSet.createResource(EMFStorage.pathToUri(resAsymDiffSavePath)).getContents().add(asymmetricDifference);
 		String resModelSliceSavePath = absolute_path + separator + modelslice_name;
 		resourceSet.createResource(EMFStorage.pathToUri(resModelSliceSavePath)).getContents().add(this);
+		
+		asymmetricDifference.initializeRuleBase();
+		
 		for (Resource resource : resourceSet.getResources()) {
 			try {
 				resource.save(null);

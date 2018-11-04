@@ -19,11 +19,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -42,6 +43,7 @@ import org.sidiff.editrule.rulebase.RulebaseFactory;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getOperationInvocations <em>Operation Invocations</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getOriginModel <em>Origin Model</em>}</li>
@@ -52,8 +54,8 @@ import org.sidiff.editrule.rulebase.RulebaseFactory;
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getSymmetricDifference <em>Symmetric Difference</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getUriOriginModel <em>Uri Origin Model</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getUriChangedModel <em>Uri Changed Model</em>}</li>
+ *   <li>{@link org.sidiff.difference.asymmetric.impl.AsymmetricDifferenceImpl#getRulebase <em>Rulebase</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -189,6 +191,16 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	protected String uriChangedModel = URI_CHANGED_MODEL_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getRulebase() <em>Rulebase</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRulebase()
+	 * @generated
+	 * @ordered
+	 */
+	protected RuleBase rulebase;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -232,14 +244,23 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if ((originModel == null) && (getSymmetricDifference() != null)) {
 			originModel = getSymmetricDifference().getModelA();
 		}
-		
+
 		// Load the model from the relative URI: (-> new resource)
 		if (originModel == null) {
-			Resource resource = this.eResource();
-			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriOriginModel()));
-			originModel = EMFStorage.eLoad(uri).eResource();
+			URI uri = URI.createURI(getUriOriginModel());
+			if (uri.isRelative() && this.eResource() != null) {
+				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriOriginModel());
+			}
+			ResourceSet resourceSet = null;
+        	if(this.eResource() == null) {
+        		resourceSet = new ResourceSetImpl();
+        	}else {
+        		resourceSet = this.eResource().getResourceSet();
+        	}
+			originModel = resourceSet.getResource(uri, true);
+
 		}
-		
+
 		return originModel;
 	}
 
@@ -255,14 +276,22 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if ((changedModel == null) && (getSymmetricDifference() != null)) {
 			changedModel = getSymmetricDifference().getModelB();
 		}
-		
+
 		// Load the model from the relative URI: (-> new resource)
 		if (changedModel == null) {
-			Resource resource = this.eResource();
-			URI uri = URI.createURI(resource.getURI().toString().replace(resource.getURI().lastSegment(), getUriChangedModel()));
-			changedModel = EMFStorage.eLoad(uri).eResource();
+			URI uri = URI.createURI(getUriChangedModel());
+			if (uri.isRelative() && this.eResource() != null) {
+				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriChangedModel());
+			}
+			ResourceSet resourceSet = null;
+        	if(this.eResource() == null) {
+        		resourceSet = new ResourceSetImpl();
+        	}else {
+        		resourceSet = this.eResource().getResourceSet();
+        	}
+			changedModel = resourceSet.getResource(uri, true);
 		}
-		
+
 		return changedModel;
 	}
 
@@ -343,9 +372,6 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		symmetricDifference = newSymmetricDifference;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__SYMMETRIC_DIFFERENCE, oldSymmetricDifference, symmetricDifference));
-		
-		this.setUriOriginModel(newSymmetricDifference.getUriModelA());
-		this.setUriChangedModel(newSymmetricDifference.getUriModelB());
 	}
 
 	/**
@@ -407,6 +433,76 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RuleBase getRulebase() {
+		return rulebase;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRulebase(RuleBase newRulebase, NotificationChain msgs) {
+		RuleBase oldRulebase = rulebase;
+		rulebase = newRulebase;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE, oldRulebase, newRulebase);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRulebase(RuleBase newRulebase) {
+		if (newRulebase != rulebase) {
+			NotificationChain msgs = null;
+			if (rulebase != null)
+				msgs = ((InternalEObject)rulebase).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE, null, msgs);
+			if (newRulebase != null)
+				msgs = ((InternalEObject)newRulebase).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE, null, msgs);
+			msgs = basicSetRulebase(newRulebase, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE, newRulebase, newRulebase));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void initializeRuleBase() {
+		assert (getRulebase() == null) : "ruleBases have already been initialized!";
+
+		RuleBase rulebase = RulebaseFactory.eINSTANCE.createRuleBase();
+		HashMap<String, RuleBaseItem> ruleBaseItems = new HashMap<String, RuleBaseItem>();
+
+		for (OperationInvocation op : this.getOperationInvocations()) {
+			ruleBaseItems.put(
+					op.resolveEditRule().getExecuteModule().getName(), 
+					op.resolveEditRule().getRuleBaseItem());
+		}
+
+		for (String ri : ruleBaseItems.keySet()) {
+			RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
+			EObject o = EcoreUtil.copy(ruleBaseItems.get(ri).getEditRule());
+			item.setEditRule((EditRule) o);
+			rulebase.getItems().add(item);
+		}
+
+		setRulebase(rulebase);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -433,6 +529,8 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 				return ((InternalEList<?>)getParameterMappings()).basicRemove(otherEnd, msgs);
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__EXECUTIONS:
 				return ((InternalEList<?>)getExecutions()).basicRemove(otherEnd, msgs);
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
+				return basicSetRulebase(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -464,6 +562,8 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 				return getUriOriginModel();
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
 				return getUriChangedModel();
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
+				return getRulebase();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -502,6 +602,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
 				setUriChangedModel((String)newValue);
 				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
+				setRulebase((RuleBase)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -535,6 +638,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
 				setUriChangedModel(URI_CHANGED_MODEL_EDEFAULT);
 				return;
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
+				setRulebase((RuleBase)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -565,6 +671,8 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 				return URI_ORIGIN_MODEL_EDEFAULT == null ? uriOriginModel != null : !URI_ORIGIN_MODEL_EDEFAULT.equals(uriOriginModel);
 			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__URI_CHANGED_MODEL:
 				return URI_CHANGED_MODEL_EDEFAULT == null ? uriChangedModel != null : !URI_CHANGED_MODEL_EDEFAULT.equals(uriChangedModel);
+			case AsymmetricPackage.ASYMMETRIC_DIFFERENCE__RULEBASE:
+				return rulebase != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -589,30 +697,6 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		result.append(uriChangedModel);
 		result.append(')');
 		return result.toString();
-	}
-
-	private RuleBase transientRulebase;
-	
-	@Override
-	public void initTransientRulebase() {
-		assert(transientRulebase == null) : "ruleBases have already been initialized!";
-		
-		transientRulebase = RulebaseFactory.eINSTANCE.createRuleBase();
-		HashMap<String, RuleBaseItem> ruleBaseItems = new HashMap<String, RuleBaseItem>();
-		for(OperationInvocation op: this.getOperationInvocations()){
-			ruleBaseItems.put(op.resolveEditRule().getExecuteModule().getName(), op.resolveEditRule().getRuleBaseItem());
-		}
-		for(String ri : ruleBaseItems.keySet()){
-			RuleBaseItem item = RulebaseFactory.eINSTANCE.createRuleBaseItem();
-			EObject o = EcoreUtil.copy(ruleBaseItems.get(ri).getEditRule());
-			item.setEditRule((EditRule)o);
-			transientRulebase.getItems().add(item);
-		}
-	}
-	
-	@Override
-	public RuleBase getTransientRulebase() {
-		return transientRulebase;
 	}
 
 } //AsymmetricDifferenceImpl

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uL_94MZ6EeieD6s2Z9krAw" name="SET_ATTRIBUTE_Transition_Kind" description="Sets Transition Kind">
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uL_94cZ6EeieD6s2Z9krAw" name="setTransitionKind" description="Sets the EAttribute kind">
+    <parameters xmi:id="_uL_94sZ6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_uL_948Z6EeieD6s2Z9krAw" name="Kind" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
+    </parameters>
+    <lhs xmi:id="_uL_95MZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uL_95cZ6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uL_95sZ6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uL_958Z6EeieD6s2Z9krAw" name="Selected">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+        <attributes xmi:id="_uL_96MZ6EeieD6s2Z9krAw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/kind"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_uL_96cZ6EeieD6s2Z9krAw" origin="_uL_95cZ6EeieD6s2Z9krAw" image="_uL_958Z6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uL_96sZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uL_94cZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uL_968Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
+    </parameters>
+    <parameters xmi:id="_uL_97MZ6EeieD6s2Z9krAw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_uL_97cZ6EeieD6s2Z9krAw" source="_uL_968Z6EeieD6s2Z9krAw" target="_uL_94sZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uL_97sZ6EeieD6s2Z9krAw" source="_uL_97MZ6EeieD6s2Z9krAw" target="_uL_948Z6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>

@@ -161,7 +161,7 @@ public class ShowDiagramAction extends Action {
 		return editorPart;
 	}
 
-	protected URI resolveRelatedFile(CompareResource res, IEditorIntegration editorIntegration) throws IOException {
+	protected URI resolveRelatedFile(CompareResource res, IEditorIntegration editorIntegration) throws CoreException, IOException {
 		String diagramFileExt = editorIntegration.getFileExtensions().get("diagram");
 		if(diagramFileExt == null) {
 			throw new IOException("Editor integration does not support diagramming: " + editorIntegration);

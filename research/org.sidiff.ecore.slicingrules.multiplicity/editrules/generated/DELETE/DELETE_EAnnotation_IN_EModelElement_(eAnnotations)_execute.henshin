@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="__PaJj8WTEei7ftrYh-o2YQ" name="DELETE_EAnnotation_IN_EModelElement_(eAnnotations)" description="Deletes one EAnnotation in EModelElement">
+  <annotations xmi:id="__PaJkMWTEei7ftrYh-o2YQ" key="INVERSE" value="CREATE_EAnnotation_IN_EModelElement_(eAnnotations)"/>
+  <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="__PaJkcWTEei7ftrYh-o2YQ" name="deleteEAnnotation_IN_EModelElement" description="deletes one EAnnotation in the context: EModelElement">
+    <parameters xmi:id="__PaJksWTEei7ftrYh-o2YQ" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+    </parameters>
+    <parameters xmi:id="__PaJk8WTEei7ftrYh-o2YQ" name="ToBeDeleted" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+    </parameters>
+    <lhs xmi:id="__PaJlMWTEei7ftrYh-o2YQ" name="LHS">
+      <nodes xmi:id="__PaJlcWTEei7ftrYh-o2YQ" name="Selected" incoming="__PaJmsWTEei7ftrYh-o2YQ" outgoing="__PaJmcWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__PaJlsWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+      <nodes xmi:id="__PaJl8WTEei7ftrYh-o2YQ" name="ToBeDeleted" incoming="__PaJmcWTEei7ftrYh-o2YQ" outgoing="__PaJmsWTEei7ftrYh-o2YQ">
+        <annotations xmi:id="__PaJmMWTEei7ftrYh-o2YQ" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+      </nodes>
+      <edges xmi:id="__PaJmcWTEei7ftrYh-o2YQ" source="__PaJlcWTEei7ftrYh-o2YQ" target="__PaJl8WTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement/eAnnotations"/>
+      </edges>
+      <edges xmi:id="__PaJmsWTEei7ftrYh-o2YQ" source="__PaJl8WTEei7ftrYh-o2YQ" target="__PaJlcWTEei7ftrYh-o2YQ">
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation/eModelElement"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="__PaJm8WTEei7ftrYh-o2YQ" name="RHS">
+      <nodes xmi:id="__PaJnMWTEei7ftrYh-o2YQ" name="Selected">
+        <annotations xmi:id="__PaJncWTEei7ftrYh-o2YQ" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="__PaJnsWTEei7ftrYh-o2YQ" origin="__PaJlcWTEei7ftrYh-o2YQ" image="__PaJnMWTEei7ftrYh-o2YQ"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="__PaJn8WTEei7ftrYh-o2YQ" name="mainUnit" subUnits="__PaJkcWTEei7ftrYh-o2YQ">
+    <parameters xmi:id="__PaJoMWTEei7ftrYh-o2YQ" name="selectedEObject">
+      <annotations xmi:id="__PaJocWTEei7ftrYh-o2YQ" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
+    </parameters>
+    <parameters xmi:id="__PaJosWTEei7ftrYh-o2YQ" name="ToBeDeleted">
+      <annotations xmi:id="__PaJo8WTEei7ftrYh-o2YQ" key="INVERSE" value="New"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EAnnotation"/>
+    </parameters>
+    <parameterMappings xmi:id="__PaJpMWTEei7ftrYh-o2YQ" source="__PaJoMWTEei7ftrYh-o2YQ" target="__PaJksWTEei7ftrYh-o2YQ"/>
+    <parameterMappings xmi:id="__PaJpcWTEei7ftrYh-o2YQ" source="__PaJosWTEei7ftrYh-o2YQ" target="__PaJk8WTEei7ftrYh-o2YQ"/>
+  </units>
+</henshin:Module>

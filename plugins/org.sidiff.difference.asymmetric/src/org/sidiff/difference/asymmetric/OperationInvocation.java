@@ -18,6 +18,7 @@ import org.sidiff.editrule.rulebase.EditRule;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getEditRuleName <em>Edit Rule Name</em>}</li>
@@ -28,7 +29,6 @@ import org.sidiff.editrule.rulebase.EditRule;
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getChangeSet <em>Change Set</em>}</li>
  *   <li>{@link org.sidiff.difference.asymmetric.OperationInvocation#getAsymmetricDifference <em>Asymmetric Difference</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.sidiff.difference.asymmetric.AsymmetricPackage#getOperationInvocation()
  * @model

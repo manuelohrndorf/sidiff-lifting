@@ -17,13 +17,11 @@ public interface IRepositoryAdapter {
 	
 	public CheckoutOperationResult checkout(String url, int port, String path, String username, char[] password, String target) throws RepositoryAdapterException;
 	
+	public CommitOperationResult commit(String url, int port, String path, File wcFile, String username, char[] password, String message) throws RepositoryAdapterException;
+	
 	public InfoOperationResult info(File wcFile) throws RepositoryAdapterException;
 	
 	public ListOperationResult list(String url, int port, String path, String username, char[] password) throws RepositoryAdapterException;
-	
-	public ImportFileOperationResult importFile(String url, int port, String path, File file, String username, char[] password, String message) throws RepositoryAdapterException;
-	
-	public InitBranchResult initBranch(String url, int port, String id, String username, char[] password) throws RepositoryAdapterException;
 	
 	public String getKey();
 	

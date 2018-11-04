@@ -2,7 +2,6 @@ package org.sidiff.integration.editor.highlighting.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.sidiff.integration.editor.highlighting.internal.gmf.SelectionDecorationFigure;
 
 public class Activator implements BundleActivator {
 
@@ -20,8 +19,5 @@ public class Activator implements BundleActivator {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		Activator.context = null;
-
-		// free resources
-		SelectionDecorationFigure.dispose();
 	}
 }

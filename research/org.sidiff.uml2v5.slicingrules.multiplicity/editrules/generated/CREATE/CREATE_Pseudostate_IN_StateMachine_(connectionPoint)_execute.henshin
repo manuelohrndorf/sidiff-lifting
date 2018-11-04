@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_uMJH_MZ6EeieD6s2Z9krAw" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+  <annotations xmi:id="_uMJH_cZ6EeieD6s2Z9krAw" key="INVERSE" value="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)"/>
+  <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_uMJH_sZ6EeieD6s2Z9krAw" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_uMJH_8Z6EeieD6s2Z9krAw" name="Selected" kind="IN">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_uMJIAMZ6EeieD6s2Z9krAw" name="New" kind="OUT">
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_uMJIAcZ6EeieD6s2Z9krAw" name="Name" kind="OUT">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_uMJIAsZ6EeieD6s2Z9krAw" name="Visibility" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_uMJIA8Z6EeieD6s2Z9krAw" name="Kind" kind="OUT">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <lhs xmi:id="_uMJIBMZ6EeieD6s2Z9krAw" name="Lhs">
+      <nodes xmi:id="_uMJIBcZ6EeieD6s2Z9krAw" name="Selected">
+        <annotations xmi:id="_uMJIBsZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_uMJIB8Z6EeieD6s2Z9krAw" name="Rhs">
+      <nodes xmi:id="_uMJICMZ6EeieD6s2Z9krAw" name="Selected" incoming="_uMJIEMZ6EeieD6s2Z9krAw" outgoing="_uMJID8Z6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uMJICcZ6EeieD6s2Z9krAw" key="SERGE_" value="CONTEXT"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+      </nodes>
+      <nodes xmi:id="_uMJICsZ6EeieD6s2Z9krAw" name="New" incoming="_uMJID8Z6EeieD6s2Z9krAw" outgoing="_uMJIEMZ6EeieD6s2Z9krAw">
+        <annotations xmi:id="_uMJIC8Z6EeieD6s2Z9krAw" key="SERGE_" value="FOCUS"/>
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+        <attributes xmi:id="_uMJIDMZ6EeieD6s2Z9krAw" value="Name">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
+        </attributes>
+        <attributes xmi:id="_uMJIDcZ6EeieD6s2Z9krAw" value="Visibility">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/visibility"/>
+        </attributes>
+        <attributes xmi:id="_uMJIDsZ6EeieD6s2Z9krAw" value="Kind">
+          <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_uMJID8Z6EeieD6s2Z9krAw" source="_uMJICMZ6EeieD6s2Z9krAw" target="_uMJICsZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/connectionPoint"/>
+      </edges>
+      <edges xmi:id="_uMJIEMZ6EeieD6s2Z9krAw" source="_uMJICsZ6EeieD6s2Z9krAw" target="_uMJICMZ6EeieD6s2Z9krAw">
+        <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/stateMachine"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_uMJIEcZ6EeieD6s2Z9krAw" origin="_uMJIBcZ6EeieD6s2Z9krAw" image="_uMJICMZ6EeieD6s2Z9krAw"/>
+  </units>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_uMJIEsZ6EeieD6s2Z9krAw" name="mainUnit" subUnits="_uMJH_sZ6EeieD6s2Z9krAw">
+    <parameters xmi:id="_uMJIE8Z6EeieD6s2Z9krAw" name="selectedEObject">
+      <annotations xmi:id="_uMJIFMZ6EeieD6s2Z9krAw" key="INVERSE" value="selectedEObject"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
+    </parameters>
+    <parameters xmi:id="_uMJIFcZ6EeieD6s2Z9krAw" name="New">
+      <annotations xmi:id="_uMJIFsZ6EeieD6s2Z9krAw" key="INVERSE" value="ToBeDeleted"/>
+      <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
+    </parameters>
+    <parameters xmi:id="_uMJIF8Z6EeieD6s2Z9krAw" name="Name">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+    </parameters>
+    <parameters xmi:id="_uMJIGMZ6EeieD6s2Z9krAw" name="Visibility">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//VisibilityKind"/>
+    </parameters>
+    <parameters xmi:id="_uMJIGcZ6EeieD6s2Z9krAw" name="Kind">
+      <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
+    </parameters>
+    <parameterMappings xmi:id="_uMJIGsZ6EeieD6s2Z9krAw" source="_uMJIE8Z6EeieD6s2Z9krAw" target="_uMJH_8Z6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMJIG8Z6EeieD6s2Z9krAw" source="_uMJIAMZ6EeieD6s2Z9krAw" target="_uMJIFcZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMJIHMZ6EeieD6s2Z9krAw" source="_uMJIF8Z6EeieD6s2Z9krAw" target="_uMJIAcZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMJIHcZ6EeieD6s2Z9krAw" source="_uMJIGMZ6EeieD6s2Z9krAw" target="_uMJIAsZ6EeieD6s2Z9krAw"/>
+    <parameterMappings xmi:id="_uMJIHsZ6EeieD6s2Z9krAw" source="_uMJIGcZ6EeieD6s2Z9krAw" target="_uMJIA8Z6EeieD6s2Z9krAw"/>
+  </units>
+</henshin:Module>
