@@ -114,9 +114,9 @@ public class SVNRepositoryAdapter implements IRepositoryAdapter {
 		SVNCopyClient copyClient = clientManager.getCopyClient();
 		SVNCopySource copySource = new SVNCopySource(SVNRevision.HEAD, SVNRevision.HEAD, repository.getLocation());
 		try {
-			SVNURL dstURL = parseURL(url, port, "").appendPath("branches", true).appendPath(username, true);
+			SVNURL dstURL = parseURL(url, port, "").appendPath("branches", true).appendPath(username, true).appendPath(path.substring(path.lastIndexOf("/")+1), true);
 			String message = "<init> branch " + username + "/" + path;
-			copyClient.doCopy(new SVNCopySource[] {copySource}, dstURL, false, false, false, message, new SVNProperties());
+			copyClient.doCopy(new SVNCopySource[] {copySource}, dstURL, false, true, false, message, new SVNProperties());
 			SVNUpdateClient updateClient = clientManager.getUpdateClient( );
 			
 			target += dstURL.getPath();
