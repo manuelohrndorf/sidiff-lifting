@@ -1,7 +1,9 @@
 package org.sidiff.integration.preferences.remote.pages;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -19,9 +21,9 @@ import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationPropert
 import org.sidiff.remote.common.settings.ValidationProperties;
 
 /**
- * 
- * @author Robert Müller
- *
+ * The remote preference adapter allows storage of
+ * {@link RemotePreferences} using a {@link IPreferenceStore}
+ * @author Robert MÃ¼ller
  */
 public class RemotePreferenceAdapter {
 
@@ -33,16 +35,34 @@ public class RemotePreferenceAdapter {
 	 */
 	private static final String DOCUMENT_TYPE_PREFIX = "docTypes:";
 
+	private static final String PREFERENCE_SERVER_ID = "serverId";
+
 	private IPreferenceStore preferenceStore;
 
+	/**
+	 * Creates an adapter that uses the default global preference store.
+	 */
 	public RemotePreferenceAdapter() {
 		this.preferenceStore = new ScopedPreferenceStore(InstanceScope.INSTANCE, REMOTE_APPLICATION_PREFERENCE_QUALIFIER);
+	}
+
+	/**
+	 * Creates an adapter that uses the given preference store.
+	 * @param preferenceStore the preference store
+	 */
+	public RemotePreferenceAdapter(IPreferenceStore preferenceStore) {
+		this.preferenceStore = Objects.requireNonNull(preferenceStore);
 	}
 
 	public IPreferenceStore getPreferenceStore() {
 		return preferenceStore;
 	}
 
+	/**
+	 * Returns remote preferences based on the values
+	 * stored in the preference store.
+	 * @return remote preferences
+	 */
 	public RemotePreferences getRemotePreferences() {
 		return new RemotePreferences(
 				createGeneralProperties(),
@@ -97,7 +117,21 @@ public class RemotePreferenceAdapter {
 		return new SingleSelectionRemoteApplicationProperty<Boolean>(name, null, preferenceStore.getBoolean(name));
 	}
 
-	public void setRemotePreferences(RemotePreferences remotePreferences) {
+	private boolean override;
+
+	/**
+	 * Updates the preference store using the given remote preferences.
+	 * If the serverId matches the current serverId, only non-existent values are updated.
+	 * Else, the previous values will be overridden.
+	 * @param serverId an ID that uniquely identifies a server
+	 * @param remotePreferences the remote preferences
+	 */
+	public void setRemotePreferences(String serverId, RemotePreferences remotePreferences) {
+		override = !preferenceStore.getString(PREFERENCE_SERVER_ID).equals(serverId);
+		if(override) {
+			preferenceStore.setValue(PREFERENCE_SERVER_ID, serverId);
+		}
+
 		setGeneralProperties(remotePreferences.getGeneralProperties());
 		setExtractionProperties(remotePreferences.getExtractionProperties());
 		setValidationProperties(remotePreferences.getValidationProperties());
@@ -108,21 +142,21 @@ public class RemotePreferenceAdapter {
 	}
 
 	private void setExtractionProperties(ExtractionProperties extractionProperties) {
-		setRemotePropertyBoolean(extractionProperties.getMergeImports());
-		setRemotePropertyBoolean(extractionProperties.getUnmergeImports());
+		setRemoteProperty(extractionProperties.getMergeImports());
+		setRemoteProperty(extractionProperties.getUnmergeImports());
 
 		storeDocumentTypes(extractionProperties.getTechnicalDifferenceBuilderProperties());
-		extractionProperties.getTechnicalDifferenceBuilderProperties().stream().forEach(this::setRemoteProperty);
+		extractionProperties.getTechnicalDifferenceBuilderProperties().forEach(this::setRemoteProperty);
 
 		storeDocumentTypes(extractionProperties.getRecognitionRuleSorterProperties());
-		extractionProperties.getRecognitionRuleSorterProperties().stream().forEach(this::setRemoteProperty);
+		extractionProperties.getRecognitionRuleSorterProperties().forEach(this::setRemoteProperty);
 
 		storeDocumentTypes(extractionProperties.getRuleBaseProperties());
-		extractionProperties.getRuleBaseProperties().stream().forEach(this::setRemoteProperty);
+		extractionProperties.getRuleBaseProperties().forEach(this::setRemoteProperty);
 	}
 
 	private void setValidationProperties(ValidationProperties validationPropeties) {
-		setRemotePropertyBoolean(validationPropeties.getValidateModels());
+		setRemoteProperty(validationPropeties.getValidateModels());
 	}
 
 	private <T extends RemoteApplicationProperty<String>> void storeDocumentTypes(List<T> list) {
@@ -137,25 +171,21 @@ public class RemotePreferenceAdapter {
 			docTypes.add(item.getDocumentType());
 		}
 		if(name != null) {
-			preferenceStore.setValue(DOCUMENT_TYPE_PREFIX + name, StringListSerializer.DEFAULT.serialize(docTypes));
+			updatePreference(DOCUMENT_TYPE_PREFIX + name, StringListSerializer.DEFAULT.serialize(docTypes));
 		}
 	}
 
 	private void setRemoteProperty(MultiSelectionRemoteApplicationProperty<String> property) {
-		if(!preferenceStore.contains(getKey(property))) {
-			preferenceStore.setValue(getKey(property), StringListSerializer.DEFAULT.serialize(property.getValues()));
-		}
+		updatePreference(getKey(property), StringListSerializer.DEFAULT.serialize(property.getValues()));
 	}
 
-	private void setRemoteProperty(SingleSelectionRemoteApplicationProperty<String> property) {
-		if(!preferenceStore.contains(getKey(property))) {
-			preferenceStore.setValue(getKey(property), property.getValue());
-		}
+	private void setRemoteProperty(SingleSelectionRemoteApplicationProperty<? extends Serializable> property) {
+		updatePreference(getKey(property), Objects.toString(property.getValue()));
 	}
 
-	private void setRemotePropertyBoolean(SingleSelectionRemoteApplicationProperty<Boolean> property) {
-		if(!preferenceStore.contains(getKey(property))) {
-			preferenceStore.setValue(getKey(property), property.getValue());
+	private void updatePreference(String name, String value) {
+		if(override || !preferenceStore.contains(name)) {
+			preferenceStore.setValue(name, value);
 		}
 	}
 

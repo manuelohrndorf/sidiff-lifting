@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.remote.pages;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 import org.eclipse.core.runtime.IStatus;
@@ -30,7 +31,7 @@ import org.sidiff.remote.common.settings.ValidationProperties;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class RemotePreferencePage extends TabbedPreferencePage {
@@ -158,12 +159,18 @@ public class RemotePreferencePage extends TabbedPreferencePage {
 
 		@Override
 		public void run() {
+			if(ConnectorFacade.getCredentials() == null || !ConnectorFacade.getCredentials().isValid()) {
+				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+						"Remote Application Connector is not configured correctly. Please configure it first.");
+				return;
+			}
+
 			try {
-				remotePreferences = ConnectorFacade.getRemotePreferences();
-				preferenceAdapter.setRemotePreferences(remotePreferences);
+				remotePreferences = Objects.requireNonNull(ConnectorFacade.getRemotePreferences(), "Server returned no remote preferences.");
+				preferenceAdapter.setRemotePreferences(ConnectorFacade.getCredentials().getUrl(), remotePreferences);
 				result = Status.OK_STATUS;
 			} catch (ConnectionException e) {
-				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Connecting to remote server failed", e);
+				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Connecting to remote server failed.", e);
 			}
 		}
 
