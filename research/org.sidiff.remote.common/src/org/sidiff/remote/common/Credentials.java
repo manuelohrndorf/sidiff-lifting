@@ -60,4 +60,11 @@ public class Credentials implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+	
+	public boolean isValid() {
+		return port > 0
+				&& !url.isEmpty()
+				&& !user.isEmpty()
+				&& !password.isEmpty();
+	}
 }
