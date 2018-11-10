@@ -1,17 +1,15 @@
 package org.sidiff.remote.common.settings;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 /**
  * A remote preference supplier supplies {@link RemotePreferences}
- * for sending to the remote application.
- * @author Robert Müller
- *
+ * for the remote application.
+ * @author Robert MÃ¼ller
  */
 public interface IRemotePreferencesSupplier {
 
@@ -34,36 +32,54 @@ public interface IRemotePreferencesSupplier {
 	 * Returns the {@link RemotePreferences}.
 	 * @return the remote preferences
 	 */
-	RemotePreferences getRemotePreference();
+	RemotePreferences getRemotePreferences();
+
 
 	/**
-	 * Returns all registered {@link IRemotePreferencesSupplier}s
-	 * as a map of <code>key -> supplier</code>.
-	 * @return map of all registered remote preference suppliers
+	 * Returns all registered {@link IRemotePreferencesSupplier}s.
+	 * @return stream of all registered remote preference suppliers
 	 */
-	static Map<String, IRemotePreferencesSupplier> getAllSuppliers() {
-		Map<String, IRemotePreferencesSupplier> suppliers = new HashMap<>();
-		for(IConfigurationElement element :
-			Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-			try {
-				IRemotePreferencesSupplier supplier =
-						(IRemotePreferencesSupplier)element.createExecutableExtension(EXTENSION_POINT_ATTRIBUTE);
-				suppliers.put(supplier.getKey(), supplier);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
-		}
-		return suppliers;
+	static Stream<IRemotePreferencesSupplier> getAllSuppliers() {
+		return Stream.of(Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID))
+			.map(element -> {
+				try {
+					return (IRemotePreferencesSupplier)element.createExecutableExtension(EXTENSION_POINT_ATTRIBUTE);
+				} catch (CoreException e) {
+					e.printStackTrace();
+					return null;
+				}
+			})
+			.filter(Objects::nonNull);
 	}
 
 	/**
-	 * Returns the {@link RemotePreferences} supplied by the default supplier,
-	 * i.e. the user-specified preferences from the preference store.
-	 * 
-	 * @return the remote preferences, <code>null</code> if the default supplier is not available
+	 * Returns {@link RemotePreferences} supplied by the
+	 * supplier with the given key.
+	 * @param key the key
+	 * @return the remote preference, <code>null</code> if the supplier is not available
 	 */
-	static RemotePreferences getDefaultRemotePreferences() {
-		IRemotePreferencesSupplier supplier = getAllSuppliers().get("UiRemotePreferenceSupplier");
-		return supplier == null ? null : supplier.getRemotePreference();
+	static RemotePreferences getSupplier(String key) {
+		return getAllSuppliers()
+				.filter(supplier -> key.equals(supplier.getKey()))
+				.findAny()
+				.map(IRemotePreferencesSupplier::getRemotePreferences).orElse(null);
+	}
+
+	/**
+	 * Returns default {@link RemotePreferences} supplied by the
+	 * local SiDiff environment.
+	 * @return the remote preferences, <code>null</code> if the local supplier is not available
+	 */
+	static RemotePreferences getLocalRemotePreferences() {
+		return getSupplier("LocalRemotePreferencesSupplier");
+	}
+
+	/**
+	 * Returns the {@link RemotePreferences} supplied by the
+	 * user-specified preferences in the preference store.
+	 * @return the remote preferences, <code>null</code> if the UI supplier is not available
+	 */
+	static RemotePreferences getUiRemotePreferences() {
+		return getSupplier("UiRemotePreferencesSupplier");
 	}
 }

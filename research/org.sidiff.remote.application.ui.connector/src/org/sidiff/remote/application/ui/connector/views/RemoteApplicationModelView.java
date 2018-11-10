@@ -244,7 +244,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
 						File file = ConnectorFacade.checkoutSubModel(selected_remote_model_path, target_model_path, elementIds,
-								IRemotePreferencesSupplier.getDefaultRemotePreferences());
+								IRemotePreferencesSupplier.getUiRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFileForLocation(new Path(file.getAbsolutePath()));
 						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -320,7 +320,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 					Set<String> elementIds = getSelectedElementIDs();
 					if (!elementIds.isEmpty()) {
 						File file = ConnectorFacade.updateSubModel(selected_local_model_path, elementIds,
-								IRemotePreferencesSupplier.getDefaultRemotePreferences());
+								IRemotePreferencesSupplier.getUiRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFile(new Path(file.getAbsolutePath()
 										.replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()

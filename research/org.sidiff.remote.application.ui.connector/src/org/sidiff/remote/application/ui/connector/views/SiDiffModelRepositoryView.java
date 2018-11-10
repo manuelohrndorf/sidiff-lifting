@@ -426,7 +426,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					Set<String> elementIds = getSelectedElementIDs();
 					try {
 						File file = ConnectorFacade.checkoutSubModel(remote_model_path, target_model_path, elementIds,
-								IRemotePreferencesSupplier.getDefaultRemotePreferences());
+								IRemotePreferencesSupplier.getUiRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFileForLocation(new Path(file.getAbsolutePath()));
 						resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -447,7 +447,7 @@ public class SiDiffModelRepositoryView extends ViewPart implements ISelectionCha
 					Set<String> elementIds = getSelectedElementIDs();
 					if (!elementIds.isEmpty()) {
 						File file = ConnectorFacade.updateSubModel(selected_model_path, elementIds,
-								IRemotePreferencesSupplier.getDefaultRemotePreferences());
+								IRemotePreferencesSupplier.getUiRemotePreferences());
 						IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 								.getFile(new Path(file.getAbsolutePath()
 										.replace(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()

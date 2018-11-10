@@ -6,13 +6,13 @@ import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
-public class UiRemotePreferenceSupplier implements IRemotePreferencesSupplier {
+public class UiRemotePreferencesSupplier implements IRemotePreferencesSupplier {
 
-	public static final String NAME = "UI Remote Preference Supplier";
-	public static final String KEY = "UiRemotePreferenceSupplier";
+	public static final String NAME = "UI Remote Preferences Supplier";
+	public static final String KEY = "UiRemotePreferencesSupplier";
 
 	@Override
 	public String getName() {
@@ -25,7 +25,7 @@ public class UiRemotePreferenceSupplier implements IRemotePreferencesSupplier {
 	}
 
 	@Override
-	public RemotePreferences getRemotePreference() {
+	public RemotePreferences getRemotePreferences() {
 		return new RemotePreferenceAdapter().getRemotePreferences();
 	}
 }

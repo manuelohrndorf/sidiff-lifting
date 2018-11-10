@@ -17,10 +17,9 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.adapters.CheckoutOperationResult;
+import org.sidiff.remote.application.adapters.ListOperationResult;
 import org.sidiff.remote.application.exception.AuthenticationException;
-import org.sidiff.remote.application.preferences.RemotePreferencesSupplier;
 import org.sidiff.remote.common.Credentials;
 import org.sidiff.remote.common.ErrorReport;
 import org.sidiff.remote.common.ProtocolHandler;
@@ -82,7 +81,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		
 		this.config = readConfig(config_path);
 		
-		this.preferences = IRemotePreferencesSupplier.getAllSuppliers().get(RemotePreferencesSupplier.class.getName()).getRemotePreference();
+		this.preferences = IRemotePreferencesSupplier.getLocalRemotePreferences();
 		
 		this.server = new ServerSocket(config.PORT);
 		this.client_apps = new HashMap<String, SiDiffRemoteApplication>();	
