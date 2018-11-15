@@ -966,6 +966,9 @@ public class GenerationActionDelegator {
 	 * Variants are necessary for the completeness and correctness of module
 	 * generation. For each setup the generation process will be delegated to
 	 * {@link VariantPostprocessor}
+	 * </br>
+	 * Variants are either generated into solitary modules (solitary variant generator)
+	 * or they are consolidated into the correlating, general module (consolidated variant generator)
 	 * 
 	 * @param inputModules
 	 *            A Set of modules. For each module the replacables will be
