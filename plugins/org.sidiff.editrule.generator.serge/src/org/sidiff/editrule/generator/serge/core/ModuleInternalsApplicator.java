@@ -1,7 +1,9 @@
 package org.sidiff.editrule.generator.serge.core;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -30,10 +32,9 @@ public class ModuleInternalsApplicator {
 
 	/**
 	 * Creates a rule inside a module containing Nodes and Edges for the
-	 * EClassifiers and EReferences given as arguments. How the Nodes and Edges
-	 * are created depends on the OperationType. The result is a rule that
-	 * does not consider consistency criteria yet (like mandatory children or
-	 * neighbours).
+	 * EClassifiers and EReferences given as arguments. How the Nodes and Edges are
+	 * created depends on the OperationType. The result is a rule that does not
+	 * consider consistency criteria yet (like mandatory children or neighbours).
 	 * 
 	 * @param module
 	 *            the module that should contain the basic rule
@@ -42,8 +43,8 @@ public class ModuleInternalsApplicator {
 	 * @param eRefB
 	 *            reference from eClassifier to targetB, if any
 	 * @param eClassifier
-	 *            eClassifier which will be the 'selectedEObject', and might
-	 *            have references to given targets.
+	 *            eClassifier which will be the 'selectedEObject', and might have
+	 *            references to given targets.
 	 * @param targetA
 	 *            a targeted classifier, if any
 	 * @param targetB
@@ -70,7 +71,8 @@ public class ModuleInternalsApplicator {
 			// ***************************************************************************************************/
 			rule = HenshinFactory.eINSTANCE.createRule();
 			rule.setActivated(true);
-			rule.setName("set" + eClassifier.getName() + "_" + eRefA.getName() + GlobalConstants.TO + targetA.getName());
+			rule.setName(
+					"set" + eClassifier.getName() + "_" + eRefA.getName() + GlobalConstants.TO + targetA.getName());
 			rule.setDescription("Set" + eClassifier.getName() + "Ref" + eRefA.getName() + "To" + targetA.getName());
 			module.getUnits().add(rule);
 
@@ -93,8 +95,8 @@ public class ModuleInternalsApplicator {
 			// ***************************************************************************************************/
 			rule = HenshinFactory.eINSTANCE.createRule();
 			rule.setActivated(true);
-			rule.setName("change" + eClassifier.getName() + "_" + eRefA.getName() + GlobalConstants.TO
-					+ targetA.getName());
+			rule.setName(
+					"change" + eClassifier.getName() + "_" + eRefA.getName() + GlobalConstants.TO + targetA.getName());
 			rule.setDescription("Change the EReference " + eRefA.getName());
 			module.getUnits().add(rule);
 
@@ -143,7 +145,7 @@ public class ModuleInternalsApplicator {
 			HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRefB);
 
 			break;
-			
+
 		case MOVE_UP:
 
 			// MOVE UP
@@ -172,7 +174,7 @@ public class ModuleInternalsApplicator {
 			HenshinRuleAnalysisUtilEx.createCreateEdge(newNodePair.getRhsNode(), selectedNodePair.getRhsNode(), eRefB);
 
 			break;
-			
+
 		case MOVE_DOWN:
 
 			// MOVE DOWN
@@ -235,37 +237,37 @@ public class ModuleInternalsApplicator {
 
 			// Create different CREATE-Modules depending on whether or not a context
 			// for the object to create is null
-			
+
 			// if target-context is available.....
-			if(targetA!=null) {
-			
+			if (targetA != null) {
+
 				// CamelCasing of target-context name
 				String contextName = toCamelCase(targetA.getName());
-	
+
 				// Add new rule to Module
-				rule = HenshinRuleAnalysisUtilEx.createRule("create" + eClassifier.getName() + GlobalConstants.IN
-						+ contextName, "creates one " + eClassifier.getName() + " in the context: " + contextName, true,
-						module);
-	
+				rule = HenshinRuleAnalysisUtilEx.createRule(
+						"create" + eClassifier.getName() + GlobalConstants.IN + contextName,
+						"creates one " + eClassifier.getName() + " in the context: " + contextName, true, module);
+
 				// create <<preserve>> nodes for context
 				String selectedName = getFreeNodeName(GlobalConstants.SEL, rule);
 				NodePair nodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, selectedName, (EClass) targetA);
-				Graph rhs = nodePair.getRhsNode().getGraph();				
-				if(Configuration.getInstance().enable_annotations) {
+				Graph rhs = nodePair.getRhsNode().getGraph();
+				if (Configuration.getInstance().enable_annotations) {
 					nodePair.getLhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
 					nodePair.getRhsNode().getAnnotations().add(createAnnotation("SERGE_", "CONTEXT"));
 				}
-				
+
 				// Add new eClass to RHS
 				String newName = getFreeNodeName(GlobalConstants.NEW, rule);
 				Node newNode = HenshinRuleAnalysisUtilEx.createCreateNode(rhs, newName, (EClass) eClassifier);
-				if(Configuration.getInstance().enable_annotations) {
+				if (Configuration.getInstance().enable_annotations) {
 					newNode.getAnnotations().add(createAnnotation("SERGE_", "FOCUS"));
 				}
-				
+
 				// Add necessary attributes to the new eClass node
 				createAttributes((EClass) eClassifier, newNode, rule);
-	
+
 				// Add edge between target-context and new eClass, if any
 				if (targetA != null && eRefA != null) {
 					Node contextNode = null;
@@ -277,10 +279,10 @@ public class ModuleInternalsApplicator {
 					}
 					HenshinRuleAnalysisUtilEx.createCreateEdge(contextNode, newNode, eRefA);
 				}
-		
+
 			}
-			// else (if target-context is not available)...			
-			else{
+			// else (if target-context is not available)...
+			else {
 
 				// Add new rule to Module
 				rule = HenshinRuleAnalysisUtilEx.createRule("create" + eClassifier.getName(),
@@ -295,27 +297,26 @@ public class ModuleInternalsApplicator {
 				createAttributes((EClass) eClassifier, newNode, rule);
 
 			}
-			
+
 			break;
-			
+
 		default:
 			throw new OperationTypeNotImplementedException(opType);
 		}
 		return rule;
 	}
-	
+
 	private static Annotation createAnnotation(String name, String value) {
-		Annotation annotation = HenshinFactory.eINSTANCE
-				.createAnnotation();
+		Annotation annotation = HenshinFactory.eINSTANCE.createAnnotation();
 		annotation.setKey(name);
 		annotation.setValue(value);
 		return annotation;
 	}
 
 	/**
-	 * This recursive method creates mandatory children for a given EClassifier.
-	 * It will create mandatory children and mandatory neighbours of the child
-	 * if necessary.
+	 * This recursive method creates mandatory children for a given EClassifier. It
+	 * will create mandatory children and mandatory neighbours of the child if
+	 * necessary.
 	 * 
 	 * @param rule
 	 *            the container rule
@@ -333,23 +334,24 @@ public class ModuleInternalsApplicator {
 	public static void createMandatoryChildren(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
 			OperationType opType) throws OperationTypeNotImplementedException {
 
-		if (!Configuration.getInstance().create_mandatory_children) return;
-		
+		if (!Configuration.getInstance().create_mandatory_children)
+			return;
+
 		for (EReference eRef : eClassifierInfo.getMandatoryChildren().keySet()) {
 			EClassifier child = eRef.getEType();
 			assert (eRef.getLowerBound() > 0);
-			
+
 			if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType))
 				continue;
-			
+
 			// Get existing node count
-			int exitising=0;
-			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)){
-				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)){
+			int exitising = 0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)) {
 					exitising++;
 				}
 			}
-			
+
 			for (int i = exitising; i < eRef.getLowerBound(); i++) {
 				Node newChildNode = null;
 				String name = getFreeNodeName(GlobalConstants.CHILD, rule);
@@ -361,22 +363,68 @@ public class ModuleInternalsApplicator {
 				createAttributes((EClass) child, newChildNode, rule);
 				// recursively check for child's mandatories and create them
 				if (EClassifierInfoManagement.getInstance().getEClassifierInfo(child).hasMandatories()) {
-					createMandatoryChildren(rule,
-							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-							opType);
-					createMandatoryNeighbours(rule,
-							EClassifierInfoManagement.getInstance().getEClassifierInfo(child), newChildNode,
-							opType);
+					createMandatoryChildren(rule, EClassifierInfoManagement.getInstance().getEClassifierInfo(child),
+							newChildNode, opType);
+					createMandatoryNeighbours(rule, EClassifierInfoManagement.getInstance().getEClassifierInfo(child),
+							newChildNode, opType);
 				}
 
 			}
-		}		
+		}
 	}
-	
+
+	public static void createMandatoryChildrenWithVariantAnnotation(Rule rule, EClassifierInfo eClassifierInfo,
+			Node eClassifierNode, OperationType opType, Annotation vAnno) throws OperationTypeNotImplementedException {
+
+		if (!Configuration.getInstance().create_mandatory_children)
+			return;
+
+		for (EReference eRef : eClassifierInfo.getMandatoryChildren().keySet()) {
+			EClassifier child = eRef.getEType();
+			assert (eRef.getLowerBound() > 0);
+
+			if (!ElementFilter.getInstance().isAllowedAsDangling(child, opType))
+				continue;
+
+			// Get existing node count
+			int exitising = 0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)) {
+					exitising++;
+				}
+			}
+
+			for (int i = exitising; i < eRef.getLowerBound(); i++) {
+				Node newChildNode = null;
+				String name = getFreeNodeName(GlobalConstants.CHILD, rule);
+
+				// create node for mandatory child and add Variant Annotation
+				newChildNode = HenshinRuleAnalysisUtilEx.createCreateNode(rule.getRhs(), name, (EClass) child);
+				newChildNode.getAnnotations().add(vAnno);
+
+				// create edge for mandatory child and add Variant Annotation
+				Edge e = HenshinRuleAnalysisUtilEx.createCreateEdge(eClassifierNode, newChildNode, eRef);
+				e.getAnnotations().add(vAnno);
+
+				// Add necessary attributes to the new eClass node with Variant Annotation
+				createAttributesWithVariantAnnotation((EClass) child, newChildNode, rule, vAnno);
+				
+				// recursively check for child's mandatories and create them
+				if (EClassifierInfoManagement.getInstance().getEClassifierInfo(child).hasMandatories()) {
+					createMandatoryChildrenWithVariantAnnotation(rule, EClassifierInfoManagement.getInstance().getEClassifierInfo(child),
+							newChildNode, opType, vAnno);
+					createMandatoryNeighboursWithVariantAnnotation(rule, EClassifierInfoManagement.getInstance().getEClassifierInfo(child),
+							newChildNode, opType, vAnno);
+				}
+
+			}
+		}
+	}
+
 	/**
 	 * This recursive method creates mandatory neighbours for a given EClass. It
-	 * will create mandatory children and mandatory neighbours of the neighbour
-	 * if necessary.
+	 * will create mandatory children and mandatory neighbours of the neighbour if
+	 * necessary.
 	 * 
 	 * @param rule
 	 *            the container rule
@@ -393,55 +441,112 @@ public class ModuleInternalsApplicator {
 	 */
 	public static void createMandatoryNeighbours(Rule rule, EClassifierInfo eClassifierInfo, Node eClassifierNode,
 			OperationType opType) throws OperationTypeNotImplementedException {
-	
-		if (!Configuration.getInstance().create_mandatory_neighbours) return;
+
+		if (!Configuration.getInstance().create_mandatory_neighbours)
+			return;
 		assert (HenshinRuleAnalysisUtilEx.isCreationNode(eClassifierNode));
-	
-		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours().entrySet()) {
+
+		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours()
+				.entrySet()) {
 			EReference eRef = neighbourEntry.getKey();
-			
+
 			assert (eRef.getLowerBound() > 0);
-			
+
 			EClass neighbour = eRef.getEReferenceType();
 			if (!ElementFilter.getInstance().isAllowedAsDangling(neighbour, opType)) {
 				// cut off
 				continue;
 			}
-			
+
 			// cancel if this reference is already available in the rule
-			// at its maximum (upperbound) regarding this eClassifierNode 
+			// at its maximum (upperbound) regarding this eClassifierNode
 			// TODO [LM@01.11.2015] Still needed?
 			EReference eOpposite = eRef.getEOpposite();
 			EList<Edge> incEOpposites = eClassifierNode.getIncoming(eOpposite);
-			if(!incEOpposites.isEmpty()) {
+			if (!incEOpposites.isEmpty()) {
 				int currentIncomings = incEOpposites.size();
-				if(eRef.getUpperBound() == currentIncomings) {
-					continue;	
+				if (eRef.getUpperBound() == currentIncomings) {
+					continue;
 				}
 			}
-		
+
 			// Get existing node count
-			int exitising=0;
-			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)){
-				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)){
+			int exitising = 0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)) {
 					exitising++;
 				}
 			}
-						
-			//Add new nodes
+
+			// Add new nodes
 			for (int i = exitising; i < eRef.getLowerBound(); i++) {
-	
+
 				// create <<preserved>> node for mandatory neighbour
 				String existingName = getFreeNodeName(GlobalConstants.EX, rule);
-				NodePair preservedNeighbour = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, existingName, neighbour);
+				NodePair preservedNeighbour = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, existingName,
+						neighbour);
 				Node rhsNeighbour = preservedNeighbour.getRhsNode();
-	
+
 				// create <<create>> edge for mandatory neighbour
 				HenshinRuleAnalysisUtilEx.createCreateEdge(eClassifierNode, rhsNeighbour, eRef);
 			}
 		}
 	}
-	
+
+	public static void createMandatoryNeighboursWithVariantAnnotation(Rule rule, EClassifierInfo eClassifierInfo,
+			Node eClassifierNode, OperationType opType, Annotation vAnno) throws OperationTypeNotImplementedException {
+
+		if (!Configuration.getInstance().create_mandatory_neighbours)
+			return;
+		assert (HenshinRuleAnalysisUtilEx.isCreationNode(eClassifierNode));
+
+		for (Entry<EReference, List<EClassifier>> neighbourEntry : eClassifierInfo.getMandatoryNeighbours()
+				.entrySet()) {
+			EReference eRef = neighbourEntry.getKey();
+
+			assert (eRef.getLowerBound() > 0);
+
+			EClass neighbour = eRef.getEReferenceType();
+			if (!ElementFilter.getInstance().isAllowedAsDangling(neighbour, opType)) {
+				// cut off
+				continue;
+			}
+
+			// cancel if this reference is already available in the rule
+			// at its maximum (upperbound) regarding this eClassifierNode
+			// TODO [LM@01.11.2015] Still needed?
+			EReference eOpposite = eRef.getEOpposite();
+			EList<Edge> incEOpposites = eClassifierNode.getIncoming(eOpposite);
+			if (!incEOpposites.isEmpty()) {
+				int currentIncomings = incEOpposites.size();
+				if (eRef.getUpperBound() == currentIncomings) {
+					continue;
+				}
+			}
+
+			// Get existing node count
+			int exitising = 0;
+			for (Edge e : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(rule)) {
+				if (e.getSource().equals(eClassifierNode) && e.getType().equals(eRef)) {
+					exitising++;
+				}
+			}
+
+			// Add new nodes
+			for (int i = exitising; i < eRef.getLowerBound(); i++) {
+
+				// create <<preserved>> node for mandatory neighbour
+				String existingName = getFreeNodeName(GlobalConstants.EX, rule);
+				NodePair preservedNeighbour = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, existingName,
+						neighbour);
+				Node rhsNeighbour = preservedNeighbour.getRhsNode();
+
+				// create <<create>> edge for mandatory neighbour
+				HenshinRuleAnalysisUtilEx.createCreateEdge(eClassifierNode, rhsNeighbour, eRef);
+			}
+		}
+	}
+
 	/**
 	 * Converts the first letter of a string to upper case
 	 * 
@@ -456,12 +561,11 @@ public class ModuleInternalsApplicator {
 			return s;
 		}
 	}
-	
+
 	/**
-	 * Method that finds the next unused name for an attribute variable.
-	 * Example: If a rule already contains some attribute variable for an
-	 * EAttribute 'name' e.g. "Name1", it will deliver "Name2" in case there is
-	 * no "Name2" and so on.
+	 * Method that finds the next unused name for an attribute variable. Example: If
+	 * a rule already contains some attribute variable for an EAttribute 'name' e.g.
+	 * "Name1", it will deliver "Name2" in case there is no "Name2" and so on.
 	 * 
 	 * @param originalName
 	 * @param rule
@@ -486,14 +590,18 @@ public class ModuleInternalsApplicator {
 			return originalName;
 		}
 	}
-	
+
 	/**
 	 * Creates attributes inside a node in respect to the node type.
+	 * 
 	 * @param forEClass
 	 * @param inEClassNode
 	 * @param rule
+	 * @return the created attributes
 	 */
-	public static void createAttributes(EClass forEClass, Node inEClassNode, Rule rule) {
+	public static Set<Attribute> createAttributes(EClass forEClass, Node inEClassNode, Rule rule) {
+
+		Set<Attribute> createdAttributes = new HashSet();
 
 		// Add necessary attributes to the new eClass node
 		for (EAttribute ea : forEClass.getEAllAttributes()) {
@@ -501,21 +609,50 @@ public class ModuleInternalsApplicator {
 			if (!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
 				String eaName = getFreeAttributeName(ea.getName(), rule);
 
-				boolean createNotRequiredAndNotIDAttributes = Configuration.getInstance().create_not_required_and_not_id_attributes;
-				if (createNotRequiredAndNotIDAttributes || !createNotRequiredAndNotIDAttributes
-						&& (ea.isRequired() || ea.isID())) {
-					HenshinRuleAnalysisUtilEx.createCreateAttribute(inEClassNode, ea,
+				boolean createNotRequiredAndNotIDAttributes = Configuration
+						.getInstance().create_not_required_and_not_id_attributes;
+				if (createNotRequiredAndNotIDAttributes
+						|| !createNotRequiredAndNotIDAttributes && (ea.isRequired() || ea.isID())) {
+					Attribute a = HenshinRuleAnalysisUtilEx.createCreateAttribute(inEClassNode, ea,
 							toCamelCase(getFreeAttributeName(eaName, rule)));
+					createdAttributes.add(a);
 				}
 			}
 		}
+
+		return createdAttributes;
 	}
-	
-	
+
+	public static Set<Attribute> createAttributesWithVariantAnnotation(EClass forEClass, Node inEClassNode, Rule rule,
+			Annotation vAnno) {
+
+		Set<Attribute> createdAttributes = new HashSet();
+
+		// Add necessary attributes to the new eClass node
+		for (EAttribute ea : forEClass.getEAllAttributes()) {
+			// we don't want: derived, transient or unchangeable EAttributes
+			if (!ea.isDerived() && !ea.isTransient() && ea.isChangeable()) {
+				String eaName = getFreeAttributeName(ea.getName(), rule);
+
+				boolean createNotRequiredAndNotIDAttributes = Configuration
+						.getInstance().create_not_required_and_not_id_attributes;
+				if (createNotRequiredAndNotIDAttributes
+						|| !createNotRequiredAndNotIDAttributes && (ea.isRequired() || ea.isID())) {
+					Attribute a = HenshinRuleAnalysisUtilEx.createCreateAttribute(inEClassNode, ea,
+							toCamelCase(getFreeAttributeName(eaName, rule)));
+					a.getAnnotations().add(vAnno);
+					createdAttributes.add(a);
+				}
+			}
+		}
+
+		return createdAttributes;
+	}
+
 	/**
-	 * Method that finds the next unused name for a Node. Example: If a rule
-	 * already contains a Node for an EClassifier 'Operation' e.g. "Operation1",
-	 * it will deliver "Operation2" in case there is no "Operation2" and so on.
+	 * Method that finds the next unused name for a Node. Example: If a rule already
+	 * contains a Node for an EClassifier 'Operation' e.g. "Operation1", it will
+	 * deliver "Operation2" in case there is no "Operation2" and so on.
 	 * 
 	 * @param originalName
 	 * @param rule
@@ -543,6 +680,5 @@ public class ModuleInternalsApplicator {
 			return originalName;
 		}
 	}
-	
 
 }

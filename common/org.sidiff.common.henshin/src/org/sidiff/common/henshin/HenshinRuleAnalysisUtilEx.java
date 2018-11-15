@@ -406,14 +406,18 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the target node.
 	 * @param eRef
 	 *            the EReference.
+	 * @return
+	 * 			  the created Edge
 	 */
-	public static void createCreateEdge(Node from, Node to, EReference eRef) {
+	public static Edge createCreateEdge(Node from, Node to, EReference eRef) {
 
 		HenshinFactory.eINSTANCE.createEdge(from, to, eRef);
 		
 		if(eRef.getEOpposite()!=null) {
-			HenshinFactory.eINSTANCE.createEdge(to, from, eRef.getEOpposite()); 
+			Edge e = HenshinFactory.eINSTANCE.createEdge(to, from, eRef.getEOpposite());
+			return e;
 		}
+		return null;
 	}
 
 	/**
@@ -426,10 +430,12 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the type of the attribute.
 	 * @param value
 	 *            the name for the attribute value placeholder.
+	 *            
+	 * @return the created attribute
 	 */
-	public static void createCreateAttribute(Node node, EAttribute type, String value) {
+	public static Attribute createCreateAttribute(Node node, EAttribute type, String value) {
 
-		HenshinFactory.eINSTANCE.createAttribute(node, type, value);
+		return HenshinFactory.eINSTANCE.createAttribute(node, type, value);
 
 	}
 
