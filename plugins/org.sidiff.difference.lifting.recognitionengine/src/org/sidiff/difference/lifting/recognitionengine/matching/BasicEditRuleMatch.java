@@ -169,8 +169,8 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 			}
 
 			if (!edgeOccurrences.isEmpty()) {
-				info.append(" edge trace A: " + edge + " (" + edge.getType().getName() + ") ==> ");
-				info.append(edgeOccurrences + "\n");
+				info.append("\n edge trace A: " + edge + " (" + edge.getType().getName() + ") ==> ");
+				info.append(edgeOccurrences);
 
 				edgeOccurencesA.put(edge, edgeOccurrences);
 			}
@@ -194,8 +194,8 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 			Edge keyEdge = getKeyEdge(edge);
 			if (!edgeOccurrences.isEmpty()) {
-				info.append(" edge trace B: " + keyEdge + " (" + keyEdge.getType().getName() + ") ==> ");
-				info.append(edgeOccurrences + "\n");
+				info.append("\n edge trace B: " + keyEdge + " (" + keyEdge.getType().getName() + ") ==> ");
+				info.append(edgeOccurrences);
 
 				edgeOccurencesB.put(keyEdge, edgeOccurrences);
 			}
@@ -316,20 +316,20 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	@Override
 	public String toString() {
 		StringBuffer res = new StringBuffer();
-		res.append("EditRuleMatch for " + editRule.getExecuteModule().getName() + "\n");
+		res.append("EditRuleMatch for " + editRule.getExecuteModule().getName());
 		for (Node erNode : nodeOccurencesA.keySet()) {
-			res.append(" node trace A: " + erNode + " ==> " + nodeOccurencesA.get(erNode) + "\n");
+			res.append("\n node trace A: " + erNode + " ==> " + nodeOccurencesA.get(erNode));
 		}
 		for (Node erNode : nodeOccurencesB.keySet()) {
-			res.append(" node trace B: " + erNode + " ==> " + nodeOccurencesB.get(erNode) + "\n");
+			res.append("\n node trace B: " + erNode + " ==> " + nodeOccurencesB.get(erNode));
 		}
 		for (Edge erEdge : edgeOccurencesA.keySet()) {
-			res.append(" edge trace A: " + erEdge + " (" + erEdge.getType().getName() + ") ==> ");
-			res.append(edgeOccurencesA.get(erEdge) + "\n");
+			res.append("\n edge trace A: " + erEdge + " (" + erEdge.getType().getName() + ") ==> ");
+			res.append(edgeOccurencesA.get(erEdge));
 		}
 		for (Edge erEdge : edgeOccurencesB.keySet()) {
-			res.append(" edge trace B: " + erEdge + " (" + erEdge.getType().getName() + ") ==> ");
-			res.append(edgeOccurencesB.get(erEdge) + "\n");
+			res.append("\n edge trace B: " + erEdge + " (" + erEdge.getType().getName() + ") ==> ");
+			res.append(edgeOccurencesB.get(erEdge));
 		}
 
 		return res.toString();

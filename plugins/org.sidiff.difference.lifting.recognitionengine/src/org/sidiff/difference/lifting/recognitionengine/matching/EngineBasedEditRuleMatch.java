@@ -54,7 +54,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				info.append(" node trace A: " + erNode + " ==> ");
 				info.append(rrNode + " ==> ");
-				info.append(diffObjects + "\n");
+				info.append(diffObjects);
 
 				nodeOccurencesA.put(erNode, diffObjects);
 			}
@@ -62,9 +62,9 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			if (erNode != null) {
 				erNode = getKeyNode(erNode);
 
-				info.append(" node trace B: " + erNode +  " (" + erNode.eResource() +  ") ==> ");
+				info.append("\n node trace B: " + erNode +  " (" + erNode.eResource() +  ") ==> ");
 				info.append(rrNode + " ==> ");
-				info.append(diffObjects + "\n");
+				info.append(diffObjects);
 
 				nodeOccurencesB.put(erNode, diffObjects);
 			}
@@ -84,8 +84,8 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 					}
 				}
 				if (!diffObjectsB.isEmpty()) {
-					info.append(" node trace B (complement): " + erNode + " ==> ");
-					info.append(diffObjectsB + "\n");
+					info.append("\n node trace B (complement): " + erNode + " ==> ");
+					info.append(diffObjectsB);
 
 					nodeOccurencesB.put(erNode, diffObjectsB);
 				}
@@ -101,8 +101,8 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 					}
 				}
 				if (!diffObjectsA.isEmpty()) {
-					info.append(" node trace A (complement): " + erNode + " ==> ");
-					info.append(diffObjectsA + "\n");
+					info.append("\n node trace A (complement): " + erNode + " ==> ");
+					info.append(diffObjectsA);
 
 					nodeOccurencesA.put(erNode, diffObjectsA);
 				}

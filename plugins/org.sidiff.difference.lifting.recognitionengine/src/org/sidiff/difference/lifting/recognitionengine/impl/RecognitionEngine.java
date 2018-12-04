@@ -328,12 +328,24 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 		// Execution of collected rule applications:
 		for (RuleApplication recognitionRuleApp : recognizerRuleApplications) {
+			// Internal data structures
+			RecognitionRuleMatch rrMatch = new RecognitionRuleMatch(recognitionRuleApp);
+			EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
+			
+			// Check injectivity
+			if(recognitionRuleApp.getRule().isInjectiveMatching()){
+				if (isNonInjective(erMatch)){
+					LogUtil.log(LogEvent.DEBUG, "Skip recognition rule (non-injective matching): " + recognitionRuleApp.getRule().eResource());
+					continue;
+				}				
+			}
+			
 			LogUtil.log(LogEvent.DEBUG, "Execute recognition rule: " + recognitionRuleApp.getRule().eResource());
 			boolean success = recognitionRuleApp.execute(null);
 			assert (success) : "Could not apply rule " + recognitionRuleApp + ". Should never happen";
 
 			if (success) {
-				addMatches(recognitionRuleApp);
+				addMatches(recognitionRuleApp, rrMatch, erMatch);
 			}
 		}
 	}
@@ -365,42 +377,82 @@ public class RecognitionEngine implements IRecognitionEngine {
 	}
 
 	/**
+	 * Checks if the edit rule is matched non-injectively. <br>
+	 * The reason for this check is that this cannot be checked based on the recognition rule
+	 * (done by Henshin) in all cases. 
+	 * 
+	 * @param erMatch
+	 * @return true if the edit rule match is non-injective
+	 */
+	private boolean isNonInjective(EngineBasedEditRuleMatch erMatch){
+		// Check A traces (all erNodes must be traced to distinct model elements in A)
+		for (Node erNode : erMatch.getMatchedNodesA()) {
+			Set<EObject> occurences = erMatch.getOccurenceA(erNode);
+			for (Node otherErNode : erMatch.getMatchedNodesA()) {
+				if (otherErNode != erNode){
+					Set<EObject> otherOccurences = erMatch.getOccurenceA(otherErNode);
+					
+					// Intersection test
+					Set<EObject> intersection = new HashSet<EObject>(occurences);
+					intersection.retainAll(otherOccurences);
+					if (!intersection.isEmpty()){
+						return true;
+					}
+				}
+			}
+		}
+		
+		// Check B traces (all erNodes must be traced to distinct model elements in B)
+		for (Node erNode : erMatch.getMatchedNodesB()) {
+			Set<EObject> occurences = erMatch.getOccurenceB(erNode);
+			for (Node otherErNode : erMatch.getMatchedNodesB()) {
+				if (otherErNode != erNode){
+					Set<EObject> otherOccurences = erMatch.getOccurenceB(otherErNode);
+					
+					// Intersection test
+					Set<EObject> intersection = new HashSet<EObject>(occurences);
+					intersection.retainAll(otherOccurences);
+					if (!intersection.isEmpty()){
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Adds editRuleMatch and recognitionRuleMatch for recognitionruleApp
 	 * 
 	 * @param recognitionruleApp
 	 */
-	private void addMatches(RuleApplication recognitionruleApp) {
-		if (setup.isCalculateEditRuleMatch()) {
+	private void addMatches(RuleApplication recognitionruleApp, RecognitionRuleMatch rrMatch, EngineBasedEditRuleMatch erMatch) {
+		// Store internally in RecognitionEngine (transient)
+		SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
 
-			SemanticChangeSet scs = getSemanticChangeSet(recognitionruleApp);
+		scs2rrMatch.put(scs, rrMatch);
+		scs2erMatch.put(scs, erMatch);
 
-			// Internal data structures
-			RecognitionRuleMatch rrMatch = new RecognitionRuleMatch(recognitionruleApp);
-			EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
-
-			scs2rrMatch.put(scs, rrMatch);
-			scs2erMatch.put(scs, erMatch);
-
-			// Add to difference (if EditRuleMatch serialization is required)
-			if (setup.isSerializeEditRuleMatch()) {
-				EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
-				scs.setEditRuleMatch(editRuleMatch);
-				
-				for (Node editRuleNode : erMatch.getMatchedNodesA()) {
-					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
-					occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
-					editRuleMatch.getNodeOccurrencesA().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
-				}
-				
-				for (Node editRuleNode : erMatch.getMatchedNodesB()) {
-					EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
-					occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
-					editRuleMatch.getNodeOccurrencesB().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
-				}
+		// Also add to difference (if EditRuleMatch serialization is required)
+		if (setup.isSerializeEditRuleMatch()) {
+			EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
+			scs.setEditRuleMatch(editRuleMatch);
+			
+			for (Node editRuleNode : erMatch.getMatchedNodesA()) {
+				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
+				occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
+				editRuleMatch.getNodeOccurrencesA().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
+			}
+			
+			for (Node editRuleNode : erMatch.getMatchedNodesB()) {
+				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
+				occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
+				editRuleMatch.getNodeOccurrencesB().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
 			}
 		}
 	}
-
+	
 	/**
 	 * The recognizer threads call this method to add the recognition rule
 	 * applications for all recognition rule matches that can be found. Thus,
