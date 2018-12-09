@@ -1,17 +1,12 @@
 package org.sidiff.ecore.stringresolver;
 
 
-import java.util.Collections;
-import java.util.Set;
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.stringresolver.AbstractStringResolver;
-import org.sidiff.common.stringresolver.IStringResolver;
 
 /**
  * An {@link IStringResolver} for Ecore
@@ -20,24 +15,6 @@ import org.sidiff.common.stringresolver.IStringResolver;
  *
  */
 public class EcoreStringResolver extends AbstractStringResolver {
-	
-	private final static String KEY = "EcoreStringResolver";
-	private final static String NAME = "Ecore String Resolver";
-
-	@Override
-	public Set<String> getDocumentTypes() {
-		return Collections.singleton(EcorePackage.eNS_URI);
-	}
-
-	@Override
-	public String getKey() {
-		return KEY;
-	}
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 	@Override
 	public String resolve(EObject eObject) {		
@@ -62,10 +39,9 @@ public class EcoreStringResolver extends AbstractStringResolver {
 				if (eObject.eContainingFeature() != null) {
 					return String.format("%s.%s [%s]", eObject.eContainingFeature().getName(),
 							fragments[fragments.length - 1], eObject.eClass().getName());
-				} else {
-					return String.format("%s [%s]",
-							fragments[fragments.length - 1], eObject.eClass().getName());
 				}
+				return String.format("%s [%s]",
+					fragments[fragments.length - 1], eObject.eClass().getName());
 			}
 			return eObject.eClass().getName();
 		}
