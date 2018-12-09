@@ -9,7 +9,6 @@ package org.sidiff.difference.asymmetric.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -17,7 +16,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -31,7 +29,6 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.util.TopologicalSorter;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
 
@@ -55,105 +52,17 @@ public class AsymmetricDifferenceItemProvider
 		super(adapterFactory);
 	}
 
-	protected List<Object> children = null;
+	/**
+	 * @generated NOT
+	 */
 	@Override
 	public Collection<?> getChildren(Object object) {		
-		if(children == null){
-			AsymmetricDifference difference = (AsymmetricDifference) object;
-			//children = (List) super.getChildren(object);
-			children = new ArrayList<Object>();
-			children.addAll(difference.getOperationInvocations());
-			children.addAll(difference.getParameterMappings());
-
-// TODO: TK (11.02.2013):		
-// For some reason, Java's Collections.sort(), which is a merge sort implementation, 
-// doesn't perform our desired topological sorting	
-
-//		Collections.sort(children, new Comparator<Object>() {
-//
-//			@Override
-//			public int compare(Object o1, Object o2) {
-//				// show OperationInvocations on top
-//				if((o1 instanceof OperationInvocation) && !(o2 instanceof OperationInvocation)){
-//					return -1;
-//				}
-//				if(!(o1 instanceof OperationInvocation) && (o2 instanceof OperationInvocation)){
-//					return 1;
-//				}
-//				if(!(o1 instanceof OperationInvocation) && !(o2 instanceof OperationInvocation)){
-//					return 0;
-//				}
-//				
-//				// topologically sorted
-//				OperationInvocation op1 = (OperationInvocation) o1;
-//				OperationInvocation op2 = (OperationInvocation) o2;
-//				
-//				System.out.println("test: " + op1.getChangeSet().getName() + " vs. " + op2.getChangeSet().getName());
-//				
-//				if(searchIncoming(op1, op2)){
-//					System.out.println(op1.getChangeSet().getName() + " < " + op2.getChangeSet().getName());
-//					return -1;
-//				}
-//				
-//				if(searchOutgoing(op1, op2)){
-//					System.out.println(op1.getChangeSet().getName() + " > " + op2.getChangeSet().getName());
-//					return 1;
-//				}
-//				
-//				System.out.println(op1.getChangeSet().getName() + " == " + op2.getChangeSet().getName());
-//				return 0;
-//			}
-//			
-//			private boolean searchOutgoing(OperationInvocation source, OperationInvocation candidate){
-//				for(Dependency dependency : source.getOutgoing()){
-//					OperationInvocation dependant = dependency.getTarget();
-//					if(dependant == candidate){
-//						return true;
-//					} else {
-//						if (searchOutgoing(dependant, candidate)){
-//							return true;
-//						}						
-//					}
-//				}
-//				return false;
-//			}
-//			
-//			private boolean searchIncoming(OperationInvocation source, OperationInvocation candidate){
-//				for(Dependency dependency : source.getIncoming()){
-//					OperationInvocation dependant = dependency.getSource();
-//					if(dependant == candidate){
-//						return true;
-//					} else {
-//						if (searchIncoming(dependant, candidate)){
-//							return true;
-//						}						
-//					}
-//				}
-//				return false;
-//			}
-//		});
-//		
-//		System.out.println("-----------------------------------------");
-			
-		
-			if(!difference.getDepContainers().isEmpty()){
-				children.add(new DependenciesItemProvider(adapterFactory, difference));
-			}
-			// get unsorted OperationInvocations
-			List<OperationInvocation> unsorted = new LinkedList<OperationInvocation>();
-			for (Object obj : children) {
-				if (obj instanceof OperationInvocation){
-					unsorted.add((OperationInvocation) obj);
-				}
-			}
-			
-			// sort topologically
-			List<OperationInvocation> sorted = new TopologicalSorter(unsorted).sort();
-			
-			// copy back to children list
-			for (int i = 0; i < sorted.size(); i++) {
-				children.set(i, sorted.get(i));
-			}
+		AsymmetricDifference difference = (AsymmetricDifference) object;
+		List<Object> children = new ArrayList<Object>();
+		children.addAll(TopologicalSorter.sort(difference.getOperationInvocations()));
+		children.addAll(difference.getParameterMappings());
+		if(!difference.getDepContainers().isEmpty()){
+			children.add(new DependenciesItemProvider(adapterFactory, difference));
 		}
 		return children;
 	}
@@ -458,32 +367,5 @@ public class AsymmetricDifferenceItemProvider
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return AsymmetricEditPlugin.INSTANCE;
-	}
-	
-	/**
-	 * @generated NOT
-	 */
-	public Object getDependencies() {
-		for(Object obj : children){
-			if(obj instanceof DependenciesItemProvider){
-				return children.get(children.indexOf(obj));
-			}
-			
-		}
-		return null;
-	}
-	
-	/**
-	 * generated NOT
-	 */
-	@Override
-	public void dispose(){
-		super.dispose() ;
-		if (children != null){
-			for(Object obj : children){
-				if(obj instanceof ItemProviderAdapter)
-					((IDisposable)children.get(children.indexOf(obj))).dispose();
-			}
-		}
 	}
 }

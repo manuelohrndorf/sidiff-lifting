@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
@@ -87,19 +86,11 @@ public class DependenciesItemProvider extends TransientAsymmetricDifferenceItemP
 	
 	
 	/**
-	 * returns the appropriate transient item provider
 	 * @generated NOT
 	 */
 	@Override
-	public Object getParent(Object object){
-		Object difference = super.getParent(object);
-		AsymmetricDifferenceItemProvider asymmetricDifferenceItemProvider 
-		= (AsymmetricDifferenceItemProvider) adapterFactory.adapt (
-				difference, IEditingDomainItemProvider.class);
-		
-		return asymmetricDifferenceItemProvider != null?
-				asymmetricDifferenceItemProvider.getDependencies() : null;
-
+	public Object getParent(Object object) {
+		return difference;
 	}
 
 	
