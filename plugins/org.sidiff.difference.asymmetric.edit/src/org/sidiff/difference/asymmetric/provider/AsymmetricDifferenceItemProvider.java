@@ -29,7 +29,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.asymmetric.util.TopologicalSorter;
+import org.sidiff.difference.asymmetric.util.OperationInvocationTopologicalSorter;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
@@ -59,7 +59,7 @@ public class AsymmetricDifferenceItemProvider
 	public Collection<?> getChildren(Object object) {		
 		AsymmetricDifference difference = (AsymmetricDifference) object;
 		List<Object> children = new ArrayList<Object>();
-		children.addAll(TopologicalSorter.sort(difference.getOperationInvocations()));
+		children.addAll(OperationInvocationTopologicalSorter.sort(difference.getOperationInvocations()));
 		children.addAll(difference.getParameterMappings());
 		if(!difference.getDepContainers().isEmpty()){
 			children.add(new DependenciesItemProvider(adapterFactory, difference));
