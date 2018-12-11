@@ -43,6 +43,7 @@ import org.sidiff.remote.common.commands.UpdateSubModelReply;
 import org.sidiff.remote.common.commands.UpdateSubModelRequest;
 import org.sidiff.remote.common.exceptions.AddRepositoryException;
 import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
+import org.sidiff.remote.common.exceptions.GetRequestedModelElementsException;
 import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.ProtocolHandlerException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
@@ -95,8 +96,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 			try {
 				LogUtil.log(LogEvent.INFO, "processing request:");
 				handleRequest(protocolHandler);
-			} catch (NullPointerException | ProtocolHandlerException | ListRepositoryContentException | AddRepositoryException | CheckoutSubModelException | UpdateSubModelException | AuthenticationException e) {
-				e.printStackTrace();
+			} catch (ProtocolHandlerException | ListRepositoryContentException | AddRepositoryException | CheckoutSubModelException | UpdateSubModelException | AuthenticationException | GetRequestedModelElementsException e) {
 				handleException(protocolHandler, e);
 			}finally {
 				client.close();
@@ -110,7 +110,7 @@ public class SiDiffRemoteApplicationServer implements IApplication {
 		running = false;
 	}
 	
-	private void handleRequest(ProtocolHandler protocolHandler) throws ProtocolHandlerException, ListRepositoryContentException, AddRepositoryException, CheckoutSubModelException, UpdateSubModelException, AuthenticationException {
+	private void handleRequest(ProtocolHandler protocolHandler) throws ProtocolHandlerException, ListRepositoryContentException, AddRepositoryException, CheckoutSubModelException, UpdateSubModelException, AuthenticationException, GetRequestedModelElementsException {
 		RequestCommand command = (RequestCommand) protocolHandler.read();
 		LogUtil.log(LogEvent.INFO, command.toString());
 		

@@ -5,7 +5,8 @@
          point="org.eclipse.ui.views">
       <category
             id="org.sidiff.slicer.rulebased.ui"
-            name="Modelling View">
+            name="SiDiff Modelling View"
+            parentCategory="org.sidiff.ui.category">
       </category>
       <view
             category="org.sidiff.slicer.rulebased.ui"
@@ -50,6 +51,20 @@
       <handler
             class="org.sidiff.slicer.rulebased.ui.handlers.SlicingHandler"
             commandId="org.sidiff.slicer.rulebased.ui.commands.slicing">
+         <enabledWhen>
+            <with
+                  variable="selection">
+               <count
+                     value="1">
+               </count>
+               <iterate
+                     ifEmpty="false">
+                  <adapt
+                        type="org.eclipse.core.resources.IFile">
+                  </adapt>
+               </iterate>
+            </with>
+         </enabledWhen>
       </handler>
    </extension>
    <extension

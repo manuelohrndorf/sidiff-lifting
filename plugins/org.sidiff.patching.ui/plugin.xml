@@ -3,8 +3,14 @@
 <plugin>
    <extension
          point="org.eclipse.ui.views">
+      <category
+            id="org.sidiff.patching.ui.category"
+            name="SiDiff Patching"
+            parentCategory="org.sidiff.ui.category">
+      </category>
       <view
             allowMultiple="false"
+            category="org.sidiff.patching.ui.category"
             class="org.sidiff.patching.ui.view.OperationExplorerView"
             icon="icons/operation_explorer.gif"
             id="org.sidiff.patching.ui.view.OperationExplorerView"
@@ -13,6 +19,7 @@
       </view>
       <view
             allowMultiple="false"
+            category="org.sidiff.patching.ui.category"
             class="org.sidiff.patching.ui.view.ReportView"
             icon="icons/execution_report.gif"
             id="org.sidiff.patching.ui.view.ReportView"

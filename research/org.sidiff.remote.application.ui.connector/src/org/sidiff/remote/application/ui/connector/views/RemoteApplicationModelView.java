@@ -331,7 +331,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 						merge(localModelResource, file);
 					}
 				} catch (ConnectionException | CoreException | InvalidProjectInfoException
-						| ModelNotVersionedException | RemoteApplicationException e) {
+						| ModelNotVersionedException | RemoteApplicationException | IOException e) {
 					MessageDialog.openError(composite.getShell(), e.getClass().getSimpleName(), e.getMessage());
 				}
 				super.run();

@@ -30,14 +30,14 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.entities.Reference;
-import org.sidiff.entities.util.ImportFailedException;
+import org.sidiff.entities.importer.ImportFailedException;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.Matching;
 import org.sidiff.matching.model.MatchingModelFactory;
 import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
 import org.sidiff.slicer.rulebased.slice.RuleBasedSliceFactory;
 import org.sidiff.slicer.slice.SlicedElement;
-import org.sidiff.slicer.slice.util.SliceImporter;
+import org.sidiff.slicer.slice.importer.SliceImporter;
 
 public class ExecutableModelSliceCreator {
 

@@ -213,13 +213,13 @@ public interface SlicePackage extends EPackage {
 	int SLICED_ELEMENT__TYPE = EntitiesPackage.ELEMENT__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>From Reg</b></em>' attribute.
+	 * The feature id for the '<em><b>External</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SLICED_ELEMENT__FROM_REG = EntitiesPackage.ELEMENT__FROM_REG;
+	int SLICED_ELEMENT__EXTERNAL = EntitiesPackage.ELEMENT__EXTERNAL;
 
 	/**
 	 * The feature id for the '<em><b>Sliced References</b></em>' containment reference list.
@@ -265,6 +265,15 @@ public interface SlicePackage extends EPackage {
 	 * @ordered
 	 */
 	int SLICED_ELEMENT___GET_REFERENCES__EREFERENCE = EntitiesPackage.ELEMENT___GET_REFERENCES__EREFERENCE;
+
+	/**
+	 * The operation id for the '<em>Update External</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLICED_ELEMENT___UPDATE_EXTERNAL = EntitiesPackage.ELEMENT___UPDATE_EXTERNAL;
 
 	/**
 	 * The number of operations of the '<em>Sliced Element</em>' class.

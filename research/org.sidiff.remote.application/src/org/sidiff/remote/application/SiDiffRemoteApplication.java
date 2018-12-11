@@ -29,6 +29,7 @@ import org.sidiff.remote.application.util.ExtensionUtil;
 import org.sidiff.remote.common.ProxyObject;
 import org.sidiff.remote.common.exceptions.AddRepositoryException;
 import org.sidiff.remote.common.exceptions.CheckoutSubModelException;
+import org.sidiff.remote.common.exceptions.GetRequestedModelElementsException;
 import org.sidiff.remote.common.exceptions.ListRepositoryContentException;
 import org.sidiff.remote.common.exceptions.UpdateSubModelException;
 import org.sidiff.remote.common.settings.RemotePreferences;
@@ -178,9 +179,9 @@ public class SiDiffRemoteApplication {
 			String absolute_file_path = file.getAbsolutePath();
 			URI uri = EMFStorage.pathToUri(absolute_file_path);
 			if(last_selected_model == null || !last_selected_model.getURI().toString().equals(uri.toString())) {
-				ResourceSet resourceSet = new ResourceSetImpl();
-				last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_file_path), resourceSet);
 				try {
+					ResourceSet resourceSet = new ResourceSetImpl();
+					last_selected_model = new UUIDResource(EMFStorage.pathToUri(absolute_file_path), resourceSet);
 					last_selected_model.save(last_selected_model.getDefaultSaveOptions());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -239,7 +240,12 @@ public class SiDiffRemoteApplication {
 		}
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		UUIDResource sessionModel = new UUIDResource(EMFStorage.pathToUri(absolute_origin_path), resourceSet);
+		UUIDResource sessionModel;
+		try {
+			sessionModel = new UUIDResource(EMFStorage.pathToUri(absolute_origin_path), resourceSet);
+		} catch (IOException e) {
+			throw new CheckoutSubModelException(e);
+		}
 		
 		UUIDResource completeModel = UUIDResourceUtil.copyResource(sessionModel, EMFStorage.pathToUri(absolute_copy_path));
 		File subModelFile = null;
@@ -312,8 +318,9 @@ public class SiDiffRemoteApplication {
 	 *            path of the local model file starting with the project name
 	 * @return list of {@link ProxyObject}s representing the requested model
 	 *         elements
+	 * @throws GetRequestedModelElementsException 
 	 */
-	public List<ProxyObject> getRequestedModelElements(String relative_remote_model_path, String relative_local_model_path) {
+	public List<ProxyObject> getRequestedModelElements(String relative_remote_model_path, String relative_local_model_path) throws GetRequestedModelElementsException {
 		
 		String absolute_origin_path = user_folder.getAbsolutePath() + File.separator + relative_remote_model_path;
 		String sidiff_inf_path = new Path(absolute_origin_path).removeLastSegments(1).toOSString() + File.separator + SIDIFF_INF;
@@ -322,12 +329,22 @@ public class SiDiffRemoteApplication {
 		URI completeModelURI = EMFStorage.pathToUri(absolute_copy_path);
 		
 		ResourceSet completeModelResourceSet = new ResourceSetImpl();
-		UUIDResource completeModel = new UUIDResource(completeModelURI, completeModelResourceSet);
+		UUIDResource completeModel;
+		try {
+			completeModel = new UUIDResource(completeModelURI, completeModelResourceSet);
+		} catch (IOException e) {
+			throw new GetRequestedModelElementsException(e);
+		}
 		
-		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModelURI).replace(completeModelURI.lastSegment(), "sliced_" + completeModelURI.lastSegment()));
-
+		URI slicedModelURI = completeModelURI.trimSegments(1).appendSegment("sliced_" + completeModelURI.lastSegment());
+		
 		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
-		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		UUIDResource slicedModel;
+		try {
+			slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		} catch (IOException e) {
+			throw new GetRequestedModelElementsException(e);
+		}
 		
 		List<ProxyObject> proxyObjects = ProxyUtil.convertEMFResource(slicedModel, completeModel); 
 		
@@ -389,17 +406,32 @@ public class SiDiffRemoteApplication {
 		String absolute_copy_path = sidiff_inf_path + File.separator + relative_local_model_path;
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
-		UUIDResource completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		UUIDResource completeModel;
+		try {
+			completeModel = new UUIDResource(EMFStorage.pathToUri(absolute_copy_path), resourceSet);
+		} catch (IOException e) {
+			throw new UpdateSubModelException(e);
+		}
 		
 		URI emptydModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "empty_" + completeModel.getURI().lastSegment()));
 
 		ResourceSet emptyModelResourceSet = new ResourceSetImpl();
-		UUIDResource emptyModel = new UUIDResource(emptydModelURI, emptyModelResourceSet);
+		UUIDResource emptyModel;
+		try {
+			emptyModel = new UUIDResource(emptydModelURI, emptyModelResourceSet);
+		} catch (IOException e) {
+			throw new UpdateSubModelException(e);
+		}
 		
 		URI slicedModelURI = EMFStorage.pathToUri(EMFStorage.uriToPath(completeModel.getURI()).replace(completeModel.getURI().lastSegment(), "sliced_" + completeModel.getURI().lastSegment()));
 
 		ResourceSet slicedModelResourceSet = new ResourceSetImpl();
-		UUIDResource slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		UUIDResource slicedModel;
+		try {
+			slicedModel = new UUIDResource(slicedModelURI, slicedModelResourceSet);
+		} catch (IOException e) {
+			throw new UpdateSubModelException(e);
+		}
 		
 		File slicingEditScriptFile = null;
 		try {
