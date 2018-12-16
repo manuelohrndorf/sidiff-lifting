@@ -9,7 +9,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.statistics.StatisticsUtil;
-import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
@@ -120,9 +120,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(
-				CorrespondencesUtil.getAvailableCorrespondencesService(
-						MatchingModelCorrespondences.SERVICE_ID));
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
 		
 		settings.setImports(new AsymmetricMergeImports(settings.getScope(), true));
 		

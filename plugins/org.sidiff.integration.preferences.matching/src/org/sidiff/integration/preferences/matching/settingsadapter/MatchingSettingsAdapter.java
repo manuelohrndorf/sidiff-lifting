@@ -6,12 +6,10 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.candidates.CandidatesUtil;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.configuration.IConfigurable;
-import org.sidiff.correspondences.CorrespondencesUtil;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.matching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
@@ -21,13 +19,11 @@ import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.similarities.ISimilarities;
-import org.sidiff.similarities.SimilaritiesServiceUtil;
 import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
-import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
@@ -120,7 +116,7 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadCandidatesService(IPreferenceStore store) {
 		String candidatesServiceId = store.getString(KEY_CANDIDATES_SERVICE);
-		candidatesService = CandidatesUtil.getAvailableCandidatesService(candidatesServiceId);
+		candidatesService = ICandidates.MANAGER.getExtension(candidatesServiceId).orElse(null);
 		if(candidatesService == null) {
 			addError("Candidates Service with id '" + candidatesServiceId + "' was not found.");
 		}
@@ -128,7 +124,7 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadCorrespondencesService(IPreferenceStore store) {
 		String correspondencesServiceId = store.getString(KEY_CORRESPONDENCES_SERVICE);
-		correspondencesService = CorrespondencesUtil.getAvailableCorrespondencesService(correspondencesServiceId);
+		correspondencesService = ICorrespondences.MANAGER.getExtension(correspondencesServiceId).orElse(null);
 		if(correspondencesService == null) {
 			addError("Correspondences Service with id '" + correspondencesServiceId + "' was not found.");
 		}
@@ -136,7 +132,7 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadSimilaritiesService(IPreferenceStore store) {
 		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
-		similaritiesService = SimilaritiesServiceUtil.getAvailableSimilaritiesService(similaritiesServiceId);
+		similaritiesService = ISimilarities.MANAGER.getExtension(similaritiesServiceId).orElse(null);
 		if(similaritiesService == null) {
 			addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
 		}
@@ -144,7 +140,7 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadSimilaritiesCalculationService(IPreferenceStore store) {
 		String similaritiesCalculationServiceId = store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE);
-		similaritiesCalculationService = SimilaritiesCalculationUtil.getSimilaritiesCalculationService(similaritiesCalculationServiceId);
+		similaritiesCalculationService = ISimilaritiesCalculation.MANAGER.getExtension(similaritiesCalculationServiceId).orElse(null);
 		if(similaritiesCalculationService == null) {
 			addError("Similarities Calculation Service with id '" + similaritiesCalculationServiceId + "' was not found.");
 		}

@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
@@ -74,7 +74,7 @@ public class PatchEngine {
 
 		// Set SiLift default Correspondence-Service:
 		settings.getMatcher().setCorrespondencesService(
-				CorrespondencesUtil.getAvailableCorrespondencesService(MatchingModelCorrespondences.SERVICE_ID));
+				ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
 		
 		// Get settings:
 		this.patchedResource = patchedResource;

@@ -24,7 +24,7 @@ import org.eclipse.ui.WorkbenchException;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
@@ -271,7 +271,7 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 					}
 					settings.setTransformationEngine(transformationEngine);
 
-					settings.setCorrespondencesService(CorrespondencesUtil.getDefaultCorrespondencesService());
+					settings.setCorrespondencesService(ICorrespondences.MANAGER.getDefaultExtension().orElseThrow());
 					
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(

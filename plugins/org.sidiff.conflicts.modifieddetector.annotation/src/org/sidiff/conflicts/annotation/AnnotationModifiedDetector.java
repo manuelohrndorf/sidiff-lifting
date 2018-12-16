@@ -1,6 +1,5 @@
 package org.sidiff.conflicts.annotation;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,9 +7,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.annotation.AnnotationUtil;
 import org.sidiff.annotation.IAnnotation;
-import org.sidiff.annotation.impl.DefaultAnnotation;
 import org.sidiff.common.emf.EMFAdapter;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
@@ -24,7 +21,6 @@ import org.sidiff.matcher.IMatcher;
 /**
  * Modified Detector which shall be used as base for document type specific detectors.
  * @author dreuling
- *
  */
 public abstract class AnnotationModifiedDetector extends AbstractModifiedDetector {
 
@@ -42,11 +38,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 
 	@Override
 	public boolean isModified(EObject targetObject) {
-
-		if (modifiedMap.get(targetObject) != null)
-			return modifiedMap.get(targetObject);
-		else
-			return false;
+		return modifiedMap.getOrDefault(targetObject, false);
 	}
 
 	@Override
@@ -74,21 +66,19 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 
 		LogUtil.log(LogEvent.DEBUG, "Initializing Annotator...");
 
-		IAnnotation annotator = AnnotationUtil.getAnnotationServiceInstance();
+		IAnnotation annotator = IAnnotation.MANAGER.getDefaultExtension().orElseThrow();
 		initAnnotator(annotator, modelA);
-		//FIXME this shall be more generic, runtime issues!
-		DefaultAnnotation annimpl = (DefaultAnnotation) annotator;
 
 		LogUtil.log(LogEvent.DEBUG, "Removing Annotations...");
 		// If created in matching phase beforehand, remove Annotations
-		annimpl.removeAnnotations(this.modelA);
-		annimpl.removeAnnotations(this.modelB);
+		annotator.removeAnnotations(this.modelA);
+		annotator.removeAnnotations(this.modelB);
 
 		LogUtil.log(LogEvent.DEBUG, "Annotating models...");
 
 		// Annotate both models
-		annimpl.annotate(this.modelA);
-		annimpl.annotate(this.modelB);
+		annotator.annotate(this.modelA);
+		annotator.annotate(this.modelB);
 
 		LogUtil.log(LogEvent.DEBUG, "Filling modified map...");
 		// Fill up the modified map

@@ -9,7 +9,6 @@ import org.sidiff.common.io.IOUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
-import org.sidiff.configuration.IConfigurationCapable;
 import org.sidiff.conflicts.annotation.AnnotationModifiedDetector;
 import org.sidiff.ecore.modifieddetector.internal.Activator;
 
@@ -22,8 +21,7 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 		LogUtil.log(LogEvent.DEBUG, "Config: " + CONFIG_PATH);	
 		
 		// Configure AnnotationService
-		IConfigurationCapable cc = (IConfigurationCapable) annotator;
-		cc.configure(XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
+		annotator.configure(XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
 	}
 
 	@Override

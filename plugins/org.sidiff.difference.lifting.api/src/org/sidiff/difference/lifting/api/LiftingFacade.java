@@ -12,7 +12,7 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
@@ -152,9 +152,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(
-				CorrespondencesUtil.getAvailableCorrespondencesService(
-						MatchingModelCorrespondences.SERVICE_ID));
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
 		
 		// Calculate model difference:
 		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...

@@ -7,27 +7,25 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.sidiff.candidates.CandidatesUtil;
+import org.sidiff.candidates.ICandidates;
 import org.sidiff.configuration.IConfigurable;
-import org.sidiff.correspondences.CorrespondencesUtil;
+import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
 import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
-import org.sidiff.integration.preferences.matching.valueconverters.ServiceValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
+import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
-import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.MatcherUtil;
-import org.sidiff.service.IService;
-import org.sidiff.similarities.SimilaritiesServiceUtil;
-import org.sidiff.similaritiescalculation.SimilaritiesCalculationUtil;
+import org.sidiff.similarities.ISimilarities;
+import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
 /**
  * 
  * Class for the matching settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder, Robert MÃ¼ller
  */
 public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
@@ -69,29 +67,24 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 			}
 		}
 
-		final IPreferenceValueConverter<IService> serviceValueConverter = new ServiceValueConverter();
-
 		candidatesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
-				CandidatesUtil.getAvailableCandidatesServices(), serviceValueConverter);
+				ICandidates.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
 		list.add(candidatesServiceField);
 
 		correspondencesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
-				CorrespondencesUtil.getAllAvailableCorrespondencesServices(), serviceValueConverter);
+				ICorrespondences.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
 		list.add(correspondencesServiceField);
 
 		similaritiesServiceField = PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
-				"Similarities Service",
-				SimilaritiesServiceUtil.getAvailableSimilaritiesService(),
-				serviceValueConverter);
+				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
+				ISimilarities.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
 		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
-				SimilaritiesCalculationUtil.getAvailableISimilaritiesCalculationServices(),
-				serviceValueConverter);
+				ISimilaritiesCalculation.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
 		list.add(similaritiesCalculationServiceField);
 	}
 }

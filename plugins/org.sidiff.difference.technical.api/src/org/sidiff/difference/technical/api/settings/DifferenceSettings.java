@@ -52,13 +52,13 @@ public class DifferenceSettings extends MatchingSettings {
 	public DifferenceSettings() {
 		super();
 		this.techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
-		setCorrespondencesService(new MatchingModelCorrespondences());
+		setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
 	}
 
 	public DifferenceSettings(Set<String> documentTypes) {
 		super(documentTypes);
 		this.techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
-		setCorrespondencesService(new MatchingModelCorrespondences());
+		setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
 	}
 
 	public DifferenceSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
