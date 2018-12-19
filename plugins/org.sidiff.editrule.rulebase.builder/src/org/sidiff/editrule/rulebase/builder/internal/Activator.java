@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.builder;
+package org.sidiff.editrule.rulebase.builder.internal;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

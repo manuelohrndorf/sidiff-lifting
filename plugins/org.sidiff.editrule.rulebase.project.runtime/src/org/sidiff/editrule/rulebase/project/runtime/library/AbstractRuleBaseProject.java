@@ -22,18 +22,15 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	
 	@Override
 	public <R extends IBasicRuleBase> R getRuleBaseView(Class<R> view) {
-		R rulebaseView = null;
-		
 		if (supportsRuleBaseView(view)) {
 			IRuleBaseFactory<R> ruleBaseFactory = RuleBaseViewLibrary.getRulebaseViewFactory(view);
-			
 			if (ruleBaseFactory != null) {
-				rulebaseView = (R) ruleBaseFactory.createRuleBase();
+				R rulebaseView = view.cast(ruleBaseFactory.createRuleBase());
 				rulebaseView.init(getRuleBaseData());
-			}	
+				return rulebaseView;
+			}
 		}
-		
-		return rulebaseView;
+		return null;
 	}
 	
 	@Override

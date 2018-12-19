@@ -37,10 +37,15 @@ public interface IRuleBaseProject {
 	public static final String EDIT_RULE_FOLDER = "editrules";
 	
 	/**
-	 * @return A name which describes this rulebase.
+	 * @return A unique key which describes this rulebase, suitable for serialization.
+	 */
+	public String getKey();
+	
+	/**
+	 * @return A name which describes this rulebase, suitable for the user-interface.
 	 */
 	public String getName();
-
+	
 	/**
 	 * @return All supported edit-rule attachments.
 	 */

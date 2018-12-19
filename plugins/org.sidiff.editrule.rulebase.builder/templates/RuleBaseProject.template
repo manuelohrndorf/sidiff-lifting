@@ -1,5 +1,6 @@
 package %s;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,21 +9,22 @@ import org.sidiff.editrule.rulebase.project.runtime.library.AbstractRuleBaseProj
 public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
+	public String getKey() {
+		return "%s";
+	}
+
+	@Override
 	public String getName() {
 		return "%s";
 	}
-	
+
 	@Override
 	public Set<String> getDocumentTypes() {
-		Set<String> types = new HashSet<String>();
-		%s
-		return types;
+		return new HashSet<String>(Arrays.asList(%s));
 	}
-	
+
 	@Override
 	public Set<String> getAttachmentTypes() {
-		Set<String> types = new HashSet<String>();
-		%s
-		return types;
+		return new HashSet<String>(Arrays.asList(%s));
 	}
 }

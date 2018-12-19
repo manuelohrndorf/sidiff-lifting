@@ -8,7 +8,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginBase;
 import org.eclipse.pde.core.plugin.IPluginElement;
@@ -99,9 +101,9 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	}
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
-		IPluginReference[] result = new IPluginReference[1];
-		result[0] = new PluginReference("org.sidiff.editrule.rulebase.project.runtime", null, 0);
-		return result;
+		return new IPluginReference[] {
+			new PluginReference("org.sidiff.editrule.rulebase.project.runtime", null, 0)
+		};
 	}
 
 	protected void initializeFields(IFieldData data) {
@@ -119,36 +121,28 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	}
 
 	private void addRuleBaseExtension() throws CoreException {
-		try {
-			IPluginBase plugin = model.getPluginBase();
-			IPluginModelFactory factory = model.getPluginFactory();
-			IPluginExtension extension = createExtension(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
-			IPluginElement element = factory.createElement(extension);
-			element.setName(IRuleBaseProject.EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT);
-			
-			// We only assume one attribute at this time ("rulebase")
-			element.setAttribute(IRuleBaseProject.EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT,
-					getStringOption(KEY_PACKAGE_NAME) + "." + EditRuleBaseBuilder.RULE_BASE_CLASS);
-			extension.add(element);
-			plugin.add(extension);
-		} catch (CoreException e) {
-			// Nothing to do
-		}
+		IPluginBase plugin = model.getPluginBase();
+		IPluginModelFactory factory = model.getPluginFactory();
+		IPluginExtension extension = createExtension(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
+		IPluginElement element = factory.createElement(extension);
+		element.setName(IRuleBaseProject.EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT);
+		
+		// We only assume one attribute at this time ("rulebase")
+		element.setAttribute(IRuleBaseProject.EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT,
+				getStringOption(KEY_PACKAGE_NAME) + "." + EditRuleBaseBuilder.RULE_BASE_CLASS);
+		extension.add(element);
+		plugin.add(extension);
 	}
 
-	private void addRuleBaseNature() {
-		try {
-			IProjectDescription description = project.getDescription();
-			String[] natures = description.getNatureIds();
-			String[] newNatures = new String[natures.length + 1];
-			System.arraycopy(natures, 0, newNatures, 1, natures.length);
-			// Copy to first so the icon is shown
-			newNatures[0] = RuleBaseProjectNature.NATURE_ID;
-			description.setNatureIds(newNatures);
-			project.setDescription(description, null);
-		} catch (CoreException e) {
-			// Something went wrong
-		}
+	private void addRuleBaseNature() throws CoreException {
+		IProjectDescription description = project.getDescription();
+		String[] natures = description.getNatureIds();
+		String[] newNatures = new String[natures.length + 1];
+		System.arraycopy(natures, 0, newNatures, 1, natures.length);
+		// Copy to first so the icon is shown
+		newNatures[0] = RuleBaseProjectNature.NATURE_ID;
+		description.setNatureIds(newNatures);
+		project.setDescription(description, null);
 	}
 
 	@Override
@@ -166,10 +160,8 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			try {
 				settings.getGenerator().init(settings, monitor);
 				settings.getGenerator().generateEditRules(monitor);
-			} catch (EditRuleGenerationException e) {
-				e.printStackTrace();
-			} catch (WrongSettingsInstanceException e){
-				e.printStackTrace();
+			} catch (WrongSettingsInstanceException | EditRuleGenerationException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.getPluginId(), "Generating editrules failed", e));
 			}
 		}
 	}
