@@ -17,13 +17,17 @@ public interface IBasicRuleBase {
 	public static Class<IBasicRuleBase> VIEW_TYPE = IBasicRuleBase.class;
 	
 	/**
-	 * @param rulebase
-	 *            A rulebase instance.
+	 * @param rulebase A rulebase instance.
 	 */
 	void init(RuleBase rulebase);
 	
 	/**
-	 * @return A readable name for this rulebase;
+	 * @return A unique key for this rulebase.
+	 */
+	public String getKey();
+	
+	/**
+	 * @return A readable name for this rulebase.
 	 */
 	public String getName();
 	

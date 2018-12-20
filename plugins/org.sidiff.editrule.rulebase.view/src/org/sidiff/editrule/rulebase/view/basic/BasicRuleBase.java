@@ -25,6 +25,11 @@ public class BasicRuleBase implements IBasicRuleBase {
 	}
 	
 	@Override
+	public String getKey() {
+		return getRuleBase().getKey();
+	}
+	
+	@Override
 	public String getName() {
 		return getRuleBase().getName();
 	}
