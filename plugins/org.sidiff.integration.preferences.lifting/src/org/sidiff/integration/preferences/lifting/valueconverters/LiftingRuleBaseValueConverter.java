@@ -6,20 +6,14 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class LiftingRuleBaseValueConverter implements IPreferenceValueConverter<ILiftingRuleBase> {
 
 	@Override
 	public String getValue(ILiftingRuleBase value) {
-		// TODO: the name is not a good value to permanently save, as it contains a time stamp
-		// as a workaround, the time stamp is remove from the name
-		int index = value.getName().lastIndexOf(" (");
-		if(index != -1) {
-			return value.getName().substring(0, index);
-		}
-		return value.getName();
+		return value.getKey();
 	}
 
 	@Override
