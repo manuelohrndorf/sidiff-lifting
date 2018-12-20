@@ -1,10 +1,16 @@
 package org.sidiff.difference.rulebase.builder;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
@@ -17,8 +23,10 @@ import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
 public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 
+	private static final String PLUGIN_ID = "org.sidiff.difference.rulebase.builder";
+
 	@Override
-	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {
+	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException {
 
 		// Get paths:
 		IFolder recognitionRuleFolderFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
@@ -30,35 +38,25 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 		// Build recognition rule:
 		try {
 			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, eoFolder, rrFolder);
-		} catch (EditToRecognitionException e1) {
-			e1.printStackTrace();
-		} catch (NoMainUnitFoundException e1) {
-			e1.printStackTrace();
+		} catch (NoMainUnitFoundException | EditToRecognitionException e) {
+			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "Failed to generate recognition rule", e));
 		}
 	}
 	
-	public void createRecognitionRuleFolder(IProgressMonitor monitor, IProject project) {
+	public void createRecognitionRuleFolder(IProgressMonitor monitor, IProject project) throws CoreException {
 		
 		// Check if build folder exists, create it otherwise
 		IFolder buildFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
 
+		SubMonitor progress = SubMonitor.convert(monitor, 2);
 		if (!buildFolder.exists()) {
-			try {
-				buildFolder.create(true, true, monitor);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
+			buildFolder.create(true, true, progress.split(1));
 		}
-
-		try {
-			buildFolder.setDerived(true, monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
+		buildFolder.setDerived(true, progress.split(1));
 	}
 
 	@Override
-	public void deleteAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) {
+	public void deleteAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException {
 		
 		// Remove recognition rule (file and item):
 		RecognitionRuleGeneratorUtil.removeRecognitionRule(item);
@@ -72,24 +70,22 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 	}
 
 	@Override
-	public void cleanAttachments(IProgressMonitor monitor, IProject project) {
+	public void cleanAttachments(IProgressMonitor monitor, IProject project) throws CoreException {
 		
 		// Delete all elements in Build Folder if already existent:
 		IFolder buildFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
 
 		if (buildFolder.exists()) {
-			try {
-				for (IResource builtRR : buildFolder.members()) {
-					builtRR.delete(true, monitor);
-				}
-			} catch (CoreException e) {
-				e.printStackTrace();
+			IResource members[] = buildFolder.members();
+			SubMonitor progress = SubMonitor.convert(monitor, members.length);
+			for (IResource builtRR : members) {
+				builtRR.delete(true, progress.split(1));
 			}
 		}
 	}
 
 	@Override
-	public String[] getNewFiles() {
-		return new String[] {ILiftingRuleBase.RECOGNITION_RULE_FOLDER  + "/"};
+	public Collection<String> getNewFiles() {
+		return Collections.singleton(ILiftingRuleBase.RECOGNITION_RULE_FOLDER  + "/");
 	}
 }

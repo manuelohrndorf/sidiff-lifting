@@ -374,6 +374,23 @@ public class EditRuleBaseWrapper {
 	}
 
 	/**
+	 * @return Unique identifier of the rulebase.
+	 */
+	public String getKey() {
+		return rulebase.getKey();
+	}
+
+	/**
+	 * Sets the unique identifier of the rulebase.
+	 * 
+	 * @param key
+	 *            The rulebase key.
+	 */
+	public void setKey(String key) {
+		rulebase.setKey(key);
+	}
+	
+	/**
 	 * @return The human readable name of the rulebase.
 	 */
 	public String getName() {

@@ -1,7 +1,10 @@
 package org.sidiff.editrule.rulebase.builder;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +20,6 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
@@ -35,11 +37,9 @@ import org.sidiff.editrule.consistency.validation.EditRuleValidation;
 import org.sidiff.editrule.consistency.validation.EditRuleValidator;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
 import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.builder.internal.Activator;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
-import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 
 /**
@@ -62,6 +62,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * The name of the java class file of the rule base project.
 	 */
 	public static final String RULE_BASE_CLASS_FILE = RULE_BASE_CLASS + ".java";
+	
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * The global boolean to decide if in the last change there has been some EditRule involved.
@@ -83,13 +85,13 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
 
 		// Unload runtime rulebases:
-		RuleBaseProjectLibrary.clearRuleBaseCache();
+		IRuleBaseProject.MANAGER.clearRuleBaseCache();
 		
 		// The rulebase manager of the rulebase project for which this builder is defined:
 		EditRuleBaseWrapper ruleBaseWrapper = createEditRuleBaseWrapper();
 	
 		// The edit-rule attachment builders of the rulebase project for which this builder is defined:
-		Set<IEditRuleAttachmentBuilder> attachmentBuilders = createEditRuleAttachmentBuilders();
+		Set<IEditRuleAttachmentBuilder> attachmentBuilders = new HashSet<>(createEditRuleAttachmentBuilders());
 		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor, ruleBaseWrapper, attachmentBuilders);
@@ -152,7 +154,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 	
 	private void handleResourceDelta(final IResourceDelta delta, final IProgressMonitor monitor, 
-			final EditRuleBaseWrapper ruleBaseWrapper, final Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws OperationCanceledException, CoreException {
+			final EditRuleBaseWrapper ruleBaseWrapper, final Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
 		
 		// Continue only if Resource is an EditRule
 		if (isEditRule(delta.getResource())) {
@@ -217,10 +219,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		try {
 			// Write class file:
 			classBuilder.generateClassFile(
+				ruleBaseWrapper.getKey(),
 				ruleBaseWrapper.getName(),
 				new Date(), // build date is now
 				new LinkedHashSet<String>(ruleBaseWrapper.getRuleBase().getDocumentTypes()), 
-				attachmentBuilders.stream().map(builder -> builder.getID()).collect(Collectors.toSet()),
+				attachmentBuilders.stream().map(builder -> builder.getKey()).collect(Collectors.toSet()),
 				monitor);
 		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Failed to generate project class file", e));
@@ -233,11 +236,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 	
 	private void internalClean(IProgressMonitor monitor, 
-			Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
+			Collection<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
 		SubMonitor progress = SubMonitor.convert(monitor, attachmentBuilders.size()+4);
 
 		// Unload runtime rulebases:
-		RuleBaseProjectLibrary.clearRuleBaseCache();
+		IRuleBaseProject.MANAGER.clearRuleBaseCache();
 		progress.worked(1);
 		
 		// Remove Markers
@@ -464,15 +467,18 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		URI rulebase = EMFStorage.iResourceToURI(ruleBaseFile);
 
 		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
-		ruleBaseWrapper.setName(Platform.getBundle(getProject().getName()).getHeaders().get("Bundle-Name"));
+		ruleBaseWrapper.setKey(getProject().getName());
+		ruleBaseWrapper.setName(
+				Platform.getBundle(getProject().getName()).getHeaders().get("Bundle-Name")
+				+ " (" + DATE_FORMAT.format(new Date()) + ")");
 		return ruleBaseWrapper;
 	}
 	
 	/**
 	 * @return The edit-rule attachment builder of this project.
 	 */
-	private Set<IEditRuleAttachmentBuilder> createEditRuleAttachmentBuilders() {
-		return EditRuleAttachmentBuilderLibrary.getAttachmentBuilders();
+	private Collection<IEditRuleAttachmentBuilder> createEditRuleAttachmentBuilders() {
+		return IEditRuleAttachmentBuilder.MANAGER.getExtensions();
 	}
 
 	/**

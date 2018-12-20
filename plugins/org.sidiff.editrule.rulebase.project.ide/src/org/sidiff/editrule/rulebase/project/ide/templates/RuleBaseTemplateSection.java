@@ -1,8 +1,9 @@
 package org.sidiff.editrule.rulebase.project.ide.templates;
 
 import java.net.URL;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -27,7 +28,7 @@ import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseClassBuilder;
-import org.sidiff.editrule.rulebase.builder.attachment.EditRuleAttachmentBuilderLibrary;
+import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.project.ide.Activator;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
 import org.sidiff.editrule.rulebase.project.ide.wizard.RuleBaseProjectPage01;
@@ -46,7 +47,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String getUsedExtensionPoint() {
-		return IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT;
+		return IRuleBaseProject.DESCRIPTION.getExtensionPointId();
 	}
 
 	@Override
@@ -82,22 +83,12 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public String[] getNewFiles() {
-		
 		// build.properties:
-		String[] newFiles =  new String[] { 
-				IRuleBaseProject.EDIT_RULE_FOLDER + "/", 
-				IRuleBaseProject.RULEBASE_FILE };
-		int newFileSize = newFiles.length;
-		
-		// Collect new files from attachment builders:
-		String[] attachmentFolder = EditRuleAttachmentBuilderLibrary.getAttachmentNewFolders();
-		newFiles = Arrays.copyOf(newFiles, newFileSize + attachmentFolder.length);
-
-		for (int i = 0; i < attachmentFolder.length; i++) {
-			newFiles[newFileSize + i] = attachmentFolder[i];
-		}
-		
-		return newFiles;
+		Set<String> newFiles = new HashSet<>();
+		newFiles.add(IRuleBaseProject.EDIT_RULE_FOLDER + "/");
+		newFiles.add(IRuleBaseProject.RULEBASE_FILE);
+		newFiles.addAll(IEditRuleAttachmentBuilder.MANAGER.getAttachmentNewFolders());
+		return newFiles.toArray(new String[0]);
 	}
 
 	public IPluginReference[] getDependencies(String schemaVersion) {
@@ -123,12 +114,12 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	private void addRuleBaseExtension() throws CoreException {
 		IPluginBase plugin = model.getPluginBase();
 		IPluginModelFactory factory = model.getPluginFactory();
-		IPluginExtension extension = createExtension(IRuleBaseProject.EXTENSION_POINT_ID_RULEBASE_PROJECT, true);
+		IPluginExtension extension = createExtension(IRuleBaseProject.DESCRIPTION.getExtensionPointId(), true);
 		IPluginElement element = factory.createElement(extension);
-		element.setName(IRuleBaseProject.EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT);
+		element.setName(IRuleBaseProject.DESCRIPTION.getElementName());
 		
 		// We only assume one attribute at this time ("rulebase")
-		element.setAttribute(IRuleBaseProject.EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT,
+		element.setAttribute(IRuleBaseProject.DESCRIPTION.getClassAttribute(),
 				getStringOption(KEY_PACKAGE_NAME) + "." + EditRuleBaseBuilder.RULE_BASE_CLASS);
 		extension.add(element);
 		plugin.add(extension);

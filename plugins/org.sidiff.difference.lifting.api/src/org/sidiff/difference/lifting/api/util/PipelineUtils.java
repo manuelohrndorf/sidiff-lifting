@@ -29,7 +29,7 @@ import org.sidiff.difference.symmetric.provider.RemoveObjectItemProvider;
 import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
-import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
+import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
 
@@ -115,7 +115,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return all registered {@link ILiftingRuleBase}s
 	 */
 	public static Set<ILiftingRuleBase> getAllAvailableRulebases() {
-		return RuleBaseProjectLibrary.getRuleBases(ILiftingRuleBase.TYPE);
+		return IRuleBaseProject.MANAGER.getRuleBases(ILiftingRuleBase.TYPE);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return all registered {@link ILiftingRuleBase}s matching the given document types
 	 */
 	public static Set<ILiftingRuleBase> getAvailableRulebases(Set<String> documentTypes) {
-		return RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+		return IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 	}
 	
 	/**

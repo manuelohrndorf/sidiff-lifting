@@ -9,20 +9,19 @@ import org.sidiff.difference.lifting.recognitionengine.matching.UriBasedEditRule
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
+import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 public class ResourceBasedDependencyAnalyzer extends DependencyAnalyzer {
 
 	public ResourceBasedDependencyAnalyzer(AsymmetricDifference asymmetricDiff) {
 		super(asymmetricDiff);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void initialize() {
 		for(OperationInvocation opInv : asymmetricDiff.getOperationInvocations()){
 			EditRule editRule = opInv.resolveEditRule();
-			ruleBases.add(RuleBaseProjectUtil.resolveIEditRuleBase(editRule, ILiftingRuleBase.TYPE));
+			ruleBases.add(IRuleBaseProject.MANAGER.resolveIEditRuleBase(editRule, ILiftingRuleBase.TYPE));
 			SemanticChangeSet scs = opInv.getChangeSet();
 			if(!editRule2SCS.containsKey(editRule)){
 				editRule2SCS.put(editRule, new HashSet<SemanticChangeSet>());

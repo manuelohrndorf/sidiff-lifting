@@ -33,7 +33,7 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.ParameterDirection;
 import org.sidiff.editrule.rulebase.RuleBase;
-import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
+import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -661,7 +661,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		AsymmetricDifference difference = (AsymmetricDifference) this.eContainer();
 		List<String> docTypes = EMFDocumentTypeUtil.resolve(difference.getOriginModel());
 		 
-		this.editRule = RuleBaseProjectUtil.resolveEditRule(new HashSet<String>(docTypes), this.getEditRuleName());
+		this.editRule = IRuleBaseProject.MANAGER.resolveEditRule(new HashSet<String>(docTypes), this.getEditRuleName());
 
 		return this.editRule;
 	}

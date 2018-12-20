@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -21,8 +20,6 @@ import org.sidiff.editrule.rulebase.builder.internal.Activator;
 
 public class EditRuleBaseClassBuilder {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
 	public static String getFormattedPackageName(String pluginID) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < pluginID.length(); i++) {
@@ -55,7 +52,7 @@ public class EditRuleBaseClassBuilder {
 	 *            All supported attachment types.
 	 * @return The code of the rulebase class file.
 	 */
-	private String getProjectClassCode(String name, Date buildDate,
+	private String getProjectClassCode(String key, String name, Date buildDate,
 			Set<String> documentType, Set<String> attachmentTypes) throws IOException, CoreException {
 
 		String template = IOUtil.toString(
@@ -63,16 +60,16 @@ public class EditRuleBaseClassBuilder {
 			StandardCharsets.UTF_8);
 		return String.format(template,
 			getFormattedPackageName(project.getName()),
-			project.getName(),
-			name + " (" + DATE_FORMAT.format(buildDate) + ")",
+			key,
+			name,
 			documentType.stream().collect(Collectors.joining("\", \"", "\"", "\"")),
 			attachmentTypes.stream().collect(Collectors.joining("\", \"", "\"", "\"")));
 	}
 
-	public void generateClassFile(String name, Date buildDate,
+	public void generateClassFile(String key, String name, Date buildDate,
 			Set<String> documentType, Set<String> attachmentTypes, IProgressMonitor monitor) throws IOException, CoreException {
 		
-		String code = getProjectClassCode(name, buildDate, documentType, attachmentTypes);
+		String code = getProjectClassCode(key, name, buildDate, documentType, attachmentTypes);
 		writeClassFile(monitor, code);
 	}
 

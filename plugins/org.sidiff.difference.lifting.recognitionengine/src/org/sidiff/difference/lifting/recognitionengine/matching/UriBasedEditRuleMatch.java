@@ -21,7 +21,7 @@ import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.editrule.rulebase.project.runtime.util.RuleBaseProjectUtil;
+import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 
@@ -41,7 +41,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	
 	public UriBasedEditRuleMatch(SemanticChangeSet scs, Set<String> docTypes) {
 
-		EditRule editRule =  RuleBaseProjectUtil.resolveEditRule(docTypes, scs.getEditRName());
+		EditRule editRule =  IRuleBaseProject.MANAGER.resolveEditRule(docTypes, scs.getEditRName());
 		
 		assert (editRule != null) : "EditRule for SemanticChangeSet " + scs + " cannot be resolved!";
 		assert (editRule.eResource() != null) : "editRule " + editRule + " is not contained in a resource!";

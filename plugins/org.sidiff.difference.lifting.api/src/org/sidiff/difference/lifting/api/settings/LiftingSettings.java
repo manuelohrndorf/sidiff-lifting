@@ -17,7 +17,7 @@ import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
-import org.sidiff.editrule.rulebase.project.runtime.library.RuleBaseProjectLibrary;
+import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 import org.sidiff.matcher.IMatcher;
 
@@ -133,7 +133,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public LiftingSettings(Set<String> documentTypes) {
 		super(documentTypes);
-		this.ruleBases = RuleBaseProjectLibrary.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+		this.ruleBases = IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 
 		// Search proper recognition rule sorter:
 		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);

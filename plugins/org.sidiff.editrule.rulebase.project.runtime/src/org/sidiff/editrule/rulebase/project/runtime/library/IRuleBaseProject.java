@@ -1,7 +1,7 @@
 package org.sidiff.editrule.rulebase.project.runtime.library;
 
 import java.util.Set;
-
+import org.sidiff.common.extension.ITypedExtension;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
@@ -9,23 +9,13 @@ import org.sidiff.editrule.rulebase.view.basic.IBasicRuleBase;
 /**
  * This interface accesses the information of a registered rulebase project.
  */
-public interface IRuleBaseProject {
+public interface IRuleBaseProject extends ITypedExtension {
 
-	/**
-	 * The registration ID for a rulebase project.
-	 */
-	public static final String EXTENSION_POINT_ID_RULEBASE_PROJECT = "org.sidiff.editrule.rulebase.project.runtime.extension";
-	
-	/**
-	 * The (XML) element which contains the rulebase path.  
-	 */
-	public static final String EXTENSION_POINT_ELEMENT_RULEBASE_PROJECT = "project";
-	
-	/**
-	 * The (XML) attribute which contains the rulebase path.  
-	 */
-	public static final String EXTENSION_POINT_ATTRIBUTE_RULEBASE_PROJECT = "rulebase";
-	
+	Description<IRuleBaseProject> DESCRIPTION = Description.of(IRuleBaseProject.class,
+			"org.sidiff.editrule.rulebase.project.runtime.extension", "project", "rulebase");
+
+	RuleBaseProjectManager MANAGER = new RuleBaseProjectManager(DESCRIPTION);
+
 	/**
 	 * The plug-in relative path to the rulebase file.
 	 */
