@@ -34,6 +34,7 @@
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeForbid"/>
     </genEnums>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/items"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/editRules"/>
@@ -104,20 +105,26 @@
     <genClasses ecoreClass="RuleBase.ecore#//PotentialConflict">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/potentialConflictKind"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/resolvable"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/editRules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/sourceRule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/targetRule"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/conflictResolution"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/ruleBase"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/nodes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/sourceNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/targetNode"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialEdgeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeConflict/ruleBase"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeConflict/edges"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeConflict/sourceEdge"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialEdgeConflict/targetEdge"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialAttributeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/ruleBase"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/attributes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/sourceAttribute"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/targetAttribute"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/sourceNode"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/targetNode"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

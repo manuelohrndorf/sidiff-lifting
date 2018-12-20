@@ -59,6 +59,7 @@ public class RuleBaseItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addKeyPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
 			addEditRulesPropertyDescriptor(object);
 			addDocumentTypesPropertyDescriptor(object);
@@ -67,6 +68,28 @@ public class RuleBaseItemProvider
 			addPotentialAttributeConflictsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Key feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addKeyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_key_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_key_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__KEY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -275,6 +298,7 @@ public class RuleBaseItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(RuleBase.class)) {
+			case RulebasePackage.RULE_BASE__KEY:
 			case RulebasePackage.RULE_BASE__NAME:
 			case RulebasePackage.RULE_BASE__DOCUMENT_TYPES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

@@ -78,6 +78,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRuleBase() {
 		if (eContainerFeatureID() != RulebasePackage.POTENTIAL_NODE_DEPENDENCY__RULE_BASE) return null;
 		return (RuleBase)eInternalContainer();
@@ -98,6 +99,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
 		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.POTENTIAL_NODE_DEPENDENCY__RULE_BASE && newRuleBase != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBase))
@@ -119,6 +121,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getSourceNode() {
 		if (sourceNode != null && sourceNode.eIsProxy()) {
 			InternalEObject oldSourceNode = (InternalEObject)sourceNode;
@@ -145,6 +148,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceNode(Node newSourceNode) {
 		Node oldSourceNode = sourceNode;
 		sourceNode = newSourceNode;
@@ -157,6 +161,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getTargetNode() {
 		if (targetNode != null && targetNode.eIsProxy()) {
 			InternalEObject oldTargetNode = (InternalEObject)targetNode;
@@ -183,6 +188,7 @@ public class PotentialNodeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetNode(Node newTargetNode) {
 		Node oldTargetNode = targetNode;
 		targetNode = newTargetNode;

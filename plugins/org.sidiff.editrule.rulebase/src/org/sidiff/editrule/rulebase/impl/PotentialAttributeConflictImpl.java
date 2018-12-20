@@ -74,6 +74,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRuleBase() {
 		if (eContainerFeatureID() != RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE) return null;
 		return (RuleBase)eInternalContainer();
@@ -94,6 +95,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
 		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE && newRuleBase != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBase))
@@ -115,6 +117,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getSourceAttribute() {
 		if (sourceAttribute != null && sourceAttribute.eIsProxy()) {
 			InternalEObject oldSourceAttribute = (InternalEObject)sourceAttribute;
@@ -141,6 +144,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceAttribute(Attribute newSourceAttribute) {
 		Attribute oldSourceAttribute = sourceAttribute;
 		sourceAttribute = newSourceAttribute;
@@ -153,6 +157,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getTargetAttribute() {
 		if (targetAttribute != null && targetAttribute.eIsProxy()) {
 			InternalEObject oldTargetAttribute = (InternalEObject)targetAttribute;
@@ -179,6 +184,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetAttribute(Attribute newTargetAttribute) {
 		Attribute oldTargetAttribute = targetAttribute;
 		targetAttribute = newTargetAttribute;
@@ -191,6 +197,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getSourceNode() {
 		Node sourceNode = basicGetSourceNode();
 		return sourceNode != null && sourceNode.eIsProxy() ? (Node)eResolveProxy((InternalEObject)sourceNode) : sourceNode;
@@ -210,6 +217,7 @@ public class PotentialAttributeConflictImpl extends PotentialConflictImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getTargetNode() {
 		Node targetNode = basicGetTargetNode();
 		return targetNode != null && targetNode.eIsProxy() ? (Node)eResolveProxy((InternalEObject)targetNode) : targetNode;

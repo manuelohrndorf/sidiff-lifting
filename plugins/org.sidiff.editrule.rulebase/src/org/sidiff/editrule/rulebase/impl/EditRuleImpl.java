@@ -140,6 +140,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBaseItem getRuleBaseItem() {
 		if (eContainerFeatureID() != RulebasePackage.EDIT_RULE__RULE_BASE_ITEM) return null;
 		return (RuleBaseItem)eInternalContainer();
@@ -160,6 +161,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBaseItem(RuleBaseItem newRuleBaseItem) {
 		if (newRuleBaseItem != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.EDIT_RULE__RULE_BASE_ITEM && newRuleBaseItem != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBaseItem))
@@ -181,6 +183,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
 			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, RulebasePackage.EDIT_RULE__PARAMETERS);
@@ -193,6 +196,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isUseDerivedFeatures() {
 		return useDerivedFeatures;
 	}
@@ -202,6 +206,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUseDerivedFeatures(boolean newUseDerivedFeatures) {
 		boolean oldUseDerivedFeatures = useDerivedFeatures;
 		useDerivedFeatures = newUseDerivedFeatures;
@@ -214,6 +219,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getInverse() {
 		if (inverse != null && inverse.eIsProxy()) {
 			InternalEObject oldInverse = (InternalEObject)inverse;
@@ -240,6 +246,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInverse(EditRule newInverse) {
 		EditRule oldInverse = inverse;
 		inverse = newInverse;
@@ -252,6 +259,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Classification> getClassification() {
 		if (classification == null) {
 			classification = new EObjectContainmentEList<Classification>(Classification.class, this, RulebasePackage.EDIT_RULE__CLASSIFICATION);
@@ -273,6 +281,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getExecuteMainUnit() {
 		if (executeMainUnit != null && executeMainUnit.eIsProxy()) {
 			InternalEObject oldExecuteMainUnit = (InternalEObject)executeMainUnit;
@@ -299,6 +308,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExecuteMainUnit(Unit newExecuteMainUnit) {
 		Unit oldExecuteMainUnit = executeMainUnit;
 		executeMainUnit = newExecuteMainUnit;

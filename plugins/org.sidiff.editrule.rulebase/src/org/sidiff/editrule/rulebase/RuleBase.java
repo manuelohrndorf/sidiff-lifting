@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getKey <em>Key</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getItems <em>Items</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getEditRules <em>Edit Rules</em>}</li>
@@ -36,6 +37,32 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface RuleBase extends EObject {
 	
+	/**
+	 * Returns the value of the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Key</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Key</em>' attribute.
+	 * @see #setKey(String)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_Key()
+	 * @model required="true"
+	 * @generated
+	 */
+	String getKey();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.RuleBase#getKey <em>Key</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Key</em>' attribute.
+	 * @see #getKey()
+	 * @generated
+	 */
+	void setKey(String value);
+
 	/**
 	 * @param type
 	 *            The entry type.
@@ -56,7 +83,7 @@ public interface RuleBase extends EObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_Name()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	String getName();

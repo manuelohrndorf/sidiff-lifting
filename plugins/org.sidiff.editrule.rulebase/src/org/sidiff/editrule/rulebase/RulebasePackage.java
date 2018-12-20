@@ -91,13 +91,22 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__KEY = 0;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__NAME = 0;
+	int RULE_BASE__NAME = 1;
 
 	/**
 	 * The feature id for the '<em><b>Items</b></em>' containment reference list.
@@ -106,7 +115,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__ITEMS = 1;
+	int RULE_BASE__ITEMS = 2;
 
 	/**
 	 * The feature id for the '<em><b>Edit Rules</b></em>' reference list.
@@ -115,7 +124,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__EDIT_RULES = 2;
+	int RULE_BASE__EDIT_RULES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Potential Node Dependencies</b></em>' containment reference list.
@@ -124,7 +133,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_NODE_DEPENDENCIES = 3;
+	int RULE_BASE__POTENTIAL_NODE_DEPENDENCIES = 4;
 
 	/**
 	 * The feature id for the '<em><b>Potential Edge Dependencies</b></em>' containment reference list.
@@ -133,7 +142,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES = 4;
+	int RULE_BASE__POTENTIAL_EDGE_DEPENDENCIES = 5;
 
 	/**
 	 * The feature id for the '<em><b>Potential Attribute Dependencies</b></em>' containment reference list.
@@ -142,7 +151,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES = 5;
+	int RULE_BASE__POTENTIAL_ATTRIBUTE_DEPENDENCIES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Document Types</b></em>' attribute list.
@@ -151,7 +160,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__DOCUMENT_TYPES = 6;
+	int RULE_BASE__DOCUMENT_TYPES = 7;
 
 	/**
 	 * The feature id for the '<em><b>Potential Node Conflicts</b></em>' containment reference list.
@@ -160,7 +169,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_NODE_CONFLICTS = 7;
+	int RULE_BASE__POTENTIAL_NODE_CONFLICTS = 8;
 
 	/**
 	 * The feature id for the '<em><b>Potential Edge Conflicts</b></em>' containment reference list.
@@ -169,7 +178,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_EDGE_CONFLICTS = 8;
+	int RULE_BASE__POTENTIAL_EDGE_CONFLICTS = 9;
 
 	/**
 	 * The feature id for the '<em><b>Potential Attribute Conflicts</b></em>' containment reference list.
@@ -178,7 +187,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS = 9;
+	int RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS = 10;
 
 	/**
 	 * The number of structural features of the '<em>Rule Base</em>' class.
@@ -187,7 +196,7 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_FEATURE_COUNT = 10;
+	int RULE_BASE_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl <em>Edit Rule</em>}' class.
@@ -1163,6 +1172,17 @@ public interface RulebasePackage extends EPackage {
 	EClass getRuleBase();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.RuleBase#getKey <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see org.sidiff.editrule.rulebase.RuleBase#getKey()
+	 * @see #getRuleBase()
+	 * @generated
+	 */
+	EAttribute getRuleBase_Key();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.RuleBase#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2023,6 +2043,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EClass RULE_BASE = eINSTANCE.getRuleBase();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE_BASE__KEY = eINSTANCE.getRuleBase_Key();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.

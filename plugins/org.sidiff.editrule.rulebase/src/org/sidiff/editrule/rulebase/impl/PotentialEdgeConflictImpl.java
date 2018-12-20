@@ -71,6 +71,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRuleBase() {
 		if (eContainerFeatureID() != RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE) return null;
 		return (RuleBase)eInternalContainer();
@@ -91,6 +92,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
 		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE && newRuleBase != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBase))
@@ -112,6 +114,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getSourceEdge() {
 		if (sourceEdge != null && sourceEdge.eIsProxy()) {
 			InternalEObject oldSourceEdge = (InternalEObject)sourceEdge;
@@ -138,6 +141,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceEdge(Edge newSourceEdge) {
 		Edge oldSourceEdge = sourceEdge;
 		sourceEdge = newSourceEdge;
@@ -150,6 +154,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getTargetEdge() {
 		if (targetEdge != null && targetEdge.eIsProxy()) {
 			InternalEObject oldTargetEdge = (InternalEObject)targetEdge;
@@ -176,6 +181,7 @@ public class PotentialEdgeConflictImpl extends PotentialConflictImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetEdge(Edge newTargetEdge) {
 		Edge oldTargetEdge = targetEdge;
 		targetEdge = newTargetEdge;

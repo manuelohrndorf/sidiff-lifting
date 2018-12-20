@@ -115,6 +115,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialConflictKind getPotentialConflictKind() {
 		return potentialConflictKind;
 	}
@@ -124,6 +125,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPotentialConflictKind(PotentialConflictKind newPotentialConflictKind) {
 		PotentialConflictKind oldPotentialConflictKind = potentialConflictKind;
 		potentialConflictKind = newPotentialConflictKind == null ? POTENTIAL_CONFLICT_KIND_EDEFAULT : newPotentialConflictKind;
@@ -145,6 +147,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getSourceRule() {
 		if (sourceRule != null && sourceRule.eIsProxy()) {
 			InternalEObject oldSourceRule = (InternalEObject)sourceRule;
@@ -171,6 +174,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceRule(EditRule newSourceRule) {
 		EditRule oldSourceRule = sourceRule;
 		sourceRule = newSourceRule;
@@ -183,6 +187,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getTargetRule() {
 		if (targetRule != null && targetRule.eIsProxy()) {
 			InternalEObject oldTargetRule = (InternalEObject)targetRule;
@@ -209,6 +214,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetRule(EditRule newTargetRule) {
 		EditRule oldTargetRule = targetRule;
 		targetRule = newTargetRule;
@@ -221,6 +227,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialDependency getConflictResolution() {
 		if (conflictResolution != null && conflictResolution.eIsProxy()) {
 			InternalEObject oldConflictResolution = (InternalEObject)conflictResolution;
@@ -247,6 +254,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConflictResolution(PotentialDependency newConflictResolution) {
 		PotentialDependency oldConflictResolution = conflictResolution;
 		conflictResolution = newConflictResolution;
@@ -358,7 +366,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (potentialConflictKind: ");
 		result.append(potentialConflictKind);
 		result.append(')');

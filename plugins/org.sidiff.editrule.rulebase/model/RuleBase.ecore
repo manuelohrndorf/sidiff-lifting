@@ -3,7 +3,8 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rulebase" nsURI="http://www.sidiff.org/editrule/rulebase/1.0"
     nsPrefix="rulebase">
   <eClassifiers xsi:type="ecore:EClass" name="RuleBase">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="items" upperBound="-1"
         eType="#//RuleBaseItem" containment="true" eOpposite="#//RuleBaseItem/ruleBase"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="editRules" upperBound="-1"

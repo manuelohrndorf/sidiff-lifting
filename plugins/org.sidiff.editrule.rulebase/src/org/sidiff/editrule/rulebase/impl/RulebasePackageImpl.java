@@ -196,7 +196,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link RulebasePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -210,7 +210,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		if (isInited) return (RulebasePackage)EPackage.Registry.INSTANCE.getEPackage(RulebasePackage.eNS_URI);
 
 		// Obtain or create and register package
-		RulebasePackageImpl theRulebasePackage = (RulebasePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof RulebasePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new RulebasePackageImpl());
+		Object registeredRulebasePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		RulebasePackageImpl theRulebasePackage = registeredRulebasePackage instanceof RulebasePackageImpl ? (RulebasePackageImpl)registeredRulebasePackage : new RulebasePackageImpl();
 
 		isInited = true;
 
@@ -226,7 +227,6 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		// Mark meta-data to indicate it can't be changed
 		theRulebasePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(RulebasePackage.eNS_URI, theRulebasePackage);
 		return theRulebasePackage;
@@ -237,6 +237,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRuleBase() {
 		return ruleBaseEClass;
 	}
@@ -246,7 +247,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRuleBase_Name() {
+	@Override
+	public EAttribute getRuleBase_Key() {
 		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -255,8 +257,19 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EAttribute getRuleBase_Name() {
+		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EAttribute getRuleBase_DocumentTypes() {
-		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)ruleBaseEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -264,16 +277,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleBase_PotentialNodeConflicts() {
-		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getRuleBase_PotentialEdgeConflicts() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -282,7 +287,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_PotentialAttributeConflicts() {
+	@Override
+	public EReference getRuleBase_PotentialEdgeConflicts() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(9);
 	}
 
@@ -291,8 +297,9 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_Items() {
-		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(1);
+	@Override
+	public EReference getRuleBase_PotentialAttributeConflicts() {
+		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -300,7 +307,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_EditRules() {
+	@Override
+	public EReference getRuleBase_Items() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -309,7 +317,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_PotentialNodeDependencies() {
+	@Override
+	public EReference getRuleBase_EditRules() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -318,7 +327,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_PotentialEdgeDependencies() {
+	@Override
+	public EReference getRuleBase_PotentialNodeDependencies() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -327,7 +337,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRuleBase_PotentialAttributeDependencies() {
+	@Override
+	public EReference getRuleBase_PotentialEdgeDependencies() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -336,6 +347,17 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EReference getRuleBase_PotentialAttributeDependencies() {
+		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getEditRule() {
 		return editRuleEClass;
 	}
@@ -345,6 +367,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRule_RuleBaseItem() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -354,6 +377,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRule_Parameters() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -363,6 +387,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEditRule_UseDerivedFeatures() {
 		return (EAttribute)editRuleEClass.getEStructuralFeatures().get(3);
 	}
@@ -372,6 +397,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRule_Inverse() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(4);
 	}
@@ -381,6 +407,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRule_Classification() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(5);
 	}
@@ -390,6 +417,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRule_ExecuteMainUnit() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -399,6 +427,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRuleBaseItem() {
 		return ruleBaseItemEClass;
 	}
@@ -408,6 +437,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleBaseItem_EditRule() {
 		return (EReference)ruleBaseItemEClass.getEStructuralFeatures().get(0);
 	}
@@ -417,6 +447,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleBaseItem_RuleBase() {
 		return (EReference)ruleBaseItemEClass.getEStructuralFeatures().get(1);
 	}
@@ -426,6 +457,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRuleBaseItem_Active() {
 		return (EAttribute)ruleBaseItemEClass.getEStructuralFeatures().get(2);
 	}
@@ -435,6 +467,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleBaseItem_EditRuleAttachments() {
 		return (EReference)ruleBaseItemEClass.getEStructuralFeatures().get(3);
 	}
@@ -444,6 +477,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialDependency() {
 		return potentialDependencyEClass;
 	}
@@ -453,6 +487,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialDependency_SourceRule() {
 		return (EReference)potentialDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -462,6 +497,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialDependency_TargetRule() {
 		return (EReference)potentialDependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -471,6 +507,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPotentialDependency_Transient() {
 		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(3);
 	}
@@ -480,6 +517,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPotentialDependency_Kind() {
 		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -489,6 +527,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialNodeDependency() {
 		return potentialNodeDependencyEClass;
 	}
@@ -498,6 +537,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeDependency_RuleBase() {
 		return (EReference)potentialNodeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -507,6 +547,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeDependency_SourceNode() {
 		return (EReference)potentialNodeDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -516,6 +557,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeDependency_TargetNode() {
 		return (EReference)potentialNodeDependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -525,6 +567,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialEdgeDependency() {
 		return potentialEdgeDependencyEClass;
 	}
@@ -534,6 +577,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeDependency_RuleBase() {
 		return (EReference)potentialEdgeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -543,6 +587,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeDependency_SourceEdge() {
 		return (EReference)potentialEdgeDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -552,6 +597,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeDependency_TargetEdge() {
 		return (EReference)potentialEdgeDependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -561,6 +607,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialAttributeDependency() {
 		return potentialAttributeDependencyEClass;
 	}
@@ -570,6 +617,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeDependency_RuleBase() {
 		return (EReference)potentialAttributeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -579,6 +627,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeDependency_SourceAttribute() {
 		return (EReference)potentialAttributeDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -588,6 +637,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeDependency_TargetAttribute() {
 		return (EReference)potentialAttributeDependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -597,6 +647,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeDependency_SourceNode() {
 		return (EReference)potentialAttributeDependencyEClass.getEStructuralFeatures().get(3);
 	}
@@ -606,6 +657,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeDependency_TargetNode() {
 		return (EReference)potentialAttributeDependencyEClass.getEStructuralFeatures().get(4);
 	}
@@ -615,6 +667,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameter() {
 		return parameterEClass;
 	}
@@ -624,6 +677,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Name() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -633,6 +687,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Direction() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(1);
 	}
@@ -642,6 +697,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Kind() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(2);
 	}
@@ -651,6 +707,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameter_Type() {
 		return (EReference)parameterEClass.getEStructuralFeatures().get(3);
 	}
@@ -660,6 +717,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameter_Multi() {
 		return (EAttribute)parameterEClass.getEStructuralFeatures().get(4);
 	}
@@ -669,6 +727,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getClassification() {
 		return classificationEClass;
 	}
@@ -678,6 +737,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClassification_Name() {
 		return (EAttribute)classificationEClass.getEStructuralFeatures().get(0);
 	}
@@ -687,6 +747,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getClassification_ClassificatorID() {
 		return (EAttribute)classificationEClass.getEStructuralFeatures().get(1);
 	}
@@ -696,6 +757,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEditRuleAttachment() {
 		return editRuleAttachmentEClass;
 	}
@@ -705,6 +767,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRuleAttachment_RuleBaseItem() {
 		return (EReference)editRuleAttachmentEClass.getEStructuralFeatures().get(0);
 	}
@@ -714,6 +777,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEditRuleAttachment_EditRule() {
 		return (EReference)editRuleAttachmentEClass.getEStructuralFeatures().get(1);
 	}
@@ -723,6 +787,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialConflict() {
 		return potentialConflictEClass;
 	}
@@ -732,6 +797,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPotentialConflict_PotentialConflictKind() {
 		return (EAttribute)potentialConflictEClass.getEStructuralFeatures().get(0);
 	}
@@ -741,6 +807,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPotentialConflict_Resolvable() {
 		return (EAttribute)potentialConflictEClass.getEStructuralFeatures().get(1);
 	}
@@ -750,6 +817,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialConflict_SourceRule() {
 		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(2);
 	}
@@ -759,6 +827,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialConflict_TargetRule() {
 		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(3);
 	}
@@ -768,6 +837,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialConflict_ConflictResolution() {
 		return (EReference)potentialConflictEClass.getEStructuralFeatures().get(4);
 	}
@@ -777,6 +847,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialNodeConflict() {
 		return potentialNodeConflictEClass;
 	}
@@ -786,6 +857,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeConflict_RuleBase() {
 		return (EReference)potentialNodeConflictEClass.getEStructuralFeatures().get(0);
 	}
@@ -795,6 +867,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeConflict_SourceNode() {
 		return (EReference)potentialNodeConflictEClass.getEStructuralFeatures().get(1);
 	}
@@ -804,6 +877,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialNodeConflict_TargetNode() {
 		return (EReference)potentialNodeConflictEClass.getEStructuralFeatures().get(2);
 	}
@@ -813,6 +887,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialEdgeConflict() {
 		return potentialEdgeConflictEClass;
 	}
@@ -822,6 +897,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeConflict_RuleBase() {
 		return (EReference)potentialEdgeConflictEClass.getEStructuralFeatures().get(0);
 	}
@@ -831,6 +907,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeConflict_SourceEdge() {
 		return (EReference)potentialEdgeConflictEClass.getEStructuralFeatures().get(1);
 	}
@@ -840,6 +917,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialEdgeConflict_TargetEdge() {
 		return (EReference)potentialEdgeConflictEClass.getEStructuralFeatures().get(2);
 	}
@@ -849,6 +927,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPotentialAttributeConflict() {
 		return potentialAttributeConflictEClass;
 	}
@@ -858,6 +937,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeConflict_RuleBase() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(0);
 	}
@@ -867,6 +947,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeConflict_SourceAttribute() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(1);
 	}
@@ -876,6 +957,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeConflict_TargetAttribute() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(2);
 	}
@@ -885,6 +967,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeConflict_SourceNode() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(3);
 	}
@@ -894,6 +977,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPotentialAttributeConflict_TargetNode() {
 		return (EReference)potentialAttributeConflictEClass.getEStructuralFeatures().get(4);
 	}
@@ -903,6 +987,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getPotentialDependencyKind() {
 		return potentialDependencyKindEEnum;
 	}
@@ -912,6 +997,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getParameterDirection() {
 		return parameterDirectionEEnum;
 	}
@@ -921,6 +1007,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getParameterKind() {
 		return parameterKindEEnum;
 	}
@@ -930,6 +1017,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getPotentialConflictKind() {
 		return potentialConflictKindEEnum;
 	}
@@ -939,6 +1027,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RulebaseFactory getRulebaseFactory() {
 		return (RulebaseFactory)getEFactoryInstance();
 	}
@@ -963,6 +1052,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		// Create classes and their features
 		ruleBaseEClass = createEClass(RULE_BASE);
+		createEAttribute(ruleBaseEClass, RULE_BASE__KEY);
 		createEAttribute(ruleBaseEClass, RULE_BASE__NAME);
 		createEReference(ruleBaseEClass, RULE_BASE__ITEMS);
 		createEReference(ruleBaseEClass, RULE_BASE__EDIT_RULES);
@@ -1097,7 +1187,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ruleBaseEClass, RuleBase.class, "RuleBase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRuleBase_Name(), ecorePackage.getEString(), "name", null, 0, 1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRuleBase_Key(), ecorePackage.getEString(), "key", null, 1, 1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRuleBase_Name(), ecorePackage.getEString(), "name", null, 1, 1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_Items(), this.getRuleBaseItem(), this.getRuleBaseItem_RuleBase(), "items", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_EditRules(), this.getEditRule(), null, "editRules", null, 0, -1, RuleBase.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_PotentialNodeDependencies(), this.getPotentialNodeDependency(), this.getPotentialNodeDependency_RuleBase(), "potentialNodeDependencies", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

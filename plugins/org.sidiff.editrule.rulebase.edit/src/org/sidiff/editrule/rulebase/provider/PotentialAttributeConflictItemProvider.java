@@ -133,9 +133,9 @@ public class PotentialAttributeConflictItemProvider extends PotentialConflictIte
 				 getString("_UI_PotentialAttributeConflict_sourceNode_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_sourceNode_feature", "_UI_PotentialAttributeConflict_type"),
 				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__SOURCE_NODE,
-				 true,
 				 false,
-				 true,
+				 false,
+				 false,
 				 null,
 				 null,
 				 null));
@@ -155,9 +155,9 @@ public class PotentialAttributeConflictItemProvider extends PotentialConflictIte
 				 getString("_UI_PotentialAttributeConflict_targetNode_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialAttributeConflict_targetNode_feature", "_UI_PotentialAttributeConflict_type"),
 				 RulebasePackage.Literals.POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_NODE,
-				 true,
 				 false,
-				 true,
+				 false,
+				 false,
 				 null,
 				 null,
 				 null));

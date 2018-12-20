@@ -117,6 +117,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialDependencyKind getKind() {
 		return kind;
 	}
@@ -126,6 +127,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(PotentialDependencyKind newKind) {
 		PotentialDependencyKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
@@ -138,6 +140,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getSourceRule() {
 		if (sourceRule != null && sourceRule.eIsProxy()) {
 			InternalEObject oldSourceRule = (InternalEObject)sourceRule;
@@ -164,6 +167,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceRule(EditRule newSourceRule) {
 		EditRule oldSourceRule = sourceRule;
 		sourceRule = newSourceRule;
@@ -176,6 +180,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getTargetRule() {
 		if (targetRule != null && targetRule.eIsProxy()) {
 			InternalEObject oldTargetRule = (InternalEObject)targetRule;
@@ -202,6 +207,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetRule(EditRule newTargetRule) {
 		EditRule oldTargetRule = targetRule;
 		targetRule = newTargetRule;
@@ -214,6 +220,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isTransient() {
 		return transient_;
 	}
@@ -223,6 +230,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTransient(boolean newTransient) {
 		boolean oldTransient = transient_;
 		transient_ = newTransient;

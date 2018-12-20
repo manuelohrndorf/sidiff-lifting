@@ -134,6 +134,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase createRuleBase() {
 		RuleBaseImpl ruleBase = new RuleBaseImpl();
 		return ruleBase;
@@ -144,6 +145,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule createEditRule() {
 		EditRuleImpl editRule = new EditRuleImpl();
 		return editRule;
@@ -154,6 +156,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBaseItem createRuleBaseItem() {
 		RuleBaseItemImpl ruleBaseItem = new RuleBaseItemImpl();
 		return ruleBaseItem;
@@ -164,6 +167,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialNodeDependency createPotentialNodeDependency() {
 		PotentialNodeDependencyImpl potentialNodeDependency = new PotentialNodeDependencyImpl();
 		return potentialNodeDependency;
@@ -174,6 +178,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialEdgeDependency createPotentialEdgeDependency() {
 		PotentialEdgeDependencyImpl potentialEdgeDependency = new PotentialEdgeDependencyImpl();
 		return potentialEdgeDependency;
@@ -184,6 +189,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialAttributeDependency createPotentialAttributeDependency() {
 		PotentialAttributeDependencyImpl potentialAttributeDependency = new PotentialAttributeDependencyImpl();
 		return potentialAttributeDependency;
@@ -194,6 +200,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
 		return parameter;
@@ -204,6 +211,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Classification createClassification() {
 		ClassificationImpl classification = new ClassificationImpl();
 		return classification;
@@ -214,6 +222,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialNodeConflict createPotentialNodeConflict() {
 		PotentialNodeConflictImpl potentialNodeConflict = new PotentialNodeConflictImpl();
 		return potentialNodeConflict;
@@ -224,6 +233,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialEdgeConflict createPotentialEdgeConflict() {
 		PotentialEdgeConflictImpl potentialEdgeConflict = new PotentialEdgeConflictImpl();
 		return potentialEdgeConflict;
@@ -234,6 +244,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PotentialAttributeConflict createPotentialAttributeConflict() {
 		PotentialAttributeConflictImpl potentialAttributeConflict = new PotentialAttributeConflictImpl();
 		return potentialAttributeConflict;
@@ -324,6 +335,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RulebasePackage getRulebasePackage() {
 		return (RulebasePackage)getEPackage();
 	}

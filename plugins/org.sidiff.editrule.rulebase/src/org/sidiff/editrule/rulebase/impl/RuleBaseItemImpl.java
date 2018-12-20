@@ -114,6 +114,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getEditRule() {
 		return editRule;
 	}
@@ -138,6 +139,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEditRule(EditRule newEditRule) {
 		if (newEditRule != editRule) {
 			NotificationChain msgs = null;
@@ -157,6 +159,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRuleBase() {
 		if (eContainerFeatureID() != RulebasePackage.RULE_BASE_ITEM__RULE_BASE) return null;
 		return (RuleBase)eInternalContainer();
@@ -177,6 +180,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
 		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.RULE_BASE_ITEM__RULE_BASE && newRuleBase != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBase))
@@ -216,6 +220,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EditRuleAttachment> getEditRuleAttachments() {
 		if (editRuleAttachments == null) {
 			editRuleAttachments = new EObjectContainmentWithInverseEList<EditRuleAttachment>(EditRuleAttachment.class, this, RulebasePackage.RULE_BASE_ITEM__EDIT_RULE_ATTACHMENTS, RulebasePackage.EDIT_RULE_ATTACHMENT__RULE_BASE_ITEM);

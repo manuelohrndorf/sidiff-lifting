@@ -72,6 +72,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRuleBase() {
 		if (eContainerFeatureID() != RulebasePackage.POTENTIAL_EDGE_DEPENDENCY__RULE_BASE) return null;
 		return (RuleBase)eInternalContainer();
@@ -90,6 +91,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
 		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.POTENTIAL_EDGE_DEPENDENCY__RULE_BASE && newRuleBase != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBase))
@@ -110,6 +112,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getSourceEdge() {
 		if (sourceEdge != null && sourceEdge.eIsProxy()) {
 			InternalEObject oldSourceEdge = (InternalEObject)sourceEdge;
@@ -134,6 +137,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceEdge(Edge newSourceEdge) {
 		Edge oldSourceEdge = sourceEdge;
 		sourceEdge = newSourceEdge;
@@ -145,6 +149,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Edge getTargetEdge() {
 		if (targetEdge != null && targetEdge.eIsProxy()) {
 			InternalEObject oldTargetEdge = (InternalEObject)targetEdge;
@@ -169,6 +174,7 @@ public class PotentialEdgeDependencyImpl extends PotentialDependencyImpl impleme
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTargetEdge(Edge newTargetEdge) {
 		Edge oldTargetEdge = targetEdge;
 		targetEdge = newTargetEdge;

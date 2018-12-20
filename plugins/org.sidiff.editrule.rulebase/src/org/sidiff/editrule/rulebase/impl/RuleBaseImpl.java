@@ -41,6 +41,7 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getItems <em>Items</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getEditRules <em>Edit Rules</em>}</li>
@@ -56,6 +57,26 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * @generated
  */
 public class RuleBaseImpl extends EObjectImpl implements RuleBase {
+	/**
+	 * The default value of the '{@link #getKey() <em>Key</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKey()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String KEY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getKey()
+	 * @generated
+	 * @ordered
+	 */
+	protected String key = KEY_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -197,6 +218,29 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @generated
 	 */
 	@Override
+	public String getKey() {
+		return key;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setKey(String newKey) {
+		String oldKey = key;
+		key = newKey;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.RULE_BASE__KEY, oldKey, key));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -232,6 +276,7 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PotentialNodeConflict> getPotentialNodeConflicts() {
 		if (potentialNodeConflicts == null) {
 			potentialNodeConflicts = new EObjectContainmentWithInverseEList<PotentialNodeConflict>(PotentialNodeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_NODE_CONFLICTS, RulebasePackage.POTENTIAL_NODE_CONFLICT__RULE_BASE);
@@ -244,6 +289,7 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PotentialEdgeConflict> getPotentialEdgeConflicts() {
 		if (potentialEdgeConflicts == null) {
 			potentialEdgeConflicts = new EObjectContainmentWithInverseEList<PotentialEdgeConflict>(PotentialEdgeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_EDGE_CONFLICTS, RulebasePackage.POTENTIAL_EDGE_CONFLICT__RULE_BASE);
@@ -256,6 +302,7 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PotentialAttributeConflict> getPotentialAttributeConflicts() {
 		if (potentialAttributeConflicts == null) {
 			potentialAttributeConflicts = new EObjectContainmentWithInverseEList<PotentialAttributeConflict>(PotentialAttributeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS, RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT__RULE_BASE);
@@ -392,6 +439,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RulebasePackage.RULE_BASE__KEY:
+				return getKey();
 			case RulebasePackage.RULE_BASE__NAME:
 				return getName();
 			case RulebasePackage.RULE_BASE__ITEMS:
@@ -425,6 +474,9 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RulebasePackage.RULE_BASE__KEY:
+				setKey((String)newValue);
+				return;
 			case RulebasePackage.RULE_BASE__NAME:
 				setName((String)newValue);
 				return;
@@ -472,6 +524,9 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RulebasePackage.RULE_BASE__KEY:
+				setKey(KEY_EDEFAULT);
+				return;
 			case RulebasePackage.RULE_BASE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
@@ -511,6 +566,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RulebasePackage.RULE_BASE__KEY:
+				return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
 			case RulebasePackage.RULE_BASE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case RulebasePackage.RULE_BASE__ITEMS:
@@ -544,8 +601,10 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (key: ");
+		result.append(key);
+		result.append(", name: ");
 		result.append(name);
 		result.append(", documentTypes: ");
 		result.append(documentTypes);

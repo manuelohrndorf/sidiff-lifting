@@ -187,7 +187,7 @@ public interface EditRule extends EObject {
 	 * @model kind="operation"
 	 * @generated
 	 */
-	Module getExecuteModule();
+	org.eclipse.emf.henshin.model.Module getExecuteModule();
 
 	/**
 	 * <!-- begin-user-doc -->
