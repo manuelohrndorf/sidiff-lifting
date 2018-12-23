@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical.api.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,6 @@ import org.sidiff.difference.symmetric.provider.RemoveReferenceItemProvider;
 import org.sidiff.difference.symmetric.provider.SymmetricItemProviderAdapterFactory;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.matching.api.util.MatchingUtils;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.provider.CorrespondenceItemProvider;
@@ -52,7 +52,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
 	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Set<String> documentTypes) {
-		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentTypes);
+		return new ArrayList<>(ITechnicalDifferenceBuilder.MANAGER.getExtensions(documentTypes, false));
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @see #getAvailableTechnicalDifferenceBuilders(String)
 	 */
 	public static List<ITechnicalDifferenceBuilder> getAvailableTechnicalDifferenceBuilders(Resource modelA, Resource modelB) {
-		return TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(modelA, modelB);
+		return ITechnicalDifferenceBuilder.MANAGER.getTechnicalDifferenceBuilders(modelA, modelB);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return all registered {@link ITechnicalDifferenceBuilder}s.
 	 */
 	public static List<ITechnicalDifferenceBuilder> getAllAvailableTechnicalDifferenceBuilders() {
-		return TechnicalDifferenceBuilderUtil.getAllAvailableTechnicalDifferenceBuilders();
+		return new ArrayList<>(ITechnicalDifferenceBuilder.MANAGER.getExtensions());
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return a generic {@link ITechnicalDifferenceBuilder}
 	 */
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
-		return TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder();
+		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension().orElseThrow();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 *         documentTypes
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
-		return TechnicalDifferenceBuilderUtil.getDefaultTechnicalDifferenceBuilder(documentTypes);
+		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return the {@link ITechnicalDifferenceBuilder} identified by the key
 	 */
 	public static ITechnicalDifferenceBuilder getTechnicalDifferenceBuilder(String key){
-		return TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(key);
+		return ITechnicalDifferenceBuilder.MANAGER.getExtension(key).orElse(null);
 	}
 	
 	public static String extractCommonPath(String... paths) {

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.extension.ITypedExtension;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 
 /**
@@ -15,11 +16,12 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
  * A generic implementation is given by
  * {@link GenericTechnicalDifferenceBuilder}
  */
-public interface ITechnicalDifferenceBuilder {
-	/**
-	 * The shared extension point id.
-	 */
-	public static final String extensionPointID = "org.sidiff.difference.technical.technical_difference_builder_extension";
+public interface ITechnicalDifferenceBuilder extends ITypedExtension {
+
+	Description<ITechnicalDifferenceBuilder> DESCRIPTION = Description.of(ITechnicalDifferenceBuilder.class,
+			"org.sidiff.difference.technical.technical_difference_builder_extension", "technical", "difference_builder");
+
+	TechnicalDifferenceBuilderManager MANAGER = new TechnicalDifferenceBuilderManager(DESCRIPTION);
 
 	/**
 	 * Returns the description name of the technical difference builder.

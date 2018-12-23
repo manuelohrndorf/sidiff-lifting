@@ -15,7 +15,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
+import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 
 
 public class LiftingPropertyTester extends PropertyTester {
@@ -36,9 +36,7 @@ public class LiftingPropertyTester extends PropertyTester {
 				IFile file = (IFile) receiver;
 				String filePath = file.getLocation().toOSString();
 				if(filePath.endsWith(LiftingFacade.SYMMETRIC_DIFF_EXT)){
-					BufferedReader reader = null;
-					try {
-						reader = new BufferedReader(new FileReader(new File(filePath)));
+					try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)))) {
 						reader.readLine();
 						if(reader.readLine().matches(FILE_TEST)){
 							return true;
@@ -47,14 +45,6 @@ public class LiftingPropertyTester extends PropertyTester {
 						e.printStackTrace();
 					} catch (IOException e) {
 						e.printStackTrace();
-					} finally {
-						try {
-							if (reader != null) {
-								reader.close();
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
 					}
 				}
 			}
@@ -64,8 +54,7 @@ public class LiftingPropertyTester extends PropertyTester {
 				IFile file = (IFile) receiver;
 				Resource resource = PipelineUtils.loadModel(file.getLocation().toOSString());
 				Set<String> documentType =EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE_SET);
-				if(TechnicalDifferenceBuilderUtil.getAvailableTechnicalDifferenceBuilders(documentType).size()>0)
-					return true;				
+				return !ITechnicalDifferenceBuilder.MANAGER.getExtensions(documentType, true).isEmpty();				
 			}
 		}
 

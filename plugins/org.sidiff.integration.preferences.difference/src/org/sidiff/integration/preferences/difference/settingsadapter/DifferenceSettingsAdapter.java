@@ -3,6 +3,7 @@ package org.sidiff.integration.preferences.difference.settingsadapter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -13,13 +14,12 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
-import org.sidiff.difference.technical.util.TechnicalDifferenceBuilderUtil;
 import org.sidiff.integration.preferences.difference.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
@@ -80,16 +80,11 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
-			// generic technical difference builder is not registered, so it must be added manually
-			if(techDiffBuilderKey.equals("org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder")) {
-				technicalDifferenceBuilderList.add(TechnicalDifferenceBuilderUtil.getGenericTechnicalDifferenceBuilder());
+			Optional<ITechnicalDifferenceBuilder> techBuilder = ITechnicalDifferenceBuilder.MANAGER.getExtension(techDiffBuilderKey);
+			if(techBuilder.isPresent()) {
+				technicalDifferenceBuilderList.add(techBuilder.get());
 			} else {
-				ITechnicalDifferenceBuilder techBuilder = TechnicalDifferenceBuilderUtil.getTechnicalDifferenceBuilder(techDiffBuilderKey);
-				if(techBuilder != null) {
-					technicalDifferenceBuilderList.add(techBuilder);
-				} else {
-					addWarning("Technical Difference Builder with key '" + techDiffBuilderKey + "' was not found.");
-				}
+				addWarning("Technical Difference Builder with key '" + techDiffBuilderKey + "' was not found.");
 			}
 		}
 		if(technicalDifferenceBuilderList.isEmpty()) {
