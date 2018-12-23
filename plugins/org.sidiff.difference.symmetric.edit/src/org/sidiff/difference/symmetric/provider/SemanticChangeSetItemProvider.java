@@ -8,6 +8,7 @@ package org.sidiff.difference.symmetric.provider;
 
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -421,7 +422,7 @@ public class SemanticChangeSetItemProvider
 	@Override
 	public String getText(Object object) {
 		if(object instanceof SemanticChangeSet){
-			Optional<IStringResolver> resolver = IStringResolver.MANAGER.getDefaultExtension(SymmetricPackage.eNS_URI);
+			Optional<IStringResolver> resolver = IStringResolver.MANAGER.getDefaultExtension(Collections.singleton(SymmetricPackage.eNS_URI));
 			if(resolver.isPresent()) {
 				return resolver.get().resolve((EObject)object);
 			}
