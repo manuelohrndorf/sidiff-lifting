@@ -19,7 +19,6 @@ import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.patching.ui.animation.internal.AnimationAdapter;
 import org.sidiff.patching.ui.animation.internal.GridLayouter;
 
@@ -52,7 +51,7 @@ public class GMFAnimation {
 							IMatcher usedMatcher = null;
 							
 							// Search registered matcher extension points
-							List<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(Arrays.asList(changingResource, resource));
+							List<IMatcher> matcherSet = IMatcher.MANAGER.getMatchers(Arrays.asList(changingResource, resource));
 							
 							if(matcherSet.size() > 0){
 								for (Iterator<IMatcher> iterator = matcherSet.iterator(); iterator.hasNext();) {

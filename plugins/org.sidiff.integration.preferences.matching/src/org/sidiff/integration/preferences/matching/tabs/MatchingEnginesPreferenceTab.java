@@ -1,24 +1,17 @@
 package org.sidiff.integration.preferences.matching.tabs;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.sidiff.candidates.ICandidates;
-import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.integration.preferences.fieldeditors.ICompositePreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSettingsAdapter;
-import org.sidiff.integration.preferences.matching.valueconverters.MatcherValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
-import org.sidiff.integration.preferences.valueconverters.GenericPreferenceValueConverter;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
@@ -30,7 +23,6 @@ import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField matchersField;
-	private Map<String, IPreferenceField> matcherOptions;
 	private IPreferenceField candidatesServiceField;
 	private IPreferenceField correspondencesServiceField;
 	private IPreferenceField similaritiesServiceField;
@@ -38,33 +30,16 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		List<IMatcher> matchers = MatcherUtil.getGenericMatchers();
+		Collection<IMatcher> matchers = IMatcher.MANAGER.getGenericExtensions();
 		matchersField = PreferenceFieldFactory.createOrderedList(
 				MatchingSettingsAdapter.KEY_MATCHERS, "Matchers",
-				matchers, new MatcherValueConverter());
-		matchersField.addPropertyChangeListener(new IPropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				@SuppressWarnings("unchecked")
-				List<String> newValue = (List<String>)event.getNewValue();
-				for(Entry<String, IPreferenceField> matcherOptions : matcherOptions.entrySet()) {
-					matcherOptions.getValue().setVisible(newValue.contains(matcherOptions.getKey()));
-				}
-			}
-		});
+				matchers, ExtensionValueConverter.getInstance());
 		list.add(matchersField);
-
-		matcherOptions = new HashMap<String, IPreferenceField>();
-		for(IMatcher matcher : matchers) {
-			if(matcher instanceof IConfigurable) {
-				IPreferenceField matcherOption = PreferenceFieldFactory.createCheckBoxList(
-						MatchingSettingsAdapter.KEY_MATCHER_OPTIONS(matcher.getKey()),
-						matcher.getName(),
-						((IConfigurable)matcher).getConfigurationOptions().keySet(),
-						new GenericPreferenceValueConverter());
-				list.add(matcherOption);
-				matcherOptions.put(matcher.getKey(), matcherOption);
-			}
+		ICompositePreferenceField<IPreferenceField> matcherOptions =
+				PreferenceFieldFactory.createConfigurableExtensionsFields(
+						matchers, matchersField, MatchingSettingsAdapter::KEY_MATCHER_OPTIONS);
+		if(!matcherOptions.isEmpty()) {
+			list.add(matcherOptions);			
 		}
 
 		candidatesServiceField = PreferenceFieldFactory.createRadioBox(

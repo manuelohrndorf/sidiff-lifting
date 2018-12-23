@@ -2,14 +2,12 @@ package org.sidiff.integration.preferences.matching.significance;
 
 import java.util.Collections;
 
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.integration.preferences.significance.IDomainSignificance;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matcher.MatcherUtil;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class MatchingPreferenceSignificanceProvider implements IDomainSignificance {
@@ -17,11 +15,6 @@ public class MatchingPreferenceSignificanceProvider implements IDomainSignifican
 	@Override
 	public boolean isSignificant(String documentType) {
 		// check if any of the matchers supporting this document type are not generic ones
-		for(IMatcher matcher : MatcherUtil.getAvailableMatchers(Collections.singleton(documentType))) {
-			if(!matcher.getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
-				return true;
-			}
-		}
-		return false;
+		return !IMatcher.MANAGER.getExtensions(Collections.singleton(documentType), false).isEmpty();
 	}
 }

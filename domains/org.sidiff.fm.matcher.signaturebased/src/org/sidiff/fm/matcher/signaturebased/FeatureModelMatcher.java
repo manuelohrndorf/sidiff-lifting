@@ -1,5 +1,7 @@
 package org.sidiff.fm.matcher.signaturebased;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -46,8 +48,8 @@ public class FeatureModelMatcher extends LocalSignatureMatcher {
 	}
 
 	@Override
-	public String getDescription() {
-		return "This matcher matches EMF represented FeatureModels";
+	public Optional<String> getDescription() {
+		return Optional.of("This matcher matches EMF represented FeatureModels");
 	}
 
 	@Override

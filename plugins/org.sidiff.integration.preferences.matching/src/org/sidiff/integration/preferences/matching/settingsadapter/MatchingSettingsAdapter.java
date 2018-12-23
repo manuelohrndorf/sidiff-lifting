@@ -2,20 +2,20 @@ package org.sidiff.integration.preferences.matching.settingsadapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.candidates.ICandidates;
+import org.sidiff.common.extension.configuration.ConfigurationOption;
+import org.sidiff.common.extension.configuration.IConfigurableExtension;
+import org.sidiff.common.extension.configuration.IExtensionConfiguration;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.common.util.StringListSerializer;
-import org.sidiff.configuration.IConfigurable;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.matching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.similarities.ISimilarities;
@@ -32,8 +32,8 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public static String KEY_MATCHERS(String documentType) {
 		return KEY_MATCHERS + "[" + documentType + "]";
 	}
-	public static String KEY_MATCHER_OPTIONS(String matcher) {
-		return "matcherOptions[" + matcher + "]";
+	public static String KEY_MATCHER_OPTIONS(String matcher, String option) {
+		return "matcherOptions[" + matcher + "][" + option + "]";
 	}
 	public static final String KEY_CANDIDATES_SERVICE = "candidatesService";
 	public static final String KEY_CORRESPONDENCES_SERVICE = "correspondencesService";
@@ -95,19 +95,15 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		// get the matchers
 		matchers = new ArrayList<IMatcher>();
 		for(String matcherKey : matcherKeys) {
-			IMatcher matcher = MatcherUtil.getMatcher(matcherKey);
-			if(matcher != null) {
-				if(matcher instanceof IConfigurable) {
-					Map<String, Object> matcherOptions = ((IConfigurable)matcher).getConfigurationOptions();
-					List<String> matcherOptionKeys = StringListSerializer.DEFAULT.deserialize(KEY_MATCHER_OPTIONS(matcherKey));
-					for(String optionKey : matcherOptions.keySet()) {
-						((IConfigurable)matcher).setConfigurationOption(optionKey, matcherOptionKeys.contains(optionKey));
+			IMatcher.MANAGER.getExtension(matcherKey).ifPresentOrElse(matcher -> {
+				if(matcher instanceof IConfigurableExtension) {
+					IExtensionConfiguration configuration = ((IConfigurableExtension)matcher).getConfiguration();
+					for(ConfigurationOption<?> option : configuration.getConfigurationOptions()) {
+						option.setValueUnsafe(store.getString(KEY_MATCHER_OPTIONS(matcherKey, option.getKey())));
 					}
 				}
 				matchers.add(matcher);
-			} else {
-				addWarning("Matcher with key '" + matcherKey + "' was not found.");
-			}
+			}, () -> addWarning("Matcher with key '" + matcherKey + "' was not found."));
 		}
 		if(matchers.isEmpty()) {
 			addError("No Matchers were specified.");

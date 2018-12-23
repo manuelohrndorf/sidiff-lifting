@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -35,7 +36,6 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.configuration.IConfigurable;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
-import org.sidiff.matcher.MatcherUtil;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
@@ -224,14 +224,8 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	}
 
 	protected void getMatchers() {
-		matchers = new TreeMap<String, IMatcher>();
-
-		// Search registered matcher extension points
-		java.util.List<IMatcher> matcherSet = MatcherUtil.getAvailableMatchers(inputModels);
-
-		for (IMatcher matcher : matcherSet) {
-			matchers.put(matcher.getName(), matcher);
-		}
+		matchers = new TreeMap<>(IMatcher.MANAGER.getMatchers(inputModels).stream()
+				.collect(Collectors.toMap(matcher -> matcher.getName(), matcher -> matcher)));
 	}
 
 	public IMatcher getSelection() {
@@ -264,10 +258,8 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 				return settings.getMatcher();
 			}
 			// Otherwise create a new IncrementalMatcher and include all selected matchers
-			else{
-				IncrementalMatcher incMatcher = new IncrementalMatcher(imatchers);
-				return incMatcher;				
-			}
+			IncrementalMatcher incMatcher = new IncrementalMatcher(imatchers);
+			return incMatcher;
 		}
 	}
 
