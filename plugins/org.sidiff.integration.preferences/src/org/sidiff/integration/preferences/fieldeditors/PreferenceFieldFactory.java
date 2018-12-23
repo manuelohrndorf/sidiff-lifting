@@ -2,20 +2,32 @@ package org.sidiff.integration.preferences.fieldeditors;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
+import org.sidiff.common.collections.CollectionUtil;
+import org.sidiff.common.extension.IExtension;
+import org.sidiff.common.extension.configuration.ConfigurationOption;
+import org.sidiff.common.extension.configuration.IConfigurableExtension;
+import org.sidiff.common.extension.configuration.IExtensionConfiguration;
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.internal.CompositeField;
 import org.sidiff.integration.preferences.fieldeditors.internal.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.internal.OrderedListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.internal.RadioBoxPreferenceField;
+import org.sidiff.integration.preferences.fieldeditors.internal.TextPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.EnumPreferenceValueConverter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
  * The {@link PreferenceFieldFactory} contains methods to create various different {@link IPreferenceField}s and
  * {@link ICompositePreferenceField}s.
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class PreferenceFieldFactory {
@@ -23,7 +35,28 @@ public class PreferenceFieldFactory {
 	private PreferenceFieldFactory() {
 		throw new AssertionError();
 	}
-
+	
+	/**
+	 * Creates a preference field with a text input.
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the field
+	 * @return text preference field
+	 */
+	public static IPreferenceField createText(String preferenceName, String title) {
+		return createText(preferenceName, title, null);
+	}
+	
+	/**
+	 * Creates a preference field with a text input.
+	 * @param preferenceName the name of the preference
+	 * @param title the title of the field
+	 * @param tooltip the tooltip of the field
+	 * @return text preference field
+	 */
+	public static IPreferenceField createText(String preferenceName, String title, String tooltip) {
+		return new TextPreferenceField(preferenceName, title, tooltip);
+	}
+	
 	/**
 	 * Creates a preference field with a checkbox.
 	 * @param preferenceName the name of the preference
@@ -151,5 +184,55 @@ public class PreferenceFieldFactory {
 	 */
 	public static ICompositePreferenceField<IPreferenceField> createExpandableComposite(String title) {
 		return new CompositeField<IPreferenceField>(CompositeField.WrapperSupplier.EXPANDABLE, title);
+	}
+
+	public static ICompositePreferenceField<IPreferenceField> createConfigurableExtensionsFields(
+			Collection<? extends IExtension> extensions, IPreferenceField primaryField, BiFunction<String,String,String> keyFunction) {
+
+		ICompositePreferenceField<IPreferenceField> composite =
+				new CompositeField<IPreferenceField>(CompositeField.WrapperSupplier.COMPOSITE, null);
+		Map<String,IPreferenceField> fields = new HashMap<>();
+
+		for(IExtension extension : extensions) {
+			if(extension instanceof IConfigurableExtension) {
+				ICompositePreferenceField<IPreferenceField> field =
+						createConfigurableExtensionFields((IConfigurableExtension)extension,
+								optionKey -> keyFunction.apply(extension.getKey(), optionKey));
+				composite.addField(field);
+				fields.put(extension.getKey(), composite);
+			}
+		}
+
+		if(primaryField != null) {
+			primaryField.addPropertyChangeListener(event -> {
+				List<String> newValue = CollectionUtil.getValues(event.getNewValue(), String.class);
+				for(Entry<String, IPreferenceField> field : fields.entrySet()) {
+					field.getValue().setVisible(newValue.contains(field.getKey()));
+				}
+			});			
+		}
+
+		return composite;
+	}
+
+	public static ICompositePreferenceField<IPreferenceField> createConfigurableExtensionFields(
+			IConfigurableExtension extension, Function<String,String> keyFunction) {
+		ICompositePreferenceField<IPreferenceField> optionsComposite =
+				PreferenceFieldFactory.createExpandableComposite(extension.getName() + " Options");
+		IExtensionConfiguration configuration = extension.getConfiguration();
+		for(ConfigurationOption<?> option : configuration.getConfigurationOptions()) {
+			String key = keyFunction.apply(option.getKey());
+			if(option.getType() == Boolean.class) {
+				optionsComposite.addField(createCheckBox(key, option.getName()));
+			} else if(option.getType() == Short.class
+					|| option.getType() == Integer.class
+					|| option.getType() == Long.class) {
+				optionsComposite.addField(createNumber(key, option.getName(), Integer.MIN_VALUE, Integer.MAX_VALUE));
+			} else {
+				// use a text box as fallback
+				optionsComposite.addField(createText(key, option.getName()));
+			}
+		}
+		return optionsComposite;
 	}
 }

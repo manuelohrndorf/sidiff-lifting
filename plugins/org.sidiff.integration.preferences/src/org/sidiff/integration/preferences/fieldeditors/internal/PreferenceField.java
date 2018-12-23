@@ -15,7 +15,7 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 /**
  * PreferenceField for use in a PreferenceFieldPage.
  * Responsible for storing and loading a preference as well as creating controls for changing the preference.
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser, Robert MÃ¼ller
  */
 public abstract class PreferenceField implements IPreferenceField {
 

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.sidiff.integration.preferences.fieldeditors.ICompositePreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
@@ -21,7 +24,7 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
  * {@link #doCreateControls(Composite, String)} must be implemented to create the composite parent
  * and add the child preference fields created by {@link #createNestedPreferenceControl(Composite)} to it.
  * Calls to all other methods are delegated to the contained fields.
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class CompositeField<T extends IPreferenceField>
@@ -83,7 +86,8 @@ public class CompositeField<T extends IPreferenceField>
 			container.dispose();
 		}
 		container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout(1, true));
+		GridLayoutFactory.swtDefaults().applyTo(container);
+		container.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		for(IPreferenceField field : fields) {
 			field.createControls(container);
@@ -143,24 +147,46 @@ public class CompositeField<T extends IPreferenceField>
 			emptyLabel.setVisible(true);
 		}
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		return fields.isEmpty();
+	}
 
 	@FunctionalInterface
 	public interface WrapperSupplier {
 		Control createWrapper(Composite parent, String title, Function<Composite,Control> childrenSupplier);
 
+		public static final WrapperSupplier COMPOSITE = (parent, title, childrenSupplier) -> {
+			Composite composite = new Composite(parent, SWT.NONE);
+			GridLayoutFactory.fillDefaults().applyTo(composite);
+			childrenSupplier.apply(composite);
+			return composite;
+		};
 		public static final WrapperSupplier GROUP = (parent, title, childrenSupplier) -> {
 			Group group = new Group(parent, SWT.NONE);
 			group.setText(title);
-			group.setLayout(new GridLayout(1, true));
+			GridLayoutFactory.fillDefaults().applyTo(group);
 			childrenSupplier.apply(group);
 			return group;
 		};
 		public static final WrapperSupplier EXPANDABLE = (parent, title, childrenSupplier) -> {
 			ExpandableComposite expandableParent = new ExpandableComposite(parent, SWT.BORDER);
-			expandableParent.setLayout(new GridLayout(1, true));
+			GridLayoutFactory.fillDefaults().applyTo(expandableParent);
 			expandableParent.setText(title);
 			Control nestedControl = childrenSupplier.apply(expandableParent);
 			expandableParent.setClient(nestedControl);
+			expandableParent.addExpansionListener(new IExpansionListener() {
+				@Override
+				public void expansionStateChanging(ExpansionEvent e) {
+				}
+				@Override
+				public void expansionStateChanged(ExpansionEvent e) {
+					nestedControl.pack();
+					expandableParent.pack();
+					nestedControl.requestLayout();
+				}
+			});
 			return expandableParent;
 		};
 	}

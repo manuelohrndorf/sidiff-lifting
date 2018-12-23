@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * An {@link IPreferenceField} represents a field on a preference page.
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public interface IPreferenceField {
