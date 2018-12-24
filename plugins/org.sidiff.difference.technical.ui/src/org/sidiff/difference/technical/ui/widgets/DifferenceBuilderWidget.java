@@ -156,7 +156,7 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 			Set<String> unsupportedDocTypes = inputModels.getDocumentTypes();
 			
 			for(String key : list_builders.getSelection()){
-				if(builders.get(key).canHandleDocTypes(inputModels.getDocumentTypes())){
+				if(builders.get(key).canHandle(inputModels.getDocumentTypes())){
 					if(builders.get(key).getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
 						unsupportedDocTypes.clear();
 						break;

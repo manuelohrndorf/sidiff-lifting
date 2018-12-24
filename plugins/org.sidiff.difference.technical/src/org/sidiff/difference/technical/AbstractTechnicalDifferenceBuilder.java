@@ -371,26 +371,23 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 	private boolean doProcess(EObject object) {
 		// generic td builders can process every eObject
-		return getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)
+		return getDocumentTypes().contains(GENERIC_TYPE)
 				|| getDocumentTypes().contains(EMFModelAccess.getDocumentType(object));
 	}
 
 	@Override
-	public boolean canHandleDocTypes(Set<String> documentTypes) {
+	public boolean canHandle(Set<String> documentTypes) {
 		// generic td builders can handle every model
 		Set<String> intersection = new HashSet<String>(documentTypes);
 		intersection.retainAll(getDocumentTypes());
-		return getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)
-				||!intersection.isEmpty();
+		return getDocumentTypes().contains(GENERIC_TYPE) || !intersection.isEmpty();
 	}
 	
 	@Override
 	public boolean canHandleModels(Resource modelA, Resource modelB) {
-
 		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
 		docTypes.addAll(EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET));
-
-		return canHandleDocTypes(docTypes);
+		return canHandle(docTypes);
 	}
 
 	protected abstract String getObjectName(EObject obj);

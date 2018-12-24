@@ -94,16 +94,10 @@ public class IncrementalTechnicalDifferenceBuilder implements ITechnicalDifferen
 	}
 
 	@Override
-	public boolean canHandleDocTypes(Set<String> documentTypes) {
-		return getDocumentTypes().containsAll(documentTypes);
-	}
-
-	@Override
 	public boolean canHandleModels(Resource modelA, Resource modelB) {
 		Set<String> docTypes = EMFModelAccess.getDocumentTypes(modelA, Scope.RESOURCE_SET);
 		docTypes.addAll(EMFModelAccess.getDocumentTypes(modelB, Scope.RESOURCE_SET));
-
-		return canHandleDocTypes(docTypes);
+		return canHandle(docTypes);
 	}
 
 	public List<ITechnicalDifferenceBuilder> getTechnicalDifferenceBuilders() {

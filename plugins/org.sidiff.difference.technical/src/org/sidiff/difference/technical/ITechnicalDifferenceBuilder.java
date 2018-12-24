@@ -1,7 +1,5 @@
 package org.sidiff.difference.technical;
 
-import java.util.Set;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.extension.ITypedExtension;
@@ -24,43 +22,14 @@ public interface ITechnicalDifferenceBuilder extends ITypedExtension {
 	TechnicalDifferenceBuilderManager MANAGER = new TechnicalDifferenceBuilderManager(DESCRIPTION);
 
 	/**
-	 * Returns the description name of the technical difference builder.
-	 * 
-	 * @return the technical difference builder name.
-	 */
-	public String getName();
-	
-	/**
-	 * Returns the short name (used as a key) of the technical difference builder.
-	 * 
-	 * @return the technical difference builder short name (used as key).
-	 */
-	public String getKey();
-
-	/**
-	 * @return the document types the technical difference builder is primarily
-	 *         implemented for.
-	 */
-	public Set<String> getDocumentTypes();
-	
-	/**
 	 * Derives the technical difference. A default implementation is given by
 	 * the abstract class {@link AbstractTechnicalDifferenceBuilder}
 	 * 
 	 * @param difference
 	 * @return {@link SymmetricDifference}
 	 */
-	public SymmetricDifference deriveTechDiff(SymmetricDifference difference, Scope scope);
+	SymmetricDifference deriveTechDiff(SymmetricDifference difference, Scope scope);
 
-	/**
-	 * Returns whether this technical difference builder can handle models with
-	 * the given documentTypes.
-	 * 
-	 * @param documentTypes
-	 * @return
-	 */
-	public boolean canHandleDocTypes(Set<String> documentTypes);
-	
 	/**
 	 * Returns whether this technical difference builder can handle the given models
 	 * 
@@ -68,6 +37,5 @@ public interface ITechnicalDifferenceBuilder extends ITypedExtension {
 	 * @param modelB
 	 * @return
 	 */
-	public boolean canHandleModels(Resource modelA, Resource modelB);
-
+	boolean canHandleModels(Resource modelA, Resource modelB);
 }
