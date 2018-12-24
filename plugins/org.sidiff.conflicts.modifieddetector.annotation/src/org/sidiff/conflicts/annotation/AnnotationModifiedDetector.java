@@ -8,8 +8,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.annotation.IAnnotation;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.emf.EMFAdapter;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.annotation.AnnotateableElement;
 import org.sidiff.common.logging.LogEvent;
@@ -105,8 +105,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 	private void fillModifiedMap() {
 
 		// Iterate through all origin model objects
-		for (EObject originObject : EMFUtil
-				.getAllContentAsIterable(this.modelA)) {
+		for (EObject originObject : CollectionUtil.asIterable(modelA.getAllContents())) {
 
 			// If corresponding object existent
 			if (correspondences.hasCorrespondences(originObject)) {

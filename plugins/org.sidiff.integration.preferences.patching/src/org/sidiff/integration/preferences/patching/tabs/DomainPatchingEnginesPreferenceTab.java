@@ -1,19 +1,20 @@
 package org.sidiff.integration.preferences.patching.tabs;
 
+import java.util.Collections;
 import java.util.List;
 
-import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
-import org.sidiff.integration.preferences.patching.valueconverters.ModifiedDetectedValueConverter;
 import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
+import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 import org.sidiff.patching.transformation.TransformationEngineUtil;
 
 /**
  * Class for the domain specific {@link org.sidiff.patching.api.settings.PatchingSettings}
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder, Robert MÃ¼ller
  * 
  */
 public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
@@ -33,8 +34,8 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 		modifiedDetectorField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
-				ModifiedDetectorUtil.getAvailableModifiedDetectors(getDocumentType()),
-				new ModifiedDetectedValueConverter(),
+				IModifiedDetector.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true),
+				ExtensionValueConverter.getInstance(),
 				true);
 		list.add(modifiedDetectorField);
 	}

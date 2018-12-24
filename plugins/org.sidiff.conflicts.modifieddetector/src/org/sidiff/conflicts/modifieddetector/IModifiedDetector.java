@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.extension.ITypedExtension;
+import org.sidiff.common.extension.TypedExtensionManager;
 import org.sidiff.matcher.IMatcher;
 
 /**
@@ -14,34 +16,14 @@ import org.sidiff.matcher.IMatcher;
  * A plug-in that adds this extension point has to implement
  * this interface.
  * @author dreuling
- *
  */
-public interface IModifiedDetector {
-	
-	/**
-	 * The shared extension point id.
-	 */
-	public static final String EXTENSION_POINT_ID = "org.sidiff.conflicts.modifieddetector";	
-	
-	/**
-	 * The shared executable point
-	 */
-	public static final String EXECUTABLE = "class";	
-	
-	/**
-	 * Returns the description name of the modified detector.
-	 * 
-	 * @return the modified detector name.
-	 */
-	public String getName();
-	
-	/**
-	 * Returns the short name (used as a key) of the modified detector.
-	 * 
-	 * @return the modified detector short name (used as key).
-	 */
-	public String getKey();
-	
+public interface IModifiedDetector extends ITypedExtension {
+
+	Description<IModifiedDetector> DESCRIPTION = Description.of(IModifiedDetector.class,
+			"org.sidiff.conflicts.modifieddetector", "modifieddetector", "class");
+
+	TypedExtensionManager<IModifiedDetector> MANAGER = new TypedExtensionManager<>(DESCRIPTION);
+
 	/**
 	 * Initialize method: 
 	 * @param modelA the modelA to use
@@ -50,28 +32,12 @@ public interface IModifiedDetector {
 	 * @param scope the scope to use
 	 * @throws IOException 
 	 */
-	public void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws IOException;
+	void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws IOException;
 
 	/**
 	 * 
 	 * @param targetObject to test if it has been modified
 	 * @return whether the object has been modified
 	 */
-	public boolean isModified(EObject targetObject);
-	
-	/**
-	 * @return the document type the modified detector is primarily implemented
-	 *         for.
-	 */
-	public String getDocumentType();
-	
-	/**
-	 * Returns whether this modified detector can handle models of the given
-	 * documentType.
-	 * 
-	 * @param docType
-	 * @return
-	 */
-	public boolean canHandle(String docType);
-
+	boolean isModified(EObject targetObject);
 }

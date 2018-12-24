@@ -2,6 +2,7 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,8 +26,8 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.exceptions.ExceptionUtil;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
-import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
@@ -285,16 +286,14 @@ public class WorkspaceUpdateWizard extends Wizard {
 					}
 					settings.setTransformationEngine(transformationEngine);
 
-					// Get modified detector
-					IModifiedDetector modifiedDetector = ModifiedDetectorUtil
-							.getDefaultModifiedDetector(documentType);
-					settings.setModifiedDetector(modifiedDetector);
-					// Init detector if available
-					if (modifiedDetector != null) {
-						modifiedDetector.init(fullDiff.getAsymmetric()
-								.getOriginModel(), resourceResult.get(),
-								matcher, scope);
-					}
+					// Get and init modified detector
+					IModifiedDetector.MANAGER.getDefaultExtension(Collections.singleton(documentType))
+						.ifPresent(ExceptionUtil.wrap(modifiedDetector -> {
+							modifiedDetector.init(fullDiff.getAsymmetric()
+									.getOriginModel(), resourceResult.get(),
+									matcher, scope);
+							settings.setModifiedDetector(modifiedDetector);
+						}));
 
 					monitor.subTask("Initialize PatchEngine");
 					final PatchEngine patchEngine = new PatchEngine(

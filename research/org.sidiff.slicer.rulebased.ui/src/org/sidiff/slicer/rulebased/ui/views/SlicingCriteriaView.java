@@ -53,7 +53,7 @@ import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
-import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
@@ -255,7 +255,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				new ModelSliceBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
 				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
-				ModifiedDetectorUtil.getGenericModifiedDetector(), ExecutionMode.INTERACTIVE,
+				IModifiedDetector.MANAGER.getGenericExtensions().stream().findFirst().orElse(null), ExecutionMode.INTERACTIVE,
 				PatchMode.MERGING, 100, ValidationMode.NO_VALIDATION);
 		
 		this.checkboxTreeViewer.setInput(this.remoteResourceComplete.getResourceSet());

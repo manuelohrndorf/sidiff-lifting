@@ -4,7 +4,6 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
-import org.sidiff.conflicts.modifieddetector.util.ModifiedDetectorUtil;
 import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.patching.api.settings.PatchingSettings;
@@ -17,7 +16,7 @@ import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
@@ -112,7 +111,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			if(modifiedDetector == null) {
 				String key = store.getString(KEY_MODIFIED_DETECTOR(documentType));
 				if(!key.isEmpty()) {
-					modifiedDetector = ModifiedDetectorUtil.getModifiedDetector(key);
+					modifiedDetector = IModifiedDetector.MANAGER.getExtension(key).orElse(null);
 					if(modifiedDetector == null) {
 						addWarning("Modified Detector with key '" + key + "' was not found.");
 					}
@@ -160,8 +159,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	public void initializeDefaults(IPreferenceStore store) {
-		store.setDefault(KEY_MODIFIED_DETECTOR("http://www.eclipse.org/emf/2002/Ecore"),
-				"org.sidiff.ecore.modifieddetector.EcoreModifiedDetector");
+		store.setDefault(KEY_MODIFIED_DETECTOR("http://www.eclipse.org/emf/2002/Ecore"), "EcoreModifiedDetector");
 		store.setDefault(KEY_TRANSFORMATION_ENGINE, "HenshinTransformationEngine");
 		store.setDefault(KEY_MIN_RELIABILITY, -1);
 		store.setDefault(KEY_VALIDATION_MODE, ValidationMode.MODEL_VALIDATION.name());

@@ -1,6 +1,8 @@
 package org.sidiff.ecore.modifieddetector;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -25,17 +27,7 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 	}
 
 	@Override
-	public String getName() {
-		return "Modified Detector for Ecore";
-	}
-
-	@Override
-	public String getDocumentType() {
-		return EcorePackage.eNS_URI;
-	}
-
-	@Override
-	public boolean canHandle(String docType) {
-		return docType.equals(getDocumentType());
+	public Set<String> getDocumentTypes() {
+		return Collections.singleton(EcorePackage.eNS_URI);
 	}
 }
