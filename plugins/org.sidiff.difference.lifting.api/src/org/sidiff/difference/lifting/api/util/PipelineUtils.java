@@ -2,6 +2,7 @@ package org.sidiff.difference.lifting.api.util;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,6 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
@@ -54,7 +54,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 *         type
 	 */
 	public static Set<IRecognitionRuleSorter> getAvailableRecognitionRuleSorters(Set<String> documentTypes) {
-		return RecognitionRuleSorterLibrary.getAvailableRecognitionRuleSorters(documentTypes);
+		return new HashSet<>(IRecognitionRuleSorter.MANAGER.getExtensions(documentTypes, true));
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return all registered {@link IRecognitionRuleSorter}
 	 */
 	public static Set<IRecognitionRuleSorter> getAllAvailableRecognitionRuleSorters() {
-		return RecognitionRuleSorterLibrary.getAllAvailableRecognitionRuleSorters();
+		return new HashSet<>(IRecognitionRuleSorter.MANAGER.getExtensions());
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return a generic {@link IRecognitionRuleSorter}
 	 */
 	public static IRecognitionRuleSorter getGenericRecognitionRuleSorter(){
-		return RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 *         types
 	 */
 	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
-		return RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
 	}
 
 	/**
@@ -95,19 +95,8 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return the {@link IRecognitionRuleSorter} identified by the key
 	 */
 	public static IRecognitionRuleSorter getRecognitionRuleSorter(String key) {
-		return RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
+		return IRecognitionRuleSorter.MANAGER.getExtension(key).orElse(null);
 	}
-
-//	/**
-//	 * Returns all registered lifting rulebases matching the given document type.
-//	 * 
-//	 * @param documentType
-//	 *            The document type, i.e. the package namespace URI of a model.
-//	 * @return all registered {@link ILiftingRuleBase}s matching the given document type
-//	 */
-//	public static Set<ILiftingRuleBase> getAvailableRulebases(String documentType) {
-//		return RuleBaseProjectLibrary.getRuleBases(Collections.singleton(documentType), ILiftingRuleBase.TYPE);
-//	}
 
 	/**
 	 * Returns all registered lifting rulebases.

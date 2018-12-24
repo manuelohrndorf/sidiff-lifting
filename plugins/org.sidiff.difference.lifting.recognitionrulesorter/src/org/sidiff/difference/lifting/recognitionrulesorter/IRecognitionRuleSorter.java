@@ -3,35 +3,17 @@ package org.sidiff.difference.lifting.recognitionrulesorter;
 import java.util.Comparator;
 
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.extension.ITypedExtension;
+import org.sidiff.common.extension.TypedExtensionManager;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 
-public interface IRecognitionRuleSorter extends Comparator<Node>{
+public interface IRecognitionRuleSorter extends ITypedExtension, Comparator<Node>{
 	
-	/**
-	 * The shared extension point id.
-	 */
-	public static final String extensionPointID = "org.sidiff.difference.lifting.recognitionrulesorter.recognition_rule_sorter_extension";
+	Description<IRecognitionRuleSorter> DESCRIPTION = Description.of(IRecognitionRuleSorter.class,
+			"org.sidiff.difference.lifting.recognitionrulesorter.recognition_rule_sorter_extension", "recognition_rule_sorter", "recognition_rule_sorter");
 
-	/**
-	 * Returns the name of the recognition rule sorter.
-	 * 
-	 * @return the sorter name
-	 */
-	public String getName();
-	
-	/**
-	 * Returns the short name (used as a key) of the recognition rule sorter.
-	 * 
-	 * @return the sorter short name (used as key)
-	 */
-	public String getKey();
-	
-	/**
-	 * @return 	the document type the recognition rule sorter
-	 * 			was implemented for.
-	 */
-	public String getDocumentType();
-	
+	TypedExtensionManager<IRecognitionRuleSorter> MANAGER = new TypedExtensionManager<>(DESCRIPTION);
+
 	/**
 	 * @param analysis
 	 * 			the corresponding difference analysis knowing the count of

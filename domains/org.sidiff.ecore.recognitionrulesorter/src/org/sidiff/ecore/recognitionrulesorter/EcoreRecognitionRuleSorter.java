@@ -1,30 +1,27 @@
 package org.sidiff.ecore.recognitionrulesorter;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.difference.lifting.recognitionrulesorter.AbstractRecognitionRuleSorter;
 
 public class EcoreRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 
-	private static final String KEY = "EcoreRRSorter";
-	
-	private static final String NAME = "Ecore Recognition Rule Sorter";
-	
-	private static final String DOC_TYPE = EcorePackage.eNS_URI;
-
 	@Override
 	public String getName() {
-		return NAME;
+		return "Ecore Recognition Rule Sorter";
 	}
 
 	@Override
 	public String getKey() {
-		return KEY;
+		return "EcoreRRSorter";
 	}
 
 	@Override
-	public String getDocumentType(){
-		return DOC_TYPE;
+	public Set<String> getDocumentTypes(){
+		return Collections.singleton(EcorePackage.eNS_URI);
 	}
 	
 	@Override
@@ -37,8 +34,6 @@ public class EcoreRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 		} else if (is_EStringToStringMapEntry(n2)) {
 			return 1;
 		}
-
 		return 0;
 	}
-
 }

@@ -12,7 +12,6 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -115,7 +114,7 @@ public class LiftingSettings extends DifferenceSettings {
 		super();
 
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
 	}
 
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
@@ -123,7 +122,7 @@ public class LiftingSettings extends DifferenceSettings {
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
 
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
 	}
 
 	/**
@@ -136,10 +135,7 @@ public class LiftingSettings extends DifferenceSettings {
 		this.ruleBases = IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 
 		// Search proper recognition rule sorter:
-		this.rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(documentTypes);
-		if (this.rrSorter == null) {
-			this.rrSorter = RecognitionRuleSorterLibrary.getGenericRecognitionRuleSorter();
-		}
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
 	}
 
 	/**

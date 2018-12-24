@@ -14,7 +14,6 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterLibrary;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.lifting.Activator;
 import org.sidiff.integration.preferences.lifting.valueconverters.LiftingRuleBaseValueConverter;
@@ -23,7 +22,7 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 
 /**
  * 
- * @author Robert M�ller
+ * @author Robert Müller
  *
  */
 public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
@@ -144,7 +143,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			if(rrSorter == null) {
 				String key = store.getString(KEY_RECOGNITION_RULE_SORTER(documentType));
 				if(!key.isEmpty()) {
-					rrSorter = RecognitionRuleSorterLibrary.getRecognitionRuleSorter(key);
+					rrSorter = IRecognitionRuleSorter.MANAGER.getExtension(key).orElse(null);
 					if(rrSorter == null) {
 						addWarning("Recognition Rule Sorter with key '" + key + "' was not found.");
 					}
@@ -152,7 +151,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			}
 		}
 		if(rrSorter == null) {
-			rrSorter = RecognitionRuleSorterLibrary.getDefaultRecognitionRuleSorter(getDocumentTypes());
+			rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(getDocumentTypes()).orElseThrow();
 		}
 	}
 

@@ -12,13 +12,13 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.lifting.settingsadapter.LiftingSettingsAdapter;
 import org.sidiff.integration.preferences.lifting.valueconverters.LiftingRuleBaseValueConverter;
-import org.sidiff.integration.preferences.lifting.valueconverters.RecognitionRuleSorterValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
+import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 
 /**
  * 
  * Class for the domain specific lifting settings.
- * @author Daniel Roedder, cpietsch, Robert Müller
+ * @author Daniel Roedder, cpietsch, Robert MÃ¼ller
  */
 public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
@@ -27,9 +27,8 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		List<ILiftingRuleBase> ruleBases = new ArrayList<ILiftingRuleBase>(PipelineUtils.getAvailableRulebases(Collections.singleton(getDocumentType())));
+		List<ILiftingRuleBase> ruleBases = new ArrayList<>(PipelineUtils.getAvailableRulebases(Collections.singleton(getDocumentType())));
 		Collections.sort(ruleBases, new Comparator<ILiftingRuleBase>() {
-
 			@Override
 			public int compare(ILiftingRuleBase o1, ILiftingRuleBase o2) {
 				return o1.getName().compareTo(o2.getName());
@@ -43,19 +42,15 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 				new LiftingRuleBaseValueConverter());
 		list.add(ruleBasesField);
 
-		List<IRecognitionRuleSorter> recognitionRuleSorters = new ArrayList<IRecognitionRuleSorter>(PipelineUtils.getAvailableRecognitionRuleSorters(Collections.singleton(getDocumentType())));
-		Collections.sort(recognitionRuleSorters, new Comparator<IRecognitionRuleSorter>() {
-			@Override
-			public int compare(IRecognitionRuleSorter o1, IRecognitionRuleSorter o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
-		
+		List<IRecognitionRuleSorter> recognitionRuleSorters = new ArrayList<>(
+				IRecognitionRuleSorter.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true));
+		Collections.sort(recognitionRuleSorters, IRecognitionRuleSorter.MANAGER.getComparator());
+			
 		recognitionRuleSorterField = PreferenceFieldFactory.createRadioBox(
 				LiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
 				"Recognition Rule Sorter",
 				recognitionRuleSorters,
-				new RecognitionRuleSorterValueConverter());
+				ExtensionValueConverter.getInstance());
 		list.add(recognitionRuleSorterField);
 	}
 }

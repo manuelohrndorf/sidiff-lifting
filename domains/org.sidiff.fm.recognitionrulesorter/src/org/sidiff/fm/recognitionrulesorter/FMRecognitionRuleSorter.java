@@ -1,5 +1,8 @@
 package org.sidiff.fm.recognitionrulesorter;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.difference.lifting.recognitionrulesorter.AbstractRecognitionRuleSorter;
 
@@ -7,25 +10,19 @@ import de.imotep.featuremodel.variability.metamodel.FeatureModel.FeatureModelPac
 
 public class FMRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 
-	private static final String KEY = "FM_RRSorter";
-	
-	private static final String NAME = "FM Recognition Rule Sorter";
-	
-	private static final String DOC_TYPE = FeatureModelPackage.eNS_URI;
-	
 	@Override
 	public String getName() {
-		return NAME;
+		return "FM Recognition Rule Sorter";
 	}
 
 	@Override
 	public String getKey() {
-		return KEY;
+		return "FM_RRSorter";
 	}
 	
 	@Override
-	public String getDocumentType(){
-		return DOC_TYPE;
+	public Set<String> getDocumentTypes(){
+		return Collections.singleton(FeatureModelPackage.eNS_URI);
 	}
 
 	@Override
@@ -98,5 +95,4 @@ public class FMRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 	private boolean is_RequireConstraint(Node n){
 		return n.getType().getName().equals("RequireConstraint");
 	}
-
 }

@@ -92,9 +92,12 @@ public class LocalRemotePreferencesSupplier implements IRemotePreferencesSupplie
 	}
 
 	private List<SingleSelectionRemoteApplicationProperty<String>> createRecognitionRuleSorterPropertyList() {
-		Map<String, List<IRecognitionRuleSorter>> sorters =
-				PipelineUtils.getAllAvailableRecognitionRuleSorters().stream()
-					.collect(Collectors.groupingBy(IRecognitionRuleSorter::getDocumentType));
+		Map<String, List<IRecognitionRuleSorter>> sorters = new HashMap<>();
+		for(IRecognitionRuleSorter sorter : PipelineUtils.getAllAvailableRecognitionRuleSorters()) {
+			for(String docType : sorter.getDocumentTypes()) {
+				sorters.computeIfAbsent(docType, unused -> new ArrayList<>()).add(sorter);
+			}
+		}
 
 		List<SingleSelectionRemoteApplicationProperty<String>> recognitionRuleSorterProperties = new ArrayList<>();
 		for(String documentType : sorters.keySet()) {
