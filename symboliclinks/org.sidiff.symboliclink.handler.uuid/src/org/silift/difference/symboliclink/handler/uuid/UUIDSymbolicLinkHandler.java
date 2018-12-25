@@ -1,11 +1,10 @@
 package org.silift.difference.symboliclink.handler.uuid;
 
 
-import java.util.Iterator;
-
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
@@ -21,9 +20,6 @@ import org.silift.difference.uuidsymboliclink.UuidsymboliclinkFactory;
  *
  */
 public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandler {
-
-	private static final String NAME = "UUID Symbolic Link Handler";
-	private static final String KEY = "UUIDSymbolicLinkHandler";
 
 	@Override
 	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
@@ -53,16 +49,10 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 		
 		UUIDSymbolicLinkObject uuidSymbolicLink = (UUIDSymbolicLinkObject)symbolicLink;
 		
-		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
-			
-			EObject eObject = (EObject) iterator.next();
-			
+		for (EObject eObject : CollectionUtil.asIterable(targetModel.getAllContents())) {
 			String uuid = deriveUUID(eObject);
-			
 			EObjectLocation location = EMFResourceUtil.locate(targetModel, eObject);
-			
 			if(location.equals(EObjectLocation.RESOURCE_INTERNAL) && uuidSymbolicLink.getUuid().equals(uuid)){
-				
 				return eObject;
 			}
 		}
@@ -78,7 +68,7 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 	 *
 	 * @return a String representation of the UUID
 	 */
-	private String deriveUUID(EObject eObject){
+	private static String deriveUUID(EObject eObject){
 		
 		String uuid = EMFUtil.getXmiId(eObject);
 		
@@ -90,15 +80,5 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 	@Override
 	public boolean canComputeReliability() {
 		return false;
-	}
-	
-	@Override
-	public String getName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getKey(){
-		return KEY;
 	}
 }

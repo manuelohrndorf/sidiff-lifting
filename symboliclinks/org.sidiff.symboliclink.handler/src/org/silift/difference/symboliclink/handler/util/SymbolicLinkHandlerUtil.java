@@ -1,22 +1,17 @@
 package org.silift.difference.symboliclink.handler.util;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinks;
-import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * Util class for serializing {@link SymbolicLinks} and gathering {@link ISymbolicLinkHandler}.
  * 
- * @author cpietsch, Robert Müller
+ * @author cpietsch
  *
  */
 public class SymbolicLinkHandlerUtil {
@@ -25,41 +20,6 @@ public class SymbolicLinkHandlerUtil {
 	 * Symbolic links file extension.
 	 */
 	public static final String SYMBOLIC_LINKS_EXT = "symbl";
-	
-	/**
-	 * Gathers all available handlers which implements the {@link ISymbolicLinkHandler}
-	 * interface from the registry.
-	 * 
-	 * @return a set of {@link ISymbolicLinkHandler}
-	 */
-	public static Set<ISymbolicLinkHandler> getAvailableSymbolicLinkHandlers() {
-		Set<ISymbolicLinkHandler> linkResolvers = new HashSet<ISymbolicLinkHandler>();
-
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
-				ISymbolicLinkHandler.extensionPointID)) {
-			try {
-				ISymbolicLinkHandler linkResolverExtension = (ISymbolicLinkHandler) configurationElement.createExecutableExtension("symbolic_link_handler");
-				linkResolvers.add(linkResolverExtension);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return linkResolvers;
-	}
-
-	/**
-	 * Return the registered {@link ISymbolicLinkHandler} with the given key.
-	 * @param key the key of the symbolic link handler
-	 * @return symbolic link handler with the specified key, <code>null</code> if none was found
-	 */
-	public static ISymbolicLinkHandler getSymbolicLinkHandler(String key) {
-		for(ISymbolicLinkHandler symbolicLinkHandler : getAvailableSymbolicLinkHandlers()) {
-			if(symbolicLinkHandler.getKey().equals(key)) {
-				return symbolicLinkHandler;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Serializes the symbolic links of an {@link SymmetricDifference}

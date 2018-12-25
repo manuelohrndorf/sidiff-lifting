@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.extension.ExtensionManager;
+import org.sidiff.common.extension.IExtension;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 import org.silift.difference.symboliclink.SymbolicLinks;
@@ -16,27 +18,13 @@ import org.silift.difference.symboliclink.SymbolicLinks;
  * @author cpietsch
  *
  */
-public interface ISymbolicLinkHandler {
-	
-	/**
-	 * The shared extension point id.
-	 */
-	public static final String extensionPointID = "org.sidiff.symboliclink.handler.symbolic_link_handler_extension";
+public interface ISymbolicLinkHandler extends IExtension {
 
-	/**
-	 * Returns the name of the symbolic-link-handler.
-	 * 
-	 * @return the handler name
-	 */
-	public String getName();
-	
-	/**
-	 * Returns the short name (used as a key) of the symbolic-link-handler.
-	 * 
-	 * @return the handler short name (used as key)
-	 */
-	public String getKey();
-	
+	Description<ISymbolicLinkHandler> DESCRIPTION = Description.of(ISymbolicLinkHandler.class,
+			"org.sidiff.symboliclink.handler.symbolic_link_handler_extension", "symbolic_link", "symbolic_link_handler");
+
+	ExtensionManager<ISymbolicLinkHandler> MANAGER = new ExtensionManager<>(DESCRIPTION);
+
 	/**
 	 * Calculates a {@link SymbolicLink} for each referenced object located in the origin or target model
 	 * of the {@link AsymmetricDifference}.

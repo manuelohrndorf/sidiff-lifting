@@ -11,7 +11,6 @@ import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
-import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
  * 
@@ -149,7 +148,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			// symbolic links are disabled
 			symbolicLinkHandler = null;
 		} else {
-			symbolicLinkHandler = SymbolicLinkHandlerUtil.getSymbolicLinkHandler(symbolicLinkHandlerKey);
+			symbolicLinkHandler = ISymbolicLinkHandler.MANAGER.getExtension(symbolicLinkHandlerKey).orElse(null);
 			if(symbolicLinkHandler == null) {
 				addError("Symbolic Link Handler with key '" + symbolicLinkHandlerKey + "' was not found.");
 			}

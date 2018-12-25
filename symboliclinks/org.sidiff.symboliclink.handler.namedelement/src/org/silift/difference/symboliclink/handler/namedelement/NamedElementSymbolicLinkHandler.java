@@ -1,10 +1,9 @@
 package org.silift.difference.symboliclink.handler.namedelement;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.emf.EMFResourceUtil;
 import org.sidiff.common.emf.access.EObjectLocation;
 import org.silift.difference.namedelementsymboliclink.NamedElementSymbolicLinkObject;
@@ -20,9 +19,6 @@ import org.silift.difference.symboliclink.handler.AbstractDifferenceSymbolicLink
  */
 public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandler {
 
-	private static final String NAME = "Named Element Symbolic Link Handler";
-	private static final String KEY = "NamedElementSymbolicLinkHandler";
-	
 	@Override
 	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
 
@@ -31,12 +27,9 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 		
 		if(name != null){
 			link = NamedelementsymboliclinkFactory.eINSTANCE.createNamedElementSymbolicLinkObject();
-			
 			link.setQualifiedName(name);
-			
 			link.setReliability(1.f);
 		}
-		
 		return link;
 	}
 
@@ -45,9 +38,7 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 		
 		NamedElementSymbolicLinkObject namedElementSymbolicLink = (NamedElementSymbolicLinkObject)symbolicLinkObject;
 		
-		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
-			
-			EObject eObject = (EObject) iterator.next();
+		for (EObject eObject : CollectionUtil.asIterable(targetModel.getAllContents())) {
 			EObjectLocation location = EMFResourceUtil.locate(targetModel, eObject);
 			String name = deriveQualifiedName(eObject);
 			
@@ -67,7 +58,7 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 	 *
 	 * @return a String representation of the qualified Name
 	 */
-	private String deriveQualifiedName(EObject eObject){
+	private static String deriveQualifiedName(EObject eObject){
 		
 		String featureName = null;
 		
@@ -92,15 +83,5 @@ public class NamedElementSymbolicLinkHandler extends AbstractDifferenceSymbolicL
 	@Override
 	public boolean canComputeReliability() {
 		return false;
-	}
-	
-	@Override
-	public String getName(){
-		return NAME;
-	}
-	
-	@Override
-	public String getKey(){
-		return KEY;
 	}
 }

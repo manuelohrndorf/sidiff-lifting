@@ -5,11 +5,10 @@ import java.util.List;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
-import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
+import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
  * 
@@ -39,8 +38,8 @@ public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 		symbolicLinkHandlers = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,
 				"Symbolic Link Handler",
-				SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers(),
-				new SymbolicLinkHandlerValueConverter(),
+				ISymbolicLinkHandler.MANAGER.getSortedExtensions(),
+				ExtensionValueConverter.getInstance(),
 				true);
 		list.add(symbolicLinkHandlers);
 	}

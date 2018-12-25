@@ -1,8 +1,7 @@
 package org.sidiff.patching.patch.ui.widgets;
 
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -22,12 +21,11 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
-import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener{
 
 	private PatchingSettings settings;
-	private SortedMap<String, ISymbolicLinkHandler> symbolicLinkHandlers;
+	private Map<String, ISymbolicLinkHandler> symbolicLinkHandlers;
 
 	private Composite container;
 	private Button use_symbolicLinks;
@@ -35,11 +33,8 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 
 	public SymbolicLinkHandlerWidget() {
 		// Search registered symbolic link handler extension
-		Set<ISymbolicLinkHandler> symbolicLinkHandlerSet = SymbolicLinkHandlerUtil.getAvailableSymbolicLinkHandlers();
-		symbolicLinkHandlers = new TreeMap<String, ISymbolicLinkHandler>();
-		for (ISymbolicLinkHandler symbolicLinkHandler : symbolicLinkHandlerSet) {
-			symbolicLinkHandlers.put(symbolicLinkHandler.getName(), symbolicLinkHandler);
-		}
+		symbolicLinkHandlers = ISymbolicLinkHandler.MANAGER.getExtensions().stream()
+				.collect(Collectors.toMap(h -> h.getName(), h -> h));
 	}
 
 	@Override
