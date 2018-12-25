@@ -7,10 +7,9 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
-import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractDomainPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
+import org.sidiff.patching.transformation.ITransformationEngine;
 
 /**
  * Class for the domain specific {@link org.sidiff.patching.api.settings.PatchingSettings}
@@ -27,8 +26,8 @@ public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreference
 		transformationEngineField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
-				TransformationEngineUtil.getAvailableTransformationEngines(getDocumentType()),
-				new TransformationEngineValueConverter());
+				ITransformationEngine.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true),
+				ExtensionValueConverter.getInstance());
 		list.add(transformationEngineField);
 
 		modifiedDetectorField = PreferenceFieldFactory.createRadioBox(

@@ -6,16 +6,15 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
 import org.sidiff.integration.preferences.patching.settingsadapter.PatchingSettingsAdapter;
 import org.sidiff.integration.preferences.patching.valueconverters.SymbolicLinkHandlerValueConverter;
-import org.sidiff.integration.preferences.patching.valueconverters.TransformationEngineValueConverter;
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
+import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
 
 /**
  * 
  * Class for the patching settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder, Robert MÃ¼ller
  */
 public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
@@ -28,8 +27,8 @@ public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 		transformationEngineField = PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE,
 				"Transformation Engine",
-				TransformationEngineUtil.getAvailableTransformationEngines(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
-				new TransformationEngineValueConverter());
+				ITransformationEngine.MANAGER.getGenericExtensions(),
+				ExtensionValueConverter.getInstance());
 		list.add(transformationEngineField);
 
 		minReliability = PreferenceFieldFactory.createNumber(

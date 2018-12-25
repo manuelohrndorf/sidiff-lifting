@@ -3,6 +3,7 @@ package org.sidiff.patching.ui.wizard;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -38,7 +39,6 @@ import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
@@ -254,9 +254,9 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 						documentType = EMFModelAccess
 								.getCharacteristicDocumentType(resourceResult.get());
 					}
-					
-					ITransformationEngine transformationEngine = TransformationEngineUtil
-							.getFirstTransformationEngine(documentType);
+
+					ITransformationEngine transformationEngine =
+							ITransformationEngine.MANAGER.getDefaultExtension(Collections.singleton(documentType)).orElse(null);
 					if (transformationEngine == null) {
 						Display.getDefault().syncExec(new Runnable() {
 							@Override

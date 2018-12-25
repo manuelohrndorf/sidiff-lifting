@@ -24,7 +24,6 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.remote.common.settings.MultiSelectionRemoteApplicationProperty;
 import org.sidiff.remote.common.settings.RemotePreferences;
 import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationProperty;
@@ -195,7 +194,7 @@ public class ExtractionEngine {
 				this.liftingSettings.getMatcher(), this.liftingSettings.getCandidatesService(),
 				this.liftingSettings.getCorrespondencesService(), this.liftingSettings.getTechBuilder(), null,
 				new ModelSliceBasedArgumentManager(), new BatchInterruptHandler(),
-				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
+				ITransformationEngine.MANAGER.getDefaultExtension().orElseThrow(),
 				null, org.sidiff.patching.ExecutionMode.BATCH, org.sidiff.patching.PatchMode.PATCHING, 100,
 				org.sidiff.patching.validation.ValidationMode.NO_VALIDATION);
 	}

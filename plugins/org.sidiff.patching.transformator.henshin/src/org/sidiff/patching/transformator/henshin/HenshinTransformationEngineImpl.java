@@ -18,6 +18,7 @@ import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.extension.AbstractTypedExtension;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -38,7 +39,7 @@ import org.sidiff.patching.transformation.ITransformationEngine;
  * @author Dennis Koch, kehrer, reuling
  * 
  */
-public class HenshinTransformationEngineImpl implements ITransformationEngine {
+public class HenshinTransformationEngineImpl extends AbstractTypedExtension implements ITransformationEngine {
 
 	/**
 	 * The target resource on which the patch shall be applied.
@@ -140,13 +141,13 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 						try{
 							id = (String)eObject.eGet(eObject.eClass().getEStructuralFeature("uuid"));
 						}catch (Exception e){
-							System.out.println("WARNING: " + eObject + " has no uuid attribute");
+							LogUtil.log(LogEvent.WARNING, eObject + " has no uuid attribute");
 						}
 						if(id.isEmpty()){
 							id = EMFUtil.getXmiId(eObject);
 						}
 						EMFUtil.setXmiId((EObject)parameterValue, id);
-						outputMap.put(binding, (EObject) parameterValue);
+						outputMap.put(binding, parameterValue);
 					}
 				}
 			}
@@ -231,15 +232,5 @@ public class HenshinTransformationEngineImpl implements ITransformationEngine {
 
 	public Scope getScope() {
 		return scope;
-	}
-
-	@Override
-	public String getKey() {
-		return "HenshinTransformationEngine";
-	}
-
-	@Override
-	public String getName() {
-		return "Henshin Transformation Engine";
 	}
 }

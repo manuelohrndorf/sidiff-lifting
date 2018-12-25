@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.extension.ITypedExtension;
+import org.sidiff.common.extension.TypedExtensionManager;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.patching.ExecutionMode;
@@ -11,12 +13,12 @@ import org.sidiff.patching.exceptions.OperationNotExecutableException;
 import org.sidiff.patching.exceptions.OperationNotUndoableException;
 import org.sidiff.patching.exceptions.ParameterMissingException;
 
-public interface ITransformationEngine {
+public interface ITransformationEngine extends ITypedExtension {
 
-	String EXTENSION_POINT_ID = "org.sidiff.patching.transformationengine";
-	String DOCUMENT_TYPE = "documentType";
-	String EXECUTABLE = "class";
-	String DEFAULT_DOCUMENT_TYPE = "*";
+	Description<ITransformationEngine> DESCRIPTION = Description.of(ITransformationEngine.class,
+			"org.sidiff.patching.transformationengine", "client", "class");
+
+	TypedExtensionManager<ITransformationEngine> MANAGER = new TypedExtensionManager<>(DESCRIPTION);
 
 	/**
 	 * Initialization:
@@ -49,9 +51,4 @@ public interface ITransformationEngine {
 	 * @throws OperationNotUndoableException
 	 */
 	public void undo(OperationInvocation operationInvocation) throws OperationNotUndoableException;
-	
-	public String getKey();
-	
-	public String getName();
-
 }

@@ -65,7 +65,6 @@ import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
@@ -254,7 +253,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				config.getLiftingSettings().getTechBuilder(), null,
 				new ModelSliceBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
-				TransformationEngineUtil.getFirstTransformationEngine(ITransformationEngine.DEFAULT_DOCUMENT_TYPE),
+				ITransformationEngine.MANAGER.getDefaultExtension().orElseThrow(),
 				IModifiedDetector.MANAGER.getGenericExtensions().stream().findFirst().orElse(null), ExecutionMode.INTERACTIVE,
 				PatchMode.MERGING, 100, ValidationMode.NO_VALIDATION);
 		

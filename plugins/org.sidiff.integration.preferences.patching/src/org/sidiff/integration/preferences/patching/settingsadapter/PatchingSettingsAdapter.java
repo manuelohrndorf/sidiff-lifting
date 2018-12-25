@@ -9,7 +9,6 @@ import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapte
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.transformation.TransformationEngineUtil;
 import org.sidiff.patching.validation.ValidationMode;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
@@ -80,7 +79,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 			if(transformationEngine == null) {
 				String key = store.getString(KEY_TRANSFORMATION_ENGINE(documentType));
 				if(!key.isEmpty()) {
-					transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
+					transformationEngine = ITransformationEngine.MANAGER.getExtension(key).orElse(null);
 					if(transformationEngine == null) {
 						addWarning("Transformation Engine with key '" + key + "' was not found.");
 					}
@@ -92,7 +91,7 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(transformationEngine == null) {
 			String key = store.getString(KEY_TRANSFORMATION_ENGINE);
 			if(!key.isEmpty()) {
-				transformationEngine = TransformationEngineUtil.getTransformationEngine(key);
+				transformationEngine = ITransformationEngine.MANAGER.getExtension(key).orElse(null);
 				if(transformationEngine == null) {
 					addWarning("Transformation Engine with key '" + key + "' was not found.");
 				}

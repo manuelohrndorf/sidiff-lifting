@@ -49,6 +49,26 @@
 
    <element name="client">
       <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="documentType"/>
+         </choice>
+         <attribute name="key" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
@@ -59,14 +79,10 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="documentType" type="string" use="default" value="*">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
+   </element>
+
+   <element name="documentType" type="string">
    </element>
 
    <annotation>
