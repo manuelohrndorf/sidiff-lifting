@@ -35,7 +35,6 @@ import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.report.IPatchReportListener;
@@ -214,7 +213,7 @@ public class ApplyPatchWizard extends Wizard {
 					monitor.worked(20);
 
 					// Use interactive argument manager
-					IArgumentManager argumentManager = PatchingUtils.getArgumentManager(patch.getAsymmetricDifference(),
+					IArgumentManager argumentManager = IArgumentManager.MANAGER.getArgumentManager(patch.getAsymmetricDifference(),
 							resourceResult.get(), settings, settings.getExecutionMode());
 					if(argumentManager == null) {
 						Display.getDefault().syncExec(new Runnable() {

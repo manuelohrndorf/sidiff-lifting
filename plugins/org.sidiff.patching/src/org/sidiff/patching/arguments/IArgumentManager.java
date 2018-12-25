@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.extension.IExtension;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -21,22 +22,12 @@ import org.sidiff.patching.ExecutionMode;
  * 
  * @author kehrer
  */
-public interface IArgumentManager {
-
-	String EXTENSION_POINT_ID = "org.sidiff.patching.arguments.manager";
-	String EXTENSION_POINT_ATTRIBUTE = "class";
-
-	/**
-	 * Returns a unique key for this argument manager.
-	 * @return unique key
-	 */
-	public String getKey();
-
-	/**
-	 * Returns a readable name for this argument manager.
-	 * @return readable name
-	 */
-	public String getName();
+public interface IArgumentManager extends IExtension {
+	
+	Description<IArgumentManager> DESCRIPTION = Description.of(IArgumentManager.class,
+			"org.sidiff.patching.arguments.manager", "manager", "class");
+	
+	ArgumentManagerManager MANAGER = new ArgumentManagerManager(DESCRIPTION);
 
 	/**
 	 * Initializes the argument manager.

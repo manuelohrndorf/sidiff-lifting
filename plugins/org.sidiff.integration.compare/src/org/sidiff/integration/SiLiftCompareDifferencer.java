@@ -38,7 +38,6 @@ import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.api.util.PatchingUtils;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -47,7 +46,7 @@ import org.sidiff.patching.ui.view.ReportView;
 
 /**
  * 
- * @author Robert M�ller
+ * @author Robert Müller
  *
  */
 public class SiLiftCompareDifferencer {
@@ -191,7 +190,7 @@ public class SiLiftCompareDifferencer {
 		patchingSettings.setPatchMode(ancestor.getResource() == null ? PatchMode.PATCHING : PatchMode.MERGING);
 
 		// Use interactive argument manager
-		IArgumentManager argumentManager = PatchingUtils.getArgumentManager(getAsymmetricDifference(),
+		IArgumentManager argumentManager = IArgumentManager.MANAGER.getArgumentManager(getAsymmetricDifference(),
 				left.getResource(), patchingSettings, patchingSettings.getExecutionMode());
 		if(argumentManager == null) {
 			throw new RuntimeException("No suitable argument manager found");
