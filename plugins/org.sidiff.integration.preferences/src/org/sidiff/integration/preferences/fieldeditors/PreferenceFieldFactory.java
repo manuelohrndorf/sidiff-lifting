@@ -198,8 +198,10 @@ public class PreferenceFieldFactory {
 				ICompositePreferenceField<IPreferenceField> field =
 						createConfigurableExtensionFields((IConfigurableExtension)extension,
 								optionKey -> keyFunction.apply(extension.getKey(), optionKey));
-				composite.addField(field);
-				fields.put(extension.getKey(), field);
+				if(!field.isEmpty()) {
+					composite.addField(field);
+					fields.put(extension.getKey(), field);
+				}
 			}
 		}
 
@@ -224,12 +226,17 @@ public class PreferenceFieldFactory {
 			String key = keyFunction.apply(option.getKey());
 			if(option.getType() == Boolean.class) {
 				optionsComposite.addField(createCheckBox(key, option.getName()));
-			} else if(option.getType() == Short.class
-					|| option.getType() == Integer.class
-					|| option.getType() == Long.class) {
+			}  else if(option.getType() == Byte.class) {
+				optionsComposite.addField(createNumber(key, option.getName(), Byte.MIN_VALUE, Byte.MAX_VALUE));
+			} else if(option.getType() == Short.class) {
+				optionsComposite.addField(createNumber(key, option.getName(), Short.MIN_VALUE, Short.MAX_VALUE));
+			} else if(option.getType() == Integer.class) {
 				optionsComposite.addField(createNumber(key, option.getName(), Integer.MIN_VALUE, Integer.MAX_VALUE));
-			} else {
-				// use a text box as fallback
+			} else if(option.getType() == String.class
+					|| option.getType() == Float.class
+					|| option.getType() == Double.class
+					|| option.getType() == Long.class) {
+				// text field as fallback for some types
 				optionsComposite.addField(createText(key, option.getName()));
 			}
 		}
