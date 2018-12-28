@@ -28,12 +28,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.extension.configuration.ConfigurationOption;
+import org.sidiff.common.extension.configuration.IConfigurableExtension;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.configuration.IConfigurable;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
@@ -187,7 +188,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 
 		matcherConfigurations = new LinkedList<MatcherConfiguration>();
 		for(Map.Entry<String, IMatcher> entry : matchers.entrySet()) {
-			if(entry.getValue() instanceof IConfigurable) {
+			if(entry.getValue() instanceof IConfigurableExtension) {
 				MatcherConfiguration config = new MatcherConfiguration(entry.getValue());
 				config.createControl(config_container);
 				matcherConfigurations.add(config);
@@ -385,7 +386,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		private Map<String, Button> buttons;
 
 		public MatcherConfiguration(IMatcher matcher) {
-			if(!(matcher instanceof IConfigurable))
+			if(!(matcher instanceof IConfigurableExtension))
 				throw new ClassCastException("matcher must implement IConfigurable");
 			this.matcher = matcher;
 		}
@@ -397,19 +398,19 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			group.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false)); // must be grid data to properly show / hide the group
 
 			buttons = new HashMap<String, Button>();
-			final IConfigurable configurable = (IConfigurable)matcher;
-			for (final String optionKey : configurable.getConfigurationOptions().keySet()) {
+			final IConfigurableExtension configurable = (IConfigurableExtension)matcher;
+			for (ConfigurationOption<?> option : configurable.getConfiguration().getConfigurationOptions()) {
 				// use a checkbox for boolean values
-				if (configurable.getConfigurationOptions().get(optionKey) instanceof Boolean) {
+				if (option.getType() == Boolean.class) {
 					final Button button = new Button(group, SWT.CHECK);
-					button.setText(optionKey);
+					button.setText(option.getName());
 					button.addSelectionListener(new SelectionAdapter() {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
-							configurable.setConfigurationOption(optionKey, button.getSelection());
+							option.setValueUnsafe(button.getSelection());
 						}
 					});
-					buttons.put(optionKey, button);
+					buttons.put(option.getKey(), button);
 				}
 			}
 		}
@@ -434,11 +435,11 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			}
 
 			for(Map.Entry<String, Button> entry : buttons.entrySet()) {
-				boolean selection = (Boolean)((IConfigurable)matcher).getConfigurationOptions().get(entry.getKey());
+				boolean selection = (Boolean)((IConfigurableExtension)matcher).getConfiguration().getOption(entry.getKey());
 
 				for(IMatcher settingsMatcher : getSettingsMatchers()) {
-					if(settingsMatcher instanceof IConfigurable && matcher.getKey().equals(settingsMatcher.getKey())) {
-						selection = (Boolean)((IConfigurable)settingsMatcher).getConfigurationOptions().get(entry.getKey());
+					if(settingsMatcher instanceof IConfigurableExtension && matcher.getKey().equals(settingsMatcher.getKey())) {
+						selection = (Boolean)((IConfigurableExtension)settingsMatcher).getConfiguration().getOption(entry.getKey());
 						break;
 					}
 				}

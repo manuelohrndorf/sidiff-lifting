@@ -23,7 +23,7 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 		LogUtil.log(LogEvent.DEBUG, "Config: " + CONFIG_PATH);	
 		
 		// Configure AnnotationService
-		annotator.configure(XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
+		annotator.getConfiguration().setOption("configDocument", XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
 	}
 
 	@Override
