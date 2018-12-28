@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.exceptions.EAttributeNotFoundException;
@@ -30,7 +31,7 @@ import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.emf.metamodel.analysis.Mask;
-import org.sidiff.common.emf.modelstorage.ModelStorage;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
@@ -551,8 +552,7 @@ public class ConfigurationParser {
 
 					// load the referenced ecore file into the EPackage
 					// Registry.
-					String modelKey = ModelStorage.getInstance().loadEMF(ecoreFile.getPath());
-					Resource referencedEcoreRes = ModelStorage.getInstance().getModel(modelKey);
+					Resource referencedEcoreRes = new ResourceSetImpl().getResource(EMFStorage.fileToUri(ecoreFile), true);
 
 					EObject eObject = referencedEcoreRes.getContents().get(0);
 					if (eObject instanceof EPackage) {
