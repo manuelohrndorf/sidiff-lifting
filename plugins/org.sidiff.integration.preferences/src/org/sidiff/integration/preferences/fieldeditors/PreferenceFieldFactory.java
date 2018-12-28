@@ -199,7 +199,7 @@ public class PreferenceFieldFactory {
 						createConfigurableExtensionFields((IConfigurableExtension)extension,
 								optionKey -> keyFunction.apply(extension.getKey(), optionKey));
 				composite.addField(field);
-				fields.put(extension.getKey(), composite);
+				fields.put(extension.getKey(), field);
 			}
 		}
 
