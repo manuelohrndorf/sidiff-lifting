@@ -20,6 +20,7 @@ import org.sidiff.common.emf.exceptions.EClassifierUnresolvableException;
 import org.sidiff.common.emf.exceptions.EPackageNotFoundException;
 import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.io.IOUtil;
+import org.sidiff.common.io.ResourceUtil;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLResolver;
@@ -86,7 +87,12 @@ public class Serge implements IEditRuleGenerator {
 		validateSettings(settings, progress.split(10));
 		
 		// Parse configuration
-		parseConfiguration(progress.split(40));
+		try {
+			ResourceUtil.registerClassLoader(getClass().getClassLoader());
+			parseConfiguration(progress.split(40));
+		} finally {
+			ResourceUtil.unregisterClassLoader(getClass().getClassLoader());
+		}
 		
 		// Create Instance of global EClassifierInfoManagement
 		EClassifierInfoManagement ECM = EClassifierInfoManagement.getInstance();
@@ -287,15 +293,15 @@ public class Serge implements IEditRuleGenerator {
 		// Use default config (if config path not set in settings).
 		if (settings.getConfigPath() == null) {
 			progress.subTask("Setting up default configuration..");
-			this.settings.setConfigPath("platform:/plugin/" + PLUGIN_NAME + "/config/DefaultConfigTemplate.xml");
-			ConfigurationParser parser = new ConfigurationParser();
 			try {
-				parser.setupDefaultConfig(settings.getMetaModelNsUri(), Paths.get(this.settings.getConfigPath()));
+				settings.setConfigPath(IOUtil.getAbsolutePath(PLUGIN_NAME, "/config/DefaultConfigTemplate.xml").toString());
+				ConfigurationParser parser = new ConfigurationParser();
+				parser.setupDefaultConfig(settings.getMetaModelNsUri(), Paths.get(settings.getConfigPath()));
 				progress.worked(20);
 			} catch (Exception e) {
 				progress.done();
 				throw new EditRuleGenerationException(
-						"Error when loading selected meta model NsUri\n" + e.getMessage(), e);
+						"Error when loading selected meta model " + settings.getMetaModelNsUri() + ": " + e.getMessage(), e);
 			}
 		}
 		// .. or use refined config and parse it.
