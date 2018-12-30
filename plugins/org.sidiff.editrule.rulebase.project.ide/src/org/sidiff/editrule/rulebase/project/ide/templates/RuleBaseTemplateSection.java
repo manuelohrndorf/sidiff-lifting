@@ -36,7 +36,6 @@ import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 public class RuleBaseTemplateSection extends OptionTemplateSection {
 
-	private RuleBaseProjectPage01 ruleBaseProjectPage01 = null;
 	private EditRuleGenerationSettings settings;
 
 	public RuleBaseTemplateSection() {
@@ -72,7 +71,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public void addPages(Wizard wizard) {
-		ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
+		RuleBaseProjectPage01 ruleBaseProjectPage01 = new RuleBaseProjectPage01(settings);
 		wizard.addPage(ruleBaseProjectPage01);
 		markPagesAdded();
 	}

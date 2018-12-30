@@ -9,19 +9,15 @@ import org.sidiff.editrule.rulebase.project.ide.templates.RuleBaseTemplateSectio
  * This is a simple wizard for creating a new model file.
  */
 public class RulebaseProjectWizard  extends NewPluginTemplateWizard {
-	
 
 	@Override
 	public void init(IFieldData data) {		
 		super.init(data);
-		setWindowTitle("RuleBase Plugin-Project Wizard");
+		setWindowTitle("Rule-Base Plugin-Project Wizard");
 	}
-	
+
 	@Override
 	public ITemplateSection[] createTemplateSections() {
-		return new ITemplateSection[] {new RuleBaseTemplateSection()};
-		
+		return new ITemplateSection[] { new RuleBaseTemplateSection() };	
 	}
-
-
 }

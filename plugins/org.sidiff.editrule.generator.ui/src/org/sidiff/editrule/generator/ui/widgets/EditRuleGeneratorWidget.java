@@ -1,31 +1,27 @@
 package org.sidiff.editrule.generator.ui.widgets;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
-public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidgetValidation {
+public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetValidation {
 
-	
 	//FIXME Listen to changes and adapt the chosen generator accordingly
 	
 	protected EditRuleGenerationSettings settings;
@@ -36,13 +32,10 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 	protected List list_generators;
 
 	public EditRuleGeneratorWidget() {
-
-		getGenerators();
+		generators = new TreeMap<>(EditRuleGeneratorUtil.getAvailableEditRuleGenerators().stream()
+				.collect(Collectors.toMap(IEditRuleGenerator::getName, Function.identity())));
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	@Override
 	public Composite createControl(Composite parent) {
 
@@ -67,11 +60,8 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 		list_generators.setItems(generators.keySet().toArray(new String[0]));
 
 		// Set selection:
-		if (list_generators.getItems().length != 0) {		
-				list_generators.setSelection(0);
-
-		} else {
-			this.getWidget().setEnabled(false);
+		if (list_generators.getItemCount() > 0) {		
+			list_generators.setSelection(0);
 		}
 		list_generators.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -80,7 +70,7 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 			}
 		});
 
-		if(list_generators.getItems().length != 0){
+		if(list_generators.getItems().length != 0) {
 			settings.setGenerator(this.getSelection());
 		}
 
@@ -90,22 +80,6 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 	@Override
 	public Composite getWidget() {
 		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
-	protected void getGenerators() {
-		generators = new TreeMap<String, IEditRuleGenerator>();
-
-		// Search registered edit rule generator extension point
-		Set<IEditRuleGenerator> matcherSet = EditRuleGeneratorUtil.getAvailableEditRuleGenerators();
-		for (Iterator<IEditRuleGenerator> iterator = matcherSet.iterator(); iterator.hasNext();) {
-			IEditRuleGenerator matcher = iterator.next();
-			generators.put(matcher.getName(), matcher);
-		}
 	}
 
 	public IEditRuleGenerator getSelection() {
@@ -118,44 +92,19 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 
 	@Override
 	public boolean validate() {
-		if (list_generators.getSelectionIndex() == -1) {
-			return false;
-		}  else {
-			return true;
-		}
+		return list_generators.getSelectionIndex() != -1;
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
-		ValidationMessage message;
-		if (validate()) {
-			message = new ValidationMessage(ValidationType.OK, "");
-		}else{
-			message = new ValidationMessage(ValidationType.ERROR, "Please select an EditRule generator!");
+		if(list_generators.getItemCount() == 0) {
+			return new ValidationMessage(ValidationType.ERROR, "No Edit Rule generators available!");			
+		} else if(list_generators.getSelectionIndex() == -1) {
+			return new ValidationMessage(ValidationType.ERROR, "Please select an Edit Rule generator!");
 		}
-		return message;			
+		return ValidationMessage.OK;
 	}
 
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if (list_generators == null) {
-			throw new RuntimeException("Create controls first!");
-		}
-		list_generators.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (list_generators != null) {
-			list_generators.removeSelectionListener(listener);
-		}
-	}
-
-	public void setEnabled(Boolean enabled) {
-		for (Control c : container.getChildren()){
-			c.setEnabled(enabled);
-		}
-	}
 	public EditRuleGenerationSettings getSettings() {
 		return settings;
 	}
@@ -163,14 +112,4 @@ public class EditRuleGeneratorWidget implements IWidget, IWidgetSelection, IWidg
 	public void setSettings(EditRuleGenerationSettings settings) {
 		this.settings = settings;
 	}
-
-	public List getList_generators() {
-		return list_generators;
-	}
-
-	public void setList_generators(List list_generators) {
-		this.list_generators = list_generators;
-	}	
-	
-	
 }
