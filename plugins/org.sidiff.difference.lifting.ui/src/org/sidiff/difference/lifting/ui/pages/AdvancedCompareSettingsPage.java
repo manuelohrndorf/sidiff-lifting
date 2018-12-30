@@ -97,10 +97,6 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
 		builderWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
-// FIXME
-//		if (builderWidget.getDifferenceBuilders().size() > 1) {
-//			addWidget(algorithmsGroup, builderWidget);
-//		}
 		addWidget(algorithmsGroup, builderWidget);
 		
 		// Recognition Rule Sorter:
