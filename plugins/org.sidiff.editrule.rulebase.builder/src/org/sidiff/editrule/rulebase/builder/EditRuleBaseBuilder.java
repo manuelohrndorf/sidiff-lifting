@@ -1,6 +1,8 @@
 package org.sidiff.editrule.rulebase.builder;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -20,7 +24,6 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -32,7 +35,9 @@ import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.exceptions.ExceptionUtil;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
+import org.sidiff.common.io.IOUtil;
 import org.sidiff.editrule.consistency.validation.EditRuleValidation;
 import org.sidiff.editrule.consistency.validation.EditRuleValidator;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -65,6 +70,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	private static final Pattern MANIFEST_BUNDLE_NAME_PATTERN = Pattern.compile("(\\A|\\r|\\n)+Bundle-Name: (.+)(\\Z|\\r|\\n)+");
+	
 	/**
 	 * The global boolean to decide if in the last change there has been some EditRule involved.
 	 */
@@ -462,18 +469,26 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @return The rulebase manager of this project.
 	 */
 	private EditRuleBaseWrapper createEditRuleBaseWrapper() throws CoreException {
-
 		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
 		URI rulebase = EMFStorage.iResourceToURI(ruleBaseFile);
-
 		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
 		ruleBaseWrapper.setKey(getProject().getName());
-		ruleBaseWrapper.setName(
-				Platform.getBundle(getProject().getName()).getHeaders().get("Bundle-Name")
-				+ " (" + DATE_FORMAT.format(new Date()) + ")");
+		ruleBaseWrapper.setName(readManifestBundleName() + " (" + DATE_FORMAT.format(new Date()) + ")");
 		return ruleBaseWrapper;
 	}
-	
+
+	private String readManifestBundleName() throws CoreException {
+		try(InputStream manifest = getProject().getFolder("META-INF").getFile("MANIFEST.MF").getContents()) {
+			Matcher matcher = MANIFEST_BUNDLE_NAME_PATTERN.matcher(IOUtil.toString(manifest, StandardCharsets.UTF_8));
+			if(matcher.find()) {
+				return matcher.group(2);
+			}
+			throw new IllegalStateException("The manifest of the project does not specify a Bundle-Name");
+		} catch (IOException e) {
+			throw ExceptionUtil.asCoreException(e);
+		}
+	}
+
 	/**
 	 * @return The edit-rule attachment builder of this project.
 	 */

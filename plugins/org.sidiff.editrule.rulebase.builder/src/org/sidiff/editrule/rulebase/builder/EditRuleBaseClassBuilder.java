@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -73,12 +74,20 @@ public class EditRuleBaseClassBuilder {
 		writeClassFile(monitor, code);
 	}
 
+	private void prepareFolder(IFolder folder) throws CoreException {
+	    if (!folder.exists()) {
+	    	prepareFolder((IFolder)folder.getParent());
+	        folder.create(false, false, null);
+	    }
+	}
+
 	private void writeClassFile(IProgressMonitor monitor, String code) throws CoreException, IOException {
 		IFile classFile = getClassFile();
 		try (InputStream inputStream = new ByteArrayInputStream(code.getBytes(StandardCharsets.UTF_8))) {
 			if(classFile.exists()) {
 				classFile.setContents(inputStream, true, false, monitor);
 			} else {
+				prepareFolder((IFolder)classFile.getParent());
 				classFile.create(inputStream, true, monitor);
 			}			
 		}
