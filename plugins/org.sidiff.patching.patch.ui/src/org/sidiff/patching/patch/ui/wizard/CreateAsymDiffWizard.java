@@ -1,7 +1,6 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.matching.input.InputModels;
@@ -42,13 +41,10 @@ public class CreateAsymDiffWizard extends Wizard {
 	public boolean canFinish() {
 		return createPatchPage01.isPageComplete() && createPatchPage02.isPageComplete();
 	}
-	
 
 	@Override
 	public boolean performFinish() {
-		Job job = new CreateAsymDiffJob(inputModels, settings);
-		job.schedule();
+		new CreateAsymDiffJob(inputModels, settings).schedule();
 		return true;
 	}
-
 }

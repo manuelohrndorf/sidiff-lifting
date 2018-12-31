@@ -1,14 +1,11 @@
 package org.sidiff.patching.patch.ui.wizard;
 
-import java.util.Set;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
-import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
@@ -85,22 +82,6 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 		rulebaseWidget.setSettings(this.settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
-	}
-
-	public boolean isValidateModels() {
-		return validateWidget.isValidateModels();
-	}
-
-	public boolean isInverseDirection() {
-		return sourceWidget.isInverseDirection();
-	}
-
-	public ScopeWidget getScopeWidget() {
-		return scopeWidget;
-	}
-
-	public Set<ILiftingRuleBase> getSelectedRulebases() {
-		return rulebaseWidget.getSelection();
 	}
 
 	@Override

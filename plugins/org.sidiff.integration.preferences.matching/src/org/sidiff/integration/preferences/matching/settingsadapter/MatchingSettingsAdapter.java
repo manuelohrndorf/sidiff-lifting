@@ -96,11 +96,9 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		matchers = new ArrayList<IMatcher>();
 		for(String matcherKey : matcherKeys) {
 			IMatcher.MANAGER.getExtension(matcherKey).ifPresentOrElse(matcher -> {
-				if(matcher instanceof IConfigurableExtension) {
-					IExtensionConfiguration configuration = ((IConfigurableExtension)matcher).getConfiguration();
-					for(ConfigurationOption<?> option : configuration.getConfigurationOptions()) {
-						option.setValueUnsafe(store.getString(KEY_MATCHER_OPTIONS(matcherKey, option.getKey())));
-					}
+				IExtensionConfiguration configuration = ((IConfigurableExtension)matcher).getConfiguration();
+				for(ConfigurationOption<?> option : configuration.getConfigurationOptions()) {
+					option.setValueUnsafe(store.getString(KEY_MATCHER_OPTIONS(matcherKey, option.getKey())));
 				}
 				matchers.add(matcher);
 			}, () -> addWarning("Matcher with key '" + matcherKey + "' was not found."));

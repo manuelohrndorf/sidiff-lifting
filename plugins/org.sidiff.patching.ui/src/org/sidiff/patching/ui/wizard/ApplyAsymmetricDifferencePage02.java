@@ -4,18 +4,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 
 public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
-
-	private String DEFAULT_MESSAGE = "Apply a patch to a model";
 
 	private ApplyAsymmetricDifferencePage01 applyDiffPage01;
 
@@ -50,10 +48,11 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
+		matcherWidget = new MatchingEngineWidget(inputModels);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setDependency(applyDiffPage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
 
 		// Reliability:
 		reliabilityWidget = new ReliabilityWidget();
@@ -62,16 +61,8 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 		addWidget(container, reliabilityWidget);
 	}
 
-	public IMatcher getSelectedMatchingEngine() {
-		return matcherWidget.getSelection();
-	}
-
-	public ReliabilityWidget getReliabilityWidget() {
-		return reliabilityWidget;
-	}
-
 	@Override
 	protected String getDefaultMessage() {
-		return DEFAULT_MESSAGE;
+		return "Apply a patch to a model";
 	}
 }

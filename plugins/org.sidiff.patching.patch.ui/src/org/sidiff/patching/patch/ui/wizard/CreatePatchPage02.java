@@ -5,11 +5,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
@@ -18,7 +17,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 
 	private CreatePatchPage01 createPatchPage01;
 
-	private String default_message;
+	private String defaultMessage;
 
 	private MatchingEngineWidget matcherWidget;
 	private SymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
@@ -43,7 +42,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 			this.mode = "Asymmetric Difference";
 		}
 
-		this.default_message =  "Create a " + this.mode + " from the changes between the models: origin -> changed";
+		this.defaultMessage =  "Create a " + this.mode + " from the changes between the models: origin -> changed";
 	}
 
 	@Override
@@ -63,15 +62,16 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
+		matcherWidget = new MatchingEngineWidget(inputModels);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
 
 		// Symbolic Link Resolver:
 		symbolicLinkHandlerWidget = new SymbolicLinkHandlerWidget();
 		symbolicLinkHandlerWidget.setSettings(this.settings);
-		if(symbolicLinkHandlerWidget.isSymbolicLinkHandlerAvailable()){
+		if(symbolicLinkHandlerWidget.isSymbolicLinkHandlerAvailable()) {
 			symbolicLinkHandlerWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 			addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
 		}
@@ -80,27 +80,11 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
 		builderWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
-//FIXME
-//		if (builderWidget.getDifferenceBuilders().size() > 1) {
-//			addWidget(algorithmsGroup, builderWidget);
-//		}
 		addWidget(algorithmsGroup, builderWidget);
-	}
-
-	public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder() {
-		return builderWidget.getSelection();
-	}
-
-	public IMatcher getSelectedMatchingEngine() {
-		return matcherWidget.getSelection();
-	}
-
-	public MatchingEngineWidget getMatcherWidget() {
-		return matcherWidget;
 	}
 
 	@Override
 	protected String getDefaultMessage() {
-		return default_message;
+		return defaultMessage;
 	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -116,10 +117,11 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
+		matcherWidget = new MatchingEngineWidget(inputModels);
 		matcherWidget.setSettings(settings);
 		matcherWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);

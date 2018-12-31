@@ -1,71 +1,49 @@
 package org.sidiff.difference.technical.ui.widgets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.extension.configuration.ConfigurationOption;
-import org.sidiff.common.extension.configuration.IConfigurableExtension;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.AbstractModifiableWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
+import org.sidiff.matching.input.InputModels;
 
-public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> implements IWidgetValidation, ISettingsChangedListener {
 
-	private final boolean compabilityMode;
-	
 	protected MatchingSettings settings;
-	protected Collection<Resource> inputModels;
 
 	protected SortedMap<String, IMatcher> matchers;
-
+	
 	protected Composite container;
-	protected List list_matchers;
+	protected org.eclipse.swt.widgets.List list_matchers;
 	protected Button moveUp;
 	protected Button moveDown;
-	protected Collection<MatcherConfiguration> matcherConfigurations;
 
 	protected ValidationMessage message;
 
-	public MatchingEngineWidget(Collection<Resource> inputModels, boolean compabilityMode) {
-		this.inputModels = inputModels;
-		this.compabilityMode = compabilityMode;
-		getMatchers();
+	public MatchingEngineWidget(InputModels inputModels) {
+		this.matchers = new TreeMap<>(IMatcher.MANAGER.getMatchers(inputModels.getResources()).stream()
+				.collect(Collectors.toMap(matcher -> matcher.getName(), matcher -> matcher)));
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	@Override
 	public Composite createControl(Composite parent) {
 
@@ -87,7 +65,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			matchingLabel.setLayoutData(gridData);
 		}
 
-		list_matchers = new List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		list_matchers = new org.eclipse.swt.widgets.List(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		{
 			GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 			gridData.minimumHeight = 70;
@@ -95,67 +73,49 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 			list_matchers.setLayoutData(gridData);
 		}
 		list_matchers.setItems(matchers.keySet().toArray(new String[0]));
-		list_matchers.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateButtonStates();
-
-				IMatcher selection = getSelection();
-				if(selection != null) {
-					settings.setMatcher(selection);
-				}
-
-				updateConfigurationWidgetVisibility();
-			}
-		});
+		list_matchers.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> setSelection(getSelectedMatchers())));
 
 		moveUp = new Button(container, SWT.PUSH);
 		moveUp.setText("Move Up");
 		moveUp.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false, false));
-		moveUp.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+		moveUp.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
 				int index = list_matchers.getSelectionIndex();
-				if(index > 0){
+				if(index > 0) {
 					moveItem(index, index-1);
 				}
-			}
-		});
+			}));
 
 		moveDown = new Button(container, SWT.PUSH);
 		moveDown.setText("Move Down");
 		moveDown.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
-		moveDown.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
+		moveDown.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
 				int index = list_matchers.getSelectionIndex();
-				if(index < list_matchers.getItemCount()-1){
+				if(index < list_matchers.getItemCount()-1) {
 					moveItem(index, index+1);
 				}
-			}
-		});
+			}));
 
-		// Set selection:
 		if (list_matchers.getItems().length != 0) {
-			updateSelection();
-			if(settings.getMatcher() == null) {
-				settings.setMatcher(this.getSelection());
-			}
-		} else {
-			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Missing Matcher", "No matchers are found!");
+			initSelection();
 		}
-		
-		createConfigurationWidget();
-
 		return container;
 	}
-
-	private void moveItem(int from, int to) {
+	
+	protected void initSelection() {
+		setSelection(getSettingsMatchers());
+		
+		// select default
+		if(list_matchers.getSelectionCount() == 0) {
+			// Prefer Unique identifier matcher
+			int index = list_matchers.indexOf("Ecore ID Matcher");
+			list_matchers.setSelection(index >= 0 ? index : 0);
+		}
+	}
+	
+	protected void moveItem(int from, int to) {
 		if(from == to) {
 			return;
 		}
-
 		boolean wasSelected = list_matchers.isSelected(from);
 		if(wasSelected) list_matchers.deselect(from);
 		String item = list_matchers.getItem(from);
@@ -165,117 +125,69 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		updateButtonStates();
 	}
 
-	private void createConfigurationWidget() {
-		if(!compabilityMode) {
-			return;
-		}
-
-		// TODO DR 08.12.2015
-		/*
-		 * This shall be done in own widgets, one for @see{IConfigurable} similar to
-		 * this code and one for @see{IConfigurationCapable} which is responsible for
-		 * selecting one of the available configurations
-		 */
-
-		Composite config_container = new Composite(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			config_container.setLayout(grid);
-			config_container.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false, 2, 1));
-		}
-
-		matcherConfigurations = new LinkedList<MatcherConfiguration>();
-		for(Map.Entry<String, IMatcher> entry : matchers.entrySet()) {
-			if(entry.getValue() instanceof IConfigurableExtension) {
-				MatcherConfiguration config = new MatcherConfiguration(entry.getValue());
-				config.createControl(config_container);
-				matcherConfigurations.add(config);
-			}
-		}
-
-		updateConfigurationWidgetVisibility();
-		updateConfigurationWidgetSelection();
-	}
-
-	private void updateConfigurationWidgetVisibility() {
-		boolean layoutRequired = false;
-		if(matcherConfigurations != null) {
-			for(MatcherConfiguration config : matcherConfigurations) {
-				layoutRequired |= config.updateVisibility();
-			}
-		}
-		if(layoutRequired) {
-			getWidgetCallback().requestLayout();
-		}
-	}
-
-	private void updateConfigurationWidgetSelection() {
-		if(matcherConfigurations != null) {
-			for(MatcherConfiguration config : matcherConfigurations) {
-				config.updateSelection();
-			}
-		}
-	}
-
 	@Override
 	public Composite getWidget() {
 		return container;
 	}
 
-	protected void getMatchers() {
-		matchers = new TreeMap<>(IMatcher.MANAGER.getMatchers(inputModels).stream()
-				.collect(Collectors.toMap(matcher -> matcher.getName(), matcher -> matcher)));
+	@Override
+	public void hookSetSelection() {
+		if(list_matchers == null) {
+			return;
+		}
+
+		list_matchers.deselectAll();
+		IMatcher prevMatcher = null;
+		for(IMatcher matcher : getSelection()) {
+			int index = list_matchers.indexOf(matcher.getName());
+			if(index != -1) {
+				list_matchers.select(index);
+				// move the current matcher below the previous matcher
+				if(prevMatcher != null) {
+					int prevIndex = list_matchers.indexOf(prevMatcher.getName());
+					if(index < prevIndex) {
+						moveItem(index, prevIndex);
+					}
+				}
+				prevMatcher = matcher;
+			}
+		}
+
+		settings.setMatcher(getSelectedMatcher());
 	}
 
-	public IMatcher getSelection() {
-		// If more than one Matcher selected make use of @link{IncrementalMatcher} class.
-		String selection[] = list_matchers.getSelection();
-		// order the selection according to the position in the list,
-		// as the order of list_matchers.getSelection() is undefined
-		Arrays.sort(selection, new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				return list_matchers.indexOf(o1) - list_matchers.indexOf(o2);
-			}
-		});
+	protected List<IMatcher> getSelectedMatchers() {
+		return Stream.of(list_matchers.getSelection())
+			.sorted((o1,o2) -> list_matchers.indexOf(o1) - list_matchers.indexOf(o2))
+			.map(matchers::get)
+			.collect(Collectors.toList());
+	}
 
-		if(selection.length == 0) {
-			return null;
-		} else if(selection.length == 1) {
-			return matchers.get(selection[0]);
-		} else {
-			// Create Matcher list according to selection
-			ArrayList<IMatcher> imatchers = new ArrayList<IMatcher>();
-			for(String matcherName : selection){
-				imatchers.add(matchers.get(matcherName));
-			}
-			
-			// If there has been more than one beforehand, just update the matcher
-			if(settings.getMatcher() instanceof IncrementalMatcher){
-				IncrementalMatcher incMatcher = (IncrementalMatcher) settings.getMatcher();				
-				incMatcher.setMatchers(imatchers);
-				return settings.getMatcher();
-			}
-			// Otherwise create a new IncrementalMatcher and include all selected matchers
-			IncrementalMatcher incMatcher = new IncrementalMatcher(imatchers);
-			return incMatcher;
+	public IMatcher getSelectedMatcher() {
+		List<IMatcher> selection = getSelection();
+		switch(selection.size()) {
+			case 0: return null;
+			case 1: return selection.get(0);
+			default: return new IncrementalMatcher(selection);
 		}
 	}
-
-	public SortedMap<String, IMatcher> getMatchingEngines() {
-		return matchers;
+	
+	@Override
+	public List<IMatcher> getSelectableValues() {
+		return new ArrayList<>(matchers.values());
 	}
 
 	@Override
 	public boolean validate() {
-		if (list_matchers.getSelectionIndex() == -1) {
+		if(list_matchers.getItemCount() == 0) {
+			message = new ValidationMessage(ValidationType.ERROR, "No matchers are available");
+			return false;
+		} else if(list_matchers.getSelectionIndex() == -1) {
 			message = new ValidationMessage(ValidationType.ERROR, "Please select a matching engine");
 			return false;
-		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !getSelection().isResourceSetCapable()) {
+		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !getSelectedMatcher().isResourceSetCapable()) {
 			message = new ValidationMessage(ValidationType.ERROR,
-					"Selected matching engine does not support resourceset scope, select another matching engine!");
+					"Selected matching engine does not support ResourceSet scope, select another matching engine!");
 			return false;
 		} else {
 			message = ValidationMessage.OK;
@@ -289,29 +201,14 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	}
 
 	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if (list_matchers == null) {
-			throw new RuntimeException("Create controls first!");
-		}
-		list_matchers.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (list_matchers != null) {
-			list_matchers.removeSelectionListener(listener);
-		}
-	}
-
-	@Override
 	public void settingsChanged(Enum<?> item) {
 		if (item == MatchingSettingsItem.MATCHER) {
-			updateSelection();
+			setSelection(getSettingsMatchers());
 			getWidgetCallback().requestValidation();
 		}
 	}
 
-	private java.util.List<IMatcher> getSettingsMatchers() {
+	protected java.util.List<IMatcher> getSettingsMatchers() {
 		if(settings.getMatcher() == null) {
 			return Collections.emptyList();
 		} else if(settings.getMatcher() instanceof IncrementalMatcher) {
@@ -321,48 +218,7 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 		}
 	}
 
-	protected void updateSelection() {
-		if(list_matchers == null) {
-			return;
-		}
-
-		// select based on settings
-		if(settings.getMatcher() != null) {
-			list_matchers.deselectAll();
-			IMatcher prevMatcher = null;
-			for(IMatcher matcher : getSettingsMatchers()) {
-				int index = list_matchers.indexOf(matcher.getName());
-				if(index != -1) {
-					list_matchers.select(index);
-					// move the current matcher below the previous matcher
-					if(prevMatcher != null) {
-						int prevIndex = list_matchers.indexOf(prevMatcher.getName());
-						if(index < prevIndex) {
-							moveItem(index, prevIndex);
-						}
-					}
-					prevMatcher = matcher;
-				}
-			}
-		}
-
-		// select default
-		if(list_matchers.getSelectionCount() == 0) {
-			// Prefer Unique identifier matcher
-			int index = list_matchers.indexOf("Ecore ID Matcher");
-
-			if (index != -1)
-				list_matchers.setSelection(index);
-			else
-				list_matchers.setSelection(0);
-		}
-
-		updateButtonStates();
-		updateConfigurationWidgetVisibility();
-		updateConfigurationWidgetSelection();
-	}
-
-	private void updateButtonStates() {
+	protected void updateButtonStates() {
 		if(moveUp == null || moveDown == null) {
 			return;
 		}
@@ -377,75 +233,6 @@ public class MatchingEngineWidget extends AbstractWidget implements IWidgetSelec
 	public void setSettings(MatchingSettings settings) {
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
-		updateSelection();
-	}
-
-	private class MatcherConfiguration {
-		private IMatcher matcher;
-		private Group group;
-		private Map<String, Button> buttons;
-
-		public MatcherConfiguration(IMatcher matcher) {
-			if(!(matcher instanceof IConfigurableExtension))
-				throw new ClassCastException("matcher must implement IConfigurable");
-			this.matcher = matcher;
-		}
-
-		public void createControl(Composite parent) {
-			group = new Group(parent, SWT.NONE);
-			group.setText(matcher.getName());
-			group.setLayout(new RowLayout(SWT.VERTICAL));
-			group.setLayoutData(new GridData(SWT.FILL, SWT.LEFT, true, false)); // must be grid data to properly show / hide the group
-
-			buttons = new HashMap<String, Button>();
-			final IConfigurableExtension configurable = (IConfigurableExtension)matcher;
-			for (ConfigurationOption<?> option : configurable.getConfiguration().getConfigurationOptions()) {
-				// use a checkbox for boolean values
-				if (option.getType() == Boolean.class) {
-					final Button button = new Button(group, SWT.CHECK);
-					button.setText(option.getName());
-					button.addSelectionListener(new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							option.setValueUnsafe(button.getSelection());
-						}
-					});
-					buttons.put(option.getKey(), button);
-				}
-			}
-		}
-
-		public boolean updateVisibility() {
-			if(list_matchers == null || group == null) {
-				return false;
-			}
-
-			boolean old = group.isVisible();
-			boolean selected = list_matchers.isSelected(list_matchers.indexOf(matcher.getName()));
-
-			group.setVisible(selected);
-			((GridData)group.getLayoutData()).exclude = !selected;
-			group.requestLayout();
-			return old != selected;
-		}
-
-		public void updateSelection() {
-			if(buttons == null) {
-				return;
-			}
-
-			for(Map.Entry<String, Button> entry : buttons.entrySet()) {
-				boolean selection = (Boolean)((IConfigurableExtension)matcher).getConfiguration().getOption(entry.getKey());
-
-				for(IMatcher settingsMatcher : getSettingsMatchers()) {
-					if(settingsMatcher instanceof IConfigurableExtension && matcher.getKey().equals(settingsMatcher.getKey())) {
-						selection = (Boolean)((IConfigurableExtension)settingsMatcher).getConfiguration().getOption(entry.getKey());
-						break;
-					}
-				}
-
-				entry.getValue().setSelection(selection);
-			}
-		}
+		setSelection(getSettingsMatchers());
 	}
 }

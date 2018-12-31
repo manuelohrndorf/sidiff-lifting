@@ -100,8 +100,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 		settings.setPatchMode(PatchMode.MERGING);
 
 		// Gather all information
-		final WSUModels configuredMergeModels = this.threeWayMergePage01
-				.getMergeModelsWidget().getMergeModels();
+		final WSUModels configuredMergeModels = this.threeWayMergePage01.getMergeModels();
 		final Scope scope = settings.getScope();
 		final ValidationMode validationMode = settings.getValidationMode();
 		final IMatcher matcher = settings.getMatcher();

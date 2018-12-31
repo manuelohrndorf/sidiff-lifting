@@ -4,18 +4,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.matcher.IMatcher;
-import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.api.settings.PatchingSettings;
+import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.ApplyPatchMatchingEngineWidget;
 import org.sidiff.patching.ui.widgets.ApplyPatchSymbolicLinkHandlerWidget;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 
 public class ApplyPatchPage02 extends AbstractWizardPage {
-
-	private String DEFAULT_MESSAGE = "Apply a patch to a model";
 
 	private ApplyPatchPage01 applyPatchPage01;
 
@@ -62,6 +60,7 @@ public class ApplyPatchPage02 extends AbstractWizardPage {
 			matcherWidget.setSettings(this.settings);
 			matcherWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 			addWidget(algorithmsGroup, matcherWidget);
+			ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
 		}
 
 		// Reliability:
@@ -71,20 +70,8 @@ public class ApplyPatchPage02 extends AbstractWizardPage {
 		addWidget(container, reliabilityWidget);
 	}
 
-	public IMatcher getSelectedMatchingEngine() {
-		return matcherWidget.getSelection();
-	}
-
-	public ReliabilityWidget getReliabilityWidget() {
-		return reliabilityWidget;
-	}
-
-	public ApplyPatchMatchingEngineWidget getMatcherWidget() {
-		return matcherWidget;
-	}
-
 	@Override
 	protected String getDefaultMessage() {
-		return DEFAULT_MESSAGE;
+		return "Apply a patch to a model";
 	}
 }

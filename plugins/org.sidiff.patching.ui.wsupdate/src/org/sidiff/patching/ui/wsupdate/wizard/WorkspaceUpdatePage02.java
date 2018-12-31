@@ -4,11 +4,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
@@ -28,7 +27,6 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title,
 			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
 		super(pageName, title, Activator.getImageDescriptor("icon.png"));
-
 		this.settings = settings;
 		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		this.workbenchUpdatePage01 = workbenchUpdatePage01;
@@ -51,10 +49,11 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels.getResources(), true);
+		matcherWidget = new MatchingEngineWidget(inputModels);
 		matcherWidget.setSettings(this.settings);
 		matcherWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
 
 		// Reliability
 		reliabilityWidget = new ReliabilityWidget();
@@ -66,31 +65,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(this.settings);
 		builderWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
-		// FIXME
-		// if (builderWidget.getDifferenceBuilders().size() > 1) {
-		// addWidget(algorithmsGroup, builderWidget);
-		// }
 		addWidget(algorithmsGroup, builderWidget);
-	}
-
-	public ITechnicalDifferenceBuilder getSelectedTechnicalDifferenceBuilder() {
-		return builderWidget.getSelection();
-	}
-
-	public IMatcher getSelectedMatchingEngine() {
-		return matcherWidget.getSelection();
-	}
-
-	public MatchingEngineWidget getMatcherWidget() {
-		return matcherWidget;
-	}
-
-	public int getReliability() {
-		return reliabilityWidget.getReliability();
-	}
-
-	public ReliabilityWidget getReliabilityWidget() {
-		return reliabilityWidget;
 	}
 
 	@Override

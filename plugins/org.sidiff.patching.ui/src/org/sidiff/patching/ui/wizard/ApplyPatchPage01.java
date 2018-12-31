@@ -20,8 +20,6 @@ import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 
 public class ApplyPatchPage01 extends AbstractWizardPage {
 
-	private String DEFAULT_MESSAGE = "Apply a patch to a model";
-
 	private SettingsSourceWidget settingsSourceWidget;
 	private TargetModelWidget targetWidget;
 	private ScopeWidget scopeWidget;
@@ -70,16 +68,8 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 		addWidget(container, validationWidget);
 	}
 
-	public TargetModelWidget getTargetWidget(){
+	public TargetModelWidget getTargetWidget() {
 		return targetWidget;
-	}
-
-	public ScopeWidget getScopeWidget() {
-		return scopeWidget;
-	}
-
-	public ValidationModeWidget getValidationWidget() {
-		return validationWidget;
 	}
 
 	// internal access method for other wizard page
@@ -89,6 +79,6 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 
 	@Override
 	protected String getDefaultMessage() {
-		return DEFAULT_MESSAGE;
+		return "Apply a patch to a model";
 	}	
 }

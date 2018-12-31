@@ -15,8 +15,6 @@ import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 
 public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 
-	private String DEFAULT_MESSAGE = "Apply a patch to a model";
-
 	private SettingsSourceWidget settingsSourceWidget;
 	private TargetModelWidget targetWidget;
 	private ScopeWidget scopeWidget;
@@ -63,14 +61,6 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 		return targetWidget;
 	}
 
-	public ScopeWidget getScopeWidget() {
-		return scopeWidget;
-	}
-
-	public ValidationModeWidget getValidationWidget() {
-		return validationWidget;
-	}
-
 	// internal access method for other wizard page
 	SettingsSourceWidget getSettingsSourceWidget() {
 		return settingsSourceWidget;
@@ -78,6 +68,6 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 
 	@Override
 	protected String getDefaultMessage() {
-		return DEFAULT_MESSAGE;
+		return "Apply a patch to a model";
 	}	
 }
