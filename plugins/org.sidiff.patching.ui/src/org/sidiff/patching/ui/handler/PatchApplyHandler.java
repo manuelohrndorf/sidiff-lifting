@@ -16,10 +16,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.file.ZipUtil;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.patching.patch.patch.Patch;
@@ -37,58 +37,62 @@ public class PatchApplyHandler extends AbstractHandler {
 		if (selection.size() == 1) {
 			Object firstElement = selection.getFirstElement();
 			if (firstElement instanceof IFile) {
-				IFile iFile = (IFile) firstElement;
-				if (!iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)
-						&& !iFile.getFileExtension().equals(AsymmetricDiffFacade.PATCH_EXTENSION))
-					return -1;
-				// Load Patch
-				ResourceSet resourceSet = new ResourceSetImpl();
-				Resource patchResource = null;
-				
-				if (iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
-					patchResource = resourceSet.getResource(EMFStorage.pathToUri(iFile.getLocation().toOSString()), true);
-				} else {
-					String patchPath = iFile.getLocation().toOSString();
-					// TODO own util class
-					// Search manifest:
-					try {
-						for (String entry : ZipUtil.getEntries(Paths.get(patchPath))) {
-							if (entry.endsWith("MF")) {
-								URI uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
-								patchResource = resourceSet.getResource(uri_patch, true);
+				Display.getDefault().asyncExec(() -> {
+					IFile iFile = (IFile) firstElement;
+					if (!iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)
+							&& !iFile.getFileExtension().equals(AsymmetricDiffFacade.PATCH_EXTENSION)) {
+						return;					
+					}
+					// Load Patch
+					ResourceSet resourceSet = new ResourceSetImpl();
+					Resource patchResource = null;
+					
+					if (iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
+						patchResource = resourceSet.getResource(EMFStorage.pathToUri(iFile.getLocation().toOSString()), true);
+					} else {
+						String patchPath = iFile.getLocation().toOSString();
+						// TODO own util class
+						// Search manifest:
+						try {
+							for (String entry : ZipUtil.getEntries(Paths.get(patchPath))) {
+								if (entry.endsWith("MF")) {
+									URI uri_patch = URI.createURI(ARCHIVE_URI_PREFIX + patchPath + ARCHIVE_SEPERATOR + entry);
+									patchResource = resourceSet.getResource(uri_patch, true);
+								}
 							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						
 					}
-
-				}
-				
-				if (patchResource == null || patchResource.getContents().size() == 0) {
-					MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model", "There is something wrong with this patch!");
-					return null;
-				}
-				
-				if (iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
-					WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							new ApplyAsymmetricDifferenceWizard((AsymmetricDifference) patchResource.getContents().get(0)));
-					wizardDialog.open();
-				}else{
-				
-					EObject root = patchResource.getContents().get(0);
-					if(root instanceof Patch){
-						Patch patch = (Patch) root;
-						WizardDialog wizardDialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-								new ApplyPatchWizard(patch,  (IFile) firstElement));
+					
+					if (patchResource == null || patchResource.getContents().size() == 0) {
+						MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Error in patch model",
+								"There is something wrong with this patch!");
+						return;
+					}
+					
+					if (iFile.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
+						WizardDialog wizardDialog = new WizardDialog(UIUtil.getActiveShell(),
+								new ApplyAsymmetricDifferenceWizard((AsymmetricDifference) patchResource.getContents().get(0)));
 						wizardDialog.open();
+					}else{
+						
+						EObject root = patchResource.getContents().get(0);
+						if(root instanceof Patch){
+							Patch patch = (Patch) root;
+							WizardDialog wizardDialog = new WizardDialog(UIUtil.getActiveShell(),
+									new ApplyPatchWizard(patch,  (IFile) firstElement));
+							wizardDialog.open();
+						}
+						else {
+							MessageDialog.openError(
+									UIUtil.getActiveShell(),
+									"Patch Model Error","This is no patch model");
+						}
 					}
-					else {
-						MessageDialog.openError(
-								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-								"Patch Model Error","This is no patch model");
-					}
-				}
+				});
 			}
 		}
 		return null;
