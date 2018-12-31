@@ -53,12 +53,12 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 	public RulebaseWidget(RecognitionEngineWidget recognitionWidget, InputModels inputModels) {
 		this.inputModels = inputModels;
-		getRulebasesEntries();
+		initRulebasesEntries();
 	}
 
 	public RulebaseWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
-		getRulebasesEntries();
+		initRulebasesEntries();
 	}
 
 	/**
@@ -144,11 +144,8 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 			@Override
 			public Image getImage(Object element) {
-				if (((RuleBaseEntry) element).activated) {
-					return Activator.getImageDescriptor("checked.png").createImage();
-				} else {
-					return Activator.getImageDescriptor("unchecked.png").createImage();
-				}
+				String fileName = ((RuleBaseEntry) element).activated ? "checked.png" : "unchecked.png";
+				return Activator.getImageDescriptor(fileName).createImage();
 			}
 		});
 
@@ -221,7 +218,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 		return container;
 	}
 
-	private void getRulebasesEntries() {
+	private void initRulebasesEntries() {
 		// Search registered rulebase extension points
 		Set<ILiftingRuleBase> rulebaseInstances = PipelineUtils.getAvailableRulebases(
 				inputModels.getDocumentTypes());
@@ -240,13 +237,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 	private void updateRulebasesSelection() {
 		if(settings.getRuleBases() != null) {
 			for(RuleBaseEntry entry : rulebases) {
-				entry.activated = false;
-				for(ILiftingRuleBase rulebase : settings.getRuleBases()) {
-					if(rulebase.getName().equals(entry.rulebase.getName())) {
-						entry.activated = true;
-						break;
-					}
-				}
+				entry.activated = settings.getRuleBases().stream().anyMatch(rb -> rb.getKey().equals(entry.rulebase.getKey()));
 			}
 			if(rulebaseTableViewer != null) {
 				rulebaseTableViewer.refresh();
@@ -256,7 +247,7 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 	public class RuleBaseEntry implements Comparable<RuleBaseEntry>{
 		public ILiftingRuleBase rulebase;
-		public Boolean activated;
+		public boolean activated;
 
 		public RuleBaseEntry(ILiftingRuleBase rulebase, Boolean activated) {
 			super();

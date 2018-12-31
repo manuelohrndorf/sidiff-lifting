@@ -158,9 +158,11 @@ public class ExtractionEngine {
 		Set<ILiftingRuleBase> ruleBases = new HashSet<ILiftingRuleBase>();
 		for(MultiSelectionRemoteApplicationProperty<String> property : preferences.getExtractionProperties().getRuleBaseProperties()) {
 			if(documentTypes.contains(property.getDocumentType())) {
-				for(String name : property.getValues()) {
-					ILiftingRuleBase ruleBase = PipelineUtils.getRulebase(name);
-					ruleBases.add(ruleBase);
+				for(String key : property.getValues()) {
+					ILiftingRuleBase ruleBase = PipelineUtils.getRulebase(key);
+					if(ruleBase != null) {
+						ruleBases.add(ruleBase);
+					}
 				}
 			}
 		}

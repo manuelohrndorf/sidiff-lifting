@@ -120,19 +120,14 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	}
 	
 	/**
-	 * Returns the lifting rulebase identified by the name.
+	 * Returns the lifting rulebase identified by the key.
 	 * 
-	 * @param name
-	 *            The name of the rulebase
-	 * @return the {@link ILiftingRuleBase} identified by the name
+	 * @param key
+	 *            The key of the rulebase
+	 * @return the {@link ILiftingRuleBase} identified by the key
 	 */
-	public static ILiftingRuleBase getRulebase(String name) {
-		for(ILiftingRuleBase rb: getAllAvailableRulebases()) {
-			if(rb.getName().equals(name)) {
-				return rb;
-			}
-		}
-		return null;
+	public static ILiftingRuleBase getRulebase(String key) {
+		return IRuleBaseProject.MANAGER.getRuleBase(key, ILiftingRuleBase.class).orElse(null);
 	}
 
 	/**

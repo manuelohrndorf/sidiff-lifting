@@ -120,7 +120,7 @@ public class LocalRemotePreferencesSupplier implements IRemotePreferencesSupplie
 		List<MultiSelectionRemoteApplicationProperty<String>> ruleBaseProperties = new ArrayList<>();
 		for(String documentType : ruleBases.keySet()) {
 			Map<String, String> items = ruleBases.get(documentType).stream()
-					.collect(Collectors.toMap(ILiftingRuleBase::getName, ILiftingRuleBase::getName));
+					.collect(Collectors.toMap(ILiftingRuleBase::getKey, ILiftingRuleBase::getName));
 			ruleBaseProperties.add(
 					createMultiStringProperty(ExtractionProperties.RULE_BASE, documentType, items, new ArrayList<>(items.keySet())));
 		}
