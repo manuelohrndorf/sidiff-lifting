@@ -71,23 +71,16 @@
             <iterate
                   ifEmpty="false"
                   operator="and">
-               <test
-                     forcePluginActivation="true"
-                     property="org.sidiff.serge.ui.properties.sergeFile">
-               </test>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="serge">
+                  </test>
+               </adapt>
             </iterate>
          </with>
       </definition>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="org.sidiff.editrule.generator.serge.ui.handlers.SergeFilePropertyTester"
-            id="org.sidiff.serge.ui.sergePropertyTester"
-            namespace="org.sidiff.serge.ui.properties"
-            properties="sergeFile"
-            type="org.eclipse.core.resources.IFile">
-      </propertyTester>
    </extension>
 
 </plugin>
