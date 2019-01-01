@@ -117,8 +117,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
-		matcherWidget.setSettings(settings);
+		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(settingsSourceWidget);
 		addWidget(algorithmsGroup, matcherWidget);
 		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);

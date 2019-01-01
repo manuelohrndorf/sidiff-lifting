@@ -3,6 +3,8 @@ package org.sidiff.difference.technical.ui.widgets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractModifiableWidget;
+import org.sidiff.common.ui.widgets.IWidgetDisposable;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matcher.IMatcher;
@@ -26,7 +29,7 @@ import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.matching.input.InputModels;
 
-public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> implements IWidgetValidation, ISettingsChangedListener {
+public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> implements IWidgetValidation, IWidgetDisposable, ISettingsChangedListener {
 
 	protected MatchingSettings settings;
 
@@ -39,9 +42,11 @@ public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> imp
 
 	protected ValidationMessage message;
 
-	public MatchingEngineWidget(InputModels inputModels) {
+	public MatchingEngineWidget(InputModels inputModels, MatchingSettings settings) {
 		this.matchers = new TreeMap<>(IMatcher.MANAGER.getMatchers(inputModels.getResources()).stream()
 				.collect(Collectors.toMap(matcher -> matcher.getName(), matcher -> matcher)));
+		this.settings = Objects.requireNonNull(settings, "Settings must not be null");
+		this.settings.addSettingsChangedListener(this);
 	}
 
 	@Override
@@ -95,20 +100,19 @@ public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> imp
 				}
 			}));
 
-		if (list_matchers.getItems().length != 0) {
+		if (list_matchers.getItems().length > 0) {
 			initSelection();
 		}
 		return container;
 	}
-	
+
 	protected void initSelection() {
-		setSelection(getSettingsMatchers());
-		
-		// select default
-		if(list_matchers.getSelectionCount() == 0) {
-			// Prefer Unique identifier matcher
-			int index = list_matchers.indexOf("Ecore ID Matcher");
-			list_matchers.setSelection(index >= 0 ? index : 0);
+		if(getSelection().isEmpty()) {
+			setSelection(getSettingsMatchers());
+			if(getSelection().isEmpty()) {
+				// select default
+				setSelection(Optional.ofNullable(matchers.get("Ecore ID Matcher")).stream().collect(Collectors.toList()));
+			}
 		}
 	}
 	
@@ -230,9 +234,8 @@ public class MatchingEngineWidget extends AbstractModifiableWidget<IMatcher> imp
 		return settings;
 	}
 
-	public void setSettings(MatchingSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
-		setSelection(getSettingsMatchers());
+	@Override
+	public void dispose() {
+		settings.removeSettingsChangedListener(this);
 	}
 }

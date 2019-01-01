@@ -17,6 +17,7 @@ import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.patch.Patch;
 
@@ -25,10 +26,10 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 	private Patch patch;
 	private Button use_manifest;
 
-	public ApplyPatchMatchingEngineWidget(Patch patch) {
+	public ApplyPatchMatchingEngineWidget(Patch patch, MatchingSettings settings) {
 		super(new InputModels(
 				patch.getAsymmetricDifference().getOriginModel(),
-				patch.getAsymmetricDifference().getChangedModel()));
+				patch.getAsymmetricDifference().getChangedModel()), settings);
 		this.patch = patch;
 	}
 
@@ -97,7 +98,7 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 				} else {
 					use_manifest.setSelection(false);
 					use_manifest.setEnabled(false);
-					list_matchers.deselectAll();
+					setSelection(Collections.emptyList());
 					list_matchers.setEnabled(true);
 					MessageDialogUtil.showMessageDialog("Missing Matcher", "Corresponding matcher is not found! Please choose another one.");
 				}
@@ -107,8 +108,6 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 			list_matchers.setEnabled(true);
 		}
 
-		if(list_matchers.getSelectionCount() == 0) {
-			super.initSelection();
-		}
+		super.initSelection();
 	}
 }

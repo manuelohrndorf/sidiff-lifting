@@ -49,8 +49,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
-		matcherWidget.setSettings(this.settings);
+		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);

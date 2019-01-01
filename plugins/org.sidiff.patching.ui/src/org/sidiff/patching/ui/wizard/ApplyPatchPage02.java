@@ -56,8 +56,7 @@ public class ApplyPatchPage02 extends AbstractWizardPage {
 			addWidget(algorithmsGroup, symbolicLinkHandlerWidget);
 		} else {
 			// Matcher:
-			matcherWidget = new ApplyPatchMatchingEngineWidget(patch);
-			matcherWidget.setSettings(this.settings);
+			matcherWidget = new ApplyPatchMatchingEngineWidget(patch, settings);
 			matcherWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 			addWidget(algorithmsGroup, matcherWidget);
 			ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);

@@ -62,8 +62,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		}
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels);
-		matcherWidget.setSettings(this.settings);
+		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 		addWidget(algorithmsGroup, matcherWidget);
 		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
