@@ -44,11 +44,11 @@ public class SymbolicLinkHandlerUtil {
 			
 			String fileName = "LinksModel" + c + "." + SYMBOLIC_LINKS_EXT;
 			URI savePath = EMFStorage.pathToUri(path + fileName);
-			org.sidiff.common.emf.modelstorage.EMFStorage.eSaveAs(savePath, symbolicLinks);
+			EMFStorage.eSaveAs(savePath, symbolicLinks);
 			if(c == 'A'){
-				symmetricDifference.setUriModelA(path + fileName);
+				symmetricDifference.setUriModelA(fileName);
 			}else if(c == 'B'){
-				symmetricDifference.setUriModelB(path + fileName);
+				symmetricDifference.setUriModelB(fileName);
 			}
 			c++;
 		}
@@ -79,13 +79,12 @@ public class SymbolicLinkHandlerUtil {
 			String fileName = "LinksModel" + c + "." + SYMBOLIC_LINKS_EXT;
 			URI savePath = EMFStorage.pathToUri(path + fileName);
 			EMFStorage.eSaveAs(savePath, symbolicLinks, true);
-			String relativeSavePath = EMFStorage.pathToRelativeUri(path, path+fileName).toString();
 			if(c == 'A'){
-				asymmetricDifference.getSymmetricDifference().setUriModelA(relativeSavePath);
-				asymmetricDifference.setUriOriginModel(relativeSavePath);
+				asymmetricDifference.getSymmetricDifference().setUriModelA(fileName);
+				asymmetricDifference.setUriOriginModel(fileName);
 			}else if(c == 'B'){
-				asymmetricDifference.getSymmetricDifference().setUriModelB(relativeSavePath);
-				asymmetricDifference.setUriChangedModel(relativeSavePath);
+				asymmetricDifference.getSymmetricDifference().setUriModelB(fileName);
+				asymmetricDifference.setUriChangedModel(fileName);
 			}
 			c++;
 		}
