@@ -56,9 +56,6 @@ public class PatchCreator {
 	private String resourceA_name;
 	private String resourceB_name;
 
-	private String relativeResASavePath;
-	private String relativeResBSavePath;
-
 	private String symmetricDiff_name;
 	private String asymmetricDiff_name;
 	
@@ -154,15 +151,10 @@ public class PatchCreator {
 				}
 			}
 
-			relativeResASavePath = EMFStorage.pathToRelativeUri(savePath,
-					resASavePath).toString();
-			relativeResBSavePath = EMFStorage.pathToRelativeUri(savePath,
-					resBSavePath).toString();
-
-			symmetricDifference.setUriModelA(relativeResASavePath);
-			symmetricDifference.setUriModelB(relativeResBSavePath);
-			asymmetricDifference.setUriOriginModel(relativeResASavePath);
-			asymmetricDifference.setUriChangedModel(relativeResBSavePath);
+			symmetricDifference.setUriModelA(resourceA_name);
+			symmetricDifference.setUriModelB(resourceB_name);
+			asymmetricDifference.setUriOriginModel(resourceA_name);
+			asymmetricDifference.setUriChangedModel(resourceB_name);
 			patch.getSettings().put("matcher", matcher.getName());
 		} else {
 			symbolicLinksSet = symbolicLinkHandler.generateSymbolicLinks(
