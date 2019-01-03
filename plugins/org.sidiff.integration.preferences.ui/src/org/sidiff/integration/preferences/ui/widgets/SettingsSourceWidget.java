@@ -2,8 +2,6 @@ package org.sidiff.integration.preferences.ui.widgets;
 
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,11 +22,9 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
@@ -37,11 +33,19 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.matching.input.InputModels;
 
 /**
- * 
- * @author Robert Müller
- *
+ * <p>The settings source widget allows selecting a source from which
+ * the {@link ISettings} are to be adapted.</p>
+ * <p>The source can be the global preference store, as well as
+ * a project specific preference store. If these options are chosen,
+ * all widgets dependent on this one are disabled. The third option
+ * enables all widgets and allows selection of custom settings.</p>
+ * <p>Which properties of the settings are considered/changed, can be configured
+ * by using {@link #addConsideredSettings(Enum...)} to add the enum literals
+ * from the *SettingsItem enums. If no considered items are set, all items
+ * will be considered.</p>
+ * @author Robert MÃ¼ller
  */
-public class SettingsSourceWidget extends AbstractWidget implements IWidgetValidation, IWidgetSelection {
+public class SettingsSourceWidget extends AbstractWidget implements IWidgetValidation {
 
 	public static enum Source {
 		GLOBAL,
@@ -54,7 +58,6 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private Group group;
 	private Map<Source, Button> buttons;
 	private SelectionListener buttonSelectionListener;
-	private List<SelectionListener> selectionListeners;
 
 	// inputs
 	private ISettings settings;
@@ -88,9 +91,8 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		this.settings = settings;
 		this.project = project;
 		// some other widgets change the original set, so a local copy is created here
-		this.documentTypes = new HashSet<String>(documentTypes);
-		this.consideredSettings = new HashSet<Enum<?>>();
-		this.selectionListeners = new LinkedList<SelectionListener>();
+		this.documentTypes = new HashSet<>(documentTypes);
+		this.consideredSettings = new HashSet<>();
 	}
 
 	@Override
@@ -163,11 +165,6 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		updateSettings();
 
 		// notify listeners
-		for(SelectionListener listener : selectionListeners) {
-			Event e = new Event();
-			e.widget = buttons.get(source);
-			listener.widgetSelected(new SelectionEvent(e));
-		}
 		getWidgetCallback().requestValidation();
 
 		// update enabled state of dependents
@@ -246,16 +243,6 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	@Override
 	public ValidationMessage getValidationMessage() {
 		return message;
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		selectionListeners.add(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		selectionListeners.remove(listener);
 	}
 
 	/**
