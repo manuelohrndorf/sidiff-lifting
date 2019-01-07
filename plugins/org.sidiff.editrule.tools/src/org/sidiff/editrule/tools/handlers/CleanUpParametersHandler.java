@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
-import org.sidiff.common.emf.modelstorage.EMFHandlerUtil;
+import org.sidiff.common.emf.ui.util.EMFHandlerUtil;
 import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.ui.util.UIUtil;
 
