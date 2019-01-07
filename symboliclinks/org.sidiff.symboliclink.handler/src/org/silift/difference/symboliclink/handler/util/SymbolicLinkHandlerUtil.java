@@ -3,7 +3,7 @@ package org.silift.difference.symboliclink.handler.util;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.URI;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinks;
@@ -30,31 +30,24 @@ public class SymbolicLinkHandlerUtil {
 	 * 			an collection of {@link SymbolicLinks} objects
 	 * @param symmetricDifference
 	 * 			a {@link SymmetricDifference}
-	 * @param path
-	 * 			the absolute path of the link files (will be parsed into workspace
-	 * 			relative path)
+	 * @param linkFilesFolder URI of folder containing the link files
 	 * 			
 	 */
-	public static void serializeSymbolicLinks(Collection<SymbolicLinks> symbolicLinksSet, SymmetricDifference symmetricDifference, String path){
-		if (!(path.endsWith("/") || path.endsWith("\\"))) {
-			path = path + "/";
-		}
+	public static void serializeSymbolicLinks(SiDiffResourceSet resourceSet, Collection<SymbolicLinks> symbolicLinksSet,
+			SymmetricDifference symmetricDifference, URI linkFilesFolder) {
 		char c = 'A';
 		for(SymbolicLinks symbolicLinks : symbolicLinksSet){
-			
 			String fileName = "LinksModel" + c + "." + SYMBOLIC_LINKS_EXT;
-			URI savePath = EMFStorage.pathToUri(path + fileName);
-			EMFStorage.eSaveAs(savePath, symbolicLinks);
-			if(c == 'A'){
+			resourceSet.saveEObjectAs(symbolicLinks, linkFilesFolder.appendSegment(fileName));
+			if(c == 'A') {
 				symmetricDifference.setUriModelA(fileName);
-			}else if(c == 'B'){
+			} else if(c == 'B') {
 				symmetricDifference.setUriModelB(fileName);
 			}
 			c++;
 		}
 	}
-	
-	
+
 	/**
 	 * Serializes the symbolic links of an {@link AsymmetricDifference}
 	 * and replaces the appropriate uris of the models from
@@ -64,25 +57,19 @@ public class SymbolicLinkHandlerUtil {
 	 * 			an collection of {@link SymbolicLinks} objects
 	 * @param asymmetricDifference
 	 * 			an {@link AsymmetricDifference}
-	 * @param path
-	 * 			the absolute path of the link files (will be parsed into workspace
-	 * 			relative path)
+	 * @param linkFilesFolder URI of folder containing the link files
 	 * 			
 	 */
-	public static void serializeSymbolicLinks(Collection<SymbolicLinks> symbolicLinksSet, AsymmetricDifference asymmetricDifference, String path){
-		if (!(path.endsWith("/") || path.endsWith("\\"))) {
-			path = path + "/";
-		}
+	public static void serializeSymbolicLinks(SiDiffResourceSet resourceSet, Collection<SymbolicLinks> symbolicLinksSet,
+			AsymmetricDifference asymmetricDifference, URI linkFilesFolder) {
 		char c = 'A';
-		for(SymbolicLinks symbolicLinks : symbolicLinksSet){
-			
+		for(SymbolicLinks symbolicLinks : symbolicLinksSet) {
 			String fileName = "LinksModel" + c + "." + SYMBOLIC_LINKS_EXT;
-			URI savePath = EMFStorage.pathToUri(path + fileName);
-			EMFStorage.eSaveAs(savePath, symbolicLinks, true);
-			if(c == 'A'){
+			resourceSet.saveEObjectAs(symbolicLinks, linkFilesFolder.appendSegment(fileName));
+			if(c == 'A') {
 				asymmetricDifference.getSymmetricDifference().setUriModelA(fileName);
 				asymmetricDifference.setUriOriginModel(fileName);
-			}else if(c == 'B'){
+			} else if(c == 'B') {
 				asymmetricDifference.getSymmetricDifference().setUriModelB(fileName);
 				asymmetricDifference.setUriChangedModel(fileName);
 			}
