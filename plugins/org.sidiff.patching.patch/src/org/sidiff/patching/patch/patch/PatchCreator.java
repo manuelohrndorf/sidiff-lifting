@@ -2,14 +2,18 @@ package org.sidiff.patching.patch.patch;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.file.ZipUtil;
 import org.sidiff.common.henshin.INamingConventions;
@@ -33,35 +37,23 @@ public class PatchCreator {
 	public static final String FOLDER_EDIT_RULES = "EditRules";
 	public static final String FOLDER_MODEL_A = "modelA";
 	public static final String FOLDER_MODEL_B = "modelB";
+	public static final String PATCH_MANIFEST = "Manifest.MF";
 
 	private Patch patch;
 	private Collection<SymbolicLinks> symbolicLinksSet;
 	private Resource resourceA;
 	private Resource resourceB;
-	private final URI modelAOriginalUri;
-	private final URI modelBOriginalUri;
-	
-	private final IEditorIntegration domainEditorA, domainEditorB;
-	private final boolean domainEditorAsupportsDiagram,
-			domainEditorBsupportsDiagram;
 
 	private AsymmetricDifference asymmetricDifference;
 	private SymmetricDifference symmetricDifference;
 
-	private String separator;
-	private String savePath;
-
-	private String filename;
-
-	private String resourceA_name;
-	private String resourceB_name;
-
-	private String symmetricDiff_name;
-	private String asymmetricDiff_name;
-	
 	private boolean useSymbolicLinks;
 	private IMatcher matcher;
 	private ISymbolicLinkHandler symbolicLinkHandler;
+	
+	private Map<Unit,Unit> mainUnitCopies;
+	
+	private SiDiffResourceSet resourceSet;
 
 	public PatchCreator(AsymmetricDifference asymmetricDifference, 
 			IMatcher matcher, boolean useSymbolicLinks, ISymbolicLinkHandler symbolicLinkHandler) {
@@ -73,143 +65,121 @@ public class PatchCreator {
 		this.symbolicLinkHandler = symbolicLinkHandler;
 		
 		this.resourceA = asymmetricDifference.getOriginModel();
-		modelAOriginalUri = resourceA.getURI();
 		this.resourceB = asymmetricDifference.getChangedModel();
-		modelBOriginalUri = resourceB.getURI();
-		domainEditorA = IntegrationEditorAccess.getInstance()
-				.getIntegrationEditorForModel(resourceA);
-		domainEditorAsupportsDiagram = domainEditorA
-				.supportsDiagramming(resourceA);
-		domainEditorB = IntegrationEditorAccess.getInstance()
-				.getIntegrationEditorForModel(resourceB);
-		domainEditorBsupportsDiagram = domainEditorB
-				.supportsDiagramming(resourceB);
 
-		separator = System.getProperty("file.separator");
-
-		this.symmetricDifference = asymmetricDifference
-				.getSymmetricDifference();
-
+		this.symmetricDifference = asymmetricDifference.getSymmetricDifference();
 		this.asymmetricDifference = asymmetricDifference;
 		this.asymmetricDifference.initializeRuleBase();
+		
+		this.resourceSet = SiDiffResourceSet.create();
+		resourceSet.getResources().add(resourceA);
+		resourceSet.getResources().add(resourceB);
+		if(symmetricDifference.eResource() != null) {
+			resourceSet.getResources().add(symmetricDifference.eResource());
+		}
+		if(asymmetricDifference.eResource() != null) {
+			resourceSet.getResources().add(asymmetricDifference.eResource());
+		}
 	}
 
-	public String serializePatch(String path, String filename) throws IOException {
-
-		this.filename = filename;
-		return serializePatch(path);
+	public URI serializePatch(URI outputDir) throws IOException {
+		return serializePatch(outputDir,
+				"PATCH(origin_" + resourceA.getURI().lastSegment()
+				+ "_to_" + "modified_" + resourceB.getURI().lastSegment() + ")");
 	}
 
-	public String serializePatch(String path) throws IOException {
-
-		resourceA_name = resourceA.getURI().lastSegment();
-		resourceB_name = resourceB.getURI().lastSegment();
-
-		String s_path = path;
-		if (!s_path.endsWith(separator)) {
-			s_path += separator;
-		}
-		if (filename == null) {
-			savePath = s_path + "PATCH(origin_" + resourceA_name + "_to_"
-					+ "modified_" + resourceB_name + ")";
-		} else {
-			savePath = s_path + filename;
-		}
+	public URI serializePatch(URI outputDir, String filename) throws IOException {
+		URI patchFolderUri = outputDir.appendSegment(filename);
 
 		if (!useSymbolicLinks) {
-			String modelADir = savePath + separator + FOLDER_MODEL_A;
-			String modelBDir = savePath + separator + FOLDER_MODEL_B;
+			URI modelA = copyModelResources(patchFolderUri.appendSegment(FOLDER_MODEL_A), resourceA);
+			URI modelB = copyModelResources(patchFolderUri.appendSegment(FOLDER_MODEL_B), resourceB);
 
-			String resASavePath = modelADir + separator + resourceA_name;
-			String resBSavePath = modelBDir + separator + resourceB_name;
-
-			LogUtil.log(LogEvent.NOTICE, "serialize " + resourceA_name + " to "
-					+ resASavePath);
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(resASavePath), resourceA
-					.getContents().get(0), true);
-
-			if (domainEditorAsupportsDiagram) {
-				try {
-					domainEditorA.copyDiagram(modelAOriginalUri, modelADir);
-				} catch (FileNotFoundException e) {
-					LogUtil.log(LogEvent.MESSAGE, "Diagram was not copied: "
-							+ e.getMessage());
-				}
-			}
-
-			LogUtil.log(LogEvent.NOTICE, "serialize " + resourceB_name + " to "
-					+ resBSavePath);
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(resBSavePath), resourceB
-					.getContents().get(0), true);
-
-			if (domainEditorBsupportsDiagram) {
-				try {
-					domainEditorB.copyDiagram(modelBOriginalUri, modelBDir);
-				} catch (FileNotFoundException e) {
-					LogUtil.log(LogEvent.MESSAGE, "Diagram was not copied: "
-							+ e.getMessage());
-				}
-			}
-
-			symmetricDifference.setUriModelA(resourceA_name);
-			symmetricDifference.setUriModelB(resourceB_name);
-			asymmetricDifference.setUriOriginModel(resourceA_name);
-			asymmetricDifference.setUriChangedModel(resourceB_name);
+			URI base = patchFolderUri.appendSegment(""); // append empty segment to make this a prefix URI
+			symmetricDifference.setUriModelA(modelA.deresolve(base).toString());
+			symmetricDifference.setUriModelB(modelB.deresolve(base).toString());
+			asymmetricDifference.setUriOriginModel(modelA.deresolve(base).toString());
+			asymmetricDifference.setUriChangedModel(modelB.deresolve(base).toString());
 			patch.getSettings().put("matcher", matcher.getName());
 		} else {
-			symbolicLinksSet = symbolicLinkHandler.generateSymbolicLinks(
-					asymmetricDifference, false);
-			SymbolicLinkHandlerUtil.serializeSymbolicLinks(symbolicLinksSet,
-					asymmetricDifference, savePath);
-			patch.getSettings().put("symbolicLinkHandler",
-					symbolicLinkHandler.getName());
+			symbolicLinksSet = symbolicLinkHandler.generateSymbolicLinks(asymmetricDifference, false);
+			SymbolicLinkHandlerUtil.serializeSymbolicLinks(resourceSet, symbolicLinksSet, asymmetricDifference, patchFolderUri);
+			patch.getSettings().put("symbolicLinkHandler", symbolicLinkHandler.getName());
 		}
 
-		for (OperationInvocation op : asymmetricDifference
-				.getOperationInvocations()) {
-			EditRule editRule = EcoreUtil.copy(op.resolveEditRule());
-			Module module = EcoreUtil.copy(editRule.getExecuteModule());
-			String erSavePath = savePath + separator + FOLDER_EDIT_RULES
-					+ separator + module.getName() + ".henshin";
-			LogUtil.log(LogEvent.NOTICE, "serialize "
-					+ editRule.getExecuteModule().getName() + " to "
-					+ erSavePath);
-			EMFStorage.eSaveAs(EMFStorage.pathToUri(erSavePath), module, true);
-			editRule.setExecuteMainUnit(module
-					.getUnit(INamingConventions.MAIN_UNIT));
-			patch.getEditRules().add(editRule);
-		}
-
-		// copy symmetric difference
-		symmetricDiff_name = resourceA_name + "_x_" + resourceB_name + "."
-				+ LiftingFacade.SYMMETRIC_DIFF_EXT;
-		String symmetricDiffSavePath = savePath + separator
-				+ symmetricDiff_name;
-		LogUtil.log(LogEvent.NOTICE, "serialize symmetric difference " + " to "
-				+ symmetricDiffSavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(symmetricDiffSavePath),
-				symmetricDifference, true);
-
-		// copy asymmetric difference
-		asymmetricDiff_name = resourceA_name + "_x_" + resourceB_name + "."
-				+ AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
-		String asymmetricDiffSavePath = savePath + separator
-				+ asymmetricDiff_name;
-		LogUtil.log(LogEvent.NOTICE, "serialize asymmetric difference "
-				+ " to " + asymmetricDiffSavePath);
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(asymmetricDiffSavePath),
-				asymmetricDifference, true);
+		copyEditRules(patchFolderUri);
+		copySymmetricDifference(patchFolderUri);
+		copyAsymmetricDifference(patchFolderUri);
 
 		patch.setAsymmetricDifference(asymmetricDifference);
-		String manifest = savePath + separator + "Manifest.MF";
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(manifest), patch, true);
+		resourceSet.saveEObjectAs(patch, patchFolderUri.appendSegment(PATCH_MANIFEST));
 
 		// zip all necessary files
-		ZipUtil.zip(Paths.get(savePath), Paths.get(savePath + "." + AsymmetricDiffFacade.PATCH_EXTENSION));
-		FileOperations.removeFolder(Paths.get(savePath));
-
-		// Return path of saved zip:
-		return savePath + "." + AsymmetricDiffFacade.PATCH_EXTENSION;
+		return zipPatch(patchFolderUri);
 	}
 
+	protected URI copyModelResources(URI outputDir, Resource resource) {
+		URI origModelUri = resource.getURI();
+		String filename = origModelUri.lastSegment();
+		URI modelUri = outputDir.appendSegment(filename);
+		LogUtil.log(LogEvent.NOTICE, "Serialize " + filename + " to "+ modelUri);
+		resourceSet.saveResourceAs(resource, modelUri);
+
+		IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(resource);
+		if (domainEditor.supportsDiagramming(resource)) {
+			try {
+				domainEditor.copyDiagram(origModelUri, outputDir);
+			} catch (FileNotFoundException e) {
+				LogUtil.log(LogEvent.MESSAGE, "Diagram was not copied: " + e.getMessage(), e);
+			}
+		}
+		return modelUri;
+	}
+	
+	protected void copyEditRules(URI patchFolderUri) {
+		mainUnitCopies = new HashMap<>();
+		for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {
+			EditRule copyEditRule = EcoreUtil.copy(op.resolveEditRule());
+			Unit oldMainUnit = copyEditRule.getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
+			Module copyModule = EcoreUtil.copy(copyEditRule.getExecuteModule());
+			Unit newMainUnit = copyModule.getUnit(INamingConventions.MAIN_UNIT);
+			copyEditRule.setExecuteMainUnit(newMainUnit);
+			mainUnitCopies.put(oldMainUnit, newMainUnit);
+			patch.getEditRules().add(copyEditRule);
+
+			URI erSavePath = patchFolderUri.appendSegment(FOLDER_EDIT_RULES)
+					.appendSegment(copyModule.getName()).appendFileExtension("henshin");
+			LogUtil.log(LogEvent.NOTICE, "Serialize " + copyModule.getName() + " to " + erSavePath);
+			resourceSet.saveEObjectAs(copyModule, erSavePath);
+		}
+	}
+
+	protected void copySymmetricDifference(URI patchFolderUri) {
+		URI symmetricDiffUri = patchFolderUri
+			.appendSegment(resourceA.getURI().lastSegment() + "_x_" + resourceB.getURI().lastSegment())
+			.appendFileExtension(LiftingFacade.SYMMETRIC_DIFF_EXT);
+		LogUtil.log(LogEvent.NOTICE, "Serialize symmetric difference to " + symmetricDiffUri);
+		resourceSet.saveEObjectAs(symmetricDifference, symmetricDiffUri);
+	}
+
+	protected void copyAsymmetricDifference(URI patchFolderUri) {
+		asymmetricDifference.getRulebase().getItems().forEach(item -> {
+			Unit mainUnit = mainUnitCopies.get(item.getEditRule().getExecuteMainUnit());
+			item.getEditRule().setExecuteMainUnit(mainUnit);
+		});
+
+		URI asymmetricDiffUri = patchFolderUri
+			.appendSegment(resourceA.getURI().lastSegment() + "_x_" + resourceB.getURI().lastSegment())
+			.appendFileExtension(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT);
+		LogUtil.log(LogEvent.NOTICE, "Serialize asymmetric difference to " + asymmetricDiffUri);
+		resourceSet.saveEObjectAs(asymmetricDifference, asymmetricDiffUri);
+	}
+
+	protected URI zipPatch(URI patchFolderUri) throws IOException {
+		URI patchFileUri = patchFolderUri.appendFileExtension(AsymmetricDiffFacade.PATCH_EXTENSION);
+		Path patchFolderPath = EMFStorage.toFile(patchFolderUri).toPath();
+		ZipUtil.zip(patchFolderPath, EMFStorage.toFile(patchFileUri).toPath());
+		FileOperations.removeFolder(patchFolderPath);
+		return patchFileUri;
+	}
 }

@@ -60,6 +60,11 @@
                id="org.sidiff.patching.ui.state.showNonDefaultArguments">
          </state>
       </command>
+      <command
+            categoryId="org.silift.patching.ui.category.silift"
+            id="org.sidiff.patching.ui.AsymmetricApplyCommand"
+            name="Apply Asymmetric Difference">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -84,18 +89,32 @@
             class="org.sidiff.patching.ui.handler.ShowNonDefaultArguments"
             commandId="org.sidiff.patching.ui.showNonDefaultArguments">
       </handler>
+      <handler
+            class="org.sidiff.patching.ui.handler.AsymmetricApplyHandler"
+            commandId="org.sidiff.patching.ui.AsymmetricApplyCommand">
+         <activeWhen>
+            <reference
+                  definitionId="org.sidiff.patching.ui.asymmetricApplyDefinition">
+            </reference>
+         </activeWhen>
+      </handler>
    </extension>
       <extension point="org.eclipse.ui.menus">
   <menuContribution
-        locationURI="popup:org.silift.menu?after=org.silift.patching.patch.ui.separator">
+        locationURI="popup:org.silift.menu?after=createDifferenceAsymmetric">
      <command
            commandId="org.sidiff.patching.ui.PatchApplyCommand"
            label="Apply Patch"
            tooltip="Apply a patch to a model">
      </command>
+     <command
+           commandId="org.sidiff.patching.ui.AsymmetricApplyCommand"
+           label="Apply Asymmetric Difference"
+           tooltip="Apply an asymmetric difference to a model">
+     </command>
      <separator
-           name="org.sidiff.patching.ui.separator"
-           visible="false">
+           name="applyDifferenceAsymmetric"
+           visible="true">
      </separator>
   </menuContribution>
   <menuContribution
@@ -137,16 +156,6 @@
   </menuContribution>
   </extension>
    <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="org.sidiff.patching.ui.handler.PatchApplyPropertyTester"
-            id="org.sidiff.patching.ui.patchApplyPropertyTester"
-            namespace="org.sidiff.patching.ui.patchApplyPropertyTester"
-            properties="patchFile"
-            type="org.eclipse.core.resources.IFile">
-      </propertyTester>
-   </extension>
-   <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
             id="org.sidiff.patching.ui.patchApplyDefinition">
@@ -155,13 +164,13 @@
                   value="1">
             </count>
             <iterate>
-               <instanceof
-                     value="org.eclipse.core.resources.IFile">
-               </instanceof>
-               <test
-                     forcePluginActivation="true"
-                     property="org.sidiff.patching.ui.patchApplyPropertyTester.patchFile">
-               </test>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="slp">
+                  </test>
+               </adapt>
             </iterate>
          </and>
       </definition>
@@ -173,6 +182,23 @@
                   value="org.sidiff.patching.ui.perspective.SiLiftPerspective">
             </equals>
          </with>
+      </definition>
+      <definition
+            id="org.sidiff.patching.ui.asymmetricApplyDefinition">
+         <and>
+            <count
+                  value="1">
+            </count>
+            <iterate>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="asymmetric">
+                  </test>
+               </adapt>
+            </iterate>
+         </and>
       </definition>
    </extension>
    <extension

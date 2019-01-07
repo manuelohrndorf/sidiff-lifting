@@ -2,6 +2,7 @@ package org.sidiff.patching.api;
 
 import java.io.IOException;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
@@ -10,94 +11,84 @@ import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matching.input.InputModels;
+import org.sidiff.patching.api.exceptions.PatchCreationException;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.patch.PatchCreator;
 
 public class PatchingFacade extends AsymmetricDiffFacade{
-	
-	/**
-	 * 
-	 */
-	private static PatchCreator patchCreator;
-	/**
-	 * 
-	 */
-	private static String patchPath;
-	
+
 	/**
 	 * @param patchCreator
-	 * @param path
+	 * @param outputDir
 	 * @param filename
-	 * @throws IOException  
+	 * @throws PatchCreationException  
 	 */
-	public static void createPatch(PatchCreator patchCreator, String path, String filename) throws IOException {
-		PatchingFacade.patchCreator = patchCreator;
-		if(filename == null || filename.isEmpty()){
-			patchPath = patchCreator.serializePatch(path);
-		}else{
-			patchPath = patchCreator.serializePatch(path, filename);
+	public static URI createPatch(PatchCreator patchCreator, URI outputDir, String filename) throws PatchCreationException {
+		try {
+			if(filename == null || filename.isEmpty()){
+				return patchCreator.serializePatch(outputDir);			
+			}
+			return patchCreator.serializePatch(outputDir, filename);		
+		} catch (IOException e) {
+			throw new PatchCreationException(e);
 		}
 	}
-	
+
 	/**
 	 * @param asymmetricDifference
 	 * @param settings
-	 * @param path
+	 * @param outputDir
 	 * @param filename
-	 * @throws IOException 
+	 * @throws PatchCreationException 
 	 */
-	public static void createPatch(AsymmetricDifference asymmetricDifference, PatchingSettings settings, String path, String filename) throws IOException{
-		patchCreator = new PatchCreator(asymmetricDifference, settings.getMatcher(), settings.useSymbolicLinks(), settings.getSymbolicLinkHandler());
-		createPatch(patchCreator, path, filename);
+	public static URI createPatch(AsymmetricDifference asymmetricDifference, PatchingSettings settings, URI outputDir, String filename) throws PatchCreationException{
+		PatchCreator patchCreator = new PatchCreator(asymmetricDifference, settings.getMatcher(),
+				settings.useSymbolicLinks(), settings.getSymbolicLinkHandler());
+		return createPatch(patchCreator, outputDir, filename);
 	}
 	
 	/**
 	 * @param symmetricDifference
 	 * @param settings
-	 * @param path
+	 * @param outputDir
 	 * @param filename
-	 * @throws IOException 
+	 * @throws PatchCreationException
 	 */
-	public static void createPatch(SymmetricDifference symmetricDifference, PatchingSettings settings, String path, String filename) throws IOException{
+	public static URI createPatch(SymmetricDifference symmetricDifference, PatchingSettings settings, URI outputDir, String filename) throws PatchCreationException{
 		Difference difference = deriveLiftedAsymmetricDifference(symmetricDifference, settings);
-		createPatch(difference.getAsymmetric(), settings, path, filename);
+		return createPatch(difference.getAsymmetric(), settings, outputDir, filename);
 	}
 	
 	/**
 	 * @param modelA
 	 * @param modelB
 	 * @param settings
-	 * @param path
+	 * @param outputDir
 	 * @param filename
-	 * @throws InvalidModelException
-	 * @throws NoCorrespondencesException
-	 * @throws IOException 
+	 * @throws PatchCreationException
 	 */
-	public static void createPatch(Resource modelA, Resource modelB, PatchingSettings settings, String path, String filename) throws InvalidModelException, NoCorrespondencesException, IOException{
-		Difference difference = deriveLiftedAsymmetricDifference(modelA, modelB, settings);
-		createPatch(difference.getAsymmetric(), settings, path, filename);
+	public static URI createPatch(Resource modelA, Resource modelB, PatchingSettings settings, URI outputDir, String filename) throws PatchCreationException{
+		try {
+			Difference difference = deriveLiftedAsymmetricDifference(modelA, modelB, settings);
+			return createPatch(difference.getAsymmetric(), settings, outputDir, filename);
+		} catch (InvalidModelException | NoCorrespondencesException e) {
+			throw new PatchCreationException(e);
+		}
 	}
 	
 	/**
 	 * @param models
 	 * @param settings
-	 * @param path
+	 * @param outputDir
 	 * @param filename
-	 * @throws InvalidModelException
-	 * @throws NoCorrespondencesException
-	 * @throws IOException 
+	 * @throws PatchCreationException
 	 */
-	public static void createPatch(InputModels models, PatchingSettings settings, String path, String filename) throws InvalidModelException, NoCorrespondencesException, IOException{
-		Difference difference = deriveLiftedAsymmetricDifference(models, settings);
-		createPatch(difference.getAsymmetric(), settings, path, filename);
-	}
-	
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getPatchPath() {
-		return patchPath;
+	public static URI createPatch(InputModels models, PatchingSettings settings, URI outputDir, String filename) throws PatchCreationException {
+		try {
+			Difference difference = deriveLiftedAsymmetricDifference(models, settings);
+			return createPatch(difference.getAsymmetric(), settings, outputDir, filename);
+		} catch (InvalidModelException | NoCorrespondencesException e) {
+			throw new PatchCreationException(e);
+		}
 	}
 }

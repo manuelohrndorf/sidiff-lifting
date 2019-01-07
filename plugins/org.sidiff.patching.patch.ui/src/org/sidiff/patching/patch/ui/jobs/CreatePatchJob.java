@@ -6,7 +6,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.logging.StatusWrapper;
@@ -38,7 +40,8 @@ public class CreatePatchJob extends Job {
 			LogUtil.log(LogEvent.NOTICE, "---------------------- Create Patch Bundle -----------------");
 			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 			
-			PatchingFacade.createPatch(inputModels, settings, inputModels.getFiles().get(0).getParent().getLocation().toOSString(), null);
+			URI patchUri = PatchingFacade.createPatch(inputModels, settings,
+					EMFStorage.toPlatformURI(inputModels.getFiles().get(0).getParent()), null);
 
 			LogUtil.log(LogEvent.NOTICE, "done...");
 			
@@ -48,7 +51,7 @@ public class CreatePatchJob extends Job {
 
 			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
 				inputModels.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				UIUtil.openEditor(PatchingFacade.getPatchPath());
+				UIUtil.openEditor(EMFStorage.toFile(patchUri));
 				return Status.OK_STATUS;
 			}));
 			return Status.OK_STATUS;

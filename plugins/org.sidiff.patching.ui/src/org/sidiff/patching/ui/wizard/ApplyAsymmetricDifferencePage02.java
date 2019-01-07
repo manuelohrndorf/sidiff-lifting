@@ -6,7 +6,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
@@ -23,10 +22,10 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 	private InputModels inputModels;
 	private PatchingSettings settings;
 
-	public ApplyAsymmetricDifferencePage02(AsymmetricDifference difference, String pageName, String title,
+	public ApplyAsymmetricDifferencePage02(InputModels inputModels, String title,
 			PatchingSettings settings, ApplyAsymmetricDifferencePage01 applyDiffPage01) {
-		super(pageName, title, Activator.getImageDescriptor("icon.png"));
-		this.inputModels = new InputModels(difference.getOriginModel(), difference.getChangedModel());
+		super("ApplyAsymmetricDifferencePage02", title, Activator.getImageDescriptor("icon.png"));
+		this.inputModels = inputModels;
 		this.settings = settings;
 		this.applyDiffPage01 = applyDiffPage01;
 	}

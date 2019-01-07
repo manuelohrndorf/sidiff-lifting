@@ -24,9 +24,9 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	private InputModels inputModels;
 	private WorkspaceUpdatePage01 workbenchUpdatePage01;
 
-	public WorkspaceUpdatePage02(WSUModels mergeModels, String pageName, String title,
+	public WorkspaceUpdatePage02(WSUModels mergeModels, String title,
 			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
-		super(pageName, title, Activator.getImageDescriptor("icon.png"));
+		super("WorkspaceUpdatePage02", title, Activator.getImageDescriptor("icon.png"));
 		this.settings = settings;
 		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
 		this.workbenchUpdatePage01 = workbenchUpdatePage01;

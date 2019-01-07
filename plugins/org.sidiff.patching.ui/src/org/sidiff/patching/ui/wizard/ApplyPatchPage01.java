@@ -1,19 +1,14 @@
 package org.sidiff.patching.ui.wizard;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.eclipse.core.resources.IProject;
-import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
+import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
+import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
-import org.sidiff.patching.patch.patch.Patch;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
@@ -25,24 +20,20 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 	private ScopeWidget scopeWidget;
 	private ValidationModeWidget validationWidget;
 
-	private IProject project;
-	private Set<String> documentTypes;
+	private InputModels inputModels;
 	private PatchingSettings settings;
 
-	public ApplyPatchPage01(Patch patch, String pageName, String title, PatchingSettings settings, IProject project) {
-		super(pageName, title, Activator.getImageDescriptor("icon.png"));
+	public ApplyPatchPage01(InputModels inputModels, String title, PatchingSettings settings) {
+		super("ApplyPatchPage01", title, Activator.getImageDescriptor("icon.png"));
+		this.inputModels = inputModels;
 		this.settings = settings;
-		this.documentTypes = new HashSet<String>(EMFDocumentTypeUtil.resolve(Arrays.asList(
-				patch.getAsymmetricDifference().getOriginModel(),
-				patch.getAsymmetricDifference().getChangedModel())));
-		this.project = project;
 	}
 
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
 		// Note that InputModels is not used here, because it is not compatible with Archive-URIs (i.e. Patch files)
-		settingsSourceWidget = new SettingsSourceWidget(settings, project, documentTypes);
+		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
 		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(
@@ -68,8 +59,8 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 		addWidget(container, validationWidget);
 	}
 
-	public TargetModelWidget getTargetWidget() {
-		return targetWidget;
+	public URI getTargetModel() {
+		return targetWidget.getSelectedModel();
 	}
 
 	// internal access method for other wizard page

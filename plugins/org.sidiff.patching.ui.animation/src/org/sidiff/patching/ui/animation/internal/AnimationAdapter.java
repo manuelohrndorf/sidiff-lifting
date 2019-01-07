@@ -67,16 +67,15 @@ public class AnimationAdapter extends EContentAdapter {
 			for(EditorMatching editorMatching : matchings){
 				DiagramEditor editor = editorMatching.editor;
 
-				List<IFile> affectedFiles = new ArrayList<IFile>();
-				IFile file = null;
-				IEditorInput input=editor.getEditorInput();
+				List<IFile> affectedFiles = new ArrayList<IFile>(1);
+				IEditorInput input = editor.getEditorInput();
 				if (input instanceof IFileEditorInput){
-					file=((IFileEditorInput) editor.getEditorInput()).getFile();
-				} else if (input instanceof URIEditorInput){
-					file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(Path.fromOSString(EMFStorage.uriToFile(((URIEditorInput)input).getURI()).getAbsolutePath()));
+					affectedFiles.add(((IFileEditorInput)editor.getEditorInput()).getFile());
+				} else if (input instanceof URIEditorInput) {
+					affectedFiles.add(EMFStorage.toIFile(((URIEditorInput)input).getURI()));
 				} 
-				affectedFiles.add(file);
-				AnimateChangeCommand operation = new AnimateChangeCommand(editor.getEditingDomain(), "Reflect external change", affectedFiles, notification, editorMatching);
+				AnimateChangeCommand operation = new AnimateChangeCommand(editor.getEditingDomain(),
+						"Reflect external change", affectedFiles, notification, editorMatching);
 
 				CompositeCommand compositeCommand = new CompositeCommand("Reflect external change");
 				compositeCommand.add(operation);

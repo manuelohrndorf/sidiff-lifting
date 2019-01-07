@@ -66,6 +66,7 @@ public class GMFAnimation {
 									usedMatcher = matcherSet.iterator().next();
 								}
 								//Get one random matcher
+								usedMatcher.reset();
 								usedMatcher.startMatching(Arrays.asList(changingResource, resource), Scope.RESOURCE);
 								MatchingModelCorrespondences correspondences = (MatchingModelCorrespondences) usedMatcher.getCorrespondencesService();
 								EcoreUtil.resolveAll(correspondences.getMatching());

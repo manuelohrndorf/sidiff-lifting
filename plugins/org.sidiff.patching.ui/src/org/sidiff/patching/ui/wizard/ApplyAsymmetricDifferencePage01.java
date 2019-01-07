@@ -1,8 +1,8 @@
 package org.sidiff.patching.ui.wizard;
 
+import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
@@ -23,11 +23,10 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 	private InputModels inputModels;
 	private PatchingSettings settings;
 
-	public ApplyAsymmetricDifferencePage01(AsymmetricDifference difference, String pageName,
-			String title, PatchingSettings settings) {
-		super(pageName, title, Activator.getImageDescriptor("icon.png"));
+	public ApplyAsymmetricDifferencePage01(InputModels inputModels, String title, PatchingSettings settings) {
+		super("ApplyAsymmetricDifferencePage01", title, Activator.getImageDescriptor("icon.png"));
 		this.settings = settings;
-		this.inputModels = new InputModels(difference.getOriginModel(), difference.getChangedModel());
+		this.inputModels = inputModels;
 	}
 
 	protected void createWidgets() {
@@ -57,8 +56,8 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 		addWidget(container, validationWidget);
 	}
 
-	public TargetModelWidget getTargetWidget() {
-		return targetWidget;
+	public URI getTargetModel() {
+		return targetWidget.getSelectedModel();
 	}
 
 	// internal access method for other wizard page

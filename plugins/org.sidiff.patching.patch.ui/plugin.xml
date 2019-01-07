@@ -10,7 +10,7 @@
       <command
             categoryId="org.silift.patching.ui.category.silift"
             id="org.silift.patching.ui.createPatch"
-            name="CreatePatch">
+            name="Create Patch">
       </command>
       <command
             categoryId="org.silift.patching.ui.category.silift"
@@ -29,7 +29,7 @@
             </reference></activeWhen>
       </handler>
       <handler
-            class="org.sidiff.patching.patch.ui.handler.CreateAsymDiffHandler"
+            class="org.sidiff.patching.patch.ui.handler.CreateAsymmetricDifferenceHandler"
             commandId="org.silift.patching.ui.create_asymmetricDifference">
          <activeWhen>
             <reference
@@ -40,23 +40,23 @@
    </extension>
    <extension point="org.eclipse.ui.menus">
   <menuContribution
-        locationURI="popup:org.silift.menu?after=org.sidiff.difference.lifting.ui.separator">
+        locationURI="popup:org.silift.menu?after=differenceLifting">
      <command
            commandId="org.silift.patching.ui.createPatch"
            label="Create a Patch"
            style="push"
            tooltip="Create a patch between two models">
      </command>
-     <separator
-           name="org.silift.patching.patch.ui.separator"
-           visible="false">
-     </separator>
      <command
            commandId="org.silift.patching.ui.create_asymmetricDifference"
            label="Create Asymmetric Difference"
            style="push"
-           tooltip="Create a Asymmetric Difference between two models">
+           tooltip="Create an Asymmetric Difference between two models">
      </command>
+     <separator
+           name="createDifferenceAsymmetric"
+           visible="true">
+     </separator>
   </menuContribution>
   </extension>
    <extension

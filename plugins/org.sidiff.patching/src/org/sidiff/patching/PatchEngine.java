@@ -437,7 +437,7 @@ public class PatchEngine {
 					}
 
 				} else if (binding instanceof ObjectParameterBinding) {
-					ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument((ObjectParameterBinding) binding);
+					ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(binding);
 					if (argument.isResolved()) {
 						parameters.put(binding, argument.getTargetObject());
 						LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameter.getName() + " to "

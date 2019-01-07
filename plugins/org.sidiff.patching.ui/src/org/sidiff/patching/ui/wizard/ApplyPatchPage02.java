@@ -25,8 +25,8 @@ public class ApplyPatchPage02 extends AbstractWizardPage {
 	private PatchingSettings settings;
 	private boolean use_SymbolicLinks;
 
-	public ApplyPatchPage02(Patch patch, String pageName, String title, PatchingSettings settings, ApplyPatchPage01 applyPatchPage01) {
-		super(pageName, title, Activator.getImageDescriptor("icon.png"));
+	public ApplyPatchPage02(Patch patch, String title, PatchingSettings settings, ApplyPatchPage01 applyPatchPage01) {
+		super("ApplyPatchPage02", title, Activator.getImageDescriptor("icon.png"));
 		this.patch = patch;
 		this.settings = settings;
 		this.use_SymbolicLinks = patch.getSettings().get("symbolicLinkHandler")!=null;

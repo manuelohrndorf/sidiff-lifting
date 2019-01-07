@@ -94,12 +94,12 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 	public Map<ParameterBinding, Object> execute(OperationInvocation operationInvocation, Map<ParameterBinding, Object> inputParameters)
 			throws ParameterMissingException, OperationNotExecutableException {
 		assert (graph != null) : "Model not set and therefore no EGraph!";
-		String operationName = operationInvocation.resolveEditRule().getExecuteModule().getName();
+		EditRule editRule = operationInvocation.resolveEditRule();
+		String operationName = editRule.getExecuteModule().getName();
 		LogUtil.log(LogEvent.NOTICE, "Executing operation " + operationName);
 
 		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)
-		EditRule editRule = operationInvocation.resolveEditRule();
 		Unit unit = editRule.getExecuteMainUnit();
 		Engine engine = new EngineImpl();
 		UnitApplication application = new UnitApplicationImpl(engine);
@@ -122,8 +122,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		}
 
 		if (!missingParameters.isEmpty()) {
-			throw new ParameterMissingException(operationName, missingParameters.toArray(new String[missingParameters
-					.size()]));
+			throw new ParameterMissingException(operationName, missingParameters);
 		}
 
 		Map<ParameterBinding, Object> outputMap = new HashMap<ParameterBinding, Object>();
@@ -203,7 +202,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 	 */
 	private Object getArgument(ParameterBinding binding, Map<ParameterBinding, Object> inputParameters) {
 		Object argument = inputParameters.get(binding);
-			return argument;
+		return argument;
 	}
 
 	private void synchronizeResourceWithGraph() {
