@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -23,12 +24,12 @@ import org.sidiff.difference.technical.ui.Activator;
 import org.sidiff.difference.technical.ui.validation.ValidateDialog;
 import org.sidiff.matching.input.InputModels;
 
-public class CreateDifferenceJob extends Job {
+public class CreateTechnicalDifferenceJob extends Job {
 
 	private InputModels inputModels;
 	private DifferenceSettings settings;
 
-	public CreateDifferenceJob(InputModels inputModels, DifferenceSettings settings) {
+	public CreateTechnicalDifferenceJob(InputModels inputModels, DifferenceSettings settings) {
 		super("Creating Symmetric Difference");
 		this.inputModels = inputModels;
 		this.settings = settings;
@@ -49,18 +50,16 @@ public class CreateDifferenceJob extends Job {
 			 */
 
 			String fileName = TechnicalDifferenceUtils.generateDifferenceFileName(resourceA, resourceB, settings);
-			String diffSavePath = inputModels.getFiles().get(0).getParent().getLocation().toOSString();
-			TechnicalDifferenceFacade.serializeTechnicalDifference(symmetricDiff, diffSavePath, fileName);
+			URI outputDir = EMFStorage.toPlatformURI(inputModels.getFiles().get(0).getParent());
+			TechnicalDifferenceFacade.serializeTechnicalDifference(symmetricDiff, outputDir, fileName);
 
 			/*
 			 * Update workspace UI
 			 */
 
-			final String diffPath = EMFStorage.uriToPath(symmetricDiff.eResource().getURI());
-
 			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
 				inputModels.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				UIUtil.openEditor(diffPath);
+				UIUtil.openEditor(EMFStorage.toFile(symmetricDiff.eResource().getURI()));
 				return Status.OK_STATUS;
 			}));
 			return Status.OK_STATUS;
@@ -72,9 +71,7 @@ public class CreateDifferenceJob extends Job {
 		try {
 			symmetricDiff = TechnicalDifferenceFacade.deriveTechnicalDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
-			ValidateDialog validateDialog = new ValidateDialog();
-			boolean skipValidation = validateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
-			
+			boolean skipValidation = ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
 			if (skipValidation) {
 				// Retry without validation:
 				settings.setValidate(false);

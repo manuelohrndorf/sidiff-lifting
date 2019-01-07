@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.Change;
@@ -31,7 +32,7 @@ import org.sidiff.matching.model.Matching;
  */
 public class TechnicalDifferenceFacade extends MatchingFacade {
 
-	public static String SYMMETRIC_DIFF_EXT = "symmetric";
+	public static final String SYMMETRIC_DIFF_EXT = "symmetric";
 	
 	/**
 	 * Derives a technical {@link SymmetricDifference} based on a given
@@ -120,21 +121,16 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	 * 
 	 * @param symDiff
 	 *            The difference to be serialized.
-	 * @param path
-	 *            The serialization path.
+	 * @param outputDir
+	 *            The serialization output directory.
 	 * @param fileName
 	 *            The file name of the difference.
 	 */
-	public static void serializeTechnicalDifference(SymmetricDifference symDiff, String path, String fileName) {
-		if (!(path.endsWith("/") || path.endsWith("\\"))) {
-			path = path + "/";
-		}
-
+	public static void serializeTechnicalDifference(SymmetricDifference symDiff, URI outputDir, String fileName) {
 		if (!(fileName.endsWith("." + SYMMETRIC_DIFF_EXT))) {
 			fileName = fileName + "." + SYMMETRIC_DIFF_EXT;
 		}
-
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(path + fileName), symDiff);
+		SiDiffResourceSet.create().saveEObjectAs(symDiff, outputDir.appendSegment(fileName));
 	}
 	
 	/**
@@ -144,8 +140,8 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 	 *            The path to the symmetric difference.
 	 * @return The loaded technical {@link SymmetricDifference}.
 	 */
-	public static SymmetricDifference loadTechnicalDifference(String path) {
-		return (SymmetricDifference)EMFStorage.eLoad(EMFStorage.pathToUri(path));
+	public static SymmetricDifference loadTechnicalDifference(URI uri) {
+		return SiDiffResourceSet.create().loadEObject(uri, SymmetricDifference.class);
 	}
 	
 	protected static void mergeImports(SymmetricDifference symmetricDifference, DifferenceSettings settings) {

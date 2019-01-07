@@ -27,6 +27,19 @@
                </visibleWhen>
         </menu>
      </menuContribution>
+     <menuContribution
+           locationURI="popup:org.silift.menu?after=header">
+        <command
+              commandId="org.sidiff.difference.technical.ui.createDiff"
+              label="Create Technical Difference"
+              style="push"
+              tooltip="Compares to models with each other">
+        </command>
+        <separator
+              name="differenceTechnical"
+              visible="true">
+        </separator>
+     </menuContribution>
   </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -39,7 +52,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="org.sidiff.difference.technical.ui.handler.DifferenceHandler"
+            class="org.sidiff.difference.technical.ui.handler.CreateTechnicalDifferenceHandler"
             commandId="org.sidiff.difference.technical.ui.createDiff">
          <activeWhen>
             <reference
@@ -47,17 +60,6 @@
             </reference>
          </activeWhen>
       </handler>
-   </extension>
-   <extension point="org.eclipse.ui.menus">
-     <menuContribution
-           locationURI="popup:org.silift.menu?after=header">
-        <command
-              commandId="org.sidiff.difference.technical.ui.createDiff"
-                 label="Create Technical Difference"
-              style="push"
-              tooltip="Compares to models with each other">
-        </command>
-     </menuContribution>
    </extension>
  <extension
          point="org.eclipse.core.expressions.definitions">

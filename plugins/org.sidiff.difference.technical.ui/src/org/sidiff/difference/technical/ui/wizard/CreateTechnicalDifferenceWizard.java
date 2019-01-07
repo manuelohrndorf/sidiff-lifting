@@ -1,14 +1,13 @@
 package org.sidiff.difference.technical.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
-import org.sidiff.difference.technical.ui.jobs.CreateDifferenceJob;
+import org.sidiff.difference.technical.ui.jobs.CreateTechnicalDifferenceJob;
 import org.sidiff.difference.technical.ui.pages.BasicCompareSettingsPage;
 import org.sidiff.matching.input.InputModels;
 
-public class CreateDifferenceWizard extends Wizard {
+public class CreateTechnicalDifferenceWizard extends Wizard {
 
 	/**
 	 * The {@link InputModels}
@@ -30,11 +29,9 @@ public class CreateDifferenceWizard extends Wizard {
 
 	// ---------- Constructor ----------
 	
-	public CreateDifferenceWizard(IFile fileA, IFile fileB) {
-		
+	public CreateTechnicalDifferenceWizard(InputModels inputModels) {
 		this.setWindowTitle("New Symmetric Difference Wizard");
-
-		this.inputModels = new InputModels(fileA, fileB);
+		this.inputModels = inputModels;
 		this.settings = new DifferenceSettings();
 	}
 
@@ -54,7 +51,7 @@ public class CreateDifferenceWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		Job job = new CreateDifferenceJob(inputModels, settings);
+		Job job = new CreateTechnicalDifferenceJob(inputModels, settings);
 		job.schedule();
 		return true;
 	}

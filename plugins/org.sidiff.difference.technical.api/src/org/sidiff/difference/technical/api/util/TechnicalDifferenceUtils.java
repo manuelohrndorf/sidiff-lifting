@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.symmetric.AddObject;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.AttributeValueChange;
@@ -141,8 +140,8 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return a filename MODELAxMODELB_MATCHINGENGINE_technical
 	 */
 	public static String generateDifferenceFileName(Resource modelA, Resource modelB, DifferenceSettings settings) {
-		String fileName = extractModelName(EMFStorage.uriToPath(modelA.getURI())) + "_x_"
-				+ extractModelName(EMFStorage.uriToPath(modelB.getURI()));
+		String fileName = modelA.getURI().trimFileExtension().lastSegment() + "_x_"
+				+ modelB.getURI().trimFileExtension().lastSegment();
 
 		if (settings.getMatcher() != null) {
 			fileName += "_" + settings.getMatcher().getKey();
@@ -151,19 +150,6 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 		fileName += "_technical";
 
 		return fileName;
-	}
-
-
-	/**
-	 * Cut of the file extension.
-	 * 
-	 * @param filename
-	 *            The filename with extension.
-	 * @return The filename without extension.
-	 */
-	protected static String extractModelName(String filename) {
-		String fName = new File(filename).getName();
-		return fName.substring(0, fName.lastIndexOf('.'));
 	}
 
 	/**
