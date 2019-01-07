@@ -36,7 +36,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.slice.ModelSlice;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
@@ -165,10 +165,10 @@ public class RunSlicerActionHandler extends AbstractHandler
 			return null;
 
 		// load model
-		EObject model;
+		Resource model;
 		try
 		{
-			model = EMFStorage.eLoad(modelURI);
+			model = SiDiffResourceSet.create().getResource(modelURI, true);
 		}
 		catch(Exception e)
 		{
@@ -177,7 +177,7 @@ public class RunSlicerActionHandler extends AbstractHandler
 		}
 
 		// get context identifiers
-		List<EObject> contextIdentifiers = showContextIdentifierSelectionDialog(model.eResource());
+		List<EObject> contextIdentifiers = showContextIdentifierSelectionDialog(model);
 		if(contextIdentifiers == null || contextIdentifiers.isEmpty())
 			return null;
 
@@ -212,10 +212,10 @@ public class RunSlicerActionHandler extends AbstractHandler
 			// run slicer
 			slicer.init(cfg);
 			ModelSlice slice = slicer.slice(contextIdentifiers);
-			SlicerUtil.serializeModelSlice(saveURI, slice.export(object -> model.eResource().equals(object.eResource())));
+			SlicerUtil.serializeModelSlice(saveURI, slice.export(object -> model.equals(object.eResource())));
 
 			URI graphURI = saveURI.appendFileExtension(ConfigurationEditorPlugin.getSubstitutedString("_UI_RunSlicer_GraphFileExt")); //$NON-NLS-1$
-			OutputStream graphOutput = model.eResource().getResourceSet().getURIConverter().createOutputStream(graphURI);
+			OutputStream graphOutput = model.getResourceSet().getURIConverter().createOutputStream(graphURI);
 			graphOutput.write(GraphUtil.get(slicer).getOutput().getBytes());
 			graphOutput.close();
 

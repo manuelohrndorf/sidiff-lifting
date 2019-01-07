@@ -369,7 +369,7 @@ public class RuleBasedSlicer implements ISlicer{
 	 * @throws InvalidModelException 
 	 */
 	private AsymmetricDifference generateEditScript(Resource originModel, Resource changedModel, EditScriptDirection direction) throws UncoveredChangesException, InvalidModelException, NoCorrespondencesException{
-		String path = EMFStorage.uriToPath(originModel.getURI()).replace(originModel.getURI().lastSegment(), "");
+		URI path = originModel.getURI().trimSegments(1);
 		String fileName = "editScript_" + direction;
 		String asymmetricDifferencePath = path + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT;
 		
