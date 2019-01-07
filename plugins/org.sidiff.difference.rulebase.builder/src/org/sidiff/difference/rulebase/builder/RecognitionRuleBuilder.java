@@ -30,10 +30,10 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 
 		// Get paths:
 		IFolder recognitionRuleFolderFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
-		URI rrFolder = EMFStorage.fileToFileUri(recognitionRuleFolderFolder.getFullPath().toFile());
+		URI rrFolder = EMFStorage.toPlatformURI(recognitionRuleFolderFolder);
 		
 		IFolder editRuleFolder = project.getFolder(IEditRuleBase.EDIT_RULE_FOLDER);
-		URI eoFolder = EMFStorage.fileToFileUri(editRuleFolder.getFullPath().toFile());
+		URI eoFolder = EMFStorage.toPlatformURI(editRuleFolder);
 		
 		// Build recognition rule:
 		try {

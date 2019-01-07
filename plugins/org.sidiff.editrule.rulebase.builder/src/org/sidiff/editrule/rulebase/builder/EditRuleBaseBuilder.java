@@ -398,7 +398,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 			// Read all necessary attributes
 			URI elementURI = EcoreUtil.getURI(locationObject);
-			URI platformResourceURI = EMFStorage.uriToPlatformUri(elementURI).appendFragment(elementURI.fragment());
+			URI platformResourceURI = EMFStorage.toPlatformURI(elementURI);
 
 			IMarker marker = editRuleResource.createMarker(EValidator.MARKER);
 			marker.setAttribute(IMarker.MESSAGE, validation.infoMessage);
@@ -436,7 +436,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				String relatedAttributes = validation.violatings.stream()
 					.map(EObject.class::cast)
 					.map(EcoreUtil::getURI)
-					.map(uri -> EMFStorage.uriToPlatformUri(uri).appendFragment(uri.fragment()))
+					.map(EMFStorage::toPlatformURI)
 					.map(Object::toString)
 					.collect(Collectors.joining(" "));
 				marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, relatedAttributes);
@@ -470,8 +470,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private EditRuleBaseWrapper createEditRuleBaseWrapper() throws CoreException {
 		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
-		URI rulebase = EMFStorage.iResourceToURI(ruleBaseFile);
-		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(rulebase, false);
+		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(EMFStorage.toPlatformURI(ruleBaseFile), false);
 		ruleBaseWrapper.setKey(getProject().getName());
 		ruleBaseWrapper.setName(readManifestBundleName() + " (" + DATE_FORMAT.format(new Date()) + ")");
 		return ruleBaseWrapper;

@@ -51,7 +51,7 @@ public class HenshinDiagramUtil {
 		}
 		
 		// Get diagram path:
-		URI modelURI = EMFStorage.uriToPlatformUri(EcoreUtil.getURI(editRule));
+		URI modelURI = EMFStorage.toPlatformURI(EcoreUtil.getURI(editRule));
 
 		String projectName = modelURI.segment(1);
 		String path = modelURI.trimFragment().trimSegments(1).toString()

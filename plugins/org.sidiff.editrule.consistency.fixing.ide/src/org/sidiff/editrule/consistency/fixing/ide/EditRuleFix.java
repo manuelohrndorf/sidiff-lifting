@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.markers.WorkbenchMarkerResolution;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -41,8 +42,8 @@ public class EditRuleFix extends WorkbenchMarkerResolution {
 
 		//Load all corresponding elements
 		String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE,	null);
-
-		Module module = (Module) EMFStorage.eLoad(EMFStorage.pathToUri(marker.getResource().getLocation().toOSString()));
+		
+		Module module = new HenshinResourceSet().getModule(EMFStorage.toPlatformURI(marker.getResource()), false);
 		EObject eObject = null;
 		if (uriAttribute != null) {
 			URI uri = URI.createURI(uriAttribute);

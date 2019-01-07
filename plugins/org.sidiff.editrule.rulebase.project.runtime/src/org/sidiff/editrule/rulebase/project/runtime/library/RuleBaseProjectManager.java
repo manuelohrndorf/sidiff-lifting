@@ -71,8 +71,7 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 	 * Clear rulebase cache.
 	 */
 	public void clearRuleBaseCache() {
-		clearExtensions();
-		addExtensions(IRuleBaseProject.DESCRIPTION);
+		getExtensions().forEach(IRuleBaseProject::unloadRuleBaseData);
 	}
 
 	/**

@@ -552,7 +552,7 @@ public class ConfigurationParser {
 
 					// load the referenced ecore file into the EPackage
 					// Registry.
-					Resource referencedEcoreRes = new ResourceSetImpl().getResource(EMFStorage.fileToUri(ecoreFile), true);
+					Resource referencedEcoreRes = new ResourceSetImpl().getResource(EMFStorage.toPlatformURI(ecoreFile), true);
 
 					EObject eObject = referencedEcoreRes.getContents().get(0);
 					if (eObject instanceof EPackage) {

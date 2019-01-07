@@ -99,7 +99,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
@@ -722,7 +721,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		final URI resourceURI = EditUIUtil.getURI(getEditorInput());
 		
 		// Rulebase wrapper:
-		rbManager = new EditRuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), false);
+		rbManager = new EditRuleBaseWrapper(resourceURI, false);
 
 		// Update editor:
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -735,7 +734,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 				if ((needsUpdate == IResourceDelta.ADDED) || (needsUpdate == IResourceDelta.CHANGED)) {
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							rbManager = new EditRuleBaseWrapper(EMFStorage.uriToFileUri(resourceURI), false);
+							rbManager = new EditRuleBaseWrapper(resourceURI, false);
 							ruleViewer.setInput(rbManager.getItems());
 							update();
 						}

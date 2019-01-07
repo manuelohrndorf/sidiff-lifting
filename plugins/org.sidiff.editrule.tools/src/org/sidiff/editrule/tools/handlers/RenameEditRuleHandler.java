@@ -92,7 +92,7 @@ public class RenameEditRuleHandler extends AbstractHandler {
 		URI newDiagramURI = modelURI.trimSegments(1).appendSegment(
 				newFileName + "_execute").appendFileExtension("henshin_diagram");
 		
-		if (EMFStorage.uriToFile(diagramURI).exists()) {
+		if (EMFStorage.toFile(diagramURI).exists()) {
 			Resource diagram = editRule.eResource().getResourceSet().getResource(diagramURI, true);
 			
 			// Set URIs:

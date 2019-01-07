@@ -2,11 +2,11 @@ package org.sidiff.difference.rulebase.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.symmetric.SymmetricPackage;
@@ -37,7 +37,7 @@ public class RecognitionRuleItemUtil {
 			return Integer.valueOf(getSematicChangeSetNumberOfParams(item).getValue());
 		}
 	}
-	
+
 	public static int getPriority(RuleBaseItem item) {
 		Integer priority = EditRuleAnnotations.getPriority(item.getEditRule().getExecuteModule());
 
@@ -52,7 +52,7 @@ public class RecognitionRuleItemUtil {
 	public static void setPriority(RuleBaseItem item, int priority) {
 		EditRuleAnnotations.setPriority(item.getEditRule().getExecuteModule(), priority);
 	}
-	
+
 	public static EClass getRRType(RuleBaseItem item) {
 		// Get unit type of recognition main unit
 		return item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit().eClass();
@@ -62,11 +62,11 @@ public class RecognitionRuleItemUtil {
 		// Get unit type of recognition main unit
 		return EditRuleItemUtil.getUnitType(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
 	}
-	
+
 	public static URI getRecognitionRuleURI(RuleBaseItem item) {
-		return EMFStorage.getURI(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
+		return EcoreUtil.getURI(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
 	}
-	
+
 	private static Attribute getSematicChangeSetPriority(RuleBaseItem item) {
 
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {

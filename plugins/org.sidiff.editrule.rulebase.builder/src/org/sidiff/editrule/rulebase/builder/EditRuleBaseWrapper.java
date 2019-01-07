@@ -123,7 +123,7 @@ public class EditRuleBaseWrapper {
 	 * @return <code>true</code> if the rulebase file exists; <code>false</code> otherwise.
 	 */
 	public static boolean exists(URI rulebaseURI) {
-		return EMFStorage.uriToFile(rulebaseURI).exists();
+		return EMFStorage.toFile(rulebaseURI).exists();
 	}
 
 	/**
@@ -154,12 +154,14 @@ public class EditRuleBaseWrapper {
 	 * Saves all (Henshin) changed Edit-Rules.
 	 */
 	private void saveEditModules() {
-		
 		for (EditRule erRule : changedEditRules) {
-			
 			if (erRule.getExecuteMainUnit().eResource() != null) {
 				// Existing edit rule:
-				EMFStorage.eSave(erRule.getExecuteModule());
+				try {
+					erRule.getExecuteMainUnit().eResource().save(null);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 			} else {
 				throw new RuntimeException("Missing Edit-Rule: " + erRule);
 			}
@@ -494,8 +496,7 @@ public class EditRuleBaseWrapper {
 		
 		for (EditRule er_rule : rulebase.getEditRules()) {
 			URI rbEditRuleURI = EcoreUtil.getURI(er_rule.getExecuteMainUnit()).trimFragment();
-			File rbEditRuleFile = EMFStorage.uriToFile(rbEditRuleURI);
-
+			File rbEditRuleFile = EMFStorage.toFile(rbEditRuleURI);
 			if (editRuleFile.equals(rbEditRuleFile)) {
 				return er_rule;
 			}

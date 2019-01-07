@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.IteratedUnit;
@@ -16,7 +17,6 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 
@@ -187,7 +187,7 @@ public class EditRuleItemUtil {
 	}
 
 	public static URI getEditRuleURI(RuleBaseItem item) {
-		return EMFStorage.getURI(item.getEditRule().getExecuteMainUnit());
+		return EcoreUtil.getURI(item.getEditRule().getExecuteMainUnit());
 	}
 
 	/**
