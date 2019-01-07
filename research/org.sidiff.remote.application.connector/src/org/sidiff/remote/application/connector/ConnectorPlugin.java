@@ -3,9 +3,7 @@ package org.sidiff.remote.application.connector;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.osgi.framework.BundleContext;
-import org.sidiff.common.emf.modelstorage.UUIDResourceFactoryImpl;
 import org.sidiff.remote.application.connector.resource.ConnectedResourceChangeListener;
 import org.sidiff.remote.common.Credentials;
 
@@ -44,8 +42,14 @@ public class ConnectorPlugin extends Plugin {
 		workspace = ResourcesPlugin.getWorkspace();
 		workspace.addResourceChangeListener(new ConnectedResourceChangeListener());
 
+		/*
+		 *  FIXME: Use SiDiffResourceSet and call registerXmiIdResourceExtensions or register the resource factory by
+		 *  adding it to resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap() instead of registering it globally.
+		 *  Registering the factory globally breaks functionally elsewhere.
+		 *  - Robert
+		 */
 		//TODO add factories in a more generic way
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new UUIDResourceFactoryImpl());
+		//Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new UUIDResourceFactoryImpl());
 		//FIXME UML should usually use xmi ids, however to force it, we have to extend the UMLResourceFactory
 //		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("uml", new UUIDResourceFactoryImpl());
 	}
