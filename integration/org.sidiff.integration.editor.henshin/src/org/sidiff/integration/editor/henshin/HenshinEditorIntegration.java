@@ -68,7 +68,7 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 			Node node = (Node) element;
 			
 			if ((node.getGraph() != null) && (node.getGraph().getRule() != null)) {
-				Rule rule = (Rule) node.getGraph().getRule();
+				Rule rule = node.getGraph().getRule();
 				Node remoteNode = HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node);
 				
 				if (remoteNode != null) {
@@ -80,7 +80,7 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 			Edge edge = (Edge) element;
 			
 			if ((edge.getGraph() != null) && (edge.getGraph().getRule() != null)) {
-				Rule rule = (Rule) edge.getGraph().getRule();
+				Rule rule = edge.getGraph().getRule();
 				Edge remoteEdge = HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge);
 				
 				if (remoteEdge != null) {

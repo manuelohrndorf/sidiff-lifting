@@ -45,8 +45,7 @@ public abstract class AbstractEditorIntegration implements IEditorIntegration {
 	private static boolean isEditorPresent(String editorId) {
 		if (editorId == null || editorId.isEmpty())
 			return false;
-		IEditorDescriptor descriptor = (IEditorDescriptor) PlatformUI
-				.getWorkbench().getEditorRegistry().findEditor(editorId);
+		IEditorDescriptor descriptor = PlatformUI.getWorkbench().getEditorRegistry().findEditor(editorId);
 		return (descriptor != null);
 	}
 

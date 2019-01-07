@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.eclipse.compare.ITypedElement;
-import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -21,7 +20,7 @@ import org.sidiff.common.emf.EMFUtil;
  * The <code>CompareResource</code> class encapsulates a object
  * of type {@link ITypedElement} which is one of the sides of a {@link ICompareInput}.
  * A <code>CompareResource</code> can be loaded using the {@link #load(ITypedElement)} method.
- * @author Robert Müller, cpietsch
+ * @author Robert MÃ¼ller, cpietsch
  *
  */
 public class CompareResource {

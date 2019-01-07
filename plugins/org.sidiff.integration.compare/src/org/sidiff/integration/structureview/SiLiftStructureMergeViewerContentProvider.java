@@ -5,16 +5,12 @@ import java.util.List;
 
 import org.eclipse.compare.structuremergeviewer.ICompareInput;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.sidiff.common.ui.util.Exceptions;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -33,7 +29,7 @@ import org.sidiff.patching.operation.OperationManager;
  * the two models as input, calculates the {@link AsymmetricDifference} and
  * provides methods for the {@link TreeViewer} to show it.
  * 
- * @author Adrian Bingener, Robert Müller
+ * @author Adrian Bingener, Robert MÃ¼ller
  *
  */
 public class SiLiftStructureMergeViewerContentProvider extends AdapterFactoryContentProvider

@@ -29,6 +29,7 @@ import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.remote.CompareResource;

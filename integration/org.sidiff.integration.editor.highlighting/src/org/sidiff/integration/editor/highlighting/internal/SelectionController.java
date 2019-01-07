@@ -14,8 +14,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.integration.editor.highlighting.StyledObject;
-import org.sidiff.integration.editor.highlighting.internal.gmf.SelectionControllerDiagram;
-import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControllerTreeViewer;
+import org.sidiff.integration.editor.highlighting.gmf.internal.SelectionControllerDiagram;
+import org.sidiff.integration.editor.highlighting.tree.internal.SelectionControllerTreeViewer;
 
 public class SelectionController implements ISelectionListener, ISelectionChangedListener, INullSelectionListener {
 

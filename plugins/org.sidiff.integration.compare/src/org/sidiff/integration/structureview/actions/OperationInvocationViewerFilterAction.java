@@ -2,13 +2,13 @@ package org.sidiff.integration.structureview.actions;
 
 import org.eclipse.emf.common.ui.action.ViewerFilterAction;
 import org.eclipse.jface.viewers.Viewer;
-import org.sidiff.integration.Activator;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class OperationInvocationViewerFilterAction extends ViewerFilterAction {

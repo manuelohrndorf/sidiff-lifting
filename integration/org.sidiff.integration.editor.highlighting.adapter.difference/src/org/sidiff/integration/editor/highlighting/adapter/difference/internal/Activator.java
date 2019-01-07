@@ -1,7 +1,8 @@
-package org.sidiff.integration.editor.highlighting.adapter.difference;
+package org.sidiff.integration.editor.highlighting.adapter.difference.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.sidiff.integration.editor.highlighting.adapter.difference.DifferenceSelectionHighlightingAdapter;
 
 public class Activator implements BundleActivator {
 
@@ -25,6 +26,6 @@ public class Activator implements BundleActivator {
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;
-		DifferenceSelectionHighlightingAdapter.dispose();
+		DifferenceSelectionHighlightingAdapter.internalDispose();
 	}
 }

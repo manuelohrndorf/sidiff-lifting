@@ -19,7 +19,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.ui.INullSelectionListener;
 import org.eclipse.ui.ISelectionListener;
 import org.sidiff.integration.editor.highlighting.internal.SelectionController;
-import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControllerTreeViewer;
+import org.sidiff.integration.editor.highlighting.tree.internal.SelectionControllerTreeViewer;
 
 /**
  * Singleton ({@link #getInstance()}) which registers the highlighting adapters
@@ -28,7 +28,7 @@ import org.sidiff.integration.editor.highlighting.internal.tree.SelectionControl
  * ({@link #getSelectionListener()}, {@link #getSelectionChangedListener()},
  * {@link #getNullSelectionListener()})
  * 
- * @author Manuel Ohrndorf, Robert Müller
+ * @author Manuel Ohrndorf, Robert Mï¿½ller
  */
 public class EditorHighlighting {
 

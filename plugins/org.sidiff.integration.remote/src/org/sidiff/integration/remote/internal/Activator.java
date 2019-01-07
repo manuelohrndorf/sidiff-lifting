@@ -1,4 +1,4 @@
-package org.sidiff.integration.remote;
+package org.sidiff.integration.remote.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

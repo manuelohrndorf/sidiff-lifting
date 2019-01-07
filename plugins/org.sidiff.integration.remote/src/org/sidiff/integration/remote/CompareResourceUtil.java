@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 /**
  * Contains utility functions for loading and processing {@link CompareResource}s.
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class CompareResourceUtil {

@@ -13,10 +13,11 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.graphics.Image;
+import org.sidiff.integration.internal.Activator;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class SiLiftCompareConfiguration extends CompareConfiguration {

@@ -17,8 +17,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
@@ -33,9 +31,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.common.logging.LogEvent;
-import org.sidiff.common.logging.LogUtil;
 import org.sidiff.integration.editor.extension.AbstractEditorIntegration;
 
 public class SiriusEditorIntegration extends AbstractEditorIntegration {
@@ -72,41 +69,23 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 	}
 
 	@Override
-	public URI copyDiagram(URI modelFile, String savePath)
-			throws FileNotFoundException {
-		final String separator = System.getProperty("file.separator");
-		try {
-			final URI mainDiagramUri = getDiagramForModel(modelFile);
-			if (mainDiagramUri == null)
-				throw new RuntimeException("Model not supported");
-			ResourceSet set = new ResourceSetImpl();
-			final File testFile = new File(EMFStorage.uriToPath(mainDiagramUri));
-			if (!testFile.exists() || !testFile.isFile())
-				throw new FileNotFoundException("A diagram file was not found");
-			Resource resource = EMFStorage.eLoad(mainDiagramUri).eResource();
-			set.getResources().add(resource);
-			final URI diagramSaveFile = EMFStorage.pathToUri(savePath
-					+ separator + resource.getURI().lastSegment());
-			EMFStorage.eSaveAs(diagramSaveFile, resource.getContents().get(0),
-					false);
-			return EMFStorage.pathToUri(savePath + separator
-					+ mainDiagramUri.lastSegment());
-		} catch (Exception e) {
-			if (e instanceof FileNotFoundException)
-				throw (FileNotFoundException) e;
-			LogUtil.log(LogEvent.NOTICE, e.getMessage());
-			// TODO Exception-handling?
-			throw new RuntimeException("Error copying diagram", e);
-		}
+	public URI copyDiagram(URI modelFile, URI savePath) throws FileNotFoundException {
+		final URI mainDiagramUri = getDiagramForModel(modelFile);
+		if (mainDiagramUri == null)
+			throw new RuntimeException("Model not supported");
+		final File testFile = EMFStorage.toFile(mainDiagramUri);
+		if (testFile == null || !testFile.exists() || !testFile.isFile())
+			throw new FileNotFoundException("A diagram file was not found");
+		final URI diagramSaveFile = savePath.appendSegment(mainDiagramUri.lastSegment());
+		SiDiffResourceSet.create().copyResource(mainDiagramUri, diagramSaveFile);
+		return diagramSaveFile;
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
 		try {
-			// FIXME Could be problematic with files in archives
-			String path = EMFStorage.uriToPath(modelURI);
 			IEditorDescriptor desc = PlatformUI.getWorkbench()
-					.getEditorRegistry().getDefaultEditor(path);
+					.getEditorRegistry().getDefaultEditor(modelURI.lastSegment());
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
 			return page.openEditor(new URIEditorInput(modelURI), desc.getId());
@@ -132,7 +111,9 @@ public class SiriusEditorIntegration extends AbstractEditorIntegration {
 			} catch (IOException e) {
 			}
 			return null;
-		} else if (EMFStorage.uriToFile(diagramURI).exists()) {
+		}
+		File diagramFile = EMFStorage.toFile(diagramURI);
+		if (diagramFile != null && diagramFile.exists()) {
 			return diagramURI;
 		}
 		return null;

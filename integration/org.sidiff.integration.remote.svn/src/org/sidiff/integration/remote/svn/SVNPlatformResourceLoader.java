@@ -12,7 +12,7 @@ import org.sidiff.integration.remote.IPlatformResourceLoader;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class SVNPlatformResourceLoader implements IPlatformResourceLoader {

@@ -8,7 +8,7 @@ import org.eclipse.team.svn.core.synchronize.variant.ResourceVariant;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 @SuppressWarnings("restriction") // FileRevisionTypedElement is not API

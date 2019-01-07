@@ -29,8 +29,7 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
- * @author Robert Müller, cpietsch
- *
+ * @author Robert MÃ¼ller, cpietsch
  */
 public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlightingAdapter {
 
@@ -131,7 +130,10 @@ public class DifferenceSelectionHighlightingAdapter implements ISelectionHighlig
 		}
 	}
 
-	static void dispose() {
+	/**
+	 * Internal method to dispose the shared system resources when the bundle is stopped.
+	 */
+	public static void internalDispose() {
 		CHANGE.dispose();
 		REMOVE.dispose();
 		ADD.dispose();

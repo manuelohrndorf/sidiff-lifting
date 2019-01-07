@@ -77,7 +77,7 @@ public interface IEditorIntegration {
 	 *             The diagram files could not be found
 	 * @return File The main diagram file which can be opened by the editor
 	 */
-	public URI copyDiagram(URI modelURI, String savePath) throws FileNotFoundException;
+	public URI copyDiagram(URI modelURI, URI savePath) throws FileNotFoundException;
 
 	/**
 	 * Returns the ID for the default editor or null

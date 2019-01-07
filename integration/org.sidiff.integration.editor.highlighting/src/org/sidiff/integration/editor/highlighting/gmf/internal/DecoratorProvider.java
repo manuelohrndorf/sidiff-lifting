@@ -1,4 +1,4 @@
-package org.sidiff.integration.editor.highlighting.internal.gmf;
+package org.sidiff.integration.editor.highlighting.gmf.internal;
 
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;

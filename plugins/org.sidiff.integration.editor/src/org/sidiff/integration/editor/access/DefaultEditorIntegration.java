@@ -17,7 +17,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
 
 public class DefaultEditorIntegration implements IEditorIntegration {
@@ -41,16 +40,14 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 
 	private DefaultEditorIntegration(URI modelFile) {
 		//Save editor id for later purposes
-		String path = EMFStorage.uriToPath(modelFile); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(modelFile.lastSegment());
 		defaultEditorId = desc.getId();
 	}
 
 	@Override
 	public boolean supportsModel(Resource model) {
 		//Save editor id for later purposes
-		String path = EMFStorage.uriToPath(model.getURI()); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(model.getURI().lastSegment());
 		defaultEditorId = desc.getId();
 		return true;
 	}
@@ -63,8 +60,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	@Override
 	public boolean supportsModel(URI modelFile) {
 		//Save editor id for later purposes
-		String path = EMFStorage.uriToPath(modelFile); 
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(modelFile.lastSegment());
 		defaultEditorId = desc.getId();
 		return true;
 	}
@@ -93,8 +89,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public URI copyDiagram(URI modelURI, String savePath)
-			throws FileNotFoundException {
+	public URI copyDiagram(URI modelURI, URI savePath) throws FileNotFoundException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -121,8 +116,7 @@ public class DefaultEditorIntegration implements IEditorIntegration {
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
 		try {
-			String path=EMFStorage.uriToPath(modelURI); 
-			IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(path);
+			IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(modelURI.lastSegment());
 			defaultEditorId = desc.getId();
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			return page.openEditor(new URIEditorInput(modelURI), defaultEditorId);

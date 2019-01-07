@@ -6,13 +6,13 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.sidiff.integration.Activator;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class SiLiftStructureMergeViewerLabelProvider extends AdapterFactoryLabelProvider.StyledLabelProvider {

@@ -22,10 +22,10 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
 import org.sidiff.integration.selection.SiLiftCompareSelectionController;
@@ -35,7 +35,7 @@ import org.sidiff.integration.selection.SiLiftCompareSelectionController;
  * highlights items concerning a difference selected in the associated
  * {@link org.sidiff.integration.structureview.SiLiftStructureMergeViewer}
  * 
- * @author Jonas Schmeck, Robert Müller
+ * @author Jonas Schmeck, Robert Mï¿½ller
  *
  */
 public class SiLiftContentMergeViewer extends ContentMergeViewer {

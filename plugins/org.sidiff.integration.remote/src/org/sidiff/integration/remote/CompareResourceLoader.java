@@ -23,7 +23,7 @@ import org.sidiff.common.logging.LogUtil;
  * {@link CompareResource} by delegating the loading/resolution to
  * extensions for the remote loader extension point.</p>
  * <p><b>This class is for internal use only.</b></p>
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 final class CompareResourceLoader {
@@ -135,7 +135,7 @@ final class CompareResourceLoader {
 	protected URI resolveURI(CompareResource compRes) {
 		if(compRes.getPlatformResource() != null) {
 			// use the platform resource to resolve the uri
-			return EMFStorage.iResourceToURI(compRes.getPlatformResource());
+			return EMFStorage.toPlatformURI(compRes.getPlatformResource());
 		}
 		// resolve using the registered extensions
 		final ITypedElement typedElement = compRes.getTypedElement();

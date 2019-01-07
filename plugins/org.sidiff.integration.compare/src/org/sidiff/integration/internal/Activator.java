@@ -1,4 +1,4 @@
-package org.sidiff.integration;
+package org.sidiff.integration.internal;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;

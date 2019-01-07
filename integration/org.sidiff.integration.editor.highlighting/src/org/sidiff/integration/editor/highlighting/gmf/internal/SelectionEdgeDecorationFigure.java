@@ -1,4 +1,4 @@
-package org.sidiff.integration.editor.highlighting.internal.gmf;
+package org.sidiff.integration.editor.highlighting.gmf.internal;
 
 import org.eclipse.draw2d.PolylineConnection;
 import org.sidiff.integration.editor.highlighting.StyledObject;

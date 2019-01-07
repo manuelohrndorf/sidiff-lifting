@@ -5,11 +5,11 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.ui.util.Exceptions;
-import org.sidiff.integration.Activator;
+import org.sidiff.integration.internal.Activator;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class ShowPropertiesViewAction extends Action {

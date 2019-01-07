@@ -6,13 +6,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.sidiff.common.ui.util.MessageDialogUtil;
-import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class RevertOperationAction extends AbstractOperationWrapperAction {

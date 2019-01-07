@@ -1,4 +1,4 @@
-package org.sidiff.integration.editor.highlighting.internal.gmf;
+package org.sidiff.integration.editor.highlighting.gmf.internal;
 
 import java.util.Collection;
 import java.util.Objects;

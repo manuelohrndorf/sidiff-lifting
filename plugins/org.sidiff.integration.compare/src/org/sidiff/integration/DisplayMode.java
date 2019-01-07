@@ -1,10 +1,5 @@
 package org.sidiff.integration;
 
-import org.eclipse.jface.viewers.TreeViewer;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.integration.structureview.SiLiftStructureMergeViewerContentProvider;
-
 /**
  * A display mode defines which type of input the
  * {@link SiLiftStructureMergeViewerContentProvider} provides to the

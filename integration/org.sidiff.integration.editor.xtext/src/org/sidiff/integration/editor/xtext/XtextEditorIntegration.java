@@ -6,10 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.common.util.URI;
@@ -57,22 +54,21 @@ public class XtextEditorIntegration implements IEditorIntegration {
 	}
 
 	@Override
-	public URI copyDiagram(URI modelURI, String savePath) throws FileNotFoundException {
+	public URI copyDiagram(URI modelURI, URI savePath) throws FileNotFoundException {
 		return null;
 	}
 
 	@Override
 	public IEditorPart openModelInDefaultEditor(URI modelURI) {
 		try {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IPath location = Path.fromOSString(EMFStorage.uriToFile(modelURI).getAbsolutePath());
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
+			IFile file = EMFStorage.toIFile(modelURI);
 			IEditorInput input;
 			if (file != null && file.exists()) {
 				input = new FileEditorInput(file);
 			} else {
 				input = new URIEditorInput(modelURI);
 			}
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			return page.openEditor(input, getEditorID(modelURI));
 		} catch (PartInitException ex) {
 			return null;

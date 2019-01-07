@@ -1,4 +1,4 @@
-package org.sidiff.integration.editor.highlighting.internal.tree;
+package org.sidiff.integration.editor.highlighting.tree.internal;
 
 import java.util.Collection;
 import java.util.Map;

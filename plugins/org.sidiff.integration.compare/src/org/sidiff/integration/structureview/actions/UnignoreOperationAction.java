@@ -1,13 +1,13 @@
 package org.sidiff.integration.structureview.actions;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.sidiff.integration.Activator;
 import org.sidiff.integration.SiLiftCompareConfiguration;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class UnignoreOperationAction extends AbstractOperationWrapperAction {

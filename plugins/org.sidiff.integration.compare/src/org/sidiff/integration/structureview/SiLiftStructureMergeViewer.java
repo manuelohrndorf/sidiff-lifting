@@ -20,8 +20,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.selection.SiLiftCompareSelectionController;
 import org.sidiff.integration.structureview.actions.AbstractAction;
@@ -42,7 +40,7 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
  * Used to show {@link AsymmetricDifference}s and {@link SymmetricDifference}s
  * as structured view for ecore files.
  *
- * @author Adrian Bingener, Robert Müller
+ * @author Adrian Bingener, Robert MÃ¼ller
  */
 public class SiLiftStructureMergeViewer extends TreeViewer {
 

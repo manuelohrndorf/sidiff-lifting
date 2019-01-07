@@ -8,8 +8,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.integration.Activator;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.integration.properties.PropertySheetPageHelper;
 
 /**
@@ -17,7 +17,7 @@ import org.sidiff.integration.properties.PropertySheetPageHelper;
  * handles the selection in the compare editor.
  * This class also implements {@link ISelectionChangedListener} to propagate
  * the selection to all registered listeners.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class SiLiftCompareSelectionController implements ISelectionProvider, ISelectionChangedListener {

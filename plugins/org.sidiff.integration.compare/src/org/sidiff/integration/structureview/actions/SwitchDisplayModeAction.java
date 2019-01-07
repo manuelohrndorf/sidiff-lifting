@@ -6,9 +6,9 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.sidiff.integration.Activator;
 import org.sidiff.integration.DisplayMode;
 import org.sidiff.integration.SiLiftCompareConfiguration;
+import org.sidiff.integration.internal.Activator;
 import org.sidiff.integration.structureview.SiLiftStructureMergeViewer;
 
 /**
@@ -16,7 +16,7 @@ import org.sidiff.integration.structureview.SiLiftStructureMergeViewer;
  * actions is an {@link IMenuCreator} which means, that it creates a drop down
  * menu. This menu provides a list of all {@link DisplayMode}s.
  * 
- * @author Adrian Bingener, Robert Müller
+ * @author Adrian Bingener, Robert Mï¿½ller
  *
  */
 public class SwitchDisplayModeAction extends Action implements IMenuCreator {
