@@ -18,17 +18,15 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matching.input.InputModels;
 
-public class CreateLiftingJob extends Job {
+public class LiftDifferenceJob extends Job {
 
-	private IFile differenceFile;
 	private SymmetricDifference symmetricDiff;
 	private LiftingSettings settings;
 	private InputModels inputModels;
 
-	public CreateLiftingJob(IFile differenceFile) {
+	public LiftDifferenceJob(IFile differenceFile) {
 		super("Lifting technical Difference");
-		this.differenceFile = differenceFile;
-		this.symmetricDiff = LiftingFacade.loadLiftedDifference(differenceFile.getLocation().toOSString());
+		this.symmetricDiff = LiftingFacade.loadLiftedDifference(EMFStorage.toPlatformURI(differenceFile));
 		this.inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
 		this.settings = new LiftingSettings(inputModels.getDocumentTypes());
 	}
@@ -53,20 +51,15 @@ public class CreateLiftingJob extends Job {
 			/*
 			 * Serialize lifted symmetricDiff
 			 */
-
-			String diffSavePath = differenceFile.getParent().getLocation().toOSString();
-			LiftingFacade.serializeLiftedDifference(symmetricDiff, diffSavePath,
-			PipelineUtils.generateDifferenceFileName(symmetricDiff.eResource(), settings));
+			LiftingFacade.serializeLiftedDifference(symmetricDiff, symmetricDiff.eResource().getURI().trimSegments(1),
+					PipelineUtils.generateDifferenceFileName(symmetricDiff.eResource(), settings));
 
 			/*
 			 * Update workspace UI
 			 */
-			
-			final String diffPath = EMFStorage.uriToPath(symmetricDiff.eResource().getURI());
-			
 			Display.getDefault().asyncExec(() -> Exceptions.log(() -> {
-				differenceFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-				UIUtil.openEditor(diffPath);
+				inputModels.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				UIUtil.openEditor(EMFStorage.toFile(symmetricDiff.eResource().getURI()));
 				return Status.OK_STATUS;
 			}));
 			return Status.OK_STATUS;

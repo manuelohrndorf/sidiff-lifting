@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
@@ -234,7 +235,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 *            
 	 * @see TechnicalDifferenceFacade#serializeTechnicalDifference(SymmetricDifference, String, String)
 	 */
-	public static void serializeLiftedDifference(SymmetricDifference symDiff, String path, String fileName) {
+	public static void serializeLiftedDifference(SymmetricDifference symDiff, URI path, String fileName) {
 		TechnicalDifferenceFacade.serializeTechnicalDifference(symDiff, path, fileName);
 	}
 
@@ -247,7 +248,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 * 
 	 * @see TechnicalDifferenceFacade#loadTechnicalDifference(String)
 	 */
-	public static SymmetricDifference loadLiftedDifference(String path) {
+	public static SymmetricDifference loadLiftedDifference(URI path) {
 		return loadTechnicalDifference(path);
 	}
 	

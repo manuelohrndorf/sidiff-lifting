@@ -2,20 +2,20 @@ package org.sidiff.difference.lifting.ui.wizard;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.wizard.Wizard;
-import org.sidiff.difference.lifting.ui.jobs.CreateLiftingJob;
+import org.sidiff.difference.lifting.ui.jobs.LiftDifferenceJob;
 import org.sidiff.difference.lifting.ui.pages.CreateLiftingPage;
 
-public class CreateLiftingWizard extends Wizard{
+public class LiftDifferenceWizard extends Wizard{
 
 	private CreateLiftingPage createLiftingPage;
 
 	private IFile differenceFile;
-	private CreateLiftingJob job;
+	private LiftDifferenceJob job;
 
-	public CreateLiftingWizard(IFile differenceFile) {
+	public LiftDifferenceWizard(IFile differenceFile) {
 		this.setWindowTitle("Difference Lift Up Wizard");
 		this.differenceFile = differenceFile;
-		job = new CreateLiftingJob(differenceFile);
+		job = new LiftDifferenceJob(differenceFile);
 	}
 
 	@Override

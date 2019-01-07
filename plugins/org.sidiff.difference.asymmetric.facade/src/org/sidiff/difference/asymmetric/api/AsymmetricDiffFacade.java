@@ -2,10 +2,12 @@ package org.sidiff.difference.asymmetric.api;
 
 import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.deriveAsymmetricDifference;
 
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.statistics.StatisticsUtil;
@@ -149,12 +151,8 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 * @throws NoCorrespondencesException
 	 */
 	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-		
-		if (models.getResources().size() == 2) {
-			return deriveLiftedAsymmetricDifference(models.getResources().get(0), models.getResources().get(1), settings);
-		} else {
-			throw new RuntimeException("Exactly two models are required.");
-		}
+		Assert.isLegal(models.getResources().size() == 2, "Exactly two models are required.");
+		return deriveLiftedAsymmetricDifference(models.getResources().get(0), models.getResources().get(1), settings);
 	}
 	
 	protected static void mergeImports(SymmetricDifference symmetricDifference,
@@ -176,7 +174,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	protected static void unmergeImports(DifferenceSettings settings) {
 		
 		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
-			LogUtil.log(LogEvent.NOTICE, "Umerge imports");
+			LogUtil.log(LogEvent.NOTICE, "Unmerge imports");
 			settings.getImports().unmerge();
 			settings.setImports(null);
 		}
@@ -187,28 +185,27 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 *
 	 * @param diff
 	 *            The difference to serialize.
-	 * @param path
-	 *            The serialization path.
+	 * @param outputDir
+	 *            The serialization output directory.
 	 * @param fileName The file name of the difference (without file extension).
+	 * @deprecated Use {@link Difference#serialize(SiDiffResourceSet, URI, String)} instead.
 	 */
-	public static void serializeLiftedDifference(Difference diff, String path, String fileName) {
-		if (!(path.endsWith("/") || path.endsWith("\\"))) {
-			path = path + "/";
-		}
-
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(path + fileName + "." + LiftingFacade.SYMMETRIC_DIFF_EXT), diff.getSymmetric());
-		EMFStorage.eSaveAs(EMFStorage.pathToUri(path + fileName + "." + AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT), diff.getAsymmetric());
+	public static void serializeLiftedDifference(Difference diff, URI outputDir, String fileName) {
+		SiDiffResourceSet.create().saveEObjectAs(diff.getSymmetric(),
+				outputDir.appendSegment(fileName).appendFileExtension(LiftingFacade.SYMMETRIC_DIFF_EXT));
+		SiDiffResourceSet.create().saveEObjectAs(diff.getAsymmetric(),
+				outputDir.appendSegment(fileName).appendFileExtension(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT));
 	}
 
 
 	/**
-	 * Load symmetric difference.
+	 * Load asymmetric difference.
 	 *
 	 * @param path
 	 *            The path to the asymmetric difference.
-	 * @return The loaded symmetric difference.
+	 * @return The loaded asymmetric difference.
 	 */
-	public static AsymmetricDifference loadLiftedAsymmetricDifference(String path) {
-		return (AsymmetricDifference) EMFStorage.eLoad(EMFStorage.pathToUri(path));
+	public static AsymmetricDifference loadLiftedAsymmetricDifference(URI uri) {
+		return SiDiffResourceSet.create().loadEObject(uri, AsymmetricDifference.class);
 	}
 }

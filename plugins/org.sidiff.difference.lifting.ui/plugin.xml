@@ -5,13 +5,15 @@
          point="org.eclipse.ui.commands">
       <command
             categoryId="org.sidiff.difference.ui.category.silift"
+            description="Create lifting from technical difference"
             id="org.sidiff.difference.lifting.ui.createLifting"
-            name="Create lifting from technical difference">
+            name="Lift Technical Difference">
       </command>
       <command
             categoryId="org.sidiff.difference.ui.category.silift"
+            description="Create a technical difference and lift it"
             id="org.sidiff.difference.lifting.ui.createDiffLifting"
-            name="Create difference and lift it">
+            name="Create Lifted Difference">
       </command>
    </extension>
    <extension
@@ -26,7 +28,7 @@
          </activeWhen>
       </handler>
       <handler
-            class="org.sidiff.difference.lifting.ui.handler.LiftDifferenceHandler"
+            class="org.sidiff.difference.lifting.ui.handler.CreateLiftedDifferenceHandler"
             commandId="org.sidiff.difference.lifting.ui.createDiffLifting">
          <activeWhen>
             <reference
@@ -37,21 +39,21 @@
    </extension>
    <extension point="org.eclipse.ui.menus">
   <menuContribution
-        locationURI="popup:org.silift.menu?after=header">
+        locationURI="popup:org.silift.menu?after=differenceTechnical">
      <command
            commandId="org.sidiff.difference.lifting.ui.createDiffLifting"
-           label="Compare with Each Other"
+           label="Create Lifted Difference"
            style="push"
-           tooltip="Compares to models with each other">
+           tooltip="Compares to models with each other to create a lifted difference">
      </command>
      <command
            commandId="org.sidiff.difference.lifting.ui.createLifting"
            label="Lift Technical Difference"
            style="push"
-           tooltip="Lifts a technical Difference">
+           tooltip="Lift a technical Difference">
      </command>
      <separator
-           name="org.sidiff.difference.lifting.ui.separator"
+           name="differenceLifting"
            visible="true">
      </separator>
   </menuContribution>
@@ -62,7 +64,7 @@
             class="org.sidiff.difference.lifting.ui.handler.LiftingPropertyTester"
             id="org.sidiff.difference.lifting.ui.liftingPropertyTester"
             namespace="org.sidiff.difference.lifting.ui.properties"
-            properties="difference,modelFile"
+            properties="modelFile"
             type="org.eclipse.core.resources.IFile">
       </propertyTester>
    </extension>
@@ -98,10 +100,13 @@
             <iterate
                   ifEmpty="false"
                   operator="and">
-               <test
-               		 forcePluginActivation="true"
-                     property="org.sidiff.difference.lifting.ui.properties.difference">
-               </test>
+               <adapt
+                     type="org.eclipse.core.resources.IFile">
+                  <test
+                        property="org.eclipse.core.resources.extension"
+                        value="symmetric">
+                  </test>
+               </adapt>
             </iterate>
          </with>
       </definition>

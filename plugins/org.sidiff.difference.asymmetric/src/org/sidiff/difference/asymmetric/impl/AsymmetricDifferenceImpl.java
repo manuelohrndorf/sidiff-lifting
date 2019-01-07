@@ -19,12 +19,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.DependencyContainer;
@@ -249,16 +248,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if (originModel == null) {
 			URI uri = URI.createURI(getUriOriginModel());
 			if (uri.isRelative() && this.eResource() != null) {
-				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriOriginModel());
+				uri = uri.resolve(this.eResource().getURI());
 			}
-			ResourceSet resourceSet = null;
-        	if(this.eResource() == null) {
-        		resourceSet = new ResourceSetImpl();
-        	}else {
-        		resourceSet = this.eResource().getResourceSet();
-        	}
-			originModel = resourceSet.getResource(uri, true);
-
+			originModel = SiDiffResourceSet.create().getResource(uri, true);
 		}
 
 		return originModel;
@@ -281,15 +273,9 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 		if (changedModel == null) {
 			URI uri = URI.createURI(getUriChangedModel());
 			if (uri.isRelative() && this.eResource() != null) {
-				uri = this.eResource().getURI().trimSegments(1).appendSegment(getUriChangedModel());
+				uri = uri.resolve(this.eResource().getURI());
 			}
-			ResourceSet resourceSet = null;
-        	if(this.eResource() == null) {
-        		resourceSet = new ResourceSetImpl();
-        	}else {
-        		resourceSet = this.eResource().getResourceSet();
-        	}
-			changedModel = resourceSet.getResource(uri, true);
+			changedModel = SiDiffResourceSet.create().getResource(uri, true);
 		}
 
 		return changedModel;

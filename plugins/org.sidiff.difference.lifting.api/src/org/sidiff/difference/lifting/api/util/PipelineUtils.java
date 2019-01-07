@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
@@ -167,8 +166,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return a filename {old filename}_LIFTING_POSTPROCESSING
 	 */
 	public static String generateDifferenceFileName(Resource model, LiftingSettings settings) {
-		String fileName = extractModelName(EMFStorage.uriToPath(model.getURI()));
-
+		String fileName = model.getURI().trimFileExtension().lastSegment();
 		fileName = fileName.replace("_technical", "_lifted");
 
 		if (settings.getRecognitionEngineMode() == RecognitionEngineMode.LIFTING_AND_POST_PROCESSING) {

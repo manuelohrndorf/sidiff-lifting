@@ -1,15 +1,15 @@
 package org.sidiff.difference.lifting.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.jobs.CreateDifferenceJob;
+import org.sidiff.difference.lifting.ui.jobs.CreateLiftedDifferenceJob;
 import org.sidiff.difference.lifting.ui.pages.AdvancedCompareSettingsPage;
 import org.sidiff.difference.lifting.ui.pages.BasicCompareSettingsPage;
 import org.sidiff.matching.input.InputModels;
 
-public class CreateDifferenceWizard extends Wizard {
+public class CreateLiftedDifferenceWizard extends Wizard {
 
 	/**
 	 * The {@link InputModels}
@@ -35,9 +35,11 @@ public class CreateDifferenceWizard extends Wizard {
 
 	// ---------- Constructor ----------
 	
-	public CreateDifferenceWizard(IFile fileA, IFile fileB) {
+	public CreateLiftedDifferenceWizard(InputModels inputModels) {
 		this.setWindowTitle("New Symmetric Difference Wizard");
-		this.inputModels = new InputModels(fileA, fileB);
+		Assert.isLegal(inputModels != null && inputModels.getFiles().size() == 2,
+				"Invalid InputModels, exactly two files are required");
+		this.inputModels = inputModels;
 		this.settings = new LiftingSettings(inputModels.getDocumentTypes());
 	}
 
@@ -61,7 +63,7 @@ public class CreateDifferenceWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		Job job = new CreateDifferenceJob(inputModels, settings);
+		Job job = new CreateLiftedDifferenceJob(inputModels, settings);
 		job.schedule();
 		return true;
 	}
