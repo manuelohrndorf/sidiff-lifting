@@ -32,6 +32,8 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		this.symbolicLinkHandler = settings.getSymbolicLinkHandler();
 		super.init(patch, targetModel, settings);
+		this.linkResolvingA = null;
+		this.linkResolvingB = null;
 	}
 	
 	@Override
