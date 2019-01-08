@@ -196,7 +196,7 @@ public class ExtractionEngine {
 				this.liftingSettings.getMatcher(), this.liftingSettings.getCandidatesService(),
 				this.liftingSettings.getCorrespondencesService(), this.liftingSettings.getTechBuilder(), null,
 				new ModelSliceBasedArgumentManager(), new BatchInterruptHandler(),
-				ITransformationEngine.MANAGER.getDefaultExtension().orElseThrow(),
+				ITransformationEngine.MANAGER.getDefaultExtension().get(),
 				null, org.sidiff.patching.ExecutionMode.BATCH, org.sidiff.patching.PatchMode.PATCHING, 100,
 				org.sidiff.patching.validation.ValidationMode.NO_VALIDATION);
 	}

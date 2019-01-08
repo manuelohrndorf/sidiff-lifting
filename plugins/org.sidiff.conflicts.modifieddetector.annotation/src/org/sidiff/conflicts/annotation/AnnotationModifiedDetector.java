@@ -66,7 +66,7 @@ public abstract class AnnotationModifiedDetector extends AbstractModifiedDetecto
 
 		LogUtil.log(LogEvent.DEBUG, "Initializing Annotator...");
 
-		IAnnotation annotator = IAnnotation.MANAGER.getDefaultExtension().orElseThrow();
+		IAnnotation annotator = IAnnotation.MANAGER.getDefaultExtension().get();
 		initAnnotator(annotator, modelA);
 
 		LogUtil.log(LogEvent.DEBUG, "Removing Annotations...");

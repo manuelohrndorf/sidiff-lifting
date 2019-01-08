@@ -151,7 +151,10 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 			}
 		}
 		if(rrSorter == null) {
-			rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(getDocumentTypes()).orElseThrow();
+			rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(getDocumentTypes()).orElse(null);
+			if(rrSorter == null) {
+				addError("No default Recognition Rule Sorter was found.");
+			}
 		}
 	}
 

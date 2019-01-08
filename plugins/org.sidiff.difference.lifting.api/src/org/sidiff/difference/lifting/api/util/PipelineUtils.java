@@ -71,7 +71,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 * @return a generic {@link IRecognitionRuleSorter}
 	 */
 	public static IRecognitionRuleSorter getGenericRecognitionRuleSorter(){
-		return IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 *         types
 	 */
 	public static IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
-		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).get();
 	}
 
 	/**

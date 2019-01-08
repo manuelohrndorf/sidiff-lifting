@@ -253,7 +253,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				config.getLiftingSettings().getTechBuilder(), null,
 				new ModelSliceBasedArgumentManager(),
 				new DialogPatchInterruptHandler(),
-				ITransformationEngine.MANAGER.getDefaultExtension().orElseThrow(),
+				ITransformationEngine.MANAGER.getDefaultExtension().get(),
 				IModifiedDetector.MANAGER.getGenericExtensions().stream().findFirst().orElse(null), ExecutionMode.INTERACTIVE,
 				PatchMode.MERGING, 100, ValidationMode.NO_VALIDATION);
 		

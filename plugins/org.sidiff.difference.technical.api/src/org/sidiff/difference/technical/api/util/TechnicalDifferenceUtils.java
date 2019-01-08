@@ -82,7 +82,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 * @return a generic {@link ITechnicalDifferenceBuilder}
 	 */
 	public static ITechnicalDifferenceBuilder getGenericTechnicalDifferenceBuilder() {
-		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension().orElseThrow();
+		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension().get();
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class TechnicalDifferenceUtils extends MatchingUtils{
 	 *         documentTypes
 	 */
 	public static ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
-		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
+		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension(documentTypes).get();
 	}
 
 	/**

@@ -74,7 +74,8 @@ public class PatchEngine {
 
 		// Set SiLift default Correspondence-Service:
 		settings.getMatcher().setCorrespondencesService(
-				ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
+				ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
+						() -> new RuntimeException("No correspondences service is available")));
 		
 		// Get settings:
 		this.patchedResource = patchedResource;

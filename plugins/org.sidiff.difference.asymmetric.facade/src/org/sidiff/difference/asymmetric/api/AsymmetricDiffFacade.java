@@ -122,7 +122,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
 		
 		settings.setImports(new AsymmetricMergeImports(settings.getScope(), true));
 		

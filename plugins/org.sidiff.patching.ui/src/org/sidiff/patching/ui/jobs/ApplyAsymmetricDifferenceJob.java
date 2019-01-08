@@ -169,7 +169,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 			}
 		}
 
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getDefaultExtension().orElseThrow());
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getDefaultExtension().get());
 	}
 
 	protected void initPatchEngine() {

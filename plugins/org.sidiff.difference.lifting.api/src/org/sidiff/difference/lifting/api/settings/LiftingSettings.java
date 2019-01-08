@@ -114,7 +114,7 @@ public class LiftingSettings extends DifferenceSettings {
 		super();
 
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
 	}
 
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
@@ -122,7 +122,7 @@ public class LiftingSettings extends DifferenceSettings {
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
 
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow();
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class LiftingSettings extends DifferenceSettings {
 		this.ruleBases = IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
 
 		// Search proper recognition rule sorter:
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow();
+		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).get();
 	}
 
 	/**

@@ -153,7 +153,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
 		
 		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow());
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
 		
 		// Calculate model difference:
 		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...
