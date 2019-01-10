@@ -1,6 +1,5 @@
 package org.sidiff.editrule.rulebase.project.ide.wizard;
 
-import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorChooserWidget;
@@ -8,7 +7,7 @@ import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
 import org.sidiff.editrule.rulebase.project.ide.Activator;
 
-public class RuleBaseProjectPage01 extends AbstractWizardPage implements IPageChangedListener{
+public class RuleBaseProjectPage01 extends AbstractWizardPage {
 
 	private EditRuleGenerationSettings settings;
 
