@@ -164,11 +164,12 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		// adapt the settings using the changed settings source
 		updateSettings();
 
-		// notify listeners
-		getWidgetCallback().requestValidation();
-
 		// update enabled state of dependents
 		propagateEnabledState();
+		
+		// notify listeners after the enabled state has been updated
+		// as disabled widgets are not validated
+		getWidgetCallback().requestValidation();
 	}
 
 	public Source getSource() {
