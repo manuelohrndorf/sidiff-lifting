@@ -88,13 +88,13 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		validateWidget = new ValidateModelsWidget();
 		validateWidget.setSettings(settings);
 		validateWidget.setDependency(settingsSourceWidget);
-		addWidget(container, validateWidget);
+		addWidget(container, validateWidget, NUM_COLUMNS/2);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(settings);
 		scopeWidget.setDependency(settingsSourceWidget);
-		addWidget(container, scopeWidget);
+		addWidget(container, scopeWidget, NUM_COLUMNS/2);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);

@@ -1,10 +1,6 @@
 package org.sidiff.difference.technical.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
@@ -95,38 +91,25 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		validateWidget = new ValidateModelsWidget();
 		validateWidget.setSettings(settings);
 		validateWidget.setDependency(settingsSourceWidget);
-		addWidget(container, validateWidget);
+		addWidget(container, validateWidget, NUM_COLUMNS/2);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(settings);
 		scopeWidget.setDependency(settingsSourceWidget);
-		addWidget(container, scopeWidget);
-
-		// Algorithms:
-		Group algorithmsGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			algorithmsGroup.setLayout(grid);
-
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			algorithmsGroup.setLayoutData(data);
-			algorithmsGroup.setText("Algorithms:");
-		}
+		addWidget(container, scopeWidget, NUM_COLUMNS/2);
 
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(settingsSourceWidget);
-		addWidget(algorithmsGroup, matcherWidget);
-		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
+		addWidget(container, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels);
 		builderWidget.setSettings(settings);
 		builderWidget.setDependency(settingsSourceWidget);
-		addWidget(algorithmsGroup, builderWidget);
+		addWidget(container, builderWidget);
 	}
 
 	@Override

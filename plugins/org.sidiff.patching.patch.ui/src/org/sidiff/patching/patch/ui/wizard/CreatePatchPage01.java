@@ -63,19 +63,19 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 		validateWidget = new ValidateModelsWidget();
 		validateWidget.setSettings(settings);
 		validateWidget.setDependency(settingsSourceWidget);
-		addWidget(container, validateWidget);
+		addWidget(container, validateWidget, NUM_COLUMNS/3);
 
 		// Comparison mode:
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
 		scopeWidget.setDependency(settingsSourceWidget);
-		addWidget(container, scopeWidget);
+		addWidget(container, scopeWidget, NUM_COLUMNS/3);
 
 		// Edit-Rule Matches:
 		erMatchWidget = new EditRuleMatchWidget();
 		erMatchWidget.setSettings(settings);
 		erMatchWidget.setDependency(settingsSourceWidget);
-		addWidget(container, erMatchWidget);
+		addWidget(container, erMatchWidget, NUM_COLUMNS/3);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(inputModels);

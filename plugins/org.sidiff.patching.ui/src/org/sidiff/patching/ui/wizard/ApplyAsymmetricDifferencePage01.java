@@ -47,13 +47,13 @@ public class ApplyAsymmetricDifferencePage01 extends AbstractWizardPage {
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
 		scopeWidget.setDependency(settingsSourceWidget);
-		addWidget(container, scopeWidget);
+		addWidget(container, scopeWidget, NUM_COLUMNS/2);
 
 		// Validation:
 		validationWidget = new ValidationModeWidget();
 		validationWidget.setSettings(this.settings);
 		validationWidget.setDependency(settingsSourceWidget);
-		addWidget(container, validationWidget);
+		addWidget(container, validationWidget, NUM_COLUMNS/2);
 	}
 
 	public URI getTargetModel() {

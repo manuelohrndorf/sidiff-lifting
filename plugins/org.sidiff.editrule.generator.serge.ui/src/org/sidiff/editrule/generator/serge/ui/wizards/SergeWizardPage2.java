@@ -1,8 +1,5 @@
 package org.sidiff.editrule.generator.serge.ui.wizards;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 import org.sidiff.editrule.generator.serge.ui.widgets.SergeConfigSerializationWidget;
@@ -24,16 +21,13 @@ public class SergeWizardPage2 extends AbstractWizardPage {
 
 	@Override
 	protected void createWidgets() {
-		Composite gridContainer = new Composite(super.container, SWT.NONE);
-		gridContainer.setLayout(new GridLayout(2, false));
-
 		SergeConfigSerializationWidget configSerializationWidget = new SergeConfigSerializationWidget();
 		configSerializationWidget.setSettings(settings);
-		addWidget(gridContainer, configSerializationWidget);
+		addWidget(container, configSerializationWidget, NUM_COLUMNS/2);
 
 		SergeTransformationSettingsWidget transformationSettingsWidget = new SergeTransformationSettingsWidget();
 		transformationSettingsWidget.setSettings(settings);
-		addWidget(gridContainer, transformationSettingsWidget);
+		addWidget(container, transformationSettingsWidget, NUM_COLUMNS/2);
 	}
 
 	@Override

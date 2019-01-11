@@ -1,9 +1,5 @@
 package org.sidiff.patching.ui.wizard;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
@@ -33,24 +29,11 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 
-		// Algorithms:
-		Group algorithmsGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			algorithmsGroup.setLayout(grid);
-
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			algorithmsGroup.setLayoutData(data);
-			algorithmsGroup.setText("Algorithms:");
-		}
-
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(applyDiffPage01.getSettingsSourceWidget());
-		addWidget(algorithmsGroup, matcherWidget);
-		ConfigurableExtensionWidget.addAllForWidget(algorithmsGroup, matcherWidget, this::addWidget);
+		addWidget(container, matcherWidget);
+		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Reliability:
 		reliabilityWidget = new ReliabilityWidget();

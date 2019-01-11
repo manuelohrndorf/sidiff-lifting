@@ -54,13 +54,13 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 		scopeWidget = new ScopeWidget();
 		scopeWidget.setSettings(this.settings);
 		scopeWidget.setDependency(settingsSourceWidget);
-		addWidget(container, scopeWidget);
+		addWidget(container, scopeWidget, NUM_COLUMNS/2);
 
 		// Validation mode:
 		validationWidget = new ValidationModeWidget();
 		validationWidget.setSettings(this.settings);
 		validationWidget.setDependency(settingsSourceWidget);
-		addWidget(container, validationWidget);
+		addWidget(container, validationWidget, NUM_COLUMNS/2);
 
 		// Rulebases:
 		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
