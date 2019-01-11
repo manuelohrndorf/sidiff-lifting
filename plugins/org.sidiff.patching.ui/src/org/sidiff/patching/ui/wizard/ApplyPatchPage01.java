@@ -32,7 +32,6 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 	@Override
 	protected void createWidgets() {
 		// Settings Source:
-		// Note that InputModels is not used here, because it is not compatible with Archive-URIs (i.e. Patch files)
 		settingsSourceWidget = new SettingsSourceWidget(settings, inputModels);
 		settingsSourceWidget.addConsideredSettings(BaseSettingsItem.values());
 		settingsSourceWidget.addConsideredSettings(MatchingSettingsItem.values());
