@@ -90,7 +90,7 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 	public boolean validate() {
 
 		if (resourceButton.getSelection() || resourceSetButton.getSelection()) {
-			if (settings.getScope().equals(Scope.RESOURCE_SET)
+			if (settings.getScope() == Scope.RESOURCE_SET && settings.getMatcher() != null
 					&& !settings.getMatcher().isResourceSetCapable()) {
 				return false;
 			} else {
@@ -105,7 +105,7 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
 			return ValidationMessage.OK;
-		} else if(settings.getScope().equals(Scope.RESOURCE_SET) && !settings.getMatcher().isResourceSetCapable()) {
+		} else if(settings.getScope() == Scope.RESOURCE_SET && settings.getMatcher() != null && !settings.getMatcher().isResourceSetCapable()) {
 			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
 					+ " does not support resourceset scope, select another matching engine!");
 		}else{
