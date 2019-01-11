@@ -1,7 +1,6 @@
 package org.sidiff.remote.application.ui.connector.views;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -524,17 +523,10 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 			
 			if(conflicting){
 				OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
-				ModelAdapter adapter = new ModelAdapter(
-						targetResource.get());
-				try {
-					adapter.addListener(new ModelChangeHandler(patchingSettingsReference.get().getArgumentManager()));
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				ModelAdapter adapter = new ModelAdapter();
+				// TODO: remove the adapter from the target resource after the operation is done
+				targetResource.get().eAdapters().add(adapter);
+				adapter.addListener(new ModelChangeHandler(patchingSettingsReference.get().getArgumentManager()));
 				adapter.addListener(operationExplorerView);
 			}else{
 				patchEngineReference.get().applyPatch(true);

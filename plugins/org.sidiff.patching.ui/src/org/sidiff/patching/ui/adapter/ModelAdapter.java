@@ -7,104 +7,97 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 
-public class ModelAdapter {
+public class ModelAdapter extends EContentAdapter {
 
-	private List<IModelChangeListener> listeners;
+	private List<IModelChangeListener> listeners = new ArrayList<>();
 
-	public ModelAdapter(Resource resource) {
-		this.listeners = new ArrayList<IModelChangeListener>();
-
-		EContentAdapter adapter = new EContentAdapter() {
-			public void notifyChanged(Notification notification) {
-				super.notifyChanged(notification);
-				switch (notification.getEventType()) {
-				case Notification.ADD:
-					if (isContainmentReferenceType(notification.getFeature())) {
-						LogUtil.log(LogEvent.DEBUG, "\t==> Add-Object: " + notification.getNewValue());
-						for (IModelChangeListener listener : listeners) {
-							listener.objectAdded((EObject) notification.getNewValue());
-						}
-					}
-					if (isNonContainmentReferenceType(notification.getFeature())) {
-						LogUtil.log(LogEvent.DEBUG,
-								"\t==> Add-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
-										+ notification.getNotifier() + " => " + notification.getNewValue());
-						for (IModelChangeListener listener : listeners) {
-							listener.referenceAdded((EReference) notification.getFeature(),
-									(EObject) notification.getNotifier(), (EObject) notification.getNewValue());
-
-						}
-					}
-					break;
-
-				case Notification.REMOVE:
-					if (isContainmentReferenceType(notification.getFeature())) {
-						LogUtil.log(LogEvent.DEBUG, "\t==> Remove-Object: " + notification.getOldValue());
-						for (IModelChangeListener listener : listeners) {
-							listener.objectRemoved((EObject) notification.getOldValue());
-						}
-					}
-					if (isNonContainmentReferenceType(notification.getFeature())) {
-						LogUtil.log(LogEvent.DEBUG,
-								"\t==> Remove-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
-										+ notification.getNotifier() + " => " + notification.getOldValue());
-						for (IModelChangeListener listener : listeners) {
-							listener.referenceRemoved((EReference) notification.getFeature(),
-									(EObject) notification.getNotifier(), (EObject) notification.getOldValue());
-
-						}
-					}
-					break;
-
-				case Notification.SET:
-					if (isAttributeDefinition(notification.getFeature())) {
-						LogUtil.log(LogEvent.DEBUG,
-								"\t==> Set-Attribute-Value (" + ((EAttribute) notification.getFeature()).getName()
-										+ "): " + notification.getNotifier() + " => " + notification.getNewValue());
-						for (IModelChangeListener listener : listeners) {
-							listener.attributeValueSet((EAttribute) notification.getFeature(),
-									(EObject) notification.getNotifier(), notification.getNewValue());
-						}
-					}
-					break;
-
-				default:
-					LogUtil.log(LogEvent.DEBUG, "Unhandled EMF notification event: " + notification);
-					break;
-				}
-			}
-		};
-		resource.eAdapters().add(adapter);
+	public ModelAdapter() {
 	}
 
-	private boolean isAttributeDefinition(Object feature) {
+	@Override
+	public void notifyChanged(Notification notification) {
+		super.notifyChanged(notification);
+		switch (notification.getEventType()) {
+			case Notification.ADD:
+				if (isContainmentReferenceType(notification.getFeature())) {
+					LogUtil.log(LogEvent.DEBUG, "\t==> Add-Object: " + notification.getNewValue());
+					for (IModelChangeListener listener : listeners) {
+						listener.objectAdded((EObject) notification.getNewValue());
+					}
+				}
+				if (isNonContainmentReferenceType(notification.getFeature())) {
+					LogUtil.log(LogEvent.DEBUG,
+							"\t==> Add-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
+									+ notification.getNotifier() + " => " + notification.getNewValue());
+					for (IModelChangeListener listener : listeners) {
+						listener.referenceAdded((EReference) notification.getFeature(),
+								(EObject) notification.getNotifier(), (EObject) notification.getNewValue());
+	
+					}
+				}
+				break;
+	
+			case Notification.REMOVE:
+				if (isContainmentReferenceType(notification.getFeature())) {
+					LogUtil.log(LogEvent.DEBUG, "\t==> Remove-Object: " + notification.getOldValue());
+					for (IModelChangeListener listener : listeners) {
+						listener.objectRemoved((EObject) notification.getOldValue());
+					}
+				}
+				if (isNonContainmentReferenceType(notification.getFeature())) {
+					LogUtil.log(LogEvent.DEBUG,
+							"\t==> Remove-Reference (" + ((EReference) notification.getFeature()).getName() + "): "
+									+ notification.getNotifier() + " => " + notification.getOldValue());
+					for (IModelChangeListener listener : listeners) {
+						listener.referenceRemoved((EReference) notification.getFeature(),
+								(EObject) notification.getNotifier(), (EObject) notification.getOldValue());
+	
+					}
+				}
+				break;
+	
+			case Notification.SET:
+				if (isAttributeDefinition(notification.getFeature())) {
+					LogUtil.log(LogEvent.DEBUG,
+							"\t==> Set-Attribute-Value (" + ((EAttribute) notification.getFeature()).getName()
+									+ "): " + notification.getNotifier() + " => " + notification.getNewValue());
+					for (IModelChangeListener listener : listeners) {
+						listener.attributeValueSet((EAttribute) notification.getFeature(),
+								(EObject) notification.getNotifier(), notification.getNewValue());
+					}
+				}
+				break;
+
+			default:
+				LogUtil.log(LogEvent.DEBUG, "Unhandled EMF notification event: " + notification);
+				break;
+		}
+	}
+
+	private static boolean isAttributeDefinition(Object feature) {
 		if (feature instanceof EAttribute) {
 			return true;
 		}
-
 		return false;
 	}
 
-	private boolean isNonContainmentReferenceType(Object feature) {
+	private static boolean isNonContainmentReferenceType(Object feature) {
 		if (feature instanceof EReference) {
 			EReference referenceType = (EReference) feature;
 			return !referenceType.isContainment();
 		}
-
 		return false;
 	}
 
-	private boolean isContainmentReferenceType(Object feature) {
+	private static boolean isContainmentReferenceType(Object feature) {
 		if (feature instanceof EReference) {
 			EReference referenceType = (EReference) feature;
 			return referenceType.isContainment();
 		}
-
 		return false;
 	}
 
@@ -115,5 +108,4 @@ public class ModelAdapter {
 	public void removeListern(IModelChangeListener listener) {
 		listeners.remove(listener);
 	}
-
 }

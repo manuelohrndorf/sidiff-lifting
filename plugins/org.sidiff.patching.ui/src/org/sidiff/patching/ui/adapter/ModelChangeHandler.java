@@ -1,8 +1,5 @@
 package org.sidiff.patching.ui.adapter;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -12,7 +9,7 @@ public class ModelChangeHandler implements IModelChangeListener {
 
 	private IArgumentManager argumentManager;
 
-	public ModelChangeHandler(IArgumentManager argumentManager) throws FileNotFoundException, IOException {
+	public ModelChangeHandler(IArgumentManager argumentManager) {
 		this.argumentManager = argumentManager;
 	}
 

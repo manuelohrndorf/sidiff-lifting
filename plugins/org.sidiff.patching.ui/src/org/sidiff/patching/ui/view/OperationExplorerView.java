@@ -1,5 +1,9 @@
 package org.sidiff.patching.ui.view;
 
+import java.util.Objects;
+
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -20,24 +24,28 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
-import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.sidiff.common.ui.util.Exceptions;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
+import org.sidiff.patching.ui.adapter.ModelAdapter;
+import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
 import org.sidiff.patching.validation.ValidationMode;
@@ -47,13 +55,15 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	public static final String ID = "org.sidiff.patching.ui.view.OperationExplorerView";
 
-	private final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
-	private final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
-	private final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
-	private final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
-	private final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
+	private static final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
+	private static final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
+	private static final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
+	private static final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
+	private static final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
 
 	private PatchEngine engine;
+	private IEditorPart editor;
+	private ModelAdapter modelAdapter;
 
 	private TreeViewer patchViewer;
 	private OperationLabelProvider operationLabelProvider;
@@ -127,7 +137,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
 
 		patchViewer.addDoubleClickListener(new IDoubleClickListener() {
-
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				TreeViewer viewer = (TreeViewer) event.getViewer();
@@ -144,7 +153,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 						engine.unignore(operationWrapper.getOperationInvocation());
 					}
 					updatePropertyViewViaSelectionListener(viewer);
-					patchViewer.refresh();
+					refresh();
 				}
 			};
 		});
@@ -155,12 +164,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		menuMgr.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				// IWorkbench wb = PlatformUI.getWorkbench();
-				// IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-				if (patchViewer.getSelection().isEmpty()) {
-					return;
-				}
-
 				if (patchViewer.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection selection = (IStructuredSelection) patchViewer.getSelection();
 					Object selectedNode = selection.getFirstElement();
@@ -169,27 +172,24 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 						if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED
 								&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Apply operation", apply) {
-
 								@Override
 								public void run() {
 									engine.apply(operationWrapper.getOperationInvocation(), true);
 									updatePropertyViewViaSelectionListener(patchViewer);
-									patchViewer.refresh();
+									refresh();
 								};
 							});
 							manager.add(new Action("Ignore operation", ignore) {
-
 								@Override
 								public void run() {
 									engine.ignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
-									patchViewer.refresh();
+									refresh();
 								}
 							});
 						} else if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED
 								&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Revert operation", revert) {
-
 								@Override
 								public void run() {
 									engine.revert(operationWrapper.getOperationInvocation());
@@ -198,26 +198,21 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 							});
 						} else if (operationWrapper.getStatus() == OperationInvocationStatus.IGNORED) {
 							manager.add(new Action("Unignore operation", unignore) {
-
 								@Override
 								public void run() {
 									engine.unignore(operationWrapper.getOperationInvocation());
 									updatePropertyViewViaSelectionListener(patchViewer);
-									patchViewer.refresh();
+									refresh();
 								}
 							});
 						}
-
 						manager.add(new Action("Show Properties View", properties) {
-
 							@Override
 							public void run() {
-								try {
-									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-											.showView(IPageLayout.ID_PROP_SHEET);
-								} catch (PartInitException e) {
-									e.printStackTrace();
-								}
+								Exceptions.show(() -> {
+									UIUtil.showView(IViewPart.class, IPageLayout.ID_PROP_SHEET);
+									return Status.OK_STATUS;
+								});
 							}
 						});
 					}
@@ -229,53 +224,61 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		getSite().setSelectionProvider(patchViewer);
 
-		createActions(patchViewer);
-		createMenus();
+		createActions();
 		createToolbar();
-
-		// Clear initially
-		this.clearView();
+		updateActionEnabledStates();
 	}
 
 	public void setPatchEngine(PatchEngine patchEngine) {
-
+		Objects.requireNonNull(patchEngine, "patchEngine must not be null");
+		clearPatchEngine();
 		this.engine = patchEngine;
-
-		this.initView();
-
+		this.engine.getPatchReportManager().addPatchReportListener(this);
 		this.patchViewer.setInput(engine.getOperationManager());
+		initModelAdapter();
 
-		filterOperationsAction.setEnabled(true);
-
-		ValidationMode tmpMode = this.engine.getValidationMode();
-
-		iterativeValidationAction.setEnabled(true);
-		finalValidationAction.setEnabled(true);
-		noValidationAction.setEnabled(true);
-
-		this.engine.setValidationMode(tmpMode);
-
-		if (this.engine.getValidationMode() == ValidationMode.MODEL_VALIDATION)
+		if (this.engine.getValidationMode() == ValidationMode.MODEL_VALIDATION) {
 			finalValidationAction.setChecked(true);
-		else if (this.engine.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)
+		} else if (this.engine.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			iterativeValidationAction.setChecked(true);
-		else
+		} else {
 			noValidationAction.setChecked(true);
+		}
 
+		updateActionEnabledStates();
+	}
+	
+	protected void clearPatchEngine() {
+		disposeModelAdapter();
+		if (engine != null && engine.getPatchReportManager() != null) {
+			engine.getPatchReportManager().removePatchReportListener(this);
+			engine = null;
+		}
+		if(patchViewer != null && !patchViewer.getTree().isDisposed()) {
+			patchViewer.setInput(null);				
+		}
+	}
+
+	public void setEditor(IEditorPart editor) {
+		this.editor = editor;
+		updateActionEnabledStates();
+	}
+	
+	protected void clearEditor() {
+		editor = null;
 	}
 
 	/**
 	 * 
 	 */
-	private void createActions(TreeViewer viewer) {
+	private void createActions() {
 
-		final TreeViewer treeViewer = viewer;
 		// ----------- Filter Operations ----
 		this.executedOperationsFilter = new OperationInvocationFilter();
 		this.filterOperationsAction = new Action("Hide Successful Operations", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
-				updateFilter(filterOperationsAction);
+				updateFilter(filterOperationsAction.isChecked());
 			}
 		};
 		this.filterOperationsAction.setToolTipText("Hide all succesfully executed or ignored operations");
@@ -283,7 +286,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		// Init filter enabled
 		this.filterOperationsAction.setChecked(true);
-		updateFilter(this.filterOperationsAction);
+		updateFilter(true);
 
 		// ----------- Validation ------------------
 		validateMenu = new DropDownAction("Validate");
@@ -293,7 +296,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			public void run() {
 				engine.setValidationMode(ValidationMode.ITERATIVE_VALIDATION);
 			}
-
 		};
 		this.iterativeValidationAction.setToolTipText("The model will be validated after each operation invocation.");
 
@@ -303,8 +305,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				engine.setValidationMode(ValidationMode.MODEL_VALIDATION);
 			}
 		};
-		this.finalValidationAction
-				.setToolTipText("The model will be validatetd after applying the selected operation invocations.");
+		this.finalValidationAction.setToolTipText("The model will be validated after applying the selected operation invocations.");
 
 		this.noValidationAction = new Action("No Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
@@ -313,10 +314,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			}
 		};
 		this.noValidationAction.setToolTipText("The model won't be validated.");
-
-		iterativeValidationAction.setEnabled(false);
-		finalValidationAction.setEnabled(false);
-		noValidationAction.setEnabled(false);
 
 		validateMenu.add(noValidationAction);
 		validateMenu.add(finalValidationAction);
@@ -332,13 +329,13 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		};
 		this.applyPatchAction.setToolTipText("Apply all non conflicting and unignored changes");
 		this.applyPatchAction.setImageDescriptor(Activator.getImageDescriptor("patch_exc_16x16.gif"));
+		this.applyPatchAction.setEnabled(false);
 
 		// ----------- Collapse All ------------------
 		this.collapseAllAction = new Action("Collapse all", IAction.AS_PUSH_BUTTON) {
 			@Override
 			public void run() {
-				treeViewer.collapseAll();
-
+				patchViewer.collapseAll();
 			}
 		};
 		this.collapseAllAction.setToolTipText("Collapse all");
@@ -348,7 +345,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		this.expandAllAction = new Action("Expand all", IAction.AS_PUSH_BUTTON) {
 			@Override
 			public void run() {
-				treeViewer.expandAll();
+				patchViewer.expandAll();
 			}
 		};
 		this.expandAllAction.setToolTipText("Expand all");
@@ -356,29 +353,12 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		
 	}
 
-	private void updateFilter(Action action) {
-		if (action.equals(filterOperationsAction)) {
-			if (action.isChecked()) {
-				patchViewer.addFilter(executedOperationsFilter);
-			} else {
-				patchViewer.removeFilter(executedOperationsFilter);
-			}
+	private void updateFilter(boolean filterExecutedOperations) {
+		if (filterExecutedOperations) {
+			patchViewer.addFilter(executedOperationsFilter);
+		} else {
+			patchViewer.removeFilter(executedOperationsFilter);
 		}
-	}
-
-	private void createMenus() {
-		IMenuManager rootMenuManager = getViewSite().getActionBars().getMenuManager();
-		rootMenuManager.setRemoveAllWhenShown(true);
-		rootMenuManager.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager mgr) {
-				fillMenu(mgr);
-			}
-		});
-		fillMenu(rootMenuManager);
-	}
-
-	private void fillMenu(IMenuManager rootMenuManager) {
-
 	}
 
 	private void createToolbar() {
@@ -397,13 +377,11 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	@Override
 	public void dispose() {
 		super.dispose();
-
-		if (engine != null && engine.getPatchReportManager() != null) {
-			engine.getPatchReportManager().removePatchReportListener(this);
-		}
-
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().removePartListener(this);
+		clearPatchEngine();
+		clearEditor();
 	}
-
+	
 	@Override
 	public void setFocus() {
 		patchViewer.getControl().setFocus();
@@ -411,44 +389,45 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	@Override
 	public void valueChanged() {
-
-		patchViewer.refresh();
-
+		refresh();
 	}
 
 	@Override
 	public void objectAdded(EObject eObject) {
-		patchViewer.refresh();
+		refresh();
 	}
 
 	@Override
 	public void objectRemoved(EObject eObject) {
-		patchViewer.refresh();
+		refresh();
 	}
 
 	@Override
 	public void referenceAdded(EReference referenceType, EObject src, EObject tgt) {
-		patchViewer.refresh();
+		refresh();
 	}
 
 	@Override
 	public void referenceRemoved(EReference referenceType, EObject src, EObject tgt) {
-		patchViewer.refresh();
+		refresh();
 	}
 
 	@Override
 	public void attributeValueSet(EAttribute attribute, EObject object, Object value) {
-		patchViewer.refresh();
+		refresh();
 	}
 
 	@Override
 	public void reportChanged() {
+		refresh();
+	}
+
+	public void refresh() {
 		patchViewer.refresh();
 	}
 
 	@Override
 	public void pushReport(int i) {
-
 	}
 
 	@Override
@@ -456,73 +435,60 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		return getSite().getId();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Object getAdapter(Class adapter) {
+	public <T> T getAdapter(Class<T> adapter) {
 		if (adapter == IPropertySheetPage.class)
-			return new TabbedPropertySheetPage(this);
+			return adapter.cast(new TabbedPropertySheetPage(this));
 		return super.getAdapter(adapter);
 	}
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
-
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-		if (part instanceof EditorPart) {
-			// Check if at least one editor is still open
-			if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0) {
-				this.clearView();
-			}
+		if (part == editor) {
+			clearPatchEngine();
+			clearEditor();
+			updateActionEnabledStates();
 		}
 	}
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPart part) {
-
 	}
 
-	private void clearView() {
-		if(!this.patchViewer.getTree().isDisposed()) {
-			this.patchViewer.getTree().clearAll(true);
-			this.patchViewer.getTree().setVisible(false);
-		}
-		this.applyPatchAction.setEnabled(false);
-		this.collapseAllAction.setEnabled(false);
-		this.expandAllAction.setEnabled(false);
-		this.filterOperationsAction.setEnabled(false);
-		this.validateMenu.setEnabled(false);
-
-		if (engine != null && engine.getPatchReportManager() != null) {
-			engine.getPatchReportManager().removePatchReportListener(this);
-		}
-
+	protected void updateActionEnabledStates() {
+		collapseAllAction.setEnabled(patchViewer != null && patchViewer.getInput() != null);
+		expandAllAction.setEnabled(patchViewer != null && patchViewer.getInput() != null);
+		filterOperationsAction.setEnabled(engine != null);
+		applyPatchAction.setEnabled(engine != null);
+		validateMenu.setEnabled(engine != null);
 	}
-
-	private void initView() {
-
-		if (engine != null && engine.getPatchReportManager() != null) {
-			engine.getPatchReportManager().addPatchReportListener(this);
-		}
-
-		this.patchViewer.getTree().setVisible(true);
-		this.applyPatchAction.setEnabled(true);
-		this.collapseAllAction.setEnabled(true);
-		this.expandAllAction.setEnabled(true);
-		this.filterOperationsAction.setEnabled(true);
-		this.validateMenu.setEnabled(true);
+	
+	protected void initModelAdapter() {
+		disposeModelAdapter();
+		modelAdapter = new ModelAdapter();
+		modelAdapter.addListener(new ModelChangeHandler(engine.getArgumentManager()));
+		modelAdapter.addListener(this);
 	}
-
+	
+	protected void disposeModelAdapter() {
+		if(modelAdapter != null) {
+			Notifier target = modelAdapter.getTarget();
+			if(target != null) {
+				target.eAdapters().remove(modelAdapter);
+			}
+			modelAdapter = null;
+		}
+	}
 }

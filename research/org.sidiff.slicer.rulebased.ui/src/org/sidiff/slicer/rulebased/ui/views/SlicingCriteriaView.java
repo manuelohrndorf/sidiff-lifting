@@ -1,6 +1,5 @@
 package org.sidiff.slicer.rulebased.ui.views;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -422,17 +421,10 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 					
 					if(conflicting){
 						OperationExplorerView operationExplorerView = operationExplorerViewReference.get();
-						ModelAdapter adapter = new ModelAdapter(
-								resourceResult.get());
-						try {
-							adapter.addListener(new ModelChangeHandler(mergeSettings.getArgumentManager()));
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						ModelAdapter adapter = new ModelAdapter();
+						// TODO: remove the adapter from the target resource after the operation is done
+						resourceResult.get().eAdapters().add(adapter);
+						adapter.addListener(new ModelChangeHandler(mergeSettings.getArgumentManager()));
 						adapter.addListener(operationExplorerView);
 					}else{
 						mergeEngine.applyPatch(true);

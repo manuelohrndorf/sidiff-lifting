@@ -36,8 +36,6 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.transformation.ITransformationEngine;
-import org.sidiff.patching.ui.adapter.ModelAdapter;
-import org.sidiff.patching.ui.adapter.ModelChangeHandler;
 import org.sidiff.patching.ui.animation.GMFAnimation;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
@@ -58,7 +56,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 	private URI diagramFileUri;
 	private boolean useDiagramEditor;
 	private PatchEngine patchEngine;
-	private ModelAdapter modelAdapter;
+	private IEditorPart editorPart;
 
 	public ApplyAsymmetricDifferenceJob(AsymmetricDifference asymmetricDifference, URI targetURI, PatchingSettings settings) {
 		super("Applying patch to model");
@@ -75,7 +73,6 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		return StatusWrapper.wrap(() -> {
 			copyTargetResources();
 			openTargetResourceEditor();
-			modelAdapter = new ModelAdapter(targetResource);
 			initPatchingSettings();
 			initPatchEngine();
 			openPerspectiveAndViews();
@@ -108,7 +105,6 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 
 	protected void openTargetResourceEditor() {
 		Display.getDefault().syncExec(() -> {
-			IEditorPart editorPart = null;
 			if (useDiagramEditor) {
 				editorPart = domainEditor.openDiagram(diagramFileUri);
 			} else if (domainEditor.isDefaultEditorPresent()) {
@@ -143,7 +139,6 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 			throw new SiDiffRuntimeException("No suitable Argument Manager was found for the target model.", "No Argument Manager found");
 		}
 		settings.setArgumentManager(argumentManager);
-		modelAdapter.addListener(new ModelChangeHandler(argumentManager));
 
 		// Dialog Patch interrupt handler
 		settings.setInterruptHandler(new DialogPatchInterruptHandler());
@@ -198,7 +193,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 				OperationExplorerView operationExplorerView =
 						UIUtil.showView(OperationExplorerView.class, OperationExplorerView.ID);
 				operationExplorerView.setPatchEngine(patchEngine);
-				modelAdapter.addListener(operationExplorerView);
+				operationExplorerView.setEditor(editorPart);
 
 				// Opening and setting report view
 				ReportView reportView = UIUtil.showView(ReportView.class, ReportView.ID);
