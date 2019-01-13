@@ -41,7 +41,7 @@ public class SlicedEReferenceTypePropertyDescriptor extends ItemPropertyDescript
 
 						for(EClass eClass : config.getOppositeSlicedEClassType().keySet()){
 							if(eReference.getEType().equals(eClass) || eReference.getEType() instanceof EClass
-									&& eClass.getEAllSuperTypes().contains((EClass)eReference.getEType())){
+									&& eClass.getEAllSuperTypes().contains(eReference.getEType())){
 								eReferences.add(eReference);
 								break;
 							}

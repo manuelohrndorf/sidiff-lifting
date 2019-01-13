@@ -8,26 +8,21 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.sidiff.slicer.structural.configuration.ConfigurationPackage;
 import org.sidiff.slicer.structural.configuration.IConstraintInterpreter;
 import org.sidiff.slicer.structural.configuration.SlicedEClass;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
 import org.sidiff.slicer.structural.configuration.SlicingMode;
-import org.sidiff.slicer.structural.configuration.util.ConfigurationUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -374,7 +369,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	public void setConstraintInterpreterID(String newConstraintInterpreterID) {
 		String oldConstraintInterpreterID = constraintInterpreterID;
 		constraintInterpreterID = newConstraintInterpreterID;
-		constraintInterpreter = ConfigurationUtil.getConstraintInterpreterByID(constraintInterpreterID);
+		constraintInterpreter = IConstraintInterpreter.MANAGER.getExtension(constraintInterpreterID)
+				.orElseThrow(() -> new IllegalArgumentException("Constraint interpreter not found: " + constraintInterpreterID));
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConfigurationPackage.SLICING_CONFIGURATION__CONSTRAINT_INTERPRETER_ID, oldConstraintInterpreterID, constraintInterpreterID));
 	}
@@ -386,7 +382,8 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 */
 	public IConstraintInterpreter getConstraintInterpreter() {
 		if(constraintInterpreter == null){
-			constraintInterpreter = ConfigurationUtil.getConstraintInterpreterByID(constraintInterpreterID);
+			constraintInterpreter = IConstraintInterpreter.MANAGER.getExtension(constraintInterpreterID)
+					.orElseThrow(() -> new IllegalArgumentException("Constraint interpreter not found: " + constraintInterpreterID));
 		}
 		return constraintInterpreter;
 	}

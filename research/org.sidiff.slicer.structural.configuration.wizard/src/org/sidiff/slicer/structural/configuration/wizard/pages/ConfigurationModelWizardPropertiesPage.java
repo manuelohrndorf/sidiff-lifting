@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Text;
 import org.sidiff.slicer.structural.configuration.IConstraintInterpreter;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
 import org.sidiff.slicer.structural.configuration.SlicingMode;
-import org.sidiff.slicer.structural.configuration.util.ConfigurationUtil;
 import org.sidiff.slicer.structural.configuration.wizard.ConfigurationWizardPlugin;
 
 public class ConfigurationModelWizardPropertiesPage extends WizardPage
@@ -222,10 +221,9 @@ public class ConfigurationModelWizardPropertiesPage extends WizardPage
 			data.grabExcessHorizontalSpace = true;
 			constraintIDField.setLayoutData(data);
 		}
-		for(IConstraintInterpreter constraint : ConfigurationUtil.getAllAvailableConstraintInterpreters())
-		{
-			constraintIDField.add(constraint.getID());
-		}
+		IConstraintInterpreter.MANAGER.getExtensions().stream()
+			.map(IConstraintInterpreter::getKey)
+			.forEach(constraintIDField::add);
 		constraintIDField.select(0);
 		constraintIDField.addModifyListener(modifyListener);
 		constraintIDField.setVisible(getAdvancedSection());

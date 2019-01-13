@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -16,44 +14,12 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.slicer.structural.configuration.ConfigurationFactory;
 import org.sidiff.slicer.structural.configuration.ConfigurationPackage;
 import org.sidiff.slicer.structural.configuration.Constraint;
-import org.sidiff.slicer.structural.configuration.IConstraintInterpreter;
 import org.sidiff.slicer.structural.configuration.SlicedEClass;
 import org.sidiff.slicer.structural.configuration.SlicedEReference;
 import org.sidiff.slicer.structural.configuration.SlicingConfiguration;
 
 public class ConfigurationUtil
 {
-	/**
-	 * Returns the constraint interpreter with the given ID from the registry.
-	 * @param id the ID of the constraint interpreter
-	 * @return constraint interpreter with that ID, or <code>null</code> if non was found
-	 */
-	public static IConstraintInterpreter getConstraintInterpreterByID(String id) {
-		for(IConstraintInterpreter availableConstraintInterpreter : getAllAvailableConstraintInterpreters()){
-			if(availableConstraintInterpreter.getID().equals(id)){
-				return availableConstraintInterpreter;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns all available constraint interpreters from the registry.
-	 * @return set of all available constraint interpreters
-	 */
-	public static Set<IConstraintInterpreter> getAllAvailableConstraintInterpreters() {
-		Set<IConstraintInterpreter> availableConstraintInterpreter = new HashSet<IConstraintInterpreter>();
-		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry().getConfigurationElementsFor(
-				IConstraintInterpreter.EXTENSION_POINT_ID)) {
-			try {
-				availableConstraintInterpreter.add((IConstraintInterpreter) configurationElement.createExecutableExtension("class"));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return availableConstraintInterpreter;
-	}
-
 	/**
 	 * Returns the first {@link SlicedEClass} from the given slicing configuration
 	 * that has the given type, or <code>null</code> if the type is not found

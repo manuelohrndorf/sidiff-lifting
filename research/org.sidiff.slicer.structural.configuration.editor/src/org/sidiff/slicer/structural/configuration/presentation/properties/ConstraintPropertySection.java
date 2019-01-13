@@ -2,6 +2,7 @@ package org.sidiff.slicer.structural.configuration.presentation.properties;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IStatusLineManager;
+import org.eclipse.jface.fieldassist.ContentProposal;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
@@ -111,7 +112,9 @@ public class ConstraintPropertySection extends AbstractPropertySection
 			@Override
 			public IContentProposal[] getProposals(String contents, int position)
 			{
-				return confEditor.getConfig().getConstraintInterpreter().getSyntaxHelp(inputObject, contents, position);
+				return confEditor.getConfig().getConstraintInterpreter().getSyntaxHelp(inputObject, contents, position).stream()
+					.map(p -> new ContentProposal(p.getContent(), p.getLabel(), p.getDescription(), p.getCursorPosition()))
+					.toArray(IContentProposal[]::new);
 			}
 		};
 
@@ -211,7 +214,7 @@ public class ConstraintPropertySection extends AbstractPropertySection
 			statusLineManager.setErrorMessage(null);
 			statusLineManager.setMessage(ConfigurationEditorPlugin.getSubstitutedString(
 					"_UI_Property_StatusLine_CurrentConstraintInterpreter", //$NON-NLS-1$
-					confEditor.getConfig().getConstraintInterpreter().getID()));
+					confEditor.getConfig().getConstraintInterpreter().getKey()));
 		}
 	}
 }
