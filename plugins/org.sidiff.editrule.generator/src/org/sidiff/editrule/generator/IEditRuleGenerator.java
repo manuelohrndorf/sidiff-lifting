@@ -1,31 +1,19 @@
 package org.sidiff.editrule.generator;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.sidiff.common.extension.ExtensionManager;
+import org.sidiff.common.extension.IExtension;
 import org.sidiff.editrule.generator.exceptions.EditRuleGenerationException;
 import org.sidiff.editrule.generator.exceptions.WrongSettingsInstanceException;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
+public interface IEditRuleGenerator extends IExtension {
 
-public interface IEditRuleGenerator {
+	Description<IEditRuleGenerator> DESCRIPTION = Description.of(IEditRuleGenerator.class,
+			"org.sidiff.editrule.generator.generator_extension", "generator", "editrulegenerator");
 
-	/**
-	 * The shared extension point id.
-	 */
-	public static final String extensionPointID = "org.sidiff.editrule.generator.generator_extension";
-	
-	/**
-	 * Returns the description name of the generator.
-	 * 
-	 * @return the generator name.
-	 */
-	public String getName();
+	ExtensionManager<IEditRuleGenerator> MANAGER = new ExtensionManager<>(DESCRIPTION);
 
-	/**
-	 * Returns the short name (used as a key) of the generator.
-	 * 
-	 * @return the generator short name (used as key).
-	 */
-	public String getKey();
 
 	/**
 	 * Initialization method of the generator which makes use of
@@ -37,7 +25,7 @@ public interface IEditRuleGenerator {
 	 * @throws WrongSettingsInstanceException 
 	 */
 	public void init(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws EditRuleGenerationException, WrongSettingsInstanceException;
-	
+
 	/**
 	 * Generate the EditRules. The configuration
 	 * of output folder and other stuff has to be done in the
@@ -45,6 +33,4 @@ public interface IEditRuleGenerator {
 	 * @param monitor ProgressMonitor to detect progress
 	 */
     public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException;
-	
-
 }

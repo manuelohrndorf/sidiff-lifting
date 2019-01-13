@@ -1,29 +1,23 @@
 package org.sidiff.editrule.generator.serge.settings;
 
+import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.serge.Serge;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
-import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
+public class SergeSettings extends EditRuleGenerationSettings {
 
-public class SergeSettings extends EditRuleGenerationSettings{
-	
-	
 	public SergeSettings(EditRuleGenerationSettings generalSettings) {
-		
 		super(generalSettings.getGenerator(),
 			  generalSettings.getOutputFolderPath(),
 			  generalSettings.getConfigPath(),
 			  generalSettings.isUseDefaultConfig(),
 			  generalSettings.getMetaModelNsUri(),
-			  generalSettings.isUseSubfolders()
-			  );
-		
+			  generalSettings.isUseSubfolders());
 	}
-	
-	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders){
-		
+
+	public SergeSettings(String outputFolderPath, String configPath, boolean useSubfolders) {
 		super(
-				EditRuleGeneratorUtil.getEditRuleGeneratorByKey(Serge.GENERATOR_KEY),
+				IEditRuleGenerator.MANAGER.getExtension(Serge.GENERATOR_KEY).get(),
 				outputFolderPath,
 				configPath,
 				false,
@@ -47,7 +41,7 @@ public class SergeSettings extends EditRuleGenerationSettings{
 			boolean deleteLogs) {
 		
 		super(
-				EditRuleGeneratorUtil.getEditRuleGeneratorByKey("serge"),
+				IEditRuleGenerator.MANAGER.getExtension(Serge.GENERATOR_KEY).get(),
 				outputFolderPath, 
 				configPath,
 				false,

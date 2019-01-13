@@ -18,7 +18,6 @@ import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
-import org.sidiff.editrule.generator.util.EditRuleGeneratorUtil;
 
 public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetValidation {
 
@@ -32,7 +31,7 @@ public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetVa
 	protected List list_generators;
 
 	public EditRuleGeneratorWidget() {
-		generators = new TreeMap<>(EditRuleGeneratorUtil.getAvailableEditRuleGenerators().stream()
+		generators = new TreeMap<>(IEditRuleGenerator.MANAGER.getExtensions().stream()
 				.collect(Collectors.toMap(IEditRuleGenerator::getName, Function.identity())));
 	}
 
