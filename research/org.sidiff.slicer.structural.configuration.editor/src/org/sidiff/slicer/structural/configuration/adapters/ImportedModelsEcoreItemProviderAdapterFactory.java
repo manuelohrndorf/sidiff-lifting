@@ -9,12 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -48,12 +44,13 @@ public class ImportedModelsEcoreItemProviderAdapterFactory extends EcoreItemProv
 		{
 			ePackageItemProvider = new EPackageItemProvider(this)
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
 				{
 					if(childrenFeatures == null)
 					{
-						super.getChildrenFeatures(object);
+						childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
 
 						// hide annotations
 						childrenFeatures.remove(EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS);
@@ -91,12 +88,13 @@ public class ImportedModelsEcoreItemProviderAdapterFactory extends EcoreItemProv
 		{
 			eClassItemProvider = new EClassItemProvider(this)
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
 				{
 					if(childrenFeatures == null)
 					{
-						super.getChildrenFeatures(object);
+						childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
 
 						// hide operations
 						childrenFeatures.remove(EcorePackage.Literals.ECLASS__EOPERATIONS);
@@ -183,12 +181,13 @@ public class ImportedModelsEcoreItemProviderAdapterFactory extends EcoreItemProv
 		{
 			eReferenceItemProvider = new EReferenceItemProvider(this)
 			{
+				@SuppressWarnings("unchecked")
 				@Override
 				public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
 				{
 					if(childrenFeatures == null)
 					{
-						super.getChildrenFeatures(object);
+						childrenFeatures = (List<EStructuralFeature>)super.getChildrenFeatures(object);
 
 						// hide generic type
 						childrenFeatures.remove(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
