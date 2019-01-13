@@ -2,13 +2,8 @@ package org.sidiff.integration.editor.highlighting;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -28,7 +23,8 @@ import org.sidiff.integration.editor.highlighting.tree.internal.SelectionControl
  * ({@link #getSelectionListener()}, {@link #getSelectionChangedListener()},
  * {@link #getNullSelectionListener()})
  * 
- * @author Manuel Ohrndorf, Robert M�ller
+ * @author Manuel Ohrndorf
+ * @author Robert Müller
  */
 public class EditorHighlighting {
 
@@ -44,24 +40,7 @@ public class EditorHighlighting {
 		return instance;
 	}
 
-
-	private List<ISelectionHighlightingAdapter> adapters;
-
 	private EditorHighlighting() {
-		this.adapters = new LinkedList<>();
-		initSelectionAdapters();
-	}
-
-	private void initSelectionAdapters() {
-		for(IConfigurationElement element :
-			Platform.getExtensionRegistry().getConfigurationElementsFor(ISelectionHighlightingAdapter.EXTENSION_POINT_ID)) {
-			try {
-				registerAdapter((ISelectionHighlightingAdapter)
-						element.createExecutableExtension(ISelectionHighlightingAdapter.ATTRIBUTE_CLASS));	
-			} catch(CoreException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/**
@@ -70,7 +49,7 @@ public class EditorHighlighting {
 	 *            elements.
 	 */
 	public void registerAdapter(ISelectionHighlightingAdapter adapter) {
-		adapters.add(adapter);
+		ISelectionHighlightingAdapter.MANAGER.addExtension(adapter);
 	}
 
 	/**
@@ -79,7 +58,7 @@ public class EditorHighlighting {
 	 *            elements.
 	 */
 	public void deregisterAdapter(ISelectionHighlightingAdapter adapter) {
-		adapters.remove(adapter);
+		ISelectionHighlightingAdapter.MANAGER.removeExtension(adapter.getKey());
 	}
 
 	/**
@@ -152,9 +131,9 @@ public class EditorHighlighting {
 		}
 
 		// Check registered adapter:
-		for (ISelectionHighlightingAdapter adapter : adapters) {
-			adapter.getElements(selection).forEach(elements::add);
-		}
+		ISelectionHighlightingAdapter.MANAGER.getExtensions().stream()
+			.flatMap(adapter -> adapter.getElements(selection))
+			.forEach(elements::add);
 
 		return elements;
 	}
