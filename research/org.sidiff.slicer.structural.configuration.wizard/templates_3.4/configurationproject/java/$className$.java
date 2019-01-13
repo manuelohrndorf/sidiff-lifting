@@ -8,8 +8,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
 import org.sidiff.slicer.configuration.project.runtime.ISlicingConfigurationProject;
@@ -64,15 +63,12 @@ public class $className$ implements ISlicingConfigurationProject
 			{
 				try
 				{
-					EObject rootObject = EMFStorage.eLoad(URI.createPlatformPluginURI("/" + PLUGIN_ID + "/" + entry, true));
-					if(rootObject instanceof ISlicingConfiguration)
-					{
-						configurations.add((ISlicingConfiguration)rootObject);
-					}
+					URI uri = URI.createPlatformPluginURI("/" + PLUGIN_ID + "/" + entry, true);
+					configurations.add(SiDiffResourceSet.create().loadEObject(uri, SlicingConfiguration.class));
 				}
 				catch(Exception e)
 				{
-					// TODO: how to handle this?
+					e.printStackTrace();
 				}
 			}
 		}
