@@ -3,6 +3,8 @@ package org.sidiff.difference.profiles.handler;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.sidiff.common.extension.ITypedExtension;
+import org.sidiff.common.extension.TypedExtensionManager;
 
 /**
  * 
@@ -11,10 +13,14 @@ import org.eclipse.emf.ecore.resource.Resource;
  * This interface has to be implemented for every document type that supports a profile-mechanism.
  *
  */
-public interface IDifferenceProfileHandler {
-
-	public final String extensionPointID = "org.sidiff.difference.profile.difference_profile_handler";
+public interface IDifferenceProfileHandler extends ITypedExtension {
 	
+	Description<IDifferenceProfileHandler> DESCRIPTION = Description.of(IDifferenceProfileHandler.class,
+			"org.sidiff.difference.profile.difference_profile_handler", "difference_profile", "profile_handler");
+
+	TypedExtensionManager<IDifferenceProfileHandler> MANAGER = new TypedExtensionManager<>(DESCRIPTION);
+
+
 	/**
 	 * checks if a profile has been applied on the given resource
 	 * 
@@ -24,10 +30,11 @@ public interface IDifferenceProfileHandler {
 	public boolean isProfiled(Resource resource);
 	
 	/**
-	 * 
-	 * @return the base type of the profiled document
+	 * Returns the <b>base type/s</b> of the profiled document.
+	 * @return the base type/s of the profiled document
 	 */
-	public String getBaseType();
+	@Override
+	Set<String> getDocumentTypes();
 	
 	/**
 	 * 

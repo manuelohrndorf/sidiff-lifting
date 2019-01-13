@@ -2,7 +2,6 @@ package org.sidiff.patching.ui.jobs;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,7 +24,6 @@ import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.profiles.handler.DifferenceProfileHandlerUtil;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.access.IntegrationEditorAccess;
 import org.sidiff.integration.editor.extension.IEditorIntegration;
@@ -143,12 +141,12 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		// Dialog Patch interrupt handler
 		settings.setInterruptHandler(new DialogPatchInterruptHandler());
 
-		String documentType = getDocumentType(targetResource);
+		Set<String> documentTypes = getDocumentTypes(targetResource);
 
 		// Find transformation engine
 		if(settings.getTransformationEngine() == null) {
 			settings.setTransformationEngine(
-				ITransformationEngine.MANAGER.getDefaultExtension(Collections.singleton(documentType))
+				ITransformationEngine.MANAGER.getDefaultExtension(documentTypes)
 					.orElseThrow(() -> new SiDiffRuntimeException(
 							"No Transformation Engine was found for the target document type.", "No Transformation Engine found")));
 		}
@@ -157,7 +155,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		if(settings.getPatchMode() == PatchMode.MERGING) {
 			if(settings.getModifiedDetector() == null) {
 				settings.setModifiedDetector(
-						IModifiedDetector.MANAGER.getDefaultExtension(Collections.singleton(documentType)).orElse(null));				
+						IModifiedDetector.MANAGER.getDefaultExtension(documentTypes).orElse(null));				
 			}
 			if(settings.getModifiedDetector() != null) {
 				settings.getModifiedDetector().init(asymmetricDifference.getOriginModel(), targetResource, settings.getMatcher(), settings.getScope());
@@ -204,21 +202,14 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		});
 	}
 
-	protected String getDocumentType(Resource resource) {
+	protected Set<String> getDocumentTypes(Resource resource) {
 		Set<String> documentTypes = EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE);
 
-		IDifferenceProfileHandler profileHandler = null;
-		for (String docType : documentTypes) {
-			// at the moment there is only one profile handler available
-			profileHandler = DifferenceProfileHandlerUtil.getDefaultDifferenceProfileHandler(docType);
-			if (profileHandler != null) {
-				break;
-			}
-		}
-		if (profileHandler != null && profileHandler.isProfiled(resource)) {
-			return profileHandler.getBaseType();
-		}
-		return EMFModelAccess.getCharacteristicDocumentType(resource);
+		IDifferenceProfileHandler.MANAGER.getDefaultExtension(documentTypes)
+			.filter(profileHandler -> profileHandler.isProfiled(targetResource))
+			.ifPresent(profileHandler -> documentTypes.addAll(profileHandler.getProfileTypes(targetResource)));
+
+		return documentTypes;
 	}
 
 }
