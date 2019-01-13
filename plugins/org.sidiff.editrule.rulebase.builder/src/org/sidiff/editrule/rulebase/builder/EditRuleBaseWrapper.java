@@ -19,7 +19,6 @@ import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.editrule.analysis.classification.IClassificator;
-import org.sidiff.editrule.analysis.classification.util.ClassificatorUtil;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialConflictAnalyzer;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.editrule.rulebase.Classification;
@@ -245,7 +244,7 @@ public class EditRuleBaseWrapper {
 		ParameterExtractor paramExtractor = new ParameterExtractor(item.getEditRule());
 		paramExtractor.extractParameters();
 
-		for (IClassificator c : ClassificatorUtil.getAvailableClassificators(item.getEditRule())) {
+		for (IClassificator c : IClassificator.MANAGER.getClassificators(item.getEditRule())) {
 			Classification a = RulebaseFactory.eINSTANCE.createClassification();
 			a.setName(c.createClassification(item.getEditRule()));
 			a.setClassificatorID(c.getClassificatorId());
