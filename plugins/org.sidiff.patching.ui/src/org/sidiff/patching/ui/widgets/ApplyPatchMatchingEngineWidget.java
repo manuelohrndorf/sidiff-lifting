@@ -1,6 +1,5 @@
 package org.sidiff.patching.ui.widgets;
 
-
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
@@ -23,7 +21,6 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 
 	private Patch patch;
 	private Button use_manifest;
-	private Composite container;
 	
 	private ControlEnableState enableState;
 
@@ -35,25 +32,12 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 		super.setLowerUpperBounds(1, 1);
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	@Override
-	public Composite createControl(Composite parent) {
+	protected Composite createContents(Composite container) {
+		Composite contents = new Composite(container, SWT.NONE);
+		contents.setLayout(new GridLayout(1, false));
 
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		// Matcher controls:
-		Label matchingLabel = new Label(container, SWT.NONE);
-		matchingLabel.setText("Matching Engine:");
-
-		use_manifest = new Button(container, SWT.CHECK);
+		use_manifest = new Button(contents, SWT.CHECK);
 		use_manifest.setText("Use manifest");
 		use_manifest.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
 			if(!use_manifest.getSelection()) {
@@ -69,10 +53,10 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 			}
 		}));
 
-		super.createControl(container);
-		return container;
+		super.createContents(contents);
+		return contents;
 	}
-	
+
 	protected void updateParentControlEnabled(boolean enabled) {
 		if(enabled) {
 			if(enableState != null) {
@@ -81,14 +65,9 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 			}
 		} else {
 			if(enableState == null) {
-				enableState = ControlEnableState.disable(super.getWidget());
+				enableState = ControlEnableState.disable(contents);
 			}
 		}
-	}
-	
-	@Override
-	public Composite getWidget() {
-		return container;
 	}
 
 	@Override

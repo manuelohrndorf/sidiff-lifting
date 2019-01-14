@@ -1,159 +1,58 @@
 package org.sidiff.patching.ui.widgets;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.validation.ValidationMode;
 
-public class ValidationModeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class ValidationModeWidget extends AbstractRadioWidget<ValidationMode> implements ISettingsChangedListener {
 
 	private PatchingSettings settings;
-	private ValidationMode validationMode;
-
-	private Composite container;
-	private Button noValidationButton;
-	private Button modelValidationButton;
-	private Button iterativeValidationButton;
+	
+	private static ILabelProvider labelProvider = new ColumnLabelProvider() {
+		@Override
+		public String getText(Object element) {
+			switch((ValidationMode)element) {
+				case NO_VALIDATION: return "No Validation";
+				case MODEL_VALIDATION: return "Model Validation";
+				case ITERATIVE_VALIDATION: return "Iterative Validation";
+			};
+			throw new AssertionError();
+		}
+	};
 
 	public ValidationModeWidget() {
-	}
-
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Composite createControl(Composite parent) {
-
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		Group comparisonGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			comparisonGroup.setLayout(grid);
-			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		}
-		comparisonGroup.setText("Validation mode:");
-
-		noValidationButton = new Button(comparisonGroup, SWT.RADIO);
-		noValidationButton.setText("No Validation");	
-
-		modelValidationButton = new Button(comparisonGroup, SWT.RADIO);
-		modelValidationButton.setText("Model Validation");
-
-		iterativeValidationButton = new Button(comparisonGroup, SWT.RADIO);
-		iterativeValidationButton.setText("Iterative Validation");
-
-		noValidationButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.NO_VALIDATION;
-				settings.setValidationMode(validationMode);
+		setTitle("Validation mode");
+		setLabelProvider(labelProvider);
+		addModificationListener((oldValues, newValues) -> {
+			if(!getSelection().isEmpty()) {
+				settings.setValidationMode(getSelection().get(0));
+			} else {
+				settings.setValidationMode(ValidationMode.NO_VALIDATION);
 			}
 		});
-
-		modelValidationButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.MODEL_VALIDATION;
-				settings.setValidationMode(validationMode);
-			}
-		});
-
-		iterativeValidationButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				validationMode = ValidationMode.ITERATIVE_VALIDATION;
-				settings.setValidationMode(validationMode);
-			}
-		});
-
-		if(settings.getValidationMode() == null) {
-			settings.setValidationMode(ValidationMode.NO_VALIDATION);
-		}
-		updateSelection();
-		return container;
 	}
-
+	
 	@Override
-	public Composite getWidget() {
-		return container;
-	}
-
-	@Override
-	public void setLayoutData(Object layoutData) {
-		container.setLayoutData(layoutData);
-	}
-
-	public ValidationMode getSelection() {
-		if (validate()) {
-			return validationMode;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public boolean validate() {
-		return noValidationButton.getSelection()
-				|| modelValidationButton.getSelection()
-				|| iterativeValidationButton.getSelection();
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			return ValidationMessage.OK;
-		} else {
-			return new ValidationMessage(ValidationType.ERROR, "Please select a validation mode!");
-		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if ((noValidationButton == null) || (iterativeValidationButton == null) || (modelValidationButton == null)) {
-			throw new RuntimeException("Create controls first!");
-		}
-		noValidationButton.addSelectionListener(listener);
-		modelValidationButton.addSelectionListener(listener);
-		iterativeValidationButton.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (noValidationButton != null)
-			noValidationButton.removeSelectionListener(listener);
-		if (modelValidationButton != null)
-			modelValidationButton.removeSelectionListener(listener);
-		if (iterativeValidationButton != null)
-			iterativeValidationButton.removeSelectionListener(listener);
+	public List<ValidationMode> getSelectableValues() {
+		return Arrays.asList(ValidationMode.values());
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if(item == PatchingSettingsItem.VALIDATION_MODE) {
-			updateSelection();
-			getWidgetCallback().requestValidation();
+			if(settings.getScope() == null) {
+				setSelection(Collections.emptyList());
+			} else {
+				setSelection(Collections.singletonList(settings.getValidationMode()));
+			}
 		}
 	}
 
@@ -162,18 +61,11 @@ public class ValidationModeWidget extends AbstractWidget implements IWidgetSelec
 	}
 
 	public void setSettings(PatchingSettings settings) {
+		if(this.settings != null) {
+			this.settings.removeSettingsChangedListener(this);
+		}
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
-		updateSelection();
-	}
-
-	private void updateSelection() {
-		if(noValidationButton == null || modelValidationButton == null || iterativeValidationButton == null) {
-			return;
-		}
-
-		noValidationButton.setSelection(settings.getValidationMode() == ValidationMode.NO_VALIDATION);
-		modelValidationButton.setSelection(settings.getValidationMode() == ValidationMode.MODEL_VALIDATION);
-		iterativeValidationButton.setSelection(settings.getValidationMode() == ValidationMode.ITERATIVE_VALIDATION);
+		settingsChanged(PatchingSettingsItem.VALIDATION_MODE);
 	}
 }

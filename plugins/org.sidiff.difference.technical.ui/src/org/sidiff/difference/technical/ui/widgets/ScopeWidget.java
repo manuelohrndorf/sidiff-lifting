@@ -1,147 +1,76 @@
 package org.sidiff.difference.technical.ui.widgets;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
-public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
-	
+public class ScopeWidget extends AbstractRadioWidget<Scope> implements IWidgetValidation, ISettingsChangedListener {
+
+	private static ILabelProvider labelProvider = new ColumnLabelProvider() {
+		@Override
+		public String getText(Object element) {
+			switch((Scope)element) {
+				case RESOURCE: return "Single Resource";
+				case RESOURCE_SET: return "Complete Resource Set";
+			};
+			throw new AssertionError();
+		}
+	};
+
 	private MatchingSettings settings;
-	private Composite container;
-	private Button resourceButton;
-	private Button resourceSetButton;
 
 	public ScopeWidget() {
-	}
-
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Composite createControl(Composite parent) {
-
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		Group comparisonGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			comparisonGroup.setLayout(grid);
-			comparisonGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		}
-		comparisonGroup.setText("Scope:");
-
-		resourceButton = new Button(comparisonGroup, SWT.RADIO);
-		resourceButton.setText("Single resource");
-		resourceButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(resourceButton.getSelection()) {
-					settings.setScope(Scope.RESOURCE);
-				}
+		setTitle("Scope");
+		setLabelProvider(labelProvider);
+		addModificationListener((oldValues, newValues) -> {
+			if(!getSelection().isEmpty()) {
+				settings.setScope(getSelection().get(0));
+			} else {
+				settings.setScope(Scope.RESOURCE);
 			}
 		});
-
-		resourceSetButton = new Button(comparisonGroup, SWT.RADIO);
-		resourceSetButton.setText("Complete resourceset");
-		resourceSetButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(resourceSetButton.getSelection()) {
-					settings.setScope(Scope.RESOURCE_SET);
-				}
-			}
-		});
-
-		if(settings.getScope() == null) {
-			settings.setScope(Scope.RESOURCE);
-		}
-		updateButtonStates();
-		return container;
 	}
 
 	@Override
-	public Composite getWidget() {
-		return container;
+	public List<Scope> getSelectableValues() {
+		return Arrays.asList(Scope.values());
 	}
 
 	@Override
 	public boolean validate() {
-
-		if (resourceButton.getSelection() || resourceSetButton.getSelection()) {
-			if (settings.getScope() == Scope.RESOURCE_SET && settings.getMatcher() != null
-					&& !settings.getMatcher().isResourceSetCapable()) {
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			return false;
-		}
+		return settings.getScope() != Scope.RESOURCE_SET
+				|| settings.getMatcher() == null
+				|| settings.getMatcher().isResourceSetCapable();
 	}
 
 	@Override
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
 			return ValidationMessage.OK;
-		} else if(settings.getScope() == Scope.RESOURCE_SET && settings.getMatcher() != null && !settings.getMatcher().isResourceSetCapable()) {
-			return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
-					+ " does not support resourceset scope, select another matching engine!");
-		}else{
-			return new ValidationMessage(ValidationType.ERROR, "Please select a scope!");
 		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if(resourceButton == null || resourceSetButton == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		resourceButton.addSelectionListener(listener);
-		resourceSetButton.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if(resourceButton == null || resourceSetButton == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		resourceButton.removeSelectionListener(listener);
-		resourceSetButton.removeSelectionListener(listener);
+		return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
+				+ " does not support resourceset scope, select another matching engine!");
 	}
 
 	@Override
 	public void settingsChanged(Enum<?> item) {
 		if (item == BaseSettingsItem.SCOPE) {
-			updateButtonStates();
-			getWidgetCallback().requestValidation();
+			if(settings.getScope() == null) {
+				setSelection(Collections.emptyList());
+			} else {
+				setSelection(Collections.singletonList(settings.getScope()));
+			}
 		}
-	}
-
-	private void updateButtonStates() {
-		if (resourceButton != null) resourceButton.setSelection(settings.getScope() == Scope.RESOURCE);
-		if (resourceSetButton != null) resourceSetButton.setSelection(settings.getScope() == Scope.RESOURCE_SET);
 	}
 
 	public MatchingSettings getSettings() {
@@ -149,8 +78,11 @@ public class ScopeWidget extends AbstractWidget implements IWidgetSelection, IWi
 	}
 
 	public void setSettings(MatchingSettings settings) {
+		if(this.settings != null) {
+			this.settings.removeSettingsChangedListener(this);
+		}
 		this.settings = settings;
 		this.settings.addSettingsChangedListener(this);
-		updateButtonStates();
+		settingsChanged(BaseSettingsItem.SCOPE);
 	}
 }
