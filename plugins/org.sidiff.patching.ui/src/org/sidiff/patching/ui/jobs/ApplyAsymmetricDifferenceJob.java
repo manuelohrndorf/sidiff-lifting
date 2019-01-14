@@ -25,8 +25,7 @@ import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.PatchMode;
@@ -81,7 +80,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 	protected void copyTargetResources() {
 		SiDiffResourceSet resourceSet = SiDiffResourceSet.create();
 		targetResource = resourceSet.getResource(targetURI, true);
-		domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(targetResource);
+		domainEditor = IEditorIntegration.MANAGER.getIntegrationEditorForModel(targetResource);
 		boolean domainEditorSupportsDiagramming = domainEditor.supportsDiagramming(targetResource);
 		URI outputURI = targetURI.trimSegments(1).appendSegment(
 				settings.getPatchMode() == PatchMode.PATCHING ? "patched" : "merged");

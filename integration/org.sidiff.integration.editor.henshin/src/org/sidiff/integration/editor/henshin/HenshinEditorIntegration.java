@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.ui.IEditorPart;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
-import org.sidiff.integration.editor.extension.BasicEditorIntegration;
+import org.sidiff.integration.editor.BasicEditorIntegration;
 
 public class HenshinEditorIntegration extends BasicEditorIntegration {
 

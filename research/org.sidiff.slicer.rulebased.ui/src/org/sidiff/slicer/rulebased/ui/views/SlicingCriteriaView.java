@@ -55,8 +55,7 @@ import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
@@ -369,7 +368,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							labelProvider.setRemElements(slicer.getExtendedRemSlicingCriteria());
 							checkboxTreeViewer.refresh();
 					
-							IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(localModifiedSlicedResource);
+							IEditorIntegration domainEditor = IEditorIntegration.MANAGER.getIntegrationEditorForModel(localModifiedSlicedResource);
 							IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localModifiedSlicedResource.getURI());
 							EditingDomain editingDomain = domainEditor.getEditingDomain(editorPart);
 							resourceResult.set(domainEditor.getResource(editorPart));

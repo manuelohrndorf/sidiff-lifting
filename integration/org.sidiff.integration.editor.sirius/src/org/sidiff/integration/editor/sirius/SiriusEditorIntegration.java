@@ -33,7 +33,7 @@ import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.integration.editor.extension.AbstractEditorIntegration;
+import org.sidiff.integration.editor.AbstractEditorIntegration;
 
 public class SiriusEditorIntegration extends AbstractEditorIntegration {
 

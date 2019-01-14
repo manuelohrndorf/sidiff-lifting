@@ -48,8 +48,7 @@ import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.file.ZipUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.patching.ExecutionMode;
 import org.sidiff.patching.PatchEngine;
@@ -432,7 +431,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 			@Override
 			public void run() {
 
-				IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance()
+				IEditorIntegration domainEditor = IEditorIntegration.MANAGER
 						.getIntegrationEditorForModel(localModelResource);
 				IEditorPart editorPart = domainEditor.openModelInDefaultEditor(localModelResource.getURI());
 				EditingDomain editingDomain = domainEditor.getEditingDomain(editorPart);

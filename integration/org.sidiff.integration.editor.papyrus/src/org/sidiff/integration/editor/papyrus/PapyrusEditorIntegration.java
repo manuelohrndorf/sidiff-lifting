@@ -9,7 +9,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.sidiff.integration.editor.extension.BasicEditorIntegration;
+import org.sidiff.integration.editor.BasicEditorIntegration;
 
 public class PapyrusEditorIntegration extends BasicEditorIntegration {
 

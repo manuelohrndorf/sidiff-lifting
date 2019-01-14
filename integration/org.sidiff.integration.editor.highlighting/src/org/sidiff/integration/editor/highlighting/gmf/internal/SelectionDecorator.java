@@ -20,7 +20,7 @@ import org.eclipse.gmf.runtime.diagram.ui.services.decorator.IDecoratorTarget;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.integration.editor.highlighting.StyledObject;
 import org.sidiff.integration.editor.highlighting.internal.SelectionController;
 
@@ -93,7 +93,7 @@ public class SelectionDecorator extends AbstractDecorator {
 	}
 
 	private Optional<StyledObject> findStyledObject(EObject viewDataElement) {
-		final Collection<EObject> highlightable = IntegrationEditorAccess.getInstance().getHighlightableElements(viewDataElement);
+		final Collection<EObject> highlightable = IEditorIntegration.MANAGER.getHighlightableElements(viewDataElement);
 		return SelectionController.getInstance().getSelected().stream()
 			.filter(styled -> highlightable.stream().anyMatch(
 					e -> Objects.equals(EcoreUtil.getURI(styled.getEObject()).fragment(), EcoreUtil.getURI(e).fragment())

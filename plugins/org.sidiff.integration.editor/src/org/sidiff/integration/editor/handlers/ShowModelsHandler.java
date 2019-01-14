@@ -14,8 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorSite;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 
 @SuppressWarnings("restriction")
 public class ShowModelsHandler extends AbstractHandler implements IHandler {
@@ -25,8 +24,8 @@ public class ShowModelsHandler extends AbstractHandler implements IHandler {
 		URI uriA = URI.createURI((String)event.getParameters().get("org.sidiff.integration.editor.commands.ShowModels.ModelA"));
 		URI uriB = URI.createURI((String)event.getParameters().get("org.sidiff.integration.editor.commands.ShowModels.ModelB"));
 
-		IEditorIntegration deA = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriA);
-		IEditorIntegration deB = IntegrationEditorAccess.getInstance().getIntegrationEditorForModelOrDiagramFile(uriB);
+		IEditorIntegration deA = IEditorIntegration.MANAGER.getIntegrationEditorForModelOrDiagramFile(uriA);
+		IEditorIntegration deB = IEditorIntegration.MANAGER.getIntegrationEditorForModelOrDiagramFile(uriB);
 
 		IEditorPart editorAT = deA.openModelInDefaultEditor(uriA);
 		IEditorPart editorA = deA.openDiagramForModel(uriA);

@@ -33,8 +33,7 @@ import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.integration.SiLiftCompareConfiguration;
 import org.sidiff.integration.SiLiftCompareDifferencer;
 import org.sidiff.integration.SiLiftCompareDifferencer.IModelViewerAdapter;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.integration.internal.Activator;
 import org.sidiff.integration.remote.CompareResource;
 import org.sidiff.integration.remote.CompareResource.Side;
@@ -130,7 +129,7 @@ public class ShowDiagramAction extends Action {
 					label + ": Diagram cannot be shown for empty resource."));
 		}
 
-		IEditorIntegration editorIntegration = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(res.getResource());
+		IEditorIntegration editorIntegration = IEditorIntegration.MANAGER.getIntegrationEditorForModel(res.getResource());
 		if(editorIntegration == null) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
 					label + ": No suitable diagram or editor integration was found"));

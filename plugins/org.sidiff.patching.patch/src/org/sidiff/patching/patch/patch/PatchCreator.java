@@ -25,8 +25,7 @@ import org.sidiff.difference.asymmetric.api.AsymmetricDiffFacade;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.integration.editor.access.IntegrationEditorAccess;
-import org.sidiff.integration.editor.extension.IEditorIntegration;
+import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
@@ -125,7 +124,7 @@ public class PatchCreator {
 		LogUtil.log(LogEvent.NOTICE, "Serialize " + filename + " to "+ modelUri);
 		resourceSet.saveResourceAs(resource, modelUri);
 
-		IEditorIntegration domainEditor = IntegrationEditorAccess.getInstance().getIntegrationEditorForModel(resource);
+		IEditorIntegration domainEditor = IEditorIntegration.MANAGER.getIntegrationEditorForModel(resource);
 		if (domainEditor.supportsDiagramming(resource)) {
 			try {
 				domainEditor.copyDiagram(origModelUri, outputDir);

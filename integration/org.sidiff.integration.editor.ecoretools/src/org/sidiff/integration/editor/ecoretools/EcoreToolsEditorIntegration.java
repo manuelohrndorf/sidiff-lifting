@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditorInput;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.sidiff.integration.editor.extension.BasicEditorIntegration;
+import org.sidiff.integration.editor.BasicEditorIntegration;
 
 public class EcoreToolsEditorIntegration extends BasicEditorIntegration {
 

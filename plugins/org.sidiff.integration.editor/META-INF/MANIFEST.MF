@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SiDiff Editor Integration
 Bundle-SymbolicName: org.sidiff.integration.editor;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-Activator: org.sidiff.integration.editor.Activator
+Bundle-Activator: org.sidiff.integration.editor.internal.Activator
 Bundle-Vendor: Software Engineering Group, University of Siegen
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -14,9 +14,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.core.contexts,
- org.sidiff.common.ui
-Export-Package: org.sidiff.integration.editor.access;uses:="org.eclipse.emf.ecore.resource",
- org.sidiff.integration.editor.extension;uses:="org.eclipse.emf.common.util,org.eclipse.emf.ecore.resource"
+ org.sidiff.common.ui,
+ org.sidiff.common.extension;visibility:=reexport
+Export-Package: org.sidiff.integration.editor,
+ org.sidiff.integration.editor.handlers
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.sidiff.integration.editor
