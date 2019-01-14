@@ -18,11 +18,9 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
@@ -38,6 +36,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.UIUtil;
+import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
@@ -97,36 +96,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	public void createPartControl(Composite parent) {
 
 		// TreeViewer
-		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL) {
-			public void setSelection(ISelection selection, boolean reveal) {
-				/**
-				 * <p>
-				 * If the new selection differs from the current selection the
-				 * hook <code>updateSelection</code> is called.
-				 * </p>
-				 * <p>
-				 * If <code>setSelection</code> is called from within
-				 * <code>preserveSelection</code>, the call to
-				 * <code>updateSelection</code> is delayed until the end of
-				 * <code>preserveSelection</code>.
-				 * </p>
-				 * <p>
-				 * Subclasses do not typically override this method, but
-				 * implement <code>setSelectionToWidget</code> instead.
-				 * </p>
-				 */
-				Control control = getControl();
-				if (control == null || control.isDisposed()) {
-					return;
-				}
-
-				setSelectionToWidget(selection, reveal);
-				ISelection sel = getSelection();
-				updateSelection(sel);
-				firePostSelectionChanged(new SelectionChangedEvent(this, sel));
-
-			}
-		};
+		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		patchViewer.setContentProvider(new PatchContentProvider());
 		patchViewer.setAutoExpandLevel(0);
 
@@ -223,6 +193,12 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		patchViewer.getControl().setMenu(menu);
 
 		getSite().setSelectionProvider(patchViewer);
+		try {
+			patchViewer.addSelectionChangedListener(EditorHighlighting.getInstance().getSelectionChangedListener());
+		} catch(NoClassDefFoundError e) {
+			// The editor highlighting plugin is optional.
+			// This exception might be thrown when it is unavailable.
+		}
 
 		createActions();
 		createToolbar();
