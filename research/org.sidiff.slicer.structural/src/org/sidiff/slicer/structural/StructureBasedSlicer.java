@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.sidiff.common.collections.UniqueQueue;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -150,12 +152,8 @@ public class StructureBasedSlicer implements ISlicer {
 	public ModelSlice slice(Collection<EObject> initialCriteria) throws ImportFailedException {
 		LogUtil.log(LogEvent.MESSAGE, "############### Slicer STARTED ################");
 
-		// iterate over all the slicing criteria
-		// new criteria will be added add the end of the list
-		// the called methods must ensure that no existing element is added
-		List<EObject> criteria = new LinkedList<>(initialCriteria);
-		for(int i = 0; i < criteria.size(); i++) {
-			EObject slicingCriterion = criteria.get(i);
+		Queue<EObject> criteria = new UniqueQueue<>(initialCriteria);
+		for(EObject slicingCriterion : criteria) {
 			SlicedElement slicedElement = importer.importEObject(slicingCriterion);
 
 			GraphUtil.get(this).addNode(slicedElement.getObject());
@@ -182,11 +180,11 @@ public class StructureBasedSlicer implements ISlicer {
 
 	/**
 	 * 
-	 * @param list
+	 * @param queue
 	 * @param slicedElement
 	 * @throws ImportFailedException 
 	 */
-	private void addForwardElements(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+	private void addForwardElements(Queue<EObject> queue, SlicedElement slicedElement) throws ImportFailedException {
 		for(EReference eReference : slicedElement.getType().getEAllReferences()) {
 			if(!eReference.isDerived()) {
 				EObject src = slicedElement.getObject();
@@ -194,9 +192,7 @@ public class StructureBasedSlicer implements ISlicer {
 				for(EObject tgt : tgts) {
 					if(checkSlicingCondition(tgt)) {
 						importer.importEReference(eReference, src, tgt);
-						if(!list.contains(tgt)) {
-							list.add(tgt);
-						}
+						queue.offer(tgt);
 
 						GraphUtil.get(this).addEdge(eReference, src, tgt);
 						LogUtil.log(LogEvent.MESSAGE, "Sliced EReference: " + StringUtil.resolve(src)
@@ -209,23 +205,20 @@ public class StructureBasedSlicer implements ISlicer {
 
 	/**
 	 * 
-	 * @param list
+	 * @param queue
 	 * @param slicedElement
 	 * @throws ImportFailedException 
 	 */
-	private void addBackwardElements(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+	private void addBackwardElements(Queue<EObject> queue, SlicedElement slicedElement) throws ImportFailedException {
 		EObject tgt = slicedElement.getObject();
 		for(EObject src : getIncomingNeighbours(tgt)) {
 			if(checkSlicingCondition(src)) {
 				for(EReference eReference : src.eClass().getEAllReferences()) {
 					if(!eReference.isDerived()) {
 						Collection<EObject> targets = computeSlicedReferenceTargets(src, eReference);
-						if(targets.contains(tgt))
-						{
+						if(targets.contains(tgt)) {
 							importer.importEReference(eReference, src, tgt);
-							if(!list.contains(src)) {
-								list.add(src);
-							}
+							queue.offer(src);
 
 							GraphUtil.get(this).addEdge(eReference, src, tgt);
 							LogUtil.log(LogEvent.MESSAGE, "Sliced inversed EReference: " + StringUtil.resolve(tgt)
@@ -239,11 +232,11 @@ public class StructureBasedSlicer implements ISlicer {
 
 	/**
 	 * 
-	 * @param list
+	 * @param queue
 	 * @param slicedElement
 	 * @throws ImportFailedException 
 	 */
-	private void addMandatoryNeighbours(List<EObject> list, SlicedElement slicedElement) throws ImportFailedException {
+	private void addMandatoryNeighbours(Queue<EObject> queue, SlicedElement slicedElement) throws ImportFailedException {
 		EObject src = slicedElement.getObject();
 		for(EReference eReference : slicedElement.getType().getEAllReferences()) {
 			if(!eReference.isDerived() && eReference.getLowerBound() > 0) {
@@ -254,10 +247,7 @@ public class StructureBasedSlicer implements ISlicer {
 					while(size < eReference.getLowerBound() && iterator.hasNext()) {
 						EObject tgt = iterator.next();
 						importer.importEReference(eReference, src, tgt);
-
-						if(!list.contains(tgt)) {
-							list.add(tgt);
-						}
+						queue.offer(tgt);
 						size++;
 
 						GraphUtil.get(this).addEdge(eReference, src, tgt);
@@ -273,10 +263,7 @@ public class StructureBasedSlicer implements ISlicer {
 		if(container != null) {
 			EReference eReference = src.eContainmentFeature();
 			importer.importEReference(eReference, container, src);
-
-			if(!list.contains(container)) {
-				list.add(container);
-			}
+			queue.offer(container);
 
 			GraphUtil.get(this).addEdge(eReference, container, src);
 			LogUtil.log(LogEvent.MESSAGE, "Sliced containment EReference: " + StringUtil.resolve(container)
