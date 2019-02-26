@@ -203,7 +203,7 @@ public abstract class PotentialConflictAnalyzer {
 		
 		// Create-Forbid (NAC)
 		if ((!predecessorCreateNodes.isEmpty()) && (!successorForbidNodes.isEmpty())) {
-			Set<PotentialNodeConflict> createForbidNodePotConsPAC = findCreateForbid_Node_NAC(
+			Set<PotentialNodeConflict> createForbidNodePotConsPAC = findCreateForbid_Node(
 					predecessorCreateNodes, successorForbidNodes);
 			
 			for (PotentialNodeConflict pnc : createForbidNodePotConsPAC) {
@@ -211,6 +211,11 @@ public abstract class PotentialConflictAnalyzer {
 				pnc.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPNCs(createForbidNodePotConsPAC);
+		}
+		
+		if((!predecessorCreateEdges.isEmpty()) && (!successorForbidEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbid_Edge(predecessorCreateEdges, successorForbidEdges, potRuleCon);
+			
 		}
 //		
 //		// Create-Use
@@ -626,7 +631,7 @@ public abstract class PotentialConflictAnalyzer {
 	 * 			Nodes from NAC (<< forbid >>)
 	 * @return All potential Create-Forbid conflicts.
 	 */
-	protected Set<PotentialNodeConflict> findCreateForbid_Node_NAC(
+	protected Set<PotentialNodeConflict> findCreateForbid_Node(
 			Collection<Node> rhsPredecessors, Collection<Node> forbiddenSuccessors) {
 		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
 		
@@ -676,6 +681,56 @@ public abstract class PotentialConflictAnalyzer {
 			return true;
 		}
 
+		return false;
+	}
+	
+	protected Set<PotentialEdgeConflict> findCreateForbid_Edge(Collection<Edge> rhsPredecessors, Collection<Edge> forbidSuccessors, PotentialRuleConflicts potRuleCon){
+		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
+		
+		for(Edge successorEdge : forbidSuccessors) {
+			for(Edge predecessorEdge : rhsPredecessors) {
+				if(isCreateForbidConflict(predecessorEdge, successorEdge, potRuleCon)) {
+					// Create-Forbid conflict found
+					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
+
+					potCon.setSourceEdge(predecessorEdge);
+					potCon.setTargetEdge(successorEdge);
+					potCon.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID);
+					
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	protected boolean isCreateForbidConflict(Edge rhsPredecessors, Edge forbidSuccessor, PotentialRuleConflicts potRuleCon) {
+		assert(isCreationEdge(rhsPredecessors)) : "Input Assertion Failed!";
+		assert(isForbiddenEdge(forbidSuccessor)) : "Input Assertion Failed!";
+		
+		if(rhsPredecessors.getType().equals(forbidSuccessor.getType())) {
+			Node predecessorSrc = rhsPredecessors.getSource();
+			Node predecessorTgt = rhsPredecessors.getTarget();
+			Node successorSrc = forbidSuccessor.getSource();
+			Node successorTgt = forbidSuccessor.getTarget();
+			
+			boolean srcOK = false;
+			if(isCreationNode(predecessorSrc)) {
+				srcOK = hasPotentialNodeConflict(potRuleCon, predecessorSrc, successorSrc);
+			}else {
+				srcOK = isPreservedNode(predecessorSrc);
+			}
+			
+			boolean tgtOK = false;
+			if(isCreationNode(predecessorTgt)) {
+				tgtOK = hasPotentialNodeConflict(potRuleCon, predecessorTgt, successorTgt);
+			}else {
+				tgtOK = isPreservedNode(predecessorTgt);
+			}
+			
+			return srcOK && tgtOK;
+			
+		}
 		return false;
 	}
 	
