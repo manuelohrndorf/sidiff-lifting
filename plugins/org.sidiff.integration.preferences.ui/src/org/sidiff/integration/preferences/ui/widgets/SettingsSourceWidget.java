@@ -1,8 +1,9 @@
 package org.sidiff.integration.preferences.ui.widgets;
 
-import java.util.EnumMap;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -12,19 +13,12 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
 import org.sidiff.common.settings.ISettings;
-import org.sidiff.common.ui.widgets.AbstractWidget;
+import org.sidiff.common.ui.util.UIUtil;
+import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
@@ -45,19 +39,23 @@ import org.sidiff.matching.input.InputModels;
  * will be considered.</p>
  * @author Robert Müller
  */
-public class SettingsSourceWidget extends AbstractWidget implements IWidgetValidation {
+public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> implements IWidgetValidation {
 
 	public static enum Source {
-		GLOBAL,
-		PROJECT,
-		CUSTOM
-	}
+		GLOBAL("Use global settings"),
+		PROJECT("Use settings of project"),
+		CUSTOM("Use custom settings");
 
-	// UI components
-	private Composite container;
-	private Group group;
-	private Map<Source, Button> buttons;
-	private SelectionListener buttonSelectionListener;
+		private String label;
+
+		Source(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+	}
 
 	// inputs
 	private ISettings settings;
@@ -66,7 +64,6 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private Set<Enum<?>> consideredSettings;
 
 	// outputs
-	private Source source;
 	private ValidationMessage message;
 	private Diagnostic diagnostic;
 
@@ -93,96 +90,67 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		// some other widgets change the original set, so a local copy is created here
 		this.documentTypes = new HashSet<>(documentTypes);
 		this.consideredSettings = new HashSet<>();
+
+		setTitle("Settings Source");
+		setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((Source)element).getLabel();
+			}
+		});
+		addModificationListener((oldValues, newValues) -> {
+			// adapt the settings using the changed settings source
+			updateSettings();
+			// update enabled state of dependents
+			propagateEnabledState();
+			// notify listeners after the enabled state has been updated
+			// as disabled widgets are not validated
+			getWidgetCallback().requestValidation();
+			// show settings validation results
+			showDiagnosticDialog();
+		});
 	}
 
 	@Override
-	public Composite createControl(Composite parent) {
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
+	protected void hookInitButtons() {
+		super.hookInitButtons();
 
-		group = new Group(container, SWT.SHADOW_IN);
-		group.setText("Settings Source:");
-		group.setLayout(new RowLayout(SWT.VERTICAL));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		buttons = new EnumMap<Source, Button>(Source.class);
-
-		Button radioGlobal = new Button(group, SWT.RADIO);
-		radioGlobal.setText("Use global settings");
-		radioGlobal.addSelectionListener(getButtonSelectionListener());
-		buttons.put(Source.GLOBAL, radioGlobal);
-
-		Button radioProject = new Button(group, SWT.RADIO);
-		radioProject.addSelectionListener(getButtonSelectionListener());
+		Button radioProject = getButtons().get(Source.PROJECT);
 		try {
 			if(project == null) {
 				throw new CoreException(new Status(IStatus.ERROR, PreferencesUiPlugin.PLUGIN_ID,
 						"No project was specified / deduced from the input models."));
 			}
 			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project));
-			radioProject.setText("Use settings of project");
 		} catch (CoreException e) {
 			radioProject.setEnabled(false);
-			radioProject.setText("Use settings of project [not possible: " + e.getMessage() + "]");
+			radioProject.setText(radioProject.getText() + " [not possible: " + e.getMessage() + "]");
 			PreferencesUiPlugin.logWarning("Checking if project specific settings exist failed.", e);
 		}
-		buttons.put(Source.PROJECT, radioProject);
 
-		Button radioCustom = new Button(group, SWT.RADIO);
-		radioCustom.setText("Use custom settings");
-		radioCustom.addSelectionListener(getButtonSelectionListener());
-		buttons.put(Source.CUSTOM, radioCustom);
-
-		// set default selection and show dialog with settings validation result
+		// set default selection
 		setSource(radioProject.isEnabled() ? Source.PROJECT : Source.CUSTOM);
-		showDiagnosticDialog();
-
-		return container;
-	}
-
-	@Override
-	public Composite getWidget() {
-		return container;
 	}
 
 	public void setSource(Source source) {
 		Assert.isNotNull(source);
-		if(this.source == source) {
+		if(getSource() == source) {
 			return;
 		}
-		this.source = source;
-
-		// update state of all radio buttons
-		for(Map.Entry<Source, Button> entry : buttons.entrySet()) {
-			entry.getValue().setSelection(entry.getKey() == source);
-		}
-
-		// adapt the settings using the changed settings source
-		updateSettings();
-
-		// update enabled state of dependents
-		propagateEnabledState();
-		
-		// notify listeners after the enabled state has been updated
-		// as disabled widgets are not validated
-		getWidgetCallback().requestValidation();
+		setSelection(Collections.singletonList(source));
 	}
 
 	public Source getSource() {
-		return source;
+		return getSelection().stream().findFirst().orElse(null);
 	}
 
 	@Override
 	public boolean areDependentsEnabled() {
-		return super.areDependentsEnabled() && source == Source.CUSTOM;
+		return super.areDependentsEnabled() && getSource() == Source.CUSTOM;
 	}
 
 	private void updateSettings() {
-		switch(source) {	
+		switch(getSource()) {	
 			case GLOBAL:
 				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes, consideredSettings);
 				break;
@@ -203,37 +171,16 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 			return;
 		}
 
-		Display.getCurrent().asyncExec(new Runnable() {
-			public void run() {
-				DiagnosticDialog.open(container.getShell(), "Validation of settings", null, diagnostic);
-			}
-		});
-	}
-
-	private SelectionListener getButtonSelectionListener() {
-		if(buttonSelectionListener == null) {
-			buttonSelectionListener = new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					for(Map.Entry<Source, Button> entry : buttons.entrySet()) {
-						if(entry.getValue() == e.getSource() && entry.getValue().getSelection()) {
-							setSource(entry.getKey());
-							showDiagnosticDialog();
-							break;
-						}
-					}
-				}
-			};
-		}
-		return buttonSelectionListener;
+		Display.getCurrent().asyncExec(() ->
+			DiagnosticDialog.open(UIUtil.getActiveShell(), "Validation of settings", null, diagnostic));
 	}
 
 	@Override
 	public boolean validate() {
-		if(source != Source.CUSTOM && diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR) {
+		if(getSource() != Source.CUSTOM && diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR) {
 			// WARNING instead of ERROR so other validation messages take precedence over this one, as it is pretty vague
 			message = new ValidationMessage(ValidationType.WARNING,
-					source == Source.GLOBAL ? "The global settings are not valid."
+					getSource() == Source.GLOBAL ? "The global settings are not valid."
 											: "The project specific settings are not valid.");
 			return false;
 		}
@@ -271,5 +218,10 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		for(Enum<?> item : consideredSettings) {
 			this.consideredSettings.remove(item);
 		}
+	}
+
+	@Override
+	public List<Source> getSelectableValues() {
+		return Arrays.asList(SettingsSourceWidget.Source.values());
 	}
 }
