@@ -1,114 +1,49 @@
 package org.sidiff.patching.ui.widgets;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Spinner;
 import org.sidiff.common.settings.ISettingsChangedListener;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.AbstractContainerWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 
-public class ReliabilityWidget extends AbstractWidget implements IWidgetSelection,
-		IWidgetValidation, ISettingsChangedListener {
+public class ReliabilityWidget extends AbstractContainerWidget implements IWidgetValidation, ISettingsChangedListener {
 
-	private final int defaultReliability = 50;
+	private final int MIN = 0;
+	private final int MAX = 100;
+	private final int INCREMENT = 5;
+	private final int DEFAULT = 50;
 
 	private PatchingSettings settings;
 
-	private Composite container;
 	private Scale scale;
 	private Spinner spinner;
 
 	public ReliabilityWidget() {
-		
+		super();
+		setTitle("Minimal Reliability");
 	}
 
 	private boolean checkComputability() {
 		if (settings.useSymbolicLinks()) {
 			return settings.getSymbolicLinkHandler().canComputeReliability();
-		} else {
-			return settings.getMatcher() != null;
 		}
-	}
-
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Composite createControl(Composite parent) {
-
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		Group reliabilityGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(2, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			reliabilityGroup.setLayout(grid);
-			reliabilityGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		}
-		reliabilityGroup.setText("Minimal Reliability:");
-
-		scale = new Scale(reliabilityGroup, SWT.HORIZONTAL);
-		scale.setMinimum(0);
-		scale.setMaximum(100);
-		scale.setIncrement(5);
-		scale.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		scale.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setMinReliability(scale.getSelection());
-			}
-		});
-
-		spinner = new Spinner(reliabilityGroup, SWT.NONE);
-		spinner.setMinimum(0);
-		spinner.setMaximum(100);
-		spinner.setIncrement(5);
-		spinner.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
-		spinner.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setMinReliability(spinner.getSelection());
-			}
-		});
-
-		if(settings.getMinReliability() < 0) {
-			settings.setMinReliability(defaultReliability);
-		}
-		updateSelection();
-		getWidgetCallback().requestValidation();
-		return container;
-	}
-
-	@Override
-	public Composite getWidget() {
-		return container;
+		return settings.getMatcher() != null;
 	}
 
 	public int getReliability() {
 		if (checkComputability()) {
 			return settings.getMinReliability();
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	@Override
@@ -120,31 +55,11 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 	public ValidationMessage getValidationMessage() {
 		if (checkComputability()) {
 			return ValidationMessage.OK;
+		} else if (settings.useSymbolicLinks()) {
+			return new ValidationMessage(ValidationType.INFORMATION, "Selected Symbolic Link Handler does not support Reliability!");
 		} else {
-			if (settings.useSymbolicLinks()) {
-				return new ValidationMessage(ValidationType.INFORMATION, "Selected Symbolic Link Handler does not support Reliability!");
-			} else {
-				return new ValidationMessage(ValidationType.INFORMATION, "Selected Matching Engine does not support Reliability!");
-			}
+			return new ValidationMessage(ValidationType.INFORMATION, "Selected Matching Engine does not support Reliability!");
 		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if(scale == null || spinner == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		spinner.addSelectionListener(listener);
-		scale.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if(scale == null || spinner == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		spinner.removeSelectionListener(listener);
-		scale.removeSelectionListener(listener);
 	}
 
 	@Override
@@ -152,7 +67,7 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 		if (item == MatchingSettingsItem.MATCHER
 				|| item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
 			// update enabled state
-			setEnabled(isEnabled());
+			setEnabled(checkComputability());
 			getWidgetCallback().requestValidation();
 		} else if(item == PatchingSettingsItem.RELIABILITY) {
 			updateSelection();
@@ -174,7 +89,36 @@ public class ReliabilityWidget extends AbstractWidget implements IWidgetSelectio
 		return super.isEnabled() && checkComputability();
 	}
 
-	private void updateSelection() {
+	@Override
+	protected Composite createContents(Composite container) {
+		Composite gridContainer = new Composite(container, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(gridContainer);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(gridContainer);
+
+		scale = new Scale(gridContainer, SWT.HORIZONTAL);
+		scale.setMinimum(MIN);
+		scale.setMaximum(MAX);
+		scale.setIncrement(INCREMENT);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(scale);
+		scale.addSelectionListener(SelectionListener.widgetSelectedAdapter(
+				e -> settings.setMinReliability(scale.getSelection())));
+
+		spinner = new Spinner(gridContainer, SWT.NONE);
+		spinner.setMinimum(MIN);
+		spinner.setMaximum(MAX);
+		spinner.setIncrement(INCREMENT);
+		GridDataFactory.fillDefaults().applyTo(spinner);
+		spinner.addSelectionListener(SelectionListener.widgetSelectedAdapter(
+				e -> settings.setMinReliability(spinner.getSelection())));
+
+		if(settings.getMinReliability() < 0) {
+			settings.setMinReliability(DEFAULT);
+		}
+		updateSelection();
+		return container;
+	}
+
+	protected void updateSelection() {
 		if(spinner == null || scale == null) {
 			return;
 		}
