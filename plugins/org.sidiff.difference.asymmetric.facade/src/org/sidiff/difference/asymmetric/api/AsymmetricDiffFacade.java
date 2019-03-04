@@ -1,12 +1,11 @@
 package org.sidiff.difference.asymmetric.api;
 
-import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.deriveAsymmetricDifference;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -21,11 +20,11 @@ import org.sidiff.difference.asymmetric.dependencies.real.EngineBasedDependencyA
 import org.sidiff.difference.asymmetric.mergeimports.AsymmetricMergeImports;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterMapper;
 import org.sidiff.difference.asymmetric.paramretrieval.ParameterRetriever;
+import org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
-import org.sidiff.matching.input.InputModels;
 
 /**
  * Convenient access to asymmetric difference calculation functions.
@@ -70,7 +69,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		
 		// Derive Asymmetric-Difference from Symmetric-Difference
 		LogUtil.log(LogEvent.NOTICE, "Derive asymmetric difference");
-		deriveAsymmetricDifference(symmetricDifference, asymmetricDifference);
+		AsymmetricDifferenceUtil.deriveAsymmetricDifference(symmetricDifference, asymmetricDifference);
 		
 		// Retrieve dependencies of operation invocations
 		StatisticsUtil.getInstance().start("DependencyAnalysis");

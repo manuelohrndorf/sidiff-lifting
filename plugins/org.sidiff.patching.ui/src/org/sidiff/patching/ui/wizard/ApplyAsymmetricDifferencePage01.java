@@ -1,12 +1,12 @@
 package org.sidiff.patching.ui.wizard;
 
 import org.eclipse.emf.common.util.URI;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.ui.Activator;

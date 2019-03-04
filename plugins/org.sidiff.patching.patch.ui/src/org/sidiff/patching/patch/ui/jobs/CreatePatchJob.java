@@ -8,13 +8,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.logging.StatusWrapper;
 import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.PatchingFacade;
 import org.sidiff.patching.api.settings.PatchingSettings;
 

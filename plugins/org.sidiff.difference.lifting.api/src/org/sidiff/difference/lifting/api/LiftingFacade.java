@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.correspondences.ICorrespondences;
@@ -27,7 +28,6 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysisUtil;
 import org.sidiff.difference.symmetric.util.debug.ModelReducer;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.input.InputModels;
 
 /**
  * Convenient access to lifting functions.

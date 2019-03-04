@@ -27,6 +27,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
@@ -38,7 +39,6 @@ import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.matching.input.InputModels;
 
 public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 

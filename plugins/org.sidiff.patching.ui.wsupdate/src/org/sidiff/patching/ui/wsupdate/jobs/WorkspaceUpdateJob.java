@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.sidiff.matching.input.InputModels;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.jobs.CreateAsymmetricDifferenceJob;
 import org.sidiff.patching.ui.jobs.ApplyAsymmetricDifferenceJob;

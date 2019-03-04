@@ -9,12 +9,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.patch.Patch;
 
 public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget implements IWidgetValidation {

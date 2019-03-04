@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.StatusWrapper;
 import org.sidiff.common.ui.util.Exceptions;
@@ -16,7 +17,6 @@ import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.matching.input.InputModels;
 
 public class LiftDifferenceJob extends Job {
 

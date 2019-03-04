@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.settings.ISettings;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
@@ -24,7 +25,6 @@ import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.Validati
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
-import org.sidiff.matching.input.InputModels;
 
 /**
  * <p>The settings source widget allows selecting a source from which

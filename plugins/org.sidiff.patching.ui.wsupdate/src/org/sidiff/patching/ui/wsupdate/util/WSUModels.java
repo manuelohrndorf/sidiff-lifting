@@ -2,7 +2,7 @@ package org.sidiff.patching.ui.wsupdate.util;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.matching.input.InputModels;
+import org.sidiff.common.emf.input.InputModels;
 
 public class WSUModels extends InputModels {
 
@@ -44,17 +44,17 @@ public class WSUModels extends InputModels {
 	}
 
 	public void setModelMine(IFile fileMine) {
-		getFiles().set(ROLE_MINE, fileMine);
-		getResources().set(ROLE_MINE, getResource(fileMine));
+		internalGetFiles().set(ROLE_MINE, fileMine);
+		internalGetResources().set(ROLE_MINE, getResource(fileMine));
 	}
 
 	public void setModelTheirs(IFile fileTheirs) {
-		getFiles().set(ROLE_THEIRS, fileTheirs);
-		getResources().set(ROLE_THEIRS, getResource(fileTheirs));
+		internalGetFiles().set(ROLE_THEIRS, fileTheirs);
+		internalGetResources().set(ROLE_THEIRS, getResource(fileTheirs));
 	}
 
 	public void setModelBase(IFile fileBase) {
-		getFiles().set(ROLE_BASE, fileBase);
-		getResources().set(ROLE_BASE, getResource(fileBase));
+		internalGetFiles().set(ROLE_BASE, fileBase);
+		internalGetResources().set(ROLE_BASE, getResource(fileBase));
 	}
 }

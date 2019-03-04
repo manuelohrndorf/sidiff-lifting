@@ -1,6 +1,8 @@
 package org.sidiff.difference.lifting.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.emf.input.InputModels;
+import org.sidiff.common.emf.input.ui.InputModelsWidget;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -8,12 +10,10 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
-import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
-import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
 
@@ -81,7 +81,8 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, settingsSourceWidget);
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
+		sourceWidget = new InputModelsWidget(inputModels);
+		sourceWidget.setArrowLabel("Comparison Direction");
 		addWidget(container, sourceWidget);
 
 		// Model Validation:

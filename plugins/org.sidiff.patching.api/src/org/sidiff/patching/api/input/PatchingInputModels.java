@@ -1,10 +1,10 @@
 package org.sidiff.patching.api.input;
 
 import org.eclipse.core.resources.IFile;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.matching.input.InputModels;
 
 public class PatchingInputModels extends InputModels {
 

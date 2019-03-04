@@ -1,19 +1,19 @@
 package org.sidiff.difference.technical.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.emf.input.InputModels;
+import org.sidiff.common.emf.input.ui.InputModelsWidget;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
-import org.sidiff.difference.technical.ui.widgets.InputModelsWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
-import org.sidiff.matching.input.InputModels;
 
 public class BasicCompareSettingsPage extends AbstractWizardPage {
 
@@ -52,7 +52,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	/**
 	 * The {@link InputModelsWidget} for loading the models being compared.
 	 */
-	private InputModelsWidget sourceWidget;
+	private org.sidiff.common.emf.input.ui.InputModelsWidget sourceWidget;
 
 	/**
 	 * The {@link ScopeWidget} for determining the scope of the comparison.
@@ -84,7 +84,8 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, settingsSourceWidget);
 
 		// Models:
-		sourceWidget = new InputModelsWidget(inputModels, "Comparison Direction");
+		sourceWidget = new InputModelsWidget(inputModels);
+		sourceWidget.setArrowLabel("Comparison Direction");
 		addWidget(container, sourceWidget);
 
 		// Model Validation:

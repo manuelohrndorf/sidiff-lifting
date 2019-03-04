@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -9,7 +10,6 @@ import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matching.input.InputModels;
 
 public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 

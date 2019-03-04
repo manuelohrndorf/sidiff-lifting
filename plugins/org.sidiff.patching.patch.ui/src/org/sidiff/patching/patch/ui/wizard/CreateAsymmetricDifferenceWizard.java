@@ -1,8 +1,8 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import org.eclipse.jface.wizard.Wizard;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.jobs.CreateAsymmetricDifferenceJob;
 

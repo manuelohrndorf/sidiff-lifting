@@ -1,6 +1,7 @@
 package org.sidiff.difference.lifting.ui.pages;
 
 import org.eclipse.core.resources.IFile;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
@@ -8,7 +9,6 @@ import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
-import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftingPage extends AbstractWizardPage {
 

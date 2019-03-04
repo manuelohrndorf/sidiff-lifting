@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.logging.StatusWrapper;
 import org.sidiff.common.ui.util.Exceptions;
@@ -21,7 +22,6 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ui.validation.ValidateDialog;
-import org.sidiff.matching.input.InputModels;
 
 public class CreateLiftedDifferenceJob extends Job {
 

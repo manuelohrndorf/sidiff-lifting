@@ -1,11 +1,11 @@
 package org.sidiff.patching.patch.ui.wizard;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 

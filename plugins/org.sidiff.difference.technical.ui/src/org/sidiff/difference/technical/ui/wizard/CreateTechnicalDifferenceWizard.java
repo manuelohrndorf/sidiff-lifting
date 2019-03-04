@@ -2,10 +2,10 @@ package org.sidiff.difference.technical.ui.wizard;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.ui.jobs.CreateTechnicalDifferenceJob;
 import org.sidiff.difference.technical.ui.pages.BasicCompareSettingsPage;
-import org.sidiff.matching.input.InputModels;
 
 public class CreateTechnicalDifferenceWizard extends Wizard {
 

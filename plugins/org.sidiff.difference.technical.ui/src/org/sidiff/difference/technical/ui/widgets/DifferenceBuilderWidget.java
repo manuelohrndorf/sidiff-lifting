@@ -1,6 +1,7 @@
 package org.sidiff.difference.technical.ui.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.EMFModelAccess;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
@@ -30,7 +32,6 @@ import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
-import org.sidiff.matching.input.InputModels;
 
 public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
 
@@ -153,7 +154,7 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 			}
 
 			// check for each doc type if a builder is selected that can handle it
-			Set<String> unsupportedDocTypes = inputModels.getDocumentTypes();
+			Set<String> unsupportedDocTypes = new HashSet<>(inputModels.getDocumentTypes());
 			
 			for(String key : list_builders.getSelection()){
 				if(builders.get(key).canHandle(inputModels.getDocumentTypes())){

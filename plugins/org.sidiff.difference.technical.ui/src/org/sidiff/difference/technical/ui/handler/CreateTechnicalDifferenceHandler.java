@@ -8,9 +8,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.technical.ui.wizard.CreateTechnicalDifferenceWizard;
-import org.sidiff.matching.input.InputModels;
 
 public class CreateTechnicalDifferenceHandler extends AbstractHandler {
 

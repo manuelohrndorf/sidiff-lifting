@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -24,7 +25,6 @@ import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.matching.api.MatchingFacade;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.matching.model.Matching;
 
 /**

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
 import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractListWidget;
@@ -15,7 +16,6 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
-import org.sidiff.matching.input.InputModels;
 
 public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implements IWidgetValidation, IWidgetDisposable, ISettingsChangedListener {
 

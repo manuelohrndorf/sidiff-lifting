@@ -8,8 +8,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.ui.util.UIUtil;
-import org.sidiff.matching.input.InputModels;
 import org.sidiff.patching.patch.ui.wizard.CreateAsymmetricDifferenceWizard;
 
 public class CreateAsymmetricDifferenceHandler extends AbstractHandler {
