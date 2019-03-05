@@ -22,7 +22,7 @@ import org.sidiff.common.collections.UniqueQueue;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.common.util.StringUtil;
+import org.sidiff.common.stringresolver.StringUtil;
 import org.sidiff.entities.importer.ImportFailedException;
 import org.sidiff.slicer.ISlicer;
 import org.sidiff.slicer.ISlicingConfiguration;
