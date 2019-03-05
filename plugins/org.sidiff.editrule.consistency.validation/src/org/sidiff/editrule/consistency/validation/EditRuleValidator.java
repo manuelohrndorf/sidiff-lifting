@@ -583,6 +583,7 @@ public class EditRuleValidator {
 			return invalids;
 		}
 
+		// FIXME: (cpietsch 03-02-2019 Is this assertion needed? For example, we can use several parameters to derive a value
 		assert (usedParams.size() == 1);
 		Parameter ruleParameter = usedParams.iterator().next();
 
