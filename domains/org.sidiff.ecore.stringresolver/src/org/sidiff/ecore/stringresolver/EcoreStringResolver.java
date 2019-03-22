@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.sidiff.common.stringresolver.AbstractStringResolver;
+import org.sidiff.common.emf.stringresolver.AbstractStringResolver;
 
 /**
  * An {@link IStringResolver} for Ecore

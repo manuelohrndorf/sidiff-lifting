@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.sidiff.common.stringresolver.util.LabelPrinter;
+import org.sidiff.common.emf.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.AddReference;
 import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SemanticChangeSet;

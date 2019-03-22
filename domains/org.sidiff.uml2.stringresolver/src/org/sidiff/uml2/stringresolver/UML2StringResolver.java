@@ -2,7 +2,7 @@ package org.sidiff.uml2.stringresolver;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.NamedElement;
-import org.sidiff.common.stringresolver.AbstractStringResolver;
+import org.sidiff.common.emf.stringresolver.AbstractStringResolver;
 
 /**
  * An {@link IStringResolver} for UML 2

@@ -1,7 +1,7 @@
 package org.sidiff.common.symboliclinks.stringresolver;
 
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.common.stringresolver.AbstractStringResolver;
+import org.sidiff.common.emf.stringresolver.AbstractStringResolver;
 import org.silift.difference.symboliclink.SymbolicLinkObject;
 
 /**

@@ -9,7 +9,7 @@ package org.sidiff.difference.symmetric.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.sidiff.common.stringresolver.util.LabelPrinter;
+import org.sidiff.common.emf.stringresolver.util.LabelPrinter;
 import org.sidiff.difference.symmetric.Change;
 import org.sidiff.difference.symmetric.SymmetricPackage;
 
