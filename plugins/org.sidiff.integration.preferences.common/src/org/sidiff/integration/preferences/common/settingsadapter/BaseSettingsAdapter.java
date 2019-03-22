@@ -3,15 +3,15 @@ package org.sidiff.integration.preferences.common.settingsadapter;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.BaseSettings;
-import org.sidiff.common.settings.BaseSettingsItem;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.BaseSettings;
+import org.sidiff.common.emf.settings.BaseSettingsItem;
+import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.integration.preferences.common.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
  * 
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class BaseSettingsAdapter extends AbstractSettingsAdapter {

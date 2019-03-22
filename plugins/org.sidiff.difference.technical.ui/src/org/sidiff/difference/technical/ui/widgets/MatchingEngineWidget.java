@@ -6,8 +6,9 @@ import java.util.Objects;
 
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.input.InputModels;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
-import org.sidiff.common.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractListWidget;
 import org.sidiff.common.ui.widgets.IWidgetDisposable;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -66,7 +67,7 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		if (item == MatchingSettingsItem.MATCHER) {
 			setSelection(getSettingsMatchers());
 		}

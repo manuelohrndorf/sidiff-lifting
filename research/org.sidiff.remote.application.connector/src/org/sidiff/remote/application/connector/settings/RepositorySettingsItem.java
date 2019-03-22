@@ -1,6 +1,8 @@
 package org.sidiff.remote.application.connector.settings;
 
-public enum RepositorySettingsItem {
+import org.sidiff.common.emf.settings.ISettingsItem;
+
+public enum RepositorySettingsItem implements ISettingsItem {
 	
 	REP_URL,
 	

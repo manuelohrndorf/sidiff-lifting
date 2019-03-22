@@ -7,8 +7,9 @@ import java.util.List;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.sidiff.common.emf.access.Scope;
-import org.sidiff.common.settings.BaseSettingsItem;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.BaseSettingsItem;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -63,7 +64,7 @@ public class ScopeWidget extends AbstractRadioWidget<Scope> implements IWidgetVa
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		if (item == BaseSettingsItem.SCOPE) {
 			if(settings.getScope() == null) {
 				setSelection(Collections.emptyList());

@@ -1,7 +1,8 @@
 package org.sidiff.remote.application.ui.connector.widgets;
 
 import org.eclipse.core.resources.IFolder;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.SelectResourceWidget;
 import org.sidiff.remote.application.connector.settings.CheckoutSettings;
 
@@ -31,7 +32,7 @@ public class SelectTargetFolderWidget extends SelectResourceWidget<IFolder> impl
 	// ---------- ISettingsChangedListener ----------
 	
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		// TODO Auto-generated method stub
 		
 	}

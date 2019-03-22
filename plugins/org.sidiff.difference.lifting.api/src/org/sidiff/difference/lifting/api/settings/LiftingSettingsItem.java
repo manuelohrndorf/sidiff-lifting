@@ -1,15 +1,11 @@
 package org.sidiff.difference.lifting.api.settings;
 
-import java.util.Comparator;
-import java.util.Set;
-
-import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
-import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.common.emf.settings.ISettingsItem;
 
 /**
  * Enumerations which are associated with a {@link LiftingSettings lifting setting}.
  */
-public enum LiftingSettingsItem {
+public enum LiftingSettingsItem implements ISettingsItem {
 
 	/**
 	 * {@link LiftingSettings#setRrSorter(IRecognitionRuleSorter)}

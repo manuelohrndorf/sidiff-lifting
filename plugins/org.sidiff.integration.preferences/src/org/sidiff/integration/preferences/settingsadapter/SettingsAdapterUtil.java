@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.util.PipelineStepUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
@@ -22,7 +22,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 /**
  * Contains utility functions for retrieving {@link ISettingsAdapter}s, adapting {@link ISettings}
  * and initializing default preference values.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class SettingsAdapterUtil {

@@ -11,7 +11,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.IWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -160,7 +161,7 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 	// ---------- ISettingsChangedListener ---------- 
 	
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -6,7 +6,8 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
@@ -46,7 +47,7 @@ public class ValidationModeWidget extends AbstractRadioWidget<ValidationMode> im
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		if(item == PatchingSettingsItem.VALIDATION_MODE) {
 			if(settings.getScope() == null) {
 				setSelection(Collections.emptyList());

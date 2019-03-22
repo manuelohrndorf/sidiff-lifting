@@ -3,7 +3,7 @@ package org.sidiff.patching.patch.ui.wizard;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.input.ui.InputModelsWidget;
-import org.sidiff.common.settings.BaseSettingsItem;
+import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;

@@ -4,12 +4,12 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettings;
 
 /**	
  * A settings adapter loads preferences from a {@link IPreferenceStore preference store}
  * and sets the field of {@link ISettings settings} according to the preferences.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public interface ISettingsAdapter {

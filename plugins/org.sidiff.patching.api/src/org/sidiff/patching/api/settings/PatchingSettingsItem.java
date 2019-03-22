@@ -1,9 +1,11 @@
 package org.sidiff.patching.api.settings;
 
+import org.sidiff.common.emf.settings.ISettingsItem;
+
 /**
  * Enumerations which are associated with a {@link PatchingSettings patching setting}.
  */
-public enum PatchingSettingsItem {
+public enum PatchingSettingsItem implements ISettingsItem {
 
 	VALIDATION_MODE,
 	RELIABILITY,

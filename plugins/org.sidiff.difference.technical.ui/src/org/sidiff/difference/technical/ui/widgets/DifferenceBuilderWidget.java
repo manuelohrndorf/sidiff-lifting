@@ -21,7 +21,8 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -227,8 +228,8 @@ public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSe
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
-		if (item.equals(DifferenceSettingsItem.TECH_BUILDER)) {
+	public void settingsChanged(ISettingsItem item) {
+		if (item == DifferenceSettingsItem.TECH_BUILDER) {
 			updateSelection();
 			getWidgetCallback().requestValidation();
 		}

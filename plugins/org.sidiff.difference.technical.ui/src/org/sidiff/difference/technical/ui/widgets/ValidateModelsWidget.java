@@ -3,9 +3,10 @@ package org.sidiff.difference.technical.ui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import org.sidiff.common.settings.BaseSettings;
-import org.sidiff.common.settings.BaseSettingsItem;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.BaseSettings;
+import org.sidiff.common.emf.settings.BaseSettingsItem;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractCheckboxWidget;
 import org.sidiff.common.ui.widgets.IWidgetDisposable;
 
@@ -26,7 +27,7 @@ public class ValidateModelsWidget extends AbstractCheckboxWidget<String> impleme
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		if(item == BaseSettingsItem.VALIDATE) {
 			setSelection(settings.isValidate() ? Collections.singletonList(VALIDATE) : Collections.emptyList());
 		}

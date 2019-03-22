@@ -28,7 +28,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -306,10 +307,10 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
-		if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)){
+	public void settingsChanged(ISettingsItem item) {
+		if(item == LiftingSettingsItem.RECOGNITION_ENGINE_MODE){
 			setEnabled(isLiftingEnabled());
-		} else if(item.equals(LiftingSettingsItem.RULEBASES)) {
+		} else if(item == LiftingSettingsItem.RULEBASES) {
 			updateRulebasesSelection();
 			getWidgetCallback().requestValidation();
 		}

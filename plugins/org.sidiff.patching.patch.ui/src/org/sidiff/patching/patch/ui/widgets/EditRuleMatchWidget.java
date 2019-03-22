@@ -3,7 +3,8 @@ package org.sidiff.patching.patch.ui.widgets;
 import java.util.Collections;
 import java.util.List;
 
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractCheckboxWidget;
 import org.sidiff.common.ui.widgets.IWidgetDisposable;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -39,7 +40,7 @@ public class EditRuleMatchWidget extends AbstractCheckboxWidget<String> implemen
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
+	public void settingsChanged(ISettingsItem item) {
 		if(item == LiftingSettingsItem.SERIALIZE_EDIT_RULE_MATCH) {
 			setSelection(settings.isSerializeEditRuleMatch() ? Collections.singletonList(SERIALIZE) : Collections.emptyList());
 		}

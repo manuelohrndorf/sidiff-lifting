@@ -16,7 +16,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -144,8 +145,8 @@ public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidg
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
-		if(item.equals(LiftingSettingsItem.RECOGNITION_RULE_SORTER)) {
+	public void settingsChanged(ISettingsItem item) {
+		if(item == LiftingSettingsItem.RECOGNITION_RULE_SORTER) {
 			updateSelection();
 			getWidgetCallback().requestValidation();
 		}

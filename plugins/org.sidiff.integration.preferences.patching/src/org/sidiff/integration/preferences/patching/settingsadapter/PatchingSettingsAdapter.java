@@ -2,7 +2,7 @@ package org.sidiff.integration.preferences.patching.settingsadapter;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.integration.preferences.patching.Activator;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;

@@ -1,7 +1,7 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.settings.BaseSettingsItem;
+import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;

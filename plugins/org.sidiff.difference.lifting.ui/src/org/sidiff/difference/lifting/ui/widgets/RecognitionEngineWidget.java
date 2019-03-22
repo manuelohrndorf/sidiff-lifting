@@ -11,7 +11,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetSelection;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
@@ -143,8 +144,8 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 	}
 
 	@Override
-	public void settingsChanged(Enum<?> item) {
-		if(item.equals(LiftingSettingsItem.RULEBASES)) {
+	public void settingsChanged(ISettingsItem item) {
+		if(item == LiftingSettingsItem.RULEBASES) {
 			if(settings.getRuleBases().isEmpty()){
 				this.list_recEngines.setEnabled(false);
 				this.list_recEngines.setSelection(selectableModes.indexOf(RecognitionEngineMode.NO_LIFTING));
@@ -152,7 +153,7 @@ public class RecognitionEngineWidget extends AbstractWidget implements IWidgetSe
 				this.list_recEngines.setEnabled(true);
 				this.list_recEngines.setSelection(selectableModes.indexOf(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING));
 			}
-		} else if(item.equals(LiftingSettingsItem.RECOGNITION_ENGINE_MODE)) {
+		} else if(item == LiftingSettingsItem.RECOGNITION_ENGINE_MODE) {
 			updateSelection();
 			getWidgetCallback().requestValidation();
 		}

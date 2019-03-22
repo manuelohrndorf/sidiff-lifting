@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;

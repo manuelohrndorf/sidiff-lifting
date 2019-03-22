@@ -16,7 +16,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.sidiff.common.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsChangedListener;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.common.ui.widgets.UriValidationWidget;
 import org.sidiff.remote.application.connector.ConnectorFacade;
@@ -183,8 +184,8 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	// ---------- ISettingsChangedListener ----------
 	
 	@Override
-	public void settingsChanged(Enum<?> item) {
-		if(item.equals(RepositorySettingsItem.REP_PATH)) {
+	public void settingsChanged(ISettingsItem item) {
+		if(item == RepositorySettingsItem.REP_PATH) {
 			path_text.setText(settings.getRepositoryPath());
 		}
 		

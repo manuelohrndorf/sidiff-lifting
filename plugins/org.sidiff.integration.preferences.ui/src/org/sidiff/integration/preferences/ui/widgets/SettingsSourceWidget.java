@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;

@@ -2,7 +2,7 @@ package org.sidiff.remote.application.connector.settings;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.MultiStatus;
-import org.sidiff.common.settings.AbstractSettings;
+import org.sidiff.common.emf.settings.AbstractSettings;
 
 public class CheckoutSettings extends AbstractSettings {
 
