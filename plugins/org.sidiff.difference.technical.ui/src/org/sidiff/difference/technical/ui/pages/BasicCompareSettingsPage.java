@@ -107,8 +107,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
-		builderWidget.setSettings(settings);
+		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(settingsSourceWidget);
 		addWidget(container, builderWidget);
 	}

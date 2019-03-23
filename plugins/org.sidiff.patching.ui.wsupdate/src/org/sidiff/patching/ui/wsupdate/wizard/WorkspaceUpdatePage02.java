@@ -44,8 +44,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		addWidget(container, reliabilityWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
-		builderWidget.setSettings(this.settings);
+		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 	}

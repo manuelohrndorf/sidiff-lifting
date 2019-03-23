@@ -59,8 +59,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		}
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels);
-		builderWidget.setSettings(this.settings);
+		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 	}

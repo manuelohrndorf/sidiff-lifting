@@ -1,286 +1,122 @@
 package org.sidiff.difference.technical.ui.widgets;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.stream.Collectors;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.PlatformUI;
-import org.sidiff.common.emf.access.EMFModelAccess;
+import org.eclipse.core.runtime.Assert;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.common.emf.settings.ISettingsChangedListener;
-import org.sidiff.common.emf.settings.ISettingsItem;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
+import org.sidiff.common.ui.widgets.AbstractListWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
-import org.sidiff.difference.technical.GenericTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
-import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 
-public class DifferenceBuilderWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDifferenceBuilder> implements IWidgetValidation {
 
-	private DifferenceSettings settings;
-	
 	private InputModels inputModels;
+	private DifferenceSettings settings;
 
-	private SortedMap<String, ITechnicalDifferenceBuilder> builders;
-	private Composite container;
-	private List list_builders;
-	
-	private boolean multiSelection;
-	private boolean useGeneric;
-
+	private List<ITechnicalDifferenceBuilder> builders;
 	private ValidationMessage message;
-	
-	public DifferenceBuilderWidget(InputModels inputModels) {
-		this.inputModels = inputModels;
-		multiSelection = inputModels.getDocumentTypes().size()>1;
-		useGeneric = false;
-		getBuilders();
-	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Composite createControl(Composite parent) {
-
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		// Technical difference builder controls:
-		Label tdbLabel = new Label(container, SWT.NONE);
-		tdbLabel.setText("Technical Difference Builder:");
-
-		int swtSelection = multiSelection? SWT.MULTI : SWT.SINGLE;
-		list_builders = new List(container, swtSelection | SWT.BORDER | SWT.V_SCROLL);
-		{
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.minimumHeight = 70;
-			list_builders.setLayoutData(data);
-		}
-		list_builders.setItems(builders.keySet().toArray(new String[0]));
-
-		if(list_builders.getItems().length != 0){
-			updateSelection();
-		}else{
-			MessageDialog.openError(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Missing Difference Builder", "No difference builders are found!");
-		}
-		
-		list_builders.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setTechBuilder(getSelection());
-			}		
-		});
-		if(this.settings.getTechBuilder() == null) {
-			this.settings.setTechBuilder(this.getSelection());
-		}
-		return container;
-	}
-
-	@Override
-	public Composite getWidget() {
-		return container;
-	}
-
-	private void getBuilders() {
-		builders = new TreeMap<String, ITechnicalDifferenceBuilder>();
-
-		// Search registered matcher extension points
-		java.util.List<ITechnicalDifferenceBuilder> builderSet = TechnicalDifferenceUtils
-				.getAvailableTechnicalDifferenceBuilders(inputModels.getDocumentTypes());
-
-		for (ITechnicalDifferenceBuilder builder : builderSet) {
-			if(builder instanceof GenericTechnicalDifferenceBuilder) useGeneric = true;
-			builders.put(builder.getName() + " ("+builder.getDocumentTypes()+")", builder);
-		}
-	}
-
-	public ITechnicalDifferenceBuilder getSelection() {
-		if(list_builders.getSelectionCount() > 1){
-			ArrayList<ITechnicalDifferenceBuilder> tecBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
-			for(String key : list_builders.getSelection()){
-				tecBuilders.add(builders.get(key));
+	public DifferenceBuilderWidget(InputModels inputModels, DifferenceSettings settings) {
+		super(ITechnicalDifferenceBuilder.class);
+		setTitle("Technical Difference Builder");
+		setLabelProvider(new ExtensionLabelProvider());
+		this.inputModels = Objects.requireNonNull(inputModels, "InputModels must not be null");
+		Assert.isLegal(inputModels.getResources().size() == 2, "InputModels must contain exactly two models");
+		this.builders = ITechnicalDifferenceBuilder.MANAGER.getTechnicalDifferenceBuilders(
+				inputModels.getResources().get(0), inputModels.getResources().get(1));
+		this.settings = Objects.requireNonNull(settings, "Settings must not be null");
+		this.settings.addSettingsChangedListener(item -> {
+			if(item == DifferenceSettingsItem.TECH_BUILDER) {
+				setSelection(getSettingsBuilders());
+				getWidgetCallback().requestValidation();
 			}
-			IncrementalTechnicalDifferenceBuilder incBuilder = new IncrementalTechnicalDifferenceBuilder(tecBuilders);
-			return incBuilder;
-		} else if(list_builders.getSelectionCount() == 1) {
-			return builders.get(list_builders.getSelection()[0]);
-		} else {
-			return null;
-		}
-	}
-
-	public SortedMap<String, ITechnicalDifferenceBuilder> getDifferenceBuilders() {
-		return builders;
+		});
+		addModificationListener((oldMatchers,newMatchers) -> {
+			settings.setTechBuilder(wrapBuilders(getSelection()));
+		});
 	}
 
 	@Override
 	public boolean validate() {
-		if (list_builders.getSelectionIndex() != -1) {
-			if(list_builders.getSelectionCount() > 1){
-				// check if a generic builder is selected
-				for(String key : list_builders.getSelection()){
-					if(builders.get(key) instanceof GenericTechnicalDifferenceBuilder){
-						message = new ValidationMessage(ValidationType.ERROR,
-								"To use the generic builder another builder must not be selected");
-						return false;
-					}
-				}
-			}
-
-			// check for each doc type if a builder is selected that can handle it
-			Set<String> unsupportedDocTypes = new HashSet<>(inputModels.getDocumentTypes());
-			
-			for(String key : list_builders.getSelection()){
-				if(builders.get(key).canHandle(inputModels.getDocumentTypes())){
-					if(builders.get(key).getDocumentTypes().contains(EMFModelAccess.GENERIC_DOCUMENT_TYPE)) {
-						unsupportedDocTypes.clear();
-						break;
-					}else {
-						unsupportedDocTypes.removeAll(builders.get(key).getDocumentTypes());
-					}
-				}
-			}
-			if(!unsupportedDocTypes.isEmpty()){
-				String docTypestxt = "";
-				for (Iterator<String> iterator = unsupportedDocTypes.iterator(); iterator
-						.hasNext();) {
-					docTypestxt += iterator.next();
-					if(iterator.hasNext()){
-						docTypestxt += ", ";
-					}
-				}
-				message = new ValidationMessage(ValidationType.WARNING, "Missing builder for: " + docTypestxt);
-				return false;
-			}
-		
-			// check if multiple builders for the same doc type are selected
-//			for(String docType: inputModels.getDocumentTypes()){
-//				boolean canHandle = false;
-//				boolean intersection = false;
-//				for(String key : list_builders.getSelection()){
-//					if(canHandle && !intersection){
-//						if(builders.get(key).canHandle(docType)) intersection = true;
-//					}
-//					if(intersection){
-//						message = new ValidationMessage(ValidationType.WARNING, "Multiple builders for the document type: " + docType);
-//						return false;
-//					}else{
-//						canHandle = builders.get(key).canHandle(docType);
-//					}	
-//				}
-//			}
-				
-		}else{
+		if(getSelectableValues().isEmpty()) {
 			message = new ValidationMessage(ValidationType.ERROR, "No technical difference builders are found.");
+			return false;
+		}
+
+		List<ITechnicalDifferenceBuilder> selection = getSelection();
+		boolean genericSelected = selection.stream().anyMatch(ITechnicalDifferenceBuilder::isGeneric);
+		if(selection.size() > 1 && genericSelected) {
+			message = new ValidationMessage(ValidationType.ERROR,
+					"To use the generic technical difference builder, another builder must not be selected.");
+			return false;
+		}
+
+		// check for each doc type if a builder is selected that can handle it
+		Set<String> unsupportedDocTypes = new HashSet<>(inputModels.getDocumentTypes());
+		if(genericSelected) {
+			unsupportedDocTypes.clear();
+		} else {
+			for(ITechnicalDifferenceBuilder builder : selection) {
+				if(builder.canHandle(inputModels.getDocumentTypes())) {
+					unsupportedDocTypes.removeAll(builder.getDocumentTypes());
+				}
+			}
+		}
+		if(!unsupportedDocTypes.isEmpty()) {
+			message = new ValidationMessage(ValidationType.WARNING, "Missing technical difference builder for: "
+						+ unsupportedDocTypes.stream().collect(Collectors.joining(", ")));
 			return false;
 		}
 		message = ValidationMessage.OK;
 		return true;
 	}
-		
-
 
 	@Override
 	public ValidationMessage getValidationMessage() {
 		return message;
 	}
 
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if (list_builders == null) {
-			throw new RuntimeException("Create controls first!");
-		}
-		list_builders.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (list_builders != null) {
-			list_builders.removeSelectionListener(listener);
-		}
-	}
-
-	@Override
-	public void settingsChanged(ISettingsItem item) {
-		if (item == DifferenceSettingsItem.TECH_BUILDER) {
-			updateSelection();
-			getWidgetCallback().requestValidation();
-		}
-	}
-
-	private void updateSelection() {
-		if(list_builders == null) {
-			return;
-		}
-
-		// select default if technical difference builder is not set
-		if(settings.getTechBuilder() == null) {
-			list_builders.select(0);
-			if(useGeneric){
-				// select the generic builder
-				for(int i = 0; i < list_builders.getItemCount(); i++){
-					if(builders.get(list_builders.getItem(i)) instanceof GenericTechnicalDifferenceBuilder){
-						list_builders.select(i);
-						break;
-					}
-				}
-			}
-			return;
-		}
-
-		ITechnicalDifferenceBuilder techBuilder = settings.getTechBuilder();
-		ArrayList<ITechnicalDifferenceBuilder> techBuilders = new ArrayList<ITechnicalDifferenceBuilder>();
-		if(techBuilder instanceof IncrementalTechnicalDifferenceBuilder) {
-			techBuilders.addAll(((IncrementalTechnicalDifferenceBuilder)settings.getTechBuilder()).getTechnicalDifferenceBuilders());
-		} else {
-			techBuilders.add(techBuilder);
-		}
-
-		list_builders.deselectAll();
-		for(ITechnicalDifferenceBuilder b : techBuilders) {
-			for(Map.Entry<String, ITechnicalDifferenceBuilder> entry : builders.entrySet()) {
-				if(entry.getValue().getKey().equals(b.getKey())) {
-					list_builders.select(list_builders.indexOf(entry.getKey()));
-					break;
-				}
-			}
-		}
-	}
-
 	public DifferenceSettings getSettings() {
 		return settings;
 	}
 
-	public void setSettings(DifferenceSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
-		updateSelection();
+	protected static ITechnicalDifferenceBuilder wrapBuilders(List<ITechnicalDifferenceBuilder> selection) {
+		switch(selection.size()) {
+			case 0: return null;	
+			case 1: return selection.get(0);
+			default: return new IncrementalTechnicalDifferenceBuilder(selection);
+		}
+	}
+
+	protected List<ITechnicalDifferenceBuilder> getSettingsBuilders() {
+		if(settings.getTechBuilder() == null) {
+			return Collections.emptyList();
+		} else if(settings.getTechBuilder() instanceof IncrementalTechnicalDifferenceBuilder) {
+			return ((IncrementalTechnicalDifferenceBuilder)settings.getTechBuilder()).getTechnicalDifferenceBuilders();
+		} else {
+			return Collections.singletonList(settings.getTechBuilder());
+		}
+	}
+
+	@Override
+	public List<ITechnicalDifferenceBuilder> getSelectableValues() {
+		return Collections.unmodifiableList(builders);
+	}
+
+	@Override
+	protected void hookInitSelection() {
+		if(getSelection().isEmpty()) {
+			setSelection(getSettingsBuilders());
+		}
 	}
 }
