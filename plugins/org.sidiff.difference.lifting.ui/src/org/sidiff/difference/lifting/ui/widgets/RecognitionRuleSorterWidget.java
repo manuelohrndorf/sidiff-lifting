@@ -1,165 +1,48 @@
 package org.sidiff.difference.lifting.ui.widgets;
 
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
-import org.sidiff.common.emf.settings.ISettingsItem;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
+import org.sidiff.common.ui.widgets.AbstractRadioWidget;
+import org.sidiff.common.ui.widgets.IWidgetDisposable;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
-import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 
-public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class RecognitionRuleSorterWidget extends AbstractRadioWidget<IRecognitionRuleSorter> implements IWidgetDisposable {
 
-	private LiftingSettings settings;
-	
 	private InputModels inputModels;
+	private LiftingSettings settings;
 
-	private SortedMap<String, IRecognitionRuleSorter> sorters;
-	private Composite container;
-	private List list_sorters;
-
-	public RecognitionRuleSorterWidget(InputModels inputModels) {
-		this.inputModels = inputModels;
-		getSorters();
-	}
-
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public Composite createControl(Composite parent) {
-
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		// Recognition Rule Sorter controls:
-		Label tdbLabel = new Label(container, SWT.NONE);
-		tdbLabel.setText("Recognition Rule Sorter:");
-
-		list_sorters = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		{
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.minimumHeight = 70;
-			list_sorters.setLayoutData(data);
-		}
-		list_sorters.setItems(sorters.keySet().toArray(new String[0]));
-
-		if(list_sorters.getItems().length != 0){
-			updateSelection();
-		}else{
-			MessageDialog.openError(
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					"Missing Recognition Rule Sorter", "No rule sorters are found!");
-		}
-		
-		list_sorters.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setRrSorter(getSelection());
-			}		
-		});
-		if(this.settings.getRrSorter() == null) {
-			this.settings.setRrSorter(this.getSelection());
-		}
-		return container;
-	}
-
-	@Override
-	public Composite getWidget() {
-		return container;
-	}
-
-	private void getSorters() {
-		// Search registered sorter extension points
-		Set<IRecognitionRuleSorter> sorterSet = PipelineUtils.getAvailableRecognitionRuleSorters(inputModels.getDocumentTypes());
-
-		sorters = new TreeMap<String, IRecognitionRuleSorter>();
-		for (IRecognitionRuleSorter sorter : sorterSet) {
-			sorters.put(sorter.getName(), sorter);
-		}
-	}
-
-	public IRecognitionRuleSorter getSelection() {
-		if (validate()) {
-			return sorters.get(list_sorters.getSelection()[0]);
-		} else {
-			return null;
-		}
-	}
-
-	public SortedMap<String, IRecognitionRuleSorter> getRecognitionRuleSorters() {
-		return sorters;
-	}
-
-	@Override
-	public boolean validate() {
-		return list_sorters.getSelectionIndex() != -1;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			return ValidationMessage.OK;
-		} else {
-			return new ValidationMessage(ValidationType.ERROR, "Please select a recognition rule sorter!");
-		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if (list_sorters == null) {
-			throw new RuntimeException("Create controls first!");
-		}
-		list_sorters.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (list_sorters != null) {
-			list_sorters.removeSelectionListener(listener);
-		}
-	}
-
-	@Override
-	public void settingsChanged(ISettingsItem item) {
+	private final ISettingsChangedListener settingsChangedListener = item -> {
 		if(item == LiftingSettingsItem.RECOGNITION_RULE_SORTER) {
-			updateSelection();
-			getWidgetCallback().requestValidation();
+			setSelection(Collections.singletonList(settings.getRrSorter()));
 		}
+	};
+
+	public RecognitionRuleSorterWidget(InputModels inputModels, LiftingSettings settings) {
+		this.inputModels = Objects.requireNonNull(inputModels, "inputModels must not be null");
+		this.settings = Objects.requireNonNull(settings, "settings must not be null");
+		setTitle("Recognition Rule Sorter");
+		setLabelProvider(new ExtensionLabelProvider());
+		settings.addSettingsChangedListener(settingsChangedListener);
+		addModificationListener((oldValues, newValues) -> {
+			if(!newValues.isEmpty()) {
+				settings.setRrSorter(newValues.get(0));
+			}
+		});
 	}
 
-	private void updateSelection() {
-		if(list_sorters != null) {
-			if(settings.getRrSorter() != null) {
-				int index = list_sorters.indexOf(settings.getRrSorter().getName());
-				list_sorters.setSelection(index == -1 ? 0 : index);
-			} else {
-				list_sorters.setSelection(0);
-			}
+	@Override
+	protected void hookInitButtons() {
+		super.hookInitButtons();
+		if(getSelection().isEmpty()) {
+			setSelection(Collections.singletonList(settings.getRrSorter()));
 		}
 	}
 
@@ -167,9 +50,13 @@ public class RecognitionRuleSorterWidget extends AbstractWidget implements IWidg
 		return settings;
 	}
 
-	public void setSettings(LiftingSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
-		updateSelection();
+	@Override
+	public List<IRecognitionRuleSorter> getSelectableValues() {
+		return new ArrayList<>(IRecognitionRuleSorter.MANAGER.getExtensions(inputModels.getDocumentTypes(), true));
+	}
+
+	@Override
+	public void dispose() {
+		settings.removeSettingsChangedListener(settingsChangedListener);
 	}
 }

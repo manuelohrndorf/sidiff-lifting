@@ -83,8 +83,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, builderWidget);
 		
 		// Recognition Rule Sorter:
-		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels);
-		rrSorterWidget.setSettings(this.settings);
+		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels, settings);
 		rrSorterWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, rrSorterWidget);
 		
