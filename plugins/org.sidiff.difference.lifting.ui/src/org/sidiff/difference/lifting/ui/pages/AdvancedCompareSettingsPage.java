@@ -89,8 +89,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, rrSorterWidget);
 		
 		// Recognition engine:
-		recognitionWidget = new RecognitionEngineWidget();
-		recognitionWidget.setSettings(this.settings);
+		recognitionWidget = new RecognitionEngineWidget(settings);
 		recognitionWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, recognitionWidget);
 	}

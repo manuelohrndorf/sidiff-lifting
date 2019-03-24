@@ -5,6 +5,7 @@ import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
+import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.Activator;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
@@ -36,10 +37,9 @@ public class CreateLiftingPage extends AbstractWizardPage {
 		addWidget(container, settingsSourceWidget);
 
 		// Recognition engine:
-		recognitionWidget = new RecognitionEngineWidget();
-		recognitionWidget.setSettings(this.settings);
+		recognitionWidget = new RecognitionEngineWidget(settings);
+		recognitionWidget.setFilter(mode -> mode != RecognitionEngineMode.NO_LIFTING);
 		recognitionWidget.setDependency(settingsSourceWidget);
-		recognitionWidget.showNoSemanticLifting = false;
 		addWidget(container, recognitionWidget);
 
 		// Rulebases:
