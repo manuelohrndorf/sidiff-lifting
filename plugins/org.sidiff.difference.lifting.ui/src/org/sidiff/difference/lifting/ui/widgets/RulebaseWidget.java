@@ -52,11 +52,6 @@ public class RulebaseWidget extends AbstractWidget implements IWidgetSelection, 
 
 	private List<RuleBaseEntry> rulebases;
 
-	public RulebaseWidget(RecognitionEngineWidget recognitionWidget, InputModels inputModels) {
-		this.inputModels = inputModels;
-		initRulebasesEntries();
-	}
-
 	public RulebaseWidget(InputModels inputModels) {
 		this.inputModels = inputModels;
 		initRulebasesEntries();
