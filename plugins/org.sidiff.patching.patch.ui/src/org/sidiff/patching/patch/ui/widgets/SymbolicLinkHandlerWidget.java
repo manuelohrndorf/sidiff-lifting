@@ -1,126 +1,40 @@
 package org.sidiff.patching.patch.ui.widgets;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.sidiff.common.emf.settings.ISettingsChangedListener;
-import org.sidiff.common.emf.settings.ISettingsItem;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
-import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
+import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
+import org.sidiff.common.ui.widgets.AbstractListWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation, ISettingsChangedListener{
+public class SymbolicLinkHandlerWidget extends AbstractListWidget<ISymbolicLinkHandler> {
 
 	private PatchingSettings settings;
-	private Map<String, ISymbolicLinkHandler> symbolicLinkHandlers;
+	private List<ISymbolicLinkHandler> symbolicLinkHandlers;
 
-	private Composite container;
-	private Button use_symbolicLinks;
-	private List list_symbolicLinkHandlers;
-
-	public SymbolicLinkHandlerWidget() {
-		// Search registered symbolic link handler extension
-		symbolicLinkHandlers = ISymbolicLinkHandler.MANAGER.getExtensions().stream()
-				.collect(Collectors.toMap(h -> h.getName(), h -> h));
-	}
-
-	@Override
-	public boolean validate() {
-		return !use_symbolicLinks.getSelection() || list_symbolicLinkHandlers.getSelectionIndex() != -1;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			return ValidationMessage.OK;
-		} else {
-			return new ValidationMessage(ValidationType.ERROR, "Please select a symbolic link resolver!");
-		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if(list_symbolicLinkHandlers == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		list_symbolicLinkHandlers.addSelectionListener(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if(list_symbolicLinkHandlers == null) {
-			throw new IllegalStateException("createControl must be called first");
-		}
-		list_symbolicLinkHandlers.removeSelectionListener(listener);
-	}
-
-	@Override
-	public Composite createControl(Composite parent) {
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
-
-		// Symbolic link resolver controls:
-		Label slrLabel = new Label(container, SWT.NONE);
-		slrLabel.setText("Symbolic Link Resolver:");
-
-		use_symbolicLinks = new Button(container, SWT.CHECK);
-		use_symbolicLinks.setText("Use symbolic links");
-		use_symbolicLinks.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				list_symbolicLinkHandlers.setEnabled(use_symbolicLinks.getSelection());
-				// this will set the symbolic link handler to null if symbolic links were disabled
-				settings.setSymbolicLinkHandler(getSelection());
+	public SymbolicLinkHandlerWidget(PatchingSettings settings) {
+		super(ISymbolicLinkHandler.class);
+		this.settings = Objects.requireNonNull(settings, "settings must not be null");
+		setTitle("Symbolic Link Handler");
+		setLabelProvider(new ExtensionLabelProvider());
+		setLowerUpperBounds(0, 1);
+		symbolicLinkHandlers = ISymbolicLinkHandler.MANAGER.getSortedExtensions();
+		settings.addSettingsChangedListener(item -> {
+			if(item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
+				setSelection(settings.getSymbolicLinkHandler());
 			}
 		});
-
-		list_symbolicLinkHandlers = new List(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
-		{
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-			data.minimumHeight = 70;
-			list_symbolicLinkHandlers.setLayoutData(data);
-		}
-		list_symbolicLinkHandlers.setItems(symbolicLinkHandlers.keySet().toArray(new String[0]));
-		list_symbolicLinkHandlers.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				settings.setSymbolicLinkHandler(getSelection());
-			}		
+		addModificationListener((oldValues, newValues) -> {
+			settings.setSymbolicLinkHandler(newValues.stream().findFirst().orElse(null));
 		});
-
-		updateSelection();
-		return container;
 	}
 
 	@Override
-	public Composite getWidget() {
-		return container;
-	}
-
-	public ISymbolicLinkHandler getSelection() {
-		if (use_symbolicLinks.getSelection() && list_symbolicLinkHandlers.getSelectionIndex() != -1) {
-			return symbolicLinkHandlers.get(list_symbolicLinkHandlers.getSelection()[0]);
-		} else {
-			return null;
+	protected void hookInitSelection() {
+		if(getSelection().isEmpty()) {
+			setSelection(settings.getSymbolicLinkHandler());
 		}
 	}
 
@@ -128,42 +42,8 @@ public class SymbolicLinkHandlerWidget extends AbstractWidget implements IWidget
 		return settings;
 	}
 
-	public void setSettings(PatchingSettings settings) {
-		this.settings = settings;
-		this.settings.addSettingsChangedListener(this);
-		updateSelection();
-	}
-
 	@Override
-	public void settingsChanged(ISettingsItem item) {
-		if(item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
-			updateSelection();
-			getWidgetCallback().requestValidation();
-		}
-	}
-
-	private void updateSelection() {
-		if(use_symbolicLinks == null || list_symbolicLinkHandlers == null) {
-			return;
-		}
-
-		if(settings.useSymbolicLinks()) {
-			int index = list_symbolicLinkHandlers.indexOf(settings.getSymbolicLinkHandler().getName());
-			if(index == -1) {
-				// default to the first available symbolic link handler
-				index = 0;
-			}
-			use_symbolicLinks.setSelection(true);
-			list_symbolicLinkHandlers.setEnabled(true);
-			list_symbolicLinkHandlers.setSelection(index);
-		} else {
-			use_symbolicLinks.setSelection(false);
-			list_symbolicLinkHandlers.setEnabled(false);
-			list_symbolicLinkHandlers.deselectAll();
-		}
-	}
-
-	public boolean isSymbolicLinkHandlerAvailable() {
-		return !symbolicLinkHandlers.isEmpty();
+	public List<ISymbolicLinkHandler> getSelectableValues() {
+		return symbolicLinkHandlers;
 	}
 }

@@ -51,12 +51,9 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Symbolic Link Resolver:
-		symbolicLinkHandlerWidget = new SymbolicLinkHandlerWidget();
-		symbolicLinkHandlerWidget.setSettings(this.settings);
-		if(symbolicLinkHandlerWidget.isSymbolicLinkHandlerAvailable()) {
-			symbolicLinkHandlerWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
-			addWidget(container, symbolicLinkHandlerWidget);
-		}
+		symbolicLinkHandlerWidget = new SymbolicLinkHandlerWidget(settings);
+		symbolicLinkHandlerWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
+		addWidget(container, symbolicLinkHandlerWidget);
 
 		// Technical Difference Builder:
 		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
