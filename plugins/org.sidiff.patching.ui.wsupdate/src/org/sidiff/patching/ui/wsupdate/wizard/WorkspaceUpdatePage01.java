@@ -63,8 +63,7 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 		addWidget(container, validationWidget, NUM_COLUMNS/2);
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()));
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}

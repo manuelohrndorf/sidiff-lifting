@@ -79,8 +79,7 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 		addWidget(container, erMatchWidget, NUM_COLUMNS/3);
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(inputModels);
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget = new RulebaseWidget(inputModels, settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}

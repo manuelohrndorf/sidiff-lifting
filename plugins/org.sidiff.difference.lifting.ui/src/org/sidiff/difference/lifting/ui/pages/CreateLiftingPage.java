@@ -43,8 +43,7 @@ public class CreateLiftingPage extends AbstractWizardPage {
 		addWidget(container, recognitionWidget);
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(inputModels);
-		rulebaseWidget.setSettings(this.settings);
+		rulebaseWidget = new RulebaseWidget(inputModels, settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}

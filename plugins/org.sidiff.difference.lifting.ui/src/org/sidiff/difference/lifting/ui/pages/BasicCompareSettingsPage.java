@@ -98,8 +98,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, scopeWidget, NUM_COLUMNS/2);
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(inputModels);
-		rulebaseWidget.setSettings(settings);
+		rulebaseWidget = new RulebaseWidget(inputModels, settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}
