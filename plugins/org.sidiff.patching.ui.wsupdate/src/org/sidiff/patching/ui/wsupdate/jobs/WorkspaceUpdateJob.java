@@ -34,7 +34,10 @@ public class WorkspaceUpdateJob extends Job {
 		} catch (InterruptedException e) {
 			return Status.CANCEL_STATUS;
 		}
-		
+		if(createJob.getResult().getSeverity() >= IStatus.ERROR) {
+			return Status.CANCEL_STATUS;
+		}
+
 		// Now apply that patch onto MINE
 		ApplyAsymmetricDifferenceJob applyJob = new ApplyAsymmetricDifferenceJob(
 				createJob.getDifference().getAsymmetric(), mergeModels.getResourceMine().getURI(), settings);
