@@ -4,26 +4,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
+import org.sidiff.common.ui.widgets.AbstractContainerWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection, IWidgetValidation {
+public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetValidation {
 
 	private WSUModels mergeModels;
-
-	private Composite container;
 
 	/**
 	 * 2D-Matrix of all buttons, column-major.
@@ -36,52 +33,30 @@ public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection,
 	private SelectionListener buttonListener;
 
 	public WSUModelsWidget(WSUModels mergeModels) {
+		setTitle("Roles of used models");
 		this.mergeModels = mergeModels;
 		this.listeners = new LinkedList<SelectionListener>();
 		this.buttons = new Button[WSUModels.NUM_ROLES][WSUModels.NUM_ROLES];
 	}
-
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	
 	@Override
-	public Composite createControl(Composite parent) {
+	protected Composite createContents(Composite container) {
+		Composite composite = new Composite(container, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(composite);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(composite);
 
-		container = new Composite(parent, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 0;
-			grid.marginHeight = 0;
-			container.setLayout(grid);
-		}
+		createRoleButtonGroup(composite, "Base version", WSUModels.ROLE_BASE);
+		createRoleButtonGroup(composite, "Workspace version", WSUModels.ROLE_MINE);
+		createRoleButtonGroup(composite, "Repository version", WSUModels.ROLE_THEIRS);
 
-		Group modelsGroup = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(3, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			modelsGroup.setLayout(grid);
-			modelsGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-			modelsGroup.setText("Select roles of used models:");
-		}
-
-		createRoleButtonGroup(modelsGroup, "Base version", WSUModels.ROLE_BASE);
-		createRoleButtonGroup(modelsGroup, "Workspace version", WSUModels.ROLE_MINE);
-		createRoleButtonGroup(modelsGroup, "Repository version", WSUModels.ROLE_THEIRS);
-
-		return container;
+		return composite;
 	}
 
 	protected void createRoleButtonGroup(Composite container, String label, int role) {
 		Group group = new Group(container, SWT.NONE);
-		{
-			GridLayout grid = new GridLayout(1, false);
-			grid.marginWidth = 10;
-			grid.marginHeight = 10;
-			group.setLayout(grid);
-			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-			group.setText(label);
-		}
+		group.setText(label);
+		GridLayoutFactory.swtDefaults().applyTo(group);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(group);
 
 		createModelButton(group, role, WSUModels.ROLE_BASE);
 		createModelButton(group, role, WSUModels.ROLE_MINE);
@@ -130,16 +105,8 @@ public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection,
 		return buttonListener;
 	}
 
-	@Override
-	public Composite getWidget() {
-		return container;
-	}
-
 	public WSUModels getMergeModels(){
-		if(validate()) {
-			return this.mergeModels;
-		}
-		return null;
+		return mergeModels;
 	}
 
 	@Override
@@ -162,16 +129,6 @@ public class WSUModelsWidget extends AbstractWidget implements IWidgetSelection,
 		} else {
 			return new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
 		}
-	}
-
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		listeners.add(listener);
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		listeners.remove(listener);
 	}
 
 	protected static class ButtonData {
