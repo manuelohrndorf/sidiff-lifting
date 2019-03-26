@@ -1,5 +1,8 @@
 package org.sidiff.editrule.rulebase.project.runtime.library;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.osgi.framework.FrameworkUtil;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
@@ -16,19 +19,24 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	 * The rulebase instances.
 	 */
 	private RuleBase rulebase;
-	
+
+	private Map<Class<? extends IBasicRuleBase>, IBasicRuleBase> views = new HashMap<>();
+
 	public AbstractRuleBaseProject() {
 	}
 	
 	@Override
 	public <R extends IBasicRuleBase> R getRuleBaseView(Class<R> view) {
 		if (supportsRuleBaseView(view)) {
-			IRuleBaseFactory<R> ruleBaseFactory = RuleBaseViewLibrary.getRulebaseViewFactory(view);
-			if (ruleBaseFactory != null) {
-				R rulebaseView = view.cast(ruleBaseFactory.createRuleBase());
-				rulebaseView.init(getRuleBaseData());
-				return rulebaseView;
-			}
+			return view.cast(views.computeIfAbsent(view, v -> {
+				IRuleBaseFactory<R> ruleBaseFactory = RuleBaseViewLibrary.getRulebaseViewFactory(view);
+				if (ruleBaseFactory != null) {
+					R rulebaseView = ruleBaseFactory.createRuleBase();
+					rulebaseView.init(getRuleBaseData());
+					return rulebaseView;
+				}
+				return null;
+			}));
 		}
 		return null;
 	}
@@ -40,17 +48,16 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 
 	@Override
 	public RuleBase getRuleBaseData() {
-		
 		if (rulebase == null) {
 			rulebase = RuleBaseStorage.loadRuleBasePlugin(getRuleBasePath(), getRuleBasePluginID());
 		}
-		
 		return rulebase;
 	}
 	
 	@Override
 	public void unloadRuleBaseData() {
 		rulebase = null;
+		views = null;
 	}
 	
 	protected String getRuleBasePluginID() {
