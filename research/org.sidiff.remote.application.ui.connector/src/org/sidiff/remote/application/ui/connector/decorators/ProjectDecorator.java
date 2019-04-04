@@ -39,10 +39,12 @@ public class ProjectDecorator implements ILightweightLabelDecorator {
 	
 		try {
 			IProject project = (IProject) element;
-			ProjectInfo info = ProjectInfo.readProjectInfo(project.getName());
-			if(info.isConnected()) {
-				decoration.addSuffix(" [sidiff]");
-				decoration.addOverlay(ConnectorUIPlugin.IMG_OVR_VERSION_CONTROLLED, IDecoration.BOTTOM_RIGHT);
+			if(project.isOpen()) {
+				ProjectInfo info = ProjectInfo.readProjectInfo(project.getName());
+				if(info.isConnected()) {
+					decoration.addSuffix(" [sidiff]");
+					decoration.addOverlay(ConnectorUIPlugin.IMG_OVR_VERSION_CONTROLLED, IDecoration.BOTTOM_RIGHT);
+				}				
 			}
 		} catch (InvalidProjectInfoException e) {
 			e.printStackTrace();

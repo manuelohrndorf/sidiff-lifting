@@ -167,17 +167,19 @@ public class ProjectInfo implements Serializable {
 	public static ProjectInfo readProjectInfo(String id) throws InvalidProjectInfoException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IProject project = workspace.getRoot().getProject(id);
+		if(!project.isOpen()) {
+			throw new InvalidProjectInfoException("Project is not open: " + id);
+		}
 		String projectInfo_path = project.getLocation().toOSString() + File.separator + META_FOLDER_NAME + File.separator + META_EXT;
 		ProjectInfo projectInfo = null;
 		try {
 			File file = new File(projectInfo_path);
 			if(file.exists()) {
-				FileInputStream fis = new FileInputStream(file);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				projectInfo = (ProjectInfo) ois.readObject();
-				projectInfo.cleanUp();
-				ois.close();
-			}else {
+				try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+					projectInfo = (ProjectInfo) ois.readObject();
+					projectInfo.cleanUp();
+				}
+			} else {
 				projectInfo = new ProjectInfo(id);
 			}
 		} catch (IOException | ClassNotFoundException e) {
@@ -204,11 +206,9 @@ public class ProjectInfo implements Serializable {
 			if (!file.exists()) {
 				file.getParentFile().mkdirs();
 			}
-			FileOutputStream fos = new FileOutputStream(file);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(projectInfo);
-			oos.close();
-
+			try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+				oos.writeObject(projectInfo);
+			}
 		} catch (IOException e) {
 			throw new InvalidProjectInfoException(e);
 		}

@@ -14,6 +14,9 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.sidiff.remote.application.connector.ConnectorPlugin;
 import org.sidiff.remote.application.connector.exception.InvalidProjectInfoException;
 import org.sidiff.remote.application.connector.exception.ModelNotVersionedException;
 import org.sidiff.remote.application.connector.meta.ProjectInfo;
@@ -48,33 +51,37 @@ public class ConnectedResourceChangeListener implements IResourceChangeListener 
 				if (resource.getType() == IResource.FILE) {
 					IFile file = (IFile) resource;
 					IProject project = file.getProject();
+					if(!project.isOpen()) {
+						return false;
+					}
+					
 					ProjectInfo projectInfo;
 					try {
 						projectInfo = ProjectInfo.readProjectInfo(project.getName());
-						String local_model_path = resource.getLocation().toOSString()
-								.replace(resource.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "");
-						if (projectInfo.isVersioned(local_model_path)) {
-							if(delta.getKind() == IResourceDelta.CHANGED) {
-								String checksum;
-								try {
-									checksum = ChecksumUtil.getFileChecksum(new File(resource.getLocation().toOSString()));
-									if (!projectInfo.getModelChecksum(local_model_path)
-											.equals(checksum)) {
-										changedModel_paths.add(local_model_path);
-									}else {
-										revertedModel_paths.add(local_model_path);
-									}
-								} catch (NoSuchAlgorithmException | IOException | ModelNotVersionedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
+					} catch (InvalidProjectInfoException e) {
+						throw new CoreException(new Status(IStatus.ERROR,
+								ConnectorPlugin.PLUGIN_ID, "Could not read project info", e));
+					}
+					
+					String local_model_path = resource.getLocation().toOSString()
+							.replace(resource.getWorkspace().getRoot().getLocation().toOSString() + File.separator, "");
+					if (projectInfo.isVersioned(local_model_path)) {
+						if(delta.getKind() == IResourceDelta.CHANGED) {
+							try {
+								String checksum = ChecksumUtil.getFileChecksum(new File(resource.getLocation().toOSString()));
+								if (!projectInfo.getModelChecksum(local_model_path)
+										.equals(checksum)) {
+									changedModel_paths.add(local_model_path);
+								} else {
+									revertedModel_paths.add(local_model_path);
 								}
-							}else if(delta.getKind() == IResourceDelta.REMOVED) {
-								removedModel_paths.add(local_model_path);
+							} catch (NoSuchAlgorithmException | IOException | ModelNotVersionedException e) {
+								throw new CoreException(new Status(IStatus.ERROR,
+										ConnectorPlugin.PLUGIN_ID, "Could not compare checksums", e));
 							}
+						} else if(delta.getKind() == IResourceDelta.REMOVED) {
+							removedModel_paths.add(local_model_path);
 						}
-					} catch (InvalidProjectInfoException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
 					
 				}

@@ -62,7 +62,7 @@ public class DirtyResourceDecorator implements ILightweightLabelDecorator {
 			project = ((IFile)resource).getProject();
 		}
 		
-		if(project != null) {
+		if(project != null && project.isOpen()) {
 			ProjectInfo projectInfo = ProjectInfo.readProjectInfo(project.getName());
 			for (ModelInfo modelInfo : projectInfo.getModelInfos()) {
 				if(modelInfo.isModified() && modelInfo.getRelativeLocalPath().startsWith(resource.getFullPath().toOSString().substring(1))) {
