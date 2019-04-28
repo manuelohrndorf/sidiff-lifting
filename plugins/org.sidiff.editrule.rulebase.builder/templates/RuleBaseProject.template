@@ -1,8 +1,8 @@
 package %s;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.sidiff.editrule.rulebase.project.runtime.library.AbstractRuleBaseProject;
 
@@ -20,11 +20,11 @@ public class RuleBaseProject extends AbstractRuleBaseProject {
 
 	@Override
 	public Set<String> getDocumentTypes() {
-		return new HashSet<String>(Arrays.asList(%s));
+		return Stream.of(%s).collect(Collectors.toSet());
 	}
 
 	@Override
 	public Set<String> getAttachmentTypes() {
-		return new HashSet<String>(Arrays.asList(%s));
+		return Stream.of(%s).collect(Collectors.toSet());
 	}
 }

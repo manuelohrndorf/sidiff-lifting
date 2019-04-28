@@ -120,14 +120,14 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	
 	private void buildRuleBaseProject(IProgressMonitor monitor, 
 			EditRuleBaseWrapper ruleBaseWrapper, Set<IEditRuleAttachmentBuilder> attachmentBuilders) throws CoreException {
+
 		SubMonitor progress = SubMonitor.convert(monitor, 10);
 		if (editRuleChanged) {
 			addInverseEditRules(progress.split(2), ruleBaseWrapper);
 			buildRuleBase(progress.split(7), ruleBaseWrapper);
-			buildRuleBaseClass(progress.split(1), ruleBaseWrapper, attachmentBuilders);
-
 			editRuleChanged = false;
 		}
+		buildRuleBaseClass(progress.split(1), ruleBaseWrapper, attachmentBuilders);
 	}
 	
 	private void refreshProject(IProgressMonitor monitor) {
