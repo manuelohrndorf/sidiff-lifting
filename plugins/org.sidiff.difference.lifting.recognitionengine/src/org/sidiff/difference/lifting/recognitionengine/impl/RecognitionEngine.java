@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
@@ -23,7 +24,6 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
@@ -442,13 +442,13 @@ public class RecognitionEngine implements IRecognitionEngine {
 			for (Node editRuleNode : erMatch.getMatchedNodesA()) {
 				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 				occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
-				editRuleMatch.getNodeOccurrencesA().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
+				editRuleMatch.getNodeOccurrencesA().put(EcoreUtil.getURI(editRuleNode).fragment(), occurrences);
 			}
 			
 			for (Node editRuleNode : erMatch.getMatchedNodesB()) {
 				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 				occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
-				editRuleMatch.getNodeOccurrencesB().put(EMFModelAccess.getURIFragment(editRuleNode), occurrences);
+				editRuleMatch.getNodeOccurrencesB().put(EcoreUtil.getURI(editRuleNode).fragment(), occurrences);
 			}
 		}
 	}
