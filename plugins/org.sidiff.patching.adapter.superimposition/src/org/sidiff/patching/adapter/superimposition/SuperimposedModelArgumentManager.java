@@ -28,11 +28,8 @@ import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.sidiff.superimposition.SuperimposedElement;
 import org.sidiff.superimposition.SuperimposedModel;
-import org.sidiff.superimposition.signature.ISignatureCalculator;
 
 public class SuperimposedModelArgumentManager extends BaseArgumentManager {
-
-	private ISignatureCalculator signatureCalculator;
 
 	private Map<String, Set<EObject>> index;
 
@@ -43,12 +40,11 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 	@Override
 	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		SuperimposedModel superimposedModel = findSuperimposedModel(patch.getOriginModel());
-		signatureCalculator = superimposedModel.getSignatureCalculator();
 
 		this.index = new HashMap<String, Set<EObject>>();
 		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
-			String signature = signatureCalculator.calculateSignature(eObject);
+			String signature = superimposedModel.calculateSignature(eObject);
 			if(!index.containsKey(signature)){
 				index.put(signature, new HashSet<EObject>());
 			}
@@ -130,7 +126,6 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 
 	@Override
 	public float getReliability(ObjectParameterBinding binding, EObject targetObject) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
