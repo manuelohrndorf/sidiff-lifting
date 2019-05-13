@@ -11,8 +11,6 @@ public interface IClassificator extends IExtension {
 	ClassificatorManager MANAGER = new ClassificatorManager(DESCRIPTION);
 
 
-	int getClassificatorId();
-
 	String createClassification(EditRule rule);
 
 	boolean canHandle(EditRule rule);

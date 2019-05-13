@@ -41,7 +41,7 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 		nameBasedClassificationColumn.setLabelProvider(new CellLabelProvider() {
 			@Override
 			public void update(ViewerCell cell) {
-				cell.setText(EditRuleItemUtil.getClassificationName((RuleBaseItem) cell.getElement(), 0));
+				cell.setText(EditRuleItemUtil.getClassificationName((RuleBaseItem) cell.getElement(), "NameBasedClassificator"));
 			}
 		});
 		
@@ -60,12 +60,12 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 
 			@Override
 			protected Object getValue(Object element) {
-				return EditRuleItemUtil.getClassificationName((RuleBaseItem) element, 0);
+				return EditRuleItemUtil.getClassificationName((RuleBaseItem) element, "NameBasedClassificator");
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, 0);
+				EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, "NameBasedClassificator");
 				ruleViewer.update(element, null);
 				editor.setDirty(((RuleBaseItem) element).getEditRule());
 			}

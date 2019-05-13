@@ -58,7 +58,7 @@ public class ClassificationItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
-			addClassificatorIDPropertyDescriptor(object);
+			addClassificatorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -86,23 +86,23 @@ public class ClassificationItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Classificator ID feature.
+	 * This adds a property descriptor for the Classificator feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addClassificatorIDPropertyDescriptor(Object object) {
+	protected void addClassificatorPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Classification_classificatorID_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Classification_classificatorID_feature", "_UI_Classification_type"),
-				 RulebasePackage.Literals.CLASSIFICATION__CLASSIFICATOR_ID,
+				 getString("_UI_Classification_classificator_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Classification_classificator_feature", "_UI_Classification_type"),
+				 RulebasePackage.Literals.CLASSIFICATION__CLASSIFICATOR,
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -146,7 +146,7 @@ public class ClassificationItemProvider
 
 		switch (notification.getFeatureID(Classification.class)) {
 			case RulebasePackage.CLASSIFICATION__NAME:
-			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID:
+			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

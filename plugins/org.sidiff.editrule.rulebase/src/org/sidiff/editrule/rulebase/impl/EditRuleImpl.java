@@ -273,7 +273,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * @generated NOT
 	 */
 	public Module getExecuteModule() {
-		return (Module) this.getExecuteMainUnit().eContainer();
+		return getExecuteMainUnit().getModule();
 	}
 
 	/**

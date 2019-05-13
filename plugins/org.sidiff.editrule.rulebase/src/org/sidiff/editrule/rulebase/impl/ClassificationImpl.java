@@ -18,7 +18,7 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.ClassificationImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.ClassificationImpl#getClassificatorID <em>Classificator ID</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.ClassificationImpl#getClassificator <em>Classificator</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,24 +45,24 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getClassificatorID() <em>Classificator ID</em>}' attribute.
+	 * The default value of the '{@link #getClassificator() <em>Classificator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getClassificatorID()
+	 * @see #getClassificator()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int CLASSIFICATOR_ID_EDEFAULT = 0;
+	protected static final String CLASSIFICATOR_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getClassificatorID() <em>Classificator ID</em>}' attribute.
+	 * The cached value of the '{@link #getClassificator() <em>Classificator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getClassificatorID()
+	 * @see #getClassificator()
 	 * @generated
 	 * @ordered
 	 */
-	protected int classificatorID = CLASSIFICATOR_ID_EDEFAULT;
+	protected String classificator = CLASSIFICATOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -112,8 +112,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 	 * @generated
 	 */
 	@Override
-	public int getClassificatorID() {
-		return classificatorID;
+	public String getClassificator() {
+		return classificator;
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 	 * @generated
 	 */
 	@Override
-	public void setClassificatorID(int newClassificatorID) {
-		int oldClassificatorID = classificatorID;
-		classificatorID = newClassificatorID;
+	public void setClassificator(String newClassificator) {
+		String oldClassificator = classificator;
+		classificator = newClassificator;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID, oldClassificatorID, classificatorID));
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.CLASSIFICATION__CLASSIFICATOR, oldClassificator, classificator));
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 		switch (featureID) {
 			case RulebasePackage.CLASSIFICATION__NAME:
 				return getName();
-			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID:
-				return getClassificatorID();
+			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR:
+				return getClassificator();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,8 +156,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 			case RulebasePackage.CLASSIFICATION__NAME:
 				setName((String)newValue);
 				return;
-			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID:
-				setClassificatorID((Integer)newValue);
+			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR:
+				setClassificator((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -174,8 +174,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 			case RulebasePackage.CLASSIFICATION__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID:
-				setClassificatorID(CLASSIFICATOR_ID_EDEFAULT);
+			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR:
+				setClassificator(CLASSIFICATOR_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -191,8 +191,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 		switch (featureID) {
 			case RulebasePackage.CLASSIFICATION__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR_ID:
-				return classificatorID != CLASSIFICATOR_ID_EDEFAULT;
+			case RulebasePackage.CLASSIFICATION__CLASSIFICATOR:
+				return CLASSIFICATOR_EDEFAULT == null ? classificator != null : !CLASSIFICATOR_EDEFAULT.equals(classificator);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -209,8 +209,8 @@ public class ClassificationImpl extends EObjectImpl implements Classification {
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
-		result.append(", classificatorID: ");
-		result.append(classificatorID);
+		result.append(", classificator: ");
+		result.append(classificator);
 		result.append(')');
 		return result.toString();
 	}

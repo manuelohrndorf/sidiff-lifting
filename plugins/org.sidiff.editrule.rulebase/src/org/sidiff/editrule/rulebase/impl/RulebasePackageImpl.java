@@ -748,7 +748,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getClassification_ClassificatorID() {
+	public EAttribute getClassification_Classificator() {
 		return (EAttribute)classificationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1110,7 +1110,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		classificationEClass = createEClass(CLASSIFICATION);
 		createEAttribute(classificationEClass, CLASSIFICATION__NAME);
-		createEAttribute(classificationEClass, CLASSIFICATION__CLASSIFICATOR_ID);
+		createEAttribute(classificationEClass, CLASSIFICATION__CLASSIFICATOR);
 
 		editRuleAttachmentEClass = createEClass(EDIT_RULE_ATTACHMENT);
 		createEReference(editRuleAttachmentEClass, EDIT_RULE_ATTACHMENT__RULE_BASE_ITEM);
@@ -1250,7 +1250,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		initEClass(classificationEClass, Classification.class, "Classification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClassification_Name(), ecorePackage.getEString(), "name", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getClassification_ClassificatorID(), ecorePackage.getEInt(), "classificatorID", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassification_Classificator(), ecorePackage.getEString(), "classificator", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editRuleAttachmentEClass, EditRuleAttachment.class, "EditRuleAttachment", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEditRuleAttachment_RuleBaseItem(), this.getRuleBaseItem(), this.getRuleBaseItem_EditRuleAttachments(), "ruleBaseItem", null, 0, 1, EditRuleAttachment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

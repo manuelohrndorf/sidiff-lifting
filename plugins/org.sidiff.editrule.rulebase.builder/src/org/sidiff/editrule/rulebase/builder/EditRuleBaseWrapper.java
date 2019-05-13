@@ -247,7 +247,7 @@ public class EditRuleBaseWrapper {
 		for (IClassificator c : IClassificator.MANAGER.getClassificators(item.getEditRule())) {
 			Classification a = RulebaseFactory.eINSTANCE.createClassification();
 			a.setName(c.createClassification(item.getEditRule()));
-			a.setClassificatorID(c.getClassificatorId());
+			a.setClassificator(c.getKey());
 			rulebase.getItems().get(position).getEditRule().getClassification().add(a);
 		}
 	}
