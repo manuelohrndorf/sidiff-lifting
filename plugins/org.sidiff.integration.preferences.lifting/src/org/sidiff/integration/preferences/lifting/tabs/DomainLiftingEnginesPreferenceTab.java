@@ -22,35 +22,31 @@ import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverte
  */
 public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private IPreferenceField ruleBasesField;
-	private IPreferenceField recognitionRuleSorterField;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
+		list.add(createRuleBasesField());
+		list.add(createRecognitionRuleSorterField());
+	}
+
+	private IPreferenceField createRuleBasesField() {
 		List<ILiftingRuleBase> ruleBases = new ArrayList<>(PipelineUtils.getAvailableRulebases(Collections.singleton(getDocumentType())));
-		Collections.sort(ruleBases, new Comparator<ILiftingRuleBase>() {
-			@Override
-			public int compare(ILiftingRuleBase o1, ILiftingRuleBase o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
-		
-		ruleBasesField = PreferenceFieldFactory.createCheckBoxList(
+		Collections.sort(ruleBases, Comparator.comparing(ILiftingRuleBase::getName));
+
+		return PreferenceFieldFactory.createCheckBoxList(
 				LiftingSettingsAdapter.KEY_RULE_BASES(getDocumentType()),
 				"Rulebases",
 				ruleBases,
 				new LiftingRuleBaseValueConverter());
-		list.add(ruleBasesField);
+	}
 
+	private IPreferenceField createRecognitionRuleSorterField() {
 		List<IRecognitionRuleSorter> recognitionRuleSorters = new ArrayList<>(
 				IRecognitionRuleSorter.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true));
 		Collections.sort(recognitionRuleSorters, IRecognitionRuleSorter.MANAGER.getComparator());
-			
-		recognitionRuleSorterField = PreferenceFieldFactory.createRadioBox(
+		return PreferenceFieldFactory.createRadioBox(
 				LiftingSettingsAdapter.KEY_RECOGNITION_RULE_SORTER(getDocumentType()),
 				"Recognition Rule Sorter",
 				recognitionRuleSorters,
 				ExtensionValueConverter.getInstance());
-		list.add(recognitionRuleSorterField);
 	}
 }
