@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.sidiff.common.io.IOUtil;
-import org.sidiff.editrule.rulebase.builder.internal.Activator;
+import org.sidiff.editrule.rulebase.builder.internal.EditRuleBaseBuilderPlugin;
 
 public class EditRuleBaseClassBuilder {
 
@@ -57,7 +57,7 @@ public class EditRuleBaseClassBuilder {
 			Set<String> documentType, Set<String> attachmentTypes) throws IOException, CoreException {
 
 		String template = IOUtil.toString(
-			IOUtil.openInputStream(Activator.PLUGIN_ID, "/templates/RuleBaseProject.template"),
+			IOUtil.openInputStream(EditRuleBaseBuilderPlugin.ID, "/templates/RuleBaseProject.template"),
 			StandardCharsets.UTF_8);
 		return String.format(template,
 			getFormattedPackageName(project.getName()),

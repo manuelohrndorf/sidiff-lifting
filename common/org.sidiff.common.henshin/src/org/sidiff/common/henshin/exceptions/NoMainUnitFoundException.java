@@ -18,6 +18,6 @@ public class NoMainUnitFoundException extends Exception {
 	 *            The module that should contain a main-unit.
 	 */
 	public NoMainUnitFoundException(Module module) {
-		super("\nNo Main Unit found in " + EcoreUtil.getURI(module));
+		super("No Main Unit found in " + EcoreUtil.getURI(module));
 	}
 }

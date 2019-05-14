@@ -1,6 +1,5 @@
 package org.sidiff.editrule.rulebase.ui.editor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -659,12 +658,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-
-		try {
-			rbManager.saveRuleBase();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		rbManager.saveRuleBase();
 		
 		dirty = false;
 		firePropertyChange(IEditorPart.PROP_DIRTY);

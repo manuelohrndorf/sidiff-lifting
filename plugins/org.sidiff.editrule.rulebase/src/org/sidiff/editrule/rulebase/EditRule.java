@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.model.Unit;
  *   <li>{@link org.sidiff.editrule.rulebase.EditRule#isUseDerivedFeatures <em>Use Derived Features</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.EditRule#getInverse <em>Inverse</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.EditRule#getClassification <em>Classification</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.EditRule#getExecuteModule <em>Execute Module</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getEditRule()
@@ -51,22 +52,11 @@ public interface EditRule extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Execute Main Unit</em>' reference.
-	 * @see #setExecuteMainUnit(Unit)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getEditRule_ExecuteMainUnit()
-	 * @model
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	Unit getExecuteMainUnit();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.EditRule#getExecuteMainUnit <em>Execute Main Unit</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Execute Main Unit</em>' reference.
-	 * @see #getExecuteMainUnit()
-	 * @generated
-	 */
-	void setExecuteMainUnit(Unit value);
 
 	/**
 	 * Returns the value of the '<em><b>Rule Base Item</b></em>' container reference.
@@ -181,12 +171,26 @@ public interface EditRule extends EObject {
 	EList<Classification> getClassification();
 
 	/**
+	 * Returns the value of the '<em><b>Execute Module</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
+	 * @return the value of the '<em>Execute Module</em>' reference.
+	 * @see #setExecuteModule(org.eclipse.emf.henshin.model.Module)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getEditRule_ExecuteModule()
+	 * @model required="true"
 	 * @generated
 	 */
 	org.eclipse.emf.henshin.model.Module getExecuteModule();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.EditRule#getExecuteModule <em>Execute Module</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Execute Module</em>' reference.
+	 * @see #getExecuteModule()
+	 * @generated
+	 */
+	void setExecuteModule(org.eclipse.emf.henshin.model.Module value);
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -263,13 +263,22 @@ public interface RulebasePackage extends EPackage {
 	int EDIT_RULE__CLASSIFICATION = 5;
 
 	/**
+	 * The feature id for the '<em><b>Execute Module</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDIT_RULE__EXECUTE_MODULE = 6;
+
+	/**
 	 * The number of structural features of the '<em>Edit Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDIT_RULE_FEATURE_COUNT = 6;
+	int EDIT_RULE_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.RuleBaseItemImpl <em>Rule Base Item</em>}' class.
@@ -1369,6 +1378,17 @@ public interface RulebasePackage extends EPackage {
 	EReference getEditRule_Classification();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.EditRule#getExecuteModule <em>Execute Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Execute Module</em>'.
+	 * @see org.sidiff.editrule.rulebase.EditRule#getExecuteModule()
+	 * @see #getEditRule()
+	 * @generated
+	 */
+	EReference getEditRule_ExecuteModule();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.RuleBaseItem <em>Rule Base Item</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2189,6 +2209,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference EDIT_RULE__CLASSIFICATION = eINSTANCE.getEditRule_Classification();
+
+		/**
+		 * The meta object literal for the '<em><b>Execute Module</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EDIT_RULE__EXECUTE_MODULE = eINSTANCE.getEditRule_ExecuteModule();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.RuleBaseItemImpl <em>Rule Base Item</em>}' class.

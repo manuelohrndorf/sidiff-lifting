@@ -5,7 +5,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.editrule.rulebase.RuleBase;
@@ -101,8 +100,6 @@ public class RuleBaseStorage {
 	 * @return The Henshin module (with platform resource URI) of the given resource.
 	 */
 	public static Module loadHenshinModule(IResource resource) {
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
-		Module editModule = resourceSet.getModule(EMFStorage.toPlatformURI(resource), false);
-		return editModule;
+		return RESOURCE_SET.loadEObject(EMFStorage.toPlatformURI(resource), Module.class);
 	}
 }

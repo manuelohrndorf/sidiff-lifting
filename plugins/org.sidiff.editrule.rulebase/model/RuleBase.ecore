@@ -26,11 +26,12 @@
         upperBound="-1" eType="#//PotentialAttributeConflict" containment="true" eOpposite="#//PotentialAttributeConflict/ruleBase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditRule">
-    <eOperations name="getExecuteModule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
     <eOperations name="getParameterByName" eType="#//Parameter">
       <eParameters name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="executeMainUnit" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executeMainUnit" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Unit"
+        changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBaseItem" eType="#//RuleBaseItem"
         eOpposite="#//RuleBaseItem/editRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
@@ -39,6 +40,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="inverse" eType="#//EditRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="classification" upperBound="-1"
         eType="#//Classification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="executeModule" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RuleBaseItem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="editRule" eType="#//EditRule"

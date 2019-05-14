@@ -54,7 +54,7 @@ public class HenshinUtil {
 		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/temp.henshin");
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
-		resource.getContents().add((EObject) newModule);
+		resource.getContents().add(newModule);
 
 		Map<String, Boolean> options = new HashMap<String, Boolean>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
@@ -80,7 +80,7 @@ public class HenshinUtil {
 		URI uri = URI.createFileURI(new File(path).getAbsolutePath() + "/" + name);
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
-		resource.getContents().add((EObject) module);
+		resource.getContents().add(module);
 
 		Map<String, Boolean> options = new HashMap<String, Boolean>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);

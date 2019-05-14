@@ -37,7 +37,6 @@ public class HenshinUnitAnalysis {
 	 * @return The main unit of the edit rule.
 	 * 
 	 * @throws NoMainUnitFoundException
-	 * @throws NoUnitFoundException
 	 */
 	public static Unit findExecuteMainUnit(Module editModule) throws NoMainUnitFoundException {
 		
