@@ -62,6 +62,7 @@ public class EditRuleItemProvider
 			addExecuteMainUnitPropertyDescriptor(object);
 			addUseDerivedFeaturesPropertyDescriptor(object);
 			addInversePropertyDescriptor(object);
+			addExecuteModulePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -124,6 +125,28 @@ public class EditRuleItemProvider
 				 getString("_UI_EditRule_inverse_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_EditRule_inverse_feature", "_UI_EditRule_type"),
 				 RulebasePackage.Literals.EDIT_RULE__INVERSE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Execute Module feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addExecuteModulePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_EditRule_executeModule_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_EditRule_executeModule_feature", "_UI_EditRule_type"),
+				 RulebasePackage.Literals.EDIT_RULE__EXECUTE_MODULE,
 				 true,
 				 false,
 				 true,

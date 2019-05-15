@@ -16,7 +16,6 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
-import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
 public class ColumnActive extends AbstractRuleBaseColumn {
 
@@ -62,11 +61,7 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 
 			@Override
 			public Image getImage(Object element) {
-				if (((RuleBaseItem) element).isActive()) {
-					return editor.getImageDescriptor("checked.png").createImage();
-				} else {
-					return editor.getImageDescriptor("unchecked.png").createImage();
-				}
+				return editor.getImageDescriptor(((RuleBaseItem) element).isActive() ? "checked.png" : "unchecked.png").createImage();
 			}
 		});
 
@@ -87,22 +82,16 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 
 			@Override
 			protected Object getValue(Object element) {
-				return ((RuleBaseItem) element).isActive();
+				return ((RuleBaseItem)element).isActive();
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-
-				if (((RuleBaseItem) element).isActive()) {
-					EditRuleItemUtil.setActive((RuleBaseItem) element, false);
-				} else {
-					EditRuleItemUtil.setActive((RuleBaseItem) element, true);
-				}
-
+				RuleBaseItem item = (RuleBaseItem)element;
+				item.setActive((Boolean)value);
 				ruleViewer.update(element, null);
-				editor.setDirty(((RuleBaseItem) element).getEditRule());
+				editor.setDirty(item.getEditRule());
 			}
-
 		});
 	}
 }

@@ -18,8 +18,9 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.HenshinUnitAnalysis;
+import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.EditRuleAttachment;
@@ -41,21 +42,12 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl#isUseDerivedFeatures <em>Use Derived Features</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl#getInverse <em>Inverse</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl#getClassification <em>Classification</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl#getExecuteModule <em>Execute Module</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class EditRuleImpl extends EObjectImpl implements EditRule {
-	/**
-	 * The cached value of the '{@link #getExecuteMainUnit() <em>Execute Main Unit</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExecuteMainUnit()
-	 * @generated
-	 * @ordered
-	 */
-	protected Unit executeMainUnit;
-
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -105,6 +97,16 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * @ordered
 	 */
 	protected EList<Classification> classification;
+
+	/**
+	 * The cached value of the '{@link #getExecuteModule() <em>Execute Module</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExecuteModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected org.eclipse.emf.henshin.model.Module executeModule;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -270,10 +272,41 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	public Module getExecuteModule() {
-		return (Module) this.getExecuteMainUnit().eContainer();
+	@Override
+	public org.eclipse.emf.henshin.model.Module getExecuteModule() {
+		if (executeModule != null && executeModule.eIsProxy()) {
+			InternalEObject oldExecuteModule = (InternalEObject)executeModule;
+			executeModule = (org.eclipse.emf.henshin.model.Module)eResolveProxy(oldExecuteModule);
+			if (executeModule != oldExecuteModule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.EDIT_RULE__EXECUTE_MODULE, oldExecuteModule, executeModule));
+			}
+		}
+		return executeModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public org.eclipse.emf.henshin.model.Module basicGetExecuteModule() {
+		return executeModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setExecuteModule(org.eclipse.emf.henshin.model.Module newExecuteModule) {
+		org.eclipse.emf.henshin.model.Module oldExecuteModule = executeModule;
+		executeModule = newExecuteModule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.EDIT_RULE__EXECUTE_MODULE, oldExecuteModule, executeModule));
 	}
 
 	/**
@@ -283,37 +316,21 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 */
 	@Override
 	public Unit getExecuteMainUnit() {
-		if (executeMainUnit != null && executeMainUnit.eIsProxy()) {
-			InternalEObject oldExecuteMainUnit = (InternalEObject)executeMainUnit;
-			executeMainUnit = (Unit)eResolveProxy(oldExecuteMainUnit);
-			if (executeMainUnit != oldExecuteMainUnit) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.EDIT_RULE__EXECUTE_MAIN_UNIT, oldExecuteMainUnit, executeMainUnit));
-			}
-		}
-		return executeMainUnit;
+		Unit executeMainUnit = basicGetExecuteMainUnit();
+		return executeMainUnit != null && executeMainUnit.eIsProxy() ? (Unit)eResolveProxy((InternalEObject)executeMainUnit) : executeMainUnit;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Unit basicGetExecuteMainUnit() {
-		return executeMainUnit;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setExecuteMainUnit(Unit newExecuteMainUnit) {
-		Unit oldExecuteMainUnit = executeMainUnit;
-		executeMainUnit = newExecuteMainUnit;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.EDIT_RULE__EXECUTE_MAIN_UNIT, oldExecuteMainUnit, executeMainUnit));
+		try {
+			return HenshinUnitAnalysis.findExecuteMainUnit(getExecuteModule());
+		} catch (NoMainUnitFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -327,7 +344,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return param;
 			}
 		}
-		
 		return null;
 	}
 
@@ -402,6 +418,9 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return basicGetInverse();
 			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
 				return getClassification();
+			case RulebasePackage.EDIT_RULE__EXECUTE_MODULE:
+				if (resolve) return getExecuteModule();
+				return basicGetExecuteModule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -415,9 +434,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RulebasePackage.EDIT_RULE__EXECUTE_MAIN_UNIT:
-				setExecuteMainUnit((Unit)newValue);
-				return;
 			case RulebasePackage.EDIT_RULE__RULE_BASE_ITEM:
 				setRuleBaseItem((RuleBaseItem)newValue);
 				return;
@@ -435,6 +451,9 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				getClassification().clear();
 				getClassification().addAll((Collection<? extends Classification>)newValue);
 				return;
+			case RulebasePackage.EDIT_RULE__EXECUTE_MODULE:
+				setExecuteModule((org.eclipse.emf.henshin.model.Module)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -447,9 +466,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.EDIT_RULE__EXECUTE_MAIN_UNIT:
-				setExecuteMainUnit((Unit)null);
-				return;
 			case RulebasePackage.EDIT_RULE__RULE_BASE_ITEM:
 				setRuleBaseItem((RuleBaseItem)null);
 				return;
@@ -465,6 +481,9 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
 				getClassification().clear();
 				return;
+			case RulebasePackage.EDIT_RULE__EXECUTE_MODULE:
+				setExecuteModule((org.eclipse.emf.henshin.model.Module)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -478,7 +497,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case RulebasePackage.EDIT_RULE__EXECUTE_MAIN_UNIT:
-				return executeMainUnit != null;
+				return basicGetExecuteMainUnit() != null;
 			case RulebasePackage.EDIT_RULE__RULE_BASE_ITEM:
 				return getRuleBaseItem() != null;
 			case RulebasePackage.EDIT_RULE__PARAMETERS:
@@ -489,6 +508,8 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 				return inverse != null;
 			case RulebasePackage.EDIT_RULE__CLASSIFICATION:
 				return classification != null && !classification.isEmpty();
+			case RulebasePackage.EDIT_RULE__EXECUTE_MODULE:
+				return executeModule != null;
 		}
 		return super.eIsSet(featureID);
 	}

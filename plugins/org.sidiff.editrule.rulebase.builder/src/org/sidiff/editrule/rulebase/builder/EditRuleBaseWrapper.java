@@ -7,16 +7,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
-import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.editrule.analysis.classification.IClassificator;
 import org.sidiff.editrule.analysis.criticalpairs.IntraRuleBasePotentialConflictAnalyzer;
@@ -128,10 +130,8 @@ public class EditRuleBaseWrapper {
 	/**
 	 * Saves the rulebase file. Can't be used if the rulebase was initialized in
 	 * read-only mode ({@link EditRuleBaseWrapper#RuleBaseWrapper(URI)}).
-	 * 
-	 * @throws IOException
 	 */
-	public void saveRuleBase() throws IOException {
+	public void saveRuleBase() {
 		saveEditModules();
 		
 		if (exists(rulebaseURI)) {
@@ -196,7 +196,7 @@ public class EditRuleBaseWrapper {
 
 		// Create edit rule
 		EditRule editRule = RulebaseFactory.eINSTANCE.createEditRule();
-		editRule.setExecuteMainUnit(HenshinUnitAnalysis.findExecuteMainUnit(editModule));
+		editRule.setExecuteModule(editModule);
 		editRule.setUseDerivedFeatures(HenshinModuleAnalysis.hasDerivedReferences(editModule));
 		
 		return editRule;
@@ -247,7 +247,7 @@ public class EditRuleBaseWrapper {
 		for (IClassificator c : IClassificator.MANAGER.getClassificators(item.getEditRule())) {
 			Classification a = RulebaseFactory.eINSTANCE.createClassification();
 			a.setName(c.createClassification(item.getEditRule()));
-			a.setClassificatorID(c.getClassificatorId());
+			a.setClassificator(c.getKey());
 			rulebase.getItems().get(position).getEditRule().getClassification().add(a);
 		}
 	}
@@ -439,7 +439,9 @@ public class EditRuleBaseWrapper {
 			while (pkg != null && pkg.getESuperPackage() != null) {
 				pkg = pkg.getESuperPackage();
 			}
-			documentTypes.add(pkg.getNsURI());
+			if(pkg != null) {
+				documentTypes.add(pkg.getNsURI());				
+			}
 		}
 		
 		return EMFModelAccess.getCharacteristicDocumentType(documentTypes);
@@ -461,7 +463,9 @@ public class EditRuleBaseWrapper {
 			while (pkg != null && pkg.getESuperPackage() != null) {
 				pkg = pkg.getESuperPackage();
 			}
-			documentTypes.add(pkg.getNsURI());
+			if(pkg != null) {
+				documentTypes.add(pkg.getNsURI());				
+			}
 		}
 		
 		return documentTypes;
@@ -501,5 +505,25 @@ public class EditRuleBaseWrapper {
 			}
 		}
 		return null;
+	}
+
+	public void addInverseEditRules(IProgressMonitor monitor) {
+		SubMonitor progress = SubMonitor.convert(monitor, getRuleBase().getItems().size());
+		for (RuleBaseItem rule : getRuleBase().getItems()) {
+			if (rule.getEditRule().getInverse() == null) {
+				for (Annotation a : rule.getEditRule().getExecuteModule().getAnnotations()) {
+					if (a.getKey().equals("INVERSE")) {
+						String ruleName = a.getValue();
+						for (RuleBaseItem invRule : getRuleBase().getItems()) {
+							if (invRule.getEditRule().getExecuteModule().getName().equals(ruleName)) {
+								rule.getEditRule().setInverse(invRule.getEditRule());
+								break;
+							}
+						}
+					}
+				}
+			}
+			progress.worked(1);
+		}
 	}
 }

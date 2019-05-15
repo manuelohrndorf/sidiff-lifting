@@ -11,12 +11,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.file.FileOperations;
 import org.sidiff.common.file.ZipUtil;
-import org.sidiff.common.henshin.INamingConventions;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -50,7 +48,7 @@ public class PatchCreator {
 	private IMatcher matcher;
 	private ISymbolicLinkHandler symbolicLinkHandler;
 	
-	private Map<Unit,Unit> mainUnitCopies;
+	private Map<Module,Module> executeModuleCopies;
 	
 	private SiDiffResourceSet resourceSet;
 
@@ -136,14 +134,12 @@ public class PatchCreator {
 	}
 	
 	protected void copyEditRules(URI patchFolderUri) {
-		mainUnitCopies = new HashMap<>();
+		executeModuleCopies = new HashMap<>();
 		for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {
 			EditRule copyEditRule = EcoreUtil.copy(op.resolveEditRule());
-			Unit oldMainUnit = copyEditRule.getExecuteModule().getUnit(INamingConventions.MAIN_UNIT);
 			Module copyModule = EcoreUtil.copy(copyEditRule.getExecuteModule());
-			Unit newMainUnit = copyModule.getUnit(INamingConventions.MAIN_UNIT);
-			copyEditRule.setExecuteMainUnit(newMainUnit);
-			mainUnitCopies.put(oldMainUnit, newMainUnit);
+			executeModuleCopies.put(copyEditRule.getExecuteModule(), copyModule);
+			copyEditRule.setExecuteModule(copyModule);
 			patch.getEditRules().add(copyEditRule);
 
 			URI erSavePath = patchFolderUri.appendSegment(FOLDER_EDIT_RULES)
@@ -163,8 +159,8 @@ public class PatchCreator {
 
 	protected void copyAsymmetricDifference(URI patchFolderUri) {
 		asymmetricDifference.getRulebase().getItems().forEach(item -> {
-			Unit mainUnit = mainUnitCopies.get(item.getEditRule().getExecuteMainUnit());
-			item.getEditRule().setExecuteMainUnit(mainUnit);
+			Module executeModule = executeModuleCopies.get(item.getEditRule().getExecuteModule());
+			item.getEditRule().setExecuteModule(executeModule);
 		});
 
 		URI asymmetricDiffUri = patchFolderUri

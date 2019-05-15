@@ -1,6 +1,5 @@
 package org.sidiff.editrule.rulebase.ui.editor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -279,27 +278,17 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		int style = SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER;
 		ruleViewer = new TableViewer(tableComposite, style);
 		
-		
 		ruleViewer.setComparator(new ViewerComparator(){
-
 			@Override
 			public int compare(Viewer viewer, Object e1, Object e2) {
 				if((e1 instanceof RuleBaseItem) && (e2 instanceof RuleBaseItem)){
 					RuleBaseItem item1 = (RuleBaseItem) e1;
 					RuleBaseItem item2 = (RuleBaseItem) e2;
-					
-					int direction = ((TableViewer) viewer).getTable().getSortDirection();
-					
-					if(direction == SWT.UP){
-						return EOInfo.getName(item1).compareTo(EOInfo.getName(item2));
-					} else {
-						return EOInfo.getName(item1).compareTo(EOInfo.getName(item2)) * -1;
-					}
+					int directionMult = ((TableViewer)viewer).getTable().getSortDirection() == SWT.UP ? 1 : -1;
+					return EOInfo.getName(item1).compareTo(EOInfo.getName(item2)) * directionMult;
 				}
 				return super.compare(viewer, e1, e2);
 			}
-			
-			
 		});
 		
 		// SWT Table
@@ -669,12 +658,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-
-		try {
-			rbManager.saveRuleBase();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		rbManager.saveRuleBase();
 		
 		dirty = false;
 		firePropertyChange(IEditorPart.PROP_DIRTY);

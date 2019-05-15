@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.sidiff.editrule.rulebase.Classification#getName <em>Name</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.Classification#getClassificatorID <em>Classificator ID</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.Classification#getClassificator <em>Classificator</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getClassification()
@@ -49,29 +49,25 @@ public interface Classification extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Classificator ID</b></em>' attribute.
+	 * Returns the value of the '<em><b>Classificator</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Classificator ID</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Classificator ID</em>' attribute.
-	 * @see #setClassificatorID(int)
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getClassification_ClassificatorID()
+	 * @return the value of the '<em>Classificator</em>' attribute.
+	 * @see #setClassificator(String)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getClassification_Classificator()
 	 * @model
 	 * @generated
 	 */
-	int getClassificatorID();
+	String getClassificator();
 
 	/**
-	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.Classification#getClassificatorID <em>Classificator ID</em>}' attribute.
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.Classification#getClassificator <em>Classificator</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Classificator ID</em>' attribute.
-	 * @see #getClassificatorID()
+	 * @param value the new value of the '<em>Classificator</em>' attribute.
+	 * @see #getClassificator()
 	 * @generated
 	 */
-	void setClassificatorID(int value);
+	void setClassificator(String value);
 
 } // Classification

@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;

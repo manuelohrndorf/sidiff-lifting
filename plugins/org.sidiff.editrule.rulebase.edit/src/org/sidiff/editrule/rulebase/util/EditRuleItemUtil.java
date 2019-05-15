@@ -48,14 +48,7 @@ public class EditRuleItemUtil {
 	}
 
 	private static String dictionary(String input) {
-		// Translate:
-		String output = dict.get(input);
-
-		if (output == null) {
-			return input;
-		} else {
-			return output;
-		}
+		return dict.getOrDefault(input, input);
 	}
 	
 	public static String formatName(RuleBaseItem item) {
@@ -107,7 +100,7 @@ public class EditRuleItemUtil {
 		}
 		return result.toString();
 	}
-	
+
 	public static String getName(RuleBaseItem item) {
 		return item.getEditRule().getExecuteModule().getName();
 	}
@@ -128,18 +121,18 @@ public class EditRuleItemUtil {
 		}
 	}
 
-	public static String getClassificationName(RuleBaseItem item, int classificatorId) {
+	public static String getClassificationName(RuleBaseItem item, String classificator) {
 		for (Classification c : item.getEditRule().getClassification()) {
-			if (c.getClassificatorID() == classificatorId) {
+			if (c.getClassificator().equals(classificator)) {
 				return c.getName();
 			}
 		}
 		return "Not Classified";
 	}
 
-	public static void setClassificationName(RuleBaseItem item, String name, int classificatorId) {
+	public static void setClassificationName(RuleBaseItem item, String name, String classificator) {
 		for (Classification c : item.getEditRule().getClassification()) {
-			if (c.getClassificatorID() == classificatorId) {
+			if (c.getClassificator().equals(classificator)) {
 				c.setName(name);
 				break;
 			}
@@ -149,9 +142,8 @@ public class EditRuleItemUtil {
 	public static String getInverseName(RuleBaseItem item) {
 		if (item.getEditRule().getInverse() != null) {
 			return item.getEditRule().getInverse().getExecuteModule().getName();
-		} else {
-			return "";
 		}
+		return "";
 	}
 	
 	public static void setInverseName(RuleBaseItem item, String name) {
@@ -160,20 +152,8 @@ public class EditRuleItemUtil {
 		}
 	}
 
-	public static boolean isActiv(RuleBaseItem item) {
-		return item.isActive();
-	}
-
-	public static void setActive(RuleBaseItem item, boolean value) {
-		item.setActive(value);
-	}
-
 	public static void invertActivity(RuleBaseItem item) {
-		if (item.isActive()) {
-			setActive(item, false);
-		} else {
-			setActive(item, true);
-		}
+		item.setActive(item.isActive());
 	}
 
 	public static EClass getERType(RuleBaseItem item) {
@@ -198,44 +178,26 @@ public class EditRuleItemUtil {
 	 * @return the unit type.
 	 */
 	public static String getUnitType(Unit unit) {
-
 		if (unit == null) {
 			return "null";
-		}
-		
-		if (unit instanceof Rule) {
-			if (isKernelRule((Rule) unit)) {
+		} else if (unit instanceof Rule) {
+			if (isKernelRule((Rule)unit)) {
 				return "Multi-Rule";
-			} else {
-				return "Rule";
 			}
-		}
-
-		else if (isAmalgamationUnit(unit)) {
+			return "Rule";
+		} else if (isAmalgamationUnit(unit)) {
 			return "Amalgamation Unit";
-		}
-
-		else if (unit instanceof IndependentUnit) {
+		} else if (unit instanceof IndependentUnit) {
 			return "Independent";
-		}
-
-		else if (unit instanceof SequentialUnit) {
+		} else if (unit instanceof SequentialUnit) {
 			return "Sequential";
-		}
-
-		else if (unit instanceof LoopUnit) {
+		} else if (unit instanceof LoopUnit) {
 			return "Loop";
-		}
-
-		else if (unit instanceof IteratedUnit) {
+		} else if (unit instanceof IteratedUnit) {
 			return "Iterated";
-		}
-
-		else if (unit instanceof ConditionalUnit) {
+		} else if (unit instanceof ConditionalUnit) {
 			return "Conditional";
-		}
-
-		else if (unit instanceof PriorityUnit) {
+		} else if (unit instanceof PriorityUnit) {
 			return "Priority";
 		}
 		return null;

@@ -218,7 +218,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * @generated NOT
 	 */
 	public Module getRecognitionModule() {
-		return (Module) this.getRecognitionMainUnit().eContainer();
+		return getRecognitionMainUnit().getModule();
 	}
 
 	/**

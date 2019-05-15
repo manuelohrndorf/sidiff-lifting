@@ -418,6 +418,16 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
+	public EReference getEditRule_ExecuteModule() {
+		return (EReference)editRuleEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getEditRule_ExecuteMainUnit() {
 		return (EReference)editRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -748,7 +758,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getClassification_ClassificatorID() {
+	public EAttribute getClassification_Classificator() {
 		return (EAttribute)classificationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1071,6 +1081,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEAttribute(editRuleEClass, EDIT_RULE__USE_DERIVED_FEATURES);
 		createEReference(editRuleEClass, EDIT_RULE__INVERSE);
 		createEReference(editRuleEClass, EDIT_RULE__CLASSIFICATION);
+		createEReference(editRuleEClass, EDIT_RULE__EXECUTE_MODULE);
 
 		ruleBaseItemEClass = createEClass(RULE_BASE_ITEM);
 		createEReference(ruleBaseItemEClass, RULE_BASE_ITEM__EDIT_RULE);
@@ -1110,7 +1121,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		classificationEClass = createEClass(CLASSIFICATION);
 		createEAttribute(classificationEClass, CLASSIFICATION__NAME);
-		createEAttribute(classificationEClass, CLASSIFICATION__CLASSIFICATOR_ID);
+		createEAttribute(classificationEClass, CLASSIFICATION__CLASSIFICATOR);
 
 		editRuleAttachmentEClass = createEClass(EDIT_RULE_ATTACHMENT);
 		createEReference(editRuleAttachmentEClass, EDIT_RULE_ATTACHMENT__RULE_BASE_ITEM);
@@ -1200,14 +1211,13 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getRuleBase_PotentialAttributeConflicts(), this.getPotentialAttributeConflict(), this.getPotentialAttributeConflict_RuleBase(), "potentialAttributeConflicts", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editRuleEClass, EditRule.class, "EditRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEditRule_ExecuteMainUnit(), theHenshinPackage.getUnit(), null, "executeMainUnit", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEditRule_ExecuteMainUnit(), theHenshinPackage.getUnit(), null, "executeMainUnit", null, 1, 1, EditRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_RuleBaseItem(), this.getRuleBaseItem(), this.getRuleBaseItem_EditRule(), "ruleBaseItem", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_Parameters(), this.getParameter(), null, "parameters", null, 0, -1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEditRule_UseDerivedFeatures(), ecorePackage.getEBoolean(), "useDerivedFeatures", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_Inverse(), this.getEditRule(), null, "inverse", null, 0, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEditRule_Classification(), this.getClassification(), null, "classification", null, 0, -1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(editRuleEClass, theHenshinPackage.getModule(), "getExecuteModule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getEditRule_ExecuteModule(), theHenshinPackage.getModule(), null, "executeModule", null, 1, 1, EditRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(editRuleEClass, this.getParameter(), "getParameterByName", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "name", 1, 1, IS_UNIQUE, IS_ORDERED);
@@ -1250,7 +1260,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		initEClass(classificationEClass, Classification.class, "Classification", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClassification_Name(), ecorePackage.getEString(), "name", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getClassification_ClassificatorID(), ecorePackage.getEInt(), "classificatorID", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClassification_Classificator(), ecorePackage.getEString(), "classificator", null, 0, 1, Classification.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editRuleAttachmentEClass, EditRuleAttachment.class, "EditRuleAttachment", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEditRuleAttachment_RuleBaseItem(), this.getRuleBaseItem(), this.getRuleBaseItem_EditRuleAttachments(), "ruleBaseItem", null, 0, 1, EditRuleAttachment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
