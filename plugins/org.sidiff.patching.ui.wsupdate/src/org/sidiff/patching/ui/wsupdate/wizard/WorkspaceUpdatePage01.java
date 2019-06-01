@@ -1,6 +1,5 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
-import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
@@ -63,7 +62,7 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 		addWidget(container, validationWidget, NUM_COLUMNS/2);
 
 		// Rulebases:
-		rulebaseWidget = new RulebaseWidget(new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs()), settings);
+		rulebaseWidget = new RulebaseWidget(mergeModels.getBaseTheirsModels(), settings);
 		rulebaseWidget.setDependency(settingsSourceWidget);
 		addWidget(container, rulebaseWidget);
 	}

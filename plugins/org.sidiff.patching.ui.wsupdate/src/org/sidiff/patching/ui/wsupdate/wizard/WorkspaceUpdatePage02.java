@@ -1,6 +1,5 @@
 package org.sidiff.patching.ui.wsupdate.wizard;
 
-import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
@@ -17,14 +16,14 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	private DifferenceBuilderWidget builderWidget;
 
 	private PatchingSettings settings;
-	private InputModels inputModels;
+	private WSUModels mergeModels;
 	private WorkspaceUpdatePage01 workbenchUpdatePage01;
 
 	public WorkspaceUpdatePage02(WSUModels mergeModels, String title,
 			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
 		super("WorkspaceUpdatePage02", title, Activator.getImageDescriptor("icon.png"));
 		this.settings = settings;
-		this.inputModels = new InputModels(mergeModels.getFileBase(), mergeModels.getFileTheirs());
+		this.mergeModels = mergeModels;
 		this.workbenchUpdatePage01 = workbenchUpdatePage01;
 	}
 
@@ -32,7 +31,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 	protected void createWidgets() {
 
 		// Matcher:
-		matcherWidget = new MatchingEngineWidget(inputModels, settings);
+		matcherWidget = new MatchingEngineWidget(mergeModels.getBaseTheirsModels(), settings);
 		matcherWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(container, matcherWidget);
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
@@ -44,7 +43,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		addWidget(container, reliabilityWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
+		builderWidget = new DifferenceBuilderWidget(mergeModels.getBaseTheirsModels(), settings);
 		builderWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 	}

@@ -1,6 +1,9 @@
 package org.sidiff.patching.api.input;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
@@ -10,19 +13,26 @@ public class PatchingInputModels extends InputModels {
 
 	private AsymmetricDifference asymmetricDifference;
 
-	public PatchingInputModels(IFile differenceFile) {
-		this(SiDiffResourceSet.create().loadEObject(EMFStorage.toPlatformURI(differenceFile), AsymmetricDifference.class));
-	}
-
-	public PatchingInputModels(AsymmetricDifference asymmetricDifference) {
-		super(asymmetricDifference.getOriginModel(), asymmetricDifference.getChangedModel());
+	protected PatchingInputModels(SiDiffResourceSet resourceSet, List<Resource> resources, AsymmetricDifference asymmetricDifference) {
+		super(resourceSet, resources);
 		this.asymmetricDifference = asymmetricDifference;
 		if(asymmetricDifference.eResource() != null) {
-			this.resourceSet.getResources().add(asymmetricDifference.eResource());			
+			getResourceSet().getResources().add(asymmetricDifference.eResource());			
 		}
 	}
-
+	
 	public AsymmetricDifference getAsymmetricDifference() {
 		return asymmetricDifference;
+	}
+
+	public static PatchingInputModels forDifference(AsymmetricDifference asymmetricDifference) {
+		return InputModels.builder((resSet, resources) -> new PatchingInputModels(resSet, resources, asymmetricDifference))
+				.addModel(asymmetricDifference.getOriginModel())
+				.addModel(asymmetricDifference.getChangedModel())
+				.build();
+	}
+	
+	public static PatchingInputModels forDifference(IFile differenceFile) {
+		return forDifference(SiDiffResourceSet.create().loadEObject(EMFStorage.toPlatformURI(differenceFile), AsymmetricDifference.class));
 	}
 }

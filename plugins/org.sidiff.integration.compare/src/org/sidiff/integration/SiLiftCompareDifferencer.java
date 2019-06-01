@@ -112,7 +112,7 @@ public class SiLiftCompareDifferencer {
 			throw new InvalidModelException("Resource could not be loaded for one or more inputs.");
 		}
 
-		InputModels inputModels = new InputModels(left.getResource(), right.getResource());
+		InputModels inputModels = InputModels.builder().addModel(left.getResource()).addModel(right.getResource()).build();
 		if(!inputModels.haveSameDocumentType()) {
 			throw new InvalidModelException("Document types of input models are not matching.");
 		}

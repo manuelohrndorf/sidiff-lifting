@@ -27,7 +27,7 @@ public class LiftDifferenceJob extends Job {
 	public LiftDifferenceJob(IFile differenceFile) {
 		super("Lifting technical Difference");
 		this.symmetricDiff = LiftingFacade.loadLiftedDifference(EMFStorage.toPlatformURI(differenceFile));
-		this.inputModels = new InputModels(symmetricDiff.getModelA(), symmetricDiff.getModelB());
+		this.inputModels = InputModels.builder().addModel(symmetricDiff.getModelA()).addModel(symmetricDiff.getModelB()).build();
 		this.settings = new LiftingSettings(inputModels.getDocumentTypes());
 	}
 

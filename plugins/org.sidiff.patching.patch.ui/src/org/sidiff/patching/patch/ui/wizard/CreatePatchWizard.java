@@ -1,6 +1,5 @@
 package org.sidiff.patching.patch.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
@@ -16,10 +15,9 @@ public class CreatePatchWizard extends Wizard {
 	private InputModels inputModels;
 	private PatchingSettings settings;
 
-	public CreatePatchWizard(IFile fileA, IFile fileB) {
+	public CreatePatchWizard(InputModels inputModels) {
 		this.setWindowTitle("New Patch Wizard");
-
-		inputModels = new InputModels(fileA, fileB);
+		this.inputModels = inputModels;
 		settings = new PatchingSettings(inputModels.getDocumentTypes());
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);

@@ -1,9 +1,5 @@
 package org.sidiff.patching.ui.wsupdate.widgets;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -29,13 +25,11 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 	 */
 	private Button buttons[][];
 
-	private List<SelectionListener> listeners;
 	private SelectionListener buttonListener;
 
 	public WSUModelsWidget(WSUModels mergeModels) {
 		setTitle("Roles of used models");
 		this.mergeModels = mergeModels;
-		this.listeners = new LinkedList<SelectionListener>();
 		this.buttons = new Button[WSUModels.NUM_ROLES][WSUModels.NUM_ROLES];
 	}
 	
@@ -65,7 +59,7 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 
 	protected void createModelButton(Group group, int role, int file) {
 		Button button = new Button(group, SWT.RADIO);
-		button.setData(new ButtonData(role, mergeModels.getFiles().get(file)));
+		button.setData(new ButtonData(role, file));
 		button.setText(mergeModels.getLabels().get(file));
 		button.setSelection(role == file);
 		button.addSelectionListener(getButtonSelectionListener());
@@ -75,28 +69,35 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 	protected SelectionListener getButtonSelectionListener() {
 		if(buttonListener == null) {
 			buttonListener = new SelectionAdapter() {
+				private int oldSelection = -1;
+				
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Button button = (Button)e.widget;
+					ButtonData data = (ButtonData)e.widget.getData();
 					if(button.getSelection()) {
-						ButtonData data = (ButtonData)e.widget.getData();
-						switch(data.role) {
-							case WSUModels.ROLE_MINE:
-								mergeModels.setModelMine(data.file);
-								break;
-	
-							case WSUModels.ROLE_THEIRS:
-								mergeModels.setModelTheirs(data.file);
-								break;
-	
-							case WSUModels.ROLE_BASE:
-								mergeModels.setModelBase(data.file);
-								break;
+						if(oldSelection >= 0) {
+							// find selection of the newly selected file in other role
+							// and set its selection to the old selection
+							for(int i = 0; i < WSUModels.NUM_ROLES; i++) {
+								if(data.role != i && buttons[i][data.file].getSelection()) {
+									buttons[i][oldSelection].setSelection(true);
+									buttons[i][data.file].setSelection(false);
+									mergeModels.swap(data.file, oldSelection);
+									break;
+								}
+							}
+							
+							oldSelection = -1;
+							getWidgetCallback().requestValidation();
 						}
-
-						getWidgetCallback().requestValidation();
-						for(SelectionListener listener : listeners) {
-							listener.widgetSelected(e);
+					} else {
+						// get old selection for the changed role
+						for(int i = 0; i < WSUModels.NUM_ROLES; i++) {
+							if(buttons[data.role][i] == button) {
+								oldSelection = i;
+								break;
+							}
 						}
 					}
 				}
@@ -126,16 +127,15 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 	public ValidationMessage getValidationMessage() {
 		if (validate()) {
 			return ValidationMessage.OK;
-		} else {
-			return new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
 		}
+		return new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");
 	}
 
 	protected static class ButtonData {
 		protected final int role;
-		protected final IFile file;
+		protected final int file;
 
-		public ButtonData(int role, IFile file) {
+		public ButtonData(int role, int file) {
 			this.role = role;
 			this.file = file;
 		}

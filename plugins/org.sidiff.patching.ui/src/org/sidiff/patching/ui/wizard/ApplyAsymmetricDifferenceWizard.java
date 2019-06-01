@@ -22,7 +22,7 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 		this.diffFile = diffFile;
 		this.settings = new PatchingSettings();
 		this.settings.setPatchMode(PatchMode.PATCHING); // required for the ApplyAsymmetricDifferenceJob
-		this.inputModels = new PatchingInputModels(diffFile);
+		this.inputModels = PatchingInputModels.forDifference(diffFile);
 	}
 
 	@Override

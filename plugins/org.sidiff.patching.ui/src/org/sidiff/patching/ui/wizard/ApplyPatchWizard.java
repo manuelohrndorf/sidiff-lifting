@@ -28,7 +28,7 @@ public class ApplyPatchWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		PatchingInputModels inputModels = new PatchingInputModels(patch.getAsymmetricDifference());
+		PatchingInputModels inputModels = PatchingInputModels.forDifference(patch.getAsymmetricDifference());
 		
 		applyPatchPage01 = new ApplyPatchPage01(inputModels, "Apply Patch: " + file.getName(), settings);
 		addPage(applyPatchPage01);

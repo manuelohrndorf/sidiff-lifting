@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.jobs.CreateAsymmetricDifferenceJob;
 import org.sidiff.patching.ui.jobs.ApplyAsymmetricDifferenceJob;
@@ -24,9 +23,8 @@ public class WorkspaceUpdateJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		// First create a patch between BASE<->THEIRS
-		InputModels patchInputModels = new InputModels(mergeModels.getResourceBase(), mergeModels.getResourceTheirs());
 		CreateAsymmetricDifferenceJob createJob =
-			new CreateAsymmetricDifferenceJob(patchInputModels, settings, false);
+			new CreateAsymmetricDifferenceJob(mergeModels.getBaseTheirsModels(), settings, false);
 		createJob.setUser(true);
 		createJob.schedule();
 		try {
