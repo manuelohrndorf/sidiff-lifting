@@ -20,7 +20,6 @@ import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
@@ -39,7 +38,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
  * will be considered.</p>
  * @author Robert Müller
  */
-public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> implements IWidgetValidation {
+public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> {
 
 	public static enum Source {
 		GLOBAL("Use global settings"),
@@ -64,7 +63,6 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	private Set<Enum<?>> consideredSettings;
 
 	// outputs
-	private ValidationMessage message;
 	private Diagnostic diagnostic;
 
 	/**
@@ -176,21 +174,14 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	}
 
 	@Override
-	public boolean validate() {
+	protected ValidationMessage doValidate() {
 		if(getSource() != Source.CUSTOM && diagnostic != null && diagnostic.getSeverity() >= Diagnostic.ERROR) {
 			// WARNING instead of ERROR so other validation messages take precedence over this one, as it is pretty vague
-			message = new ValidationMessage(ValidationType.WARNING,
+			return new ValidationMessage(ValidationType.WARNING,
 					getSource() == Source.GLOBAL ? "The global settings are not valid."
 											: "The project specific settings are not valid.");
-			return false;
 		}
-		message = ValidationMessage.OK;
-		return true;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		return message;
+		return ValidationMessage.OK;
 	}
 
 	/**

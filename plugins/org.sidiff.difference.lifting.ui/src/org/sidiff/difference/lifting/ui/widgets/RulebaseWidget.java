@@ -9,7 +9,6 @@ import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
 import org.sidiff.common.ui.widgets.AbstractCheckboxWidget;
 import org.sidiff.common.ui.widgets.IWidgetDisposable;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
@@ -18,7 +17,7 @@ import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.ui.labelprovider.RulebaseLabelProvider;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 
-public class RulebaseWidget extends AbstractCheckboxWidget<ILiftingRuleBase> implements IWidgetValidation, IWidgetDisposable {
+public class RulebaseWidget extends AbstractCheckboxWidget<ILiftingRuleBase> implements IWidgetDisposable {
 
 	private LiftingSettings settings;
 
@@ -52,13 +51,8 @@ public class RulebaseWidget extends AbstractCheckboxWidget<ILiftingRuleBase> imp
 	}
 
 	@Override
-	public boolean validate() {
-		return !isLiftingEnabled() || !getSelection().isEmpty();
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
+	protected ValidationMessage doValidate() {
+		if (!isLiftingEnabled() || !getSelection().isEmpty()) {
 			return ValidationMessage.OK;
 		}
 		return new ValidationMessage(ValidationType.ERROR, "Please select at least one rulebase!");

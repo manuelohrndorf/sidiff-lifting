@@ -9,11 +9,9 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
@@ -66,7 +64,6 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 		port_label.setText("Port:");
 		port_text = new Text(uri_group, SWT.BORDER);
 		port_text.addModifyListener(new ModifyListener() {
-			
 			@Override
 			public void modifyText(ModifyEvent e) {
 				if(isValidPort(port_text.getText())) {
@@ -74,7 +71,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 				}else {
 					settings.setRepositoryPort(-1);
 				}
-				port_text.notifyListeners(SWT.Selection, new Event());
+				getWidgetCallback().requestValidation();
 			}
 		});
 		GridData gd_uri_group_input = new GridData();
@@ -85,11 +82,10 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 		path_label.setText("Path:");
 		path_text = new Text(uri_group, SWT.BORDER);
 		path_text.addModifyListener(new ModifyListener() {
-			
 			@Override
 			public void modifyText(ModifyEvent e) {
 				settings.setRepositoryPath(path_text.getText());
-				path_text.notifyListeners(SWT.Selection, new Event());
+				getWidgetCallback().requestValidation();
 			}
 		});
 		
@@ -116,6 +112,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 				}catch(ConnectionException | RemoteApplicationException exception) {
 					MessageDialog.openError(container.getShell(), "Error", exception.getMessage());
 				}
+				getWidgetCallback().requestValidation();
 			}
 		});
 		return container;
@@ -126,23 +123,15 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	@Override
 	public void modifyTextHook() {
 		this.settings.setRepositoryURL(this.uri_text.getText());
-		uri_text.notifyListeners(SWT.Selection, new Event());
 
-	}
-	
-	@Override
-	public boolean validate() {
-		return super.validate() && isValidPort(this.port_text.getText()) && isValidPath(this.path_text.getText());
 	}
 
 	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			validationMessage = new ValidationMessage(ValidationType.OK, "");
-		} else {
-			validationMessage = new ValidationMessage(ValidationType.ERROR, "Please insert an valid URL and port for " + label_group);
+	protected ValidationMessage doValidate() {
+		if (!isValidPort(this.port_text.getText()) || !isValidPath(this.path_text.getText())) {
+			return new ValidationMessage(ValidationType.ERROR, "Please insert an valid URL and port for " + label_group);
 		}
-		return validationMessage;
+		return super.doValidate();
 	}
 	
 	private boolean isValidPort(String s) {
@@ -157,30 +146,7 @@ public class RepositoryUriValidationWidget extends UriValidationWidget implement
 	private boolean isValidPath(String s) {
 		return s.matches("(/?[a-zA-z0-9])+(([_\\-\\./])([a-zA-z0-9])+)*");
 	}
-	
-	// ---------- IWidgetSelection -----------
-	
-		@Override
-		public void addSelectionListener(SelectionListener listener) {
-			super.addSelectionListener(listener);
-			if (port_text == null || path_text == null) {
-				throw new RuntimeException("Create controls first!");
-			}
-			port_text.addSelectionListener(listener);
-			path_text.addSelectionListener(listener);
-		}
 
-		@Override
-		public void removeSelectionListener(SelectionListener listener) {
-			super.removeSelectionListener(listener);
-			if (port_text != null) {
-				port_text.removeSelectionListener(listener);
-			}
-			if(path_text != null) {
-				path_text.removeSelectionListener(listener);
-			}
-		}
-		
 	// ---------- ISettingsChangedListener ----------
 	
 	@Override

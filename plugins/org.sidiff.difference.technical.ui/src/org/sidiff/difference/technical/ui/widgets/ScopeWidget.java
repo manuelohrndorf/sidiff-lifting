@@ -10,11 +10,10 @@ import org.sidiff.common.emf.settings.ISettingsChangedListener;
 import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.emf.ui.labelprovider.ScopeLabelProvider;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
-public class ScopeWidget extends AbstractRadioWidget<Scope> implements IWidgetValidation, ISettingsChangedListener {
+public class ScopeWidget extends AbstractRadioWidget<Scope> implements ISettingsChangedListener {
 
 	private MatchingSettings settings;
 
@@ -36,19 +35,14 @@ public class ScopeWidget extends AbstractRadioWidget<Scope> implements IWidgetVa
 	}
 
 	@Override
-	public boolean validate() {
-		return settings.getScope() != Scope.RESOURCE_SET
+	protected ValidationMessage doValidate() {
+		if (settings.getScope() != Scope.RESOURCE_SET
 				|| settings.getMatcher() == null
-				|| settings.getMatcher().isResourceSetCapable();
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
+				|| settings.getMatcher().isResourceSetCapable()) {
 			return ValidationMessage.OK;
 		}
 		return new ValidationMessage(ValidationType.ERROR, "Selected matching engine " + settings.getMatcher().getName()
-				+ " does not support resourceset scope, select another matching engine!");
+				+ " does not support ResourceSet scope, select another matching engine!");
 	}
 
 	@Override

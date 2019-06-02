@@ -11,20 +11,18 @@ import org.eclipse.core.runtime.Assert;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
 import org.sidiff.common.ui.widgets.AbstractListWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 
-public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDifferenceBuilder> implements IWidgetValidation {
+public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDifferenceBuilder> {
 
 	private InputModels inputModels;
 	private DifferenceSettings settings;
 
 	private List<ITechnicalDifferenceBuilder> builders;
-	private ValidationMessage message;
 
 	public DifferenceBuilderWidget(InputModels inputModels, DifferenceSettings settings) {
 		super(ITechnicalDifferenceBuilder.class);
@@ -46,18 +44,16 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 	}
 
 	@Override
-	public boolean validate() {
+	protected ValidationMessage doValidate() {
 		if(getSelectableValues().isEmpty()) {
-			message = new ValidationMessage(ValidationType.ERROR, "No technical difference builders are found.");
-			return false;
+			return new ValidationMessage(ValidationType.ERROR, "No technical difference builders are found.");
 		}
 
 		List<ITechnicalDifferenceBuilder> selection = getSelection();
 		boolean genericSelected = selection.stream().anyMatch(ITechnicalDifferenceBuilder::isGeneric);
 		if(selection.size() > 1 && genericSelected) {
-			message = new ValidationMessage(ValidationType.ERROR,
+			return new ValidationMessage(ValidationType.ERROR,
 					"To use the generic technical difference builder, another builder must not be selected.");
-			return false;
 		}
 
 		// check for each doc type if a builder is selected that can handle it
@@ -72,17 +68,10 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 			}
 		}
 		if(!unsupportedDocTypes.isEmpty()) {
-			message = new ValidationMessage(ValidationType.WARNING, "Missing technical difference builder for: "
+			return new ValidationMessage(ValidationType.WARNING, "Missing technical difference builder for: "
 						+ unsupportedDocTypes.stream().collect(Collectors.joining(", ")));
-			return false;
 		}
-		message = ValidationMessage.OK;
-		return true;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		return message;
+		return ValidationMessage.OK;
 	}
 
 	public DifferenceSettings getSettings() {

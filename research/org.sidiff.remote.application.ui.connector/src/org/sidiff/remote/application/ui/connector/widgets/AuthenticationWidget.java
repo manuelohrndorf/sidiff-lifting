@@ -3,19 +3,15 @@ package org.sidiff.remote.application.ui.connector.widgets;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
 import org.sidiff.common.emf.settings.ISettingsItem;
-import org.sidiff.common.ui.widgets.IWidget;
-import org.sidiff.common.ui.widgets.IWidgetSelection;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
+import org.sidiff.common.ui.widgets.AbstractWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.remote.application.connector.settings.RepositorySettings;
 
@@ -24,17 +20,12 @@ import org.sidiff.remote.application.connector.settings.RepositorySettings;
  * @author cpietsch
  *
  */
-public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetValidation, ISettingsChangedListener {
+public class AuthenticationWidget extends AbstractWidget implements ISettingsChangedListener {
 	
 	/**
 	 * 
 	 */
 	private RepositorySettings settings;
-	
-	/**
-	 * 
-	 */
-	protected ValidationMessage validationMessage;
 
 	// ---------- UI Elements ----------
 	
@@ -80,11 +71,10 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 		this.name_text = new Text(credentials_group, SWT.BORDER);
 		this.name_text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		this.name_text.addModifyListener(new ModifyListener() {
-			
 			@Override
 			public void modifyText(ModifyEvent e) {
 				settings.setUserName(name_text.getText());
-				name_text.notifyListeners(SWT.Selection, new Event());
+				getWidgetCallback().requestValidation();
 			}
 		});
 		
@@ -94,13 +84,11 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 		this.password_text = new Text(credentials_group, SWT.PASSWORD | SWT.BORDER);
 		this.password_text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		this.password_text.addModifyListener(new ModifyListener() {
-			
 			@Override
 			public void modifyText(ModifyEvent e) {
 				char[] password = password_text.getTextChars();
 				settings.setPassword(password);
-				password_text.notifyListeners(SWT.Selection, new Event());
-				
+				getWidgetCallback().requestValidation();
 			}
 		});
 		
@@ -116,46 +104,16 @@ public class AuthenticationWidget implements IWidget, IWidgetSelection, IWidgetV
 	public void setLayoutData(Object layoutData) {
 		this.container.setLayoutData(layoutData);
 	}
-	
-	// ---------- IWidgetSelection ----------
-	
-	@Override
-	public void addSelectionListener(SelectionListener listener) {
-		if (name_text == null || password_text == null) {
-			throw new RuntimeException("Create controls first!");
-		}
-		name_text.addSelectionListener(listener);
-		password_text.addSelectionListener(listener);
 
-	}
-
-	@Override
-	public void removeSelectionListener(SelectionListener listener) {
-		if (name_text != null) {
-			name_text.removeSelectionListener(listener);
-		}
-		
-		if(password_text != null) {
-			password_text.removeSelectionListener(listener);
-		}
-
-	}
-	
 	// ---------- IWidgetValidation ----------
-	
-	@Override
-	public boolean validate() {
-		return !name_text.getText().isEmpty();
-	}
 
 	@Override
-	public ValidationMessage getValidationMessage() {
-		if(validate()) {
-			validationMessage = new ValidationMessage(ValidationType.OK, "");
-		}else {
-			validationMessage = new ValidationMessage(ValidationType.ERROR, "Please enter your username");
+	protected ValidationMessage doValidate() {
+		if(!name_text.getText().isEmpty()) {
+			return ValidationMessage.OK;
+		} else {
+			return new ValidationMessage(ValidationType.ERROR, "Please enter your username");
 		}
-		return validationMessage;
 	}
 
 	// ---------- ISettingsChangedListener ---------- 

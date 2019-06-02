@@ -110,8 +110,7 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 		return mergeModels;
 	}
 
-	@Override
-	public boolean validate() {
+	private boolean areRolesExclusive() {
 		// for each input file, i.e. row of button, make sure that only one of them is selected
 		for(int i = 0; i < WSUModels.NUM_ROLES; i++) {
 			if(!( buttons[WSUModels.ROLE_BASE][i].getSelection()
@@ -124,8 +123,8 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 	}
 
 	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
+	protected ValidationMessage doValidate() {
+		if (areRolesExclusive()) {
 			return ValidationMessage.OK;
 		}
 		return new ValidationMessage(ValidationType.ERROR, "Please define only one role for each model!");

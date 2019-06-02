@@ -48,7 +48,7 @@ public class ApplyPatchSymbolicLinkHandlerWidget extends AbstractWidget implemen
 		slhLabel.setText("Symbolic Link Handler:");
 
 		Label symbolicLinkHandler_from_manifest = new Label(container, SWT.NONE);
-		ISymbolicLinkHandler symbolicLinkHandler = symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler"));
+		ISymbolicLinkHandler symbolicLinkHandler = getManifestSymbolicLinkHandler();
 		if(symbolicLinkHandler != null) {
 			symbolicLinkHandler_from_manifest.setText(symbolicLinkHandler.getName());
 			settings.setSymbolicLinkHandler(symbolicLinkHandler);
@@ -62,18 +62,16 @@ public class ApplyPatchSymbolicLinkHandlerWidget extends AbstractWidget implemen
 		return container;
 	}
 
-	@Override
-	public boolean validate() {
-		return symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler")) != null;
+	private ISymbolicLinkHandler getManifestSymbolicLinkHandler() {
+		return symbolicLinkHandlers.get(patch.getSettings().get("symbolicLinkHandler"));
 	}
 
 	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			return ValidationMessage.OK;
-		} else {
+	protected ValidationMessage doValidate() {
+		if (getManifestSymbolicLinkHandler() == null) {
 			return new ValidationMessage(ValidationType.ERROR, "Missing Symbolic Link Handler!");
 		}
+		return ValidationMessage.OK;
 	}
 
 	@Override

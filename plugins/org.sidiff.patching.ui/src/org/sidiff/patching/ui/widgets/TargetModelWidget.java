@@ -80,15 +80,10 @@ public class TargetModelWidget extends AbstractWidget implements IWidgetValidati
 	}
 
 	@Override
-	public boolean validate() {
-		return selectedModel != null;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
-		if (validate()) {
-			return ValidationMessage.OK;
+	protected ValidationMessage doValidate() {
+		if (selectedModel == null) {
+			return new ValidationMessage(ValidationType.ERROR, "Please select a target model!");
 		}
-		return new ValidationMessage(ValidationType.ERROR, "Please select a target model!");
+		return ValidationMessage.OK;
 	}
 }

@@ -48,12 +48,7 @@ public class ReliabilityWidget extends AbstractContainerWidget implements IWidge
 	}
 
 	@Override
-	public boolean validate() {
-		return true; // always valid
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
+	protected ValidationMessage doValidate() {
 		if (checkComputability()) {
 			return ValidationMessage.OK;
 		} else if (settings.useSymbolicLinks()) {

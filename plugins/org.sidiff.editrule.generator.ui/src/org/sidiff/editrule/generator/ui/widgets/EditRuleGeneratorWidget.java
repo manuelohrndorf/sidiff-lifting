@@ -90,12 +90,7 @@ public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetVa
 	}
 
 	@Override
-	public boolean validate() {
-		return list_generators.getSelectionIndex() != -1;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
+	protected ValidationMessage doValidate() {
 		if(list_generators.getItemCount() == 0) {
 			return new ValidationMessage(ValidationType.ERROR, "No Edit Rule generators available!");			
 		} else if(list_generators.getSelectionIndex() == -1) {

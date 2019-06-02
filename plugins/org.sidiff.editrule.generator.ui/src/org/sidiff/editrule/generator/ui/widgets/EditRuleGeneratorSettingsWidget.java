@@ -40,8 +40,6 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 	private Button rBtnRefinedConfig;
 	private Button rBtnDefaultConfig;
 
-	private ValidationMessage message;
-
 	/**
 	 * Settings-Object with Generator Settings
 	 */
@@ -131,21 +129,13 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 	}
 
 	@Override
-	public boolean validate() {
+	protected ValidationMessage doValidate() {
 		if (rBtnDefaultConfig.getSelection() && txtDefaultConfig.getText().isEmpty()) {
-			message = new ValidationMessage(ValidationType.ERROR, "Documenttype is not set.");
-			return false;
+			return new ValidationMessage(ValidationType.ERROR, "Documenttype is not set.");
 		} else if (rBtnRefinedConfig.getSelection() && txtRefinedConfig.getText().isEmpty()) {
-			message = new ValidationMessage(ValidationType.ERROR, "Configuration Path is missing");
-			return false;
+			return new ValidationMessage(ValidationType.ERROR, "Configuration Path is missing");
 		}
-		message = ValidationMessage.OK;
-		return true;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {		
-		return message;			
+		return ValidationMessage.OK;
 	}
 
 	@Override

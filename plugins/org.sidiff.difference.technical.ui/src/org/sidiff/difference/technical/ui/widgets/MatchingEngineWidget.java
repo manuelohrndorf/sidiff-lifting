@@ -11,14 +11,13 @@ import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.extension.ui.labelprovider.ExtensionLabelProvider;
 import org.sidiff.common.ui.widgets.AbstractListWidget;
 import org.sidiff.common.ui.widgets.IWidgetDisposable;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 
-public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implements IWidgetValidation, IWidgetDisposable, ISettingsChangedListener {
+public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implements IWidgetDisposable, ISettingsChangedListener {
 
 	protected MatchingSettings settings;
 	protected List<IMatcher> matchers;
@@ -56,12 +55,11 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 	}
 
 	@Override
-	public boolean validate() {
+	protected ValidationMessage doValidate() {
 		IMatcher matcher = wrapMatchers(getSelection());
 		if(matcher != null && settings.getScope().equals(Scope.RESOURCE_SET) && !matcher.isResourceSetCapable()) {
-			setValidationMessage(new ValidationMessage(ValidationType.ERROR,
-				"Selected matching engine does not support ResourceSet scope, select another matching engine!"));
-			return false;
+			return new ValidationMessage(ValidationType.ERROR,
+				"Selected matching engine does not support ResourceSet scope, select another matching engine!");
 		}
 		return super.validate();
 	}

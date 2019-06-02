@@ -59,12 +59,7 @@ public class EditRuleGeneratorChooserWidget extends AbstractWidget implements IW
 	}
 
 	@Override
-	public boolean validate() {
-		return true;
-	}
-
-	@Override
-	public ValidationMessage getValidationMessage() {
+	protected ValidationMessage doValidate() {
 		if(rBtnManually.getSelection()) {
 			return new ValidationMessage(ValidationType.INFORMATION, "Press Finish to define Edit Rules manually");
 		}
