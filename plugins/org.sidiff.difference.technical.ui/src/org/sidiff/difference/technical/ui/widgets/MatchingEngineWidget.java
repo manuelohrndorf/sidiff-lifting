@@ -61,7 +61,7 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 			return new ValidationMessage(ValidationType.ERROR,
 				"Selected matching engine does not support ResourceSet scope, select another matching engine!");
 		}
-		return super.validate();
+		return super.doValidate();
 	}
 
 	@Override
