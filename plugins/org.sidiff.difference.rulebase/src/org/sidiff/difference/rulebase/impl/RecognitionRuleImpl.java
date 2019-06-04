@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.rulebase.LiftingRulebasePackage;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
@@ -36,21 +36,12 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getRecognitionMainUnit <em>Recognition Main Unit</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getTracesA <em>Traces A</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.impl.RecognitionRuleImpl#getRecognitionModule <em>Recognition Module</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule {
-	/**
-	 * The cached value of the '{@link #getRecognitionMainUnit() <em>Recognition Main Unit</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRecognitionMainUnit()
-	 * @generated
-	 * @ordered
-	 */
-	protected Rule recognitionMainUnit;
-
 	/**
 	 * The cached value of the '{@link #getTracesB() <em>Traces B</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -70,6 +61,16 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * @ordered
 	 */
 	protected EList<Trace> tracesA;
+
+	/**
+	 * The cached value of the '{@link #getRecognitionModule() <em>Recognition Module</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRecognitionModule()
+	 * @generated
+	 * @ordered
+	 */
+	protected org.eclipse.emf.henshin.model.Module recognitionModule;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,6 +96,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBaseItem getRuleBaseItem() {
 		if (eContainerFeatureID() != LiftingRulebasePackage.RECOGNITION_RULE__RULE_BASE_ITEM) return null;
 		return (RuleBaseItem)eInternalContainer();
@@ -115,6 +117,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRuleBaseItem(RuleBaseItem newRuleBaseItem) {
 		if (newRuleBaseItem != eInternalContainer() || (eContainerFeatureID() != LiftingRulebasePackage.RECOGNITION_RULE__RULE_BASE_ITEM && newRuleBaseItem != null)) {
 			if (EcoreUtil.isAncestor(this, newRuleBaseItem))
@@ -136,6 +139,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditRule getEditRule() {
 		EditRule editRule = basicGetEditRule();
 		return editRule != null && editRule.eIsProxy() ? (EditRule)eResolveProxy((InternalEObject)editRule) : editRule;
@@ -155,25 +159,24 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule getRecognitionMainUnit() {
-		if (recognitionMainUnit != null && recognitionMainUnit.eIsProxy()) {
-			InternalEObject oldRecognitionMainUnit = (InternalEObject)recognitionMainUnit;
-			recognitionMainUnit = (Rule)eResolveProxy(oldRecognitionMainUnit);
-			if (recognitionMainUnit != oldRecognitionMainUnit) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT, oldRecognitionMainUnit, recognitionMainUnit));
-			}
-		}
-		return recognitionMainUnit;
+		Rule recognitionMainUnit = basicGetRecognitionMainUnit();
+		return recognitionMainUnit != null && recognitionMainUnit.eIsProxy() ? (Rule)eResolveProxy((InternalEObject)recognitionMainUnit) : recognitionMainUnit;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Rule basicGetRecognitionMainUnit() {
-		return recognitionMainUnit;
+		for(Unit unit : getRecognitionModule().getUnits()) {
+			if(unit instanceof Rule) {
+				return (Rule)unit;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -181,18 +184,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRecognitionMainUnit(Rule newRecognitionMainUnit) {
-		Rule oldRecognitionMainUnit = recognitionMainUnit;
-		recognitionMainUnit = newRecognitionMainUnit;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT, oldRecognitionMainUnit, recognitionMainUnit));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	@Override
 	public EList<Trace> getTracesB() {
 		if (tracesB == null) {
 			tracesB = new EObjectContainmentEList<Trace>(Trace.class, this, LiftingRulebasePackage.RECOGNITION_RULE__TRACES_B);
@@ -205,6 +197,7 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Trace> getTracesA() {
 		if (tracesA == null) {
 			tracesA = new EObjectContainmentEList<Trace>(Trace.class, this, LiftingRulebasePackage.RECOGNITION_RULE__TRACES_A);
@@ -215,10 +208,41 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	public Module getRecognitionModule() {
-		return getRecognitionMainUnit().getModule();
+	@Override
+	public org.eclipse.emf.henshin.model.Module getRecognitionModule() {
+		if (recognitionModule != null && recognitionModule.eIsProxy()) {
+			InternalEObject oldRecognitionModule = (InternalEObject)recognitionModule;
+			recognitionModule = (org.eclipse.emf.henshin.model.Module)eResolveProxy(oldRecognitionModule);
+			if (recognitionModule != oldRecognitionModule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE, oldRecognitionModule, recognitionModule));
+			}
+		}
+		return recognitionModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public org.eclipse.emf.henshin.model.Module basicGetRecognitionModule() {
+		return recognitionModule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setRecognitionModule(org.eclipse.emf.henshin.model.Module newRecognitionModule) {
+		org.eclipse.emf.henshin.model.Module oldRecognitionModule = recognitionModule;
+		recognitionModule = newRecognitionModule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE, oldRecognitionModule, recognitionModule));
 	}
 
 	/**
@@ -289,6 +313,9 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 				return getTracesB();
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_A:
 				return getTracesA();
+			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE:
+				if (resolve) return getRecognitionModule();
+				return basicGetRecognitionModule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -305,9 +332,6 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 			case LiftingRulebasePackage.RECOGNITION_RULE__RULE_BASE_ITEM:
 				setRuleBaseItem((RuleBaseItem)newValue);
 				return;
-			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT:
-				setRecognitionMainUnit((Rule)newValue);
-				return;
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_B:
 				getTracesB().clear();
 				getTracesB().addAll((Collection<? extends Trace>)newValue);
@@ -315,6 +339,9 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_A:
 				getTracesA().clear();
 				getTracesA().addAll((Collection<? extends Trace>)newValue);
+				return;
+			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE:
+				setRecognitionModule((org.eclipse.emf.henshin.model.Module)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -331,14 +358,14 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 			case LiftingRulebasePackage.RECOGNITION_RULE__RULE_BASE_ITEM:
 				setRuleBaseItem((RuleBaseItem)null);
 				return;
-			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT:
-				setRecognitionMainUnit((Rule)null);
-				return;
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_B:
 				getTracesB().clear();
 				return;
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_A:
 				getTracesA().clear();
+				return;
+			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE:
+				setRecognitionModule((org.eclipse.emf.henshin.model.Module)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -357,11 +384,13 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 			case LiftingRulebasePackage.RECOGNITION_RULE__EDIT_RULE:
 				return basicGetEditRule() != null;
 			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT:
-				return recognitionMainUnit != null;
+				return basicGetRecognitionMainUnit() != null;
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_B:
 				return tracesB != null && !tracesB.isEmpty();
 			case LiftingRulebasePackage.RECOGNITION_RULE__TRACES_A:
 				return tracesA != null && !tracesA.isEmpty();
+			case LiftingRulebasePackage.RECOGNITION_RULE__RECOGNITION_MODULE:
+				return recognitionModule != null;
 		}
 		return super.eIsSet(featureID);
 	}

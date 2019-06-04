@@ -70,6 +70,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getEditRuleTrace() {
 		if (editRuleTrace != null && editRuleTrace.eIsProxy()) {
 			InternalEObject oldEditRuleTrace = (InternalEObject)editRuleTrace;
@@ -96,6 +97,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEditRuleTrace(Node newEditRuleTrace) {
 		Node oldEditRuleTrace = editRuleTrace;
 		editRuleTrace = newEditRuleTrace;
@@ -108,6 +110,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Node getRecognitionRuleTrace() {
 		if (recognitionRuleTrace != null && recognitionRuleTrace.eIsProxy()) {
 			InternalEObject oldRecognitionRuleTrace = (InternalEObject)recognitionRuleTrace;
@@ -134,6 +137,7 @@ public class TraceImpl extends EObjectImpl implements Trace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRecognitionRuleTrace(Node newRecognitionRuleTrace) {
 		Node oldRecognitionRuleTrace = recognitionRuleTrace;
 		recognitionRuleTrace = newRecognitionRuleTrace;

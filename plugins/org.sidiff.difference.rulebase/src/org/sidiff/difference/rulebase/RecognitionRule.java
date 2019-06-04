@@ -3,7 +3,6 @@
 package org.sidiff.difference.rulebase;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.editrule.rulebase.EditRuleAttachment;
 
@@ -19,6 +18,7 @@ import org.sidiff.editrule.rulebase.EditRuleAttachment;
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionMainUnit <em>Recognition Main Unit</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getTracesB <em>Traces B</em>}</li>
  *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getTracesA <em>Traces A</em>}</li>
+ *   <li>{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionModule <em>Recognition Module</em>}</li>
  * </ul>
  *
  * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule()
@@ -35,22 +35,11 @@ public interface RecognitionRule extends EditRuleAttachment {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Recognition Main Unit</em>' reference.
-	 * @see #setRecognitionMainUnit(Rule)
 	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule_RecognitionMainUnit()
-	 * @model required="true"
+	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	Rule getRecognitionMainUnit();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionMainUnit <em>Recognition Main Unit</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Recognition Main Unit</em>' reference.
-	 * @see #getRecognitionMainUnit()
-	 * @generated
-	 */
-	void setRecognitionMainUnit(Rule value);
 
 	/**
 	 * Returns the value of the '<em><b>Traces B</b></em>' containment reference list.
@@ -85,11 +74,25 @@ public interface RecognitionRule extends EditRuleAttachment {
 	EList<Trace> getTracesA();
 
 	/**
+	 * Returns the value of the '<em><b>Recognition Module</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model kind="operation"
+	 * @return the value of the '<em>Recognition Module</em>' reference.
+	 * @see #setRecognitionModule(org.eclipse.emf.henshin.model.Module)
+	 * @see org.sidiff.difference.rulebase.LiftingRulebasePackage#getRecognitionRule_RecognitionModule()
+	 * @model required="true"
 	 * @generated
 	 */
-	Module getRecognitionModule();
+	org.eclipse.emf.henshin.model.Module getRecognitionModule();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionModule <em>Recognition Module</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Recognition Module</em>' reference.
+	 * @see #getRecognitionModule()
+	 * @generated
+	 */
+	void setRecognitionModule(org.eclipse.emf.henshin.model.Module value);
 
 } // RecognitionRule

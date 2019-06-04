@@ -1,12 +1,10 @@
 package org.sidiff.difference.rulebase.wrapper;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
@@ -14,6 +12,7 @@ import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstan
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 
 /**
  * Convenience functions for the rulebase management.
@@ -39,8 +38,7 @@ public class RecognitionRuleGeneratorUtil {
 		generator.transform(item);
 		
 		// Save the recognition rule:
-		saveRecognitionModules(item.getEditRuleAttachment(RecognitionRule.class),
-				editRuleFolderURI, recognitionRuleFolderURI);
+		saveRecognitionModules(item, editRuleFolderURI, recognitionRuleFolderURI);
 	}
 	
 	/**
@@ -86,23 +84,14 @@ public class RecognitionRuleGeneratorUtil {
 	/**
 	 * Saves all (Henshin) Recognition-Rules.
 	 */
-	private static void saveRecognitionModules(RecognitionRule rrRule,
+	private static void saveRecognitionModules(RuleBaseItem item,
 			URI editRuleFolderURI, URI recognitionRuleFolderURI) {
 
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
-		if (rrRule.getRecognitionMainUnit().eResource() != null) {
-			// Existing recognition rule:
-			try {
-				rrRule.getRecognitionMainUnit().eResource().save(null);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			// New recognition rule:
-			resourceSet.saveEObject(rrRule.getRecognitionModule(),
-					getRecognitionRuleSaveURI(rrRule.getEditRule().getExecuteModule(), 
-							editRuleFolderURI, recognitionRuleFolderURI));
-		}
+		RecognitionRule recognitionRule = item.getEditRuleAttachment(RecognitionRule.class);
+		Module recognitionModule = recognitionRule.getRecognitionModule();
+		URI moduleUri = getRecognitionRuleSaveURI(recognitionRule.getEditRule().getExecuteModule(), 
+				editRuleFolderURI, recognitionRuleFolderURI);
+		RuleBaseStorage.saveHenshinModule(recognitionModule, moduleUri);
 	}
 
 	/**

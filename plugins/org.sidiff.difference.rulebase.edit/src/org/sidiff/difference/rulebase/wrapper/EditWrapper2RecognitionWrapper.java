@@ -2,8 +2,6 @@ package org.sidiff.difference.rulebase.wrapper;
 
 import java.util.Collection;
 
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.Edit2RecognitionTransformation;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
@@ -71,8 +69,7 @@ public class EditWrapper2RecognitionWrapper {
 		implicitEdgeCompletion.deleteImplicitEdges();
 		
 		// Fill recognition rule wrapper:
-		Unit recognitionMainUnit = transformation.getRecognitionMainUnit();
-		recognitionRule.setRecognitionMainUnit((Rule) recognitionMainUnit);
+		recognitionRule.setRecognitionModule(transformation.getRecognitionModule());
 		item.getEditRuleAttachments().add(recognitionRule);
 	}
 	

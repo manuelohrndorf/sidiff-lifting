@@ -86,13 +86,12 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EditRuleAttachment> T getEditRuleAttachment(Class<T> type) {
 		
 		for (EditRuleAttachment attachments : getEditRuleAttachments()) {
 			if (type.isInstance(attachments)) {
-				return (T) attachments;
+				return type.cast(attachments);
 			}
 		}
 		

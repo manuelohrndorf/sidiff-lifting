@@ -44,8 +44,8 @@ public class RuleBaseStorage {
 	 *            the URI of the rulbase XMI.
 	 * @return the rulebase instance.
 	 */
-	public static RuleBase loadRuleBaseResource(URI rulebasePluginURI) {
-		return RESOURCE_SET.loadEObject(rulebasePluginURI, RuleBase.class);
+	public static RuleBase loadRuleBaseResource(URI uri) {
+		return RESOURCE_SET.loadEObject(uri, RuleBase.class);
 	}
 
 	/**
@@ -101,5 +101,9 @@ public class RuleBaseStorage {
 	 */
 	public static Module loadHenshinModule(IResource resource) {
 		return RESOURCE_SET.loadEObject(EMFStorage.toPlatformURI(resource), Module.class);
+	}
+	
+	public static void saveHenshinModule(Module module, URI uri) {
+		RESOURCE_SET.saveEObjectAs(module, uri);
 	}
 }

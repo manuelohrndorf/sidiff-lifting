@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -60,6 +61,7 @@ public class EditRuleBaseWrapper {
 	 * Internal {@link IntraRuleBasePotentialConflictAnalyzer} 
 	 */
 	private IntraRuleBasePotentialConflictAnalyzer ruleBasePotentialConflictAnalyzer;
+	
 	/**
 	 * List of edited (Henshin) Edit-Rules. Used to delay the storage of the Henshin
 	 * files. Call {@link EditRuleBaseWrapper#saveRuleBase()} to save all.
@@ -75,19 +77,21 @@ public class EditRuleBaseWrapper {
 	 *            Resolve all (Henshin) Edit-Rules.
 	 */
 	public EditRuleBaseWrapper(URI rulebaseURI, boolean resolveRules) {
-		this.rulebaseURI = rulebaseURI;
+		this.rulebaseURI = Objects.requireNonNull(rulebaseURI, "rulebaseURI is null");
 
 		if (exists(rulebaseURI)) {
 			// Load existing rule base
 			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
 			rulebase = RuleBaseStorage.loadRuleBaseResource(rulebaseURI);
-			
-			if (resolveRules) {
-				EcoreUtil.resolveAll(rulebase);
-			}
-		} else {
+		}
+
+		if(rulebase == null) {
 			// Create new rule base
 			rulebase = RulebaseFactory.eINSTANCE.createRuleBase();
+		}
+
+		if (resolveRules) {
+			EcoreUtil.resolveAll(rulebase);
 		}
 
 		init();
@@ -101,9 +105,8 @@ public class EditRuleBaseWrapper {
 	 * @see EditRuleBaseWrapper#saveRuleBase()
 	 */
 	public EditRuleBaseWrapper(RuleBase rulebase) {
-		this.rulebase = rulebase;
+		this.rulebase = Objects.requireNonNull(rulebase, "rulebase is null");
 		this.rulebaseURI = rulebase.eResource().getURI();
-		
 		init();
 	}
 	

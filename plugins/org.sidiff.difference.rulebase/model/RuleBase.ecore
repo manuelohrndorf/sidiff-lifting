@@ -3,13 +3,15 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rulebase" nsURI="http://www.sidiff.org/difference/rulebase/1.0"
     nsPrefix="rulebase">
   <eClassifiers xsi:type="ecore:EClass" name="RecognitionRule" eSuperTypes="../../org.sidiff.editrule.rulebase/model/RuleBase.ecore#//EditRuleAttachment">
-    <eOperations name="getRecognitionModule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionMainUnit" lowerBound="1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"
+        changeable="false" volatile="true" transient="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracesB" upperBound="-1"
         eType="#//Trace" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="tracesA" upperBound="-1"
         eType="#//Trace" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recognitionModule" lowerBound="1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Module"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Trace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="editRuleTrace" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>

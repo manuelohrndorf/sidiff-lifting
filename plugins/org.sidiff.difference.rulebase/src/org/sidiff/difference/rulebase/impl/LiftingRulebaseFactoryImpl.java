@@ -68,6 +68,7 @@ public class LiftingRulebaseFactoryImpl extends EFactoryImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RecognitionRule createRecognitionRule() {
 		RecognitionRuleImpl recognitionRule = new RecognitionRuleImpl();
 		return recognitionRule;
@@ -78,6 +79,7 @@ public class LiftingRulebaseFactoryImpl extends EFactoryImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Trace createTrace() {
 		TraceImpl trace = new TraceImpl();
 		return trace;
@@ -88,6 +90,7 @@ public class LiftingRulebaseFactoryImpl extends EFactoryImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LiftingRulebasePackage getLiftingRulebasePackage() {
 		return (LiftingRulebasePackage)getEPackage();
 	}

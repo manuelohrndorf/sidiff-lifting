@@ -62,7 +62,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link LiftingRulebasePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -76,11 +76,13 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 		if (isInited) return (LiftingRulebasePackage)EPackage.Registry.INSTANCE.getEPackage(LiftingRulebasePackage.eNS_URI);
 
 		// Obtain or create and register package
-		LiftingRulebasePackageImpl theLiftingRulebasePackage = (LiftingRulebasePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof LiftingRulebasePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new LiftingRulebasePackageImpl());
+		Object registeredLiftingRulebasePackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		LiftingRulebasePackageImpl theLiftingRulebasePackage = registeredLiftingRulebasePackage instanceof LiftingRulebasePackageImpl ? (LiftingRulebasePackageImpl)registeredLiftingRulebasePackage : new LiftingRulebasePackageImpl();
 
 		isInited = true;
 
 		// Initialize simple dependencies
+		HenshinPackage.eINSTANCE.eClass();
 		RulebasePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -92,7 +94,6 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 		// Mark meta-data to indicate it can't be changed
 		theLiftingRulebasePackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(LiftingRulebasePackage.eNS_URI, theLiftingRulebasePackage);
 		return theLiftingRulebasePackage;
@@ -103,6 +104,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRecognitionRule() {
 		return recognitionRuleEClass;
 	}
@@ -112,6 +114,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRecognitionRule_RecognitionMainUnit() {
 		return (EReference)recognitionRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -121,6 +124,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRecognitionRule_TracesB() {
 		return (EReference)recognitionRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -130,6 +134,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRecognitionRule_TracesA() {
 		return (EReference)recognitionRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -139,6 +144,17 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public EReference getRecognitionRule_RecognitionModule() {
+		return (EReference)recognitionRuleEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getTrace() {
 		return traceEClass;
 	}
@@ -148,6 +164,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrace_EditRuleTrace() {
 		return (EReference)traceEClass.getEStructuralFeatures().get(0);
 	}
@@ -157,6 +174,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTrace_RecognitionRuleTrace() {
 		return (EReference)traceEClass.getEStructuralFeatures().get(1);
 	}
@@ -166,6 +184,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LiftingRulebaseFactory getLiftingRulebaseFactory() {
 		return (LiftingRulebaseFactory)getEFactoryInstance();
 	}
@@ -193,6 +212,7 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 		createEReference(recognitionRuleEClass, RECOGNITION_RULE__RECOGNITION_MAIN_UNIT);
 		createEReference(recognitionRuleEClass, RECOGNITION_RULE__TRACES_B);
 		createEReference(recognitionRuleEClass, RECOGNITION_RULE__TRACES_A);
+		createEReference(recognitionRuleEClass, RECOGNITION_RULE__RECOGNITION_MODULE);
 
 		traceEClass = createEClass(TRACE);
 		createEReference(traceEClass, TRACE__EDIT_RULE_TRACE);
@@ -235,11 +255,10 @@ public class LiftingRulebasePackageImpl extends EPackageImpl implements LiftingR
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(recognitionRuleEClass, RecognitionRule.class, "RecognitionRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRecognitionRule_RecognitionMainUnit(), theHenshinPackage.getRule(), null, "recognitionMainUnit", null, 1, 1, RecognitionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRecognitionRule_RecognitionMainUnit(), theHenshinPackage.getRule(), null, "recognitionMainUnit", null, 1, 1, RecognitionRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getRecognitionRule_TracesB(), this.getTrace(), null, "tracesB", null, 0, -1, RecognitionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRecognitionRule_TracesA(), this.getTrace(), null, "tracesA", null, 0, -1, RecognitionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(recognitionRuleEClass, theHenshinPackage.getModule(), "getRecognitionModule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		initEReference(getRecognitionRule_RecognitionModule(), theHenshinPackage.getModule(), null, "recognitionModule", null, 1, 1, RecognitionRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(traceEClass, Trace.class, "Trace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTrace_EditRuleTrace(), theHenshinPackage.getNode(), null, "editRuleTrace", null, 0, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

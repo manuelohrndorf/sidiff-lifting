@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.sidiff.difference.rulebase;singleton:=true
+Automatic-Module-Name: org.sidiff.difference.rulebase
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -11,4 +12,9 @@ Export-Package: org.sidiff.difference.rulebase,
  org.sidiff.difference.rulebase.impl,
  org.sidiff.difference.rulebase.util
 Require-Bundle: org.eclipse.emf.ecore.xmi,
- org.sidiff.editrule.rulebase;visibility:=reexport
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.henshin.model;visibility:=reexport,
+ org.sidiff.editrule.rulebase;visibility:=reexport,
+ org.sidiff.common.henshin
+Bundle-ActivationPolicy: lazy

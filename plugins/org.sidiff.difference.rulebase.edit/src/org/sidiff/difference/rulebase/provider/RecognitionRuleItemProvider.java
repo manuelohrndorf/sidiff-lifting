@@ -55,6 +55,7 @@ public class RecognitionRuleItemProvider extends ItemProviderAdapter implements 
 			addRuleBaseItemPropertyDescriptor(object);
 			addEditRulePropertyDescriptor(object);
 			addRecognitionMainUnitPropertyDescriptor(object);
+			addRecognitionModulePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -117,6 +118,28 @@ public class RecognitionRuleItemProvider extends ItemProviderAdapter implements 
 				 getString("_UI_RecognitionRule_recognitionMainUnit_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_RecognitionRule_recognitionMainUnit_feature", "_UI_RecognitionRule_type"),
 				 LiftingRulebasePackage.Literals.RECOGNITION_RULE__RECOGNITION_MAIN_UNIT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Recognition Module feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRecognitionModulePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RecognitionRule_recognitionModule_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RecognitionRule_recognitionModule_feature", "_UI_RecognitionRule_type"),
+				 LiftingRulebasePackage.Literals.RECOGNITION_RULE__RECOGNITION_MODULE,
 				 true,
 				 false,
 				 true,

@@ -111,13 +111,22 @@ public interface LiftingRulebasePackage extends EPackage {
 	int RECOGNITION_RULE__TRACES_A = RulebasePackage.EDIT_RULE_ATTACHMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Recognition Module</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RECOGNITION_RULE__RECOGNITION_MODULE = RulebasePackage.EDIT_RULE_ATTACHMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Recognition Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RECOGNITION_RULE_FEATURE_COUNT = RulebasePackage.EDIT_RULE_ATTACHMENT_FEATURE_COUNT + 3;
+	int RECOGNITION_RULE_FEATURE_COUNT = RulebasePackage.EDIT_RULE_ATTACHMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.difference.rulebase.impl.TraceImpl <em>Trace</em>}' class.
@@ -199,6 +208,17 @@ public interface LiftingRulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRecognitionRule_TracesA();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.difference.rulebase.RecognitionRule#getRecognitionModule <em>Recognition Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Recognition Module</em>'.
+	 * @see org.sidiff.difference.rulebase.RecognitionRule#getRecognitionModule()
+	 * @see #getRecognitionRule()
+	 * @generated
+	 */
+	EReference getRecognitionRule_RecognitionModule();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.difference.rulebase.Trace <em>Trace</em>}'.
@@ -287,6 +307,14 @@ public interface LiftingRulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference RECOGNITION_RULE__TRACES_A = eINSTANCE.getRecognitionRule_TracesA();
+
+		/**
+		 * The meta object literal for the '<em><b>Recognition Module</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RECOGNITION_RULE__RECOGNITION_MODULE = eINSTANCE.getRecognitionRule_RecognitionModule();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.difference.rulebase.impl.TraceImpl <em>Trace</em>}' class.
