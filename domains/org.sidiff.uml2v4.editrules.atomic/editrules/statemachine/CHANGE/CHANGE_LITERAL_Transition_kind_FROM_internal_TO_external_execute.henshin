@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CHANGE_LITERAL_Transition_kind_FROM_internal_TO_external" description="Changes the attribute value of kind_FROM_internal_TO_external">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YHzioIbEEemMjsTesRFZkg" name="CHANGE_LITERAL_Transition_kind_FROM_internal_TO_external" description="Changes the attribute value of kind_FROM_internal_TO_external">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="changeTransitionKind_FROM_Internal_TO_external" description="Changes the attribute value of kind_FROM_internal_TO_external">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YHzioYbEEemMjsTesRFZkg" name="changeTransitionKind_FROM_Internal_TO_external" description="Changes the attribute value of kind_FROM_internal_TO_external">
+    <parameters xmi:id="_YHzioobEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="&quot;internal&quot;">
+    <parameters xmi:id="_YHzio4bEEemMjsTesRFZkg" name="&quot;internal&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
     </parameters>
-    <parameters name="&quot;external&quot;">
+    <parameters xmi:id="_YHzipIbEEemMjsTesRFZkg" name="&quot;external&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_YHzipYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_YHzipobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
-        <attributes value="&quot;internal&quot;">
+        <attributes xmi:id="_YHzip4bEEemMjsTesRFZkg" value="&quot;internal&quot;">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/kind"/>
         </attributes>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_YHziqIbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_YHziqYbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
-        <attributes value="&quot;external&quot;">
+        <attributes xmi:id="_YHziqobEEemMjsTesRFZkg" value="&quot;external&quot;">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/kind"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_YHziq4bEEemMjsTesRFZkg" origin="_YHzipobEEemMjsTesRFZkg" image="_YHziqYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YHzirIbEEemMjsTesRFZkg" name="mainUnit" subUnits="_YHzioYbEEemMjsTesRFZkg">
+    <parameters xmi:id="_YHzirYbEEemMjsTesRFZkg" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="&quot;internal&quot;">
+    <parameters xmi:id="_YHzirobEEemMjsTesRFZkg" name="&quot;internal&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_YHzir4bEEemMjsTesRFZkg" source="_YHzirYbEEemMjsTesRFZkg" target="_YHzioobEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YHzisIbEEemMjsTesRFZkg" source="_YHzirobEEemMjsTesRFZkg" target="_YHzio4bEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Constraint_IN_Namespace_(ownedRule)" description="Deletes one Constraint in Namespace">
-  <annotations key="INVERSE" value="CREATE_Constraint_IN_Namespace_(ownedRule)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YiVigIbEEemMjsTesRFZkg" name="DELETE_Constraint_IN_Namespace_(ownedRule)" description="Deletes one Constraint in Namespace">
+  <annotations xmi:id="_YiVigYbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_Constraint_IN_Namespace_(ownedRule)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteConstraint_IN_Namespace" description="deletes one Constraint in the context: Namespace">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YiVigobEEemMjsTesRFZkg" name="deleteConstraint_IN_Namespace" description="deletes one Constraint in the context: Namespace">
+    <parameters xmi:id="_YiVig4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_YiVihIbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <parameters name="Child">
+    <parameters xmi:id="_YiVihYbEEemMjsTesRFZkg" name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YiVihobEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_YiVih4bEEemMjsTesRFZkg" name="Selected" incoming="_YiVijYbEEemMjsTesRFZkg" outgoing="_YiVijIbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YiViiIbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YiViiYbEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_YiVijIbEEemMjsTesRFZkg" outgoing="_YiVijYbEEemMjsTesRFZkg _YiVijobEEemMjsTesRFZkg">
+        <annotations xmi:id="_YiViiobEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
       </nodes>
-      <nodes name="Child" incoming="//@units.0/@lhs/@edges.2">
+      <nodes xmi:id="_YiVii4bEEemMjsTesRFZkg" name="Child" incoming="_YiVijobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_YiVijIbEEemMjsTesRFZkg" source="_YiVih4bEEemMjsTesRFZkg" target="_YiViiYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace/ownedRule"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_YiVijYbEEemMjsTesRFZkg" source="_YiViiYbEEemMjsTesRFZkg" target="_YiVih4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/context"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_YiVijobEEemMjsTesRFZkg" source="_YiViiYbEEemMjsTesRFZkg" target="_YiVii4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint/specification"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YiVij4bEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_YiVikIbEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YiVikYbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_YiVikobEEemMjsTesRFZkg" origin="_YiVih4bEEemMjsTesRFZkg" image="_YiVikIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YiVik4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_YiVigobEEemMjsTesRFZkg">
+    <parameters xmi:id="_YiVilIbEEemMjsTesRFZkg" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Namespace"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_YiVilYbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Constraint"/>
     </parameters>
-    <parameters name="Child">
+    <parameters xmi:id="_YiVilobEEemMjsTesRFZkg" name="Child">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_YiVil4bEEemMjsTesRFZkg" source="_YiVilIbEEemMjsTesRFZkg" target="_YiVig4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YiVimIbEEemMjsTesRFZkg" source="_YiVilYbEEemMjsTesRFZkg" target="_YiVihIbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YiVimYbEEemMjsTesRFZkg" source="_YiVilobEEemMjsTesRFZkg" target="_YiVihYbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

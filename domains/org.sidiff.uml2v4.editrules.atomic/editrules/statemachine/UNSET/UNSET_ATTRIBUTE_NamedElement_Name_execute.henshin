@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="UNSET_ATTRIBUTE_NamedElement_Name" description="Sets NamedElement Name">
-  <annotations key="INVERSE" value="SET_ATTRIBUTE_NamedElement_Name"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bCP6gIbEEemMjsTesRFZkg" name="UNSET_ATTRIBUTE_NamedElement_Name" description="Sets NamedElement Name">
+  <annotations xmi:id="_bCP6gYbEEemMjsTesRFZkg" key="INVERSE" value="SET_ATTRIBUTE_NamedElement_Name"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setNamedElementName" description="Sets the EAttribute name">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_bCP6gobEEemMjsTesRFZkg" name="setNamedElementName" description="Sets the EAttribute name">
+    <parameters xmi:id="_bCP6g4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_bCP6hIbEEemMjsTesRFZkg" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected">
+    <lhs xmi:id="_bCP6hYbEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_bCP6hobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
-        <attributes value="Name">
+        <attributes xmi:id="_bCP6h4bEEemMjsTesRFZkg" value="Name">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement/name"/>
         </attributes>
       </nodes>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_bCP6iIbEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_bCP6iYbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_bCP6iobEEemMjsTesRFZkg" origin="_bCP6hobEEemMjsTesRFZkg" image="_bCP6iYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_bCP6i4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_bCP6gobEEemMjsTesRFZkg">
+    <parameters xmi:id="_bCP6jIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_bCP6jYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//NamedElement"/>
     </parameters>
-    <parameters name="Name">
-      <annotations key="INVERSE" value="Name"/>
+    <parameters xmi:id="_bCP6jobEEemMjsTesRFZkg" name="Name">
+      <annotations xmi:id="_bCP6j4bEEemMjsTesRFZkg" key="INVERSE" value="Name"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_bCP6kIbEEemMjsTesRFZkg" source="_bCP6jIbEEemMjsTesRFZkg" target="_bCP6g4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_bCP6kYbEEemMjsTesRFZkg" source="_bCP6jobEEemMjsTesRFZkg" target="_bCP6hIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

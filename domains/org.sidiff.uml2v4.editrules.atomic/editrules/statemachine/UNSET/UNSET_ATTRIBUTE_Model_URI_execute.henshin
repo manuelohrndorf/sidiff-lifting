@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="UNSET_ATTRIBUTE_Model_URI" description="Sets Model URI">
-  <annotations key="INVERSE" value="SET_ATTRIBUTE_Model_URI"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_bB0csIbEEemMjsTesRFZkg" name="UNSET_ATTRIBUTE_Model_URI" description="Sets Model URI">
+  <annotations xmi:id="_bB0csYbEEemMjsTesRFZkg" key="INVERSE" value="SET_ATTRIBUTE_Model_URI"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setModelURI" description="Sets the EAttribute URI">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_bB0csobEEemMjsTesRFZkg" name="setModelURI" description="Sets the EAttribute URI">
+    <parameters xmi:id="_bB0cs4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
     </parameters>
-    <parameters name="URI">
+    <parameters xmi:id="_bB0ctIbEEemMjsTesRFZkg" name="URI">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected">
+    <lhs xmi:id="_bB0ctYbEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_bB0ctobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
-        <attributes value="URI">
+        <attributes xmi:id="_bB0ct4bEEemMjsTesRFZkg" value="URI">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Package/URI"/>
         </attributes>
       </nodes>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_bB0cuIbEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_bB0cuYbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_bB0cuobEEemMjsTesRFZkg" origin="_bB0ctobEEemMjsTesRFZkg" image="_bB0cuYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_bB0cu4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_bB0csobEEemMjsTesRFZkg">
+    <parameters xmi:id="_bB0cvIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_bB0cvYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
     </parameters>
-    <parameters name="URI">
-      <annotations key="INVERSE" value="URI"/>
+    <parameters xmi:id="_bB0cvobEEemMjsTesRFZkg" name="URI">
+      <annotations xmi:id="_bB0cv4bEEemMjsTesRFZkg" key="INVERSE" value="URI"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_bB0cwIbEEemMjsTesRFZkg" source="_bB0cvIbEEemMjsTesRFZkg" target="_bB0cs4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_bB0cwYbEEemMjsTesRFZkg" source="_bB0cvobEEemMjsTesRFZkg" target="_bB0ctIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

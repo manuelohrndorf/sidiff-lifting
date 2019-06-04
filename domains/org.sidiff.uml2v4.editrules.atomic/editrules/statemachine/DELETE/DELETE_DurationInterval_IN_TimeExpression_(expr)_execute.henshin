@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_DurationInterval_IN_TimeExpression_(expr)" description="Deletes one DurationInterval in TimeExpression">
-  <annotations key="INVERSE" value="CREATE_DurationInterval_IN_TimeExpression_(expr)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YjVBAIbEEemMjsTesRFZkg" name="DELETE_DurationInterval_IN_TimeExpression_(expr)" description="Deletes one DurationInterval in TimeExpression">
+  <annotations xmi:id="_YjVBAYbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_DurationInterval_IN_TimeExpression_(expr)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteDurationInterval_IN_TimeExpression" description="deletes one DurationInterval in the context: TimeExpression">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YjVBAobEEemMjsTesRFZkg" name="deleteDurationInterval_IN_TimeExpression" description="deletes one DurationInterval in the context: TimeExpression">
+    <parameters xmi:id="_YjVBA4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_YjVBBIbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//DurationInterval"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_YjVBBYbEEemMjsTesRFZkg" name="Existing">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <parameters name="Existing1">
+    <parameters xmi:id="_YjVBBobEEemMjsTesRFZkg" name="Existing1">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YjVBB4bEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_YjVBCIbEEemMjsTesRFZkg" name="Selected" outgoing="_YjVBDobEEemMjsTesRFZkg">
+        <annotations xmi:id="_YjVBCYbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YjVBCobEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_YjVBDobEEemMjsTesRFZkg" outgoing="_YjVBD4bEEemMjsTesRFZkg _YjVBEIbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YjVBC4bEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//DurationInterval"/>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_YjVBDIbEEemMjsTesRFZkg" name="Existing" incoming="_YjVBD4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
-      <nodes name="Existing1" incoming="//@units.0/@lhs/@edges.2">
+      <nodes xmi:id="_YjVBDYbEEemMjsTesRFZkg" name="Existing1" incoming="_YjVBEIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_YjVBDobEEemMjsTesRFZkg" source="_YjVBCIbEEemMjsTesRFZkg" target="_YjVBCobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression/expr"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_YjVBD4bEEemMjsTesRFZkg" source="_YjVBCobEEemMjsTesRFZkg" target="_YjVBDIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interval/min"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.3">
+      <edges xmi:id="_YjVBEIbEEemMjsTesRFZkg" source="_YjVBCobEEemMjsTesRFZkg" target="_YjVBDYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Interval/max"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YjVBEYbEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_YjVBEobEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YjVBE4bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_YjVBFIbEEemMjsTesRFZkg" name="Existing">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
-      <nodes name="Existing1">
+      <nodes xmi:id="_YjVBFYbEEemMjsTesRFZkg" name="Existing1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.1"/>
-    <mappings origin="//@units.0/@lhs/@nodes.3" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings xmi:id="_YjVBFobEEemMjsTesRFZkg" origin="_YjVBCIbEEemMjsTesRFZkg" image="_YjVBEobEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_YjVBF4bEEemMjsTesRFZkg" origin="_YjVBDIbEEemMjsTesRFZkg" image="_YjVBFIbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_YjVBGIbEEemMjsTesRFZkg" origin="_YjVBDYbEEemMjsTesRFZkg" image="_YjVBFYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YjVoEIbEEemMjsTesRFZkg" name="mainUnit" subUnits="_YjVBAobEEemMjsTesRFZkg">
+    <parameters xmi:id="_YjVoEYbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_YjVoEobEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeExpression"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_YjVoE4bEEemMjsTesRFZkg" name="ToBeDeleted">
+      <annotations xmi:id="_YjVoFIbEEemMjsTesRFZkg" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//DurationInterval"/>
     </parameters>
-    <parameters name="Existing">
-      <annotations key="INVERSE" value="Existing"/>
+    <parameters xmi:id="_YjVoFYbEEemMjsTesRFZkg" name="Existing">
+      <annotations xmi:id="_YjVoFobEEemMjsTesRFZkg" key="INVERSE" value="Existing"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <parameters name="Existing1">
-      <annotations key="INVERSE" value="Existing1"/>
+    <parameters xmi:id="_YjVoF4bEEemMjsTesRFZkg" name="Existing1">
+      <annotations xmi:id="_YjVoGIbEEemMjsTesRFZkg" key="INVERSE" value="Existing1"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ValueSpecification"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings xmi:id="_YjVoGYbEEemMjsTesRFZkg" source="_YjVoEYbEEemMjsTesRFZkg" target="_YjVBA4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YjVoGobEEemMjsTesRFZkg" source="_YjVoE4bEEemMjsTesRFZkg" target="_YjVBBIbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YjVoG4bEEemMjsTesRFZkg" source="_YjVoFYbEEemMjsTesRFZkg" target="_YjVBBYbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YjVoHIbEEemMjsTesRFZkg" source="_YjVoF4bEEemMjsTesRFZkg" target="_YjVBBobEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

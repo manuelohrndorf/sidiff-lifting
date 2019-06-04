@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="MOVE_TimeInterval_FROM_Duration_(expr)_TO_Duration_(expr)" description="MOVEs TimeInterval from Duration(Reference:expr) to Duration(Reference:expr">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_altIcIbEEemMjsTesRFZkg" name="MOVE_TimeInterval_FROM_Duration_(expr)_TO_Duration_(expr)" description="MOVEs TimeInterval from Duration(Reference:expr) to Duration(Reference:expr">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="moveTimeInterval_FROM_Duration_expr_TO_Duration_Duration" description="Moves TimeInterval from Duration(Reference:expr) toDuration(Reference:Duration)">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_altIcYbEEemMjsTesRFZkg" name="moveTimeInterval_FROM_Duration_expr_TO_Duration_Duration" description="Moves TimeInterval from Duration(Reference:expr) toDuration(Reference:Duration)">
+    <parameters xmi:id="_altIcobEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeInterval"/>
     </parameters>
-    <parameters name="OldSource">
+    <parameters xmi:id="_altIc4bEEemMjsTesRFZkg" name="OldSource">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <parameters name="NewSource">
+    <parameters xmi:id="_altIdIbEEemMjsTesRFZkg" name="NewSource">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_altIdYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_altIdobEEemMjsTesRFZkg" name="Selected" incoming="_altIeYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeInterval"/>
       </nodes>
-      <nodes name="OldSource" outgoing="//@units.0/@lhs/@edges.0">
+      <nodes xmi:id="_altId4bEEemMjsTesRFZkg" name="OldSource" outgoing="_altIeYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <nodes name="NewSource">
+      <nodes xmi:id="_altIeIbEEemMjsTesRFZkg" name="NewSource">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_altIeYbEEemMjsTesRFZkg" source="_altId4bEEemMjsTesRFZkg" target="_altIdobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration/expr"/>
       </edges>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_altIeobEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_altIe4bEEemMjsTesRFZkg" name="Selected" incoming="_altIfobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeInterval"/>
       </nodes>
-      <nodes name="OldSource">
+      <nodes xmi:id="_altIfIbEEemMjsTesRFZkg" name="OldSource">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <nodes name="NewSource" outgoing="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_altIfYbEEemMjsTesRFZkg" name="NewSource" outgoing="_altIfobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.2" target="//@units.0/@rhs/@nodes.0">
+      <edges xmi:id="_altIfobEEemMjsTesRFZkg" source="_altIfYbEEemMjsTesRFZkg" target="_altIe4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration/expr"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings xmi:id="_altIf4bEEemMjsTesRFZkg" origin="_altIdobEEemMjsTesRFZkg" image="_altIe4bEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_altIgIbEEemMjsTesRFZkg" origin="_altId4bEEemMjsTesRFZkg" image="_altIfIbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_altIgYbEEemMjsTesRFZkg" origin="_altIeIbEEemMjsTesRFZkg" image="_altIfYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_altIgobEEemMjsTesRFZkg" name="mainUnit" subUnits="_altIcYbEEemMjsTesRFZkg">
+    <parameters xmi:id="_altIg4bEEemMjsTesRFZkg" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//TimeInterval"/>
     </parameters>
-    <parameters name="OldSource">
+    <parameters xmi:id="_altIhIbEEemMjsTesRFZkg" name="OldSource">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <parameters name="NewSource">
+    <parameters xmi:id="_altIhYbEEemMjsTesRFZkg" name="NewSource">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_altIhobEEemMjsTesRFZkg" source="_altIg4bEEemMjsTesRFZkg" target="_altIcobEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_altIh4bEEemMjsTesRFZkg" source="_altIhIbEEemMjsTesRFZkg" target="_altIc4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_altIiIbEEemMjsTesRFZkg" source="_altIhYbEEemMjsTesRFZkg" target="_altIdIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

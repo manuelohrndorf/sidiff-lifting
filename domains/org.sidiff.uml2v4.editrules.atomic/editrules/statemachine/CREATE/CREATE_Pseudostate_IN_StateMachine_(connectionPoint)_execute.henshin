@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
-  <annotations key="INVERSE" value="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YYY8UIbEEemMjsTesRFZkg" name="CREATE_Pseudostate_IN_StateMachine_(connectionPoint)" description="Creates one Pseudostate in StateMachine">
+  <annotations xmi:id="_YYY8UYbEEemMjsTesRFZkg" key="INVERSE" value="DELETE_Pseudostate_IN_StateMachine_(connectionPoint)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YYY8UobEEemMjsTesRFZkg" name="createPseudostate_IN_StateMachine" description="creates one Pseudostate in the context: StateMachine">
+    <parameters xmi:id="_YYY8U4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_YYY8VIbEEemMjsTesRFZkg" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters name="Kind">
+    <parameters xmi:id="_YYY8VYbEEemMjsTesRFZkg" name="Kind">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YYY8VobEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_YYY8V4bEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YYY8WIbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YYY8WYbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_YYY8WobEEemMjsTesRFZkg" name="Selected" incoming="_YYY8YIbEEemMjsTesRFZkg" outgoing="_YYY8X4bEEemMjsTesRFZkg">
+        <annotations xmi:id="_YYY8W4bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YYY8XIbEEemMjsTesRFZkg" name="New" incoming="_YYY8X4bEEemMjsTesRFZkg" outgoing="_YYY8YIbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YYY8XYbEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
-        <attributes value="Kind">
+        <attributes xmi:id="_YYY8XobEEemMjsTesRFZkg" value="Kind">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/kind"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_YYY8X4bEEemMjsTesRFZkg" source="_YYY8WobEEemMjsTesRFZkg" target="_YYY8XIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine/connectionPoint"/>
       </edges>
-      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
+      <edges xmi:id="_YYY8YIbEEemMjsTesRFZkg" source="_YYY8XIbEEemMjsTesRFZkg" target="_YYY8WobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate/stateMachine"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_YYY8YYbEEemMjsTesRFZkg" origin="_YYY8V4bEEemMjsTesRFZkg" image="_YYY8WobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YYY8YobEEemMjsTesRFZkg" name="mainUnit" subUnits="_YYY8UobEEemMjsTesRFZkg">
+    <parameters xmi:id="_YYY8Y4bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_YYY8ZIbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_YYY8ZYbEEemMjsTesRFZkg" name="New">
+      <annotations xmi:id="_YYY8ZobEEemMjsTesRFZkg" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Pseudostate"/>
     </parameters>
-    <parameters name="Kind">
+    <parameters xmi:id="_YYY8Z4bEEemMjsTesRFZkg" name="Kind">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//PseudostateKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_YYY8aIbEEemMjsTesRFZkg" source="_YYY8Y4bEEemMjsTesRFZkg" target="_YYY8U4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YYY8aYbEEemMjsTesRFZkg" source="_YYY8VIbEEemMjsTesRFZkg" target="_YYY8ZYbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YYY8aobEEemMjsTesRFZkg" source="_YYY8Z4bEEemMjsTesRFZkg" target="_YYY8VYbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

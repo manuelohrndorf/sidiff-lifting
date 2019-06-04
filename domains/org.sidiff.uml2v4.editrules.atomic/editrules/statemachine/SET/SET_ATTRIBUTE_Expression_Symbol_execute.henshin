@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Expression_Symbol" description="Sets Expression Symbol">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_Expression_Symbol"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_axkaMIbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_Expression_Symbol" description="Sets Expression Symbol">
+  <annotations xmi:id="_axkaMYbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_Expression_Symbol"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setExpressionSymbol" description="Sets the EAttribute symbol">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_axkaMobEEemMjsTesRFZkg" name="setExpressionSymbol" description="Sets the EAttribute symbol">
+    <parameters xmi:id="_axkaM4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <parameters name="Symbol">
+    <parameters xmi:id="_axkaNIbEEemMjsTesRFZkg" name="Symbol">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_axkaNYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_axkaNobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_axkaN4bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_axkaOIbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
-        <attributes value="Symbol">
+        <attributes xmi:id="_axkaOYbEEemMjsTesRFZkg" value="Symbol">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression/symbol"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_axkaOobEEemMjsTesRFZkg" origin="_axkaNobEEemMjsTesRFZkg" image="_axkaOIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_axkaO4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_axkaMobEEemMjsTesRFZkg">
+    <parameters xmi:id="_axkaPIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_axkaPYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <parameters name="Symbol">
-      <annotations key="INVERSE" value="Symbol"/>
+    <parameters xmi:id="_axkaPobEEemMjsTesRFZkg" name="Symbol">
+      <annotations xmi:id="_axkaP4bEEemMjsTesRFZkg" key="INVERSE" value="Symbol"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_axkaQIbEEemMjsTesRFZkg" source="_axkaPIbEEemMjsTesRFZkg" target="_axkaM4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_axkaQYbEEemMjsTesRFZkg" source="_axkaPobEEemMjsTesRFZkg" target="_axkaNIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

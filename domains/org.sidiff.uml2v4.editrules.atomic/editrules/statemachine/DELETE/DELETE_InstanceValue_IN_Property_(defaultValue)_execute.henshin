@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_InstanceValue_IN_Property_(defaultValue)" description="Deletes one InstanceValue in Property">
-  <annotations key="INVERSE" value="CREATE_InstanceValue_IN_Property_(defaultValue)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YmXG4IbEEemMjsTesRFZkg" name="DELETE_InstanceValue_IN_Property_(defaultValue)" description="Deletes one InstanceValue in Property">
+  <annotations xmi:id="_YmXG4YbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_InstanceValue_IN_Property_(defaultValue)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteInstanceValue_IN_Property" description="deletes one InstanceValue in the context: Property">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YmXG4obEEemMjsTesRFZkg" name="deleteInstanceValue_IN_Property" description="deletes one InstanceValue in the context: Property">
+    <parameters xmi:id="_YmXG44bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_YmXG5IbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceValue"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_YmXG5YbEEemMjsTesRFZkg" name="Existing">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YmXG5obEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_YmXG54bEEemMjsTesRFZkg" name="Selected" outgoing="_YmXG7IbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YmXG6IbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YmXG6YbEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_YmXG7IbEEemMjsTesRFZkg" outgoing="_YmXG7YbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YmXG6obEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceValue"/>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_YmXG64bEEemMjsTesRFZkg" name="Existing" incoming="_YmXG7YbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_YmXG7IbEEemMjsTesRFZkg" source="_YmXG54bEEemMjsTesRFZkg" target="_YmXG6YbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/defaultValue"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_YmXG7YbEEemMjsTesRFZkg" source="_YmXG6YbEEemMjsTesRFZkg" target="_YmXG64bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceValue/instance"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YmXG7obEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_YmXG74bEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YmXG8IbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_YmXG8YbEEemMjsTesRFZkg" name="Existing">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_YmXG8obEEemMjsTesRFZkg" origin="_YmXG54bEEemMjsTesRFZkg" image="_YmXG74bEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_YmXG84bEEemMjsTesRFZkg" origin="_YmXG64bEEemMjsTesRFZkg" image="_YmXG8YbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YmXG9IbEEemMjsTesRFZkg" name="mainUnit" subUnits="_YmXG4obEEemMjsTesRFZkg">
+    <parameters xmi:id="_YmXG9YbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_YmXG9obEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_YmXG94bEEemMjsTesRFZkg" name="ToBeDeleted">
+      <annotations xmi:id="_YmXG-IbEEemMjsTesRFZkg" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceValue"/>
     </parameters>
-    <parameters name="Existing">
-      <annotations key="INVERSE" value="Existing"/>
+    <parameters xmi:id="_YmXG-YbEEemMjsTesRFZkg" name="Existing">
+      <annotations xmi:id="_YmXG-obEEemMjsTesRFZkg" key="INVERSE" value="Existing"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InstanceSpecification"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_YmXG-4bEEemMjsTesRFZkg" source="_YmXG9YbEEemMjsTesRFZkg" target="_YmXG44bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YmXG_IbEEemMjsTesRFZkg" source="_YmXG94bEEemMjsTesRFZkg" target="_YmXG5IbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YmXG_YbEEemMjsTesRFZkg" source="_YmXG-YbEEemMjsTesRFZkg" target="_YmXG5YbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

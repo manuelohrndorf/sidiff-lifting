@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_ConnectionPointReference_IN_State_(connection)" description="Deletes one ConnectionPointReference in State">
-  <annotations key="INVERSE" value="CREATE_ConnectionPointReference_IN_State_(connection)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yh-WIIbEEemMjsTesRFZkg" name="DELETE_ConnectionPointReference_IN_State_(connection)" description="Deletes one ConnectionPointReference in State">
+  <annotations xmi:id="_Yh-WIYbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_ConnectionPointReference_IN_State_(connection)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteConnectionPointReference_IN_State" description="deletes one ConnectionPointReference in the context: State">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_Yh-WIobEEemMjsTesRFZkg" name="deleteConnectionPointReference_IN_State" description="deletes one ConnectionPointReference in the context: State">
+    <parameters xmi:id="_Yh-WI4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_Yh-WJIbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ConnectionPointReference"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_Yh-WJYbEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_Yh-WJobEEemMjsTesRFZkg" name="Selected" incoming="_Yh-WK4bEEemMjsTesRFZkg" outgoing="_Yh-WKobEEemMjsTesRFZkg">
+        <annotations xmi:id="_Yh-WJ4bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_Yh-WKIbEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_Yh-WKobEEemMjsTesRFZkg" outgoing="_Yh-WK4bEEemMjsTesRFZkg">
+        <annotations xmi:id="_Yh-WKYbEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ConnectionPointReference"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_Yh-WKobEEemMjsTesRFZkg" source="_Yh-WJobEEemMjsTesRFZkg" target="_Yh-WKIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State/connection"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_Yh-WK4bEEemMjsTesRFZkg" source="_Yh-WKIbEEemMjsTesRFZkg" target="_Yh-WJobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//ConnectionPointReference/state"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_Yh-WLIbEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_Yh-WLYbEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_Yh-WLobEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_Yh-WL4bEEemMjsTesRFZkg" origin="_Yh-WJobEEemMjsTesRFZkg" image="_Yh-WLYbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yh-WMIbEEemMjsTesRFZkg" name="mainUnit" subUnits="_Yh-WIobEEemMjsTesRFZkg">
+    <parameters xmi:id="_Yh-WMYbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_Yh-WMobEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//State"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_Yh-WM4bEEemMjsTesRFZkg" name="ToBeDeleted">
+      <annotations xmi:id="_Yh-WNIbEEemMjsTesRFZkg" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ConnectionPointReference"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_Yh-WNYbEEemMjsTesRFZkg" source="_Yh-WMYbEEemMjsTesRFZkg" target="_Yh-WI4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_Yh-WNobEEemMjsTesRFZkg" source="_Yh-WM4bEEemMjsTesRFZkg" target="_Yh-WJIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

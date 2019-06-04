@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_LiteralString_Value" description="Sets LiteralString Value">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_LiteralString_Value"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_azwLgIbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_LiteralString_Value" description="Sets LiteralString Value">
+  <annotations xmi:id="_azwLgYbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_LiteralString_Value"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setLiteralStringValue" description="Sets the EAttribute value">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_azwLgobEEemMjsTesRFZkg" name="setLiteralStringValue" description="Sets the EAttribute value">
+    <parameters xmi:id="_azwLg4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_azwLhIbEEemMjsTesRFZkg" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_azwLhYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_azwLhobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_azwLh4bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_azwLiIbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
-        <attributes value="Value">
+        <attributes xmi:id="_azwLiYbEEemMjsTesRFZkg" value="Value">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString/value"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_azwLiobEEemMjsTesRFZkg" origin="_azwLhobEEemMjsTesRFZkg" image="_azwLiIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_azwLi4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_azwLgobEEemMjsTesRFZkg">
+    <parameters xmi:id="_azwLjIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_azwLjYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralString"/>
     </parameters>
-    <parameters name="Value">
-      <annotations key="INVERSE" value="Value"/>
+    <parameters xmi:id="_azwLjobEEemMjsTesRFZkg" name="Value">
+      <annotations xmi:id="_azwLj4bEEemMjsTesRFZkg" key="INVERSE" value="Value"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_azwLkIbEEemMjsTesRFZkg" source="_azwLjIbEEemMjsTesRFZkg" target="_azwLg4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_azwLkYbEEemMjsTesRFZkg" source="_azwLjobEEemMjsTesRFZkg" target="_azwLhIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

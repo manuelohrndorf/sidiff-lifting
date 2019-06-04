@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Operation_Concurrency" description="Sets Operation Concurrency">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_Operation_Concurrency"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_a10oEIbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_Operation_Concurrency" description="Sets Operation Concurrency">
+  <annotations xmi:id="_a10oEYbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_Operation_Concurrency"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setOperationConcurrency" description="Sets the EAttribute concurrency">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_a10oEobEEemMjsTesRFZkg" name="setOperationConcurrency" description="Sets the EAttribute concurrency">
+    <parameters xmi:id="_a10oE4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <parameters name="Concurrency">
+    <parameters xmi:id="_a10oFIbEEemMjsTesRFZkg" name="Concurrency">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_a10oFYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_a10oFobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_a10oF4bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_a10oGIbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
-        <attributes value="Concurrency">
+        <attributes xmi:id="_a10oGYbEEemMjsTesRFZkg" value="Concurrency">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_a10oGobEEemMjsTesRFZkg" origin="_a10oFobEEemMjsTesRFZkg" image="_a10oGIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_a10oG4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_a10oEobEEemMjsTesRFZkg">
+    <parameters xmi:id="_a10oHIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_a10oHYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Operation"/>
     </parameters>
-    <parameters name="Concurrency">
-      <annotations key="INVERSE" value="Concurrency"/>
+    <parameters xmi:id="_a10oHobEEemMjsTesRFZkg" name="Concurrency">
+      <annotations xmi:id="_a10oH4bEEemMjsTesRFZkg" key="INVERSE" value="Concurrency"/>
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_a10oIIbEEemMjsTesRFZkg" source="_a10oHIbEEemMjsTesRFZkg" target="_a10oE4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_a10oIYbEEemMjsTesRFZkg" source="_a10oHobEEemMjsTesRFZkg" target="_a10oFIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

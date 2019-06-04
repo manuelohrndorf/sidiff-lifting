@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Transition_Kind" description="Sets Transition Kind">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_Transition_Kind"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_a80A4IbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_Transition_Kind" description="Sets Transition Kind">
+  <annotations xmi:id="_a80A4YbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_Transition_Kind"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setTransitionKind" description="Sets the EAttribute kind">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_a80A4obEEemMjsTesRFZkg" name="setTransitionKind" description="Sets the EAttribute kind">
+    <parameters xmi:id="_a80A44bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Kind">
+    <parameters xmi:id="_a80A5IbEEemMjsTesRFZkg" name="Kind">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_a80A5YbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_a80A5obEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_a80A54bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_a80A6IbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
-        <attributes value="Kind">
+        <attributes xmi:id="_a80A6YbEEemMjsTesRFZkg" value="Kind">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/kind"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_a80A6obEEemMjsTesRFZkg" origin="_a80A5obEEemMjsTesRFZkg" image="_a80A6IbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_a80A64bEEemMjsTesRFZkg" name="mainUnit" subUnits="_a80A4obEEemMjsTesRFZkg">
+    <parameters xmi:id="_a80A7IbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_a80A7YbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Kind">
-      <annotations key="INVERSE" value="Kind"/>
+    <parameters xmi:id="_a80A7obEEemMjsTesRFZkg" name="Kind">
+      <annotations xmi:id="_a80A74bEEemMjsTesRFZkg" key="INVERSE" value="Kind"/>
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//TransitionKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_a80A8IbEEemMjsTesRFZkg" source="_a80A7IbEEemMjsTesRFZkg" target="_a80A44bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_a80A8YbEEemMjsTesRFZkg" source="_a80A7obEEemMjsTesRFZkg" target="_a80A5IbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

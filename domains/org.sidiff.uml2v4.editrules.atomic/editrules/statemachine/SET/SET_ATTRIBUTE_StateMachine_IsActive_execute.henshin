@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_StateMachine_IsActive" description="Sets StateMachine IsActive">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_StateMachine_IsActive"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_a7WBQIbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_StateMachine_IsActive" description="Sets StateMachine IsActive">
+  <annotations xmi:id="_a7WBQYbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_StateMachine_IsActive"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setStateMachineIsActive" description="Sets the EAttribute isActive">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_a7WBQobEEemMjsTesRFZkg" name="setStateMachineIsActive" description="Sets the EAttribute isActive">
+    <parameters xmi:id="_a7WBQ4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="IsActive">
+    <parameters xmi:id="_a7WBRIbEEemMjsTesRFZkg" name="IsActive">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_a7WBRYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_a7WBRobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_a7WBR4bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_a7WBSIbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
-        <attributes value="IsActive">
+        <attributes xmi:id="_a7WBSYbEEemMjsTesRFZkg" value="IsActive">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Class/isActive"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_a7WBSobEEemMjsTesRFZkg" origin="_a7WBRobEEemMjsTesRFZkg" image="_a7WBSIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_a7WBS4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_a7WBQobEEemMjsTesRFZkg">
+    <parameters xmi:id="_a7WBTIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_a7WBTYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StateMachine"/>
     </parameters>
-    <parameters name="IsActive">
-      <annotations key="INVERSE" value="IsActive"/>
+    <parameters xmi:id="_a7WBTobEEemMjsTesRFZkg" name="IsActive">
+      <annotations xmi:id="_a7WBT4bEEemMjsTesRFZkg" key="INVERSE" value="IsActive"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_a7WBUIbEEemMjsTesRFZkg" source="_a7WBTIbEEemMjsTesRFZkg" target="_a7WBQ4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_a7WBUYbEEemMjsTesRFZkg" source="_a7WBTobEEemMjsTesRFZkg" target="_a7WBRIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

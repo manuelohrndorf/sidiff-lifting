@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Transition_IN_Region_(transition)" description="Deletes one Transition in Region">
-  <annotations key="INVERSE" value="CREATE_Transition_IN_Region_(transition)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZCCWQIbEEemMjsTesRFZkg" name="DELETE_Transition_IN_Region_(transition)" description="Deletes one Transition in Region">
+  <annotations xmi:id="_ZCCWQYbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_Transition_IN_Region_(transition)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteTransition_IN_Region" description="deletes one Transition in the context: Region">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_ZCCWQobEEemMjsTesRFZkg" name="deleteTransition_IN_Region" description="deletes one Transition in the context: Region">
+    <parameters xmi:id="_ZCCWQ4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_ZCCWRIbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_ZCCWRYbEEemMjsTesRFZkg" name="Existing">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
     </parameters>
-    <parameters name="Existing1">
+    <parameters xmi:id="_ZCCWRobEEemMjsTesRFZkg" name="Existing1">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" incoming="//@units.0/@lhs/@edges.1" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_ZCCWR4bEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_ZCCWSIbEEemMjsTesRFZkg" name="Selected" incoming="_ZCCWT4bEEemMjsTesRFZkg" outgoing="_ZCCWTobEEemMjsTesRFZkg">
+        <annotations xmi:id="_ZCCWSYbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2 //@units.0/@lhs/@edges.3">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_ZCCWSobEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_ZCCWTobEEemMjsTesRFZkg" outgoing="_ZCCWT4bEEemMjsTesRFZkg _ZCCWUIbEEemMjsTesRFZkg _ZCCWUYbEEemMjsTesRFZkg">
+        <annotations xmi:id="_ZCCWS4bEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@lhs/@edges.2">
+      <nodes xmi:id="_ZCCWTIbEEemMjsTesRFZkg" name="Existing" incoming="_ZCCWUIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
       </nodes>
-      <nodes name="Existing1" incoming="//@units.0/@lhs/@edges.3">
+      <nodes xmi:id="_ZCCWTYbEEemMjsTesRFZkg" name="Existing1" incoming="_ZCCWUYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_ZCCWTobEEemMjsTesRFZkg" source="_ZCCWSIbEEemMjsTesRFZkg" target="_ZCCWSobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/transition"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.0">
+      <edges xmi:id="_ZCCWT4bEEemMjsTesRFZkg" source="_ZCCWSobEEemMjsTesRFZkg" target="_ZCCWSIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/container"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_ZCCWUIbEEemMjsTesRFZkg" source="_ZCCWSobEEemMjsTesRFZkg" target="_ZCCWTIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/target"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.3">
+      <edges xmi:id="_ZCCWUYbEEemMjsTesRFZkg" source="_ZCCWSobEEemMjsTesRFZkg" target="_ZCCWTYbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition/source"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_ZCCWUobEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_ZCCWU4bEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_ZCCWVIbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_ZCCWVYbEEemMjsTesRFZkg" name="Existing">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
       </nodes>
-      <nodes name="Existing1">
+      <nodes xmi:id="_ZCCWVobEEemMjsTesRFZkg" name="Existing1">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.1"/>
-    <mappings origin="//@units.0/@lhs/@nodes.3" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings xmi:id="_ZCCWV4bEEemMjsTesRFZkg" origin="_ZCCWSIbEEemMjsTesRFZkg" image="_ZCCWU4bEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_ZCCWWIbEEemMjsTesRFZkg" origin="_ZCCWTIbEEemMjsTesRFZkg" image="_ZCCWVYbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_ZCCWWYbEEemMjsTesRFZkg" origin="_ZCCWTYbEEemMjsTesRFZkg" image="_ZCCWVobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_ZCCWWobEEemMjsTesRFZkg" name="mainUnit" subUnits="_ZCCWQobEEemMjsTesRFZkg">
+    <parameters xmi:id="_ZCCWW4bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_ZCCWXIbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_ZCCWXYbEEemMjsTesRFZkg" name="ToBeDeleted">
+      <annotations xmi:id="_ZCCWXobEEemMjsTesRFZkg" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="Existing">
-      <annotations key="INVERSE" value="Existing"/>
+    <parameters xmi:id="_ZCCWX4bEEemMjsTesRFZkg" name="Existing">
+      <annotations xmi:id="_ZCCWYIbEEemMjsTesRFZkg" key="INVERSE" value="Existing"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
     </parameters>
-    <parameters name="Existing1">
-      <annotations key="INVERSE" value="Existing1"/>
+    <parameters xmi:id="_ZCCWYYbEEemMjsTesRFZkg" name="Existing1">
+      <annotations xmi:id="_ZCCWYobEEemMjsTesRFZkg" key="INVERSE" value="Existing1"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings xmi:id="_ZCCWY4bEEemMjsTesRFZkg" source="_ZCCWW4bEEemMjsTesRFZkg" target="_ZCCWQ4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_ZCCWZIbEEemMjsTesRFZkg" source="_ZCCWXYbEEemMjsTesRFZkg" target="_ZCCWRIbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_ZCCWZYbEEemMjsTesRFZkg" source="_ZCCWX4bEEemMjsTesRFZkg" target="_ZCCWRYbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_ZCCWZobEEemMjsTesRFZkg" source="_ZCCWYYbEEemMjsTesRFZkg" target="_ZCCWRobEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

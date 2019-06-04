@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CHANGE_LITERAL_Operation_concurrency_FROM_concurrent_TO_guarded" description="Changes the attribute value of concurrency_FROM_concurrent_TO_guarded">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_X2md4IbEEemMjsTesRFZkg" name="CHANGE_LITERAL_Operation_concurrency_FROM_concurrent_TO_guarded" description="Changes the attribute value of concurrency_FROM_concurrent_TO_guarded">
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="changeOperationConcurrency_FROM_Concurrent_TO_guarded" description="Changes the attribute value of concurrency_FROM_concurrent_TO_guarded">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_X2md4YbEEemMjsTesRFZkg" name="changeOperationConcurrency_FROM_Concurrent_TO_guarded" description="Changes the attribute value of concurrency_FROM_concurrent_TO_guarded">
+    <parameters xmi:id="_X2md4obEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature"/>
     </parameters>
-    <parameters name="&quot;concurrent&quot;">
+    <parameters xmi:id="_X2md44bEEemMjsTesRFZkg" name="&quot;concurrent&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
     </parameters>
-    <parameters name="&quot;guarded&quot;">
+    <parameters xmi:id="_X2md5IbEEemMjsTesRFZkg" name="&quot;guarded&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_X2md5YbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_X2md5obEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature"/>
-        <attributes value="&quot;concurrent&quot;">
+        <attributes xmi:id="_X2md54bEEemMjsTesRFZkg" value="&quot;concurrent&quot;">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
         </attributes>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_X2md6IbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_X2md6YbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature"/>
-        <attributes value="&quot;guarded&quot;">
+        <attributes xmi:id="_X2md6obEEemMjsTesRFZkg" value="&quot;guarded&quot;">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature/concurrency"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_X2md64bEEemMjsTesRFZkg" origin="_X2md5obEEemMjsTesRFZkg" image="_X2md6YbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_X2md7IbEEemMjsTesRFZkg" name="mainUnit" subUnits="_X2md4YbEEemMjsTesRFZkg">
+    <parameters xmi:id="_X2md7YbEEemMjsTesRFZkg" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//BehavioralFeature"/>
     </parameters>
-    <parameters name="&quot;concurrent&quot;">
+    <parameters xmi:id="_X2md7obEEemMjsTesRFZkg" name="&quot;concurrent&quot;">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallConcurrencyKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_X2md74bEEemMjsTesRFZkg" source="_X2md7YbEEemMjsTesRFZkg" target="_X2md4obEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_X2md8IbEEemMjsTesRFZkg" source="_X2md7obEEemMjsTesRFZkg" target="_X2md44bEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

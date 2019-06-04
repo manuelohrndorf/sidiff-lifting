@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_FinalState_IN_Region_(subvertex)" description="Creates one FinalState in Region">
-  <annotations key="INVERSE" value="DELETE_FinalState_IN_Region_(subvertex)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YLpg0IbEEemMjsTesRFZkg" name="CREATE_FinalState_IN_Region_(subvertex)" description="Creates one FinalState in Region">
+  <annotations xmi:id="_YLpg0YbEEemMjsTesRFZkg" key="INVERSE" value="DELETE_FinalState_IN_Region_(subvertex)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createFinalState_IN_Region" description="creates one FinalState in the context: Region">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YLpg0obEEemMjsTesRFZkg" name="createFinalState_IN_Region" description="creates one FinalState in the context: Region">
+    <parameters xmi:id="_YLpg04bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_YLpg1IbEEemMjsTesRFZkg" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//FinalState"/>
     </parameters>
-    <parameters name="IsLeaf">
+    <parameters xmi:id="_YLpg1YbEEemMjsTesRFZkg" name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YLpg1obEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_YLpg14bEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YLpg2IbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YLpg2YbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_YLpg2obEEemMjsTesRFZkg" name="Selected" incoming="_YLpg4IbEEemMjsTesRFZkg" outgoing="_YLpg34bEEemMjsTesRFZkg">
+        <annotations xmi:id="_YLpg24bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YLpg3IbEEemMjsTesRFZkg" name="New" incoming="_YLpg34bEEemMjsTesRFZkg" outgoing="_YLpg4IbEEemMjsTesRFZkg">
+        <annotations xmi:id="_YLpg3YbEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//FinalState"/>
-        <attributes value="IsLeaf">
+        <attributes xmi:id="_YLpg3obEEemMjsTesRFZkg" value="IsLeaf">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_YLpg34bEEemMjsTesRFZkg" source="_YLpg2obEEemMjsTesRFZkg" target="_YLpg3IbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Region/subvertex"/>
       </edges>
-      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
+      <edges xmi:id="_YLpg4IbEEemMjsTesRFZkg" source="_YLpg3IbEEemMjsTesRFZkg" target="_YLpg2obEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Vertex/container"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_YLpg4YbEEemMjsTesRFZkg" origin="_YLpg14bEEemMjsTesRFZkg" image="_YLpg2obEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YLpg4obEEemMjsTesRFZkg" name="mainUnit" subUnits="_YLpg0obEEemMjsTesRFZkg">
+    <parameters xmi:id="_YLpg44bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_YLpg5IbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Region"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_YLpg5YbEEemMjsTesRFZkg" name="New">
+      <annotations xmi:id="_YLpg5obEEemMjsTesRFZkg" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//FinalState"/>
     </parameters>
-    <parameters name="IsLeaf">
+    <parameters xmi:id="_YLpg54bEEemMjsTesRFZkg" name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_YLpg6IbEEemMjsTesRFZkg" source="_YLpg44bEEemMjsTesRFZkg" target="_YLpg04bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YLpg6YbEEemMjsTesRFZkg" source="_YLpg1IbEEemMjsTesRFZkg" target="_YLpg5YbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YLpg6obEEemMjsTesRFZkg" source="_YLpg54bEEemMjsTesRFZkg" target="_YLpg1YbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

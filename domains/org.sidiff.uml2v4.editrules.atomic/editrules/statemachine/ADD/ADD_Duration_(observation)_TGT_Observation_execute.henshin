@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Duration_(observation)_TGT_Observation" description="Adds to Duration's reference observation the target Observation">
-  <annotations key="INVERSE" value="REMOVE_Duration_(observation)_TGT_Observation"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_X0tngIbEEemMjsTesRFZkg" name="ADD_Duration_(observation)_TGT_Observation" description="Adds to Duration's reference observation the target Observation">
+  <annotations xmi:id="_X0tngYbEEemMjsTesRFZkg" key="INVERSE" value="REMOVE_Duration_(observation)_TGT_Observation"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="addToDuration_observation_Observation" description="Adds to Duration's reference observation the target Observation">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_X0tngobEEemMjsTesRFZkg" name="addToDuration_observation_Observation" description="Adds to Duration's reference observation the target Observation">
+    <parameters xmi:id="_X0tng4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_X0tnhIbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Observation"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_X0tnhYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_X0tnhobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_X0tnh4bEEemMjsTesRFZkg" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Observation"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_X0tniIbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_X0tniYbEEemMjsTesRFZkg" name="Selected" outgoing="_X0tni4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_X0tniobEEemMjsTesRFZkg" name="NewTarget" incoming="_X0tni4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Observation"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_X0tni4bEEemMjsTesRFZkg" source="_X0tniYbEEemMjsTesRFZkg" target="_X0tniobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration/observation"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_X0tnjIbEEemMjsTesRFZkg" origin="_X0tnhobEEemMjsTesRFZkg" image="_X0tniYbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_X0tnjYbEEemMjsTesRFZkg" origin="_X0tnh4bEEemMjsTesRFZkg" image="_X0tniobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_X0tnjobEEemMjsTesRFZkg" name="mainUnit" subUnits="_X0tngobEEemMjsTesRFZkg">
+    <parameters xmi:id="_X0tnj4bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_X0tnkIbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Duration"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_X0tnkYbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Observation"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_X0tnkobEEemMjsTesRFZkg" source="_X0tnj4bEEemMjsTesRFZkg" target="_X0tng4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_X0tnk4bEEemMjsTesRFZkg" source="_X0tnkYbEEemMjsTesRFZkg" target="_X0tnhIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

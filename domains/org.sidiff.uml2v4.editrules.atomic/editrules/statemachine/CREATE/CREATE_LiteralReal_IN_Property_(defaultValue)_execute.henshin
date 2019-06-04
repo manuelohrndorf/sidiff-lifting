@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_LiteralReal_IN_Property_(defaultValue)" description="Creates one LiteralReal in Property">
-  <annotations key="INVERSE" value="DELETE_LiteralReal_IN_Property_(defaultValue)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_YRSOwIbEEemMjsTesRFZkg" name="CREATE_LiteralReal_IN_Property_(defaultValue)" description="Creates one LiteralReal in Property">
+  <annotations xmi:id="_YRSOwYbEEemMjsTesRFZkg" key="INVERSE" value="DELETE_LiteralReal_IN_Property_(defaultValue)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="createLiteralReal_IN_Property" description="creates one LiteralReal in the context: Property">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_YRSOwobEEemMjsTesRFZkg" name="createLiteralReal_IN_Property" description="creates one LiteralReal in the context: Property">
+    <parameters xmi:id="_YRSOw4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_YRSOxIbEEemMjsTesRFZkg" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralReal"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_YRSOxYbEEemMjsTesRFZkg" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Real"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_YRSOxobEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_YRSOx4bEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_YRSOyIbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_YRSOyYbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_YRSOyobEEemMjsTesRFZkg" name="Selected" outgoing="_YRSOz4bEEemMjsTesRFZkg">
+        <annotations xmi:id="_YRSOy4bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_YRSOzIbEEemMjsTesRFZkg" name="New" incoming="_YRSOz4bEEemMjsTesRFZkg">
+        <annotations xmi:id="_YRSOzYbEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralReal"/>
-        <attributes value="Value">
+        <attributes xmi:id="_YRSOzobEEemMjsTesRFZkg" value="Value">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralReal/value"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_YRSOz4bEEemMjsTesRFZkg" source="_YRSOyobEEemMjsTesRFZkg" target="_YRSOzIbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/defaultValue"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_YRSO0IbEEemMjsTesRFZkg" origin="_YRSOx4bEEemMjsTesRFZkg" image="_YRSOyobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_YRSO0YbEEemMjsTesRFZkg" name="mainUnit" subUnits="_YRSOwobEEemMjsTesRFZkg">
+    <parameters xmi:id="_YRSO0obEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_YRSO04bEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_YRSO1IbEEemMjsTesRFZkg" name="New">
+      <annotations xmi:id="_YRSO1YbEEemMjsTesRFZkg" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//LiteralReal"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_YRSO1obEEemMjsTesRFZkg" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Real"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
+    <parameterMappings xmi:id="_YRSO14bEEemMjsTesRFZkg" source="_YRSO0obEEemMjsTesRFZkg" target="_YRSOw4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YRSO2IbEEemMjsTesRFZkg" source="_YRSOxIbEEemMjsTesRFZkg" target="_YRSO1IbEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_YRSO2YbEEemMjsTesRFZkg" source="_YRSO1obEEemMjsTesRFZkg" target="_YRSOxYbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

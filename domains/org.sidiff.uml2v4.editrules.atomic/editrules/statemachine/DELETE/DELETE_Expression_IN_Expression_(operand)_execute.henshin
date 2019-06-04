@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Expression_IN_Expression_(operand)" description="Deletes one Expression in Expression">
-  <annotations key="INVERSE" value="CREATE_Expression_IN_Expression_(operand)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_Yk-m0IbEEemMjsTesRFZkg" name="DELETE_Expression_IN_Expression_(operand)" description="Deletes one Expression in Expression">
+  <annotations xmi:id="_Yk-m0YbEEemMjsTesRFZkg" key="INVERSE" value="CREATE_Expression_IN_Expression_(operand)"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="deleteExpression_IN_Expression" description="deletes one Expression in the context: Expression">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_Yk-m0obEEemMjsTesRFZkg" name="deleteExpression_IN_Expression" description="deletes one Expression in the context: Expression">
+    <parameters xmi:id="_Yk-m04bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_Yk-m1IbEEemMjsTesRFZkg" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_Yk-m1YbEEemMjsTesRFZkg" name="LHS">
+      <nodes xmi:id="_Yk-m1obEEemMjsTesRFZkg" name="Selected" outgoing="_Yk-m2obEEemMjsTesRFZkg">
+        <annotations xmi:id="_Yk-m14bEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_Yk-m2IbEEemMjsTesRFZkg" name="ToBeDeleted" incoming="_Yk-m2obEEemMjsTesRFZkg">
+        <annotations xmi:id="_Yk-m2YbEEemMjsTesRFZkg" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_Yk-m2obEEemMjsTesRFZkg" source="_Yk-m1obEEemMjsTesRFZkg" target="_Yk-m2IbEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression/operand"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_Yk-m24bEEemMjsTesRFZkg" name="RHS">
+      <nodes xmi:id="_Yk-m3IbEEemMjsTesRFZkg" name="Selected">
+        <annotations xmi:id="_Yk-m3YbEEemMjsTesRFZkg" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_Yk-m3obEEemMjsTesRFZkg" origin="_Yk-m1obEEemMjsTesRFZkg" image="_Yk-m3IbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_Yk-m34bEEemMjsTesRFZkg" name="mainUnit" subUnits="_Yk-m0obEEemMjsTesRFZkg">
+    <parameters xmi:id="_Yk-m4IbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_Yk-m4YbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_Yk-m4obEEemMjsTesRFZkg" name="ToBeDeleted">
+      <annotations xmi:id="_Yk-m44bEEemMjsTesRFZkg" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Expression"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_Yk-m5IbEEemMjsTesRFZkg" source="_Yk-m4IbEEemMjsTesRFZkg" target="_Yk-m04bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_Yk-m5YbEEemMjsTesRFZkg" source="_Yk-m4obEEemMjsTesRFZkg" target="_Yk-m1IbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

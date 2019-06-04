@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Property_Aggregation" description="Sets Property Aggregation">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_Property_Aggregation"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_a24_EIbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_Property_Aggregation" description="Sets Property Aggregation">
+  <annotations xmi:id="_a24_EYbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_Property_Aggregation"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setPropertyAggregation" description="Sets the EAttribute aggregation">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_a24_EobEEemMjsTesRFZkg" name="setPropertyAggregation" description="Sets the EAttribute aggregation">
+    <parameters xmi:id="_a24_E4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="Aggregation">
+    <parameters xmi:id="_a24_FIbEEemMjsTesRFZkg" name="Aggregation">
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_a24_FYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_a24_FobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_a24_F4bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_a24_GIbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
-        <attributes value="Aggregation">
+        <attributes xmi:id="_a24_GYbEEemMjsTesRFZkg" value="Aggregation">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Property/aggregation"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_a24_GobEEemMjsTesRFZkg" origin="_a24_FobEEemMjsTesRFZkg" image="_a24_GIbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_a24_G4bEEemMjsTesRFZkg" name="mainUnit" subUnits="_a24_EobEEemMjsTesRFZkg">
+    <parameters xmi:id="_a24_HIbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_a24_HYbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
     </parameters>
-    <parameters name="Aggregation">
-      <annotations key="INVERSE" value="Aggregation"/>
+    <parameters xmi:id="_a24_HobEEemMjsTesRFZkg" name="Aggregation">
+      <annotations xmi:id="_a24_H4bEEemMjsTesRFZkg" key="INVERSE" value="Aggregation"/>
       <type xsi:type="ecore:EEnum" href="http://www.eclipse.org/uml2/5.0.0/UML#//AggregationKind"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_a24_IIbEEemMjsTesRFZkg" source="_a24_HIbEEemMjsTesRFZkg" target="_a24_E4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_a24_IYbEEemMjsTesRFZkg" source="_a24_HobEEemMjsTesRFZkg" target="_a24_FIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

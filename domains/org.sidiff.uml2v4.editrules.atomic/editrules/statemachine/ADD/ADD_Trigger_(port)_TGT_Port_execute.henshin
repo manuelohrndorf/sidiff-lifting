@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Trigger_(port)_TGT_Port" description="Adds to Trigger's reference port the target Port">
-  <annotations key="INVERSE" value="REMOVE_Trigger_(port)_TGT_Port"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_X2d7AIbEEemMjsTesRFZkg" name="ADD_Trigger_(port)_TGT_Port" description="Adds to Trigger's reference port the target Port">
+  <annotations xmi:id="_X2d7AYbEEemMjsTesRFZkg" key="INVERSE" value="REMOVE_Trigger_(port)_TGT_Port"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="addToTrigger_port_Port" description="Adds to Trigger's reference port the target Port">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_X2d7AobEEemMjsTesRFZkg" name="addToTrigger_port_Port" description="Adds to Trigger's reference port the target Port">
+    <parameters xmi:id="_X2d7A4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_X2d7BIbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_X2d7BYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_X2d7BobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_X2d7B4bEEemMjsTesRFZkg" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_X2d7CIbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_X2d7CYbEEemMjsTesRFZkg" name="Selected" outgoing="_X2d7C4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_X2d7CobEEemMjsTesRFZkg" name="NewTarget" incoming="_X2d7C4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_X2d7C4bEEemMjsTesRFZkg" source="_X2d7CYbEEemMjsTesRFZkg" target="_X2d7CobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger/port"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_X2d7DIbEEemMjsTesRFZkg" origin="_X2d7BobEEemMjsTesRFZkg" image="_X2d7CYbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_X2d7DYbEEemMjsTesRFZkg" origin="_X2d7B4bEEemMjsTesRFZkg" image="_X2d7CobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_X2d7DobEEemMjsTesRFZkg" name="mainUnit" subUnits="_X2d7AobEEemMjsTesRFZkg">
+    <parameters xmi:id="_X2d7D4bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_X2d7EIbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Trigger"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_X2d7EYbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Port"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_X2d7EobEEemMjsTesRFZkg" source="_X2d7D4bEEemMjsTesRFZkg" target="_X2d7A4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_X2d7E4bEEemMjsTesRFZkg" source="_X2d7EYbEEemMjsTesRFZkg" target="_X2d7BIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

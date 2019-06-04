@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Classifier_(redefinedClassifier)_TGT_Classifier" description="Adds to Classifier's reference redefinedClassifier the target Classifier">
-  <annotations key="INVERSE" value="REMOVE_Classifier_(redefinedClassifier)_TGT_Classifier"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_XzopcIbEEemMjsTesRFZkg" name="ADD_Classifier_(redefinedClassifier)_TGT_Classifier" description="Adds to Classifier's reference redefinedClassifier the target Classifier">
+  <annotations xmi:id="_XzopcYbEEemMjsTesRFZkg" key="INVERSE" value="REMOVE_Classifier_(redefinedClassifier)_TGT_Classifier"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="addToClassifier_redefinedClassifier_Classifier" description="Adds to Classifier's reference redefinedClassifier the target Classifier">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_XzopcobEEemMjsTesRFZkg" name="addToClassifier_redefinedClassifier_Classifier" description="Adds to Classifier's reference redefinedClassifier the target Classifier">
+    <parameters xmi:id="_Xzopc4bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_XzopdIbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_XzopdYbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_XzopdobEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_Xzopd4bEEemMjsTesRFZkg" name="NewTarget">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_XzopeIbEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_XzopeYbEEemMjsTesRFZkg" name="Selected" outgoing="_Xzope4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_XzopeobEEemMjsTesRFZkg" name="NewTarget" incoming="_Xzope4bEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_Xzope4bEEemMjsTesRFZkg" source="_XzopeYbEEemMjsTesRFZkg" target="_XzopeobEEemMjsTesRFZkg">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier/redefinedClassifier"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_XzopfIbEEemMjsTesRFZkg" origin="_XzopdobEEemMjsTesRFZkg" image="_XzopeYbEEemMjsTesRFZkg"/>
+    <mappings xmi:id="_XzopfYbEEemMjsTesRFZkg" origin="_Xzopd4bEEemMjsTesRFZkg" image="_XzopeobEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_XzopfobEEemMjsTesRFZkg" name="mainUnit" subUnits="_XzopcobEEemMjsTesRFZkg">
+    <parameters xmi:id="_Xzopf4bEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_XzopgIbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_XzopgYbEEemMjsTesRFZkg" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_XzopgobEEemMjsTesRFZkg" source="_Xzopf4bEEemMjsTesRFZkg" target="_Xzopc4bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_Xzopg4bEEemMjsTesRFZkg" source="_XzopgYbEEemMjsTesRFZkg" target="_XzopdIbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>

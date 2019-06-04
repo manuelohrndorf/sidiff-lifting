@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Transition_IsLeaf" description="Sets Transition IsLeaf">
-  <annotations key="INVERSE" value="UNSET_ATTRIBUTE_Transition_IsLeaf"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_a8qP4IbEEemMjsTesRFZkg" name="SET_ATTRIBUTE_Transition_IsLeaf" description="Sets Transition IsLeaf">
+  <annotations xmi:id="_a8qP4YbEEemMjsTesRFZkg" key="INVERSE" value="UNSET_ATTRIBUTE_Transition_IsLeaf"/>
   <imports href="http://www.eclipse.org/uml2/5.0.0/UML#/"/>
-  <units xsi:type="henshin:Rule" name="setTransitionIsLeaf" description="Sets the EAttribute isLeaf">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_a8qP4obEEemMjsTesRFZkg" name="setTransitionIsLeaf" description="Sets the EAttribute isLeaf">
+    <parameters xmi:id="_a8qP44bEEemMjsTesRFZkg" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="IsLeaf">
+    <parameters xmi:id="_a8qP5IbEEemMjsTesRFZkg" name="IsLeaf">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_a8qP5YbEEemMjsTesRFZkg" name="Lhs">
+      <nodes xmi:id="_a8qP5obEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_a8qP54bEEemMjsTesRFZkg" name="Rhs">
+      <nodes xmi:id="_a8qP6IbEEemMjsTesRFZkg" name="Selected">
         <type href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
-        <attributes value="IsLeaf">
+        <attributes xmi:id="_a8qP6YbEEemMjsTesRFZkg" value="IsLeaf">
           <type href="http://www.eclipse.org/uml2/5.0.0/UML#//RedefinableElement/isLeaf"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_a8qP6obEEemMjsTesRFZkg" origin="_a8qP5obEEemMjsTesRFZkg" image="_a8qP6IbEEemMjsTesRFZkg"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_a8qP64bEEemMjsTesRFZkg" name="mainUnit" subUnits="_a8qP4obEEemMjsTesRFZkg">
+    <parameters xmi:id="_a8qP7IbEEemMjsTesRFZkg" name="selectedEObject">
+      <annotations xmi:id="_a8qP7YbEEemMjsTesRFZkg" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Transition"/>
     </parameters>
-    <parameters name="IsLeaf">
-      <annotations key="INVERSE" value="IsLeaf"/>
+    <parameters xmi:id="_a8qP7obEEemMjsTesRFZkg" name="IsLeaf">
+      <annotations xmi:id="_a8qP74bEEemMjsTesRFZkg" key="INVERSE" value="IsLeaf"/>
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_a8qP8IbEEemMjsTesRFZkg" source="_a8qP7IbEEemMjsTesRFZkg" target="_a8qP44bEEemMjsTesRFZkg"/>
+    <parameterMappings xmi:id="_a8qP8YbEEemMjsTesRFZkg" source="_a8qP7obEEemMjsTesRFZkg" target="_a8qP5IbEEemMjsTesRFZkg"/>
   </units>
 </henshin:Module>
