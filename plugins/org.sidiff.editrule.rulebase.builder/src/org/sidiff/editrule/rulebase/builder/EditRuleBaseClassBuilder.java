@@ -26,22 +26,24 @@ public class EditRuleBaseClassBuilder {
 		for (int i = 0; i < pluginID.length(); i++) {
 			char ch = pluginID.charAt(i);
 			if (builder.length() == 0) {
-				if (Character.isJavaIdentifierStart(ch))
+				if (Character.isJavaIdentifierStart(ch)) {
 					builder.append(Character.toLowerCase(ch));
+				}
 			} else {
-				if (Character.isJavaIdentifierPart(ch) || ch == '.')
+				if (Character.isJavaIdentifierPart(ch) || ch == '.') {
 					builder.append(ch);
+				}
 			}
 		}
 		return builder.toString().toLowerCase(Locale.ENGLISH);
 	}
-	
+
 	private IProject project;
-	
+
 	public EditRuleBaseClassBuilder(IProject project) {
 		this.project = Objects.requireNonNull(project);
 	}
-	
+
 	/**
 	 * @param name
 	 *            The name of the rulebase.
@@ -69,14 +71,16 @@ public class EditRuleBaseClassBuilder {
 
 	public void generateClassFile(String key, String name, Date buildDate,
 			Set<String> documentType, Set<String> attachmentTypes, IProgressMonitor monitor) throws IOException, CoreException {
-		
+
 		String code = getProjectClassCode(key, name, buildDate, documentType, attachmentTypes);
 		writeClassFile(monitor, code);
 	}
 
 	private void prepareFolder(IFolder folder) throws CoreException {
 	    if (!folder.exists()) {
-	    	prepareFolder((IFolder)folder.getParent());
+	    	if(folder.getParent() instanceof IFolder) {
+	    		prepareFolder((IFolder)folder.getParent());
+	    	}
 	        folder.create(false, false, null);
 	    }
 	}
@@ -89,7 +93,7 @@ public class EditRuleBaseClassBuilder {
 			} else {
 				prepareFolder((IFolder)classFile.getParent());
 				classFile.create(inputStream, true, monitor);
-			}			
+			}
 		}
 		classFile.setCharset(StandardCharsets.UTF_8.name(), monitor);
 	}
@@ -103,7 +107,7 @@ public class EditRuleBaseClassBuilder {
 	private IFile getClassFile() {
 		return project.getFile(getRuleBaseClassFilePath());
 	}
-	
+
 	public void deleteClassFile(IProgressMonitor monitor) throws CoreException {
 		IFile classFile = getClassFile();
 		if (classFile.exists()) {
