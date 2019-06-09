@@ -382,6 +382,18 @@ public abstract class PotentialConflictAnalyzer {
 			potRuleCon.addAllPACs(changeUseAttributePotConsPAC);
 		}
 		
+		// Change-Change
+		if ((!predecessorChangingAttributes.isEmpty()) && (!successorChangingAttributes.isEmpty())) {
+			Set<PotentialAttributeConflict> changeChangeAttributePotCons = findChangeChange_Attribute(
+					predecessorChangingAttributes, successorChangingAttributes);
+			
+			for (PotentialAttributeConflict pac : changeChangeAttributePotCons) {
+				pac.setSourceRule(predecessorEditRule);
+				pac.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPACs(changeChangeAttributePotCons);
+		}
+		
 //		// Use-Change
 //		if ((!predecessorUsingAttributes.isEmpty()) && (!successorChangingAttributes.isEmpty())) {
 //			Set<PotentialAttributeDependency> useChangeAttributePotDeps = findUseChanges_Attribute(
@@ -1757,6 +1769,35 @@ public abstract class PotentialConflictAnalyzer {
 	}
 	
 	/**
+	 * Checks all attributes for Change-Change conflicts.
+	 * 
+	 * @param rhsPredecessors
+	 *            Attributes on RHS only (<<create>>).
+	 * @param rhsSuccessors
+	 *            Attributes on RHS only (<<create>>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialAttributeConflict> findChangeChange_Attribute (Collection<Attribute> rhsPredecessors, Collection<Attribute> rhsSuccessors){
+		Set<PotentialAttributeConflict> potConss = new HashSet<PotentialAttributeConflict>();
+		
+		for(Attribute rhsPredecessorAttribute : rhsPredecessors) {
+			for(Attribute rhsSuccessorAttribute : rhsSuccessors) {
+				if(isChangeChangeConflict(rhsPredecessorAttribute, rhsSuccessorAttribute)) {
+					// Change-Change conflict found
+					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
+
+					potcon.setSourceAttribute(rhsPredecessorAttribute);
+					potcon.setTargetAttribute(rhsSuccessorAttribute);
+					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_CHANGE);
+
+					potConss.add(potcon);
+				}
+			}
+		}
+		return potConss;
+	}
+	
+	/**
 	 * Checks two attributes for a Change-Use conflict.
 	 * 
 	 * @param rhsPredecessor
@@ -1778,6 +1819,35 @@ public abstract class PotentialConflictAnalyzer {
 				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
 					// Attribute case differentiation precondition is not fulfilled?
 					return !attributeCaseDifferentiation(rhsPredecessor, lhsSuccessor);
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks two attributes for a Change-Change conflict.
+	 * 
+	 * @param rhsPredecessor
+	 *            Attribute is on RHS only (<< create >>).
+	 * @param rhsSuccessor
+	 *            Attribute is on RHS (<< create >>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isChangeChangeConflict(Attribute rhsPredecessor, Attribute rhsSuccessor) {
+		
+		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isCreationAttribute(rhsSuccessor)) : "Input Assertion Failed!";
+
+		// Attributes have the same type
+		if (rhsPredecessor.getType().equals(rhsSuccessor.getType())){
+			// Predecessor nodes is <<preserve>> ?
+			if (isPreservedNode(rhsPredecessor.getNode()) && isPreservedNode(rhsSuccessor.getNode())) {
+				// is predecessor nodeType assignable to successor nodeType?
+				if (isAssignableTo(rhsPredecessor.getNode().getType(), rhsSuccessor.getNode().getType())){
+					// Attribute case differentiation precondition is not fulfilled?
+					return !attributeCaseDifferentiation(rhsPredecessor, rhsSuccessor);
 				}
 			}
 		}
@@ -2039,10 +2109,10 @@ public abstract class PotentialConflictAnalyzer {
 			}
 		}
 		
-		// Predecessor or successor is variable!
-		else {
-			isSufficiently = true;
-		}
+//		// Predecessor or successor is variable!
+//		else {
+//			isSufficiently = true;
+//		}
 		
 		return isSufficiently;
 	}

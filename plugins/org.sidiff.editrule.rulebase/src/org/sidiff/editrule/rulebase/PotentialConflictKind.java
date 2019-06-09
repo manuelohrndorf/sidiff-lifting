@@ -56,7 +56,15 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHANGE_FORBID(3, "ChangeForbid", "ChangeForbid");
+	CHANGE_FORBID(3, "ChangeForbid", "ChangeForbid"), /**
+	 * The '<em><b>Change Change</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CHANGE_CHANGE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CHANGE_CHANGE(4, "ChangeChange", "ChangeChange");
 
 	/**
 	 * The '<em><b>Delete Use</b></em>' literal value.
@@ -119,6 +127,21 @@ public enum PotentialConflictKind implements Enumerator {
 	public static final int CHANGE_FORBID_VALUE = 3;
 
 	/**
+	 * The '<em><b>Change Change</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Change Change</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CHANGE_CHANGE
+	 * @model name="ChangeChange"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CHANGE_CHANGE_VALUE = 4;
+
+	/**
 	 * An array of all the '<em><b>Potential Conflict Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -130,6 +153,7 @@ public enum PotentialConflictKind implements Enumerator {
 			CHANGE_USE,
 			CREATE_FORBID,
 			CHANGE_FORBID,
+			CHANGE_CHANGE,
 		};
 
 	/**
@@ -190,6 +214,7 @@ public enum PotentialConflictKind implements Enumerator {
 			case CHANGE_USE_VALUE: return CHANGE_USE;
 			case CREATE_FORBID_VALUE: return CREATE_FORBID;
 			case CHANGE_FORBID_VALUE: return CHANGE_FORBID;
+			case CHANGE_CHANGE_VALUE: return CHANGE_CHANGE;
 		}
 		return null;
 	}

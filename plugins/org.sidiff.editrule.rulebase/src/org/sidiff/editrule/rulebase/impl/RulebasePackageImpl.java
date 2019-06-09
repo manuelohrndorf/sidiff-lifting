@@ -1213,6 +1213,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_USE);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_FORBID);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_FORBID);
+		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_CHANGE);
 
 		// Create resource
 		createResource(eNS_URI);
