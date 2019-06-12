@@ -12,7 +12,6 @@ import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
-import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 
@@ -46,25 +45,36 @@ public class DifferenceSettings extends MatchingSettings {
 	 */
 	private ITechnicalDifferenceBuilder techBuilder;
 
-	/**
-	 * default {@link DifferenceSettings}
-	 */
 	public DifferenceSettings() {
 		super();
-		this.techBuilder = TechnicalDifferenceUtils.getGenericTechnicalDifferenceBuilder();
-		setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
-	}
-
-	public DifferenceSettings(Set<String> documentTypes) {
-		super(documentTypes);
-		this.techBuilder = TechnicalDifferenceUtils.getDefaultTechnicalDifferenceBuilder(documentTypes);
-		setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
 	}
 
 	public DifferenceSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder) {
 		super(scope, validate, matcher, candidatesService, correspondenceService);
 		this.techBuilder = techBuilder;
+	}
+	
+	@Override
+	public void initDefaults(Set<String> documentTypes) {
+		super.initDefaults(documentTypes);
+		this.techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
+	}
+	
+	protected ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
+		if(documentTypes.isEmpty()) {
+			return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension().orElseThrow(
+					() -> new IllegalStateException("No generic technical difference builder is available"));
+		}
+		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension(documentTypes).orElseThrow(
+				() -> new IllegalStateException("No technical difference builder available for the document types " + documentTypes));
+		
+	}
+	
+	@Override
+	protected ICorrespondences getDefaultCorrespondencesService(Set<String> documentTypes) {
+		return ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
+				() -> new IllegalStateException("MatchingModelCorrespondences correspondences service is not available"));
 	}
 
 	@Override
@@ -168,5 +178,17 @@ public class DifferenceSettings extends MatchingSettings {
 			this.techBuilder = techBuilder;
 			notifyListeners(DifferenceSettingsItem.TECH_BUILDER);
 		}
+	}
+	
+	public static DifferenceSettings defaultSettings() {
+		DifferenceSettings settings = new DifferenceSettings();
+		settings.initDefaults();
+		return settings;
+	}
+	
+	public static DifferenceSettings defaultSettings(Set<String> documentTypes) {
+		DifferenceSettings settings = new DifferenceSettings();
+		settings.initDefaults(documentTypes);
+		return settings;
 	}
 }

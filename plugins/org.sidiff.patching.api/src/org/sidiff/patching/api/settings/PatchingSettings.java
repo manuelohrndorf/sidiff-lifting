@@ -74,10 +74,6 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 		super();
 	}
 
-	public PatchingSettings(Set<String> documentTypes) {
-		super(documentTypes);
-	}
-
 	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
 			ICandidates candidatesService, ICorrespondences correspondenceService, 
 			ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
@@ -133,6 +129,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#ARG_MANAGER
 	 */
+	@Override
 	public IArgumentManager getArgumentManager() {
 		return argumentManager;
 	}
@@ -153,6 +150,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#INTERRUPT_HANDLER
 	 */
+	@Override
 	public IPatchInterruptHandler getInterruptHandler() {
 		return interruptHandler;
 	}
@@ -172,6 +170,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#TRANSFORMATION_ENGINE
 	 */
+	@Override
 	public ITransformationEngine getTransformationEngine() {
 		return transformationEngine;
 	}
@@ -191,6 +190,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#MODIFIED_DETECTOR
 	 */
+	@Override
 	public IModifiedDetector getModifiedDetector() {
 		return modifiedDetector;
 	}
@@ -210,6 +210,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#EXEC_MODE
 	 */
+	@Override
 	public ExecutionMode getExecutionMode() {
 		return executionMode;
 	}
@@ -229,6 +230,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#PATCH_MODE
 	 */
+	@Override
 	public PatchMode getPatchMode() {
 		return patchMode;
 	}
@@ -248,6 +250,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#RELIABILITY
 	 */
+	@Override
 	public int getMinReliability() {
 		return minReliability;
 	}
@@ -267,6 +270,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return
 	 * @see PatchingSettingsItem#VALIDATION_MODE
 	 */
+	@Override
 	public ValidationMode getValidationMode() {
 		return validationMode;
 	}
@@ -286,6 +290,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 * @return The Symbolic Link Handler for symbolic link generation.
 	 * @see PatchingSettingsItem#SYMBOLIC_LINK_HANDLER
 	 */
+	@Override
 	public ISymbolicLinkHandler getSymbolicLinkHandler() {
 		return symbolicLinkHandler;
 	}
@@ -307,5 +312,17 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 */
 	public boolean useSymbolicLinks() {
 		return symbolicLinkHandler != null;
+	}
+	
+	public static PatchingSettings defaultSettings() {
+		PatchingSettings settings = new PatchingSettings();
+		settings.initDefaults();
+		return settings;
+	}
+	
+	public static PatchingSettings defaultSettings(Set<String> documentTypes) {
+		PatchingSettings settings = new PatchingSettings();
+		settings.initDefaults(documentTypes);
+		return settings;
 	}
 }

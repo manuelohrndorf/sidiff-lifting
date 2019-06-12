@@ -18,9 +18,10 @@ public class CreateAsymmetricDifferenceWizard extends Wizard {
 		this.setWindowTitle("New Asymmetric Difference Wizard");
 
 		this.inputModels = inputModels;
-		settings = new PatchingSettings(inputModels.getDocumentTypes());
+		settings = new PatchingSettings();
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
+		settings.initDefaults(inputModels.getDocumentTypes());
 	}
 
 	@Override

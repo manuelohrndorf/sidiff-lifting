@@ -1,5 +1,7 @@
 package org.sidiff.remote.application.connector.settings;
 
+import java.util.Set;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.MultiStatus;
 import org.sidiff.common.emf.settings.AbstractSettings;
@@ -24,6 +26,12 @@ public class CheckoutSettings extends AbstractSettings {
 
 	@Override
 	protected void validate(MultiStatus multiStatus) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initDefaults(Set<String> documentTypes) {
 		// TODO Auto-generated method stub
 		
 	}

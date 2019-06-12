@@ -20,12 +20,13 @@ public class WorkspaceUpdateWizard extends Wizard {
 	public WorkspaceUpdateWizard(WSUModels mergeModels) {
 		this.setWindowTitle("Workspace Update Wizard");
 		this.mergeModels = mergeModels;
-		this.settings = new PatchingSettings(mergeModels.getDocumentTypes());
+		this.settings = new PatchingSettings();
 		settings.setPatchMode(PatchMode.MERGING); // required for the ApplyAsymmetricDifferenceJob
 		// Init the lifting settings from the patching settings:
 		settings.setCalculateEditRuleMatch(true);
 		settings.setValidate(settings.getValidationMode() != ValidationMode.NO_VALIDATION);
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
+		settings.initDefaults(mergeModels.getDocumentTypes());
 	}
 
 	@Override

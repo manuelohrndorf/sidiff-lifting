@@ -112,9 +112,6 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public LiftingSettings() {
 		super();
-
-		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
 	}
 
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
@@ -125,17 +122,29 @@ public class LiftingSettings extends DifferenceSettings {
 		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
 	}
 
-	/**
-	 * default {@link LiftingSettings}
-	 * 
-	 * @param Set of documentTypes the document types of the models which are compared
-	 */
-	public LiftingSettings(Set<String> documentTypes) {
-		super(documentTypes);
-		this.ruleBases = IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+	@Override
+	public void initDefaults(Set<String> documentTypes) {
+		super.initDefaults(documentTypes);
+		if(ruleBases == null || ruleBases.isEmpty()
+				|| ruleBases.stream().anyMatch(rb -> !rb.getDocumentTypes().containsAll(documentTypes))) {
+			ruleBases = getDefaultRuleBases(documentTypes);
+		}
+		if(rrSorter == null || !rrSorter.canHandle(documentTypes)) {
+			rrSorter = getDefaultRecognitionRuleSorter(documentTypes);			
+		}
+	}
 
-		// Search proper recognition rule sorter:
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).get();
+	protected Set<ILiftingRuleBase> getDefaultRuleBases(Set<String> documentTypes) {
+		return IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+	}
+
+	protected IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
+		if(documentTypes.isEmpty()) {
+			return IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow(
+					() -> new IllegalStateException("No generic recognition rule sorter is available"));
+		}
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow(
+				() -> new IllegalStateException("No recognition rule sorter is available for the document types " + documentTypes));
 	}
 
 	/**
@@ -532,5 +541,17 @@ public class LiftingSettings extends DifferenceSettings {
 			this.comparator = comparator;
 			notifyListeners(LiftingSettingsItem.COMPARATOR);
 		}
+	}
+
+	public static LiftingSettings defaultSettings() {
+		LiftingSettings settings = new LiftingSettings();
+		settings.initDefaults();
+		return settings;
+	}
+	
+	public static LiftingSettings defaultSettings(Set<String> documentTypes) {
+		LiftingSettings settings = new LiftingSettings();
+		settings.initDefaults(documentTypes);
+		return settings;
 	}
 }

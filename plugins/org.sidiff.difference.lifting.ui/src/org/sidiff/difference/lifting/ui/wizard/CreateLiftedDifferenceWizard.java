@@ -40,7 +40,7 @@ public class CreateLiftedDifferenceWizard extends Wizard {
 		Assert.isLegal(inputModels != null && inputModels.getFiles().size() == 2,
 				"Invalid InputModels, exactly two files are required");
 		this.inputModels = inputModels;
-		this.settings = new LiftingSettings(inputModels.getDocumentTypes());
+		this.settings = LiftingSettings.defaultSettings(inputModels.getDocumentTypes());
 	}
 
 	// ---------- Wizard ----------

@@ -18,9 +18,10 @@ public class CreatePatchWizard extends Wizard {
 	public CreatePatchWizard(InputModels inputModels) {
 		this.setWindowTitle("New Patch Wizard");
 		this.inputModels = inputModels;
-		settings = new PatchingSettings(inputModels.getDocumentTypes());
+		settings = new PatchingSettings();
 		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.setCalculateEditRuleMatch(true);
+		settings.initDefaults(inputModels.getDocumentTypes());
 	}
 
 	@Override

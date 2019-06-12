@@ -214,8 +214,9 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 		
 		// Create default settings
 		Set<String> documentTypes = EMFModelAccess.getDocumentTypes(Arrays.asList(modelA,modelB));
-		LiftingSettings defaultSettings = new LiftingSettings(documentTypes);
+		LiftingSettings defaultSettings = new LiftingSettings();
 		defaultSettings.setMatcher(matcher);
+		defaultSettings.initDefaults(documentTypes);
 		
 		// Lift difference
 		SymmetricDifference symmetricDiff = liftTechnicalDifference(modelA, modelB, defaultSettings);

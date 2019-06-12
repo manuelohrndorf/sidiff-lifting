@@ -32,7 +32,7 @@ public class CreateTechnicalDifferenceWizard extends Wizard {
 	public CreateTechnicalDifferenceWizard(InputModels inputModels) {
 		this.setWindowTitle("New Symmetric Difference Wizard");
 		this.inputModels = inputModels;
-		this.settings = new DifferenceSettings();
+		this.settings = DifferenceSettings.defaultSettings(inputModels.getDocumentTypes());
 	}
 
 	// ---------- Wizard ----------
