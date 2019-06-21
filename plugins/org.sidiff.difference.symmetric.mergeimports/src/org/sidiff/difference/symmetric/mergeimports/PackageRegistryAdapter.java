@@ -1,12 +1,13 @@
 package org.sidiff.difference.symmetric.mergeimports;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EGenericType;
@@ -178,9 +179,9 @@ public class PackageRegistryAdapter {
 	 * @see Copier
 	 */
 	private void copyAll(Set<Resource> importedModels) {
-		assert (relink);
+		assertRelinkEnabled();
 
-		Collection<EObject> eObjects = new LinkedList<EObject>();
+		Collection<EObject> eObjects = new ArrayList<>();
 		for (Resource resource : importedModels) {
 			eObjects.addAll(resource.getContents());
 		}
@@ -195,15 +196,15 @@ public class PackageRegistryAdapter {
 	 * corresponding copies.
 	 */
 	private void createCorrespondences() {
-		assert (relink);
+		assertRelinkEnabled();
 
 		for (EObject mergeObjOriginal : copier.keySet()) {
 			EObject mergeObjCopy = copier.get(mergeObjOriginal);
 
 			// Create new Correspondence
 			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-			correspondence.setMatchedA(mergeObjOriginal);
-			correspondence.setMatchedB(mergeObjCopy);
+			correspondence.setMatchedA(Objects.requireNonNull(mergeObjOriginal, "mergeObjOriginal is null"));
+			correspondence.setMatchedB(Objects.requireNonNull(mergeObjCopy, "mergeObjCopy is null"));
 
 			// Save new Correspondence
 			original2Correspondence.put(mergeObjOriginal, correspondence);
@@ -217,23 +218,29 @@ public class PackageRegistryAdapter {
 	 * @param externalReferences
 	 *            the external references to relink.
 	 */
-	@SuppressWarnings("unchecked")
 	protected void relink() {
-		assert (relink);
+		assertRelinkEnabled();
 
 		// Relink all external references
 		for (ExternalReference extRef : registryReferencesB.getRegistryReferences()) {
-
 			if (extRef.getEReference().isMany()) {
+				ExternalManyReference extManyRef = (ExternalManyReference)extRef;
+				
 				// Get copy
+				@SuppressWarnings("unchecked")
 				List<EObject> list = (List<EObject>) extRef.getSourceObject().eGet(extRef.getEReference());
 				EObject original = extRef.getTargetObject();
-				assert (original == list.get(((ExternalManyReference) extRef).getPosition()));
+				if(original != list.get(extManyRef.getPosition())) {
+					throw new IllegalStateException("Mismatch between original " + original
+							+ " and existing " + list.get(extManyRef.getPosition()));
+				}
 				EObject copy = getCorrespondingCopy(original);
-				assert (copy != null);
+				if(copy == null) {
+					throw new IllegalStateException("No copy available to relink " + original);
+				}
 
 				// Relink original to corresponding copy
-				list.set(((ExternalManyReference) extRef).getPosition(), copy);
+				list.set(extManyRef.getPosition(), copy);
 
 			} else {
 				// Get copy
@@ -305,7 +312,7 @@ public class PackageRegistryAdapter {
 	private void addNecessaryCorrespondences() {
 		// Get registry references from model A
 		for (ExternalReference externalReference : registryReferencesA.getRegistryReferences()) {
-			EObject obj = (EObject) externalReference.getTargetObject();
+			EObject obj = externalReference.getTargetObject();
 			addCorrespondence(obj);
 			if (obj.eContainer() != null) {
 				addCorrespondence(obj.eContainer());
@@ -314,7 +321,7 @@ public class PackageRegistryAdapter {
 
 		// Get registry merges from model B
 		for (ExternalReference externalReference : registryReferencesB.getRegistryReferences()) {
-			EObject obj = (EObject) externalReference.getTargetObject();
+			EObject obj = externalReference.getTargetObject();
 			addCorrespondence(obj);
 			if (obj.eContainer() != null) {
 				addCorrespondence(obj.eContainer());
@@ -367,9 +374,8 @@ public class PackageRegistryAdapter {
 	 * Links the relinked external references back to their originals.
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	protected void undoRelink() {
-		assert (relink);
+		assertRelinkEnabled();
 
 		LogUtil.log(LogEvent.DEBUG, "Relink (copy -> original)");
 
@@ -379,11 +385,13 @@ public class PackageRegistryAdapter {
 
 			if (extRef.getEReference().isMany()) {
 				// Get original
+				@SuppressWarnings("unchecked")
 				List<EObject> list = (List<EObject>) extRef.getSourceObject().eGet(extRef.getEReference());
 				EObject copy = list.get(((ExternalManyReference) extRef).getPosition());
 				EObject original = getCorrespondingOriginal(copy);
-
-				assert (original != null);
+				if(original == null) {
+					throw new IllegalStateException("No original available to relink " + copy);
+				}
 
 				// Relink copy to corresponding original
 				list.set(((ExternalManyReference) extRef).getPosition(), original);
@@ -487,10 +495,16 @@ public class PackageRegistryAdapter {
 	 * @return
 	 */
 	private EObject getCorrespondingCopy(EObject original) {
-		assert (relink);
-		assert (original2Correspondence.get(original).getMatchedB() == copier.get(original));
-
-		return copier.get(original);
+		assertRelinkEnabled();
+		EObject copy = copier.get(original);
+		Correspondence correspondence = original2Correspondence.get(original);
+		if(correspondence == null) {
+			throw new IllegalArgumentException("original has no correspondence: " + original);
+		}
+		if(correspondence.getMatchedB() != copy) {
+			throw new IllegalStateException("mismatch between correspondences and copier for " + original);
+		}
+		return copy;
 	}
 
 	/**
@@ -500,8 +514,13 @@ public class PackageRegistryAdapter {
 	 * @return
 	 */
 	private EObject getCorrespondingOriginal(EObject copy) {
-		assert (relink);
-
+		assertRelinkEnabled();
 		return copy2Correspondence.get(copy).getMatchedA();
+	}
+	
+	private void assertRelinkEnabled() {
+		if(!relink) {
+			throw new IllegalStateException("relink not enabled");
+		}
 	}
 }

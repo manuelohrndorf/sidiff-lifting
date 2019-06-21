@@ -18,6 +18,7 @@ import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecogniti
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.rulebase.wrapper.RecognitionRuleGeneratorUtil;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.builder.attachment.AbstractEditRuleAttachmentBuilder;
 import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
@@ -26,18 +27,18 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 	private static final String PLUGIN_ID = "org.sidiff.difference.rulebase.builder";
 
 	@Override
-	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException {
+	public void buildAttachment(IProgressMonitor monitor, RuleBaseItem item, EditRuleBaseWrapper wrapper) throws CoreException {
 
 		// Get paths:
-		IFolder recognitionRuleFolderFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
+		IFolder recognitionRuleFolderFolder = wrapper.getProject().getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
 		URI rrFolder = EMFStorage.toPlatformURI(recognitionRuleFolderFolder);
 		
-		IFolder editRuleFolder = project.getFolder(IEditRuleBase.EDIT_RULE_FOLDER);
+		IFolder editRuleFolder = wrapper.getProject().getFolder(IEditRuleBase.EDIT_RULE_FOLDER);
 		URI eoFolder = EMFStorage.toPlatformURI(editRuleFolder);
 		
 		// Build recognition rule:
 		try {
-			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, eoFolder, rrFolder);
+			RecognitionRuleGeneratorUtil.generateRecognitionRule(item, wrapper, eoFolder, rrFolder);
 		} catch (NoMainUnitFoundException | EditToRecognitionException e) {
 			throw new CoreException(new Status(IStatus.ERROR, PLUGIN_ID, "Failed to generate recognition rule", e));
 		}
@@ -56,24 +57,24 @@ public class RecognitionRuleBuilder extends AbstractEditRuleAttachmentBuilder {
 	}
 
 	@Override
-	public void deleteAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException {
+	public void deleteAttachment(IProgressMonitor monitor, RuleBaseItem item, EditRuleBaseWrapper wrapper) throws CoreException {
 		
 		// Remove recognition rule (file and item):
 		RecognitionRuleGeneratorUtil.removeRecognitionRule(item);
 		
 		// Refresh build folder
 		try {
-			project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			wrapper.getProject().getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER).refreshLocal(IResource.DEPTH_INFINITE, monitor);
 		} catch (CoreException e) {
 			// Something went wrong
 		}
 	}
 
 	@Override
-	public void cleanAttachments(IProgressMonitor monitor, IProject project) throws CoreException {
+	public void cleanAttachments(IProgressMonitor monitor, EditRuleBaseWrapper wrapper) throws CoreException {
 		
 		// Delete all elements in Build Folder if already existent:
-		IFolder buildFolder = project.getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
+		IFolder buildFolder = wrapper.getProject().getFolder(ILiftingRuleBase.RECOGNITION_RULE_FOLDER);
 
 		if (buildFolder.exists()) {
 			IResource members[] = buildFolder.members();

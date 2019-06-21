@@ -53,15 +53,12 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	
 	@Override
 	public Set<Rule> getActiveRecognitonUnits() {
-		
 		if (activeUnits == null) {
 			activeUnits = new HashSet<Rule>();
-
 			for (EditRule eo : getActiveEditRules()) {
 				activeUnits.add(eo.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
 			}
 		}
-
 		return activeUnits;
 	}
 

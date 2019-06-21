@@ -12,7 +12,7 @@ import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstan
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
-import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 
 /**
  * Convenience functions for the rulebase management.
@@ -29,7 +29,7 @@ public class RecognitionRuleGeneratorUtil {
 	 * @throws NoMainUnitFoundException 
 	 * @throws Edit2RecognitionException
 	 */
-	public static void generateRecognitionRule(RuleBaseItem item, 
+	public static void generateRecognitionRule(RuleBaseItem item, EditRuleBaseWrapper wrapper,
 			URI editRuleFolderURI, URI recognitionRuleFolderURI) 
 			throws EditToRecognitionException, NoMainUnitFoundException {
 		
@@ -38,11 +38,11 @@ public class RecognitionRuleGeneratorUtil {
 		generator.transform(item);
 		
 		// Save the recognition rule:
-		saveRecognitionModules(item, editRuleFolderURI, recognitionRuleFolderURI);
+		createRecognitionModuleResource(item, wrapper, editRuleFolderURI, recognitionRuleFolderURI);
 	}
 	
 	/**
-	 * Removes an recognition-rule from the file system.
+	 * Removes a recognition-rule from the file system.
 	 * 
 	 * @param item
 	 *            The item which contains the recognition-rule.
@@ -52,13 +52,13 @@ public class RecognitionRuleGeneratorUtil {
 		// Remove recognition rule from file system
 		URI recognitionRuleURI = EcoreUtil.getURI(
 				item.getEditRuleAttachment(RecognitionRule.class)
-				.getRecognitionMainUnit()).trimFragment();
+				.getRecognitionModule()).trimFragment();
 		File recognitionRuleFile = EMFStorage.toFile(recognitionRuleURI);
 		recognitionRuleFile.delete();
 
 		//Delete parent folder if it is empty now
-		File parentFolder =  recognitionRuleFile.getParentFile();			
-		if(parentFolder.listFiles() == null || parentFolder.listFiles().length == 0){
+		File parentFolder = recognitionRuleFile.getParentFile();			
+		if(parentFolder.listFiles() == null || parentFolder.listFiles().length == 0) {
 			parentFolder.delete();					
 		}
 	}
@@ -82,16 +82,20 @@ public class RecognitionRuleGeneratorUtil {
 	}
 	
 	/**
-	 * Saves all (Henshin) Recognition-Rules.
+	 * Creates Resources for (Henshin) Recognition-Rules.
 	 */
-	private static void saveRecognitionModules(RuleBaseItem item,
+	private static void createRecognitionModuleResource(RuleBaseItem item, EditRuleBaseWrapper wrapper,
 			URI editRuleFolderURI, URI recognitionRuleFolderURI) {
 
 		RecognitionRule recognitionRule = item.getEditRuleAttachment(RecognitionRule.class);
 		Module recognitionModule = recognitionRule.getRecognitionModule();
-		URI moduleUri = getRecognitionRuleSaveURI(recognitionRule.getEditRule().getExecuteModule(), 
+		if(recognitionModule.eResource() == null) {
+			URI moduleUri = getRecognitionRuleSaveURI(recognitionRule.getEditRule().getExecuteModule(), 
 				editRuleFolderURI, recognitionRuleFolderURI);
-		RuleBaseStorage.saveHenshinModule(recognitionModule, moduleUri);
+			wrapper.getResourceSet().createResource(moduleUri).getContents().add(recognitionModule);
+		} else if(recognitionModule.eResource().getResourceSet() != wrapper.getResourceSet()) {
+			wrapper.getResourceSet().getResources().add(recognitionModule.eResource());
+		}
 	}
 
 	/**

@@ -3,6 +3,7 @@
 package org.sidiff.difference.rulebase.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -15,7 +16,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.rulebase.LiftingRulebasePackage;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
@@ -171,12 +172,14 @@ public class RecognitionRuleImpl extends EObjectImpl implements RecognitionRule 
 	 * @generated NOT
 	 */
 	public Rule basicGetRecognitionMainUnit() {
-		for(Unit unit : getRecognitionModule().getUnits()) {
-			if(unit instanceof Rule) {
-				return (Rule)unit;
-			}
+		if(getRecognitionModule().eIsProxy()) {
+			throw new IllegalStateException("Recognition module is a proxy: " + EcoreUtil.getURI(getRecognitionModule()));
 		}
-		return null;
+		List<Rule> rules = HenshinRuleAnalysisUtilEx.getRules(getRecognitionModule());
+		if(rules.isEmpty()) {
+			throw new IllegalStateException("Recognition modules does not contain a rule: " + EcoreUtil.getURI(getRecognitionModule()));
+		}
+		return rules.get(0);
 	}
 
 	/**

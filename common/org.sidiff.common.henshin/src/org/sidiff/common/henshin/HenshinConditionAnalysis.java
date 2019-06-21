@@ -97,10 +97,10 @@ public class HenshinConditionAnalysis {
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
 	 * 
-	 * @see HenshinRuleAnalysisUtilEx#isEmbedddeAttribute(Attribute)
+	 * @see HenshinRuleAnalysisUtilEx#isEmbeddedAttribute(Attribute)
 	 */
-	public static boolean isEmbedddeAttribute(Attribute attribute) {
-		return HenshinRuleAnalysisUtilEx.isEmbedddeAttribute(attribute);
+	public static boolean isEmbeddedAttribute(Attribute attribute) {
+		return HenshinRuleAnalysisUtilEx.isEmbeddedAttribute(attribute);
 	}
 
 	/**

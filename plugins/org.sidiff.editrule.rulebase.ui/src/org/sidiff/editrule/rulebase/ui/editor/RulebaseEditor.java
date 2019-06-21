@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -98,6 +99,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
@@ -703,35 +706,33 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 
 		// Get workspace URI:
 		final URI resourceURI = EditUIUtil.getURI(getEditorInput());
+		IProject project = EMFStorage.toIFile(resourceURI).getProject();
 		
 		// Rulebase wrapper:
-		rbManager = new EditRuleBaseWrapper(resourceURI, false);
+		rbManager = new EditRuleBaseWrapper(SiDiffResourceSet.create(), project, resourceURI, false);
 
 		// Update editor:
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		
 		changeListener = new IResourceChangeListener() {
+			@Override
 			public void resourceChanged(IResourceChangeEvent event) {
 				int needsUpdate = needsUpdate(event, resourceURI);
 				
 				// Reload if rulebase file has changed:
-				if ((needsUpdate == IResourceDelta.ADDED) || (needsUpdate == IResourceDelta.CHANGED)) {
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-							rbManager = new EditRuleBaseWrapper(resourceURI, false);
-							ruleViewer.setInput(rbManager.getItems());
-							update();
-						}
+				if (needsUpdate == IResourceDelta.ADDED || needsUpdate == IResourceDelta.CHANGED) {
+					Display.getDefault().asyncExec(() -> {
+						rbManager = new EditRuleBaseWrapper(SiDiffResourceSet.create(), project, resourceURI, false);
+						ruleViewer.setInput(rbManager.getItems());
+						update();
 					});	
 				} 
 				
 				// Clear view:
 				else if (needsUpdate == IResourceDelta.REMOVED) {
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-							ruleViewer.setInput(null);
-							update();
-						}
+					Display.getDefault().asyncExec(() -> {
+						ruleViewer.setInput(null);
+						update();
 					});
 				}
 			}

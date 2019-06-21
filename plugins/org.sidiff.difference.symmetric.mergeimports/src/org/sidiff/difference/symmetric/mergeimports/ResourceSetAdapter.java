@@ -8,9 +8,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.access.EObjectLocation;
 import org.sidiff.common.emf.access.ExternalReference;
-import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
@@ -92,24 +90,18 @@ public class ResourceSetAdapter {
 	 * established.
 	 */
 	public void init() {
-		resourceSetCorrespondences = new HashSet<Correspondence>();
+		resourceSetCorrespondences = new HashSet<>();
 
-		// A
-		importsA = new HashSet<EObject>();
-		
 		for (ExternalReference externalReference : resourceSetReferencesA) {
-			EObject obj = (EObject) externalReference.getTargetObject();
+			EObject obj = externalReference.getTargetObject();
 			addCorrespondenceA(obj);
 			if (obj.eContainer() != null) {
 				addCorrespondenceA(obj.eContainer());
 			}
 		}
-		
-		// B
-		importsB = new HashSet<EObject>();
-		
+
 		for (ExternalReference externalReference : resourceSetReferencesB) {
-			EObject obj = (EObject) externalReference.getTargetObject();
+			EObject obj = externalReference.getTargetObject();
 			addCorrespondenceB(obj);
 			if (obj.eContainer() != null) {
 				addCorrespondenceB(obj.eContainer());
@@ -117,6 +109,8 @@ public class ResourceSetAdapter {
 		}
 
 		// Collect imports
+		importsA = new HashSet<>();
+		importsB = new HashSet<>();
 		for (Correspondence c : resourceSetCorrespondences) {
 			importsA.add(c.getMatchedA());
 			importsB.add(c.getMatchedB());

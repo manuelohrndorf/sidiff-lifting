@@ -1,6 +1,5 @@
 package org.sidiff.difference.rulebase.util;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -24,18 +23,16 @@ public class RecognitionRuleItemUtil {
 		if (getSematicChangeSetNumberOfACs(item) == null) {
 			// Compatibility
 			return 0;
-		} else {
-			return Integer.valueOf(getSematicChangeSetNumberOfACs(item).getValue());
 		}
+		return Integer.valueOf(getSematicChangeSetNumberOfACs(item).getValue());
 	}
 
 	public static int getNumberOfParams(RuleBaseItem item) {
 		if (getSematicChangeSetNumberOfParams(item) == null) {
 			// Compatibility
 			return 0;
-		} else {
-			return Integer.valueOf(getSematicChangeSetNumberOfParams(item).getValue());
 		}
+		return Integer.valueOf(getSematicChangeSetNumberOfParams(item).getValue());
 	}
 
 	public static int getPriority(RuleBaseItem item) {
@@ -61,10 +58,6 @@ public class RecognitionRuleItemUtil {
 	public static String getDisplayRRType(RuleBaseItem item) {
 		// Get unit type of recognition main unit
 		return EditRuleItemUtil.getUnitType(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
-	}
-
-	public static URI getRecognitionRuleURI(RuleBaseItem item) {
-		return EcoreUtil.getURI(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
 	}
 
 	private static Attribute getSematicChangeSetPriority(RuleBaseItem item) {
@@ -113,6 +106,9 @@ public class RecognitionRuleItemUtil {
 
 	private static Node getSematicChangeSet(RuleBaseItem item) {
 		Module recognitionModule = item.getEditRuleAttachment(RecognitionRule.class).getRecognitionModule();
+		if(recognitionModule.eIsProxy()) {
+			throw new IllegalArgumentException("Recognition module is a proxy: " + EcoreUtil.getURI(recognitionModule));
+		}
 
 		for (Rule rule : HenshinModuleAnalysis.getAllRules(recognitionModule)) {
 			for (Node node : rule.getRhs().getNodes()) {

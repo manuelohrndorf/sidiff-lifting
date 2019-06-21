@@ -38,11 +38,9 @@ public class RecognitionRuleBlueprint {
 	
 	public void appendMultiRules() {
 		for (Rule rrMulti : recognitionRule.getMultiRules()) {
-			if (rrMulti instanceof Rule) {
-				addToBlueprint(HenshinMultiRuleAnalysis.getMultiRuleNodes(rrMulti.getLhs()));
-				HenshinRuleAnalysisUtilEx.getForbidNodes(rrMulti);
-				HenshinRuleAnalysisUtilEx.getRequireNodes(rrMulti);
-			}
+			addToBlueprint(HenshinMultiRuleAnalysis.getMultiRuleNodes(rrMulti.getLhs()));
+			HenshinRuleAnalysisUtilEx.getForbidNodes(rrMulti);
+			HenshinRuleAnalysisUtilEx.getRequireNodes(rrMulti);
 		}
 	}
 	

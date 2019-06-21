@@ -30,9 +30,12 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.exceptions.ExceptionUtil;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.common.io.IOUtil;
@@ -82,18 +85,31 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 */
 	private EditRuleBaseWrapper ruleBaseWrapper;
 	
+	private SiDiffResourceSet resourceSet;
+	
 	@Override
 	protected void startupOnInitialize() {
 		super.startupOnInitialize();
 		classBuilder = new EditRuleBaseClassBuilder(getProject());
 		attachmentBuilders = IEditRuleAttachmentBuilder.MANAGER.getExtensions();
+		
+		initResourceSet();
+	}
+
+	private void initResourceSet() {
+		resourceSet = SiDiffResourceSet.create();
+		resourceSet.registerXmiIdResourceExtensions(HenshinResource.FILE_EXTENSION, RuleBaseStorage.EXTENSION_RULEBASE);
+
+		// Do not report unknown rulebase attachments:
+		resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
 	}
 
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
 		IRuleBaseProject.MANAGER.clearRuleBaseCache();
 
-		ruleBaseWrapper = createEditRuleBaseWrapper(getProject());
+		ruleBaseWrapper = createEditRuleBaseWrapper();
+		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -110,6 +126,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		SubMonitor progress = SubMonitor.convert(monitor, attachmentBuilders.size()+4);
+		ruleBaseWrapper = createEditRuleBaseWrapper();
 
 		// Unload runtime rulebases:
 		IRuleBaseProject.MANAGER.clearRuleBaseCache();
@@ -121,7 +138,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 		// Delete all co-rules
 		for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
-			attachmentBuilder.cleanAttachments(progress.split(1), getProject());
+			attachmentBuilder.cleanAttachments(progress.split(1), ruleBaseWrapper);
 		}
 
 		// Delete Rule Base Files:
@@ -272,7 +289,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			
 			// Remove Co-Rules:
 			for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
-				attachmentBuilder.deleteAttachment(progress.split(1), getProject(), item);
+				attachmentBuilder.deleteAttachment(progress.split(1), item, ruleBaseWrapper);
 			}
 		}
 	}
@@ -286,11 +303,10 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 *            Used IProgressMonitor
 	 */
 	private void buildEditRule(IResource editRuleResource, IProgressMonitor monitor) throws CoreException {
-
 		SubMonitor progress = SubMonitor.convert(monitor, 2);
 		
 		// Load the edit-rule:
-		Module editRule = RuleBaseStorage.loadHenshinModule(editRuleResource);
+		Module editRule = resourceSet.loadEObject(EMFStorage.toPlatformURI(editRuleResource), Module.class);
 		
 		// Validate EditRule
 		validateEditRule(editRuleResource, editRule, progress.split(1));
@@ -317,7 +333,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			
 			// Build attachments:
 			for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
-				attachmentBuilder.buildAttachment(subProgress.split(1), getProject(), rulebaseItem);
+				attachmentBuilder.buildAttachment(subProgress.split(1), rulebaseItem, ruleBaseWrapper);
 			}
 			
 			// Compress item:
@@ -423,11 +439,11 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * @return The rulebase manager of this project.
 	 */
-	private static EditRuleBaseWrapper createEditRuleBaseWrapper(IProject project) throws CoreException {
-		IFile ruleBaseFile = project.getFile(IRuleBaseProject.RULEBASE_FILE);
-		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(EMFStorage.toPlatformURI(ruleBaseFile), false);
-		ruleBaseWrapper.setKey(project.getName());
-		ruleBaseWrapper.setName(readManifestBundleName(project) + " (" + DATE_FORMAT.format(new Date()) + ")");
+	private EditRuleBaseWrapper createEditRuleBaseWrapper() throws CoreException {
+		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
+		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(resourceSet, getProject(), EMFStorage.toPlatformURI(ruleBaseFile), false);
+		ruleBaseWrapper.setKey(getProject().getName());
+		ruleBaseWrapper.setName(readManifestBundleName(getProject()) + " (" + DATE_FORMAT.format(new Date()) + ")");
 		return ruleBaseWrapper;
 	}
 
@@ -454,14 +470,6 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		SubMonitor progress = SubMonitor.convert(monitor, "Building RuleBase File " + rulebaseFile.getFullPath(), 10);
 
 		ruleBaseWrapper.saveRuleBase();
-		// also save edit rules because of XmiId references
-		for(EditRule editRule : ruleBaseWrapper.getRuleBase().getEditRules()) {
-			try {
-				editRule.getExecuteModule().eResource().save(null);
-			} catch (IOException e) {
-				throw ExceptionUtil.asCoreException(e);
-			}
-		}
 		progress.worked(8);
 
 		// Mark RuleBase as derived, if not already

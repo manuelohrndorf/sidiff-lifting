@@ -338,6 +338,7 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Parameter getParameterByName(String name) {
 		for (Parameter param : getParameters()) {
 			if (param.getName().equals(name)){
@@ -346,7 +347,6 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 		}
 		return null;
 	}
-
 
 	/**
 	 * <!-- begin-user-doc -->

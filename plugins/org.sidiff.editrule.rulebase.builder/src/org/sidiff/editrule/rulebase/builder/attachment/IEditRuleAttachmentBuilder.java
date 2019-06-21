@@ -2,11 +2,11 @@ package org.sidiff.editrule.rulebase.builder.attachment;
 
 import java.util.Collection;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.sidiff.common.extension.IExtension;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 
 public interface IEditRuleAttachmentBuilder extends IExtension {
 
@@ -22,34 +22,34 @@ public interface IEditRuleAttachmentBuilder extends IExtension {
 	 * 
 	 * @param monitor
 	 *            progress monitor.
-	 * @param project
-	 *            The corresponding plug-in project.
 	 * @param item
 	 *            The rulebase item which contains the corresponding edit-rule.
+	 * @param wrapper
+	 * 			  The rulebase wrapper
 	 */
-	public void buildAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException;
+	public void buildAttachment(IProgressMonitor monitor, RuleBaseItem item, EditRuleBaseWrapper wrapper) throws CoreException;
 
 	/**
 	 * Deletes a co-rule for a corresponding edit-rule.
 	 * 
 	 * @param monitor
 	 *            progress monitor.
-	 * @param project
-	 *            The corresponding plug-in project.
 	 * @param item
 	 *            The rulebase item which contains the corresponding edit-rule.
+	 * @param wrapper
+	 * 			  The rulebase wrapper
 	 */
-	public void deleteAttachment(IProgressMonitor monitor, IProject project, RuleBaseItem item) throws CoreException;
+	public void deleteAttachment(IProgressMonitor monitor, RuleBaseItem item, EditRuleBaseWrapper wrapper) throws CoreException;
 
 	/**
 	 * Removes all derived resources for a clean build.
 	 * 
 	 * @param monitor
 	 *            progress monitor.
-	 * @param project
-	 *            The corresponding plug-in project.
+	 * @param wrapper
+	 * 			  The rulebase wrapper
 	 */
-	public void cleanAttachments(IProgressMonitor monitor, IProject project) throws CoreException;
+	public void cleanAttachments(IProgressMonitor monitor, EditRuleBaseWrapper wrapper) throws CoreException;
 	
 	/**
 	 * @return {@link ITemplateSection#getNewFiles()}

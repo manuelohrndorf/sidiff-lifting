@@ -1,24 +1,26 @@
 package org.sidiff.editrule.rulebase.builder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.editrule.analysis.classification.IClassificator;
@@ -32,7 +34,6 @@ import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
 import org.sidiff.editrule.rulebase.builder.util.ParameterExtractor;
-import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
 /**
@@ -68,6 +69,10 @@ public class EditRuleBaseWrapper {
 	 */
 	private Set<EditRule> changedEditRules;
 	
+	private SiDiffResourceSet resourceSet;
+
+	private IProject project;
+	
 	/**
 	 * Initializes a (new or existing) rulebase.
 	 * 
@@ -76,18 +81,22 @@ public class EditRuleBaseWrapper {
 	 * @param resolveRules
 	 *            Resolve all (Henshin) Edit-Rules.
 	 */
-	public EditRuleBaseWrapper(URI rulebaseURI, boolean resolveRules) {
+	public EditRuleBaseWrapper(SiDiffResourceSet resourceSet, IProject project, URI rulebaseURI, boolean resolveRules) {
+		this.resourceSet = Objects.requireNonNull(resourceSet, "resourceSet is null");
 		this.rulebaseURI = Objects.requireNonNull(rulebaseURI, "rulebaseURI is null");
+		this.project = Objects.requireNonNull(project, "project is null");
 
-		if (exists(rulebaseURI)) {
+		if (resourceSet.getURIConverter().exists(rulebaseURI, null)) {
 			// Load existing rule base
 			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
-			rulebase = RuleBaseStorage.loadRuleBaseResource(rulebaseURI);
+			rulebase = resourceSet.loadEObject(rulebaseURI, RuleBase.class);
 		}
 
 		if(rulebase == null) {
 			// Create new rule base
 			rulebase = RulebaseFactory.eINSTANCE.createRuleBase();
+			Resource resource = resourceSet.createResource(rulebaseURI);
+			resource.getContents().add(rulebase);
 		}
 
 		if (resolveRules) {
@@ -98,19 +107,6 @@ public class EditRuleBaseWrapper {
 	}
 
 	/**
-	 * Initializes an rulebase wrapper.
-	 * 
-	 * @param rulebase
-	 *            The rulebase model.
-	 * @see EditRuleBaseWrapper#saveRuleBase()
-	 */
-	public EditRuleBaseWrapper(RuleBase rulebase) {
-		this.rulebase = Objects.requireNonNull(rulebase, "rulebase is null");
-		this.rulebaseURI = rulebase.eResource().getURI();
-		init();
-	}
-	
-	/**
 	 * Initializes this rulebase wrapper.
 	 */
 	private void init() {
@@ -120,28 +116,10 @@ public class EditRuleBaseWrapper {
 	}
 
 	/**
-	 * Checks if the given rulebase file exists.
-	 * 
-	 * @param rulebaseURI
-	 *            The rulebase file to test.
-	 * @return <code>true</code> if the rulebase file exists; <code>false</code> otherwise.
-	 */
-	public static boolean exists(URI rulebaseURI) {
-		return EMFStorage.toFile(rulebaseURI).exists();
-	}
-
-	/**
-	 * Saves the rulebase file. Can't be used if the rulebase was initialized in
-	 * read-only mode ({@link EditRuleBaseWrapper#RuleBaseWrapper(URI)}).
+	 * Saves the rulebase file.
 	 */
 	public void saveRuleBase() {
-		saveEditModules();
-		
-		if (exists(rulebaseURI)) {
-			RuleBaseStorage.saveRuleBase(rulebase);
-		}  else {
-			RuleBaseStorage.saveRuleBaseAs(rulebaseURI, rulebase);
-		}
+		resourceSet.saveAllResources();
 	}
 	
 	/**
@@ -152,26 +130,6 @@ public class EditRuleBaseWrapper {
 		changedEditRules.add(changedEditRule);
 	}
 
-	/**
-	 * Saves all (Henshin) changed Edit-Rules.
-	 */
-	private void saveEditModules() {
-		for (EditRule erRule : changedEditRules) {
-			if (erRule.getExecuteMainUnit().eResource() != null) {
-				// Existing edit rule:
-				try {
-					erRule.getExecuteMainUnit().eResource().save(null);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			} else {
-				throw new RuntimeException("Missing Edit-Rule: " + erRule);
-			}
-		}
-		
-		changedEditRules.clear();
-	}
-	
 	/**
 	 * Creates a new rule base item which includes an edit rule.
 	 * 
@@ -528,5 +486,13 @@ public class EditRuleBaseWrapper {
 			}
 			progress.worked(1);
 		}
+	}
+
+	public IProject getProject() {
+		return project;
+	}
+	
+	public SiDiffResourceSet getResourceSet() {
+		return resourceSet;
 	}
 }

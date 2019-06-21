@@ -550,6 +550,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 	/**
 	 * @return The difference this RecognitionEngine is working on.
 	 */
+	@Override
 	public SymmetricDifference getDifference() {
 		return setup.getDifference();
 	}

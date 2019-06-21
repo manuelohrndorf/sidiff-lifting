@@ -2847,7 +2847,7 @@ public class HenshinRuleAnalysisUtilEx {
 		for (Node node : graph.getNodes()) {
 			if (embeddedNodes.contains(node)) {
 				for (Attribute attribute : node.getAttributes()) {
-					if (isEmbedddeAttribute(attribute)) {
+					if (isEmbeddedAttribute(attribute)) {
 						embeddedAttributes.add(attribute);
 					}
 				}
@@ -2865,8 +2865,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
 	 */
-	public static boolean isEmbedddeAttribute(Attribute attribute) {
-		return isEmbedddeAttribute(attribute.getNode(), attribute);
+	public static boolean isEmbeddedAttribute(Attribute attribute) {
+		return isEmbeddedAttribute(attribute.getNode(), attribute);
 	}
 	
 	/**
@@ -2879,7 +2879,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
 	 */
-	private static boolean isEmbedddeAttribute(Node node, Attribute attribute) {
+	private static boolean isEmbeddedAttribute(Node node, Attribute attribute) {
 		
 		// An attribute is embedded if its corresponding node is embedded and if
 		// one of the mapped (parent) nodes contains the same attribute:
@@ -2902,7 +2902,7 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 			// Find attribute recursively in the mapped parent nodes:
-			return isEmbedddeAttribute(parentNode, attribute);
+			return isEmbeddedAttribute(parentNode, attribute);
 		}
 		
 		return false;
