@@ -1,7 +1,5 @@
 package org.sidiff.common.henshin;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRules;
-
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -14,27 +12,26 @@ public class HenshinModuleAnalysis {
 
 	/**
 	 * Get all rules of the module (including all rules of sub modules and including nested multi rules).
-	 * 
-	 * @param module
-	 *            the module.
-	 * @return all Rules contained by the module in an unmodifiable list.
+	 * @param module the module
+	 * @return all Rules contained by the module in an unmodifiable list
 	 */
 	public static EList<Rule> getAllRules(Module module) {
-		EList<Rule> rules = new BasicEList<Rule>();
-		
+		EList<Rule> rules = new BasicEList<>();
+		getAllRules(module, rules);
+		return ECollections.unmodifiableEList(rules);
+	}
+
+	static void getAllRules(Module module, EList<Rule> rules) {
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {
 				Rule rule = (Rule) unit;
 				rules.add(rule);
-				rules.addAll(rule.getAllMultiRules());
+				HenshinMultiRuleUtil.getAllMultiRules(rule, rules);
 			}
 		}
-		
 		for (Module subModule : module.getSubModules()) {
-			rules.addAll(getAllRules(subModule));
+			getAllRules(subModule, rules);
 		}
-		
-		return ECollections.unmodifiableEList(rules);
 	}
 	
 	/**
@@ -73,7 +70,7 @@ public class HenshinModuleAnalysis {
 	 */
 	public static boolean hasDerivedReferences(Module editModule) {
 
-		for (Rule rule : getRules(editModule)) {
+		for (Rule rule : getAllRules(editModule)) {
 			for (Edge edge : rule.getLhs().getEdges()) {
 				if (edge.getType().isDerived()) {
 					return true;

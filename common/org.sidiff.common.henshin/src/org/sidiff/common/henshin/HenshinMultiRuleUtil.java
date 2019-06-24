@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -27,7 +30,26 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.view.NodePair;
 
 public class HenshinMultiRuleUtil {
-	
+
+	/**
+	 * Implements {@link Rule#getAllMultiRules()} more efficiently
+	 * @param rule the rule
+	 * @return all multi rules
+	 */
+	public static EList<Rule> getAllMultiRules(Rule rule) {
+		EList<Rule> allMultiRules = new BasicEList<Rule>();
+		getAllMultiRules(rule, allMultiRules);
+		return ECollections.unmodifiableEList(allMultiRules);
+	}
+
+	static void getAllMultiRules(Rule rule, EList<Rule> allMultiRules) {
+		EList<Rule> multiRules = rule.getMultiRules();
+		allMultiRules.addAll(multiRules);
+		for (Rule multiRule : multiRules) {
+			getAllMultiRules(multiRule, allMultiRules);
+		}
+	}
+
 	/**
 	 * Create multi mapping.
 	 * 
