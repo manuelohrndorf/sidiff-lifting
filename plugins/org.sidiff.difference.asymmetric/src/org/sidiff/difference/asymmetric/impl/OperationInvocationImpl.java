@@ -615,7 +615,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	public List<ParameterBinding> getInParameterBindings() {
 		List<ParameterBinding> res = new ArrayList<ParameterBinding>();
 		for (ParameterBinding parameterBinding : getParameterBindings()) {
-			if (parameterBinding.getFormalParameter().getDirection().equals(ParameterDirection.IN)) {
+			if (parameterBinding.getFormalParameter().getDirection() == ParameterDirection.IN) {
 				res.add(parameterBinding);
 			}
 		}
@@ -627,7 +627,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	public List<ParameterBinding> getOutParameterBindings() {
 		List<ParameterBinding> res = new ArrayList<ParameterBinding>();
 		for (ParameterBinding parameterBinding : getParameterBindings()) {
-			if (parameterBinding.getFormalParameter().getDirection().equals(ParameterDirection.OUT)) {
+			if (parameterBinding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
 				res.add(parameterBinding);
 			}
 		}

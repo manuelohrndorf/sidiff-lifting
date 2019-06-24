@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +65,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 	 * A Map which contains all executed operation invocations and their
 	 * corresponding unit application
 	 */
-	private Map<OperationInvocation,UnitApplication> executedOperations = new HashMap<OperationInvocation, UnitApplication>();
+	private Map<OperationInvocation,UnitApplication> executedOperations = new HashMap<>();
 
 	/**
 	 * Root objects initially contained by the Henshin graph.
@@ -84,7 +83,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		graph = graphFactory.createEGraph();
 		
 		// Store initial graph roots
-		initialGraphRoots = new LinkedList<EObject>();
+		initialGraphRoots = new ArrayList<EObject>();
 		for (EObject obj : graph.getRoots()) {
 			initialGraphRoots.add(obj);
 		}
@@ -93,7 +92,11 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 	@Override
 	public Map<ParameterBinding, Object> execute(OperationInvocation operationInvocation, Map<ParameterBinding, Object> inputParameters)
 			throws ParameterMissingException, OperationNotExecutableException {
-		assert (graph != null) : "Model not set and therefore no EGraph!";
+
+		if(graph == null) {
+			throw new IllegalStateException("HenshinTransformationEngine has not been initialized (init must be called prior)");
+		}
+
 		EditRule editRule = operationInvocation.resolveEditRule();
 		String operationName = editRule.getExecuteModule().getName();
 		LogUtil.log(LogEvent.NOTICE, "Executing operation " + operationName);

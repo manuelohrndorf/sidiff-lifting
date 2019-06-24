@@ -81,14 +81,14 @@ public class ParameterRetriever {
 		IRecognitionRuleMatch rrMatch = recognitionEngine.getRecognitionRuleMatch(operationInvocation.getChangeSet());
 
 		for (Parameter formal : erMainUnit.getParameters()) {
-			if (ParameterInfo.getParameterKind(formal).equals(ParameterKind.OBJECT)) {
+			if (ParameterInfo.getParameterKind(formal) == ParameterKind.OBJECT) {
 				// Determine erNode
 				ParameterDirection direction = ParameterInfo.getParameterDirection(formal);
 				Node erNode = null;
-				if (direction.equals(ParameterDirection.IN)) {
+				if (direction == ParameterDirection.IN) {
 					// ER node must be in LHS
 					erNode = ParameterInfo.getInnermostIdentifiedNode(formal, true);
-				} else if (direction.equals(ParameterDirection.OUT)) {
+				} else if (direction == ParameterDirection.OUT) {
 					// ER node must be in RHS
 					erNode = ParameterInfo.getInnermostIdentifiedNode(formal, false);
 				}

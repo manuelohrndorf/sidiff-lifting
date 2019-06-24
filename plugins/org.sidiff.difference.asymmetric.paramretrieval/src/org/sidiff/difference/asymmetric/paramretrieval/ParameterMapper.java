@@ -106,10 +106,9 @@ public class ParameterMapper {
 					if (objParameterBinding.getActualA() == null
 							&& objParameterBinding.getActualB() != null) {
 
-						if (formalParameter.getDirection().equals(ParameterDirection.IN)) {
+						if (formalParameter.getDirection() == ParameterDirection.IN) {
 							paramBindings_IN_B.add(objParameterBinding);
-						}
-						if (formalParameter.getDirection().equals(ParameterDirection.OUT)) {
+						} else if (formalParameter.getDirection() == ParameterDirection.OUT) {
 							EObject actualB = objParameterBinding.getActualB();
 							paramBindings_OUT_B.put(actualB, objParameterBinding);
 						}
