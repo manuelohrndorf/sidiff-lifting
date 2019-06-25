@@ -164,17 +164,15 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		// Calculate potential dependencies
 		for (EditRule editRuleA : editRules) {
 			RuleBase ruleBaseA = editRuleA.getRuleBaseItem().getRuleBase();
-			List<Rule> rulesA = HenshinModuleAnalysis.getAllRules(editRuleA.getExecuteModule());
 
 			for (EditRule editRuleB : editRules) {
 				RuleBase ruleBaseB = editRuleB.getRuleBaseItem().getRuleBase();
-				List<Rule> rulesB = HenshinModuleAnalysis.getAllRules(editRuleB.getExecuteModule());
 				
 				// If rules are not in the same rule base!
 				// (note that this implies "editRuleA != editRuleB")
 				if (ruleBaseA != ruleBaseB) {
-					for (Rule ruleA : rulesA) {
-						for (Rule ruleB : rulesB) {
+					for (Rule ruleA : HenshinModuleAnalysis.getAllRules(editRuleA.getExecuteModule())) {
+						for (Rule ruleB : HenshinModuleAnalysis.getAllRules(editRuleB.getExecuteModule())) {
 							// (1) Compare rule A with rules B
 							findRuleDependencies(
 									getActionGraph(ruleA), editRuleA,
