@@ -3,7 +3,6 @@ package org.sidiff.integration.preferences.difference.settingsadapter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -19,7 +18,7 @@ import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapte
 
 /**
  * 
- * @author Robert M�ller
+ * @author Robert Müller
  *
  */
 public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
@@ -80,9 +79,9 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 		// get the technical difference builders
 		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
-			Optional<ITechnicalDifferenceBuilder> techBuilder = ITechnicalDifferenceBuilder.MANAGER.getExtension(techDiffBuilderKey);
-			if(techBuilder.isPresent()) {
-				technicalDifferenceBuilderList.add(techBuilder.get());
+			ITechnicalDifferenceBuilder techBuilder = ITechnicalDifferenceBuilder.MANAGER.getExtension(techDiffBuilderKey).orElse(null);
+			if(techBuilder != null) {
+				technicalDifferenceBuilderList.add(techBuilder);
 			} else {
 				addWarning("Technical Difference Builder with key '" + techDiffBuilderKey + "' was not found.");
 			}
