@@ -1951,6 +1951,50 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	/**
+	 * Is the given attribute a << delete >> attribute in a << preserve >> node.
+	 * 
+	 * @param attribute
+	 *            the attribute to test.
+	 * @return <code>true</code> if the attribute is a << delete >> attribute in a << preserve >> node;
+	 *         <code>false</code> otherwise.
+	 */
+	public static boolean isLHSChangingAttribute(Attribute attribute) {
+
+		// Parent node is a << preserve >> node
+		if (isPreservedNode(attribute.getNode())) {
+
+			// Attribute has no RHS
+			if (getRemoteAttribute(attribute) == null) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Is the given attribute a << delete >> attribute, i.e. the attribute is only in the LHS.
+	 * 
+	 * @param attribute
+	 *            the attribute to test.
+	 * @return <code>true</code> if the attribute is a << delete >> attribute; <code>false</code> otherwise.
+	 */
+	public static boolean isDeletionAttribute(Attribute attribute) {
+		
+		// Attribute on LHS
+		if (!isLHSAttribute(attribute)) {
+			return false;
+		}
+		
+		// Attribute has no RHS
+		if (getRemoteAttribute(attribute) == null) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Is the given attribute a << create >> attribute in a << preserve >> node.
 	 * 
 	 * @param attribute
