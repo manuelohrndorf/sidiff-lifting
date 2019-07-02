@@ -3,7 +3,7 @@ package org.sidiff.editrule.analysis.criticalpairs;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -138,10 +140,12 @@ public abstract class PotentialConflictAnalyzer {
 		List<Edge> successorRequireEdges = successor.getRequireEdges();
 		
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = predecessor.getSetAttributes();
+		List<Attribute> predecessorChangingAttributes = new ArrayList<Attribute>(predecessor.getSetAttributes());
+		predecessorChangingAttributes.addAll(predecessor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> predecessorUsingAttributes = predecessor.getPreserveAttributes();
 		
-		List<Attribute> successorChangingAttributes = successor.getSetAttributes();
+		List<Attribute> successorChangingAttributes = new ArrayList<Attribute>(successor.getSetAttributes());
+		successorChangingAttributes.addAll(successor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> successorUsingAttributes = successor.getPreserveAttributes(); 
 		
 		// Get <<forbid>> attributes
