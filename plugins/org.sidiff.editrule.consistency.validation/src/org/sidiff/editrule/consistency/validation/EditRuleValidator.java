@@ -443,7 +443,7 @@ public class EditRuleValidator {
 					invalids.add(info);
 				}else {
 					EditRuleValidation info = new EditRuleValidation("Wrong Parameter Kind", Diagnostic.WARNING,
-							parameter.getUnit().getModule(), ValidationType.valueOf("wrongParameterKind_" + mappedParameter.getKind() + "_expected"), parameter);
+							parameter.getUnit().getModule(), ValidationType.wrongParameterKind_UNKNOWN_expected, parameter);
 					invalids.add(info);
 				}
 			}
