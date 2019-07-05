@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.sidiff.feature.lifting.domains.uml"
-      label="SiDiff Lifting - UML Domain"
+      id="org.sidiff.feature.differencing.domains.uml"
+      label="SiDiff Differencing - UML Domain"
       version="1.0.0.qualifier"
       provider-name="Software Engineering Group, University of Siegen"
       plugin="org.sidiff.branding.core">
 
    <description url="http://pi.informatik.uni-siegen.de/projects/SiLift/">
-      SiLift UML domain plugins, which enable lifting support for *.uml
-models.
+      SiLift UML domain plugins, which enable advanced differencing support
+for *.uml models.
    </description>
 
    <copyright url="http://pi.informatik.uni-siegen.de/Projekte/SiLift">
-      Copyright (c) 2014 Software Engineering Group, University of Siegen. All rights reserved.
+      Copyright (c) 2014 Software Engineering Group, University of
+Siegen. All rights reserved.
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -147,22 +148,28 @@ Java and all Java-based trademarks are trademarks of Oracle Corporation in the U
    </url>
 
    <requires>
-      <import plugin="org.eclipse.uml2" version="4.0.2" match="greaterOrEqual"/>
-      <import feature="org.sidiff.feature.lifting" version="1.1.2.qualifier"/>
+      <import feature="org.sidiff.feature.differencing" version="1.0.4.qualifier"/>
    </requires>
 
    <plugin
-         id="org.sidiff.uml2v4.editrules.atomic"
+         id="org.sidiff.uml2.stringresolver"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.sidiff.uml2v4.editrules.complex"
+         id="org.sidiff.uml2.v4.profile"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.sidiff.uml2v4.difference.technical"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
