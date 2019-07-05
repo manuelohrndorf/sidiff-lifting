@@ -85,7 +85,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 				try {					
 					serge.init(settings, new SubProgressMonitor(monitor, 20));
 					serge.generateEditRules(new SubProgressMonitor(monitor, 80));
-				} catch (EditRuleGenerationException e) {
+				} catch (final EditRuleGenerationException e) {
 					Display.getDefault().syncExec(new Runnable() {
 					    @Override
 					    public void run() {
@@ -95,7 +95,7 @@ public class SergeWizard extends Wizard implements INewWizard {
 					    			e.getMessage());
 					    }
 					});
-				} catch (WrongSettingsInstanceException e) {
+				} catch (final WrongSettingsInstanceException e) {
 					Display.getDefault().syncExec(new Runnable() {
 					    @Override
 					    public void run() {
