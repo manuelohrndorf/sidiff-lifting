@@ -303,14 +303,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 *            Used IProgressMonitor
 	 */
 	private void buildEditRule(IResource editRuleResource, IProgressMonitor monitor) throws CoreException {
-		SubMonitor progress = SubMonitor.convert(monitor, 2);
-		
+		SubMonitor progress = SubMonitor.convert(monitor, 3);
+
 		// Load the edit-rule:
 		Module editRule = resourceSet.loadEObject(EMFStorage.toPlatformURI(editRuleResource), Module.class);
-		
+		progress.worked(1);
+		if(editRule == null) {
+			EditRuleBaseBuilderPlugin.logWarning("EditRule file does not contain a Henshin Module: " + editRuleResource);
+			return;
+		}
+
 		// Validate EditRule
 		validateEditRule(editRuleResource, editRule, progress.split(1));
-		
+
 		// Build EditRule if no error occurred during validation
 		if (editRuleResource.findMaxProblemSeverity(EValidator.MARKER, false,
 				IResource.DEPTH_ZERO) != IMarker.SEVERITY_ERROR) {
