@@ -33,6 +33,7 @@ import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
+import org.sidiff.editrule.rulebase.builder.internal.EditRuleBaseBuilderPlugin;
 import org.sidiff.editrule.rulebase.builder.util.ParameterExtractor;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
@@ -89,7 +90,12 @@ public class EditRuleBaseWrapper {
 		if (resourceSet.getURIConverter().exists(rulebaseURI, null)) {
 			// Load existing rule base
 			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
-			rulebase = resourceSet.loadEObject(rulebaseURI, RuleBase.class);
+			try {
+				rulebase = resourceSet.loadEObject(rulebaseURI, RuleBase.class);
+			} catch(Exception e) {
+				EditRuleBaseBuilderPlugin.logError("Rulebase " + rulebaseURI + " is invalid. Creating a new one.", e);
+				rulebase = null;
+			}
 		}
 
 		if(rulebase == null) {
