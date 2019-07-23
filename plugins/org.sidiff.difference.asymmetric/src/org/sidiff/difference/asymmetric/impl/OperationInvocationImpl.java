@@ -569,7 +569,6 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		for (DependencyContainer dep : getOutgoing()) {
 			res.add(dep.getTarget());
 		}
-
 		return Collections.unmodifiableList(res);
 	}
 
@@ -579,35 +578,38 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 		for (DependencyContainer dep : getIncoming()) {
 			res.add(dep.getSource());
 		}
-
 		return Collections.unmodifiableList(res);
 	}
 
 	@Override
 	public List<OperationInvocation> getAllPredecessors() {
-		ArrayList<OperationInvocation> res = new ArrayList<OperationInvocation>();
+		List<OperationInvocation> res = new ArrayList<OperationInvocation>();
 		addAllPredecessors(res, this);
 		return Collections.unmodifiableList(res);
 	}
 
 	private void addAllPredecessors(List<OperationInvocation> list, OperationInvocation op) {
-		list.add(op);
-		for (OperationInvocation opPre : op.getPredecessors()) {
-			addAllPredecessors(list, opPre);
+		if(!list.contains(op)) {
+			list.add(op);
+			for (OperationInvocation opPre : op.getPredecessors()) {
+				addAllPredecessors(list, opPre);
+			}
 		}
 	}
 
 	@Override
 	public List<OperationInvocation> getAllSuccessors() {
-		ArrayList<OperationInvocation> res = new ArrayList<OperationInvocation>();
+		List<OperationInvocation> res = new ArrayList<OperationInvocation>();
 		addAllSuccessors(res, this);
 		return Collections.unmodifiableList(res);
 	}
 
 	private void addAllSuccessors(List<OperationInvocation> list, OperationInvocation op) {
-		list.add(op);
-		for (OperationInvocation opSucc : op.getSuccessors()) {
-			addAllPredecessors(list, opSucc);
+		if(!list.contains(op)) {
+			list.add(op);
+			for (OperationInvocation opSucc : op.getSuccessors()) {
+				addAllPredecessors(list, opSucc);
+			}
 		}
 	}
 
