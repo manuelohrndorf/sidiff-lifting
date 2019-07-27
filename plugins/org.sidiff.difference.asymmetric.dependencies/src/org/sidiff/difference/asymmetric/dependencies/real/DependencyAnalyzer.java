@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -99,28 +100,31 @@ public abstract class DependencyAnalyzer {
 					}
 
 					for (SemanticChangeSet scsTgt : scsTgts) {
-
 						// Get matches of potentially depending edit rules:
 						IEditRuleMatch erSrcMatch = getEditRuleMatch(scsSrc);
 						IEditRuleMatch erTgtMatch = getEditRuleMatch(scsTgt);
-						OperationInvocation src = getOperationInvocationOfSCS(asymmetricDiff, scsSrc);
-						OperationInvocation tgt = getOperationInvocationOfSCS(asymmetricDiff, scsTgt);
-						
+
 						Dependency dependency;
 						if (potDep instanceof PotentialNodeDependency) {
-							EObject intersection = intersects(erSrcMatch, erTgtMatch, (PotentialNodeDependency) potDep);
-							dependency = createNodeDependency(intersection);
+							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialNodeDependency) potDep)
+											.map(this::createNodeDependency).orElse(null);
 						} else if (potDep instanceof PotentialEdgeDependency) {
-							Link intersection = intersects(erSrcMatch, erTgtMatch, (PotentialEdgeDependency) potDep);
-							dependency = createEdgeDependency(intersection);
+							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialEdgeDependency) potDep)
+											.map(this::createEdgeDependency).orElse(null);
 						} else if (potDep instanceof PotentialAttributeDependency) {
-							EObject intersection = intersects(erSrcMatch, erTgtMatch, (PotentialAttributeDependency)potDep, scsTgt);
-							dependency = createAttributeDependency((PotentialAttributeDependency)potDep, intersection);
+							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialAttributeDependency)potDep, scsTgt)
+											.map(i -> createAttributeDependency((PotentialAttributeDependency)potDep, i)).orElse(null);
 						} else {
 							throw new AssertionError();
 						}
+						if(dependency == null) {
+							break;
+						}
 
 						dependency.setKind(getDependencyKind(potDep.getKind()));
+
+						OperationInvocation src = getOperationInvocationOfSCS(asymmetricDiff, scsSrc);
+						OperationInvocation tgt = getOperationInvocationOfSCS(asymmetricDiff, scsTgt);
 
 						DependencyContainer depContainer =
 							asymmetricDiff.getDepContainers().stream()
@@ -134,7 +138,6 @@ public abstract class DependencyAnalyzer {
 									asymmetricDiff.getDepContainers().add(c);
 									return c;
 								});
-
 						depContainer.getDependencies().add(dependency);
 
 						LogUtil.log(LogEvent.DEBUG, "Potential Dependency:\n" + potDep + "\nActual Dependency:\n"
@@ -219,7 +222,7 @@ public abstract class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link EObject}. 
 	 * If the intersection is empty, null will be returned.
 	 */
-	private EObject intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
+	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
 		switch(pnd.getKind()) {
 			case USE_DELETE: {
 				// check A intersection
@@ -228,7 +231,7 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PND-UseDelete: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
@@ -239,7 +242,7 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PND-CreateUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
@@ -250,7 +253,7 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PND-DeleteForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
@@ -263,7 +266,7 @@ public abstract class DependencyAnalyzer {
 			default:
 				throw new AssertionError("Unknown dependency kind: " + pnd.getKind());
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/**
@@ -275,7 +278,7 @@ public abstract class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link Link}. 
 	 * If the intersection is empty, null will be returned.
 	 */
-	private Link intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
+	private Optional<Link> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
 		switch(ped.getKind()) {
 			case USE_DELETE: {
 				// // check A intersection
@@ -301,7 +304,7 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PED-CreateUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
@@ -312,7 +315,7 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PED-DeleteForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
@@ -326,7 +329,7 @@ public abstract class DependencyAnalyzer {
 			default:
 				throw new AssertionError("Unknown dependency kind: " + ped.getKind());
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/**
@@ -339,7 +342,7 @@ public abstract class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link EObject}.
 	 * If the intersection is empty, null will be returned.
 	 */
-	private EObject intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
+	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
 			SemanticChangeSet scsTgt) {
 
 		assert(pad.getSourceAttribute().getType() == pad.getTargetAttribute().getType());
@@ -374,7 +377,7 @@ public abstract class DependencyAnalyzer {
 									if(oB.eGet(avc.getType()).toString().equals(pad.getSourceAttribute().getValue())){
 										srcOccurence.retainAll(tgtOccurence);
 										assert srcOccurence.size() == 1 : "PED-ChangeUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-										return srcOccurence.iterator().next();
+										return srcOccurence.stream().findFirst();
 									}
 								}
 							}
@@ -404,13 +407,13 @@ public abstract class DependencyAnalyzer {
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 					srcOccurence.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PAD-ChangeForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.iterator().next();
+					return srcOccurence.stream().findFirst();
 				}
 				break;
 			}
 			default:
 				throw new AssertionError("Unknown dependency kind: " + pad.getKind());
 		}
-		return null;
+		return Optional.empty();
 	}
 }
