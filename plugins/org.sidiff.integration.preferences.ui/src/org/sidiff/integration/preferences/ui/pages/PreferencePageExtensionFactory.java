@@ -1,4 +1,4 @@
-package org.sidiff.integration.preferences.ui.pages.internal;
+package org.sidiff.integration.preferences.ui.pages;
 
 import java.util.Map;
 
@@ -6,10 +6,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
+import org.sidiff.integration.preferences.ui.pages.internal.PreferencePageFactory;
 
 /**
  * Extension factory for creating preference and property pages using the {@link PreferencePageFactory}.
- * @author Robert Müller
+ * @author Robert MÃ¼ller
  *
  */
 public class PreferencePageExtensionFactory implements IExecutableExtensionFactory, IExecutableExtension {
