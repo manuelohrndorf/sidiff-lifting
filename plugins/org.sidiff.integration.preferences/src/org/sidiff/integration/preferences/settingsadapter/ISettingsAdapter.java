@@ -9,8 +9,7 @@ import org.sidiff.common.settings.ISettings;
 /**	
  * A settings adapter loads preferences from a {@link IPreferenceStore preference store}
  * and sets the field of {@link ISettings settings} according to the preferences.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface ISettingsAdapter {
 
@@ -63,4 +62,14 @@ public interface ISettingsAdapter {
 	 * @param consideredSettings set of settings items
 	 */
 	void setConsideredSettings(Set<Enum<?>> consideredSettings);
+
+
+	/**
+	 * Can also be implemented when implementing ISettingsAdapter, to additionally support
+	 * saving settings to a preference store.
+	 * @author rmueller
+	 */
+	interface Saveable {
+		void save(IPreferenceStore store, ISettings settings);
+	}
 }

@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 
 /**
  * Abstract implementation for {@link ISettingsAdapter}s.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
@@ -92,4 +92,8 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	 * @return new diagnostic
 	 */
 	protected abstract BasicDiagnostic getDiagnosticGroup();
+
+	protected String domainKey(String prefKey, String documentType) {
+		return prefKey + "[" + documentType + "]";
+	}
 }

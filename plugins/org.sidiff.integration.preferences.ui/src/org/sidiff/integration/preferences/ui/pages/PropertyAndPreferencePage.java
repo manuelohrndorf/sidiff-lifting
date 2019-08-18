@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ControlEnableState;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
@@ -19,7 +20,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -34,7 +34,7 @@ import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
 /**
  * Abstract superclass for all preference pages, that are both a property and a preference page.
  * If the page is a property page, a button to enable project specific settings is shown.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public abstract class PropertyAndPreferencePage extends PreferencePage
@@ -97,7 +97,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout(1, true));
+		GridLayoutFactory.fillDefaults().applyTo(container);
 
 		if(isPropertiesPage()) {
 			if(isTopLevelPage()) {
@@ -122,7 +122,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	private void createControlButton(Composite container) {
 		useSpecificSettingsButton = new Button(container, SWT.CHECK);
 		try {
-			useSpecificSettings = PreferenceStoreUtil.useSpecificSettings(project);
+			useSpecificSettings = PreferenceStoreUtil.useSpecificSettings(project, getPreferenceQualifier());
 			useSpecificSettingsButton.setSelection(useSpecificSettings);
 			useSpecificSettingsButton.setText("Use project specific settings");
 			useSpecificSettingsButton.addSelectionListener(new SelectionAdapter() {
@@ -166,7 +166,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	protected void setUseSpecificSettings(boolean selection) throws CoreException {
 		if(!isPropertiesPage())
 			return;
-		PreferenceStoreUtil.setUseSpecificSettings(project, selection);
+		PreferenceStoreUtil.setUseSpecificSettings(project, getPreferenceQualifier(), selection);
 	}
 
 	protected boolean useSpecificSettings() {
@@ -223,10 +223,14 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		if(parentPage != null) {
 			return parentPage.doGetPreferenceStore();
 		} else if(isPropertiesPage()) {
-			return PreferenceStoreUtil.getPreferenceStore(project);
+			return PreferenceStoreUtil.getPreferenceStore(project, getPreferenceQualifier());
 		} else {
-			return PreferenceStoreUtil.getPreferenceStore();
+			return PreferenceStoreUtil.getPreferenceStore(getPreferenceQualifier());
 		}
+	}
+
+	public String getPreferenceQualifier() {
+		return PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 	}
 
 	@Override

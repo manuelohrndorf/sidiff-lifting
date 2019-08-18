@@ -12,55 +12,66 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
 
 /**
  * Contains utility functions for retrieving the global and project specific preference store for the SiDiff settings
  * and for checking whether a project has custom settings attached.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PreferenceStoreUtil {
 
-	private static ScopedPreferenceStore globalPreferenceStore;
-	private static Map<IProject,ScopedPreferenceStore> specificPreferenceStores;
+	/**
+	 * Qualifier for global, and project specific preferences
+	 */
+	public static final String PREFERENCE_QUALIFIER = "org.sidiff.integration.preferences"; //$NON-NLS-1$
+	
+	private static Map<String,ScopedPreferenceStore> globalPreferenceStore = new HashMap<>();
+	private static Map<String,Map<IProject,ScopedPreferenceStore>> specificPreferenceStores = new HashMap<>();
 
+	public static IPreferenceStore getPreferenceStore(String preferenceQualifier) {
+		return globalPreferenceStore.computeIfAbsent(preferenceQualifier,
+				qualifier -> new ScopedPreferenceStore(InstanceScope.INSTANCE, qualifier));
+	}
+	
 	/**
 	 * Returns the preference store for global SiDiff settings.
 	 * @return global preference store
 	 */
 	public static IPreferenceStore getPreferenceStore() {
-		if(globalPreferenceStore == null) {
-			globalPreferenceStore = new ScopedPreferenceStore(InstanceScope.INSTANCE, PreferencesPlugin.PREFERENCE_QUALIFIER);
-		}
-		return globalPreferenceStore;
+		return getPreferenceStore(PREFERENCE_QUALIFIER);
 	}
 
+	public static IPreferenceStore getPreferenceStore(IProject project, String preferenceQualifier) {
+		return specificPreferenceStores
+			.computeIfAbsent(preferenceQualifier, unused -> new HashMap<>())
+			.computeIfAbsent(project, unused -> {
+				ScopedPreferenceStore store = new ScopedPreferenceStore(new ProjectScope(project), preferenceQualifier);
+				SettingsAdapterUtil.initializeDefaults(store);
+				return store;
+			});
+	}
+	
 	/**
 	 * Returns the preference store for SiDiff settings specific to the given project.
 	 * @param project the project
 	 * @return project specific preference store
 	 */
 	public static IPreferenceStore getPreferenceStore(IProject project) {
-		if(specificPreferenceStores == null) {
-			specificPreferenceStores = new HashMap<IProject, ScopedPreferenceStore>();
-		}
-		ScopedPreferenceStore store = specificPreferenceStores.get(project);
-		if(store == null) {
-			store = new ScopedPreferenceStore(new ProjectScope(project), PreferencesPlugin.PREFERENCE_QUALIFIER);
-			SettingsAdapterUtil.initializeDefaults(store);
-			specificPreferenceStores.put(project, store);
-		}
-		return store;
+		return getPreferenceStore(project, PREFERENCE_QUALIFIER);
 	}
 
-	private static final QualifiedName KEY_USE_RESOURCE_SETTINGS =
-			new QualifiedName(PreferencesPlugin.PREFERENCE_QUALIFIER, "USE_RESOURCE_SETTINGS");
+	private static QualifiedName getKeyUseResourceSettings(String preferenceQualifier) {
+		return new QualifiedName(preferenceQualifier, "USE_RESOURCE_SETTINGS");
+	}
 
 	private static List<ProjectSpecificSettingsListener> projectSpecificListeners =
 			new LinkedList<ProjectSpecificSettingsListener>();
 
+	public static boolean useSpecificSettings(IProject project, String preferenceQualifier) throws CoreException {
+		return Boolean.valueOf(project.getPersistentProperty(getKeyUseResourceSettings(preferenceQualifier)));
+	}
+	
 	/**
 	 * Returns whether the given project has project specific settings attached that should be used.
 	 * @param project the project
@@ -69,9 +80,17 @@ public class PreferenceStoreUtil {
 	 * @see IProject#getPersistentProperty(QualifiedName)
 	 */
 	public static boolean useSpecificSettings(IProject project) throws CoreException {
-		return Boolean.valueOf(project.getPersistentProperty(KEY_USE_RESOURCE_SETTINGS));
+		return useSpecificSettings(project, PREFERENCE_QUALIFIER);
 	}
 
+	public static void setUseSpecificSettings(IProject project, String preferenceQualifier, boolean use) throws CoreException {
+		project.setPersistentProperty(getKeyUseResourceSettings(preferenceQualifier), Boolean.toString(use));
+
+		for(ProjectSpecificSettingsListener listener : projectSpecificListeners) {
+			listener.useProjectSpecificSettingsChanged(project, use);
+		}
+	}
+	
 	/**
 	 * Enable/disable project specific settings for the given project.
 	 * Notifies the {@link ProjectSpecificSettingsListener}s.
@@ -81,7 +100,7 @@ public class PreferenceStoreUtil {
 	 * @see IProject#setPersistentProperty(QualifiedName, String)
 	 */
 	public static void setUseSpecificSettings(IProject project, boolean use) throws CoreException {
-		project.setPersistentProperty(KEY_USE_RESOURCE_SETTINGS, Boolean.toString(use));
+		project.setPersistentProperty(getKeyUseResourceSettings(PREFERENCE_QUALIFIER), Boolean.toString(use));
 
 		for(ProjectSpecificSettingsListener listener : projectSpecificListeners) {
 			listener.useProjectSpecificSettingsChanged(project, use);

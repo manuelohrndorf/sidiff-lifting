@@ -13,11 +13,6 @@ public class PreferencesPlugin extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.sidiff.integration.preferences"; //$NON-NLS-1$
 
-	/**
-	 * Qualifier for global, and project specific preferences
-	 */
-	public static final String PREFERENCE_QUALIFIER = "org.sidiff.integration.preferences"; //$NON-NLS-1$
-
 	// The shared instance
 	private static PreferencesPlugin plugin;
 	

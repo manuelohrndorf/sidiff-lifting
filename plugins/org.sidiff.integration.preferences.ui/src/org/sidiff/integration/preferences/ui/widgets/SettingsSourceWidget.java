@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -38,8 +39,7 @@ import org.sidiff.matching.input.InputModels;
 
 /**
  * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class SettingsSourceWidget extends AbstractWidget implements IWidgetValidation, IWidgetSelection {
 
@@ -61,6 +61,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private IProject project;
 	private Set<String> documentTypes;
 	private Set<Enum<?>> consideredSettings;
+	private String preferenceQualifier = PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 
 	// outputs
 	private Source source;
@@ -92,6 +93,14 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		this.consideredSettings = new HashSet<Enum<?>>();
 		this.selectionListeners = new LinkedList<SelectionListener>();
 	}
+	
+	public void setPreferenceQualifier(String preferenceQualifier) {
+		this.preferenceQualifier = Objects.requireNonNull(preferenceQualifier);
+	}
+	
+	public String getPreferenceQualifier() {
+		return preferenceQualifier;
+	}
 
 	@Override
 	public Composite createControl(Composite parent) {
@@ -121,7 +130,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 				throw new CoreException(new Status(IStatus.ERROR, PreferencesUiPlugin.PLUGIN_ID,
 						"No project was specified / deduced from the input models."));
 			}
-			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project));
+			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project, getPreferenceQualifier()));
 			radioProject.setText("Use settings of project");
 		} catch (CoreException e) {
 			radioProject.setEnabled(false);
@@ -186,11 +195,13 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 	private void updateSettings() {
 		switch(source) {	
 			case GLOBAL:
-				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes, consideredSettings);
+				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(
+						settings, documentTypes, consideredSettings, preferenceQualifier);
 				break;
 
 			case PROJECT:
-				diagnostic = SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes, consideredSettings);
+				diagnostic = SettingsAdapterUtil.adaptSettingsProject(
+						settings, project, documentTypes, consideredSettings, preferenceQualifier);
 				break;
 
 			case CUSTOM:
@@ -204,12 +215,7 @@ public class SettingsSourceWidget extends AbstractWidget implements IWidgetValid
 		if(diagnostic == null || diagnostic.getSeverity() == Diagnostic.OK) {
 			return;
 		}
-
-		Display.getCurrent().asyncExec(new Runnable() {
-			public void run() {
-				DiagnosticDialog.open(container.getShell(), "Validation of settings", null, diagnostic);
-			}
-		});
+		Display.getCurrent().asyncExec(() -> DiagnosticDialog.open(container.getShell(), "Validation of settings", null, diagnostic));
 	}
 
 	private SelectionListener getButtonSelectionListener() {

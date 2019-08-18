@@ -12,16 +12,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
  * A preference pages with tabs to select nested preferences pages.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class TabbedPreferencePage extends PropertyAndPreferencePage {
 
 	private TabFolder tabFolder;
 	private List<Tab> tabs = new ArrayList<>();
+	private String preferenceQualifier = PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 
 	public TabbedPreferencePage() {
 		super();
@@ -111,6 +113,15 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 		if(tabFolder != null && !tabFolder.isDisposed()) {
 			tab.createTabControl(tabFolder);
 		}
+	}
+
+	public void setPreferenceQualifier(String preferenceQualifier) {
+		this.preferenceQualifier = Objects.requireNonNull(preferenceQualifier);
+	}
+
+	@Override
+	public String getPreferenceQualifier() {
+		return preferenceQualifier;
 	}
 
 	public static class Tab {

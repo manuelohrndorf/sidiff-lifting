@@ -22,8 +22,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 /**
  * Contains utility functions for retrieving {@link ISettingsAdapter}s, adapting {@link ISettings}
  * and initializing default preference values.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class SettingsAdapterUtil {
 
@@ -62,6 +61,12 @@ public class SettingsAdapterUtil {
 		return settingsAdapters;
 	}
 
+	public static Diagnostic adaptSettingsGlobal(ISettings settings,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(preferenceQualifier),
+				documentTypes, consideredSettings);
+	}
+	
 	/**
 	 * Adapts the given settings using all available settings adapters that can handle them.
 	 * Uses the preferences from the global preference store. 
@@ -73,10 +78,24 @@ public class SettingsAdapterUtil {
 	 */
 	public static Diagnostic adaptSettingsGlobal(ISettings settings,
 			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
-		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(),
+		return adaptSettingsGlobal(settings, documentTypes, consideredSettings, PreferenceStoreUtil.PREFERENCE_QUALIFIER);
+	}
+	
+	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+		try {
+			if(!PreferenceStoreUtil.useSpecificSettings(project, preferenceQualifier)) {
+				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+						"Project specific settings are not enabled for this project.", null);
+			}
+		} catch (CoreException e) {
+			return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+					"Project specific cannot be used for this project.", new Object[] { e });
+		}
+		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project, preferenceQualifier),
 				documentTypes, consideredSettings);
 	}
-
+	
 	/**
 	 * Adapts the given settings using all available settings adapters that can handle them.
 	 * Uses the preferences from the project specific preference store.
@@ -89,17 +108,7 @@ public class SettingsAdapterUtil {
 	 */
 	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project,
 			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
-		try {
-			if(!PreferenceStoreUtil.useSpecificSettings(project)) {
-				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
-						"Project specific settings are not enabled for this project.", null);
-			}
-		} catch (CoreException e) {
-			return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
-					"Project specific cannot be used for this project.", new Object[] { e });
-		}
-		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(project),
-				documentTypes, consideredSettings);
+		return adaptSettingsProject(settings, project, documentTypes, consideredSettings, PreferenceStoreUtil.PREFERENCE_QUALIFIER);
 	}
 
 	protected static Diagnostic adaptSettings(ISettings settings, IPreferenceStore store,
@@ -128,5 +137,42 @@ public class SettingsAdapterUtil {
 		for(ISettingsAdapter adapter : getAllAvailableSettingsAdapters()) {
 			adapter.initializeDefaults(preferenceStore);
 		}
+	}
+	
+
+	public static Diagnostic saveSettingsGlobal(ISettings settings, Set<String> documentTypes,
+			Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+		return saveSettings(settings, PreferenceStoreUtil.getPreferenceStore(preferenceQualifier), documentTypes, consideredSettings);
+	}
+
+	public static Diagnostic saveSettingsProject(ISettings settings, IProject project, boolean enableProjectSpecific,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+		if(enableProjectSpecific) {
+			try {
+				PreferenceStoreUtil.setUseSpecificSettings(project, preferenceQualifier, true);
+			} catch (CoreException e) {
+				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+						"Project specific cannot be used for this project.", new Object[] { e });
+			}
+		}
+		return saveSettings(settings, PreferenceStoreUtil.getPreferenceStore(project, preferenceQualifier), documentTypes, consideredSettings);
+	}
+	
+	protected static Diagnostic saveSettings(ISettings settings, IPreferenceStore store,
+			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+		
+		BasicDiagnostic diagnostic = new BasicDiagnostic(PreferencesPlugin.PLUGIN_ID, 0,
+				"Settings were validated. See detailed messages below.", null);
+		for(ISettingsAdapter adapter : getAllAvailableSettingsAdapters()) {
+			if(adapter instanceof ISettingsAdapter.Saveable && adapter.canAdapt(settings)) {
+				adapter.setDiagnosticChain(diagnostic);
+				adapter.setDocumentTypes(documentTypes);
+				adapter.setConsideredSettings(consideredSettings);
+				ISettingsAdapter.Saveable saveableAdapter = (ISettingsAdapter.Saveable)adapter;
+				saveableAdapter.save(store, settings);
+			}
+		}
+		diagnostic.recomputeSeverity();
+		return diagnostic;
 	}
 }

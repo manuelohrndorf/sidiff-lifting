@@ -12,8 +12,7 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Contains utility functions for retrieving pipeline steps.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PipelineStepUtil {
 
@@ -66,15 +65,9 @@ public class PipelineStepUtil {
 	/**
 	 * A PipelineStep is a step in the SiDiff pipeline and has an id, a title, and a position.
 	 * The position of a pipeline step determines the order of operations that reference this pipeline step.
-	 * 
 	 */
 	public static class PipelineStep {
-		static final Comparator<PipelineStep> COMPARATOR = new Comparator<PipelineStep>() {
-			public int compare(PipelineStep o1, PipelineStep o2) {
-				return o1.getPosition() - o2.getPosition();
-			};
-		};
-		
+		static final Comparator<PipelineStep> COMPARATOR = Comparator.comparingInt(PipelineStep::getPosition);
 		private final String id;
 		private final String title;
 		private final int position;
