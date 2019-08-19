@@ -142,7 +142,10 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 			item.setToolTipText(tooltip);
 
 			Composite content = new Composite(tabFolder, SWT.NONE);
-			content.setLayout(new FillLayout(SWT.HORIZONTAL));
+			FillLayout fill = new FillLayout(SWT.HORIZONTAL);
+			fill.marginWidth = 5;
+			fill.marginHeight = 5;
+			content.setLayout(fill);
 			page.createContents(content);
 
 			item.setControl(content);
