@@ -1,6 +1,7 @@
 package org.sidiff.editrule.rulebase.builder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -95,6 +96,13 @@ public class EditRuleBaseWrapper {
 			} catch(Exception e) {
 				EditRuleBaseBuilderPlugin.logError("Rulebase " + rulebaseURI + " is invalid. Creating a new one.", e);
 				rulebase = null;
+
+				// delete the invalid file
+				try {
+					resourceSet.getURIConverter().delete(rulebaseURI, null);
+				} catch (IOException e1) {
+					throw new RuntimeException("Failed to delete corrupted rulebase file.", e1);
+				}
 			}
 		}
 
