@@ -28,6 +28,7 @@ public class RuleBaseViewEntry {
 	public Class<? extends IBasicRuleBase> getViewType() {
 		return factory.getRuleBaseViewType();
 	}
+
 	public Set<String> getRequiredAttachments() {
 		return requiredAttachments;
 	}

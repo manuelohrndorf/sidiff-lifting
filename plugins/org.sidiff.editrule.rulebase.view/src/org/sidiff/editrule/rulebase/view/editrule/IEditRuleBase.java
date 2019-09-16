@@ -1,6 +1,5 @@
 package org.sidiff.editrule.rulebase.view.editrule;
 
-import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.model.Unit;

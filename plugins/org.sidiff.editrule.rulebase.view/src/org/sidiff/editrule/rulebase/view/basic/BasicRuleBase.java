@@ -1,10 +1,10 @@
 package org.sidiff.editrule.rulebase.view.basic;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
@@ -41,21 +41,13 @@ public class BasicRuleBase implements IBasicRuleBase {
 	
 	@Override
 	public Set<String> getDocumentTypes() {
-		Set<String> docTypes = new HashSet<String>(getRuleBase().getDocumentTypes());
-		return Collections.unmodifiableSet(docTypes);
+		return Collections.unmodifiableSet(new HashSet<String>(getRuleBase().getDocumentTypes()));
 	}
 	
 	@Override
 	public Collection<RuleBaseItem> getActiveRuleBaseItems() {
-		ArrayList<RuleBaseItem> active = new ArrayList<RuleBaseItem>(rulebase.getItems().size());
-		
-		for (RuleBaseItem item : rulebase.getItems()) {
-			if (item.isActive()) {
-				active.add(item);
-			}
-		}
-		
-		active.trimToSize();
-		return active;
+		return rulebase.getItems().stream()
+			.filter(RuleBaseItem::isActive)
+			.collect(Collectors.toList());
 	}
 }
