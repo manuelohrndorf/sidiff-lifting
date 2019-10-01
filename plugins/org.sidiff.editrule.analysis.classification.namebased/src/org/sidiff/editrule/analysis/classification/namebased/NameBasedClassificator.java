@@ -43,15 +43,15 @@ public class NameBasedClassificator implements IClassificator, Classifier<String
 
 	@Override
 	public String classify(EditRule rule) {
-		String ruleName = rule.getExecuteModule().getName();
+		String ruleName = rule.getExecuteModule().getName().toUpperCase();
 		
-		if (ruleName.startsWith("CREATE") || ruleName.startsWith("Create") || ruleName.startsWith("ADD") || ruleName.startsWith("Add") || ruleName.startsWith("INSERT") || ruleName.startsWith("Insert")) {
+		if (ruleName.startsWith("CREATE") || ruleName.startsWith("ADD") || ruleName.startsWith("INSERT")) {
 			return "INCREASE";
-		} else if (ruleName.startsWith("DELETE") || ruleName.startsWith("Delete") || ruleName.startsWith("REMOVE") || ruleName.startsWith("Remove")) {
+		} else if (ruleName.startsWith("DELETE") || ruleName.startsWith("REMOVE")) {
 			return "REDUCE";
-		} else if (ruleName.startsWith("MOVE") || ruleName.startsWith("Move") || ruleName.startsWith("CHANGE") || ruleName.startsWith("Change")) {
+		} else if (ruleName.startsWith("MOVE") || ruleName.startsWith("CHANGE")) {
 			return "STRUCTURAL CHANGE";
-		} else if (ruleName.startsWith("SET") || ruleName.startsWith("Set")) {
+		} else if (ruleName.startsWith("SET") || ruleName.startsWith("UNSET")) {
 			return "VALUE CHANGE";
 		} else
 			return "UNKNOWN";
