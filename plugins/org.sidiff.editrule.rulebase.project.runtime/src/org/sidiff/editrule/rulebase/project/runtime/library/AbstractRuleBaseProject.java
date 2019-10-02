@@ -40,7 +40,7 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean supportsRuleBaseView(Class<? extends IBasicRuleBase> view) {
 		return RuleBaseViewLibrary.getSupportedViewTypes(getAttachmentTypes()).contains(view);
@@ -53,13 +53,13 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 		}
 		return rulebase;
 	}
-	
+
 	@Override
 	public void unloadRuleBaseData() {
 		rulebase = null;
-		views = null;
+		views.clear();
 	}
-	
+
 	protected String getRuleBasePluginID() {
 		return FrameworkUtil.getBundle(getClass()).getSymbolicName();
 	}
