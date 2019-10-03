@@ -520,12 +520,9 @@ public class EditRuleImpl extends EObjectImpl implements EditRule {
 	@Override
 	public String toString() {
 		StringBuffer res = new StringBuffer(super.toString());
-		if (eIsProxy()){
-			res.append(" ("+ getExecuteMainUnit() + ")");
-		} else {			
+		if(!eIsProxy()) {
 			res.append(" (" + getExecuteModule().getName() + ")");
 		}
-		
 		return res.toString();
 	}
 } //EditRuleImpl
