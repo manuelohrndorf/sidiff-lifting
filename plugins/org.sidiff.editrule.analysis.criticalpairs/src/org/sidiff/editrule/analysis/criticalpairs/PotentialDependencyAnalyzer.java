@@ -246,6 +246,18 @@ public abstract class PotentialDependencyAnalyzer {
 			potRuleDep.addAllPNDs(createUseNodePotDeps);
 		}
 		
+		// Create-Delete
+		if ((!predecessorCreateNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
+			Set<PotentialNodeDependency> createUseNodePotDeps = findCreateDelete_Node(predecessorCreateNodes,
+					successorDeleteNodes);
+
+			for (PotentialNodeDependency pnd : createUseNodePotDeps) {
+				pnd.setSourceRule(successorEditRule);
+				pnd.setTargetRule(predecessorEditRule);
+			}
+			potRuleDep.addAllPNDs(createUseNodePotDeps);
+		}
+		
 		// Create-Use (PAC)
 		if ((!predecessorCreateNodes.isEmpty()) && (!successorRequireNodes.isEmpty())) {
 			Set<PotentialNodeDependency> createUseNodePotDepsPAC = findCreateUses_Node_PAC(
@@ -314,6 +326,18 @@ public abstract class PotentialDependencyAnalyzer {
 		if ((!predecessorCreateEdges.isEmpty()) && (!successorPreserveEdges.isEmpty())) {
 			Set<PotentialEdgeDependency> createUseEdgePotDeps = findCreateUses_Edge(
 					predecessorCreateEdges, successorPreserveEdges, potRuleDep);
+			
+			for (PotentialEdgeDependency ped : createUseEdgePotDeps) {
+				ped.setSourceRule(successorEditRule);
+				ped.setTargetRule(predecessorEditRule);
+			}
+			potRuleDep.addAllPEDs(createUseEdgePotDeps);
+		}
+		
+		// Create-Delete
+		if ((!predecessorCreateEdges.isEmpty()) && (!successorDeleteEdges.isEmpty())) {
+			Set<PotentialEdgeDependency> createUseEdgePotDeps = findCreateDelete_Edge(
+					predecessorCreateEdges, successorDeleteEdges, potRuleDep);
 			
 			for (PotentialEdgeDependency ped : createUseEdgePotDeps) {
 				ped.setSourceRule(successorEditRule);
@@ -655,6 +679,33 @@ public abstract class PotentialDependencyAnalyzer {
 		return potDeps;
 	}
 	
+	private Set<PotentialNodeDependency> findCreateDelete_Node(Collection<Node> predecessorCreateNodes,
+			Collection<Node> successorDeleteNodes) {
+		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
+
+		for (Node successorNode : successorDeleteNodes) {
+			
+			// Is transient potential dependences?
+			boolean isTransient = true;
+
+			
+			for (Node predecessorNode : predecessorCreateNodes) {
+				if (isCreateDeleteDependency(predecessorNode, successorNode)) {
+					// Create-Use dependence found
+					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
+
+					potDep.setSourceNode(successorNode);
+					potDep.setTargetNode(predecessorNode);
+					potDep.setKind(PotentialDependencyKind.CREATE_USE);
+					potDep.setTransient(isTransient);
+					
+					potDeps.add(potDep);
+				}
+			}
+		}
+		return potDeps;
+	}
+	
 	/**
 	 * Checks two nodes for a Create-Use dependency.
 	 * 
@@ -674,6 +725,23 @@ public abstract class PotentialDependencyAnalyzer {
 
 		boolean superType = rhsPredecessor.getType().getEAllSuperTypes().contains(successor.getType());
 		boolean directType = rhsPredecessor.getType() == successor.getType();
+
+		if (directType || superType) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean isCreateDeleteDependency(Node predecessorNode, Node successorNode) {
+		assert (isCreationNode(predecessorNode)) : "Input Assertion Failed!";
+		
+		/*
+		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Preserve-Node-Type
+		 */
+
+		boolean superType = predecessorNode.getType().getEAllSuperTypes().contains(successorNode.getType());
+		boolean directType = predecessorNode.getType() == successorNode.getType();
 
 		if (directType || superType) {
 			return true;
@@ -1203,6 +1271,34 @@ public abstract class PotentialDependencyAnalyzer {
 		return potDeps;
 	}
 	
+	private Set<PotentialEdgeDependency> findCreateDelete_Edge(Collection<Edge> predecessorCreateEdges,
+			Collection<Edge> successorDeleteEdges, PotentialRuleDependencies potRuleDep) {
+		Set<PotentialEdgeDependency> potDeps = new HashSet<PotentialEdgeDependency>();
+
+		for (Edge rhsPredecessorEdge : predecessorCreateEdges) {
+			
+			// Is transient potential dependences?
+			boolean isTransient = true;
+			
+			for (Edge successorEdge : successorDeleteEdges) {
+				if (isCreateDeleteDependency(rhsPredecessorEdge, successorEdge, potRuleDep)) {
+					// Create-Use dependence found
+					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
+
+					potDep.setSourceEdge(successorEdge);
+					potDep.setTargetEdge(rhsPredecessorEdge);
+					potDep.setKind(PotentialDependencyKind.CREATE_USE);
+					potDep.setTransient(isTransient);
+					
+					potDeps.add(potDep);
+				}
+			}
+		}
+		return potDeps;
+	}
+	
+	
+	
 	/**
 	 * Checks two edges for a Create-Use dependency.
 	 * 
@@ -1227,6 +1323,47 @@ public abstract class PotentialDependencyAnalyzer {
 			Node predecessorTgt = rhsPredecessor.getTarget();
 			Node succesorSrc = successor.getLhsEdge().getSource();
 			Node succesorTgt = successor.getLhsEdge().getTarget();
+
+			// Src
+			boolean srcOK = false;
+
+			if (isCreationNode(predecessorSrc)) {
+				srcOK = hasPotentialNodeDependency(potRuleDep, predecessorSrc, succesorSrc);
+			} else {
+				assert isPreservedNode(predecessorSrc) : "<< preserve >> predecessor source node expected!";
+				srcOK = true;
+			}
+
+			// Tgt
+			boolean tgtOK = false;
+
+			if (isCreationNode(predecessorTgt)) {
+				tgtOK = hasPotentialNodeDependency(potRuleDep, predecessorTgt, succesorTgt);
+			} else {
+				assert isPreservedNode(predecessorTgt) : "<< preserve >> predecessor target node expected!";
+				tgtOK = true;
+			}
+
+			// Tgt & Src
+			if (srcOK && tgtOK) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean isCreateDeleteDependency(Edge rhsPredecessorEdge, Edge successorEdge,
+			PotentialRuleDependencies potRuleDep) {
+		assert (isCreationEdge(rhsPredecessorEdge)) : "Input Assertion Failed!";
+		
+		if (rhsPredecessorEdge.getType() == successorEdge.getType()) {
+
+			Node predecessorSrc = rhsPredecessorEdge.getSource();
+			Node predecessorTgt = rhsPredecessorEdge.getTarget();
+			Node succesorSrc = successorEdge.getSource();
+			Node succesorTgt = successorEdge.getTarget();
 
 			// Src
 			boolean srcOK = false;
