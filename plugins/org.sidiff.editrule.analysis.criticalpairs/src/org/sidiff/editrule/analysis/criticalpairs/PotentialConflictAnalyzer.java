@@ -217,10 +217,7 @@ public abstract class PotentialConflictAnalyzer {
 			potRuleCon.addAllPNCs(createForbidNodePotConsPAC);
 		}
 		
-		if((!predecessorCreateEdges.isEmpty()) && (!successorForbidEdges.isEmpty())) {
-			Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbid_Edge(predecessorCreateEdges, successorForbidEdges, potRuleCon);
-			
-		}
+		
 //		
 //		// Create-Use
 //		if ((!predecessorCreateNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
@@ -308,6 +305,17 @@ public abstract class PotentialConflictAnalyzer {
 				pec.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPECs(useDeleteEdgePotConsPAC);
+		}
+		
+		// Create-Forbid (NAC)
+		if((!predecessorCreateEdges.isEmpty()) && (!successorForbidEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbid_Edge(predecessorCreateEdges, successorForbidEdges, potRuleCon);
+			
+			for (PotentialEdgeConflict pec : createForbidEdgePotConcs) {
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPECs(createForbidEdgePotConcs);
 		}
 //		
 //		// Create-Use
