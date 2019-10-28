@@ -2,11 +2,12 @@ package org.sidiff.difference.asymmetric.dependencies.real;
 
 import static org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil.getOperationInvocationOfSCS;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ import org.sidiff.difference.asymmetric.DependencyKind;
 import org.sidiff.difference.asymmetric.EdgeDependency;
 import org.sidiff.difference.asymmetric.NodeDependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
+import org.sidiff.difference.asymmetric.dependencies.real.exceptions.DependencyCycleException;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
 import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -42,41 +44,43 @@ public abstract class DependencyAnalyzer {
 	/**
 	 * The asymmetric difference
 	 */
-	protected AsymmetricDifference asymmetricDiff;
-	
+	private AsymmetricDifference asymmetricDiff;
+
 	/**
 	 * The {@link ILiftingRuleBase} used by {@link #recognitionEngine}/{@link #asymmetricDiff}
 	 */
-	protected  Set<ILiftingRuleBase> ruleBases;
-	
+	private Set<ILiftingRuleBase> ruleBases;
+
 	/**
 	 * 
 	 */
-	protected Map<EditRule, Set<SemanticChangeSet>> editRule2SCS;
+	private Map<EditRule, Set<SemanticChangeSet>> editRule2SCS;
 
 	/**
 	 * Analysis the dependencies between different rulebases
 	 */
-	InterRuleBasePotentialDependencyAnalyzer crossOverPotDeps;
+	private InterRuleBasePotentialDependencyAnalyzer crossOverPotDeps;
 
 	public DependencyAnalyzer(AsymmetricDifference asymmetricDiff) {
-		this.asymmetricDiff = asymmetricDiff;
-		this.ruleBases = new HashSet<ILiftingRuleBase>();
-		this.editRule2SCS = new HashMap<EditRule, Set<SemanticChangeSet>>();
+		this.asymmetricDiff = Objects.requireNonNull(asymmetricDiff, "asymmetricDiff is null");
 	}
-	
-	protected abstract void initialize();
+
+	protected abstract Set<ILiftingRuleBase> initializeRuleBases();
+	protected abstract Map<EditRule, Set<SemanticChangeSet>> initializeEditRule2SCS();
 
 	public void analyze() {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "-------------------- ANALYZE DEPENDENCIES ------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		
-		initialize();
-		
+
+		ruleBases = new HashSet<>(initializeRuleBases());
+		editRule2SCS = new HashMap<>(initializeEditRule2SCS());
+
 		// Initialize RuleBase cross-over potential dependency analyzer
 		if (ruleBases.size() > 1) {
 			crossOverPotDeps = new InterRuleBasePotentialDependencyAnalyzer(ruleBases);
+		} else {
+			crossOverPotDeps = null;
 		}
 
 		// Run through all types of edit rules contained in the lifted difference:
@@ -85,7 +89,6 @@ public abstract class DependencyAnalyzer {
 
 			// Run through all potential dependencies of the edit rule type:
 			for (PotentialDependency potDep : getPotentialDependencies(erSrc)) {
-
 				assert (erSrc == potDep.getSourceRule()) : "erSrc != potDep.sourceRule";
 
 				// Run through all occurring SCS of the actual edit rule type:
@@ -100,6 +103,12 @@ public abstract class DependencyAnalyzer {
 					}
 
 					for (SemanticChangeSet scsTgt : scsTgts) {
+						// Skip target SCS if same as source.
+						// Otherwise some rules that use <<forbid>> may create a dependency cycle with themselves.
+						if(scsSrc == scsTgt) {
+							continue;
+						}
+
 						// Get matches of potentially depending edit rules:
 						IEditRuleMatch erSrcMatch = getEditRuleMatch(scsSrc);
 						IEditRuleMatch erTgtMatch = getEditRuleMatch(scsTgt);
@@ -107,10 +116,10 @@ public abstract class DependencyAnalyzer {
 						Dependency dependency;
 						if (potDep instanceof PotentialNodeDependency) {
 							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialNodeDependency) potDep)
-											.map(this::createNodeDependency).orElse(null);
+											.map(DependencyAnalyzer::createNodeDependency).orElse(null);
 						} else if (potDep instanceof PotentialEdgeDependency) {
 							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialEdgeDependency) potDep)
-											.map(this::createEdgeDependency).orElse(null);
+											.map(DependencyAnalyzer::createEdgeDependency).orElse(null);
 						} else if (potDep instanceof PotentialAttributeDependency) {
 							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialAttributeDependency)potDep, scsTgt)
 											.map(i -> createAttributeDependency((PotentialAttributeDependency)potDep, i)).orElse(null);
@@ -146,20 +155,20 @@ public abstract class DependencyAnalyzer {
 				}
 			}
 		}
-		
-		//-------------------------------------------------------------------------------------------------
-		//TODO: Assertion: OperationInvocation-Dependencies zyklenfrei (Task #112) -> noch zu testen
-		Collection<EditRule> cycle = new CycleChecker(asymmetricDiff.getOperationInvocations()).check();
-		assert (cycle.isEmpty()) : "cycle between: " + cycle;
+
+		List<EditRule> cycle = CycleChecker.check(asymmetricDiff.getOperationInvocations());
+		if(!cycle.isEmpty()) {
+			throw new DependencyCycleException(cycle);
+		}
 	}
 
-	private Dependency createNodeDependency(EObject intersection) {
+	private static Dependency createNodeDependency(EObject intersection) {
 		NodeDependency dependency = AsymmetricFactory.eINSTANCE.createNodeDependency();
 		dependency.setObject(intersection);
 		return dependency;
 	}
 
-	private Dependency createEdgeDependency(Link intersection) {
+	private static Dependency createEdgeDependency(Link intersection) {
 		EdgeDependency dependency = AsymmetricFactory.eINSTANCE.createEdgeDependency();
 		dependency.setSrcObject(intersection.getSrc());
 		dependency.setTgtObject(intersection.getTgt());
@@ -167,7 +176,7 @@ public abstract class DependencyAnalyzer {
 		return dependency;
 	}
 
-	private Dependency createAttributeDependency(PotentialAttributeDependency potDep, EObject intersection) {
+	private static Dependency createAttributeDependency(PotentialAttributeDependency potDep, EObject intersection) {
 		AttributeDependency dependency = AsymmetricFactory.eINSTANCE.createAttributeDependency();
 		dependency.setObject(intersection);
 		dependency.setType(potDep.getSourceAttribute().getType());
@@ -178,7 +187,7 @@ public abstract class DependencyAnalyzer {
 	
 	private Set<PotentialDependency> getPotentialDependencies(EditRule erSrc) {
 		// Rule base internal potential dependencies
-		Set<PotentialDependency> potDeps = new HashSet<PotentialDependency>();
+		Set<PotentialDependency> potDeps = new HashSet<>();
 		for (ILiftingRuleBase rb : ruleBases) {
 			potDeps.addAll(rb.getPotentialDependencies(erSrc));
 		}
@@ -415,5 +424,17 @@ public abstract class DependencyAnalyzer {
 				throw new AssertionError("Unknown dependency kind: " + pad.getKind());
 		}
 		return Optional.empty();
+	}
+
+	protected AsymmetricDifference getAsymmetricDiff() {
+		return asymmetricDiff;
+	}
+
+	protected Set<ILiftingRuleBase> getRuleBases() {
+		return Collections.unmodifiableSet(ruleBases);
+	}
+
+	protected Map<EditRule, Set<SemanticChangeSet>> getEditRule2SCS() {
+		return Collections.unmodifiableMap(editRule2SCS);
 	}
 }

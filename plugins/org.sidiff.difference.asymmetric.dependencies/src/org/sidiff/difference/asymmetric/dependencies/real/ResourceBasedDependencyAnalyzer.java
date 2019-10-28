@@ -1,6 +1,8 @@
 package org.sidiff.difference.asymmetric.dependencies.real;
 
-import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -18,22 +20,21 @@ public class ResourceBasedDependencyAnalyzer extends DependencyAnalyzer {
 	}
 
 	@Override
-	protected void initialize() {
-		for(OperationInvocation opInv : asymmetricDiff.getOperationInvocations()){
-			EditRule editRule = opInv.resolveEditRule();
-			ruleBases.add(IRuleBaseProject.MANAGER.resolveIEditRuleBase(editRule, ILiftingRuleBase.TYPE));
-			SemanticChangeSet scs = opInv.getChangeSet();
-			if(!editRule2SCS.containsKey(editRule)){
-				editRule2SCS.put(editRule, new HashSet<SemanticChangeSet>());
-			}
-			editRule2SCS.get(editRule).add(scs);
-		}
+	protected Set<ILiftingRuleBase> initializeRuleBases() {
+		return getAsymmetricDiff().getOperationInvocations().stream()
+				.map(opInv -> IRuleBaseProject.MANAGER.resolveIEditRuleBase(opInv.resolveEditRule(), ILiftingRuleBase.TYPE))
+				.collect(Collectors.toSet());
+	}
+
+	@Override
+	protected Map<EditRule, Set<SemanticChangeSet>> initializeEditRule2SCS() {
+		return getAsymmetricDiff().getOperationInvocations().stream()
+				.collect(Collectors.groupingBy(OperationInvocation::resolveEditRule,
+						Collectors.mapping(OperationInvocation::getChangeSet, Collectors.toSet())));
 	}
 
 	@Override
 	protected IEditRuleMatch getEditRuleMatch(SemanticChangeSet scs) {
-		IEditRuleMatch iEditRuleMatch = new UriBasedEditRuleMatch(scs);
-		return iEditRuleMatch;
+		return new UriBasedEditRuleMatch(scs);
 	}
-
 }

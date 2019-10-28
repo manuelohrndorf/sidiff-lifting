@@ -1,9 +1,15 @@
 package org.sidiff.difference.asymmetric.dependencies.real;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
+import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.editrule.rulebase.EditRule;
 
 public class EngineBasedDependencyAnalyzer extends DependencyAnalyzer {
 
@@ -12,7 +18,7 @@ public class EngineBasedDependencyAnalyzer extends DependencyAnalyzer {
 	 * difference
 	 */
 	private IRecognitionEngine recognitionEngine;
-	
+
 	/**
 	 * Creates a {@link EngineBasedDependencyAnalyzer}
 	 * 
@@ -22,19 +28,21 @@ public class EngineBasedDependencyAnalyzer extends DependencyAnalyzer {
 	 */
 	public EngineBasedDependencyAnalyzer(AsymmetricDifference asymmetricDiff, IRecognitionEngine recognitionEngine) {
 		super(asymmetricDiff);
-		this.recognitionEngine = recognitionEngine;
+		this.recognitionEngine = Objects.requireNonNull(recognitionEngine, "recognitionEngine is null");
 	}
 
 	@Override
-	protected void initialize() {
-		this.ruleBases = recognitionEngine.getSetup().getRulebases();
-		this.editRule2SCS = recognitionEngine.getChangeSets();
+	protected Set<ILiftingRuleBase> initializeRuleBases() {
+		return recognitionEngine.getSetup().getRulebases();
+	}
+
+	@Override
+	protected Map<EditRule, Set<SemanticChangeSet>> initializeEditRule2SCS() {
+		return recognitionEngine.getChangeSets();
 	}
 
 	@Override
 	protected IEditRuleMatch getEditRuleMatch(SemanticChangeSet scs) {
 		 return recognitionEngine.getEditRuleMatch(scs);
 	}
-
-	
 }

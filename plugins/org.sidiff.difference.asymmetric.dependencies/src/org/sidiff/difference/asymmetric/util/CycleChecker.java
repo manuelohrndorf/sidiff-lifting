@@ -18,53 +18,57 @@ import org.sidiff.editrule.rulebase.EditRule;
  *
  */
 public class CycleChecker {
+
 	private Collection<OperationInvocation> vertices;
-	private Collection<OperationInvocation> finished = new ArrayList<OperationInvocation>();
-	private List<OperationInvocation> visited = new ArrayList<OperationInvocation>();
-	private List<OperationInvocation> path = new ArrayList<OperationInvocation>();
-	private List<EditRule> cycle = new ArrayList<EditRule>();
-	
-	public CycleChecker(Collection<OperationInvocation> vertices){
-		this.vertices = vertices;
-		visited = new ArrayList<OperationInvocation>();
+	private Collection<OperationInvocation> finished = new ArrayList<>();
+	private List<OperationInvocation> visited = new ArrayList<>();
+	private List<OperationInvocation> path = new ArrayList<>();
+
+	private CycleChecker(Collection<OperationInvocation> vertices) {
+		this.vertices = new ArrayList<>(vertices);
+		visited = new ArrayList<>();
 	}
-	
-	
+
 	/**
 	 * checks if there is an cycle between the OperationInvocation
 	 * respectively the Dependencies
 	 * 
 	 * @return EditRules involved in a cycle
 	 */
-	public List<EditRule> check(){
-		
-		for(OperationInvocation o : vertices){
-			if(checkNode(o))
+	public List<EditRule> check() {
+		List<EditRule> cycle = new ArrayList<>();
+		for(OperationInvocation o : vertices) {
+			if(checkNode(o)) {
 				break;
+			}
 		}
-		
-		for(int i=0; i<path.size(); i++){
-			if(!cycle.contains(path.get(i).resolveEditRule()))
-				cycle.add(path.get(i).resolveEditRule());
+		for(OperationInvocation o : path) {
+			EditRule editRule = o.resolveEditRule();
+			if(!cycle.contains(editRule)) {
+				cycle.add(editRule);
+			}
 		}
 		Collections.reverse(cycle);
 		return cycle;
 	}
-	
-	
+
 	private boolean checkNode(OperationInvocation node){
 		if(finished.contains(node))
 			return false;
 		if(visited.contains(node))
 			return true;
 		visited.add(node);
-		for(DependencyContainer d : node.getOutgoing()){
-			if (checkNode(d.getTarget())){
+		for(DependencyContainer d : node.getOutgoing()) {
+			if(checkNode(d.getTarget())) {
 				path.add(d.getTarget());
 				return true;
 			}
 		}
 		finished.add(node);	
 		return false;
+	}
+
+	public static List<EditRule> check(Collection<OperationInvocation> vertices) {
+		return new CycleChecker(vertices).check();
 	}
 }
