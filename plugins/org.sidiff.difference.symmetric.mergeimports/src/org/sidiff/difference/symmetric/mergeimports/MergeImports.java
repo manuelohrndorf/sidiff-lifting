@@ -1,5 +1,7 @@
 package org.sidiff.difference.symmetric.mergeimports;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -25,7 +27,6 @@ public class MergeImports {
 	protected SymmetricDifference symmetricDifference;
 
 	protected Scope scope;
-
 	protected boolean relink;
 
 	protected ExternalReferenceContainer refsA;
@@ -40,107 +41,107 @@ public class MergeImports {
 	protected boolean merged;
 
 	public MergeImports(Scope scope, boolean relink) {
-		super();
-
-		this.scope = scope;
+		this.scope = Objects.requireNonNull(scope);
 		this.relink = relink;
 		this.merged = false;
 	}
 
 	/**
-	 * Merge imports into the difference.
+	 * Merges imports into the difference, if not already merged.
 	 * 
 	 * @see {@link MergeImports#unmerge()}
 	 */
 	public void merge() {
+		if(merged) {
+			return;
+		}
+		merged = true;
 
-		if (!merged) {
-			merged = true;
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			LogUtil.log(LogEvent.NOTICE, "----------------------- MERGE IMPORTS ----------------------");
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "----------------------- MERGE IMPORTS ----------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			LogUtil.log(LogEvent.NOTICE, "resourceA: " + symmetricDifference.getModelA());
-			LogUtil.log(LogEvent.NOTICE, "resourceB: " + symmetricDifference.getModelB());
+		LogUtil.log(LogEvent.NOTICE, "resourceA: " + symmetricDifference.getModelA());
+		LogUtil.log(LogEvent.NOTICE, "resourceB: " + symmetricDifference.getModelB());
 
-			LogUtil.log(LogEvent.DEBUG, "\nresSetA:");
-			ResourceSet resSetA = symmetricDifference.getModelA().getResourceSet();
-			for (Resource r : resSetA.getResources()) {
-				assert (!r.getContents().isEmpty()) : "Resource '" + r.getURI() + "' is empty!";
-				LogUtil.log(LogEvent.DEBUG, r);
-				for (EObject root : r.getContents()) {
-					LogUtil.log(LogEvent.DEBUG, "\troot: " + root);
-				}
-
+		LogUtil.log(LogEvent.DEBUG, "\nresSetA:");
+		ResourceSet resSetA = symmetricDifference.getModelA().getResourceSet();
+		for (Resource r : resSetA.getResources()) {
+			assert (!r.getContents().isEmpty()) : "Resource '" + r.getURI() + "' is empty!";
+			LogUtil.log(LogEvent.DEBUG, r);
+			for (EObject root : r.getContents()) {
+				LogUtil.log(LogEvent.DEBUG, "\troot: " + root);
 			}
 
-			LogUtil.log(LogEvent.DEBUG, "\nresSetB:");
-			ResourceSet resSetB = symmetricDifference.getModelB().getResourceSet();
-			for (Resource r : resSetB.getResources()) {
-				assert (!r.getContents().isEmpty()) : "Resource '" + r.getURI() + "' is empty!";
-				LogUtil.log(LogEvent.DEBUG, r);
-				for (EObject root : r.getContents()) {
-					LogUtil.log(LogEvent.DEBUG, "\troot: " + root);
-				}
+		}
+
+		LogUtil.log(LogEvent.DEBUG, "\nresSetB:");
+		ResourceSet resSetB = symmetricDifference.getModelB().getResourceSet();
+		for (Resource r : resSetB.getResources()) {
+			assert (!r.getContents().isEmpty()) : "Resource '" + r.getURI() + "' is empty!";
+			LogUtil.log(LogEvent.DEBUG, r);
+			for (EObject root : r.getContents()) {
+				LogUtil.log(LogEvent.DEBUG, "\troot: " + root);
 			}
+		}
 
-			// Collect external references
-			ExternalReferenceCalculator referenceCalculatorA = new ExternalReferenceCalculator();
-			this.refsA = referenceCalculatorA.calculate(symmetricDifference.getModelA(), scope);
-			ExternalReferenceCalculator referenceCalculatorB = new ExternalReferenceCalculator();
-			this.refsB = referenceCalculatorB.calculate(symmetricDifference.getModelB(), scope);
+		// Collect external references
+		ExternalReferenceCalculator referenceCalculatorA = new ExternalReferenceCalculator();
+		this.refsA = referenceCalculatorA.calculate(symmetricDifference.getModelA(), scope);
+		ExternalReferenceCalculator referenceCalculatorB = new ExternalReferenceCalculator();
+		this.refsB = referenceCalculatorB.calculate(symmetricDifference.getModelB(), scope);
 
-			// Registry adapter (always needed)
-			initRegistryAdapter();
+		// Registry adapter (always needed)
+		initRegistryAdapter();
 
-			// ResourceSet adapter (only needed when scope == RESOURCE).
-			if (scope == Scope.RESOURCE) {
-				initResourceSetAdapter();
-			}
+		// ResourceSet adapter (only needed when scope == RESOURCE).
+		if (scope == Scope.RESOURCE) {
+			initResourceSetAdapter();
+		}
 
-			// Create merge imports container:
-			imports = new ModelImports(registryAdapter, resourceSetAdapter);
+		// Create merge imports container:
+		imports = new ModelImports(registryAdapter, resourceSetAdapter);
 
-			/*
-			 * Print report
-			 */
+		/*
+		 * Print report
+		 */
 
-			LogUtil.log(LogEvent.DEBUG, "\nMerge imports from Registry (Original <-> Copy):");
-			for (Correspondence c : registryAdapter.getCorrespondences()) {
+		LogUtil.log(LogEvent.DEBUG, "\nMerge imports from Registry (Original <-> Copy):");
+		for (Correspondence c : registryAdapter.getCorrespondences()) {
+			LogUtil.log(LogEvent.DEBUG, c.getMatchedA() + " <-> " + c.getMatchedB());
+			assert (imports.containsImportsModelA(c.getMatchedA()));
+			assert (imports.containsImportsModelB(c.getMatchedB()));
+		}
+
+		LogUtil.log(LogEvent.DEBUG, "\nAdditional ResourceSet objects (A <-> B):");
+		if (resourceSetAdapter != null) {
+			for (Correspondence c : resourceSetAdapter.getCorrespondences()) {
 				LogUtil.log(LogEvent.DEBUG, c.getMatchedA() + " <-> " + c.getMatchedB());
 				assert (imports.containsImportsModelA(c.getMatchedA()));
 				assert (imports.containsImportsModelB(c.getMatchedB()));
-			}
-
-			LogUtil.log(LogEvent.DEBUG, "\nAdditional ResourceSet objects (A <-> B):");
-			if (resourceSetAdapter != null) {
-				for (Correspondence c : resourceSetAdapter.getCorrespondences()) {
-					LogUtil.log(LogEvent.DEBUG, c.getMatchedA() + " <-> " + c.getMatchedB());
-					assert (imports.containsImportsModelA(c.getMatchedA()));
-					assert (imports.containsImportsModelB(c.getMatchedB()));
-				}
 			}
 		}
 	}
 
 	/**
-	 * Undo merge.
+	 * Undo merge, if previously merged.
 	 * 
 	 * @see {@link MergeImports#merge()}
 	 */
 	public void unmerge() {
-		if (merged) {
-			merged = false;
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-			LogUtil.log(LogEvent.NOTICE, "----------------------- UNMERGE IMPORTS --------------------");
-			LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		if(!merged) {
+			return;
+		}
+		merged = false;
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "----------------------- UNMERGE IMPORTS --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
-			// delegate cleanup to adapters
-			registryAdapter.cleanup();
+		// delegate cleanup to adapters
+		registryAdapter.cleanup();
 
-			if (scope == Scope.RESOURCE) {
-				resourceSetAdapter.cleanup();
-			}
+		if (scope == Scope.RESOURCE) {
+			resourceSetAdapter.cleanup();
 		}
 	}
 
@@ -173,5 +174,4 @@ public class MergeImports {
 		resourceSetAdapter = new ResourceSetAdapter(symmetricDifference, refsA.getResourceSetReferences(), refsB.getResourceSetReferences());
 		resourceSetAdapter.init();
 	}
-
 }

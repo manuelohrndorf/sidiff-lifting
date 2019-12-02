@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.ExternalManyReference;
 import org.sidiff.common.emf.access.ExternalReference;
 import org.sidiff.common.emf.access.ExternalReferenceContainer;
@@ -100,29 +101,27 @@ public class PackageRegistryAdapter {
 	public PackageRegistryAdapter(SymmetricDifference difference, ExternalReferenceContainer registryReferencesA,
 			ExternalReferenceContainer registryReferencesB, boolean relink) {
 
-		super();
-
 		this.difference = difference;
 		this.registryReferencesA = registryReferencesA;
 		this.registryReferencesB = registryReferencesB;
 		this.relink = relink;
-		this.externalGenerics = new HashMap<ETypedElement, EGenericType>();
+		this.externalGenerics = new HashMap<>();
 	}
 
 	public void init() {
 		if (relink) {
-			original2Correspondence = new HashMap<EObject, Correspondence>();
-			copy2Correspondence = new HashMap<EObject, Correspondence>();
+			original2Correspondence = new HashMap<>();
+			copy2Correspondence = new HashMap<>();
 		} else {
 			original2Correspondence = null;
 			copy2Correspondence = null;
 		}
-		registryCorrespondences = new HashSet<Correspondence>();
+		registryCorrespondences = new HashSet<>();
 		importsA = new HashSet<EObject>();
 		importsB = new HashSet<EObject>();
 
 		// Find models which are imported from PackageRegistry
-		Set<Resource> registryModels = new HashSet<Resource>();
+		Set<Resource> registryModels = new HashSet<>();
 		registryModels.addAll(registryReferencesA.getReferencedRegistryModels());
 		registryModels.addAll(registryReferencesB.getReferencedRegistryModels());
 
@@ -227,8 +226,7 @@ public class PackageRegistryAdapter {
 				ExternalManyReference extManyRef = (ExternalManyReference)extRef;
 				
 				// Get copy
-				@SuppressWarnings("unchecked")
-				List<EObject> list = (List<EObject>) extRef.getSourceObject().eGet(extRef.getEReference());
+				List<EObject> list = EMFUtil.getReferenceTargets(extRef.getSourceObject(), extRef.getEReference());
 				EObject original = extRef.getTargetObject();
 				if(original != list.get(extManyRef.getPosition())) {
 					throw new IllegalStateException("Mismatch between original " + original
@@ -255,7 +253,7 @@ public class PackageRegistryAdapter {
 				EObject copy = getCorrespondingCopy(original);
 				assert (copy != null);
 
-				if(extRef.getSourceObject() instanceof ETypedElement){
+				if(extRef.getSourceObject() instanceof ETypedElement) {
 					EStructuralFeature feature = extRef.getSourceObject().eClass().getEStructuralFeature("name");
 					if(feature != null && extRef.getEReference().eGet(feature).equals("eType")){
 						ETypedElement eTypedElement = (ETypedElement) extRef.getSourceObject();
@@ -264,8 +262,8 @@ public class PackageRegistryAdapter {
 				}
 				// Relink original to corresponding copy
 				extRef.getSourceObject().eSet(extRef.getEReference(), copy);
-				for(Change change : difference.getChanges()){
-					if(change instanceof AddReference){
+				for(Change change : difference.getChanges()) {
+					if(change instanceof AddReference) {
 						AddReference addReference = (AddReference)change;
 						if(addReference.getSrc().equals(extRef.getSourceObject()) && addReference.getTgt().equals(original)){
 							addReference.setTgt(copy);
@@ -385,8 +383,7 @@ public class PackageRegistryAdapter {
 
 			if (extRef.getEReference().isMany()) {
 				// Get original
-				@SuppressWarnings("unchecked")
-				List<EObject> list = (List<EObject>) extRef.getSourceObject().eGet(extRef.getEReference());
+				List<EObject> list = EMFUtil.getReferenceTargets(extRef.getSourceObject(), extRef.getEReference());
 				EObject copy = list.get(((ExternalManyReference) extRef).getPosition());
 				EObject original = getCorrespondingOriginal(copy);
 				if(original == null) {
@@ -411,9 +408,9 @@ public class PackageRegistryAdapter {
 				// Relink copy to corresponding original
 				extRef.getSourceObject().eSet(extRef.getEReference(), original);
 				
-				if(extRef.getSourceObject() instanceof ETypedElement){
+				if(extRef.getSourceObject() instanceof ETypedElement) {
 					EStructuralFeature feature = extRef.getSourceObject().eClass().getEStructuralFeature("name");
-					if(feature != null && extRef.getEReference().eGet(feature).equals("eType")){
+					if(feature != null && extRef.getEReference().eGet(feature).equals("eType")) {
 						ETypedElement eTypedElement = (ETypedElement) extRef.getSourceObject();
 						eTypedElement.setEGenericType(null);
 						eTypedElement.setEGenericType(externalGenerics.get(eTypedElement));

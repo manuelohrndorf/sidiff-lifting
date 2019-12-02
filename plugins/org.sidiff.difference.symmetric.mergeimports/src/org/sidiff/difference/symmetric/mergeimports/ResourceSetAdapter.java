@@ -170,7 +170,7 @@ public class ResourceSetAdapter {
 			// resource
 			// (by URI fragement).
 			// step (a):
-			List<Resource> potentialResourcesB = new ArrayList<Resource>();
+			List<Resource> potentialResourcesB = new ArrayList<>();
 			Resource resourceB = null;
 			for (Resource r : difference.getModelB().getResourceSet().getResources()) {
 				if (r == difference.getModelB()) {
@@ -203,7 +203,7 @@ public class ResourceSetAdapter {
 				// (2) Second option: Try to locate corresponding object of objA
 				// within any resource of the ResourceSet of model B (by URI
 				// fragement).
-				List<EObject> objsB = new LinkedList<EObject>();
+				List<EObject> objsB = new LinkedList<>();
 				for (Resource r : difference.getModelB().getResourceSet().getResources()) {
 					if (r == difference.getModelB()) {
 						continue;
@@ -214,16 +214,16 @@ public class ResourceSetAdapter {
 					}
 				}
 
-				if (objsB.size() == 0){
+				if (objsB.size() == 0) {
 					LogUtil.log(LogEvent.DEBUG, "Object with URI " + objA.eResource().getURIFragment(objA)
 						+ "not found in model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
 				}
-				if (objsB.size() > 1){
+				if (objsB.size() > 1) {
 					LogUtil.log(LogEvent.DEBUG, "Multiple occurrences with URI " + objA.eResource().getURIFragment(objA)
 						+ "in ResourceSet of model B. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
 				}
 
-				if (!objsB.isEmpty()){
+				if (!objsB.isEmpty()) {
 					objB = objsB.get(0);
 				}				
 			}
@@ -259,7 +259,7 @@ public class ResourceSetAdapter {
 			// fragement).
 
 			// step (a):
-			List<Resource> potentialResourcesA = new ArrayList<Resource>();
+			List<Resource> potentialResourcesA = new ArrayList<>();
 			Resource resourceA = null;
 			for (Resource r : difference.getModelA().getResourceSet().getResources()) {
 				if (r == difference.getModelA()) {
@@ -296,7 +296,7 @@ public class ResourceSetAdapter {
 				// (2) Second option: Try to locate corresponding object of objA
 				// within any resource of the ResourceSet of model B (by URI
 				// fragement).
-				List<EObject> objsA = new LinkedList<EObject>();
+				List<EObject> objsA = new LinkedList<>();
 				for (Resource r : difference.getModelA().getResourceSet().getResources()) {
 					if (r == difference.getModelA()) {
 						continue;
@@ -307,16 +307,15 @@ public class ResourceSetAdapter {
 					}
 				}
 
-				if (objsA.size() == 0){
+				if (objsA.size() == 0) {
 					LogUtil.log(LogEvent.DEBUG, "Object with URI " + objB.eResource().getURIFragment(objB)
 						+ "not found in model A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
 				}
-				if (objsA.size() > 1){
+				if (objsA.size() > 1) {
 					LogUtil.log(LogEvent.DEBUG, "Multiple occurrences with URI " + objB.eResource().getURIFragment(objB)
 						+ "in ResourceSet of model A. Maybe you should use COMPARISON_MODE = RESOURCE_SET.");
 				}
-
-				if (!objsA.isEmpty()){
+				if (!objsA.isEmpty()) {
 					objA = objsA.get(0);
 				}				
 			}
@@ -333,5 +332,4 @@ public class ResourceSetAdapter {
 			}
 		}
 	}
-
 }

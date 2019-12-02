@@ -49,22 +49,24 @@ public class AsymmetricPackageRegistryAdapter extends PackageRegistryAdapter {
 	/**
 	 * Links the relinked external references back to their originals.
 	 */
+	@Override
 	protected void undoRelink() {
 		super.undoRelink();
+		if(asymmetricDifference == null) {
+			return;
+		}
 
 		// External B-Parameters
-		if (asymmetricDifference != null) {
-			for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {
-				for (ParameterBinding binding : op.getParameterBindings()) {
-					if (binding instanceof ObjectParameterBinding) {
-						ObjectParameterBinding objParamBinding = (ObjectParameterBinding) binding;
-						if (objParamBinding.getActualB() != null) {
-							Correspondence c = copy2Correspondence.get(objParamBinding.getActualB());
-							if (c != null) {
-								LogUtil.log(LogEvent.DEBUG, objParamBinding.getFormalName());
-								objParamBinding.setActualB(c.getMatchedA());
-								LogUtil.log(LogEvent.DEBUG, "  " + c.getMatchedB() + " -> " + c.getMatchedA());
-							}
+		for (OperationInvocation op : asymmetricDifference.getOperationInvocations()) {
+			for (ParameterBinding binding : op.getParameterBindings()) {
+				if (binding instanceof ObjectParameterBinding) {
+					ObjectParameterBinding objParamBinding = (ObjectParameterBinding) binding;
+					if (objParamBinding.getActualB() != null) {
+						Correspondence c = copy2Correspondence.get(objParamBinding.getActualB());
+						if (c != null) {
+							LogUtil.log(LogEvent.DEBUG, objParamBinding.getFormalName());
+							objParamBinding.setActualB(c.getMatchedA());
+							LogUtil.log(LogEvent.DEBUG, "  " + c.getMatchedB() + " -> " + c.getMatchedA());
 						}
 					}
 				}

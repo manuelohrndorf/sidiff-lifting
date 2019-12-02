@@ -1,7 +1,5 @@
 package org.sidiff.difference.asymmetric.mergeimports;
 
-import java.util.Set;
-
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.symmetric.mergeimports.MergeImports;
@@ -19,10 +17,7 @@ public class AsymmetricMergeImports extends MergeImports {
 
 	private AsymmetricDifference asymmetricDifference;
 
-
-	public AsymmetricMergeImports(
-			Scope scope, boolean relink) {
-
+	public AsymmetricMergeImports(Scope scope, boolean relink) {
 		super(scope, relink);
 	}
 
@@ -37,10 +32,12 @@ public class AsymmetricMergeImports extends MergeImports {
 		}
 	}
 
+	@Override
 	public AsymmetricPackageRegistryAdapter getRegistryAdapter() {
 		return (AsymmetricPackageRegistryAdapter)registryAdapter;
 	}
 
+	@Override
 	protected void initRegistryAdapter() {
 		registryAdapter = new AsymmetricPackageRegistryAdapter(symmetricDifference, asymmetricDifference, refsA, refsB, relink);
 		registryAdapter.init();

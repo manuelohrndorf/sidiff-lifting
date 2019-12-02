@@ -12,11 +12,10 @@ import org.eclipse.emf.ecore.EObject;
  * @author Manuel Ohrndorf
  */
 public class ModelImports {
-	
-	private PackageRegistryAdapter registryAdapter;
 
-	private ResourceSetAdapter resourceSetAdapter;
-	
+	private final PackageRegistryAdapter registryAdapter;
+	private final ResourceSetAdapter resourceSetAdapter;
+
 	public ModelImports(PackageRegistryAdapter registryAdapter, ResourceSetAdapter resourceSetAdapter) {
 		assert (registryAdapter != null) : "PackageRegistryAdapter can not be null!";
 		
@@ -42,12 +41,10 @@ public class ModelImports {
 	public boolean containsImportsModelA(EObject element) {
 		if (registryAdapter.getImportsModelA().contains(element)) {
 			return true;
-		} else {
-			if (resourceSetAdapter != null) {
-				return  resourceSetAdapter.getImportsModelA().contains(element);
-			}
 		}
-		
+		if (resourceSetAdapter != null) {
+			return resourceSetAdapter.getImportsModelA().contains(element);
+		}
 		return false;
 	}
 	
@@ -77,12 +74,10 @@ public class ModelImports {
 	public boolean containsImportsModelB(EObject element) {
 		if (registryAdapter.getImportsModelB().contains(element)) {
 			return true;
-		} else {
-			if (resourceSetAdapter != null) {
-				return  resourceSetAdapter.getImportsModelB().contains(element);
-			}
 		}
-		
+		if (resourceSetAdapter != null) {
+			return  resourceSetAdapter.getImportsModelB().contains(element);
+		}
 		return false;
 	}
 	
@@ -110,10 +105,9 @@ public class ModelImports {
 		public boolean hasNext() {
 			if (registryAdapterIterator.hasNext()) {
 				return true;
-			} else {
-				if (resourceSetAdapterIterator != null) {
-					return resourceSetAdapterIterator.hasNext();
-				}
+			}
+			if (resourceSetAdapterIterator != null) {
+				return resourceSetAdapterIterator.hasNext();
 			}
 			return false;
 		}
@@ -122,12 +116,10 @@ public class ModelImports {
 		public EObject next() {
 			if (registryAdapterIterator.hasNext()) {
 				return registryAdapterIterator.next();
-			} else {
-				if (resourceSetAdapterIterator != null) {
-					return resourceSetAdapterIterator.next();
-				}
 			}
-			
+			if (resourceSetAdapterIterator != null) {
+				return resourceSetAdapterIterator.next();
+			}
 			throw new NoSuchElementException("Model import iterator!");
 		}
 		
