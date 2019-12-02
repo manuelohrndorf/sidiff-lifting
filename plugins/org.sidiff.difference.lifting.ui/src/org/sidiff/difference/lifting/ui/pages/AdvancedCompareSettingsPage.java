@@ -5,7 +5,7 @@ import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
-import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
@@ -54,7 +54,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 
 	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels,
 			LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
-		this(pageName, title, Activator.getImageDescriptor("icon.png"), inputModels, settings, basicCompareSettingsPage);
+		this(pageName, title, DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"), inputModels, settings, basicCompareSettingsPage);
 	}
 
 	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,

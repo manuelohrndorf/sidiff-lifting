@@ -19,7 +19,7 @@ import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.lifting.api.LiftingFacade;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
-import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.ui.validation.ValidateDialog;
 
@@ -71,7 +71,7 @@ public class CreateLiftedDifferenceJob extends Job {
 		try {
 			symmetricDiff = LiftingFacade.liftTechnicalDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
-			boolean skipValidation = ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			boolean skipValidation = ValidateDialog.openErrorDialog(DifferenceLiftingUiPlugin.PLUGIN_ID, e);
 			if (skipValidation) {
 				// Retry without validation:
 				settings.setValidate(false);

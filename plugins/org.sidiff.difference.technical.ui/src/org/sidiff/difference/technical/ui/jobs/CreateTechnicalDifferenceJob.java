@@ -21,7 +21,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.technical.api.TechnicalDifferenceFacade;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.util.TechnicalDifferenceUtils;
-import org.sidiff.difference.technical.ui.Activator;
+import org.sidiff.difference.technical.ui.internal.TechnicalDifferenceUiPlugin;
 import org.sidiff.difference.technical.ui.validation.ValidateDialog;
 
 public class CreateTechnicalDifferenceJob extends Job {
@@ -71,7 +71,7 @@ public class CreateTechnicalDifferenceJob extends Job {
 		try {
 			symmetricDiff = TechnicalDifferenceFacade.deriveTechnicalDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
-			boolean skipValidation = ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			boolean skipValidation = ValidateDialog.openErrorDialog(TechnicalDifferenceUiPlugin.PLUGIN_ID, e);
 			if (skipValidation) {
 				// Retry without validation:
 				settings.setValidate(false);

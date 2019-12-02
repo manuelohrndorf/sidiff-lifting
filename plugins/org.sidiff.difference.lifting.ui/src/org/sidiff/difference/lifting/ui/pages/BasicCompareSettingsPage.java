@@ -7,7 +7,7 @@ import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
-import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
@@ -58,7 +58,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	// ---------- Constructor ----------
 
 	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
-		this(pageName, title, Activator.getImageDescriptor("icon.png"), inputModels, settings);
+		this(pageName, title, DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"), inputModels, settings);
 	}
 
 	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,

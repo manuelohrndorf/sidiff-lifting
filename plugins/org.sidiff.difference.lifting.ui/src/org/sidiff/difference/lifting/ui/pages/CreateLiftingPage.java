@@ -6,7 +6,7 @@ import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.ui.Activator;
+import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
@@ -22,7 +22,7 @@ public class CreateLiftingPage extends AbstractWizardPage {
 	private LiftingSettings settings;
 
 	public CreateLiftingPage(IFile differenceFile, InputModels inputModels, LiftingSettings settings) {
-		super("CreateLiftingPage", "Lift up technical difference", Activator.getImageDescriptor("icon.png"));
+		super("CreateLiftingPage", "Lift up technical difference", DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"));
 		this.differenceFile = differenceFile;
 		this.inputModels = inputModels;
 		this.settings = settings;
