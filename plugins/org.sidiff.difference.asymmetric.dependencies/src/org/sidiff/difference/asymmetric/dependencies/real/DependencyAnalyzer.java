@@ -238,9 +238,10 @@ public abstract class DependencyAnalyzer {
 				Set<EObject> srcOccurence = erSrcMatch.getOccurenceA(pnd.getSourceNode());
 				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PND-UseDelete: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
+					Set<EObject> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
+					assert result.size() == 1 : "PND-UseDelete: the intersection has " + result.size() + "elements (should only have one).";
+					return result.stream().findFirst();
 				}
 				break;
 			}
@@ -249,9 +250,10 @@ public abstract class DependencyAnalyzer {
 				Set<EObject> srcOccurence = erSrcMatch.getOccurenceB(pnd.getSourceNode());
 				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceB(pnd.getTargetNode());
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PND-CreateUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
+					Set<EObject> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
+					assert result.size() == 1 : "PND-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+					return result.stream().findFirst();
 				}
 				break;
 			}
@@ -260,9 +262,10 @@ public abstract class DependencyAnalyzer {
 				Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pnd.getSourceNode());
 				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PND-DeleteForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
+					Set<EObject> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
+					assert result.size() == 1 : "PND-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+					return result.stream().findFirst();
 				}
 				break;
 			}
@@ -311,9 +314,10 @@ public abstract class DependencyAnalyzer {
 				Set<Link> tgtOccurence = erTgtMatch.getOccurenceB(ped.getTargetEdge());
 
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PED-CreateUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
+					Set<Link> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
+					assert result.size() == 1 : "PED-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+					return result.stream().findFirst();
 				}
 				break;
 			}
@@ -322,9 +326,10 @@ public abstract class DependencyAnalyzer {
 				Set<Link> srcOccurence = erSrcMatch.getForbidEdgeOccurenceA(ped.getSourceEdge());
 				Set<Link> tgtOccurence = erTgtMatch.getOccurenceA(ped.getTargetEdge());
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PED-DeleteForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
+					Set<Link> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
+					assert result.size() == 1 : "PED-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+					return result.stream().findFirst();
 				}
 				break;
 			}
@@ -383,10 +388,12 @@ public abstract class DependencyAnalyzer {
 									// dem geforderten Literal der src EditRule
 									// entsprechen (können wir aus
 									// pad.sourceAttribute.value holen)
-									if(oB.eGet(avc.getType()).toString().equals(pad.getSourceAttribute().getValue())){
-										srcOccurence.retainAll(tgtOccurence);
-										assert srcOccurence.size() == 1 : "PED-ChangeUse: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-										return srcOccurence.stream().findFirst();
+									if(oB.eGet(avc.getType()).toString().equals(pad.getSourceAttribute().getValue())) {
+										Set<EObject> result = new HashSet<>(srcOccurence);
+										result.retainAll(tgtOccurence);
+										assert result.size() == 1 : "PED-ChangeUse: the intersection has "
+												+ result.size() + "elements (should only have one).";
+										return result.stream().findFirst();
 									}
 								}
 							}
@@ -414,7 +421,8 @@ public abstract class DependencyAnalyzer {
 				Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pad.getSourceNode());
 				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pad.getTargetNode());
 				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					srcOccurence.retainAll(tgtOccurence);
+					Set<EObject> result = new HashSet<>(srcOccurence);
+					result.retainAll(tgtOccurence);
 					assert srcOccurence.size() == 1 : "PAD-ChangeForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
 					return srcOccurence.stream().findFirst();
 				}
