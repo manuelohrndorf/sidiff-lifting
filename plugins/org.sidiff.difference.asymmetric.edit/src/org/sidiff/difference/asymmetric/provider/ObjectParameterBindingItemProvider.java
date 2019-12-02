@@ -12,11 +12,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricPackage;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -187,28 +186,16 @@ public class ObjectParameterBindingItemProvider
 	@Override
 	public String getText(Object object) {
 		ObjectParameterBinding parameter = (ObjectParameterBinding) object;
-		
-		String label = ((ObjectParameterBinding)object).getFormalName();
-		
-		String name = null;
-		EObject eObject = parameter.getActualA() != null ? parameter.getActualA() : parameter.getActualB();
-		for(EAttribute attribute : eObject.eClass().getEAllAttributes()){
-			if(attribute.getName().equalsIgnoreCase("name")){
-				try {
-					name = (String) eObject.eGet(attribute);
-				} catch (ClassCastException e){
-					// do nothing
-				}
+
+		EObject bestObject = parameter.getActualA();
+		if(bestObject == null || bestObject.eIsProxy()) {
+			if(parameter.getActualB() != null) {
+				bestObject = parameter.getActualB();
 			}
 		}
-		
-		if(name == null){
-			name = EcoreUtil.getID(eObject);
-		}
-		
-		return label == null || label.length() == 0 ?
-			getString("_UI_ObjectParameterBinding_type") :
-			String.format("%s %s -> %s", "ObjectParameterBinding:", label, name);
+
+		String name = EMFUtil.getEObjectSignatureName(bestObject);
+		return String.format("%s: %s -> %s", getString("_UI_ObjectParameterBinding_type"), parameter.getFormalName(), name);
 	}
 
 	/**
