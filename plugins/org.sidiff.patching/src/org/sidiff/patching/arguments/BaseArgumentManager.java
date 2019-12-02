@@ -129,10 +129,12 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 					for (ObjectArgumentWrapper nestedArg : arg.getNestedWrappers()) {
 						ObjectParameterBinding objBinding = nestedArg.getObjectBinding();
 						// try to resolve originObject
-						EObject targetObject = resolveOriginObject(objBinding.getActualA());
-						if (targetObject != null) {
-							nestedArg.resolveTo(targetObject);
-							argumentResolutions.put(objBinding, nestedArg);
+						if(objBinding.getActualA() != null) {
+							EObject targetObject = resolveOriginObject(objBinding.getActualA());
+							if (targetObject != null) {
+								nestedArg.resolveTo(targetObject);
+								argumentResolutions.put(objBinding, nestedArg);
+							}
 						}
 					}
 					argumentResolutions.put(binding, arg);
