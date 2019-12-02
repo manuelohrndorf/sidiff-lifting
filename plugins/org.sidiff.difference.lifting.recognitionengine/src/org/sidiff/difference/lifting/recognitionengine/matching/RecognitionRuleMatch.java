@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +44,7 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 	 */
 	public RecognitionRuleMatch(RuleApplication recognitionRuleApplication) {
 		this.recognitionRuleApplication = recognitionRuleApplication;
-		nodeMapping = new HashMap<Node, Set<EObject>>();
+		nodeMapping = new HashMap<>();
 
 		// Kernel Match
 		putToNodeMapping(recognitionRuleApplication.getCompleteMatch());
@@ -57,8 +58,9 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 	 * 
 	 * @return the mapping of LHS or RHS nodes to diff objects.
 	 */
+	@Override
 	public Map<Node, Set<EObject>> getNodeMapping() {
-		return nodeMapping;
+		return Collections.unmodifiableMap(nodeMapping);
 	}
 
 	/**
@@ -78,6 +80,7 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 	 * @param name
 	 * @return
 	 */
+	@Override
 	public Object getParameterValue(String name) {
 		return recognitionRuleApplication.getResultParameterValue(name);
 	}
@@ -102,7 +105,7 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 	
 	private void putToNodeMapping(Node node, EObject object) {
 		if (nodeMapping.get(node) == null) {
-			nodeMapping.put(node, new HashSet<EObject>());
+			nodeMapping.put(node, new HashSet<>());
 		}
 
 		nodeMapping.get(node).add(object);

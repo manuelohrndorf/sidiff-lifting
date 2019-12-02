@@ -120,7 +120,7 @@ public class RecognitionRuleUtil {
 			String typeName = typeNode.getAttribute(E_NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
 			Node srcNode = node.getOutgoing(SYMMETRIC_PACKAGE.getAddReference_Src()).get(0).getTarget();
 			
-			return (EReference) srcNode.getType().getEStructuralFeature(typeName);
+			return srcNode.getType().getEStructuralFeature(typeName);
 		}
 
 		// RemoveReference:
@@ -129,7 +129,7 @@ public class RecognitionRuleUtil {
 			String typeName = typeNode.getAttribute(E_NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
 			Node srcNode = node.getOutgoing(SYMMETRIC_PACKAGE.getRemoveReference_Src()).get(0).getTarget();
 
-			return (EReference) srcNode.getType().getEStructuralFeature(typeName);
+			return srcNode.getType().getEStructuralFeature(typeName);
 		}
 
 		// AttributeValueChange:
@@ -138,7 +138,7 @@ public class RecognitionRuleUtil {
 			String typeName = typeNode.getAttribute(E_NAMED_ELEMENT_NAME).getValue().replace('\"', ' ').trim();
 			Node aNode = node.getOutgoing(SYMMETRIC_PACKAGE.getAttributeValueChange_ObjA()).get(0).getTarget();
 			
-			return (EAttribute) aNode.getType().getEStructuralFeature(typeName);
+			return aNode.getType().getEStructuralFeature(typeName);
 		}
 		
 		return null;

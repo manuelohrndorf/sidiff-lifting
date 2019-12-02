@@ -7,7 +7,6 @@ import java.util.concurrent.CountDownLatch;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
@@ -16,9 +15,6 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
-import org.sidiff.difference.symmetric.AddReference;
-import org.sidiff.difference.symmetric.Change;
-import org.sidiff.difference.symmetric.RemoveReference;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.mergeimports.ModelImports;
 
@@ -105,21 +101,17 @@ public class LiftingGraphFactory {
 		final CountDownLatch barrier = new CountDownLatch(2);
 		
 		// Model A:
-		Thread buildModelA = new Thread(new Runnable() {
-			public void run() {
+		Thread buildModelA = new Thread(() -> {
 				modelAGraph = createModelAGraph();
 				barrier.countDown();
-			}
-		});
+			});
 		buildModelA.start();
 		
 		// Model B:
-		Thread buildModelB = new Thread(new Runnable() {
-			public void run() {
+		Thread buildModelB = new Thread(() -> {
 				modelBGraph = createModelBGraph();
 				barrier.countDown();
-			}
-		});
+			});
 		buildModelB.start();
 
 		// Full lifting graph:
@@ -161,9 +153,8 @@ public class LiftingGraphFactory {
 		
 		if (buildGraphPerRule) {
 			return new LiftingGraphProxy(rr, blueprint, modelAGraph, modelBGraph, liftingGraphDomainMap);
-		} else {
-			return fullEGraph;
 		}
+		return fullEGraph;
 	}
 
 	/**

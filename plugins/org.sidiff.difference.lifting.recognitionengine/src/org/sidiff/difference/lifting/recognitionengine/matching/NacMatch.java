@@ -55,8 +55,8 @@ public class NacMatch {
 		this.editRuleMatch = editRuleMatch;
 		this.recognitionEngine = recognitionEngine;
 
-		this.forbidNodeOccurrencesA = new HashMap<Node, EObject>();
-		this.forbidEdgeOccurrencesA = new HashMap<Edge, Set<Link>>();
+		this.forbidNodeOccurrencesA = new HashMap<>();
+		this.forbidEdgeOccurrencesA = new HashMap<>();
 
 		// (1) try to find NAC context in model A
 		findNacContextInA();
@@ -79,14 +79,10 @@ public class NacMatch {
 	 * @return
 	 */
 	public Set<EObject> getForbidNodeOccurenceA(Node forbidNode) {
-		if (forbidNodeOccurrencesA.get(forbidNode) == null) {
-			return new HashSet<EObject>();
-		} else {
-			// FIXME: Simply return forbidNodeOccurrencesA.get(forbidNode)
-			HashSet<EObject> res = new HashSet<EObject>();
-			res.add(forbidNodeOccurrencesA.get(forbidNode));
-			return res;
+		if (!forbidNodeOccurrencesA.containsKey(forbidNode)) {
+			return Collections.emptySet();
 		}
+		return Collections.singleton(forbidNodeOccurrencesA.get(forbidNode));
 	}
 
 	/**
@@ -96,11 +92,10 @@ public class NacMatch {
 	 * @return
 	 */
 	public Set<Link> getForbidEdgeOccurenceA(Edge forbidEdge) {
-		if (forbidEdgeOccurrencesA.get(forbidEdge) == null) {
-			return new HashSet<Link>();
-		} else {
-			return forbidEdgeOccurrencesA.get(forbidEdge);
+		if (!forbidEdgeOccurrencesA.containsKey(forbidEdge)) {
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(forbidEdgeOccurrencesA.get(forbidEdge));
 	}
 
 	/**
@@ -312,16 +307,15 @@ public class NacMatch {
 		if (nac.getLhsBoundaryNode(nacNode) == null) {
 			// forbid node
 			return getForbidNodeOccurenceA(nacNode);
-		} else {
-			// LHS node of the rule
-			Node lhsNode = nac.getLhsBoundaryNode(nacNode);
-
-			// FIXME: Simply return lhsContextOccurrencesA.get(lhsNode)
-			Set<EObject> res = new HashSet<EObject>();
-			assert (lhsContextOccurrencesA.get(lhsNode) != null);
-			res.add(lhsContextOccurrencesA.get(lhsNode));
-			return res;
 		}
+		// LHS node of the rule
+		Node lhsNode = nac.getLhsBoundaryNode(nacNode);
+
+		// FIXME: Simply return lhsContextOccurrencesA.get(lhsNode)
+		Set<EObject> res = new HashSet<EObject>();
+		assert (lhsContextOccurrencesA.get(lhsNode) != null);
+		res.add(lhsContextOccurrencesA.get(lhsNode));
+		return res;
 	}
 
 	/**

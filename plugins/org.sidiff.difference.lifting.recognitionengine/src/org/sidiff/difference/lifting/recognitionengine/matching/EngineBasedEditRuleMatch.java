@@ -1,7 +1,7 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -44,9 +44,9 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		StringBuffer info = new StringBuffer();
 
 		// First: Process all nodes of RecognitionRule to get Node-Occurrences
-		for (Iterator<Node> iterator = recognitionRuleMatch.getNodeMapping().keySet().iterator(); iterator.hasNext();) {
-			Node rrNode = iterator.next();
-			Set<EObject> diffObjects = recognitionRuleMatch.getNodeMapping().get(rrNode);
+		recognitionRuleMatch.getNodeMapping().entrySet().forEach(nodeMapping -> {
+			Node rrNode = nodeMapping.getKey();
+			Set<EObject> diffObjects = nodeMapping.getValue();
 
 			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getSetup().getRulebases());
 			if (erNode != null) {
@@ -68,7 +68,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 				nodeOccurencesB.put(erNode, diffObjects);
 			}
-		}
+		});
 
 		// Secondly: In the RecognitionRule, we may potentially not search in A
 		// and B (in case of preserve nodes)
@@ -129,57 +129,14 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 			}
 		}
 	}
-	
-	public Set<EObject> getOccurenceA(Node editRuleNode) {
-		Node keyNode = getKeyNode(editRuleNode);
-		if (nodeOccurencesA.get(keyNode) == null) {
-			return new HashSet<EObject>();
-		} else {
-			return nodeOccurencesA.get(keyNode);
-		}
-	}
-
-	public Set<EObject> getOccurenceB(Node editRuleNode) {
-		Node keyNode = getKeyNode(editRuleNode);
-		if (nodeOccurencesB.get(keyNode) == null) {
-			return new HashSet<EObject>();
-		} else {
-			return nodeOccurencesB.get(keyNode);
-		}
-	}
-
-	public Set<Link> getOccurenceA(Edge editRuleEdge) {
-		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (edgeOccurencesA.get(keyEdge) == null) {
-			return new HashSet<Link>();
-		} else {
-			return edgeOccurencesA.get(keyEdge);
-		}
-	}
-
-	public Set<Link> getOccurenceB(Edge editRuleEdge) {
-		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (edgeOccurencesB.get(keyEdge) == null) {
-			return new HashSet<Link>();
-		} else {
-			return edgeOccurencesB.get(keyEdge);
-		}
-	}
-
-	public Set<Node> getMatchedNodesA() {
-		return nodeOccurencesA.keySet();
-	}
-
-	public Set<Node> getMatchedNodesB() {
-		return nodeOccurencesB.keySet();
-	}
 
 	/**
 	 * 
 	 * @return The Nac-Occurrences in Model A if presented
 	 */
+	@Override
 	public Set<NacMatch> getNacOccurrences() {
-		return nacOccurrences;
+		return Collections.unmodifiableSet(nacOccurrences);
 	}
 
 	/**
@@ -192,12 +149,12 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param forbidNode
 	 * @return
 	 */
+	@Override
 	public Set<EObject> getForbidNodeOccurenceA(Node forbidNode) {
-		Set<EObject> res = new HashSet<EObject>();
+		Set<EObject> res = new HashSet<>();
 		for (NacMatch nacOccurrence : getNacOccurrences()) {
 			res.addAll(nacOccurrence.getForbidNodeOccurenceA(forbidNode));
 		}
-
 		return res;
 	}
 
@@ -211,15 +168,16 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param forbidEdge
 	 * @return
 	 */
+	@Override
 	public Set<Link> getForbidEdgeOccurenceA(Edge forbidEdge) {
-		Set<Link> res = new HashSet<Link>();
+		Set<Link> res = new HashSet<>();
 		for (NacMatch nacOccurrence : getNacOccurrences()) {
 			res.addAll(nacOccurrence.getForbidEdgeOccurenceA(forbidEdge));
 		}
-
 		return res;
 	}
 
+	@Override
 	public RecognitionRuleMatch getRecognitionRuleMatch() {
 		return recognitionRuleMatch;
 	}

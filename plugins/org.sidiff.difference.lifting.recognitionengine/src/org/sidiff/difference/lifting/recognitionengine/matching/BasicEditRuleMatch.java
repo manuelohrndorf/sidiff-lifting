@@ -1,5 +1,6 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,7 +47,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * </ul>
 	 * 
 	 */
-	protected Map<Node, Set<EObject>> nodeOccurencesA = new HashMap<Node, Set<EObject>>();
+	protected Map<Node, Set<EObject>> nodeOccurencesA = new HashMap<>();
 
 	/**
 	 * Mapping: EditRuleNode -> EObject B (via trace B)
@@ -59,7 +60,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * </ul>
 	 * 
 	 */
-	protected Map<Node, Set<EObject>> nodeOccurencesB = new HashMap<Node, Set<EObject>>();
+	protected Map<Node, Set<EObject>> nodeOccurencesB = new HashMap<>();
 
 	/**
 	 * Mapping: EditRuleEdge -> Reference A (via trace A)
@@ -72,7 +73,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * </ul>
 	 * 
 	 */
-	protected Map<Edge, Set<Link>> edgeOccurencesA = new HashMap<Edge, Set<Link>>();
+	protected Map<Edge, Set<Link>> edgeOccurencesA = new HashMap<>();
 
 	/**
 	 * Mapping: EditRuleEdge -> Reference B (via trace B)
@@ -85,68 +86,72 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * </ul>
 	 * 
 	 */
-	protected Map<Edge, Set<Link>> edgeOccurencesB = new HashMap<Edge, Set<Link>>();
+	protected Map<Edge, Set<Link>> edgeOccurencesB = new HashMap<>();
 
 	/**
 	 * The {@link EditRule} for which this EditRuleMatch is being created.
 	 */
 	private EditRule editRule;
 
+	@Override
 	public EditRule getEditRule() {
 		return editRule;
 	}
 
+	@Override
 	public Set<EObject> getOccurenceA(Node editRuleNode) {
 		Node keyNode = getKeyNode(editRuleNode);
-		if (nodeOccurencesA.get(keyNode) == null) {
-			return new HashSet<EObject>();
-		} else {
-			return nodeOccurencesA.get(keyNode);
+		if (!nodeOccurencesA.containsKey(keyNode)) {
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(nodeOccurencesA.get(keyNode));
 	}
 
+	@Override
 	public Set<EObject> getOccurenceB(Node editRuleNode) {
 		Node keyNode = getKeyNode(editRuleNode);
-		if (nodeOccurencesB.get(keyNode) == null) {
-			return new HashSet<EObject>();
-		} else {
-			return nodeOccurencesB.get(keyNode);
+		if (!nodeOccurencesB.containsKey(keyNode)) {
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(nodeOccurencesB.get(keyNode));
 	}
 
+	@Override
 	public Set<Link> getOccurenceA(Edge editRuleEdge) {
 		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (edgeOccurencesA.get(keyEdge) == null) {
-			return new HashSet<Link>();
-		} else {
-			return edgeOccurencesA.get(keyEdge);
+		if (!edgeOccurencesA.containsKey(keyEdge)) {
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(edgeOccurencesA.get(keyEdge));
 	}
 
+	@Override
 	public Set<Link> getOccurenceB(Edge editRuleEdge) {
 		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (edgeOccurencesB.get(keyEdge) == null) {
-			return new HashSet<Link>();
-		} else {
-			return edgeOccurencesB.get(keyEdge);
+		if (!edgeOccurencesB.containsKey(keyEdge)) {
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(edgeOccurencesB.get(keyEdge));
 	}
 
+	@Override
 	public Set<Node> getMatchedNodesA() {
-		return nodeOccurencesA.keySet();
+		return Collections.unmodifiableSet(nodeOccurencesA.keySet());
 	}
 
+	@Override
 	public Set<Node> getMatchedNodesB() {
-		return nodeOccurencesB.keySet();
+		return Collections.unmodifiableSet(nodeOccurencesB.keySet());
 	}
 	
+	@Override
 	public Set<Edge> getMatchedEdgesA(){
-		return edgeOccurencesA.keySet();
+		return Collections.unmodifiableSet(edgeOccurencesA.keySet());
 	}
 
-	
+	@Override
 	public Set<Edge> getMatchedEdgesB(){
-		return edgeOccurencesB.keySet();
+		return Collections.unmodifiableSet(edgeOccurencesB.keySet());
 	}
 	
 	protected String deriveEdgeOccurrences() {
@@ -308,9 +313,8 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 		if (HenshinRuleAnalysisUtilEx.isPreservedEdge(editRuleEdge)
 				&& HenshinRuleAnalysisUtilEx.isRHSEdge(editRuleEdge)) {
 			return HenshinRuleAnalysisUtilEx.findCorrespondingEdgeInLHS(editRuleEdge);
-		} else {
-			return editRuleEdge;
 		}
+		return editRuleEdge;
 	}
 
 	@Override

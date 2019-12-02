@@ -343,6 +343,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	 * @param CSVpath
 	 *            The path to write the CSV-Output-File.
 	 */
+	@Override
 	public void enable(String CSVpath) {
 		STATISTICS = true;
 		
@@ -357,6 +358,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	/**
 	 * Stops and resets the Recognition-Engine statistic output.
 	 */
+	@Override
 	public void disable() {
 		// Reset statistics:
 		reset();
@@ -371,6 +373,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	/**
 	 * Resets all measured statistics.
 	 */
+	@Override
 	public void reset() {
 		if (STATISTICS) {
 			// Reset statistics:
@@ -385,6 +388,7 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	 * @return <code>true</code> if the Recognition-Engine statistic output is
 	 *         enabled; <code>false</code> otherwise.
 	 */
+	@Override
 	public boolean isEnabled() {
 		return STATISTICS;
 	}

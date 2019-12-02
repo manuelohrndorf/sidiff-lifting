@@ -28,12 +28,12 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	/**
 	 * Mapping: EditRuleAttribute -> EObject A
 	 */
-	private Map<Attribute, Set<Field>> attributeOccurrencesA = new HashMap<Attribute, Set<Field>>();
+	private Map<Attribute, Set<Field>> attributeOccurrencesA = new HashMap<>();
 	
 	/**
 	 * Mapping: editRuleAttribute -> EObject B
 	 */
-	private Map<Attribute, Set<Field>> attributeOccurrencesB = new HashMap<Attribute, Set<Field>>();
+	private Map<Attribute, Set<Field>> attributeOccurrencesB = new HashMap<>();
 	
 	public UriBasedEditRuleMatch(SemanticChangeSet scs) {
 		this(scs, Collections.singleton(EMFModelAccess.getDocumentType(((SymmetricDifference) scs.eContainer()).getModelA())));
@@ -82,10 +82,9 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	/**
 	 * 
 	 */
-	private void deriveAttributeOccurrences(){
-		
+	private void deriveAttributeOccurrences() {
 		for(Attribute a : getAllLHSAttributes()){
-			Set<Field> attributeOccurences = new HashSet<Field>();
+			Set<Field> attributeOccurences = new HashSet<>();
 			for(EObject eObject : nodeOccurencesA.get(a.getNode())){
 				createAttribute(attributeOccurences, eObject, a.getType());
 			}
@@ -95,8 +94,8 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		}
 		
 		for(Attribute a: getAllRHSAttributes()){
-			Set<Field> attributeOccurences = new HashSet<Field>();
-			for(EObject eObject : nodeOccurencesB.get(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(a.getNode()))){
+			Set<Field> attributeOccurences = new HashSet<>();
+			for(EObject eObject : nodeOccurencesB.get(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(a.getNode()))) {
 				createAttribute(attributeOccurences, eObject, a.getType());
 			}
 			if(!attributeOccurences.isEmpty()){
@@ -111,8 +110,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param eObject
 	 * @param eAttribute
 	 */
-	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute){
-		
+	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute) {
 		attributeOccurrences.add(new Field(eObject, eAttribute , eObject.eGet(eAttribute).toString()));		
 	}
 	
@@ -120,16 +118,16 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * 
 	 * @return
 	 */
-	public Set<Attribute> getMatchedAttributesA(){
-		return attributeOccurrencesA.keySet();
+	public Set<Attribute> getMatchedAttributesA() {
+		return Collections.unmodifiableSet(attributeOccurrencesA.keySet());
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public Set<Attribute> getMatchedAttributesB(){
-		return attributeOccurrencesB.keySet();
+	public Set<Attribute> getMatchedAttributesB() {
+		return Collections.unmodifiableSet(attributeOccurrencesB.keySet());
 	}
 	
 	/**
@@ -137,13 +135,12 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param editRuleAttribute
 	 * @return
 	 */
-	public Set<Field> getOccurrenceA(Attribute editRuleAttribute){
+	public Set<Field> getOccurrenceA(Attribute editRuleAttribute) {
 		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		if(attributeOccurrencesA.get(keyAttribute) == null){
-			return new HashSet<Field>();
-		}else{
-			return attributeOccurrencesA.get(keyAttribute);
+		if(!attributeOccurrencesA.containsKey(keyAttribute)){
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(attributeOccurrencesA.get(keyAttribute));
 	}
 	
 	/**
@@ -151,13 +148,12 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param editRuleAttribute
 	 * @return
 	 */
-	public Set<Field> getOccurrenceB(Attribute editRuleAttribute){
+	public Set<Field> getOccurrenceB(Attribute editRuleAttribute) {
 		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		if(attributeOccurrencesB.get(keyAttribute) == null){
-			return new HashSet<Field>();
-		}else{
-			return attributeOccurrencesB.get(keyAttribute);
+		if(!attributeOccurrencesB.containsKey(keyAttribute)){
+			return Collections.emptySet();
 		}
+		return Collections.unmodifiableSet(attributeOccurrencesB.get(keyAttribute));
 	}
 	
 	/**
@@ -165,7 +161,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param editRuleAttribute
 	 * @return
 	 */
-	public Attribute getKeyAttribute(Attribute editRuleAttribute){
+	public Attribute getKeyAttribute(Attribute editRuleAttribute) {
 		Attribute keyAttribute = editRuleAttribute;
 		
 		// Schritt(1):
@@ -175,20 +171,18 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		if(HenshinRuleAnalysisUtilEx.isRHSChangingAttribute(keyAttribute)||HenshinRuleAnalysisUtilEx.isChangingAttribute(keyAttribute)){
 			if(HenshinRuleAnalysisUtilEx.isLHSAttribute(keyAttribute)){
 				return HenshinRuleAnalysisUtilEx.getRemoteAttribute(keyAttribute);
-			}else{
-				return keyAttribute;
 			}
-		}else{
-			return editRuleNode.getAttribute(keyAttribute.getType());
+			return keyAttribute;
 		}
+		return editRuleNode.getAttribute(keyAttribute.getType());
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	private Set<Attribute> getAllLHSAttributes(){
-		Set<Attribute> attributes = new HashSet<Attribute>();
+	private Set<Attribute> getAllLHSAttributes() {
+		Set<Attribute> attributes = new HashSet<>();
 		for(Node n : nodeOccurencesA.keySet()){
 			attributes.addAll(n.getAttributes());
 		}
@@ -199,8 +193,8 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * 
 	 * @return
 	 */
-	private Set<Attribute> getAllRHSAttributes(){
-		Set<Attribute> attributes = new HashSet<Attribute>();
+	private Set<Attribute> getAllRHSAttributes() {
+		Set<Attribute> attributes = new HashSet<>();
 		for(Node n : nodeOccurencesB.keySet()){
 			if(HenshinRuleAnalysisUtilEx.isLHSNode(n)){
 				Node rhs_node = HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n);
