@@ -3,6 +3,7 @@ package org.sidiff.difference.asymmetric.paramretrieval;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -51,7 +52,7 @@ public class ParameterMapper {
 	 * @param asymDiff
 	 */
 	public ParameterMapper(AsymmetricDifference asymDiff) {
-		this.asymDiff = asymDiff;
+		this.asymDiff = Objects.requireNonNull(asymDiff, "asymDiff is null");
 	}
 
 	public void mapParameters() {
@@ -62,18 +63,14 @@ public class ParameterMapper {
 		init();
 
 		for (ObjectParameterBinding bindingIn : paramBindings_IN_B) {
-			// get bindingOut
 			ObjectParameterBinding bindingOut = paramBindings_OUT_B.get(bindingIn.getActualB());
 
-			// assertions
-			//assert (bindingOut != null) : "There is no OUT ParameterBinding that creates " + ((OperationInvocation)bindingIn.eContainer()).resolveEditRule().getExecuteModule().getName() + "::" + bindingIn.getFormalName();
-			
 			// FIXME[resource set internal references]: Filter e.g. PrimitiveTypes in UML
-			if (bindingOut  != null) {
+			if (bindingOut != null) {
 				OperationInvocation opIn = (OperationInvocation) bindingIn.eContainer();
 				OperationInvocation opOut = (OperationInvocation) bindingOut.eContainer();
-				assert (existsDependency(opIn, opOut)) : opIn + " must have a dependency to " + opOut;
-				
+				assert existsDependency(opIn, opOut) : opIn + " must have a dependency to " + opOut;
+
 				// create mapping and add it to difference
 				ParameterMapping mapping = AsymmetricFactory.eINSTANCE.createParameterMapping();
 				mapping.setSource(bindingOut);
@@ -83,34 +80,27 @@ public class ParameterMapper {
 		}
 	}
 
-	/**
-	 * Returns a Collection of ObjectParameterBindings that are only referencing
-	 * objects in model B
-	 * 
-	 * @return
-	 */
 	private void init() {
-		paramBindings_IN_B = new HashSet<ObjectParameterBinding>();
-		paramBindings_OUT_B = new HashMap<EObject, ObjectParameterBinding>();
+		paramBindings_IN_B = new HashSet<>();
+		paramBindings_OUT_B = new HashMap<>();
 
 		for (OperationInvocation operationInvocation : asymDiff.getOperationInvocations()) {
 			for (ParameterBinding parameterBinding : operationInvocation.getParameterBindings()) {
-				Parameter formalParameter = parameterBinding.getFormalParameter();
-				
 				// We are only interested in object parameter bindings
 				if (parameterBinding instanceof ObjectParameterBinding) {
-					// only in B, i.e.: actualA == null && actualB != null
 					ObjectParameterBinding objParameterBinding = (ObjectParameterBinding) parameterBinding;
-					
+
 					// FIXME[resource set internal references]: Filter e.g. PrimitiveTypes in UML
+
+					// only in B, i.e.: actualA == null && actualB != null
 					if (objParameterBinding.getActualA() == null
 							&& objParameterBinding.getActualB() != null) {
 
+						Parameter formalParameter = parameterBinding.getFormalParameter();
 						if (formalParameter.getDirection() == ParameterDirection.IN) {
 							paramBindings_IN_B.add(objParameterBinding);
 						} else if (formalParameter.getDirection() == ParameterDirection.OUT) {
-							EObject actualB = objParameterBinding.getActualB();
-							paramBindings_OUT_B.put(actualB, objParameterBinding);
+							paramBindings_OUT_B.put(objParameterBinding.getActualB(), objParameterBinding);
 						}
 					}
 				}
@@ -126,13 +116,12 @@ public class ParameterMapper {
 	 * @param target
 	 * @return
 	 */
-	private boolean existsDependency(OperationInvocation source, OperationInvocation target) {
+	private static boolean existsDependency(OperationInvocation source, OperationInvocation target) {
 		for (DependencyContainer dep : source.getOutgoing()) {
 			if (dep.getTarget() == target) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 }
