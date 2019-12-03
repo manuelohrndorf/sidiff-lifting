@@ -20,11 +20,11 @@ import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.AttributeDependency;
 import org.sidiff.difference.asymmetric.Dependency;
 import org.sidiff.difference.asymmetric.DependencyContainer;
-import org.sidiff.difference.asymmetric.DependencyKind;
 import org.sidiff.difference.asymmetric.EdgeDependency;
 import org.sidiff.difference.asymmetric.NodeDependency;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.dependencies.real.exceptions.DependencyCycleException;
+import org.sidiff.difference.asymmetric.util.AsymmetricDifferenceUtil;
 import org.sidiff.difference.asymmetric.util.CycleChecker;
 import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
@@ -35,7 +35,6 @@ import org.sidiff.editrule.analysis.criticalpairs.InterRuleBasePotentialDependen
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependency;
-import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 
@@ -130,7 +129,7 @@ public abstract class DependencyAnalyzer {
 							break;
 						}
 
-						dependency.setKind(getDependencyKind(potDep.getKind()));
+						dependency.setKind(AsymmetricDifferenceUtil.getDependencyKind(potDep.getKind()));
 
 						OperationInvocation src = getOperationInvocationOfSCS(asymmetricDiff, scsSrc);
 						OperationInvocation tgt = getOperationInvocationOfSCS(asymmetricDiff, scsTgt);
@@ -201,26 +200,6 @@ public abstract class DependencyAnalyzer {
 		return potDeps;
 	}
 
-	/**
-	 * Simply maps PotentialDependecy.kind (from Rulebase model) onto
-	 * Dependency.kind (from Difference model)
-	 * 
-	 * @param potDepKind
-	 * @return
-	 */
-	private static DependencyKind getDependencyKind(PotentialDependencyKind potDepKind) {
-		switch(potDepKind) {
-			case CHANGE_FORBID: return DependencyKind.CHANGE_FORBID;
-			case CHANGE_USE: return DependencyKind.CHANGE_USE;
-			case CREATE_USE: return DependencyKind.CREATE_USE;
-			case DELETE_FORBID: return DependencyKind.DELETE_FORBID;
-			case FORBID_CHANGE: return DependencyKind.FORBID_CHANGE;
-			case FORBID_CREATE: return DependencyKind.FORBID_CREATE;
-			case USE_CHANGE: return DependencyKind.USE_CHANGE;
-			case USE_DELETE: return DependencyKind.USE_DELETE;
-		}
-		throw new IllegalArgumentException("Invalid PotentialDependencyKind: " + potDepKind);
-	}
 
 	/**
 	 * Intersection test for potential node dependencies.
@@ -233,53 +212,63 @@ public abstract class DependencyAnalyzer {
 	 */
 	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
 		switch(pnd.getKind()) {
-			case USE_DELETE: {
-				// check A intersection
-				Set<EObject> srcOccurence = erSrcMatch.getOccurenceA(pnd.getSourceNode());
-				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<EObject> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert result.size() == 1 : "PND-UseDelete: the intersection has " + result.size() + "elements (should only have one).";
-					return result.stream().findFirst();
-				}
-				break;
-			}
-			case CREATE_USE: {
-				// check B intersection
-				Set<EObject> srcOccurence = erSrcMatch.getOccurenceB(pnd.getSourceNode());
-				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceB(pnd.getTargetNode());
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<EObject> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert result.size() == 1 : "PND-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
-					return result.stream().findFirst();
-				}
-				break;
-			}
-			case DELETE_FORBID: {
-				// check A intersection
-				Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pnd.getSourceNode());
-				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<EObject> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert result.size() == 1 : "PND-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
-					return result.stream().findFirst();
-				}
-				break;
-			}
-			case FORBID_CREATE: {
-				// Due to our conceptual design, we will never detect operations
-				// leading to a ForbidCreate dependency
-				LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidCreate-NodeDependency: " + pnd);
-				break;
-			}
-			default:
-				throw new AssertionError("Unknown dependency kind: " + pnd.getKind());
+			case USE_DELETE: return intersectsUseDelete(erSrcMatch, erTgtMatch, pnd);
+			case CREATE_USE: return intersectsCreateUse(erSrcMatch, erTgtMatch, pnd);
+			case DELETE_FORBID: return intersectsDeleteForbid(erSrcMatch, erTgtMatch, pnd);
+			case FORBID_CREATE: return intersectsForbidCreate(pnd);
+			default: throw new AssertionError("Unknown dependency kind: " + pnd.getKind());
+		}
+	}
+
+	private Optional<EObject> intersectsUseDelete(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialNodeDependency pnd) {
+		// check A intersection
+		Set<EObject> srcOccurence = erSrcMatch.getOccurenceA(pnd.getSourceNode());
+		Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<EObject> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PND-UseDelete: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
 		}
 		return Optional.empty();
 	}
+
+	private Optional<EObject> intersectsCreateUse(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialNodeDependency pnd) {
+		// check B intersection
+		Set<EObject> srcOccurence = erSrcMatch.getOccurenceB(pnd.getSourceNode());
+		Set<EObject> tgtOccurence = erTgtMatch.getOccurenceB(pnd.getTargetNode());
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<EObject> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PND-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
+		}
+		return Optional.empty();
+	}
+
+	private Optional<EObject> intersectsDeleteForbid(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialNodeDependency pnd) {
+		// check A intersection
+		Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pnd.getSourceNode());
+		Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pnd.getTargetNode());
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<EObject> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PND-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
+		}
+		return Optional.empty();
+	}
+
+	private Optional<EObject> intersectsForbidCreate(PotentialNodeDependency pnd) {
+		// Due to our conceptual design, we will never detect operations
+		// leading to a ForbidCreate dependency
+		LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidCreate-NodeDependency: " + pnd);
+		return Optional.empty();
+	}
+
 
 	/**
 	 * Intersection test for potential edge dependencies.
@@ -292,59 +281,68 @@ public abstract class DependencyAnalyzer {
 	 */
 	private Optional<Link> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
 		switch(ped.getKind()) {
-			case USE_DELETE: {
-				// // check A intersection
-				// Set<Link> srcOccurence =
-				// erSrcMatch.getOccurenceA(ped.getSourceEdge());
-				// Set<Link> tgtOccurence =
-				// erTgtMatch.getOccurenceA(ped.getTargetEdge());
-				// if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-				// return true;
-				// }
-				//
-				// TODO
-				// Due to our conceptual design, we will never detect operations
-				// leading to a UseDelete-EdgeDependency
-				LogUtil.log(LogEvent.WARNING, "Ignored potential UseDelete-EdgeDependency: " + ped);
-				break;
-			}
-			case CREATE_USE: {
-				// check B intersection
-				Set<Link> srcOccurence = erSrcMatch.getOccurenceB(ped.getSourceEdge());
-				Set<Link> tgtOccurence = erTgtMatch.getOccurenceB(ped.getTargetEdge());
+			case USE_DELETE: return intersectsUseDelete(ped);
+			case CREATE_USE: return intersectsCreateUse(erSrcMatch, erTgtMatch, ped);
+			case DELETE_FORBID: return intersectsDeleteForbid(erSrcMatch, erTgtMatch, ped);
+			case FORBID_CREATE: return intersectsForbidCreate(ped);
+			default: throw new AssertionError("Unknown dependency kind: " + ped.getKind());
+		}
+	}
 
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<Link> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert result.size() == 1 : "PED-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
-					return result.stream().findFirst();
-				}
-				break;
-			}
-			case DELETE_FORBID: {
-				// check A intersection
-				Set<Link> srcOccurence = erSrcMatch.getForbidEdgeOccurenceA(ped.getSourceEdge());
-				Set<Link> tgtOccurence = erTgtMatch.getOccurenceA(ped.getTargetEdge());
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<Link> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert result.size() == 1 : "PED-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
-					return result.stream().findFirst();
-				}
-				break;
-			}
-			case FORBID_CREATE: {
-				// TODO
-				// Due to our conceptual design, we will never detect operations
-				// leading to a ForbidCreate-EdgeDependency
-				LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidCreate-Dependency: " + ped);
-				break;
-			}
-			default:
-				throw new AssertionError("Unknown dependency kind: " + ped.getKind());
+	private Optional<Link> intersectsUseDelete(PotentialEdgeDependency ped) {
+		// // check A intersection
+		// Set<Link> srcOccurence =
+		// erSrcMatch.getOccurenceA(ped.getSourceEdge());
+		// Set<Link> tgtOccurence =
+		// erTgtMatch.getOccurenceA(ped.getTargetEdge());
+		// if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+		// return true;
+		// }
+		//
+		// TODO
+		// Due to our conceptual design, we will never detect operations
+		// leading to a UseDelete-EdgeDependency
+		LogUtil.log(LogEvent.WARNING, "Ignored potential UseDelete-EdgeDependency: " + ped);
+		return Optional.empty();
+	}
+
+	private Optional<Link> intersectsCreateUse(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialEdgeDependency ped) {
+		// check B intersection
+		Set<Link> srcOccurence = erSrcMatch.getOccurenceB(ped.getSourceEdge());
+		Set<Link> tgtOccurence = erTgtMatch.getOccurenceB(ped.getTargetEdge());
+
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<Link> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PED-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
 		}
 		return Optional.empty();
 	}
+
+	private Optional<Link> intersectsDeleteForbid(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialEdgeDependency ped) {
+		// check A intersection
+		Set<Link> srcOccurence = erSrcMatch.getForbidEdgeOccurenceA(ped.getSourceEdge());
+		Set<Link> tgtOccurence = erTgtMatch.getOccurenceA(ped.getTargetEdge());
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<Link> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PED-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
+		}
+		return Optional.empty();
+	}
+
+	private Optional<Link> intersectsForbidCreate(PotentialEdgeDependency ped) {
+		// TODO
+		// Due to our conceptual design, we will never detect operations
+		// leading to a ForbidCreate-EdgeDependency
+		LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidCreate-Dependency: " + ped);
+		return Optional.empty();
+	}
+
 
 	/**
 	 * Intersection test for potential attribute dependencies.
@@ -356,83 +354,92 @@ public abstract class DependencyAnalyzer {
 	 * @return An object, which is finally an {@link EObject}.
 	 * If the intersection is empty, null will be returned.
 	 */
-	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialAttributeDependency pad,
-			SemanticChangeSet scsTgt) {
+	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialAttributeDependency pad, SemanticChangeSet scsTgt) {
 
 		assert(pad.getSourceAttribute().getType() == pad.getTargetAttribute().getType());
-		
+
 		switch(pad.getKind()) {
-			case CHANGE_USE: {
-				// Bedingung 1: Objektschnittmenge nicht leer
-				Set<EObject> srcOccurence = erSrcMatch.getOccurenceB(pad.getSourceNode());
-				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceB(pad.getTargetNode());
-				for (EObject oB : srcOccurence) {
-					if (tgtOccurence.contains(oB)) {
-						// Bedingung 2: oB muss auch in A existieren, sonst hätte
-						// AttributeValueChange stattgefunden haben können
-						EObject oA = asymmetricDiff.getSymmetricDifference().getCorrespondingObjectInA(oB);
-						if (oA == null) {
-							continue;
-						}
+			case CHANGE_USE: return intersectsChangeUse(erSrcMatch, erTgtMatch, pad, scsTgt);
+			case USE_CHANGE: return intersectsUseChange(pad);
+			case FORBID_CHANGE: return intersectsForbidChange(pad);
+			case CHANGE_FORBID: return intersectsChangeForbid(erSrcMatch, erTgtMatch, pad);
+			default: throw new AssertionError("Unknown dependency kind: " + pad.getKind());
+		}
+	}
 
-						// Bedingung 3: scsTgt muss AttrValueChange avc besitzen
-						// mit avc.type = pad.type UND avc.objA = A.o UND
-						// avc.objB = B.o
-						for (Change change : scsTgt.getChanges()) {
-							if (change instanceof AttributeValueChange) {
-								AttributeValueChange avc = (AttributeValueChange) change;
-								if (avc.getType() == pad.getTargetAttribute().getType() && avc.getObjA() == oA
-										&& avc.getObjB() == oB) {
+	private Optional<EObject> intersectsChangeUse(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialAttributeDependency pad, SemanticChangeSet scsTgt) {
+		// Bedingung 1: Objektschnittmenge nicht leer
+		Set<EObject> srcOccurence = erSrcMatch.getOccurenceB(pad.getSourceNode());
+		Set<EObject> tgtOccurence = erTgtMatch.getOccurenceB(pad.getTargetNode());
+		for (EObject oB : srcOccurence) {
+			if (tgtOccurence.contains(oB)) {
+				// Bedingung 2: oB muss auch in A existieren, sonst hätte
+				// AttributeValueChange stattgefunden haben können
+				EObject oA = asymmetricDiff.getSymmetricDifference().getCorrespondingObjectInA(oB);
+				if (oA == null) {
+					continue;
+				}
 
-									// Bedingung 4: Attributwert von B.o muss
-									// dem geforderten Literal der src EditRule
-									// entsprechen (können wir aus
-									// pad.sourceAttribute.value holen)
-									if(oB.eGet(avc.getType()).toString().equals(pad.getSourceAttribute().getValue())) {
-										Set<EObject> result = new HashSet<>(srcOccurence);
-										result.retainAll(tgtOccurence);
-										assert result.size() == 1 : "PED-ChangeUse: the intersection has "
-												+ result.size() + "elements (should only have one).";
-										return result.stream().findFirst();
-									}
-								}
+				// Bedingung 3: scsTgt muss AttrValueChange avc besitzen
+				// mit avc.type = pad.type UND avc.objA = A.o UND
+				// avc.objB = B.o
+				for (Change change : scsTgt.getChanges()) {
+					if (change instanceof AttributeValueChange) {
+						AttributeValueChange avc = (AttributeValueChange) change;
+						if (avc.getType() == pad.getTargetAttribute().getType() && avc.getObjA() == oA
+								&& avc.getObjB() == oB) {
+
+							// Bedingung 4: Attributwert von B.o muss
+							// dem geforderten Literal der src EditRule
+							// entsprechen (können wir aus
+							// pad.sourceAttribute.value holen)
+							if(oB.eGet(avc.getType()).toString().equals(pad.getSourceAttribute().getValue())) {
+								Set<EObject> result = new HashSet<>(srcOccurence);
+								result.retainAll(tgtOccurence);
+								assert result.size() == 1 : "PED-ChangeUse: the intersection has "
+										+ result.size() + "elements (should only have one).";
+								return result.stream().findFirst();
 							}
 						}
 					}
 				}
-				break;
 			}
-			case USE_CHANGE: {
-				// TODO
-				// Due to our conceptual design, we will never detect operations
-				// leading to a UseChange-AttributeDependency
-				LogUtil.log(LogEvent.WARNING, "Ignored potential UseChange-AttributeDependency: " + pad);
-				break;
-			}
-			case FORBID_CHANGE: {
-				// TODO
-				// Due to our conceptual design, we will never detect operations
-				// leading to a ForbidChange-AttributeDependency
-				LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidChange-AttributeDependency: " + pad);
-				break;
-			}
-			case CHANGE_FORBID: {
-				// check A intersection
-				Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pad.getSourceNode());
-				Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pad.getTargetNode());
-				if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-					Set<EObject> result = new HashSet<>(srcOccurence);
-					result.retainAll(tgtOccurence);
-					assert srcOccurence.size() == 1 : "PAD-ChangeForbid: the intersection has " + srcOccurence.size() + "elements (should only have one).";
-					return srcOccurence.stream().findFirst();
-				}
-				break;
-			}
-			default:
-				throw new AssertionError("Unknown dependency kind: " + pad.getKind());
 		}
 		return Optional.empty();
 	}
+
+	private Optional<EObject> intersectsUseChange(PotentialAttributeDependency pad) {
+		// TODO
+		// Due to our conceptual design, we will never detect operations
+		// leading to a UseChange-AttributeDependency
+		LogUtil.log(LogEvent.WARNING, "Ignored potential UseChange-AttributeDependency: " + pad);
+		return Optional.empty();
+	}
+
+	private Optional<EObject> intersectsForbidChange(PotentialAttributeDependency pad) {
+		// TODO
+		// Due to our conceptual design, we will never detect operations
+		// leading to a ForbidChange-AttributeDependency
+		LogUtil.log(LogEvent.WARNING, "Ignored potential ForbidChange-AttributeDependency: " + pad);
+		return Optional.empty();
+	}
+
+	private Optional<EObject> intersectsChangeForbid(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
+			PotentialAttributeDependency pad) {
+		// check A intersection
+		Set<EObject> srcOccurence = erSrcMatch.getForbidNodeOccurenceA(pad.getSourceNode());
+		Set<EObject> tgtOccurence = erTgtMatch.getOccurenceA(pad.getTargetNode());
+		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
+			Set<EObject> result = new HashSet<>(srcOccurence);
+			result.retainAll(tgtOccurence);
+			assert result.size() == 1 : "PAD-ChangeForbid: the intersection has " + result.size() + "elements (should only have one).";
+			return result.stream().findFirst();
+		}
+		return Optional.empty();
+	}
+
 
 	protected AsymmetricDifference getAsymmetricDiff() {
 		return asymmetricDiff;
