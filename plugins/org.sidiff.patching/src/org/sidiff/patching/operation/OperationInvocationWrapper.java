@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.common.emf.access.HighlightableElement;
 import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.OperationInvocation;
@@ -24,7 +23,7 @@ import org.sidiff.patching.arguments.ObjectArgumentWrapper;
  * 
  * @author kehrer
  */
-public class OperationInvocationWrapper implements HighlightableElement {
+public class OperationInvocationWrapper {
 
 	/**
 	 * The operation manager
@@ -298,20 +297,4 @@ public class OperationInvocationWrapper implements HighlightableElement {
 			args.put(binding, null);
 		}
 	}
-
-	@Override
-	public List<EObject> getElements() {
-		List<EObject> res = new ArrayList<EObject>();
-		for (ArgumentWrapper argumentWrapper : getAllActualArguments()) {
-			if (argumentWrapper instanceof ObjectArgumentWrapper){
-				ObjectArgumentWrapper objArgumentWrapper = (ObjectArgumentWrapper) argumentWrapper;
-				if (objArgumentWrapper.isResolved()){
-					res.add(objArgumentWrapper.getTargetObject());
-				}	
-			}
-		}
-		
-		return res;
-	}
-
 }
