@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
+import org.sidiff.difference.asymmetric.DependencyKind;
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 
 public class AsymmetricDifferenceUtil {
 
@@ -63,5 +65,24 @@ public class AsymmetricDifferenceUtil {
 		}
 		
 		return scs2operation.get(asymmetricDiff).get(scs);
+	}
+
+	/**
+	 * Maps the given PotentialDependencyKind (rulebase model) to the respective DependencyKind (difference model).
+	 * @param potDepKind the potential rulebase kind, not <code>null</code>
+	 * @return dependency kind for the potential dependency
+	 */
+	public static DependencyKind getDependencyKind(PotentialDependencyKind potDepKind) {
+		switch(potDepKind) {
+			case CHANGE_FORBID: return DependencyKind.CHANGE_FORBID;
+			case CHANGE_USE: return DependencyKind.CHANGE_USE;
+			case CREATE_USE: return DependencyKind.CREATE_USE;
+			case DELETE_FORBID: return DependencyKind.DELETE_FORBID;
+			case FORBID_CHANGE: return DependencyKind.FORBID_CHANGE;
+			case FORBID_CREATE: return DependencyKind.FORBID_CREATE;
+			case USE_CHANGE: return DependencyKind.USE_CHANGE;
+			case USE_DELETE: return DependencyKind.USE_DELETE;
+		}
+		throw new IllegalArgumentException("Invalid PotentialDependencyKind: " + potDepKind);
 	}
 }
