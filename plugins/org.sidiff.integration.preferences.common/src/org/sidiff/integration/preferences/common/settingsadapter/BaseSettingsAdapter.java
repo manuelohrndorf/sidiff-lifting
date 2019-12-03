@@ -6,7 +6,7 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.settings.BaseSettings;
 import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.emf.settings.ISettings;
-import org.sidiff.integration.preferences.common.Activator;
+import org.sidiff.integration.preferences.common.internal.CommonPreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
@@ -63,6 +63,6 @@ public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	protected BasicDiagnostic getDiagnosticGroup() {
-		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "General settings", null);
+		return new BasicDiagnostic(CommonPreferencesPlugin.PLUGIN_ID, 0, "General settings", null);
 	}
 }

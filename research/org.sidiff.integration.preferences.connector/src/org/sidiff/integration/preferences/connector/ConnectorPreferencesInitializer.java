@@ -13,6 +13,7 @@ public class ConnectorPreferencesInitializer extends AbstractPreferenceInitializ
 	 * 
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
 	 */
+	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = ConnectorPreferencesPlugin.getDefault().getPreferenceStore();
 		store.setDefault(ConnectorPreferencesConstants.P_URL, "localhost");	

@@ -15,7 +15,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
-import org.sidiff.integration.preferences.remote.Activator;
+import org.sidiff.integration.preferences.remote.internal.RemotePreferencesPlugin;
 import org.sidiff.integration.preferences.ui.pages.PreferenceFieldPage;
 import org.sidiff.integration.preferences.ui.pages.TabbedPreferencePage;
 import org.sidiff.integration.preferences.valueconverters.MappingPreferenceValueConverter;
@@ -160,7 +160,7 @@ public class RemotePreferencePage extends TabbedPreferencePage {
 		@Override
 		public void run() {
 			if(ConnectorFacade.getCredentials() == null || !ConnectorFacade.getCredentials().isValid()) {
-				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+				result = new Status(IStatus.ERROR, RemotePreferencesPlugin.PLUGIN_ID,
 						"Remote Application Connector is not configured correctly. Please configure it first.");
 				return;
 			}
@@ -170,7 +170,7 @@ public class RemotePreferencePage extends TabbedPreferencePage {
 				preferenceAdapter.setRemotePreferences(ConnectorFacade.getCredentials().getUrl(), remotePreferences);
 				result = Status.OK_STATUS;
 			} catch (ConnectionException e) {
-				result = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Connecting to remote server failed.", e);
+				result = new Status(IStatus.ERROR, RemotePreferencesPlugin.PLUGIN_ID, "Connecting to remote server failed.", e);
 			}
 		}
 

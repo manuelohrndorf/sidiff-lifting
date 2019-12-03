@@ -95,6 +95,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * Makes the preferences field visible/invisible. When it is invisible, it takes up no space.
 	 * @param visible <code>true</code> to make it visible, <code>false</code> to hide it
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		control.setVisible(visible);
 		layoutData.exclude = !visible;
@@ -105,6 +106,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * subclasses may override this if the need to check for validity before saving
 	 * @return true if the field contains a valid value
 	 */
+	@Override
 	public boolean isValid() { return true; }
 
 	/**
@@ -124,6 +126,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * registers an IPropertyChangeListener
 	 * @param listener the IPropertyChangeListener to be called in case of changes
 	 */
+	@Override
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
 		listeners.add(listener);
 	}
@@ -132,6 +135,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	 * removes an IPropertyChangeListener
 	 * @param listener the IPropertyChangeListener to be removed
 	 */
+	@Override
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
 		listeners.remove(listener);
 	}

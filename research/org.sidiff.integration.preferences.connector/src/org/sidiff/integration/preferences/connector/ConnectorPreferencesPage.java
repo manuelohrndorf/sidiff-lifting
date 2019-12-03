@@ -39,6 +39,7 @@ public class ConnectorPreferencesPage extends PreferencePage implements IWorkben
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(new ScopedPreferenceStore(InstanceScope.INSTANCE, ConnectorPreferencesPlugin.PLUGIN_ID));
 		setDescription("SiDiff - Remote Application Connector Preferences");

@@ -12,7 +12,7 @@ import org.sidiff.common.extension.configuration.IConfigurableExtension;
 import org.sidiff.common.extension.configuration.IExtensionConfiguration;
 import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.integration.preferences.matching.Activator;
+import org.sidiff.integration.preferences.matching.internal.MatchingPreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
@@ -162,6 +162,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	protected BasicDiagnostic getDiagnosticGroup() {
-		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Matching settings", null);
+		return new BasicDiagnostic(MatchingPreferencesPlugin.PLUGIN_ID, 0, "Matching settings", null);
 	}
 }

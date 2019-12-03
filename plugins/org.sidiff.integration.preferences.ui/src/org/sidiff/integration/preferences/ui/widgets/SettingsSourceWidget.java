@@ -22,7 +22,7 @@ import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.integration.preferences.settingsadapter.SettingsAdapterUtil;
-import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
+import org.sidiff.integration.preferences.ui.internal.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**

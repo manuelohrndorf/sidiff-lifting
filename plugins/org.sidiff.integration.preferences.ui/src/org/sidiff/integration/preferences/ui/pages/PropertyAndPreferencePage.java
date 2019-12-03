@@ -27,14 +27,14 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 import org.eclipse.ui.PlatformUI;
-import org.sidiff.integration.preferences.ui.PreferencesUiPlugin;
+import org.sidiff.integration.preferences.ui.internal.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
 
 /**
  * Abstract superclass for all preference pages, that are both a property and a preference page.
  * If the page is a property page, a button to enable project specific settings is shown.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public abstract class PropertyAndPreferencePage extends PreferencePage

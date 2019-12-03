@@ -15,7 +15,7 @@ import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.integration.preferences.lifting.Activator;
+import org.sidiff.integration.preferences.lifting.internal.LiftingPreferencesPlugin;
 import org.sidiff.integration.preferences.lifting.valueconverters.LiftingRuleBaseValueConverter;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
@@ -218,6 +218,6 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	protected BasicDiagnostic getDiagnosticGroup() {
-		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Lifting settings", null);
+		return new BasicDiagnostic(LiftingPreferencesPlugin.PLUGIN_ID, 0, "Lifting settings", null);
 	}
 }

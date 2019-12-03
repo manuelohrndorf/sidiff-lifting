@@ -1,4 +1,4 @@
-package org.sidiff.integration.preferences.ui;
+package org.sidiff.integration.preferences.ui.internal;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -18,6 +18,7 @@ public class PreferencesUiPlugin extends AbstractUIPlugin {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		super.start(bundleContext);
 		PreferencesUiPlugin.plugin = this;
@@ -27,6 +28,7 @@ public class PreferencesUiPlugin extends AbstractUIPlugin {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		PreferencesUiPlugin.plugin = null;
 		super.stop(bundleContext);

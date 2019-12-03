@@ -13,7 +13,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
-import org.sidiff.integration.preferences.difference.Activator;
+import org.sidiff.integration.preferences.difference.internal.DifferencePreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
@@ -113,6 +113,6 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	protected BasicDiagnostic getDiagnosticGroup() {
-		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Difference settings", null);
+		return new BasicDiagnostic(DifferencePreferencesPlugin.PLUGIN_ID, 0, "Difference settings", null);
 	}
 }

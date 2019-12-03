@@ -4,7 +4,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
-import org.sidiff.integration.preferences.patching.Activator;
+import org.sidiff.integration.preferences.patching.internal.PatchingPreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
@@ -166,6 +166,6 @@ public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	@Override
 	protected BasicDiagnostic getDiagnosticGroup() {
-		return new BasicDiagnostic(Activator.PLUGIN_ID, 0, "Patching settings", null);
+		return new BasicDiagnostic(PatchingPreferencesPlugin.PLUGIN_ID, 0, "Patching settings", null);
 	}
 }

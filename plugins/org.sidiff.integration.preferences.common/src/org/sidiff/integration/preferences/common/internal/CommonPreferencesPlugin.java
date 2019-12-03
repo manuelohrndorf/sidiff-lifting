@@ -1,9 +1,9 @@
-package org.sidiff.integration.preferences.common;
+package org.sidiff.integration.preferences.common.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+public class CommonPreferencesPlugin implements BundleActivator {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.sidiff.integration.preferences.common"; //$NON-NLS-1$
@@ -18,16 +18,18 @@ public class Activator implements BundleActivator {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+		CommonPreferencesPlugin.context = bundleContext;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+		CommonPreferencesPlugin.context = null;
 	}
 
 }

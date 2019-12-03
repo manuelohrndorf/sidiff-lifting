@@ -12,7 +12,7 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Contains utility functions for retrieving pipeline steps.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class PipelineStepUtil {
@@ -69,12 +69,8 @@ public class PipelineStepUtil {
 	 * 
 	 */
 	public static class PipelineStep {
-		static final Comparator<PipelineStep> COMPARATOR = new Comparator<PipelineStep>() {
-			public int compare(PipelineStep o1, PipelineStep o2) {
-				return o1.getPosition() - o2.getPosition();
-			};
-		};
-		
+		static final Comparator<PipelineStep> COMPARATOR = Comparator.comparingInt(PipelineStep::getPosition);
+
 		private final String id;
 		private final String title;
 		private final int position;
