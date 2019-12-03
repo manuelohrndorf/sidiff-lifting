@@ -1,4 +1,4 @@
-package org.sidiff.editrule.rulebase.project.ide;
+package org.sidiff.editrule.rulebase.project.ide.internal;
 
 import java.net.URL;
 
@@ -25,11 +25,13 @@ public class Activator extends AbstractUIPlugin {
 	/* (non-Javadoc)
 	 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		fInstance = this;
 	}
 
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		fInstance = null;
 		super.stop(context);

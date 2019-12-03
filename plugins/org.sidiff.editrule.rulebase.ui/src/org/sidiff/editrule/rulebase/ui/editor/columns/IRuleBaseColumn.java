@@ -2,7 +2,6 @@ package org.sidiff.editrule.rulebase.ui.editor.columns;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.swt.SWT;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 
 public interface IRuleBaseColumn {

@@ -29,7 +29,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseClassBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
-import org.sidiff.editrule.rulebase.project.ide.Activator;
+import org.sidiff.editrule.rulebase.project.ide.internal.Activator;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
 import org.sidiff.editrule.rulebase.project.ide.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
@@ -54,11 +54,13 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return "rbproject";
 	}
 
+	@Override
 	protected ResourceBundle getPluginResourceBundle() {
 		Bundle bundle = Platform.getBundle(Activator.getPluginId());
 		return Platform.getResourceBundle(bundle);
 	}
 
+	@Override
 	protected URL getInstallURL() {
 		return Activator.getDefault().getInstallURL();
 	}
@@ -76,6 +78,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		markPagesAdded();
 	}
 
+	@Override
 	public boolean isDependentOnParentWizard() {
 		return true;
 	}
@@ -90,12 +93,14 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		return newFiles.toArray(new String[0]);
 	}
 
+	@Override
 	public IPluginReference[] getDependencies(String schemaVersion) {
 		return new IPluginReference[] {
 			new PluginReference("org.sidiff.editrule.rulebase.project.runtime", null, 0)
 		};
 	}
 
+	@Override
 	protected void initializeFields(IFieldData data) {
 		// In a new project wizard, we don't know this yet - the
 		// model has not been created
@@ -103,6 +108,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 		initializeOption(KEY_PACKAGE_NAME, EditRuleBaseClassBuilder.getFormattedPackageName(id));
 	}
 
+	@Override
 	public void initializeFields(IPluginModelBase model) {
 		// In the new extension wizard, the model exists so
 		// we can initialize directly from it

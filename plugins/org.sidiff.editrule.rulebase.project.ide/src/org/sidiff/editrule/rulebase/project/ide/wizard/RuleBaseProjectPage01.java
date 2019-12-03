@@ -5,7 +5,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorChooserWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
-import org.sidiff.editrule.rulebase.project.ide.Activator;
+import org.sidiff.editrule.rulebase.project.ide.internal.Activator;
 
 public class RuleBaseProjectPage01 extends AbstractWizardPage {
 

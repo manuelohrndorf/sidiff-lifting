@@ -29,11 +29,13 @@ public interface IRuleBaseProject extends ITypedExtension {
 	/**
 	 * @return A unique key which describes this rulebase, suitable for serialization.
 	 */
+	@Override
 	public String getKey();
 	
 	/**
 	 * @return A name which describes this rulebase, suitable for the user-interface.
 	 */
+	@Override
 	public String getName();
 	
 	/**
@@ -44,6 +46,7 @@ public interface IRuleBaseProject extends ITypedExtension {
 	/**
 	 * @return All supported document types of this rulebase.
 	 */
+	@Override
 	public Set<String> getDocumentTypes();
 
 	/**

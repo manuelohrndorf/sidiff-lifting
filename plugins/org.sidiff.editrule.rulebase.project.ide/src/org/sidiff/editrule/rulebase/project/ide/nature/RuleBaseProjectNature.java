@@ -26,6 +26,7 @@ public class RuleBaseProjectNature implements IProjectNature {
 	
 	private IProject project;
 	
+	@Override
 	public void configure() throws CoreException {
 		IProjectDescription desc = project.getDescription();
 		ICommand[] commands = desc.getBuildSpec();
@@ -45,6 +46,7 @@ public class RuleBaseProjectNature implements IProjectNature {
 		project.setDescription(desc, null);
 	}
 
+	@Override
 	public void deconfigure() throws CoreException {
 		IProjectDescription description = getProject().getDescription();
 		ICommand[] commands = description.getBuildSpec();
@@ -66,6 +68,7 @@ public class RuleBaseProjectNature implements IProjectNature {
 	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#getProject()
 	 */
+	@Override
 	public IProject getProject() {
 		return project;
 	}
@@ -75,6 +78,7 @@ public class RuleBaseProjectNature implements IProjectNature {
 	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core.resources.IProject)
 	 */
+	@Override
 	public void setProject(IProject project) {
 		this.project = project;
 	}

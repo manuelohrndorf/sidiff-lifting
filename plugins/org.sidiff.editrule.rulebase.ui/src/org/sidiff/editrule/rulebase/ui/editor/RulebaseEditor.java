@@ -105,8 +105,8 @@ import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
-import org.sidiff.editrule.rulebase.ui.Activator;
 import org.sidiff.editrule.rulebase.ui.editor.columns.RuleBaseColumnLibrary;
+import org.sidiff.editrule.rulebase.ui.internal.EditruleRulebaseUiPlugin;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
 public class RulebaseEditor
@@ -814,7 +814,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	}
 
 	public ImageDescriptor getImageDescriptor(String name) {
-		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(Activator.PLUGIN_ID), new Path(String.format("icons/%s", name)), null));
+		return ImageDescriptor.createFromURL(FileLocator.find(Platform.getBundle(EditruleRulebaseUiPlugin.PLUGIN_ID), new Path(String.format("icons/%s", name)), null));
 	}
 
 	public void update() {
