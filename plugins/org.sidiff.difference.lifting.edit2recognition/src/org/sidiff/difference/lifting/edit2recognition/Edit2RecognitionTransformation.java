@@ -11,7 +11,6 @@ import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.difference.lifting.edit2recognition.exceptions.EditToRecognitionException;
 import org.sidiff.difference.lifting.edit2recognition.internal.EditModule2RecognitionModule;
 import org.sidiff.difference.lifting.edit2recognition.traces.TransformationPatterns;
-import org.sidiff.difference.lifting.edit2recognition.util.ImplicitEdgeCompletion;
 import org.sidiff.difference.lifting.edit2recognition.util.TransformationConstants;
 
 /**
@@ -58,11 +57,7 @@ public class Edit2RecognitionTransformation implements EditPattern2RecognitionPa
 		// Complex or atomic edit operation	
 		URI editRuleURI = EcoreUtil.getURI(editModule);
 		
-		if (editRuleURI.toString().contains(TransformationConstants.PATH_SEGMENT_ATOMIC_EDITRULES)) {
-			atomic = true;
-		} else {
-			atomic = false;
-		}
+		atomic = editRuleURI.toString().contains(TransformationConstants.PATH_SEGMENT_ATOMIC_EDITRULES);
 	}
 	
 	/**
