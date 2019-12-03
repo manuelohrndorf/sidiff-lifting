@@ -87,19 +87,20 @@ public class RuleBaseColumnLibrary {
 		int columnIndex = orderedColumns.indexOf(column);
 		
 		if (columnIndex == -1) {
-			if (columns.containsKey(previousColumn) && (!previousColumn.equals(actualColumn))) {
-				int previousColumnIndex = orderedColumns.indexOf(previousColumn);
+			if (!previousColumn.equals(actualColumn) && columns.containsKey(previousColumn)) {
+				IConfigurationElement previousColumnElement = columns.get(previousColumn);
+				int previousColumnIndex = orderedColumns.indexOf(previousColumnElement);
 				
 				// Add previous columns:
 				if (previousColumnIndex == -1) {
-					previousColumnIndex = addColumnAndPrevious(columns.get(previousColumn), columns, orderedColumns);
+					previousColumnIndex = addColumnAndPrevious(previousColumnElement, columns, orderedColumns);
 				}
 				
 				// Add actual column after previous column:
 				columnIndex = previousColumnIndex + 1;
 				orderedColumns.add(columnIndex, column);
 			} else {
-				if ((previousColumn != null) && previousColumn.equalsIgnoreCase("HEAD")) {
+				if (previousColumn != null && previousColumn.equalsIgnoreCase("HEAD")) {
 					// Head:
 					columnIndex = 0;
 					orderedColumns.add(columnIndex, column);
