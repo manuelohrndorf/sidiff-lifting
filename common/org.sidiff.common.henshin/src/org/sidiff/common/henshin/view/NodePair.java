@@ -96,7 +96,7 @@ public class NodePair {
 	public static void removeAll(Collection<NodePair> nodePairs, Collection<Node> nodes) {
 		
 		for (Iterator<NodePair> iterator = nodePairs.iterator(); iterator.hasNext();) {
-			NodePair nodePair = (NodePair) iterator.next();
+			NodePair nodePair = iterator.next();
 			
 			 if ((nodePair.getLhsNode() != null) && nodes.contains(nodePair.getLhsNode())) {
 				 iterator.remove();

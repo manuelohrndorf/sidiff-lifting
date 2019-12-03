@@ -94,7 +94,7 @@ public class EdgePair {
 	public static void removeAll(Collection<EdgePair> edgePairs, Collection<Edge> edges) {
 		
 		for (Iterator<EdgePair> iterator = edgePairs.iterator(); iterator.hasNext();) {
-			EdgePair edgePair = (EdgePair) iterator.next();
+			EdgePair edgePair = iterator.next();
 			
 			 if ((edgePair.getLhsEdge() != null) && edges.contains(edgePair.getLhsEdge())) {
 				 iterator.remove();

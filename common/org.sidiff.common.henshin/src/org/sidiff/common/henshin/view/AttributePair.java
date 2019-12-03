@@ -106,7 +106,7 @@ public class AttributePair {
 	public static void removeAll(Collection<AttributePair> attributePairs, Collection<Attribute> attributes) {
 		
 		for (Iterator<AttributePair> iterator = attributePairs.iterator(); iterator.hasNext();) {
-			AttributePair attributePair = (AttributePair) iterator.next();
+			AttributePair attributePair = iterator.next();
 			
 			 if ((attributePair.getLhsAttribute() != null) && attributes.contains(attributePair.getLhsAttribute())) {
 				 iterator.remove();
