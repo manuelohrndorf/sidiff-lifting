@@ -91,6 +91,7 @@ public class HenshinDiagramUtil {
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
 				Messages.HenshinNewDiagramFileWizard_InitDiagramCommand, affectedFiles) {
 
+			@Override
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				int diagramVID = HenshinVisualIDRegistry.getDiagramVisualID(editRule);

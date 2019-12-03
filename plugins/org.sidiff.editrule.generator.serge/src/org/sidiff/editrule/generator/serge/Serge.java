@@ -257,12 +257,6 @@ public class Serge implements IEditRuleGenerator {
 	 * @throws EditRuleGenerationException
 	 */
 	private void validateSettings(EditRuleGenerationSettings settings, IProgressMonitor monitor) throws WrongSettingsInstanceException, EditRuleGenerationException {
-	
-		// First check if the given settings object
-		if(!(settings instanceof EditRuleGenerationSettings)) {
-			throw new WrongSettingsInstanceException();
-		}
-
 		// Create more specific SergeSettings out of the general
 		// EditRuleGenerationSettings
 		this.settings = new SergeSettings(settings);

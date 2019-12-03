@@ -86,6 +86,7 @@ public class EditRuleFix extends WorkbenchMarkerResolution {
 		return Activator.getImageDescriptor("fixEngine.gif").createImage();
 	}
 
+	@Override
 	public String getLabel() {
 		return "Execute Edit-Rule Fixing Engine";
 	}

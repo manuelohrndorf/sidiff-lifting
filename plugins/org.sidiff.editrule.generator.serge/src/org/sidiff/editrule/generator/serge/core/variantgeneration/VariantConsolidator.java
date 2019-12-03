@@ -1,13 +1,9 @@
 package org.sidiff.editrule.generator.serge.core.variantgeneration;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -15,7 +11,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Annotation;
-import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
@@ -24,8 +19,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.emf.metamodel.analysis.EClassifierInfoManagement;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.editrule.generator.exceptions.OperationTypeNotImplementedException;
-import org.sidiff.editrule.generator.serge.configuration.Configuration;
-import org.sidiff.editrule.generator.serge.configuration.Configuration.OperationTypeGroup;
 import org.sidiff.editrule.generator.serge.core.ModuleInternalsApplicator;
 import org.sidiff.editrule.generator.serge.core.variantgeneration.Sequence.InspectionFlag;
 import org.sidiff.editrule.generator.serge.core.variantgeneration.SequenceEntry.EntryFlag;
@@ -151,7 +144,7 @@ public class VariantConsolidator {
 			for(SequenceEntry entry: currentSequence) {
 
 				// only proceed if the entry is still uninspected
-				if(entry.getEntryFlag() == EntryFlag.uninspected) {
+				if(entry.getValue() == EntryFlag.uninspected) {
 					
 					// replicate and replace (just in case the entry node type has sub types)
 					replicateAndReplace(sequenceSet, currentSequence, entry);
@@ -168,7 +161,7 @@ public class VariantConsolidator {
 				// check other sequences for the same entry occurence and replace/replicate it:
 				if(sequenceSet.getEntryIdentityMap().get(entry) != null) {
 					for(Map.Entry<Sequence,SequenceEntry> occurrence :sequenceSet.getEntryIdentityMap().get(entry).entrySet()) {
-						if(occurrence.getValue().getEntryFlag()==EntryFlag.uninspected) {
+						if(occurrence.getValue().getValue()==EntryFlag.uninspected) {
 							replicateAndReplace(sequenceSet, occurrence.getKey(), occurrence.getValue());
 						}
 					}

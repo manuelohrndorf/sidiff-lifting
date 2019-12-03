@@ -17,9 +17,9 @@ public class NamespaceCheckGenerator extends AbstractConditionGenerator {
 
 	public NamespaceCheckGenerator(Rule editRule) {
 		super(editRule);
-		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
 	protected List<Edge> getContainmentCreateEdges(){
 		List<Edge> res = new ArrayList<Edge>();
 		for (Edge edge : HenshinRuleAnalysisUtilEx.getRHSMinusLHSEdges(editRule)){

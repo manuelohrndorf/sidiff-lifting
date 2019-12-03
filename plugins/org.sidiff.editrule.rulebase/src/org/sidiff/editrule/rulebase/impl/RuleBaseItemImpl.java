@@ -201,6 +201,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean isActive() {
 		return this.getEditRule().getExecuteMainUnit().isActivated();
 	}
@@ -210,6 +211,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setActive(boolean newActive) {
 		this.getEditRule().getExecuteMainUnit().setActivated(newActive);
 	}
@@ -387,6 +389,7 @@ public class RuleBaseItemImpl extends EObjectImpl implements RuleBaseItem {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void shrink() {
 		
 		// Compress attachment list:

@@ -28,7 +28,6 @@ import org.sidiff.editrule.generator.serge.configuration.Configuration.Operation
 import org.sidiff.editrule.generator.serge.exceptions.ModuleForInverseCreationRequiredException;
 import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration;
 import org.sidiff.editrule.generator.serge.filter.ElementFilter;
-import org.sidiff.editrule.generator.serge.filter.ClassifierInclusionConfiguration.InclusionType;
 import org.sidiff.editrule.generator.serge.generators.actions.AddGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.AttachGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.ChangeLiteralGenerator;
@@ -45,9 +44,9 @@ import org.sidiff.editrule.generator.serge.generators.actions.MoveUpGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.RemoveGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.SetAttributeGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.SetReferenceGenerator;
+import org.sidiff.editrule.generator.serge.generators.actions.SolitaryVariantGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetAttributeGenerator;
 import org.sidiff.editrule.generator.serge.generators.actions.UnsetReferenceGenerator;
-import org.sidiff.editrule.generator.serge.generators.actions.SolitaryVariantGenerator;
 import org.sidiff.editrule.generator.types.OperationType;
 
 public class GenerationActionDelegator {

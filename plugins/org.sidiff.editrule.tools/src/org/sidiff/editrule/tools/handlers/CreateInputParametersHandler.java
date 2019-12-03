@@ -1,7 +1,5 @@
 package org.sidiff.editrule.tools.handlers;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRules;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +21,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.sidiff.common.emf.ui.util.EMFHandlerUtil;
+import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.editrule.tools.util.EditRuleUtil;
 
@@ -57,7 +56,7 @@ public class CreateInputParametersHandler extends AbstractHandler {
 				}
 			}
 			
-			getRules(editRule).forEach(rule -> {
+			HenshinModuleAnalysis.getAllRules(editRule).forEach(rule -> {
 				
 				// LHS nodes:
 				rule.getLhs().getNodes().forEach(lhsNode -> {

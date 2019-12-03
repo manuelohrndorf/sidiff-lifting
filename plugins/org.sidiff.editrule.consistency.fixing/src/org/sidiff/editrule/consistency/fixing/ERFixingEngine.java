@@ -22,13 +22,12 @@ public class ERFixingEngine {
 
 		for (EditRuleValidation erValidation : validations) {
 			String type = erValidation.validationType.toString();
-			Module module = (Module) erValidation.editModule;
 			EObject eObject = (EObject) erValidation.violatings.get(erValidation.violatings.size() - 1);
 			List<EObject> eObjects = new ArrayList<EObject>();
 			for (int i = 0; i < erValidation.violatings.size(); i++) {
 				eObjects.add((EObject) erValidation.violatings.get(i));
 			}
-			fixit(type, module, eObject, eObjects);
+			fixit(type, erValidation.editModule, eObject, eObjects);
 		}
 	}
 

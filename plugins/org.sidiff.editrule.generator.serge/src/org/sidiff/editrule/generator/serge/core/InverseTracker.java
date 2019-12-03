@@ -92,7 +92,7 @@ public class InverseTracker {
 	public void printParameterInverses() {
 		for (ModelElement me : parameterMap.keySet()) {
 			if (me instanceof Parameter) {
-				System.out.println(((Parameter) me) + "_["
+				System.out.println(me + "_["
 						+ parameterMap.get(me) + "] <-> "
 						+ getInverse((Parameter) me));
 			}

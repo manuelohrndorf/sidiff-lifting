@@ -138,6 +138,7 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean isResolvable() {
 		return getConflictResolution() != null;
 	}

@@ -1,7 +1,5 @@
 package org.sidiff.editrule.tools.handlers;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getRules;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.sidiff.common.emf.ui.util.EMFHandlerUtil;
+import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.util.UIUtil.NotEmptyValidator;
 import org.sidiff.editrule.tools.util.EditRuleUtil;
@@ -86,7 +85,7 @@ public class RenameEditRuleIdentifiersHandler extends AbstractHandler {
 		List<GraphElement> graphElements = new ArrayList<>();
 		Set<String> identifiers = new HashSet<>();
 		
-		getRules(editRule).forEach(rule -> {
+		HenshinModuleAnalysis.getAllRules(editRule).forEach(rule -> {
 			rule.eAllContents().forEachRemaining(element -> {
 				String identifier = getIdentifier(element);
 

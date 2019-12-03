@@ -68,7 +68,7 @@ public class Sequence extends LinkedHashSet<SequenceEntry>{
 		
 		for(SequenceEntry entry: this) {
 			if(entry.getKey().equals(node)) {
-				return (EntryFlag) entry.getValue();
+				return entry.getValue();
 			}
 		}
 		return EntryFlag.uninspected;

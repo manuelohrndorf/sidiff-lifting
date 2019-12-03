@@ -2,11 +2,10 @@ package org.sidiff.editrule.generator.serge.core.variantgeneration;
 
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.editrule.generator.serge.core.variantgeneration.SequenceEntry.EntryFlag;
 
-public class SequenceEntry implements Map.Entry<Node, Enum>{
+public class SequenceEntry implements Map.Entry<Node, EntryFlag>{
 
 	private Node k;
 	private EntryFlag v;
@@ -31,7 +30,7 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 	}
 
 	@Override
-	public Enum getValue() {
+	public EntryFlag getValue() {
 		return v;
 	}
 	
@@ -39,39 +38,15 @@ public class SequenceEntry implements Map.Entry<Node, Enum>{
 		return containingSequence;
 	}
 
-	/**
-	 * Convenience method for returning the EntryFlag
-	 * @return
-	 * 			the entry flag
-	 */
-	public EntryFlag getEntryFlag() {
-		return v;
-	}
-
 	@Override
-	public Enum setValue(Enum value) {
-		this.v = (EntryFlag) value;
-		return v;
-	}
-
-	
-
-	/**
-	 * Convenience method for setting the EntryFlag
-	 * @return
-	 * 			the entry flag
-	 */
-	public EntryFlag setEntryFlag(EntryFlag value) {
+	public EntryFlag setValue(EntryFlag value) {
+		EntryFlag old = v;
 		this.v = value;
-		return v;
+		return old;
 	}
 
 	@Override
 	public String toString() {
-
 		return k.getType().getName() + " (" + v.name() + ")" + " [" + k.hashCode() + "] ";
-
 	}
-	
-
 }

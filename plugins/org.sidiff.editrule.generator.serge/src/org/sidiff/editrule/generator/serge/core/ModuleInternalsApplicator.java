@@ -601,7 +601,7 @@ public class ModuleInternalsApplicator {
 	 */
 	public static Set<Attribute> createAttributes(EClass forEClass, Node inEClassNode, Rule rule) {
 
-		Set<Attribute> createdAttributes = new HashSet();
+		Set<Attribute> createdAttributes = new HashSet<>();
 
 		// Add necessary attributes to the new eClass node
 		for (EAttribute ea : forEClass.getEAllAttributes()) {
@@ -626,7 +626,7 @@ public class ModuleInternalsApplicator {
 	public static Set<Attribute> createAttributesWithVariantAnnotation(EClass forEClass, Node inEClassNode, Rule rule,
 			Annotation vAnno) {
 
-		Set<Attribute> createdAttributes = new HashSet();
+		Set<Attribute> createdAttributes = new HashSet<>();
 
 		// Add necessary attributes to the new eClass node
 		for (EAttribute ea : forEClass.getEAllAttributes()) {

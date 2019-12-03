@@ -2,18 +2,9 @@ package org.sidiff.editrule.consistency.fixing;
 
 public class UnsupportedValidationType extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	String type;
-	
-	public UnsupportedValidationType(String type){
-		this.type = type;
-	}
-	
+	private static final long serialVersionUID = -3564440310153830723L;
 
-	public String getMessage(){
-		return "Fixes for the validation type " + type + " are not supported at the moment.";
+	public UnsupportedValidationType(String type) {
+		super("Fixes for the validation type " + type + " are not supported at the moment.");
 	}
 }
