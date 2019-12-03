@@ -36,6 +36,7 @@ public class ApplyPatchOnLeftAction extends Action implements IPropertyChangeLis
 	@Override
 	public void run() {
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				monitor.beginTask("Applying Patch", IProgressMonitor.UNKNOWN);
 				try {

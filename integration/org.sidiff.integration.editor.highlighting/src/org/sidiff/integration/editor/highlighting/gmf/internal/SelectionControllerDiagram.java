@@ -43,7 +43,7 @@ public class SelectionControllerDiagram {
 	}
 
 	public void registerDecorator(IDecorator decorator, IDecoratorTarget decoratorTarget) {
-		View view = (View) decoratorTarget.getAdapter(View.class);
+		View view = decoratorTarget.getAdapter(View.class);
 
 		if (view.getElement() != null) {
 			if (decoratorTargets.containsKey(view.getElement())) {

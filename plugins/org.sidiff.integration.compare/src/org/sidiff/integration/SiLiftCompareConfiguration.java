@@ -45,6 +45,7 @@ public class SiLiftCompareConfiguration extends CompareConfiguration {
 		this.listeners = new ListenerList<>();
 		this.delegate = delegate;
 		this.propertyChangeListener = new IPropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 				fireChange(event.getProperty(), event.getOldValue(), event.getNewValue());
 			}
@@ -121,120 +122,149 @@ public class SiLiftCompareConfiguration extends CompareConfiguration {
 	//
 	// delegate methods for CompareConfiguration
 
+	@Override
 	public IPreferenceStore getPreferenceStore() {
 		return delegate.getPreferenceStore();
 	}
 
+	@Override
 	public Image getImage(int kind) {
 		return delegate.getImage(kind);
 	}
 
+	@Override
 	public Image getImage(Image base, int kind) {
 		return delegate.getImage(base, kind);
 	}
 
+	@Override
 	public boolean isMirrored() {
 		return delegate.isMirrored();
 	}
 
+	@Override
 	public void setProperty(String key, Object newValue) {
 		if(delegate == null)
 			return;
 		delegate.setProperty(key, newValue);
 	}
 
+	@Override
 	public Object getProperty(String key) {
 		return delegate.getProperty(key);
 	}
 
+	@Override
 	public void setAncestorLabel(String label) {
 		delegate.setAncestorLabel(label);
 	}
 
+	@Override
 	public String getAncestorLabel(Object element) {
 		return delegate.getAncestorLabel(element);
 	}
 
+	@Override
 	public void setAncestorImage(Image image) {
 		delegate.setAncestorImage(image);
 	}
 
+	@Override
 	public Image getAncestorImage(Object element) {
 		return delegate.getAncestorImage(element);
 	}
 
+	@Override
 	public void setLeftEditable(boolean editable) {
 		delegate.setLeftEditable(editable);
 	}
 
+	@Override
 	public boolean isLeftEditable() {
 		return delegate.isLeftEditable();
 	}
 
+	@Override
 	public void setLeftLabel(String label) {
 		delegate.setLeftLabel(label);
 	}
 
+	@Override
 	public String getLeftLabel(Object element) {
 		return delegate.getLeftLabel(element);
 	}
 
+	@Override
 	public void setLeftImage(Image image) {
 		delegate.setLeftImage(image);
 	}
 
+	@Override
 	public Image getLeftImage(Object element) {
 		return delegate.getLeftImage(element);
 	}
 
+	@Override
 	public void setRightEditable(boolean editable) {
 		delegate.setRightEditable(editable);
 	}
 
+	@Override
 	public boolean isRightEditable() {
 		return delegate.isRightEditable();
 	}
 
+	@Override
 	public void setRightLabel(String label) {
 		delegate.setRightLabel(label);
 	}
 
+	@Override
 	public String getRightLabel(Object element) {
 		return delegate.getRightLabel(element);
 	}
 
+	@Override
 	public void setRightImage(Image image) {
 		delegate.setRightImage(image);
 	}
 
+	@Override
 	public Image getRightImage(Object element) {
 		return delegate.getRightImage(element);
 	}
 
+	@Override
 	public ICompareContainer getContainer() {
 		return delegate.getContainer();
 	}
 
+	@Override
 	public void setContainer(ICompareContainer container) {
 		delegate.setContainer(container);
 	}
 
+	@Override
 	public ICompareInputLabelProvider getLabelProvider() {
 		return delegate.getLabelProvider();
 	}
 
+	@Override
 	public void setLabelProvider(ICompareInput input, ICompareInputLabelProvider labelProvider) {
 		delegate.setLabelProvider(input, labelProvider);
 	}
 
+	@Override
 	public void setDefaultLabelProvider(ICompareInputLabelProvider labelProvider) {
 		delegate.setDefaultLabelProvider(labelProvider);
 	}
 
+	@Override
 	public void setChangeIgnored(int kind, boolean ignored) {
 		delegate.setChangeIgnored(kind, ignored);
 	}
 
+	@Override
 	public boolean isChangeIgnored(int kind) {
 		return delegate.isChangeIgnored(kind);
 	}

@@ -17,8 +17,8 @@ public class DecoratorProvider extends AbstractProvider implements IDecoratorPro
 	public boolean provides(IOperation operation) {
 		if(operation instanceof CreateDecoratorsOperation) {
 			IDecoratorTarget target = ((CreateDecoratorsOperation)operation).getDecoratorTarget();
-			IGraphicalEditPart editPart = (IGraphicalEditPart)target.getAdapter(IGraphicalEditPart.class);
-			View view = (View)target.getAdapter(View.class);
+			IGraphicalEditPart editPart = target.getAdapter(IGraphicalEditPart.class);
+			View view = target.getAdapter(View.class);
 			return editPart != null && view != null && ViewUtil.resolveSemanticElement(view) != null;
 		}
 		return false;

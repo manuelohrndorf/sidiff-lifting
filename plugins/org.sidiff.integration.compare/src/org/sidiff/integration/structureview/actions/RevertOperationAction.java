@@ -24,6 +24,7 @@ public class RevertOperationAction extends AbstractOperationWrapperAction {
 	@Override
 	public void run() {
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				monitor.beginTask("Reverting operation", IProgressMonitor.UNKNOWN);
 				try {

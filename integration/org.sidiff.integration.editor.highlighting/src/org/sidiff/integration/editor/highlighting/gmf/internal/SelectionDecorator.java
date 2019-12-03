@@ -88,7 +88,7 @@ public class SelectionDecorator extends AbstractDecorator {
 			setDecoration(getDecoratorTarget().addShapeDecoration(decoration, IDecoratorTarget.Direction.CENTER, 0, false));
 		} else if (editPart.getFigure() instanceof PolylineConnection) {
 			SelectionEdgeDecorationFigure decoration = new SelectionEdgeDecorationFigure((PolylineConnection)editPart.getFigure(), styled.get());
-			setDecoration(getDecoratorTarget().addDecoration(decoration, new MoveHandleLocator((PolylineConnection)editPart.getFigure()), false));
+			setDecoration(getDecoratorTarget().addDecoration(decoration, new MoveHandleLocator(editPart.getFigure()), false));
 		}
 	}
 
