@@ -12,18 +12,18 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.xml.XMLParser;
 import org.sidiff.conflicts.annotation.AnnotationModifiedDetector;
-import org.sidiff.ecore.modifieddetector.internal.Activator;
 
 public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 
 	private static final String CONFIG_PATH = "/config/org.sidiff.ecore.core.annotations.xml";
+	private static final String PLUGIN_ID = "org.sidiff.ecore.modifieddetector";
 
 	@Override
 	public void initAnnotator(IAnnotation annotator, Resource model) throws IOException {
 		LogUtil.log(LogEvent.DEBUG, "Config: " + CONFIG_PATH);	
 		
 		// Configure AnnotationService
-		annotator.getConfiguration().setOption("configDocument", XMLParser.parseStream(IOUtil.openInputStream(Activator.PLUGIN_ID, CONFIG_PATH)));
+		annotator.getConfiguration().setOption("configDocument", XMLParser.parseStream(IOUtil.openInputStream(PLUGIN_ID, CONFIG_PATH)));
 	}
 
 	@Override
