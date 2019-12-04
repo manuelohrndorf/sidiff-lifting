@@ -9,7 +9,7 @@ import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
-import org.sidiff.patching.ui.Activator;
+import org.sidiff.patching.ui.internal.PatchingUiPlugin;
 import org.sidiff.patching.ui.widgets.TargetModelWidget;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
 
@@ -24,7 +24,7 @@ public class ApplyPatchPage01 extends AbstractWizardPage {
 	private PatchingSettings settings;
 
 	public ApplyPatchPage01(InputModels inputModels, String title, PatchingSettings settings) {
-		super("ApplyPatchPage01", title, Activator.getImageDescriptor("icon.png"));
+		super("ApplyPatchPage01", title, PatchingUiPlugin.getImageDescriptor("icon.png"));
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}

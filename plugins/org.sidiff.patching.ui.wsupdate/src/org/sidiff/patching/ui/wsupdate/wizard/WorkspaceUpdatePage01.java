@@ -11,7 +11,7 @@ import org.sidiff.matching.api.settings.MatchingSettingsItem;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.api.settings.PatchingSettingsItem;
 import org.sidiff.patching.ui.widgets.ValidationModeWidget;
-import org.sidiff.patching.ui.wsupdate.Activator;
+import org.sidiff.patching.ui.wsupdate.internal.PatchingWsUpdateUiPlugin;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 import org.sidiff.patching.ui.wsupdate.widgets.WSUModelsWidget;
 
@@ -27,7 +27,7 @@ public class WorkspaceUpdatePage01 extends AbstractWizardPage {
 	private PatchingSettings settings;
 
 	public WorkspaceUpdatePage01(WSUModels mergeModels, String title, PatchingSettings settings) {
-		super("WorkspaceUpdatePage01", title, Activator.getImageDescriptor("icon.png"));
+		super("WorkspaceUpdatePage01", title, PatchingWsUpdateUiPlugin.getImageDescriptor("icon.png"));
 		this.mergeModels = mergeModels;
 		this.settings = settings;
 	}

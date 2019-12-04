@@ -4,7 +4,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.patch.ui.internal.Activator;
+import org.sidiff.patching.patch.ui.internal.PatchingPatchUiPlugin;
 import org.sidiff.patching.patch.ui.jobs.CreatePatchJob;
 
 public class CreatePatchWizard extends Wizard {
@@ -28,12 +28,12 @@ public class CreatePatchWizard extends Wizard {
 	public void addPages() {
 		createPatchPage01 = new CreatePatchPage01(
 				inputModels, "CreateDifferencePage01", "Create a Patch",
-				Activator.getIcon("icon.png"), settings, Mode.PATCH);
+				PatchingPatchUiPlugin.getIcon("icon.png"), settings, Mode.PATCH);
 		addPage(createPatchPage01);
 
 		createPatchPage02 = new CreatePatchPage02(
 				inputModels, "CreateDifferencePage02", "Create a Patch",
-				Activator.getIcon("icon.png"), settings, Mode.PATCH, createPatchPage01);
+				PatchingPatchUiPlugin.getIcon("icon.png"), settings, Mode.PATCH, createPatchPage01);
 		addPage(createPatchPage02);
 	}
 

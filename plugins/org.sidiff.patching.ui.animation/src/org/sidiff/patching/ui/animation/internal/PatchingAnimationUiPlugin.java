@@ -3,7 +3,7 @@ package org.sidiff.patching.ui.animation.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+public class PatchingAnimationUiPlugin implements BundleActivator {
 
 	private static BundleContext context;
 
@@ -15,16 +15,18 @@ public class Activator implements BundleActivator {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+		PatchingAnimationUiPlugin.context = bundleContext;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+		PatchingAnimationUiPlugin.context = null;
 	}
 
 }

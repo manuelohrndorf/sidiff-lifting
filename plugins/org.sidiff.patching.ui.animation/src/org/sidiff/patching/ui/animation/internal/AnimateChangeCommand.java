@@ -53,12 +53,13 @@ import org.sidiff.patching.ui.animation.GMFAnimation.EditorMatching;
 
 public class AnimateChangeCommand extends AbstractTransactionalCommand {
 
-	private static List<PendingAdd> pendingAdds = new ArrayList<PendingAdd>();
+	private static List<PendingAdd> pendingAdds = new ArrayList<>();
 	
 	private Notification notification = null;
 	private EditorMatching editorMatching = null;
 
-	public AnimateChangeCommand(TransactionalEditingDomain domain, String label, List<IFile> affectedFiles, Notification notification, EditorMatching matching) {
+	public AnimateChangeCommand(TransactionalEditingDomain domain, String label, List<IFile> affectedFiles,
+			Notification notification, EditorMatching matching) {
 		super(domain, label, affectedFiles);
 		this.notification = notification;
 		this.editorMatching = matching;
@@ -120,7 +121,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			if(newValue instanceof EObject){
 				for(PendingAdd pendingAdd : pendingAdds){
 					if(viewedObject == pendingAdd.newObject){
-						createEdge(pendingAdd.adapter, (Diagram) pendingAdd.containerView, pendingAdd.semanticHint, pendingAdd.changedContainer, (EObject) newValue);
+						createEdge(pendingAdd.adapter, (Diagram) pendingAdd.containerView, pendingAdd.semanticHint,
+								pendingAdd.changedContainer, (EObject) newValue);
 					}
 				}
 				pendingAdds.clear();	
@@ -182,7 +184,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			IElementType elementType = null;
 			ISpecializationType[] spezializations = typeRegistry.getSpecializationTypes(clientContext);
 			for(ISpecializationType spezialization : spezializations){
-				if(spezialization.getId().toLowerCase().contains(String.format("%s%s", referenceClass.getName().toLowerCase(), reference.getName().toLowerCase()))){
+				if(spezialization.getId().toLowerCase().contains(String.format("%s%s", referenceClass.getName().toLowerCase(),
+						reference.getName().toLowerCase()))){
 					elementType = spezialization;
 				}
 			}
@@ -194,7 +197,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 					if(object instanceof Edge){
 						Edge edge = (Edge) object;
 						if(edge.getType().equalsIgnoreCase(semanticHint)){
-							if(edge.getElement() == removedObject || edgeMatches(edge, removedObject, changedContainer, reference, elementType)){
+							if(edge.getElement() == removedObject
+									|| edgeMatches(edge, removedObject, changedContainer, reference, elementType)){
 								toBeDeleted.add(edge);
 							} 
 						}
@@ -290,7 +294,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 			elementType = typeRegistry.getElementType(addedViewedObject, clientContext);
 			ISpecializationType[] spezializations = typeRegistry.getSpecializationTypes(clientContext);
 			for(ISpecializationType spezialization : spezializations){
-				if(spezialization.getId().toLowerCase().contains(String.format("%s%s", referenceClass.getName().toLowerCase(), reference.getName().toLowerCase()))){
+				if(spezialization.getId().toLowerCase().contains(String.format("%s%s", referenceClass.getName().toLowerCase(),
+						reference.getName().toLowerCase()))){
 					elementType = spezialization;
 				}
 			}
@@ -319,28 +324,6 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 				} 
 			}
 		}
-	}
-	
-	@SuppressWarnings("unused")
-	private void printElementTypes(IElementType[] elementTypes){
-		for(IElementType type : elementTypes){
-			if(type instanceof IHintedType){
-				System.out.println(String.format("HintedType: %s semanticHint: %s", type.getId(), ((IHintedType) type).getSemanticHint()));
-			} else {
-				System.out.println(String.format("Type: %s", type.getId()));
-			}
-		}
-	}
-	
-	@SuppressWarnings({ "unchecked", "unused" })
-	private Collection<View> getChildViews(View containerView) {
-		List<View> childViews = new ArrayList<View>(containerView.getPersistedChildren());
-		List<View> temp = new ArrayList<View>();
-		for(View childView : childViews){
-			temp.addAll(getChildViews(childView));
-		}
-		childViews.addAll(temp);
-		return childViews;
 	}
 
 	private boolean createNode(EObjectAdapter adapter, View containerView, String semanticHint){
@@ -389,7 +372,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 					EditPart sourceEditPart = (EditPart) editorMatching.editor.getDiagramGraphicalViewer().getEditPartRegistry().get(source);
 					EditPart targetEditPart = (EditPart) editorMatching.editor.getDiagramGraphicalViewer().getEditPartRegistry().get(target);
 
-					CreateConnectionViewRequest request = new CreateConnectionViewRequest(new ConnectionViewDescriptor(adapter, semanticHint, ViewUtil.APPEND, true, PreferencesHint.USE_DEFAULTS));
+					CreateConnectionViewRequest request = new CreateConnectionViewRequest(
+							new ConnectionViewDescriptor(adapter, semanticHint, ViewUtil.APPEND, true, PreferencesHint.USE_DEFAULTS));
 					request.setSourceEditPart(sourceEditPart);
 					request.setTargetEditPart(targetEditPart);
 					
@@ -429,7 +413,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 
 		// remove subviews since they will be refactored with their parent
 		for (Iterator<View> i = views.iterator(); i.hasNext();) {
-			View view = (View) i.next();
+			View view = i.next();
 			
 			EObject parent = null;
 			while ((parent = view.eContainer()) instanceof View) { 
@@ -443,9 +427,8 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		
 		if(views.size() > 0){
 			return views.iterator().next();
-		} else {
-			return null;
 		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -454,6 +437,7 @@ public class AnimateChangeCommand extends AbstractTransactionalCommand {
 		return views;
 	}
 
+	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 		switch (notification.getEventType()) {

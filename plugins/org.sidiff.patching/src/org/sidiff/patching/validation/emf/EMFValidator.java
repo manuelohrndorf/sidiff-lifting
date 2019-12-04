@@ -25,7 +25,7 @@ public class EMFValidator implements IValidator {
 	public Collection<IValidationError> validate(Resource resource) {
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(resource.getContents().get(0));
 
-		Collection<IValidationError> res = new ArrayList<IValidationError>();
+		Collection<IValidationError> res = new ArrayList<>();
 		for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
 			switch (childDiagnostic.getSeverity()) {
 			case Diagnostic.ERROR:

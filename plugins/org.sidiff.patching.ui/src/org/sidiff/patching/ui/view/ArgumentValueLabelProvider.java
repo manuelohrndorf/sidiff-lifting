@@ -14,7 +14,7 @@ import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.ui.Activator;
+import org.sidiff.patching.ui.internal.PatchingUiPlugin;
 
 public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
@@ -25,8 +25,8 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	
 	private IArgumentManager argumentManager;
 	
-	private final Image ERROR = Activator.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
-	private final Image WARNING = Activator.getImageDescriptor("warning_16x16.gif").createImage();
+	private final Image ERROR = PatchingUiPlugin.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
+	private final Image WARNING = PatchingUiPlugin.getImageDescriptor("warning_16x16.gif").createImage();
 
 	public void init(OperationInvocationWrapper operationInvocationWrapper) {
 		this.operationInvocationWrapper = operationInvocationWrapper;
@@ -145,7 +145,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	@Override
 	public Color getForeground(Object element) {
 		if (element instanceof ParameterBinding) {
-			Display display = Activator.getDefault().getWorkbench().getDisplay();
+			Display display = PatchingUiPlugin.getDefault().getWorkbench().getDisplay();
 
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return new Color(display, 150, 150, 150);

@@ -5,7 +5,7 @@ import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.ui.Activator;
+import org.sidiff.patching.ui.internal.PatchingUiPlugin;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
 
 public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
@@ -20,7 +20,7 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 
 	public ApplyAsymmetricDifferencePage02(InputModels inputModels, String title,
 			PatchingSettings settings, ApplyAsymmetricDifferencePage01 applyDiffPage01) {
-		super("ApplyAsymmetricDifferencePage02", title, Activator.getImageDescriptor("icon.png"));
+		super("ApplyAsymmetricDifferencePage02", title, PatchingUiPlugin.getImageDescriptor("icon.png"));
 		this.inputModels = inputModels;
 		this.settings = settings;
 		this.applyDiffPage01 = applyDiffPage01;

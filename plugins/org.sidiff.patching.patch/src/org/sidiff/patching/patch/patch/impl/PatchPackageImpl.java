@@ -106,6 +106,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPatch() {
 		return patchEClass;
 	}
@@ -115,6 +116,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPatch_AsymmetricDifference() {
 		return (EReference)patchEClass.getEStructuralFeatures().get(0);
 	}
@@ -124,6 +126,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPatch_Settings() {
 		return (EReference)patchEClass.getEStructuralFeatures().get(1);
 	}
@@ -133,6 +136,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPatch_EditRules() {
 		return (EReference)patchEClass.getEStructuralFeatures().get(2);
 	}
@@ -142,6 +146,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSetting() {
 		return settingEClass;
 	}
@@ -151,6 +156,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSetting_Key() {
 		return (EAttribute)settingEClass.getEStructuralFeatures().get(0);
 	}
@@ -160,6 +166,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSetting_Value() {
 		return (EAttribute)settingEClass.getEStructuralFeatures().get(1);
 	}
@@ -169,6 +176,7 @@ public class PatchPackageImpl extends EPackageImpl implements PatchPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PatchFactory getPatchFactory() {
 		return (PatchFactory)getEFactoryInstance();
 	}

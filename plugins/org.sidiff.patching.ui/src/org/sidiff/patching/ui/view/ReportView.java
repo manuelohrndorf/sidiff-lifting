@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -32,7 +31,7 @@ import org.sidiff.patching.report.OperationExecutionKind;
 import org.sidiff.patching.report.PatchReportManager;
 import org.sidiff.patching.report.ReportEntry;
 import org.sidiff.patching.report.ValidationEntry;
-import org.sidiff.patching.ui.Activator;
+import org.sidiff.patching.ui.internal.PatchingUiPlugin;
 import org.sidiff.patching.ui.view.filter.ReportViewFilter;
 
 public class ReportView extends ViewPart implements IPatchReportListener,IPartListener{
@@ -41,11 +40,11 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 	private PatchReportManager reportManager;
 
-	private final Image PASSED_IMG = Activator.getImageDescriptor("success.png").createImage();
-	private final Image WARNING_IMG = Activator.getImageDescriptor("warning.png").createImage();
-	private final Image REVERTED_IMG = Activator.getImageDescriptor("skipped.png").createImage();
-	private final Image EXEC_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
-	private final Image REVERT_FAILED_IMG = Activator.getImageDescriptor("error.png").createImage();
+	private final Image PASSED_IMG = PatchingUiPlugin.getImageDescriptor("success.png").createImage();
+	private final Image WARNING_IMG = PatchingUiPlugin.getImageDescriptor("warning.png").createImage();
+	private final Image REVERTED_IMG = PatchingUiPlugin.getImageDescriptor("skipped.png").createImage();
+	private final Image EXEC_FAILED_IMG = PatchingUiPlugin.getImageDescriptor("error.png").createImage();
+	private final Image REVERT_FAILED_IMG = PatchingUiPlugin.getImageDescriptor("error.png").createImage();
 
 	private int reportStackEntry;
 	
@@ -296,7 +295,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 				update();
 			}
 		};
-		this.reportStackAction.setImageDescriptor(Activator.getImageDescriptor("empty_report_stack_16x16.gif"));
+		this.reportStackAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("empty_report_stack_16x16.gif"));
 		this.reportStackAction.setEnabled(false);
 		this.reportFilterAction = new Action("Hide successful executions in Report") {
 			@Override
@@ -320,11 +319,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	private void createMenus() {
 		IMenuManager rootMenuManager = getViewSite().getActionBars().getMenuManager();
 		rootMenuManager.setRemoveAllWhenShown(true);
-		rootMenuManager.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager mgr) {
-				fillMenu(mgr);
-			}
-		});
+		rootMenuManager.addMenuListener(this::fillMenu);
 		fillMenu(rootMenuManager);
 	}
 
@@ -401,7 +396,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		action.setChecked(true);
 		if(!reportStackAction.isEnabled() && reportManager.getReports().size() > 1){	
 			reportStackAction.setEnabled(true);
-			reportStackAction.setImageDescriptor(Activator.getImageDescriptor("report_stack_16x16.gif"));
+			reportStackAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("report_stack_16x16.gif"));
 		}
 		reportStackEntry = reportManager.getReports().size()-1;
 	}

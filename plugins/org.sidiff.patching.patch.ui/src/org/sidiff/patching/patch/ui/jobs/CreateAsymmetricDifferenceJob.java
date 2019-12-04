@@ -25,7 +25,7 @@ import org.sidiff.difference.asymmetric.api.util.Difference;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.difference.technical.ui.validation.ValidateDialog;
 import org.sidiff.patching.api.settings.PatchingSettings;
-import org.sidiff.patching.patch.ui.internal.Activator;
+import org.sidiff.patching.patch.ui.internal.PatchingPatchUiPlugin;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
@@ -99,7 +99,7 @@ public class CreateAsymmetricDifferenceJob extends Job {
 		try {
 			fullDiff = AsymmetricDiffFacade.deriveLiftedAsymmetricDifference(resourceA, resourceB, settings);
 		} catch(InvalidModelException e){
-			boolean skipValidation = ValidateDialog.openErrorDialog(Activator.PLUGIN_ID, e);
+			boolean skipValidation = ValidateDialog.openErrorDialog(PatchingPatchUiPlugin.PLUGIN_ID, e);
 			if (skipValidation) {
 				// Retry without validation:
 				settings.setValidate(false);

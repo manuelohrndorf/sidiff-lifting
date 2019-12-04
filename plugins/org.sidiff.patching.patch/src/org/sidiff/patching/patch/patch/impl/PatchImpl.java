@@ -91,6 +91,7 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricDifference getAsymmetricDifference() {
 		if (asymmetricDifference != null && asymmetricDifference.eIsProxy()) {
 			InternalEObject oldAsymmetricDifference = (InternalEObject)asymmetricDifference;
@@ -117,6 +118,7 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAsymmetricDifference(AsymmetricDifference newAsymmetricDifference) {
 		AsymmetricDifference oldAsymmetricDifference = asymmetricDifference;
 		asymmetricDifference = newAsymmetricDifference;
@@ -129,6 +131,7 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getSettings() {
 		if (settings == null) {
 			settings = new EcoreEMap<String,String>(PatchPackage.Literals.SETTING, SettingImpl.class, this, PatchPackage.PATCH__SETTINGS);
@@ -141,6 +144,7 @@ public class PatchImpl extends MinimalEObjectImpl.Container implements Patch {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EditRule> getEditRules() {
 		if (editRules == null) {
 			editRules = new EObjectContainmentEList<EditRule>(EditRule.class, this, PatchPackage.PATCH__EDIT_RULES);

@@ -31,16 +31,4 @@ public class EMFDiagnosticAdapter implements IValidationError {
 	public String getSource() {
 		return adaptee.getSource();
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof EMFDiagnosticAdapter)) {
-			return false;
-		}
-
-		Diagnostic d1 = this.adaptee;
-		Diagnostic d2 = ((EMFDiagnosticAdapter) obj).adaptee;
-
-		return d1.getMessage().equals(d2.getMessage()) && d1.getSource().equals(d2.getSource());
-	}
 }

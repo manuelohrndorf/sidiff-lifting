@@ -69,6 +69,7 @@ public class PatchFactoryImpl extends EFactoryImpl implements PatchFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Patch createPatch() {
 		PatchImpl patch = new PatchImpl();
 		return patch;
@@ -89,6 +90,7 @@ public class PatchFactoryImpl extends EFactoryImpl implements PatchFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PatchPackage getPatchPackage() {
 		return (PatchPackage)getEPackage();
 	}

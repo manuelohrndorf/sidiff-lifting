@@ -41,10 +41,10 @@ import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.ui.Activator;
 import org.sidiff.patching.ui.adapter.IModelChangeListener;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
+import org.sidiff.patching.ui.internal.PatchingUiPlugin;
 import org.sidiff.patching.ui.view.ArgumentValueEditingSupport.IValueChangedListener;
 import org.sidiff.patching.ui.view.filter.OperationInvocationFilter;
 import org.sidiff.patching.validation.ValidationMode;
@@ -54,11 +54,11 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	public static final String ID = "org.sidiff.patching.ui.view.OperationExplorerView";
 
-	private static final ImageDescriptor apply = Activator.getImageDescriptor("apply.gif");
-	private static final ImageDescriptor revert = Activator.getImageDescriptor("revert.gif");
-	private static final ImageDescriptor ignore = Activator.getImageDescriptor("ignored.gif");
-	private static final ImageDescriptor unignore = Activator.getImageDescriptor("unignore.gif");
-	private static final ImageDescriptor properties = Activator.getImageDescriptor("properties.gif");
+	private static final ImageDescriptor apply = PatchingUiPlugin.getImageDescriptor("apply.gif");
+	private static final ImageDescriptor revert = PatchingUiPlugin.getImageDescriptor("revert.gif");
+	private static final ImageDescriptor ignore = PatchingUiPlugin.getImageDescriptor("ignored.gif");
+	private static final ImageDescriptor unignore = PatchingUiPlugin.getImageDescriptor("unignore.gif");
+	private static final ImageDescriptor properties = PatchingUiPlugin.getImageDescriptor("properties.gif");
 
 	private PatchEngine engine;
 	private IEditorPart editor;
@@ -258,7 +258,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			}
 		};
 		this.filterOperationsAction.setToolTipText("Hide all succesfully executed or ignored operations");
-		this.filterOperationsAction.setImageDescriptor(Activator.getImageDescriptor("filter_applied.gif"));
+		this.filterOperationsAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("filter_applied.gif"));
 
 		// Init filter enabled
 		this.filterOperationsAction.setChecked(true);
@@ -266,7 +266,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 		// ----------- Validation ------------------
 		validateMenu = new DropDownAction("Validate");
-		this.validateMenu.setImageDescriptor(Activator.getImageDescriptor("validation_16x16.gif"));
+		this.validateMenu.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("validation_16x16.gif"));
 		this.iterativeValidationAction = new Action("Iterative Validation", IAction.AS_RADIO_BUTTON) {
 			@Override
 			public void run() {
@@ -304,7 +304,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			}
 		};
 		this.applyPatchAction.setToolTipText("Apply all non conflicting and unignored changes");
-		this.applyPatchAction.setImageDescriptor(Activator.getImageDescriptor("patch_exc_16x16.gif"));
+		this.applyPatchAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("patch_exc_16x16.gif"));
 		this.applyPatchAction.setEnabled(false);
 
 		// ----------- Collapse All ------------------
@@ -315,7 +315,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			}
 		};
 		this.collapseAllAction.setToolTipText("Collapse all");
-		this.collapseAllAction.setImageDescriptor(Activator.getImageDescriptor("collapseall.png"));
+		this.collapseAllAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("collapseall.png"));
 
 		// ----------- Expand All ------------------
 		this.expandAllAction = new Action("Expand all", IAction.AS_PUSH_BUTTON) {
@@ -325,7 +325,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 			}
 		};
 		this.expandAllAction.setToolTipText("Expand all");
-		this.expandAllAction.setImageDescriptor(Activator.getImageDescriptor("expandall.gif"));
+		this.expandAllAction.setImageDescriptor(PatchingUiPlugin.getImageDescriptor("expandall.gif"));
 		
 	}
 

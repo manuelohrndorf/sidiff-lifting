@@ -6,7 +6,7 @@ import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
-import org.sidiff.patching.ui.wsupdate.Activator;
+import org.sidiff.patching.ui.wsupdate.internal.PatchingWsUpdateUiPlugin;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
 public class WorkspaceUpdatePage02 extends AbstractWizardPage {
@@ -21,7 +21,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 
 	public WorkspaceUpdatePage02(WSUModels mergeModels, String title,
 			PatchingSettings settings, WorkspaceUpdatePage01 workbenchUpdatePage01) {
-		super("WorkspaceUpdatePage02", title, Activator.getImageDescriptor("icon.png"));
+		super("WorkspaceUpdatePage02", title, PatchingWsUpdateUiPlugin.getImageDescriptor("icon.png"));
 		this.settings = settings;
 		this.mergeModels = mergeModels;
 		this.workbenchUpdatePage01 = workbenchUpdatePage01;
