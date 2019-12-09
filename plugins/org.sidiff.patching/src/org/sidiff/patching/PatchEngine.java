@@ -155,9 +155,9 @@ public class PatchEngine {
 		for (OperationInvocation operationInvocation : operationManager.getOrderedOperations()) {
 			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
 			
-			Boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED ||
+			boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED ||
 					operationWrapper.hasModifiedInArguments() || operationWrapper.hasUnresolvedInArguments();
-			Boolean ignoredOperation = operationWrapper.getStatus() == OperationInvocationStatus.IGNORED;
+			boolean ignoredOperation = operationWrapper.getStatus() == OperationInvocationStatus.IGNORED;
 
 			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED) && 
 					(applyConflictingOperationInvocations || !conflictingOperation) && !ignoredOperation) {
@@ -184,7 +184,7 @@ public class PatchEngine {
 	 * @param singleOperation Boolean to define whether this operation invocation will be executed alone
 	 * 
 	 */
-	public boolean apply(OperationInvocation operationInvocation, Boolean singleOperation) {
+	public boolean apply(OperationInvocation operationInvocation, boolean singleOperation) {
 
 		final OperationInvocation op = operationInvocation;
 		final ApplicationResult applicationResult = new ApplicationResult();

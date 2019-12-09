@@ -23,6 +23,7 @@ import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
 import org.sidiff.correspondences.ICorrespondences;
+import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.IEditorIntegration;
@@ -161,7 +162,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 			}
 		}
 
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getDefaultExtension().get());
+		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
 	}
 
 	protected void initPatchEngine() {
