@@ -23,7 +23,7 @@ public class CreatePatchHandler extends AbstractHandler {
 					.assertSameDocumentType(true)
 					.addModels(selection)
 					.build();
-			new WizardDialog(UIUtil.getActiveShell(), new CreatePatchWizard(inputModels));
+			new WizardDialog(UIUtil.getActiveShell(), new CreatePatchWizard(inputModels)).open();
 		});
 		return null;
 	}
