@@ -8,6 +8,7 @@ import static org.sidiff.difference.lifting.recognitionrulesorter.util.Recogniti
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -44,12 +45,63 @@ public class RecognitionRuleStructureSorting {
 		EList<Node> nodes = recognitionRule.getLhs().getNodes();
 		SortingConstraint.structuredSorting(RecognitionRuleStructureSorting.getStartNode(nodes), nodes);
 		
+		// Sort application conditions:
+		for (NestedCondition ac : recognitionRule.getLhs().getNestedConditions()) {
+			SortingConstraint.structuredSorting(getACStartNode(ac), ac.getConclusion().getNodes());
+		}
+		
 		// Sort all multi-rules (if there are any)
 		for (Rule multiRule : recognitionRule.getAllMultiRules()) {
 			EList<Node>  multiNodes = multiRule.getLhs().getNodes();
 			SortingConstraint.structuredSorting(RecognitionRuleStructureSorting.getMultiStartNode(multiRule), multiNodes);
+			
+			// Sort application conditions:
+			for (NestedCondition ac : multiRule.getLhs().getNestedConditions()) {
+				SortingConstraint.structuredSorting(getACStartNode(ac), ac.getConclusion().getNodes());
+			}
 		}
 	}
+	
+	private static int getStartNode(EList<Node> nodes) {
+		return getStartNode(nodes, 0);
+	}
+	
+	private static int getStartNode(EList<Node> nodes, int offset) {
+		boolean hasTypeNode = false;
+		
+		// Find first change node:
+		// (Ignore SymmetricDifference and EReference type nodes.)
+		for (int i = offset; i < nodes.size(); i++) {
+			Node node = nodes.get(i);
+			
+			// Filter non-structural changes e.g. AVCs:
+			if (!hasTypeNode && isTypeNode(node)) {
+				hasTypeNode = true;
+			} else if (hasTypeNode && isChangeNode(nodes.get(i))) {
+				return i;
+			}
+		}
+		
+		return nodes.size();
+	}
+	
+	private static int getACStartNode(NestedCondition ac) {
+		EList<Node> nodes = ac.getConclusion().getNodes();
+		int offset = 0;
+		
+		// Use already matched nodes as starting points:
+		for (int i = 0; i < nodes.size(); ++i) {
+			Node node =  nodes.get(i);
+			
+			if (ac.getMappings().getOrigin(node) != null) {
+				nodes.move(0, i);
+				++offset;
+			}
+		}
+		
+		return offset;
+	}
+	
 	
 	private static int getMultiStartNode(Rule multiRule) {
 		int embeddedOffset = 0;
@@ -77,28 +129,5 @@ public class RecognitionRuleStructureSorting {
 		}
 		
 		return getStartNode(nodes, embeddedOffset + boundaryOffset);
-	}
-	
-	private static int getStartNode(EList<Node> nodes) {
-		return getStartNode(nodes, 0);
-	}
-	
-	private static int getStartNode(EList<Node> nodes, int offset) {
-		boolean hasTypeNode = false;
-		
-		// Find first change node:
-		// (Ignore SymmetricDifference and EReference type nodes.)
-		for (int i = offset; i < nodes.size(); i++) {
-			Node node = nodes.get(i);
-			
-			// Filter non-structural changes e.g. AVCs:
-			if (!hasTypeNode && isTypeNode(node)) {
-				hasTypeNode = true;
-			} else if (hasTypeNode && isChangeNode(nodes.get(i))) {
-				return i;
-			}
-		}
-		
-		return nodes.size();
 	}
 }
