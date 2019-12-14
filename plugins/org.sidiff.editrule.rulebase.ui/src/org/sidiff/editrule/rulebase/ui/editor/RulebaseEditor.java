@@ -100,9 +100,8 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
-import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
-import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
+import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.editrule.rulebase.ui.editor.columns.RuleBaseColumnLibrary;
@@ -682,12 +681,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 	public boolean isDirty() {
 		return dirty;
 	}
-	
-	public void setDirty(EditRule changedEditRule) {
-		rbManager.addChangedEditRule(changedEditRule);
-		setDirty();
-	}
-	
+
 	public void setDirty() {
 		this.dirty = true;
 		firePropertyChange(PROP_DIRTY);
@@ -709,7 +703,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 		IProject project = EMFStorage.toIFile(resourceURI).getProject();
 		
 		// Rulebase wrapper:
-		rbManager = new EditRuleBaseWrapper(SiDiffResourceSet.create(), project, resourceURI, false);
+		rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
 
 		// Update editor:
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -722,7 +716,7 @@ extends EditorPart implements IEditingDomainProvider, ISelectionProvider, IMenuL
 				// Reload if rulebase file has changed:
 				if (needsUpdate == IResourceDelta.ADDED || needsUpdate == IResourceDelta.CHANGED) {
 					Display.getDefault().asyncExec(() -> {
-						rbManager = new EditRuleBaseWrapper(SiDiffResourceSet.create(), project, resourceURI, false);
+						rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
 						ruleViewer.setInput(rbManager.getItems());
 						update();
 					});	

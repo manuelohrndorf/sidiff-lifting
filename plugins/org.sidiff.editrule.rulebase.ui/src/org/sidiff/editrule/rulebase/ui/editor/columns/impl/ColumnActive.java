@@ -90,7 +90,7 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 				RuleBaseItem item = (RuleBaseItem)element;
 				item.setActive((Boolean)value);
 				ruleViewer.update(element, null);
-				editor.setDirty(item.getEditRule());
+				editor.setDirty();
 			}
 		});
 	}

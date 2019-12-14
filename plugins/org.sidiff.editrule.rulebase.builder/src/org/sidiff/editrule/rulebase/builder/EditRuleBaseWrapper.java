@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Module;
@@ -64,13 +63,7 @@ public class EditRuleBaseWrapper {
 	 * Internal {@link IntraRuleBasePotentialConflictAnalyzer} 
 	 */
 	private IntraRuleBasePotentialConflictAnalyzer ruleBasePotentialConflictAnalyzer;
-	
-	/**
-	 * List of edited (Henshin) Edit-Rules. Used to delay the storage of the Henshin
-	 * files. Call {@link EditRuleBaseWrapper#saveRuleBase()} to save all.
-	 */
-	private Set<EditRule> changedEditRules;
-	
+
 	private SiDiffResourceSet resourceSet;
 
 	private IProject project;
@@ -90,7 +83,6 @@ public class EditRuleBaseWrapper {
 
 		if (resourceSet.getURIConverter().exists(rulebaseURI, null)) {
 			// Load existing rule base
-			URIMappingRegistryImpl.INSTANCE.getURI(rulebaseURI);
 			try {
 				rulebase = resourceSet.loadEObject(rulebaseURI, RuleBase.class);
 			} catch(Exception e) {
@@ -126,7 +118,6 @@ public class EditRuleBaseWrapper {
 	private void init() {
 		ruleBasePotentialDependencyAnalyzer = new IntraRuleBasePotentialDependencyAnalyzer(rulebase);
 		ruleBasePotentialConflictAnalyzer = new IntraRuleBasePotentialConflictAnalyzer(rulebase);
-		changedEditRules = new HashSet<EditRule>();
 	}
 
 	/**
@@ -134,14 +125,6 @@ public class EditRuleBaseWrapper {
 	 */
 	public void saveRuleBase() {
 		resourceSet.saveAllResources();
-	}
-	
-	/**
-	 * @param changedEditRule
-	 *            A changed edit rule which will be saved.
-	 */
-	public void addChangedEditRule(EditRule changedEditRule) {
-		changedEditRules.add(changedEditRule);
 	}
 
 	/**

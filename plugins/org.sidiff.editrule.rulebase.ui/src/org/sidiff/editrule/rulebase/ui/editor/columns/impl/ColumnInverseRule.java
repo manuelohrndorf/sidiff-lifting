@@ -1,14 +1,15 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
+import java.util.Objects;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,16 +42,15 @@ public class ColumnInverseRule extends AbstractRuleBaseColumn {
 		ruleViewer.getTable().setSortColumn(inverseRuleColumn.getColumn());
 
 		// LabelProvider for Rule base item column
-		inverseRuleColumn.setLabelProvider(new CellLabelProvider() {
+		inverseRuleColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				cell.setText(EditRuleItemUtil.getInverseName((RuleBaseItem) cell.getElement()));
+			public String getText(Object element) {
+				return EditRuleItemUtil.getInverseName((RuleBaseItem)element);
 			}
 		});
 
 		// Setup editing support for Rule base item column
 		inverseRuleColumn.setEditingSupport(new EditingSupport(ruleViewer) {
-
 			@Override
 			protected boolean canEdit(Object element) {
 				return true;
@@ -68,11 +68,12 @@ public class ColumnInverseRule extends AbstractRuleBaseColumn {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				EditRuleItemUtil.setInverseName((RuleBaseItem) element, (String) value);
-				ruleViewer.update(element, null);
-				editor.setDirty(((RuleBaseItem) element).getEditRule());
+				if(!Objects.equals(value, getValue(element))) {					
+					EditRuleItemUtil.setInverseName((RuleBaseItem) element, (String) value);
+					ruleViewer.update(element, null);
+					editor.setDirty();
+				}
 			}
-
 		});
 	}
 }

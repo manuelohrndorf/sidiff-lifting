@@ -1,14 +1,15 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
+import java.util.Objects;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -26,9 +27,9 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 		nameBasedClassificationColumn.getColumn().setText("Classification");
 		nameBasedClassificationColumn.getColumn().setToolTipText("Classification of the edit rule");
 		
-		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
 		
+		// Sorting support:
 		nameBasedClassificationColumn.getColumn().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -38,19 +39,17 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 			}
 		});
 
-		nameBasedClassificationColumn.setLabelProvider(new CellLabelProvider() {
+		nameBasedClassificationColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				cell.setText(EditRuleItemUtil.getClassificationName((RuleBaseItem) cell.getElement(), "NameBasedClassificator"));
+			public String getText(Object element) {
+				return EditRuleItemUtil.getClassificationName((RuleBaseItem)element, "NameBasedClassificator");
 			}
 		});
 		
-		// Setup editing support for Rule base description column
 		nameBasedClassificationColumn.setEditingSupport(new EditingSupport(ruleViewer) {
-
 			@Override
 			protected boolean canEdit(Object element) {
-				return false;
+				return true;
 			}
 
 			@Override
@@ -65,12 +64,12 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, "NameBasedClassificator");
-				ruleViewer.update(element, null);
-				editor.setDirty(((RuleBaseItem) element).getEditRule());
+				if(!Objects.equals(value, getValue(element))) {
+					EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, "NameBasedClassificator");
+					ruleViewer.update(element, null);
+					editor.setDirty();					
+				}
 			}
-
 		});
 	}
-	
 }

@@ -1,10 +1,9 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
@@ -20,12 +19,10 @@ public class ColumnEditType extends AbstractRuleBaseColumn {
 		editUnitTypeColumn.getColumn().setResizable(false);
 		editUnitTypeColumn.getColumn().setToolTipText("Edit rule main unit type");
 
-		// LabelProvider for unitTypeColumn
-		editUnitTypeColumn.setLabelProvider(new CellLabelProvider() {
+		editUnitTypeColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				RuleBaseItem item = (RuleBaseItem) cell.getElement();
-				cell.setText(EditRuleItemUtil.getDisplayERType(item));
+			public String getText(Object element) {
+				return EditRuleItemUtil.getDisplayERType((RuleBaseItem)element);
 			}
 		});
 	}

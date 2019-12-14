@@ -1,14 +1,15 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
+import java.util.Objects;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -38,16 +39,15 @@ public class ColumnDescription extends AbstractRuleBaseColumn {
 			}
 		});
 
-		descriptionColumn.setLabelProvider(new CellLabelProvider() {
+		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				cell.setText(EditRuleItemUtil.getDescription((RuleBaseItem) cell.getElement()));
+			public String getText(Object element) {
+				return EditRuleItemUtil.getDescription((RuleBaseItem)element);
 			}
 		});
-		
+
 		// Setup editing support for Rule base description column
 		descriptionColumn.setEditingSupport(new EditingSupport(ruleViewer) {
-
 			@Override
 			protected boolean canEdit(Object element) {
 				return true;
@@ -65,11 +65,12 @@ public class ColumnDescription extends AbstractRuleBaseColumn {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				EditRuleItemUtil.setDescription((RuleBaseItem) element, (String) value);
-				ruleViewer.update(element, null);
-				editor.setDirty(((RuleBaseItem) element).getEditRule());
+				if(!Objects.equals(value, getValue(element))) {
+					EditRuleItemUtil.setDescription((RuleBaseItem) element, (String) value);
+					ruleViewer.update(element, null);
+					editor.setDirty();					
+				}
 			}
-
 		});
 	}
 }

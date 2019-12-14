@@ -1,10 +1,9 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
@@ -21,11 +20,10 @@ public class ColumnDerivedRefrences extends AbstractRuleBaseColumn {
 		derivedRefColumn.getColumn().setAlignment(SWT.CENTER);
 		derivedRefColumn.getColumn().setToolTipText("Uses derived features?");
 
-		// LabelProvider for versionColumn
-		derivedRefColumn.setLabelProvider(new CellLabelProvider() {
+		derivedRefColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				cell.setText(((RuleBaseItem) cell.getElement()).getEditRule().isUseDerivedFeatures()+"");
+			public String getText(Object element) {
+				return Boolean.toString(((RuleBaseItem)element).getEditRule().isUseDerivedFeatures());
 			}
 		});
 	}

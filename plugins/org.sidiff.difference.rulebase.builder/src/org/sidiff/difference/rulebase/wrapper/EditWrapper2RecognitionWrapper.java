@@ -22,12 +22,7 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
  * @author Manuel Ohrndorf
  */
 public class EditWrapper2RecognitionWrapper {
-	
-	/**
-	 * The rulebase item.
-	 */
-	private RuleBaseItem item;
-	
+
 	/**
 	 * Module transformation engine.
 	 */
@@ -42,17 +37,12 @@ public class EditWrapper2RecognitionWrapper {
 	 * @throws NoMainUnitFoundException 
 	 */
 	public void transform(RuleBaseItem item) throws EditToRecognitionException, NoMainUnitFoundException {
-		
 		// Create recognition rule wrapper:
 		RecognitionRule recognitionRule = createRecognitionRule();
-		
-		// Initialize rulebase item:
-		this.item = item;
-		this.item.getEditRuleAttachments().add(recognitionRule);
-		
+
 		// Initialize transformation:
 		transformation = new Edit2RecognitionTransformation(item.getEditRule().getExecuteModule());
-				
+
 		// Auto fixing the edit-rule:
 		ImplicitEdgeCompletion implicitEdgeCompletion = new ImplicitEdgeCompletion();
 		implicitEdgeCompletion.createImplicitEdges(item.getEditRule().getExecuteModule());
@@ -62,12 +52,12 @@ public class EditWrapper2RecognitionWrapper {
 
 		// Save traces from edit rule to recognition rule:
 		for (TransformationPatterns patterns : transformation.getPatterns().values()) {
-			transformPatternsToTraces(patterns);
+			transformPatternsToTraces(patterns, recognitionRule);
 		}
-		
+
 		// Undo edit-rule auto-fixes:
 		implicitEdgeCompletion.deleteImplicitEdges();
-		
+
 		// Fill recognition rule wrapper:
 		recognitionRule.setRecognitionModule(transformation.getRecognitionModule());
 		item.getEditRuleAttachments().add(recognitionRule);
@@ -85,10 +75,9 @@ public class EditWrapper2RecognitionWrapper {
 	/**
 	 * Convert the generation patters to traces.
 	 */
-	private void transformPatternsToTraces(TransformationPatterns patterns) {
-		
-		Collection<Trace> tracesA = item.getEditRuleAttachment(RecognitionRule.class).getTracesA();
-		Collection<Trace> tracesB = item.getEditRuleAttachment(RecognitionRule.class).getTracesB();
+	private void transformPatternsToTraces(TransformationPatterns patterns, RecognitionRule recognitionRule) {
+		Collection<Trace> tracesA = recognitionRule.getTracesA();
+		Collection<Trace> tracesB = recognitionRule.getTracesB();
 		
 		// Create traces for correspondence patterns
 		for (CorrespondencePattern pattern : patterns.getCorrespondencePatterns()) {

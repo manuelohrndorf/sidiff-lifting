@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -36,7 +37,6 @@ import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
-import org.sidiff.common.exceptions.ExceptionUtil;
 import org.sidiff.common.henshin.exceptions.NoMainUnitFoundException;
 import org.sidiff.common.io.IOUtil;
 import org.sidiff.editrule.consistency.validation.EditRuleValidation;
@@ -84,32 +84,21 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * The rulebase manager of the rulebase project for which this builder is defined:
 	 */
 	private EditRuleBaseWrapper ruleBaseWrapper;
-	
-	private SiDiffResourceSet resourceSet;
-	
+
 	@Override
 	protected void startupOnInitialize() {
 		super.startupOnInitialize();
 		classBuilder = new EditRuleBaseClassBuilder(getProject());
 		attachmentBuilders = IEditRuleAttachmentBuilder.MANAGER.getExtensions();
-		
-		initResourceSet();
+		reloadRulebaseWrapper();
 	}
 
-	private void initResourceSet() {
-		resourceSet = SiDiffResourceSet.create();
-		resourceSet.registerXmiIdResourceExtensions(HenshinResource.FILE_EXTENSION, RuleBaseStorage.EXTENSION_RULEBASE);
-
-		// Do not report unknown rulebase attachments:
-		resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
+	private void reloadRulebaseWrapper() {
+		ruleBaseWrapper = createEditRuleBaseWrapper(createResourceSet());
 	}
 
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
-		IRuleBaseProject.MANAGER.clearRuleBaseCache();
-
-		ruleBaseWrapper = createEditRuleBaseWrapper();
-		
 		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -126,7 +115,6 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		SubMonitor progress = SubMonitor.convert(monitor, attachmentBuilders.size()+4);
-		ruleBaseWrapper = createEditRuleBaseWrapper();
 
 		// Unload runtime rulebases:
 		IRuleBaseProject.MANAGER.clearRuleBaseCache();
@@ -149,6 +137,8 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 		// Remove the class file:
 		classBuilder.deleteClassFile(progress.split(1));
+
+		reloadRulebaseWrapper();
 	}
 
 	private void fullBuild(IProgressMonitor monitor) throws CoreException {
@@ -160,17 +150,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		// Clean up before, to be sure to "regenerate" rulebase
 		clean(progress.split(20));
 
+		SubMonitor rulesProgress = SubMonitor.convert(progress.split(20), 100);
 		getProject().getFolder(IRuleBaseProject.EDIT_RULE_FOLDER).accept(resource -> {
 			// Continue only if Resource is an EditRule
 			if (isEditRule(resource)) {
-				buildEditRule(resource, progress.split(1));
+				rulesProgress.setWorkRemaining(100);
+				buildEditRule(resource, rulesProgress.split(1));
 			}
 			// Visit folders
 			return resource instanceof IFolder;
 		});
 
 		// Update RuleBase accordingly
-		buildRuleBaseProject(progress.split(50));
+		buildRuleBaseProject(progress.split(40));
 		refreshProject(progress.split(10));
 	}
 	
@@ -194,19 +186,18 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	}
 	
 	private boolean handleResourceDelta(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
-		
 		// Continue only if Resource is an EditRule
 		if (isEditRule(delta.getResource())) {
 			// Remove Markers beforehand
 			removeMarkers(delta.getResource(), IResource.DEPTH_ZERO);
-			
+
 			switch(delta.getKind()) {
 				case IResourceDelta.REMOVED:
 					// If resource has been removed, try to delete old
 					// Co-Rules (= Built EditRule).
 					deleteEditRule(delta.getResource(), monitor);
 					return true;
-				
+
 				case IResourceDelta.CHANGED:
 					// If resource has been changed, try to delete old
 					// Co-Rules (= Built EditRule) and build the "new" version.
@@ -214,12 +205,12 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 					deleteEditRule(delta.getResource(), progress.split(1));
 					buildEditRule(delta.getResource(), progress.split(1));
 					return true;
-				
+
 				case IResourceDelta.ADDED:
 					// If resource has been added, just build the EditRule.
 					buildEditRule(delta.getResource(), monitor);
 					return true;
-			};
+			}
 		}
 		return false;
 	}
@@ -276,7 +267,6 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 *            IProgressMonitor to use
 	 */
 	private void deleteEditRule(IResource editRule, IProgressMonitor monitor) throws CoreException {
-
 		// Remove Edit-Rule from rulebase:
 		EditRule editRuleWrapper = ruleBaseWrapper.findEditRule(editRule.getLocation().toString());
 
@@ -306,7 +296,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		SubMonitor progress = SubMonitor.convert(monitor, 3);
 
 		// Load the edit-rule:
-		Module editRule = resourceSet.loadEObject(EMFStorage.toPlatformURI(editRuleResource), Module.class);
+		Module editRule = ruleBaseWrapper.getResourceSet().loadEObject(EMFStorage.toPlatformURI(editRuleResource), Module.class);
 		progress.worked(1);
 		if(editRule == null) {
 			EditRuleBaseBuilderPlugin.logWarning("EditRule file does not contain a Henshin Module: " + editRuleResource);
@@ -435,8 +425,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * @return whether given Resource is classified as @link{EditRule}
 	 */
 	private boolean isEditRule(IResource resource) {
-		return resource.getFileExtension() != null
-				&& resource.getFileExtension().equals("henshin")
+		return "henshin".equals(resource.getFileExtension())
 				&& !resource.isDerived()
 				&& resource.getFullPath().toString().startsWith("/" + getProject().getName() + "/" + IRuleBaseProject.EDIT_RULE_FOLDER);
 	}
@@ -444,23 +433,24 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * @return The rulebase manager of this project.
 	 */
-	private EditRuleBaseWrapper createEditRuleBaseWrapper() throws CoreException {
+	private EditRuleBaseWrapper createEditRuleBaseWrapper(SiDiffResourceSet resourceSet) {
 		IFile ruleBaseFile = getProject().getFile(IRuleBaseProject.RULEBASE_FILE);
 		EditRuleBaseWrapper ruleBaseWrapper = new EditRuleBaseWrapper(resourceSet, getProject(), EMFStorage.toPlatformURI(ruleBaseFile), false);
 		ruleBaseWrapper.setKey(getProject().getName());
-		ruleBaseWrapper.setName(readManifestBundleName(getProject()) + " (" + DATE_FORMAT.format(new Date()) + ")");
+		String name = readManifestBundleName(getProject()).orElseGet(getProject()::getName);
+		ruleBaseWrapper.setName(name + " (" + DATE_FORMAT.format(new Date()) + ")");
 		return ruleBaseWrapper;
 	}
 
-	private static String readManifestBundleName(IProject project) throws CoreException {
+	private static Optional<String> readManifestBundleName(IProject project) {
 		try(InputStream manifest = project.getFolder("META-INF").getFile("MANIFEST.MF").getContents()) {
 			Matcher matcher = MANIFEST_BUNDLE_NAME_PATTERN.matcher(IOUtil.toString(manifest, StandardCharsets.UTF_8));
 			if(matcher.find()) {
-				return matcher.group(2);
+				return Optional.of(matcher.group(2));
 			}
 			throw new IllegalStateException("The manifest of the project does not specify a Bundle-Name");
-		} catch (IOException e) {
-			throw ExceptionUtil.asCoreException(e);
+		} catch (CoreException | IOException e) {
+			return Optional.empty();
 		}
 	}
 
@@ -493,5 +483,14 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		} catch (CoreException e) {
 			EditRuleBaseBuilderPlugin.logWarning("Could not refresh project " + getProject(), e);
 		}
+	}
+
+	public static SiDiffResourceSet createResourceSet() {
+		SiDiffResourceSet resourceSet = SiDiffResourceSet.create();
+		resourceSet.registerXmiIdResourceExtensions(HenshinResource.FILE_EXTENSION, RuleBaseStorage.EXTENSION_RULEBASE);
+
+		// Do not report unknown rulebase attachments:
+		resourceSet.getLoadOptions().put(XMIResource.OPTION_RECORD_UNKNOWN_FEATURE, true);
+		return resourceSet;
 	}
 }

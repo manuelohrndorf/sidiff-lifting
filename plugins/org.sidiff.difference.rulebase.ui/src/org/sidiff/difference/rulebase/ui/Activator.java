@@ -15,8 +15,6 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 
-// TODO[TS]: Check @generated tags (in rulebase.ui) most are @generated NOT or remove them.
-
 /**
  * This is the central singleton for the RuleBase editor plugin.
  * <!-- begin-user-doc -->

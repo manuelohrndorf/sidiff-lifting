@@ -1,14 +1,15 @@
 package org.sidiff.editrule.rulebase.ui.editor.columns.impl;
 
+import java.util.Objects;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,17 +41,15 @@ public class ColumnRulebaseItem extends AbstractRuleBaseColumn {
 
 		ruleViewer.getTable().setSortColumn(ruleColumn.getColumn());
 
-		// LabelProvider for Rule base item column
-		ruleColumn.setLabelProvider(new CellLabelProvider() {
+		ruleColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
-			public void update(ViewerCell cell) {
-				cell.setText(EditRuleItemUtil.getName((RuleBaseItem) cell.getElement()));
+			public String getText(Object element) {
+				return EditRuleItemUtil.getName((RuleBaseItem)element);
 			}
 		});
 
 		// Setup editing support for Rule base item column
 		ruleColumn.setEditingSupport(new EditingSupport(ruleViewer) {
-
 			@Override
 			protected boolean canEdit(Object element) {
 				return true;
@@ -68,11 +67,12 @@ public class ColumnRulebaseItem extends AbstractRuleBaseColumn {
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				EditRuleItemUtil.setName((RuleBaseItem) element, (String) value);
-				ruleViewer.update(element, null);
-				editor.setDirty(((RuleBaseItem) element).getEditRule());
+				if(!Objects.equals(value, getValue(element))) {
+					EditRuleItemUtil.setName((RuleBaseItem) element, (String) value);
+					ruleViewer.update(element, null);
+					editor.setDirty();					
+				}
 			}
-
 		});
 	}
 }

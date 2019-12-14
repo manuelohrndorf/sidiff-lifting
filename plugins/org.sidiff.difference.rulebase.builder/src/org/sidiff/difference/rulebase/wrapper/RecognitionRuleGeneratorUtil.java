@@ -58,7 +58,8 @@ public class RecognitionRuleGeneratorUtil {
 
 		//Delete parent folder if it is empty now
 		File parentFolder = recognitionRuleFile.getParentFile();			
-		if(parentFolder.listFiles() == null || parentFolder.listFiles().length == 0) {
+		File[] files = parentFolder.listFiles();
+		if(files == null || files.length == 0) {
 			parentFolder.delete();					
 		}
 	}
@@ -88,14 +89,10 @@ public class RecognitionRuleGeneratorUtil {
 			URI editRuleFolderURI, URI recognitionRuleFolderURI) {
 
 		RecognitionRule recognitionRule = item.getEditRuleAttachment(RecognitionRule.class);
-		Module recognitionModule = recognitionRule.getRecognitionModule();
-		if(recognitionModule.eResource() == null) {
-			URI moduleUri = getRecognitionRuleSaveURI(recognitionRule.getEditRule().getExecuteModule(), 
-				editRuleFolderURI, recognitionRuleFolderURI);
-			wrapper.getResourceSet().createResource(moduleUri).getContents().add(recognitionModule);
-		} else if(recognitionModule.eResource().getResourceSet() != wrapper.getResourceSet()) {
-			wrapper.getResourceSet().getResources().add(recognitionModule.eResource());
-		}
+		URI moduleUri = getRecognitionRuleSaveURI(recognitionRule.getEditRule().getExecuteModule(), 
+			editRuleFolderURI, recognitionRuleFolderURI);
+		wrapper.getResourceSet().createResource(moduleUri)
+			.getContents().add(recognitionRule.getRecognitionModule());
 	}
 
 	/**
