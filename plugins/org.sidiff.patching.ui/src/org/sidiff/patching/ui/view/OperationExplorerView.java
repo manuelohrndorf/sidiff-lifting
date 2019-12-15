@@ -85,7 +85,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private Action finalValidationAction;
 	private Action noValidationAction;
 
-	// FIXME cpietsch 26.02.2014: notify properties view
 	private void updatePropertyViewViaSelectionListener(TreeViewer viewer) {
 		ISelection selection = viewer.getSelection();
 		viewer.setSelection(null);
