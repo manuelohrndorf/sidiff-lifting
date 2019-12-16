@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -20,6 +21,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.model.Module;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
 import org.sidiff.editrule.rulebase.RulebasePackage;
@@ -201,12 +203,20 @@ public class EditRuleItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		EditRule editRule = (EditRule)object;
-		return getString("_UI_EditRule_type") + " " + editRule.isUseDerivedFeatures();
+		String typeName = getString("_UI_EditRule_type");
+		Module executeModule = editRule.getExecuteModule();
+		if(executeModule == null) {
+			return typeName + " [no module]";
+		}
+		if(executeModule.eIsProxy()) {
+			return typeName + " Proxy[" + EcoreUtil.getURI(executeModule) + "]";
+		}
+		return typeName + " " + executeModule.getName();
 	}
 	
 
