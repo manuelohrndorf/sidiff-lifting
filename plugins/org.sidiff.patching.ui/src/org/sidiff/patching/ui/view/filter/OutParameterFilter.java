@@ -9,9 +9,7 @@ public class OutParameterFilter extends ViewerFilter{
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		if(element instanceof ObjectParameterBinding && ((ObjectParameterBinding)element).getFormalParameter().getDirection().equals(ParameterDirection.OUT))
-			return false;
-		return true;
+		return !(element instanceof ObjectParameterBinding)
+				|| !((ObjectParameterBinding)element).getFormalParameter().getDirection().equals(ParameterDirection.OUT);
 	}
-
 }

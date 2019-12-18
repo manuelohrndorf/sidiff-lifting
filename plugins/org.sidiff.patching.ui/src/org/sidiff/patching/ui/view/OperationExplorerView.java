@@ -26,6 +26,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.CommandContributionItem;
@@ -65,7 +66,6 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 	private ModelAdapter modelAdapter;
 
 	private TreeViewer patchViewer;
-	private OperationLabelProvider operationLabelProvider;
 
 	// ----------- Execution -------------------
 	private Action applyPatchAction;
@@ -98,9 +98,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		patchViewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		patchViewer.setContentProvider(new PatchContentProvider());
 		patchViewer.setAutoExpandLevel(0);
-
-		operationLabelProvider = new OperationLabelProvider();
-		patchViewer.setLabelProvider(operationLabelProvider);
+		patchViewer.setLabelProvider(new OperationLabelProvider());
 
 		// Register part listener (for editor)
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(this);
@@ -113,8 +111,7 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 				Object selectedNode = selection.getFirstElement();
 				if (selectedNode instanceof OperationInvocationWrapper) {
 					OperationInvocationWrapper operationWrapper = (OperationInvocationWrapper) selectedNode;
-					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED
-							&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+					if (operationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 						engine.revert(operationWrapper.getOperationInvocation());
 					} else if (operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
 						engine.apply(operationWrapper.getOperationInvocation(), true);
@@ -202,6 +199,14 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 		createActions();
 		createToolbar();
 		updateActionEnabledStates();
+
+		Exceptions.log(() -> {
+			IWorkbenchPage page = UIUtil.getActivePage();
+			IViewPart propertyViewPart =
+					page.showView(IPageLayout.ID_PROP_SHEET);
+			page.activate(propertyViewPart);
+			return Status.OK_STATUS;
+		});
 	}
 
 	public void setPatchEngine(PatchEngine patchEngine) {
@@ -412,8 +417,9 @@ public class OperationExplorerView extends ViewPart implements IModelChangeListe
 
 	@Override
 	public <T> T getAdapter(Class<T> adapter) {
-		if (adapter == IPropertySheetPage.class)
+		if (adapter == IPropertySheetPage.class) {
 			return adapter.cast(new TabbedPropertySheetPage(this));
+		}
 		return super.getAdapter(adapter);
 	}
 

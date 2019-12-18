@@ -8,21 +8,16 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 
-public class SiLiftPerspective implements IPerspectiveFactory,
-IPersistableEditor {
-	
+public class SiLiftPerspective implements IPerspectiveFactory, IPersistableEditor {
+
 	public static final String ID = "org.sidiff.patching.ui.perspective.SiLiftPerspective";
-	
+
 	@Override
 	public void saveState(IMemento memento) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void restoreState(IMemento memento) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -31,8 +26,7 @@ IPersistableEditor {
 		defineLayout(layout);
 	}
 
-	public void defineActions(IPageLayout layout) {
-
+	protected void defineActions(IPageLayout layout) {
 		// Add "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
 		layout.addShowViewShortcut(OperationExplorerView.ID);
@@ -40,9 +34,7 @@ IPersistableEditor {
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 	}
 
-
-	public void defineLayout(IPageLayout layout) {
-		
+	protected void defineLayout(IPageLayout layout) {
 		// Place editor
 		String editorArea = layout.getEditorArea();
 
@@ -50,7 +42,7 @@ IPersistableEditor {
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, editorArea);
 		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		left.addView(OperationExplorerView.ID);
-		
+
 		// Place properties
 		IFolderLayout bottom_left = layout.createFolder("bottom_left", IPageLayout.BOTTOM, 0.7f, OperationExplorerView.ID);
 		bottom_left.addView(ReportView.ID);
@@ -58,9 +50,5 @@ IPersistableEditor {
 		// Place report 		
 		IFolderLayout bottom = 	layout.createFolder("bottom", IPageLayout.BOTTOM, 0.7f, editorArea);
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
-
-		
-		
-		
 	}
 }

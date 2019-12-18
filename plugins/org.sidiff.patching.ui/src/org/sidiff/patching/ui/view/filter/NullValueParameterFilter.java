@@ -11,9 +11,7 @@ public class NullValueParameterFilter extends ViewerFilter {
 		if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding parameterBinding = (ValueParameterBinding) element;
 			return parameterBinding.getActual() != null;
-
 		}
 		return true;
 	}
-
 }

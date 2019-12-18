@@ -6,19 +6,16 @@ import org.sidiff.patching.report.ReportEntry;
 
 public class ReportEntryAdapterFactory implements IAdapterFactory {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(Object adaptableObject, @SuppressWarnings("rawtypes") Class adapterType) {
-		if (adapterType== IPropertySource.class && adaptableObject instanceof ReportEntry){
-		      return new ReportEntryPropertySource((ReportEntry) adaptableObject);
-		    }
-		    return null;
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
+		if (adapterType == IPropertySource.class && adaptableObject instanceof ReportEntry) {
+			return adapterType.cast(new ReportEntryPropertySource((ReportEntry)adaptableObject));
+		}
+		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public Class[] getAdapterList() {
-		return new Class[] { IPropertySource.class };
+	public Class<?>[] getAdapterList() {
+		return new Class<?>[] { IPropertySource.class };
 	}
-
 }

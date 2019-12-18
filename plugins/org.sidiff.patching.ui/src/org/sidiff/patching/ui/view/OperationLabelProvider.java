@@ -20,41 +20,37 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 
 	@Override
 	public void update(ViewerCell cell) {
-		Object element = cell.getElement();
-		Image image = null;
-		String text = null;
+		OperationInvocationWrapper wrapper = (OperationInvocationWrapper)cell.getElement();
 		Display display = PatchingUiPlugin.getDefault().getWorkbench().getDisplay();
+
 		StyleRange styleRange = new StyleRange();
-		if (element instanceof OperationInvocationWrapper) {
-			OperationInvocationWrapper wrapper = (OperationInvocationWrapper) element;
-			text = wrapper.getText();
-			text += wrapper.getChangedArguments();
-			if (wrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				image = applied;
-				styleRange.strikeout = true;
-				styleRange.foreground = new Color(display, 0, 200, 0);
-			} else if(wrapper.getStatus() == OperationInvocationStatus.IGNORED){
-				image = ignored;
-				styleRange.strikeout = true;
-				styleRange.foreground = new Color(display, 128, 128, 128);
-			}
-			else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
-				image = conflicting;
-			} else if (wrapper.hasUnresolvedInArguments()) {
-				image = conflicting;
-			} else if (wrapper.hasModifiedInArguments()) {
-				image = modified;
-			} else {
-				image = applicable;
-			}
+		Image image = null;
+		String text = wrapper.getText();
+		text += wrapper.getChangedArguments();
+		if (wrapper.getStatus() == OperationInvocationStatus.PASSED) {
+			image = applied;
+			styleRange.strikeout = true;
+			styleRange.foreground = new Color(display, 0, 200, 0);
+		} else if(wrapper.getStatus() == OperationInvocationStatus.IGNORED){
+			image = ignored;
+			styleRange.strikeout = true;
+			styleRange.foreground = new Color(display, 128, 128, 128);
+		} else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
+			image = conflicting;
+		} else if (wrapper.hasUnresolvedInArguments()) {
+			image = conflicting;
+		} else if (wrapper.hasModifiedInArguments()) {
+			image = modified;
+		} else {
+			image = applicable;
 		}
 
 		styleRange.start = 1;
 		styleRange.length = text.length() + 1;
-		StyleRange[] styleRanges = { styleRange };
+
 		cell.setImage(image);
 		cell.setText(" " + text);
-		cell.setStyleRanges(styleRanges);
+		cell.setStyleRanges(new StyleRange[] { styleRange });
 	}
 
 	@Override

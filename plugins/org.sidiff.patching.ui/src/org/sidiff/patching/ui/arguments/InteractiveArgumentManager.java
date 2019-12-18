@@ -2,6 +2,7 @@ package org.sidiff.patching.ui.arguments;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,23 +48,28 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 	@Override
 	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
 		EObject originObject = binding.getActualA();
-		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
+		if(originObject == null) {
+			return Collections.emptyMap();
+		}
+		Map<Resource, Collection<EObject>> res = new HashMap<>();
 
 		// from target model.
-		List<EObject> args = new ArrayList<EObject>();
-		addPossibleArgument(args, getTargetModel(), originObject);
-		res.put(getTargetModel(), args);
+		{
+			List<EObject> args = new ArrayList<>();
+			addPossibleArgument(args, getTargetModel(), originObject);
+			res.put(getTargetModel(), args);
+		}
 
 		// from package registry
 		for (Resource r : getPackageRegistryResources()) {
-			args = new ArrayList<EObject>();
+			List<EObject> args = new ArrayList<>();
 			addPossibleArgument(args, r, originObject);
 			res.put(r, args);
 		}
 
 		// from ResourceSet
 		for (Resource r : getResourceSetResources()) {
-			args = new ArrayList<EObject>();
+			List<EObject> args = new ArrayList<>();
 			addPossibleArgument(args, r, originObject);
 			res.put(r, args);
 		}
@@ -106,13 +112,8 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 			}
 			if (b instanceof MultiParameterBinding) {
 				MultiArgumentWrapper multiArg = (MultiArgumentWrapper) getArgumentResolutions().get(b);
-				for (Iterator<ObjectArgumentWrapper> iterator = multiArg.getNestedWrappers().iterator(); iterator
-						.hasNext();) {
-					ObjectArgumentWrapper nestedArg = iterator.next();
-					if (nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject) {
-						iterator.remove();
-					}
-				}
+				multiArg.getNestedWrappers()
+					.removeIf(nestedArg -> nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject);
 			}
 		}
 	}

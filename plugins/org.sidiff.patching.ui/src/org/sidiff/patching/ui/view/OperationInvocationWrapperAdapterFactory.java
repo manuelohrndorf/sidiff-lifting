@@ -6,19 +6,16 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 public class OperationInvocationWrapperAdapterFactory implements IAdapterFactory {
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adapterType== IPropertySource.class && adaptableObject instanceof OperationInvocationWrapper){
-		      return new OperationInvocationWrapperPropertySource((OperationInvocationWrapper) adaptableObject);
-		    }
-		    return null;
+	public <T> T getAdapter(Object adaptableObject, Class<T> adapterType) {
+		if (adapterType == IPropertySource.class && adaptableObject instanceof OperationInvocationWrapper) {
+			return adapterType.cast(new OperationInvocationWrapperPropertySource((OperationInvocationWrapper)adaptableObject));
+		}
+		return null;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Class[] getAdapterList() {
-		return new Class[] { IPropertySource.class };
+	public Class<?>[] getAdapterList() {
+		return new Class<?>[] { IPropertySource.class };
 	}
-
 }

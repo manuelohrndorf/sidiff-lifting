@@ -5,49 +5,50 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.ui.provider.PropertyDescriptor.EDataTypeCellEditor;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.emf.ecore.NameUtil;
+import org.sidiff.common.ui.util.Exceptions;
+import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
 import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
 
 public class ArgumentValueEditingSupport extends EditingSupport {
+
 	private List<CellObject> itemObjects;
-	private List<String> itemStrings;
 	private IArgumentManager argumentManager;
 	private OperationInvocationWrapper operationInvocationWrapper;
 	private List<IValueChangedListener> listeners;
-	private OperationExplorerView operationEView;
-	
+
 	private boolean showReliabilities = false;
 	private boolean showQualifiedArgumentNames = false;
 
 	public ArgumentValueEditingSupport(ColumnViewer viewer) {
 		super(viewer);
-		listeners = new ArrayList<IValueChangedListener>();
-		try {
-			operationEView = (OperationExplorerView)PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage().showView("org.sidiff.patching.ui.view.OperationExplorerView", null, IWorkbenchPage.VIEW_CREATE);
-		} catch (PartInitException e) {			
-			e.printStackTrace();
-		}
-		listeners.add(operationEView);
+		listeners = new ArrayList<>();
+
+		Exceptions.log(() -> {
+			OperationExplorerView operationExplorerView = UIUtil.showView(OperationExplorerView.class, OperationExplorerView.ID);
+			listeners.add(operationExplorerView);
+			return Status.OK_STATUS;
+		});
 	}
 
 	@Override
@@ -55,49 +56,38 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		if(element instanceof ObjectParameterBinding){
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 
-			this.itemObjects = new ArrayList<CellObject>();
+			this.itemObjects = new ArrayList<>();
 
 			Map<Resource, Collection<EObject>> potentialArgs = argumentManager.getPotentialArguments(binding);
-			//Collection<Object> args = new ArrayList<Object>();
 			int resourceCategory = 0;
-			for (Resource r : potentialArgs.keySet()) {
-				if(!potentialArgs.get(r).isEmpty()){
-					ArrayList<EObject> resource = (ArrayList<EObject>) potentialArgs.get(r);
-					CellObject cellObject = new CellObject(resourceCategory, " - " + resource.get(0).eResource().getURI().toString() + " - ");
-					itemObjects.add(cellObject);
-					resourceCategory++;
-					for(Object object : potentialArgs.get(r)){
-						float reliability = argumentManager.getReliability(binding, (EObject)object);
-						cellObject = new CellObject(resourceCategory, reliability, object);
-						itemObjects.add(cellObject);
-					}
-					resourceCategory++;
+			for(Map.Entry<Resource, Collection<EObject>> args : potentialArgs.entrySet()) {
+				if(args.getValue().isEmpty()) {
+					continue;
 				}
+
+				CellObject cellObject = new CellObject(resourceCategory, " - " + args.getKey().getURI().toString() + " - ");
+				itemObjects.add(cellObject);
+				resourceCategory++;
+				for(Object object : args.getValue()) {
+					float reliability = argumentManager.getReliability(binding, (EObject)object);
+					cellObject = new CellObject(resourceCategory, reliability, object);
+					itemObjects.add(cellObject);
+				}
+				resourceCategory++;
 			}
 			Collections.sort(itemObjects);
-			String[] items = getItemsStringArray();
+			String[] items = getItemsStringArray(itemObjects);
 			return new ComboBoxCellEditor(((TableViewer) getViewer()).getTable(), items, SWT.READ_ONLY);
-		}
-		else if (element instanceof ValueParameterBinding){
+		} else if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
-			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
-					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
-
-				this.itemStrings = new ArrayList<String>();
-				this.itemStrings.add("true");
-				this.itemStrings.add("false");
-				String[] items = new String[]{"true","false"};	
-				
-				return new ComboBoxCellEditor(((TableViewer) getViewer()).getTable(), items, SWT.READ_ONLY);
-			}
-			else{
-				return new TextCellEditor(((TableViewer) getViewer()).getTable());
-			}
+			return new EDataTypeCellEditor(
+					(EDataType)binding.getFormalParameter().getType(),
+					((TableViewer)getViewer()).getTable());
 		}
 		return null;
 	}
 
-	private String[] getItemsStringArray() {
+	private static String[] getItemsStringArray(List<CellObject> itemObjects) {
 		String[] items = new String[itemObjects.size()];
 		for (int i = 0; i < items.length; i++) {
 			items[i] = itemObjects.get(i).toString();
@@ -105,12 +95,6 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		return items;
 	}
 
-	@Override
-	protected void initializeCellEditorValue(CellEditor cellEditor, ViewerCell cell) {
-		if (cellEditor instanceof ComboBoxCellEditor)
-			cellEditor.setValue(1);
-	}
-	
 	@Override
 	protected boolean canEdit(Object element) {
 		//Only editable if not applied beforehand
@@ -132,24 +116,22 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 
 	@Override
 	protected Object getValue(Object element) {
-	
-		if(element instanceof ObjectParameterBinding)
-			return itemObjects.indexOf(element);
-		else if(element instanceof ValueParameterBinding){
+		if(element instanceof ObjectParameterBinding) {
+			ObjectArgumentWrapper wrapper = (ObjectArgumentWrapper)argumentManager.getArgument((ObjectParameterBinding)element);
+			return IntStream.range(0, itemObjects.size())
+					.filter(i -> itemObjects.get(i).getObject() == wrapper.getTargetObject())
+					.findFirst().orElse(1); // select first object as default if none selected
+		} else if(element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
-			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
-					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
-				return itemStrings.indexOf(binding.getActual());
-			}
-			return binding.getActual();
+			return EcoreUtil.createFromString((EDataType)binding.getFormalParameter().getType(), binding.getActual());
 		}
 		return null;
 	}
 
 	@Override
 	protected void setValue(Object element, Object value) {
-		if (element instanceof ObjectParameterBinding) {
-			int index = ((Integer) value).intValue();
+		if(element instanceof ObjectParameterBinding) {
+			int index = ((Integer) value).intValue(); // value of ComboBoxCellEditor is selection index
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			if (index == -1) {
 				argumentManager.resetArgumentResolution(binding);
@@ -160,23 +142,11 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 					argumentManager.addArgumentResolution(binding, elementB);
 				}
 			}
-		}
-		else if(element instanceof ValueParameterBinding){
+		} else if(element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
-			if((binding.getFormalParameter().getType().getInstanceClass() == Boolean.class)
-					|| (binding.getFormalParameter().getType().getInstanceClass() == boolean.class)){
-				int index = ((Integer) value).intValue();
-				if (index != -1) {
-					binding.setActual(itemStrings.get(index));
-					argumentManager.setArgument(binding, itemStrings.get(index));
-				}
-			}
-			else{
-				if(!((String)value).startsWith(" - ")){
-					binding.setActual((String) value);
-					argumentManager.setArgument(binding, value);
-				}
-			}
+			String stringValue = EcoreUtil.convertToString((EDataType)binding.getFormalParameter().getType(), value);
+			binding.setActual(stringValue);
+			argumentManager.setArgument(binding, stringValue);
 		}
 		for(IValueChangedListener listener : listeners){
 			listener.valueChanged();
@@ -208,7 +178,7 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 		private String name;
 		private float reliability;
 		
-		public CellObject(int resourceCategory, Object object){
+		public CellObject(int resourceCategory, Object object) {
 			this.resourceCategory = resourceCategory;
 			this.reliability = 0.f;
 			this.object = object;
@@ -231,24 +201,22 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 			int compare = Integer.compare(resourceCategory, cellObject.resourceCategory);
 			if(compare != 0){
 				return compare;
-			}else{
-				compare = Float.compare(cellObject.reliability, reliability);
-				if (compare != 0) {
-					return compare;
-				} else {
-					return name.compareTo(cellObject.name);
-				}
 			}
+			compare = Float.compare(cellObject.reliability, reliability);
+			if (compare != 0) {
+				return compare;
+			}
+			return name.compareTo(cellObject.name);
 		}
 		
 		@Override
 		public String toString() {
 			if(object instanceof EObject){
 				EObject eObject = (EObject)object;
-				return (showQualifiedArgumentNames? NameUtil.getQualifiedArgumentName(eObject):name) + (showReliabilities?" (" + reliability + ")":"");
-			}else{
-				return name;
+				return (showQualifiedArgumentNames? NameUtil.getQualifiedArgumentName(eObject):name)
+						+ (showReliabilities?" (" + reliability + ")":"");
 			}
+			return name;
 		}
 	}
 	
@@ -263,5 +231,4 @@ public class ArgumentValueEditingSupport extends EditingSupport {
 	public void setShowQualifiedArgumentName(boolean showQualifiedArgumentName) {
 		this.showQualifiedArgumentNames = showQualifiedArgumentName;
 	}
-	
 }

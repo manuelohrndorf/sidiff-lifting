@@ -192,77 +192,47 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 	// This will create the columns for the table
 	private void createColumns() {
-		String[] titles = { "Status", "Type", "Description" };
-		int[] bounds = { 75, 100, 200 };
-
 		// the status
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
+		TableViewerColumn col = createTableViewerColumn("Status", 75);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				return null;
 			}
-
 			@Override
 			public Image getImage(Object element) {
 				if (element instanceof OperationExecutionEntry) {
 					OperationExecutionEntry execEntry = (OperationExecutionEntry) element;
-					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
-						return PASSED_IMG;
-					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
-						return WARNING_IMG;
-					}					
-					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
-						return REVERTED_IMG;
-					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED) {
-						return EXEC_FAILED_IMG;
-					}
-					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED) {
-						return REVERT_FAILED_IMG;
+					switch(execEntry.getKind()) {
+						case PASSED: return PASSED_IMG;
+						case EXEC_WARNING: return WARNING_IMG;
+						case REVERTED: return REVERTED_IMG;
+						case EXEC_FAILED: return EXEC_FAILED_IMG;
+						case REVERT_FAILED: return REVERT_FAILED_IMG;
 					}
 				}
-
 				return null;
 			}
 		});
 
 		// test type
-		col = createTableViewerColumn(titles[1], bounds[1], 1);
+		col = createTableViewerColumn("Type", 100);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				ReportEntry entry = (ReportEntry) element;
 				if (entry instanceof OperationExecutionEntry) {
 					OperationExecutionEntry execEntry = (OperationExecutionEntry) entry;
-					if (execEntry.getKind() == OperationExecutionKind.PASSED) {
-						return "PASSED";
-					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING) {
-						return "WARNING";
-					}				
-					if (execEntry.getKind() == OperationExecutionKind.REVERTED) {
-						return "REVERTED";
-					}
-					if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED) {
-						return "EXEC_FAILED";
-					}
-					if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED) {
-						return "REVERT_FAILED";
-					}
-				}
-				if (entry instanceof ValidationEntry){
+					return execEntry.getKind().toString();
+				} else if (entry instanceof ValidationEntry) {
 					return "Validation";
 				}
-				
-				
 				return null;
 			}
 		});
 
 		// test description
-		col = createTableViewerColumn(titles[2], bounds[2], 2);
+		col = createTableViewerColumn("Description", 200);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -272,7 +242,7 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 		});
 	}
 
-	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(reportViewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
@@ -283,14 +253,11 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	}
 
 	private void createActions() {
-		this.reportStackAction = new DropDownAction("Reports"){
+		this.reportStackAction = new DropDownAction("Reports") {
 			@Override
 			public void run(){
 				for(int i = 0; i < reportStackAction.getActions().size();i++){
-					if(i==reportStackAction.getActions().size()-1)
-						reportStackAction.getActions().get(i).setChecked(true);
-					else
-						reportStackAction.getActions().get(i).setChecked(false);
+					reportStackAction.getActions().get(i).setChecked(i == reportStackAction.getActions().size()-1);
 				}
 				update();
 			}
@@ -336,31 +303,21 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 	
 	@Override
 	public void setFocus() {
-
 	}
 
 	private void update() {
-		List<ReportEntry> input = new ArrayList<ReportEntry>();
+		List<ReportEntry> input = new ArrayList<>();
 		if(!reportManager.getReports().isEmpty()){
 			List<ReportEntry> allEntries = reportManager.get(reportStackEntry).getEntries();
-				
 			if (allEntries != null) {
 				for (ReportEntry reportEntry : allEntries) {
 					if (reportEntry instanceof OperationExecutionEntry) {
 						OperationExecutionEntry execEntry = (OperationExecutionEntry) reportEntry;
-						if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed) {
-							input.add(execEntry);
-						}
-						if (execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning) {
-							input.add(execEntry);
-						}					
-						if (execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted) {
-							input.add(execEntry);
-						}
-						if (execEntry.getKind() == OperationExecutionKind.EXEC_FAILED && showExecFailed) {
-							input.add(execEntry);
-						}
-						if (execEntry.getKind() == OperationExecutionKind.REVERT_FAILED && showRevertFailed) {
+						if (execEntry.getKind() == OperationExecutionKind.PASSED && showPassed
+								|| execEntry.getKind() == OperationExecutionKind.EXEC_WARNING && showWarning
+								|| execEntry.getKind() == OperationExecutionKind.REVERTED && showReverted
+								|| execEntry.getKind() == OperationExecutionKind.EXEC_FAILED && showExecFailed
+								|| execEntry.getKind() == OperationExecutionKind.REVERT_FAILED && showRevertFailed) {
 							input.add(execEntry);
 						}
 					} else {
@@ -372,7 +329,6 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 		reportViewer.setInput(input);
 		reportViewer.getTable().getColumns()[2].pack();
-		
 	}
 
 	@Override
@@ -438,33 +394,27 @@ public class ReportView extends ViewPart implements IPatchReportListener,IPartLi
 
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		
 	}
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart part) {
-		
 	}
 
 	@Override
 	public void partClosed(IWorkbenchPart part) {
-		if (part instanceof EditorPart){
+		if (part instanceof EditorPart) {
 			//Check if at least one editor is still open
 			if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0){
 				this.clearView();
 			}
 		}
-		
 	}
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		
 	}
 
 	@Override
 	public void partOpened(IWorkbenchPart part) {
-		
 	}
-
 }

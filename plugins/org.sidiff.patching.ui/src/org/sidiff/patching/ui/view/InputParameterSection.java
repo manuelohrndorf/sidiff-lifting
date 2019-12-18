@@ -30,12 +30,6 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	private UnchangedArgumentsFilter argumentsFilter;
 	private Composite parent;
 
-//	private ModifyListener listener = new ModifyListener() {
-//	    @Override
-//        public void modifyText(ModifyEvent arg0) {  
-//        }
-//    };
-	
 	@Override
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
@@ -46,7 +40,6 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		this.argumentValueLabelProvider.init(operationInvocationWrapper);
 		this.editingSupport.setOperationInvocationWrapper(operationInvocationWrapper);
 		this.inputArgumentsViewer.setInput(operationInvocationWrapper.getOperationInvocation().getInParameterBindings());
-		
 	}
 	
 	
@@ -54,11 +47,6 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 	public void refresh() {
 		super.refresh();
 		this.parent.pack();
-//        inputArgumentsText.removeModifyListener(listener);
-//        OperationInvocationWrapperPropertySource properties = (OperationInvocationWrapperPropertySource)Platform.getAdapterManager().getAdapter(operationInvocationWrapper, IPropertySource.class);
-//        inputArgumentsText.setText(properties.getPropertyValue("status").toString());
-//        inputArgumentsText.addModifyListener(listener);
-  
     }
 	
 	@Override
@@ -66,13 +54,13 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		this.parent = parent;
 		super.createControls(parent, aTabbedPropertySheetPage);
 		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
-		FormData data;
-		data = new FormData();
+
+		FormData data = new FormData();
 		data.left = new FormAttachment(0, 0);
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 
-		this.inputArgumentsViewer = new TableViewer(composite, SWT.FILL);
+		this.inputArgumentsViewer = new TableViewer(composite, SWT.FILL | SWT.FULL_SELECTION);
 		this.inputArgumentsViewer.setContentProvider(new ArrayContentProvider());
 		this.inputArgumentsViewer.getTable().setHeaderVisible(true);
 		this.inputArgumentsViewer.getTable().setLinesVisible(true);
@@ -87,39 +75,30 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		createColumns();
 		
 	}
-	
+
 	// This will create the columns for the table
 	private void createColumns() {
-		String[] titles = { "Name", "Value"};
-		int[] bounds = { 150, 300};
-
-		// the status
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
-		col.setLabelProvider(new ColumnLabelProvider(){
+		TableViewerColumn nameColumn = createTableViewerColumn("Name", 150);
+		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				ParameterBinding obj = (ParameterBinding) element;
 				return obj.getFormalName();
 			}
 		});
-		
-		col = createTableViewerColumn(titles[1], bounds[1], 1);
-		col.setLabelProvider(argumentValueLabelProvider);
 
+		TableViewerColumn valueColumn = createTableViewerColumn("Value", 300);
+		valueColumn.setLabelProvider(argumentValueLabelProvider);
+		valueColumn.setEditingSupport(editingSupport);
 	}
 
-	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
-		final TableViewerColumn viewerColumn = new TableViewerColumn(inputArgumentsViewer, SWT.NONE);
-		final TableColumn column = viewerColumn.getColumn();
+	private TableViewerColumn createTableViewerColumn(String title, int bound) {
+		TableViewerColumn viewerColumn = new TableViewerColumn(inputArgumentsViewer, SWT.NONE);
+		TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
 		column.setWidth(bound);
 		column.setResizable(true);
 		column.setMoveable(false);
-		
-		// EditingSupport
-		if(colNumber == 1)
-			viewerColumn.setEditingSupport(editingSupport);
-		
 		return viewerColumn;
 	}
 

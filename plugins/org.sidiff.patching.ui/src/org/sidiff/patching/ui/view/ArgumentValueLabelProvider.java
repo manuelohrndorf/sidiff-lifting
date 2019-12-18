@@ -48,45 +48,37 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 					res += " (" + reliability + ")";
 				}
 				return res;
-			} else {
-				// Not executed: Show current state of the argument selection	
-				if (argument.isResolved()) {
-					EObject object = argument.getTargetObject();
-					if (isInParameter(binding)){
-						float reliability = argumentManager.getReliability(binding, object);
-						return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object))
-								+ (showReliabilities ? " (" + reliability + ")" : "");
-					}else{
-						return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object));
-					}
-				} else {
-					EObject object = argument.getProxyObject();
-					if (isInParameter(binding)) {
-						return "(Missing object: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
-					} else {
-						return "(Not yet created: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
-					}
-				}
 			}
+			// Not executed: Show current state of the argument selection	
+			if (argument.isResolved()) {
+				EObject object = argument.getTargetObject();
+				if (isInParameter(binding)){
+					float reliability = argumentManager.getReliability(binding, object);
+					return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object))
+							+ (showReliabilities ? " (" + reliability + ")" : "");
+				}
+				return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object));
+			}
+			EObject object = argument.getProxyObject();
+			if (isInParameter(binding)) {
+				return "(Missing object: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
+			}
+			return "(Not yet created: " + (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object)) + ")";
 
 		} else if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
-			
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				Object actual = operationInvocationWrapper.getExecutionArgument(binding);				
 				if (actual != null) {
 					return actual.toString();
-				} else {
-					return "(Unknown Value)";
 				}
-			} else{
-				String actual = binding.getActual();
-				if (actual != null) {
-					return actual;
-				} else {
-					return "(Unknown Value)";
-				}
-			}	
+				return "(Unknown Value)";
+			}
+			String actual = binding.getActual();
+			if (actual != null) {
+				return actual;
+			}
+			return "(Unknown Value)";	
 		}
 
 		return null;
@@ -124,19 +116,17 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return "TODO: getTooltipText param of executed operation";
-			} else {
-				ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(binding);
-				if (argument.isResolved()) {
-					if (argumentManager.isModified(argument.getTargetObject())) {
-						return "Warning: The object has been modified";
-					}
-				} else {
-					if (isInParameter(binding)) {
-						return "Error: Missing object";
-					} else {
-						return "Object has not yet been created";
-					}
+			}
+			ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(binding);
+			if (argument.isResolved()) {
+				if (argumentManager.isModified(argument.getTargetObject())) {
+					return "Warning: The object has been modified";
 				}
+			} else {
+				if (isInParameter(binding)) {
+					return "Error: Missing object";
+				}
+				return "Object has not yet been created";
 			}
 		}
 		return null;
@@ -149,13 +139,12 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				return new Color(display, 150, 150, 150);
-			} else {
-				if(element instanceof ObjectParameterBinding){
-					ObjectParameterBinding objBinding = (ObjectParameterBinding) element;
-					ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(objBinding);
-					if (isInParameter(objBinding) && !argument.isResolved()) {
-						return new Color(display, 200, 0, 0);
-					}
+			}
+			if(element instanceof ObjectParameterBinding){
+				ObjectParameterBinding objBinding = (ObjectParameterBinding) element;
+				ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(objBinding);
+				if (isInParameter(objBinding) && !argument.isResolved()) {
+					return new Color(display, 200, 0, 0);
 				}
 			}
 		}

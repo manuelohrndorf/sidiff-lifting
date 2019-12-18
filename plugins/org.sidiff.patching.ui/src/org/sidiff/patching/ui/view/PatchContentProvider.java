@@ -9,12 +9,10 @@ public class PatchContentProvider implements ITreeContentProvider {
 
 	@Override
 	public void dispose() {
-		
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		
 	}
 
 	@Override
@@ -36,10 +34,6 @@ public class PatchContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		/*if (element instanceof EObject) {
-			EObject eObject = (EObject) element;
-			return eObject.eContainer();
-		}*/
 		return null;
 	}
 
@@ -47,6 +41,4 @@ public class PatchContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object object) {
 		return getChildren(object).length > 0;
 	}
-
-
 }

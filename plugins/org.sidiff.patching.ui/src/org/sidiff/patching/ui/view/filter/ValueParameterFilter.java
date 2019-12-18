@@ -8,10 +8,6 @@ public class ValueParameterFilter extends ViewerFilter {
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		if (element instanceof ValueParameterBinding) {
-			return false;
-		}
-		return true;
+		return !(element instanceof ValueParameterBinding);
 	}
-
 }
