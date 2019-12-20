@@ -1,8 +1,10 @@
 package org.sidiff.patching.arguments;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -31,13 +33,9 @@ public class MultiArgumentWrapper extends ArgumentWrapper {
 		}
 	}
 
-	public MultiParameterBinding getMultiParameterBinding() {
-		return binding;
-	}
-
 	@Override
-	public ParameterBinding getParameterBinding() {
-		return getMultiParameterBinding();
+	public MultiParameterBinding getParameterBinding() {
+		return binding;
 	}
 
 	@Override
@@ -47,12 +45,11 @@ public class MultiArgumentWrapper extends ArgumentWrapper {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 
 	public List<ObjectArgumentWrapper> getNestedWrappers() {
-		return nestedWrappers;
+		return Collections.unmodifiableList(nestedWrappers);
 	}
 
 	@Override
@@ -62,7 +59,10 @@ public class MultiArgumentWrapper extends ArgumentWrapper {
 				return false;
 			}
 		}
-		
 		return true;
+	}
+
+	public void removeTargetObject(EObject targetObject) {
+		nestedWrappers.removeIf(nested -> nested.isResolved() && nested.getTargetObject() == targetObject);
 	}
 }

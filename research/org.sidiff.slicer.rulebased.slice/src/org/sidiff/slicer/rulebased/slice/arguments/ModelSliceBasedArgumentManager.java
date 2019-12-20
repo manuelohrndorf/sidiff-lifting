@@ -240,13 +240,7 @@ public class ModelSliceBasedArgumentManager implements IArgumentManager {
 			}
 			if (b instanceof MultiParameterBinding) {
 				MultiArgumentWrapper multiArg = (MultiArgumentWrapper) argumentResolutions.get(b);
-				for (Iterator<ObjectArgumentWrapper> iterator = multiArg.getNestedWrappers().iterator(); iterator
-						.hasNext();) {
-					ObjectArgumentWrapper nestedArg = iterator.next();
-					if (nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject) {
-						iterator.remove();
-					}
-				}
+				multiArg.removeTargetObject(targetObject);
 			}
 		}
 		

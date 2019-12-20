@@ -41,12 +41,12 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
 		SuperimposedModel superimposedModel = findSuperimposedModel(patch.getOriginModel());
 
-		this.index = new HashMap<String, Set<EObject>>();
+		this.index = new HashMap<>();
 		for (Iterator<EObject> iterator = targetModel.getAllContents(); iterator.hasNext();) {
 			EObject eObject = iterator.next();
 			String signature = superimposedModel.calculateSignature(eObject);
 			if(!index.containsKey(signature)){
-				index.put(signature, new HashSet<EObject>());
+				index.put(signature, new HashSet<>());
 			}
 			index.get(signature).add(eObject);
 		}
@@ -62,7 +62,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 	@Override
 	public Map<Resource, Collection<EObject>> getPotentialArguments(ObjectParameterBinding binding) {
 		SuperimposedElement originObject = (SuperimposedElement) binding.getActualA();
-		Map<Resource, Collection<EObject>> res = new HashMap<Resource, Collection<EObject>>();
+		Map<Resource, Collection<EObject>> res = new HashMap<>();
 
 		// from target model.
 		res.put(getTargetModel(), getPossibleArguments(getTargetModel(), originObject));
@@ -107,7 +107,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 			}
 			if (b instanceof MultiParameterBinding) {
 				MultiArgumentWrapper multiArg = (MultiArgumentWrapper) getArgumentResolutions().get(b);
-				multiArg.getNestedWrappers().removeIf(nestedArg -> nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject);
+				multiArg.removeTargetObject(targetObject);
 			}
 		}
 	}

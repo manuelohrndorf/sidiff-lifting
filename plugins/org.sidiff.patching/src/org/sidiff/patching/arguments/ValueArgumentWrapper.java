@@ -15,7 +15,7 @@ public class ValueArgumentWrapper extends ArgumentWrapper {
 		this.value = binding.getActual();
 	}
 	
-	public ValueParameterBinding getValueBinding(){
+	public ValueParameterBinding getValueBinding() {
 		return binding;
 	}
 	

@@ -97,7 +97,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 		this.collectReferencedRegistryAndResourceSetResources();
 
 		// init argument wrappers and provide initial resolutions
-		argumentResolutions = new HashMap<ParameterBinding, ArgumentWrapper>();
+		argumentResolutions = new HashMap<>();
 		for (OperationInvocation invocation : patch.getOperationInvocations()) {
 			for (ParameterBinding binding : invocation.getParameterBindings()) {
 				if (binding instanceof ObjectParameterBinding) {
@@ -109,9 +109,9 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 						if (targetObject != null) {
 							arg.resolveTo(targetObject);
 						}
-					}else if(objBinding.getIncoming() == null && objBinding.getActualB() != null){
+					}else if(objBinding.getIncoming() == null && objBinding.getActualB() != null) {
 						EObject targetObject = resolveOriginObject(objBinding.getActualB());
-						if(targetObject != null){
+						if(targetObject != null) {
 							arg.resolveTo(targetObject);
 						}
 					}

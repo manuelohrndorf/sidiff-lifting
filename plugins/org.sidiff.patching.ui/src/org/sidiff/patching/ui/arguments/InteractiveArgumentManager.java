@@ -112,8 +112,7 @@ public class InteractiveArgumentManager extends AbstractMatcherBasedArgumentMana
 			}
 			if (b instanceof MultiParameterBinding) {
 				MultiArgumentWrapper multiArg = (MultiArgumentWrapper) getArgumentResolutions().get(b);
-				multiArg.getNestedWrappers()
-					.removeIf(nestedArg -> nestedArg.isResolved() && nestedArg.getTargetObject() == targetObject);
+				multiArg.removeTargetObject(targetObject);
 			}
 		}
 	}

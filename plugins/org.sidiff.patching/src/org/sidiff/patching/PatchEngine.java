@@ -27,6 +27,7 @@ import org.sidiff.difference.asymmetric.ValueParameterBinding;
 import org.sidiff.editrule.rulebase.Parameter;
 import org.sidiff.editrule.rulebase.ParameterDirection;
 import org.sidiff.patching.arguments.IArgumentManager;
+import org.sidiff.patching.arguments.MultiArgumentWrapper;
 import org.sidiff.patching.arguments.ObjectArgumentWrapper;
 import org.sidiff.patching.arguments.ValueArgumentWrapper;
 import org.sidiff.patching.exceptions.OperationNotExecutableException;
@@ -146,35 +147,35 @@ public class PatchEngine {
 		reportManager.startPatchApplication();
 
 		// Initial validation (if needed)
-		if (getValidationMode() == ValidationMode.MODEL_VALIDATION|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			reportManager.updateValidationEntries(validationErrors);
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION
+				|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
+			reportManager.updateValidationEntries(validationManager.validateTargetModel());
 		}
 
 		// Try to execute operations which are to apply
 		for (OperationInvocation operationInvocation : operationManager.getOrderedOperations()) {
 			OperationInvocationWrapper operationWrapper = operationManager.getStatusWrapper(operationInvocation);
 			
-			boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED ||
-					operationWrapper.hasModifiedInArguments() || operationWrapper.hasUnresolvedInArguments();
-			boolean ignoredOperation = operationWrapper.getStatus() == OperationInvocationStatus.IGNORED;
+			boolean conflictingOperation = operationWrapper.getStatus() == OperationInvocationStatus.FAILED
+					|| operationWrapper.hasModifiedInArguments()
+					|| operationWrapper.hasUnresolvedInArguments();
 
-			if (!(operationWrapper.getStatus() == OperationInvocationStatus.PASSED) && 
-					(applyConflictingOperationInvocations || !conflictingOperation) && !ignoredOperation) {
-
+			if (operationWrapper.getStatus() != OperationInvocationStatus.PASSED
+					&&  (applyConflictingOperationInvocations || !conflictingOperation)
+					&& operationWrapper.getStatus() != OperationInvocationStatus.IGNORED) {
+	
 				apply(operationInvocation, false);
 			}
 		}
 
 		// Final validation (if needed)
-		if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			reportManager.updateValidationEntries(validationErrors);
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION
+				|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
+			reportManager.updateValidationEntries(validationManager.validateTargetModel());
 		}
 		
 		reportManager.finishPatchApplication();
 	}
-		
 
 	/**
 	 * Apply operation invocation. Note that this method tries to perform the
@@ -185,8 +186,12 @@ public class PatchEngine {
 	 * 
 	 */
 	public boolean apply(OperationInvocation operationInvocation, boolean singleOperation) {
-
-		final OperationInvocation op = operationInvocation;
+		class ApplicationResult {
+			boolean success;
+			Map<ParameterBinding, Object> inArgs;
+			Map<ParameterBinding, Object> outArgs;
+			Exception error;
+		}
 		final ApplicationResult applicationResult = new ApplicationResult();
 		
 		boolean canceled = false;
@@ -197,35 +202,30 @@ public class PatchEngine {
 			
 			// Initial validation (if needed)
 			if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-				Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-				reportManager.updateValidationEntries(validationErrors);
+				reportManager.updateValidationEntries(validationManager.validateTargetModel());
 			}
 		}
 		
 		AbstractCommand command = new AbstractCommand() {
-
 			@Override
 			public void execute() {
-				Map<ParameterBinding, Object> inArgs = getInArguments(op.getParameterBindings());
+				Map<ParameterBinding, Object> inArgs = getInArguments(operationInvocation.getParameterBindings());
 				try {
-					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(op, inArgs);
-					setOutArguments(op.getParameterBindings(), outArgs);
-					operationManager.getStatusWrapper(op).setPassed(inArgs, outArgs);					
+					Map<ParameterBinding, Object> outArgs = transformationEngine.execute(operationInvocation, inArgs);
+					setOutArguments(operationInvocation.getParameterBindings(), outArgs);
+					operationManager.getStatusWrapper(operationInvocation).setPassed(inArgs, outArgs);					
 					
 					applicationResult.success = true;
 					applicationResult.inArgs = inArgs;
 					applicationResult.outArgs = outArgs;
-					
-					
-					
 				} catch (ParameterMissingException  e) {
-					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
+					operationManager.getStatusWrapper(operationInvocation).setFailed(inArgs, e);
 					
 					applicationResult.success = false;
 					applicationResult.inArgs = inArgs;					
 					applicationResult.error = e;
 				} catch (OperationNotExecutableException e){
-					operationManager.getStatusWrapper(op).setFailed(inArgs, e);
+					operationManager.getStatusWrapper(operationInvocation).setFailed(inArgs, e);
 					
 					applicationResult.success = false;
 					applicationResult.inArgs = inArgs;					
@@ -253,46 +253,40 @@ public class PatchEngine {
 		}
 		
 		if (applicationResult.success){
-			reportManager.operationPassed(op, applicationResult.inArgs, applicationResult.outArgs);
+			reportManager.operationPassed(operationInvocation, applicationResult.inArgs, applicationResult.outArgs);
 		} else {
-			reportManager.operationExecFailed(op, applicationResult.inArgs, applicationResult.error);
+			reportManager.operationExecFailed(operationInvocation, applicationResult.inArgs, applicationResult.error);
 		}
 		
 		// Iterative validation (if needed)
 		if (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
 			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
 			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
-		}
-		
-		
-		if (applicationResult.success && (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)) {				
-			if (this.validationChanged) {
+
+			if (applicationResult.success && this.validationChanged) {
 				this.validationChanged = false;
 				Collection<IValidationError> newErrors = reportManager.getLastReport()
 						.getLastValidationEntry().getNewValidationErrors();
-				Collection<IValidationError> validationErrors = newErrors;
-
+				
 				if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
 					PatchInterruptOption option = patchInterruptHandler.getInterruptOption(false,
-							operationInvocation, validationErrors);
-
+							operationInvocation, newErrors);
+					
 					if (option != PatchInterruptOption.IGNORE) {
 						reportManager.cancelPatchApplication();
 						canceled = true;
 						revert(operationInvocation);
-						validationErrors = validationManager.validateTargetModel();
-						reportManager.updateValidationEntries(validationErrors);
+						reportManager.updateValidationEntries(validationManager.validateTargetModel());
 					}					
 				}
 			}
 		}
 		
-		if(singleOperation){
-			
+		if(singleOperation) {
 			// Final validation (if needed)
-			if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-				Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-				reportManager.updateValidationEntries(validationErrors);
+			if (getValidationMode() == ValidationMode.MODEL_VALIDATION
+					|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
+				reportManager.updateValidationEntries(validationManager.validateTargetModel());
 			}
 			if(!canceled){
 				reportManager.finishPatchApplication();
@@ -302,13 +296,6 @@ public class PatchEngine {
 		return applicationResult.success;
 	}
 
-	private class ApplicationResult {
-		boolean success;
-		Map<ParameterBinding, Object> inArgs;
-		Map<ParameterBinding, Object> outArgs;
-		Exception error;
-	}
-	
 	/**
 	 * Revert a specific operation invocation. Note that this method tries to
 	 * perform the undo operation on the command stack of the target editing
@@ -317,7 +304,10 @@ public class PatchEngine {
 	 * @param operationInvocation
 	 */
 	public boolean revert(OperationInvocation operationInvocation) {
-		final OperationInvocation op = operationInvocation;
+		class RevertResult {
+			boolean success;
+			Exception error;
+		}
 		final RevertResult revertResult = new RevertResult();
 
 		boolean canceled = false;
@@ -331,12 +321,11 @@ public class PatchEngine {
 		}
 		
 		AbstractCommand command = new AbstractCommand() {
-
 			@Override
 			public void execute() {
 				try {
-					transformationEngine.undo(op);
-					operationManager.getStatusWrapper(op).setReverted();
+					transformationEngine.undo(operationInvocation);
+					operationManager.getStatusWrapper(operationInvocation).setReverted();
 					
 					revertResult.success = true;
 				} catch (OperationNotUndoableException e) {
@@ -365,45 +354,38 @@ public class PatchEngine {
 		}
 		
 		if (revertResult.success){
-			reportManager.operationReverted(op);
+			reportManager.operationReverted(operationInvocation);
 		} else {
-			reportManager.operationRevertFailed(op, revertResult.error);
+			reportManager.operationRevertFailed(operationInvocation, revertResult.error);
 		}
 		
 		// Iterative validation (if needed)
 		if (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			this.validationChanged = reportManager.updateValidationEntries(validationErrors);
-		}
-		
-		
-		if (revertResult.success && (getValidationMode() == ValidationMode.ITERATIVE_VALIDATION)) {				
-			if (this.validationChanged) {
+			this.validationChanged = reportManager.updateValidationEntries(validationManager.validateTargetModel());
+
+			if (revertResult.success && this.validationChanged) {				
 				this.validationChanged = false;
 				Collection<IValidationError> newErrors = reportManager.getLastReport()
 						.getLastValidationEntry().getNewValidationErrors();
-				Collection<IValidationError> validationErrors = newErrors;
-
-				if (!newErrors.isEmpty() && (executionMode == ExecutionMode.INTERACTIVE)) {
+				
+				if (!newErrors.isEmpty() && executionMode == ExecutionMode.INTERACTIVE) {
 					PatchInterruptOption option = patchInterruptHandler.getInterruptOption(true,
-							operationInvocation, validationErrors);
-
+							operationInvocation, newErrors);
+					
 					if (option != PatchInterruptOption.IGNORE) {
 						reportManager.cancelPatchApplication();
 						canceled = true;
 						apply(operationInvocation, true);
-						validationErrors = validationManager.validateTargetModel();
-						reportManager.updateValidationEntries(validationErrors);
+						reportManager.updateValidationEntries(validationManager.validateTargetModel());
 					}					
 				}
 			}
 		}
 		
-		
 		// Final validation (if needed)
-		if (getValidationMode() == ValidationMode.MODEL_VALIDATION || getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
-			Collection<IValidationError> validationErrors = validationManager.validateTargetModel();
-			reportManager.updateValidationEntries(validationErrors);
+		if (getValidationMode() == ValidationMode.MODEL_VALIDATION
+				|| getValidationMode() == ValidationMode.ITERATIVE_VALIDATION) {
+			reportManager.updateValidationEntries(validationManager.validateTargetModel());
 		}	
 		
 		if(!canceled){
@@ -420,11 +402,6 @@ public class PatchEngine {
 	public void unignore(OperationInvocation op){
 		operationManager.getStatusWrapper(op).setUnIgnored();
 	}
-
-	private class RevertResult {
-		boolean success;		
-		Exception error;
-	}
 	
 	/**
 	 * Finds parameter values and puts them into a map ParameterBinding ->
@@ -434,48 +411,41 @@ public class PatchEngine {
 	 * @return
 	 */
 	private Map<ParameterBinding, Object> getInArguments(List<ParameterBinding> parameterBindings) {
-		Map<ParameterBinding, Object> parameters = new HashMap<ParameterBinding, Object>();
+		Map<ParameterBinding, Object> parameters = new HashMap<>();
 		for (ParameterBinding binding : parameterBindings) {
 			Parameter parameter = binding.getFormalParameter();
+			if (parameter.getDirection() != ParameterDirection.IN) {
+				continue;
+			}
 
-			if (parameter.getDirection() == ParameterDirection.IN) {
-				if (binding instanceof MultiParameterBinding) {
-					MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
-					LogUtil.log(LogEvent.NOTICE, "Binding listParameter " + parameter.getName() + ":");
-					List<EObject> arguments = new ArrayList<EObject>();
-					parameters.put(binding, arguments);
-
-					// now fill the argument list
-					for (int i = 0; i < multiBinding.getParameterBindings().size(); i++) {
-						ParameterBinding nestedBinding = multiBinding.getParameterBindings().get(i);
-
-						assert (nestedBinding instanceof ObjectParameterBinding) : "Currently we support only EObjects in a parameter list";
-
-						ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(nestedBinding);
-						if (argument.isResolved()) {
-							arguments.add(argument.getTargetObject());
-							LogUtil.log(LogEvent.NOTICE, "\t argument(" + i + "): '" + argument.getTargetObject() + "'");
-						} else {
-							LogUtil.log(LogEvent.NOTICE, "\t argument(" + i + "): skipped");
-						}
-					}
-
-				} else if (binding instanceof ObjectParameterBinding) {
-					ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(binding);
+			if (binding instanceof MultiParameterBinding) {
+				MultiParameterBinding multiBinding = (MultiParameterBinding) binding;
+				LogUtil.log(LogEvent.NOTICE, "Binding multiParameter " + parameter.getName() + ":");
+				MultiArgumentWrapper multiArgument = (MultiArgumentWrapper)argumentManager.getArgument(multiBinding);
+				List<EObject> arguments = new ArrayList<>();
+				for (ObjectArgumentWrapper argument : multiArgument.getNestedWrappers()) {
 					if (argument.isResolved()) {
-						parameters.put(binding, argument.getTargetObject());
-						LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameter.getName() + " to "
-								+ argument.getTargetObject());
+						arguments.add(argument.getTargetObject());
+						LogUtil.log(LogEvent.NOTICE, "\t argument: '" + argument.getTargetObject() + "'");
 					} else {
-						LogUtil.log(LogEvent.NOTICE, "Skipped objectParameter " + parameter.getName());
+						LogUtil.log(LogEvent.NOTICE, "\t unresolved argument skipped");
 					}
-
-				} else if (binding instanceof ValueParameterBinding) {
-					ValueArgumentWrapper argument = (ValueArgumentWrapper) argumentManager.getArgument(binding);
-					LogUtil.log(LogEvent.NOTICE, "Setting valueParameter " + parameter.getName() + " to "
-							+ argument.getValue());
-					parameters.put(binding, argument.getValue());
 				}
+				parameters.put(binding, arguments);
+			} else if (binding instanceof ObjectParameterBinding) {
+				ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(binding);
+				if (argument.isResolved()) {
+					parameters.put(binding, argument.getTargetObject());
+					LogUtil.log(LogEvent.NOTICE, "Binding objectParameter " + parameter.getName() + " to "
+							+ argument.getTargetObject());
+				} else {
+					LogUtil.log(LogEvent.NOTICE, "Skipped unresolved objectParameter " + parameter.getName());
+				}
+			} else if (binding instanceof ValueParameterBinding) {
+				ValueArgumentWrapper argument = (ValueArgumentWrapper) argumentManager.getArgument(binding);
+				LogUtil.log(LogEvent.NOTICE, "Setting valueParameter " + parameter.getName() + " to "
+						+ argument.getValue());
+				parameters.put(binding, argument.getValue());
 			}
 		}
 		return parameters;

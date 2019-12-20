@@ -83,7 +83,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		graph = graphFactory.createEGraph();
 		
 		// Store initial graph roots
-		initialGraphRoots = new ArrayList<EObject>();
+		initialGraphRoots = new ArrayList<>();
 		for (EObject obj : graph.getRoots()) {
 			initialGraphRoots.add(obj);
 		}
@@ -110,7 +110,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		application.setUnit(unit);
 
 		// potentially missing parameters
-		List<String> missingParameters = new ArrayList<String>();
+		List<String> missingParameters = new ArrayList<>();
 		for (Parameter ruleParameter : editRule.getParameters()) {
 			if (ruleParameter.getDirection() == ParameterDirection.IN) {
 				missingParameters.add(ruleParameter.getName());
@@ -119,7 +119,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		
 		// Setting the parameter values
 		for (ParameterBinding binding : inputParameters.keySet()) {
-			Object argument = getArgument(binding, inputParameters);
+			Object argument = inputParameters.get(binding);
 			application.setParameterValue(binding.getFormalName(), argument);
 			missingParameters.remove(binding.getFormalName());
 		}
@@ -128,30 +128,31 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 			throw new ParameterMissingException(operationName, missingParameters);
 		}
 
-		Map<ParameterBinding, Object> outputMap = new HashMap<ParameterBinding, Object>();
+		Map<ParameterBinding, Object> outputMap = new HashMap<>();
 		if (application.execute(null)) {
 			//Save application for "undo" purposes
 			executedOperations.put(operationInvocation, application);
 			for (ParameterBinding binding : operationInvocation.getParameterBindings()) {
-				if (binding.getFormalParameter().getDirection() == ParameterDirection.OUT) {
-					if (binding instanceof ObjectParameterBinding) {
-						String formalName = binding.getFormalName();
-						Object parameterValue = application.getResultParameterValue(formalName);
-						EObject eObject = ((ObjectParameterBinding)binding).getActualB();
-						String id = "";
-						//FIXME (cpietsch 17.02.2015) prototypical handling of symbolic links with uuids in order to preserve the original object id
-						try{
-							id = (String)eObject.eGet(eObject.eClass().getEStructuralFeature("uuid"));
-						}catch (Exception e){
-							LogUtil.log(LogEvent.WARNING, eObject + " has no uuid attribute");
-						}
-						if(id.isEmpty()){
-							id = EMFUtil.getXmiId(eObject);
-						}
-						EMFUtil.setXmiId((EObject)parameterValue, id);
-						outputMap.put(binding, parameterValue);
-					}
+				if (binding.getFormalParameter().getDirection() != ParameterDirection.OUT
+						|| !(binding instanceof ObjectParameterBinding)) {
+					continue;
 				}
+
+				String formalName = binding.getFormalName();
+				Object parameterValue = application.getResultParameterValue(formalName);
+				EObject eObject = ((ObjectParameterBinding)binding).getActualB();
+				String id = "";
+				//FIXME (cpietsch 17.02.2015) prototypical handling of symbolic links with uuids in order to preserve the original object id
+				try {
+					id = (String)eObject.eGet(eObject.eClass().getEStructuralFeature("uuid"));
+				} catch (Exception e){
+					LogUtil.log(LogEvent.WARNING, eObject + " has no uuid attribute");
+				}
+				if(id.isEmpty()){
+					id = EMFUtil.getXmiId(eObject);
+				}
+				EMFUtil.setXmiId((EObject)parameterValue, id);
+				outputMap.put(binding, parameterValue);
 			}
 		} else {
 			throw new OperationNotExecutableException(operationName);
@@ -191,21 +192,6 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		// TODO: we don't need to call this after each operation invocation
 		// once when path is finished would be enough.
 		synchronizeResourceWithGraph();
-	}
-
-	/**
-	 * On demand, a usual list of arguments is converted into a
-	 * ParameterValueList which is used by our own Henshin implementation which
-	 * handles parameter lists. All other kinds of parameters, i.e. single
-	 * object parameters and value parameters, are just returned as they are.
-	 * 
-	 * @param binding
-	 * @param inputParameters
-	 * @return
-	 */
-	private Object getArgument(ParameterBinding binding, Map<ParameterBinding, Object> inputParameters) {
-		Object argument = inputParameters.get(binding);
-		return argument;
 	}
 
 	private void synchronizeResourceWithGraph() {
