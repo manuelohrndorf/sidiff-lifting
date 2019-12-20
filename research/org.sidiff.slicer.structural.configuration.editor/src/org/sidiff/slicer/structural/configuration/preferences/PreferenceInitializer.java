@@ -16,6 +16,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
 	 * initializeDefaultPreferences()
 	 */
+	@Override
 	public void initializeDefaultPreferences()
 	{
 		final IPreferenceStore store = ConfigurationEditorPlugin.getPlugin().getPreferenceStore();

@@ -53,7 +53,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	public static final String copyright = "(c), Robert Mï¿½ller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
 
 	/**
 	 * The cached value of the '{@link #getSlicedElements() <em>Sliced Elements</em>}' containment reference list.
@@ -99,6 +99,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SlicedElement> getSlicedElements() {
 		if (slicedElements == null) {
 			slicedElements = new EObjectContainmentEList<SlicedElement>(SlicedElement.class, this, SlicePackage.MODEL_SLICE__SLICED_ELEMENTS);
@@ -111,6 +112,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EPackage> getType() {
 		if (type == null) {
 			type = new EObjectResolvingEList<EPackage>(EPackage.class, this, SlicePackage.MODEL_SLICE__TYPE);
@@ -123,6 +125,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public EList<EObject> export(Predicate<EObject> copySelector) {
 		Set<EObject> copiedObjects = new HashSet<EObject>();
@@ -172,6 +175,7 @@ public class ModelSliceImpl extends MinimalEObjectImpl.Container implements Mode
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void serialize(final String path) {
 		ResourceSet resourceSet = new ResourceSetImpl();  Resource resource = resourceSet.createResource(EMFStorage.pathToUri(path)); resource.getContents().add(this);  try { resource.save(null); } catch (IOException e) {e.printStackTrace(); }
 	}

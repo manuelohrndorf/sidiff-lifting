@@ -101,6 +101,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicingConfiguration createSlicingConfiguration() {
 		SlicingConfigurationImpl slicingConfiguration = new SlicingConfigurationImpl();
 		return slicingConfiguration;
@@ -111,6 +112,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicedEClass createSlicedEClass() {
 		SlicedEClassImpl slicedEClass = new SlicedEClassImpl();
 		return slicedEClass;
@@ -121,6 +123,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Constraint createConstraint() {
 		ConstraintImpl constraint = new ConstraintImpl();
 		return constraint;
@@ -131,6 +134,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicedEReference createSlicedEReference() {
 		SlicedEReferenceImpl slicedEReference = new SlicedEReferenceImpl();
 		return slicedEReference;
@@ -161,6 +165,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfigurationPackage getConfigurationPackage() {
 		return (ConfigurationPackage)getEPackage();
 	}

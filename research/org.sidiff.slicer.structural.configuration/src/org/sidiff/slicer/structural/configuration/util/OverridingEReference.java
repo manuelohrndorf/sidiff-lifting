@@ -115,316 +115,379 @@ public class OverridingEReference extends MinimalEObjectImpl.Container implement
 	    return result.toString();
 	}
 
+	@Override
 	public EList<Adapter> eAdapters()
 	{
 		return delegate.eAdapters();
 	}
 
+	@Override
 	public boolean eDeliver()
 	{
 		return delegate.eDeliver();
 	}
 
+	@Override
 	public EList<EAnnotation> getEAnnotations()
 	{
 		return delegate.getEAnnotations();
 	}
 
+	@Override
 	public String getName()
 	{
 		return delegate.getName();
 	}
 
+	@Override
 	public void eSetDeliver(boolean deliver)
 	{
 		delegate.eSetDeliver(deliver);
 	}
 
+	@Override
 	public void eNotify(Notification notification)
 	{
 		delegate.eNotify(notification);
 	}
 
+	@Override
 	public void setName(String value)
 	{
 		delegate.setName(value);
 	}
 
+	@Override
 	public boolean isContainment()
 	{
 		return delegate.isContainment();
 	}
 
+	@Override
 	public EAnnotation getEAnnotation(String source)
 	{
 		return delegate.getEAnnotation(source);
 	}
 
+	@Override
 	public boolean isTransient()
 	{
 		return delegate.isTransient();
 	}
 
+	@Override
 	public void setContainment(boolean value)
 	{
 		delegate.setContainment(value);
 	}
 
+	@Override
 	public boolean isOrdered()
 	{
 		return delegate.isOrdered();
 	}
 
+	@Override
 	public void setTransient(boolean value)
 	{
 		delegate.setTransient(value);
 	}
 
+	@Override
 	public boolean isContainer()
 	{
 		return delegate.isContainer();
 	}
 
+	@Override
 	public void setOrdered(boolean value)
 	{
 		delegate.setOrdered(value);
 	}
 
+	@Override
 	public boolean isVolatile()
 	{
 		return delegate.isVolatile();
 	}
 
+	@Override
 	public boolean isUnique()
 	{
 		return delegate.isUnique();
 	}
 
+	@Override
 	public boolean isResolveProxies()
 	{
 		return delegate.isResolveProxies();
 	}
 
+	@Override
 	public void setVolatile(boolean value)
 	{
 		delegate.setVolatile(value);
 	}
 
+	@Override
 	public EClass eClass()
 	{
 		return delegate.eClass();
 	}
 
+	@Override
 	public void setUnique(boolean value)
 	{
 		delegate.setUnique(value);
 	}
 
+	@Override
 	public boolean isChangeable()
 	{
 		return delegate.isChangeable();
 	}
 
+	@Override
 	public void setResolveProxies(boolean value)
 	{
 		delegate.setResolveProxies(value);
 	}
 
+	@Override
 	public Resource eResource()
 	{
 		return delegate.eResource();
 	}
 
+	@Override
 	public int getLowerBound()
 	{
 		return delegate.getLowerBound();
 	}
 
+	@Override
 	public void setChangeable(boolean value)
 	{
 		delegate.setChangeable(value);
 	}
 
+	@Override
 	public EReference getEOpposite()
 	{
 		return delegate.getEOpposite();
 	}
 
+	@Override
 	public void setLowerBound(int value)
 	{
 		delegate.setLowerBound(value);
 	}
 
+	@Override
 	public String getDefaultValueLiteral()
 	{
 		return delegate.getDefaultValueLiteral();
 	}
 
+	@Override
 	public EObject eContainer()
 	{
 		return delegate.eContainer();
 	}
 
+	@Override
 	public void setEOpposite(EReference value)
 	{
 		delegate.setEOpposite(value);
 	}
 
+	@Override
 	public int getUpperBound()
 	{
 		return delegate.getUpperBound();
 	}
 
+	@Override
 	public EClass getEReferenceType()
 	{
 		return delegate.getEReferenceType();
 	}
 
+	@Override
 	public void setDefaultValueLiteral(String value)
 	{
 		delegate.setDefaultValueLiteral(value);
 	}
 
+	@Override
 	public EStructuralFeature eContainingFeature()
 	{
 		return delegate.eContainingFeature();
 	}
 
+	@Override
 	public Object getDefaultValue()
 	{
 		return delegate.getDefaultValue();
 	}
 
+	@Override
 	public void setUpperBound(int value)
 	{
 		delegate.setUpperBound(value);
 	}
 
+	@Override
 	public EList<EAttribute> getEKeys()
 	{
 		return delegate.getEKeys();
 	}
 
+	@Override
 	public boolean isMany()
 	{
 		return delegate.isMany();
 	}
 
+	@Override
 	public EReference eContainmentFeature()
 	{
 		return delegate.eContainmentFeature();
 	}
 
+	@Override
 	public boolean isRequired()
 	{
 		return delegate.isRequired();
 	}
 
+	@Override
 	public void setDefaultValue(Object value)
 	{
 		delegate.setDefaultValue(value);
 	}
 
+	@Override
 	public EClassifier getEType()
 	{
 		return delegate.getEType();
 	}
 
+	@Override
 	public boolean isUnsettable()
 	{
 		return delegate.isUnsettable();
 	}
 
+	@Override
 	public EList<EObject> eContents()
 	{
 		return delegate.eContents();
 	}
 
+	@Override
 	public void setEType(EClassifier value)
 	{
 		delegate.setEType(value);
 	}
 
+	@Override
 	public EGenericType getEGenericType()
 	{
 		return delegate.getEGenericType();
 	}
 
+	@Override
 	public void setUnsettable(boolean value)
 	{
 		delegate.setUnsettable(value);
 	}
 
+	@Override
 	public TreeIterator<EObject> eAllContents()
 	{
 		return delegate.eAllContents();
 	}
 
+	@Override
 	public boolean isDerived()
 	{
 		return delegate.isDerived();
 	}
 
+	@Override
 	public void setEGenericType(EGenericType value)
 	{
 		delegate.setEGenericType(value);
 	}
 
+	@Override
 	public boolean eIsProxy()
 	{
 		return delegate.eIsProxy();
 	}
 
+	@Override
 	public void setDerived(boolean value)
 	{
 		delegate.setDerived(value);
 	}
 
+	@Override
 	public EClass getEContainingClass()
 	{
 		return delegate.getEContainingClass();
 	}
 
+	@Override
 	public EList<EObject> eCrossReferences()
 	{
 		return delegate.eCrossReferences();
 	}
 
+	@Override
 	public int getFeatureID()
 	{
 		return delegate.getFeatureID();
 	}
 
+	@Override
 	public Class<?> getContainerClass()
 	{
 		return delegate.getContainerClass();
 	}
 
+	@Override
 	public Object eGet(EStructuralFeature feature)
 	{
 		return delegate.eGet(feature);
 	}
 
+	@Override
 	public Object eGet(EStructuralFeature feature, boolean resolve)
 	{
 		return delegate.eGet(feature, resolve);
 	}
 
+	@Override
 	public void eSet(EStructuralFeature feature, Object newValue)
 	{
 		delegate.eSet(feature, newValue);
 	}
 
+	@Override
 	public boolean eIsSet(EStructuralFeature feature)
 	{
 		return delegate.eIsSet(feature);
 	}
 
+	@Override
 	public void eUnset(EStructuralFeature feature)
 	{
 		delegate.eUnset(feature);
 	}
 
+	@Override
 	public Object eInvoke(EOperation operation, EList<?> arguments) throws InvocationTargetException
 	{
 		return delegate.eInvoke(operation, arguments);

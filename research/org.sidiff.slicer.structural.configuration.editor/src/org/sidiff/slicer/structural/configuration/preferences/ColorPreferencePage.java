@@ -44,6 +44,7 @@ public class ColorPreferencePage extends FieldEditorPreferencePage implements IW
 	 * of preferences. Each field editor knows how to save and
 	 * restore itself.
 	 */
+	@Override
 	public void createFieldEditors()
 	{
 		// the displayed text and values for the text style combo boxes
@@ -74,6 +75,7 @@ public class ColorPreferencePage extends FieldEditorPreferencePage implements IW
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench)
 	{
 	}

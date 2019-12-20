@@ -22,8 +22,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -202,13 +200,7 @@ class ImportedModelViewerPane extends ViewerPane implements IPropertyChangeListe
 			// Create view form.    
 			//control = new ViewForm(parent, getStyle());
 			control = new ViewForm(parent, SWT.NONE);
-			control.addDisposeListener(new DisposeListener()
-			{
-				public void widgetDisposed(DisposeEvent event)
-				{
-					dispose();
-				}
-			});
+			control.addDisposeListener(event -> dispose());
 			control.marginWidth = 0;
 			control.marginHeight = 0;
 

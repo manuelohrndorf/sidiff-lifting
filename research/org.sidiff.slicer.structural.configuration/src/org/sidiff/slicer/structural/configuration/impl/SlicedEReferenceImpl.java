@@ -81,6 +81,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -107,6 +108,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EReference newType) {
 		EReference oldType = type;
 		type = newType;
@@ -119,6 +121,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicedEClass getSlicedEClass() {
 		if (eContainerFeatureID() != ConfigurationPackage.SLICED_EREFERENCE__SLICED_ECLASS) return null;
 		return (SlicedEClass)eInternalContainer();
@@ -139,6 +142,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSlicedEClass(SlicedEClass newSlicedEClass) {
 		if (newSlicedEClass != eInternalContainer() || (eContainerFeatureID() != ConfigurationPackage.SLICED_EREFERENCE__SLICED_ECLASS && newSlicedEClass != null)) {
 			if (EcoreUtil.isAncestor(this, newSlicedEClass))
@@ -160,6 +164,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Constraint getConstraint() {
 		return constraint;
 	}
@@ -184,6 +189,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConstraint(Constraint newConstraint) {
 		if (newConstraint != constraint) {
 			NotificationChain msgs = null;
@@ -203,6 +209,7 @@ public class SlicedEReferenceImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicedEReference getOverwrite() {
 		SlicedEReference overwrite = basicGetOverwrite();
 		return overwrite != null && overwrite.eIsProxy() ? (SlicedEReference)eResolveProxy((InternalEObject)overwrite) : overwrite;

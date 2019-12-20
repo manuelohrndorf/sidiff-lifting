@@ -83,6 +83,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricDifference getAsymmetricDifference() {
 		if (asymmetricDifference != null && asymmetricDifference.eIsProxy()) {
 			InternalEObject oldAsymmetricDifference = (InternalEObject)asymmetricDifference;
@@ -109,6 +110,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAsymmetricDifference(AsymmetricDifference newAsymmetricDifference) {
 		AsymmetricDifference oldAsymmetricDifference = asymmetricDifference;
 		asymmetricDifference = newAsymmetricDifference;
@@ -121,6 +123,7 @@ public class ExecutableModelSliceImpl extends ModelSliceImpl implements Executab
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String serialize(final String path, final boolean zip) {
 		String absolute_path = path;
 		String modelslice_name = "ExecutableSlice.slice";

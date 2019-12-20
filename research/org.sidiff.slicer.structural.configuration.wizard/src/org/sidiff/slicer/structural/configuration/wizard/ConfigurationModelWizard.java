@@ -66,6 +66,7 @@ public class ConfigurationModelWizard extends Wizard implements INewWizard
 	/**
 	 * This just records the information.
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection)
 	{
 		this.workbench = workbench;

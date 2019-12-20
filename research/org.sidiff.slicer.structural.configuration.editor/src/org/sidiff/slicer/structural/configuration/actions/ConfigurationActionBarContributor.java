@@ -5,7 +5,6 @@ package org.sidiff.slicer.structural.configuration.actions;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.ControlAction;
@@ -17,7 +16,6 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -31,9 +29,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
-import org.sidiff.slicer.structural.configuration.presentation.ConfigurationEditor;
 import org.sidiff.slicer.structural.configuration.presentation.ConfigurationEditorPlugin;
-import org.sidiff.slicer.structural.configuration.views.AlternativeElementsView;
 
 /**
  * This is the action bar contributor for the Configuration model editor.
@@ -185,12 +181,7 @@ public class ConfigurationActionBarContributor
 
 		// Force an update because Eclipse hides empty menus now.
 		//
-		submenuManager.addMenuListener
-			(new IMenuListener() {
-				 public void menuAboutToShow(IMenuManager menuManager) {
-					 menuManager.updateAll(true);
-				 }
-			 });
+		submenuManager.addMenuListener(mgr -> mgr.updateAll(true));
 
 		addGlobalActions(submenuManager);
 	}
@@ -242,6 +233,7 @@ public class ConfigurationActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		// Remove any menu items for old selection.
 		//

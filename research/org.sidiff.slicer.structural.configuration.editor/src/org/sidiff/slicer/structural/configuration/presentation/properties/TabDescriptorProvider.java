@@ -174,19 +174,10 @@ public class TabDescriptorProvider implements ITabDescriptorProvider
 		public ISection getSectionClass()
 		{
 			// instantiate the class
-			try
-			{
-				return sectionClass.newInstance();
-			}
-			catch(InstantiationException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
-			catch(IllegalAccessException e)
-			{
-				e.printStackTrace();
-				return null;
+			try {
+				return sectionClass.getDeclaredConstructor().newInstance();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
 		}
 

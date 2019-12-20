@@ -20,9 +20,7 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
-import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -193,6 +191,7 @@ public class ConfigurationModelWizardImportSelectionPage extends WizardPage
 			{
 				patternText.addModifyListener(new ModifyListener()
 				{
+					@Override
 					public void modifyText(ModifyEvent e)
 					{
 						filter.setPattern(((Text)e.widget).getText());
@@ -288,26 +287,18 @@ public class ConfigurationModelWizardImportSelectionPage extends WizardPage
 		{
 			featureTableViewer.setSelection(new StructuredSelection(children.get(0)));
 		}
-		choiceTableViewer.addDoubleClickListener(new IDoubleClickListener()
-		{
-			public void doubleClick(DoubleClickEvent event)
-			{
+		choiceTableViewer.addDoubleClickListener(event -> {
 				if(addButton.isEnabled())
 				{
 					addButton.notifyListeners(SWT.Selection, null);
 				}
-			}
-		});
-		featureTableViewer.addDoubleClickListener(new IDoubleClickListener()
-		{
-			public void doubleClick(DoubleClickEvent event)
-			{
+			});
+		featureTableViewer.addDoubleClickListener(event -> {
 				if(removeButton.isEnabled())
 				{
 					removeButton.notifyListeners(SWT.Selection, null);
 				}
-			}
-		});
+			});
 		choiceTableViewer.addFilter(new ViewerFilter()
 		{
 			@Override

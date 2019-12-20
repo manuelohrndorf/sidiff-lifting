@@ -74,6 +74,7 @@ public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExecutableModelSlice createExecutableModelSlice() {
 		ExecutableModelSliceImpl executableModelSlice = new ExecutableModelSliceImpl();
 		return executableModelSlice;
@@ -84,6 +85,7 @@ public class RuleBasedSliceFactoryImpl extends EFactoryImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBasedSlicePackage getRuleBasedSlicePackage() {
 		return (RuleBasedSlicePackage)getEPackage();
 	}

@@ -293,6 +293,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		this.checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.checkboxTreeViewer.setContentProvider(new AdapterFactoryContentProvider(this.adapterFactory));
@@ -316,6 +317,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	private void makeActions() {
 		//begin selectSubTreeAction
 		selectSubTreeAction = new Action() {
+			@Override
 			public void run(){
 				for(TreeItem treeItem : checkboxTreeViewer.getTree().getSelection()){
 					checkboxTreeViewer.setSubtreeChecked(treeItem.getData(), true);
@@ -328,6 +330,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		
 		//begin sliceAction		
 		synchAction = new Action() {
+			@Override
 			public void run() {
 				
 				final AtomicReference<OperationExplorerView> operationExplorerViewReference = new AtomicReference<OperationExplorerView>();
@@ -439,6 +442,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		
 		//begin expandAllAction
 		expandAllAction = new Action() {
+			@Override
 			public void run() {
 				checkboxTreeViewer.expandAll();
 			}
@@ -449,6 +453,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		
 		// begin collapseAllAction
 		collapseAllAction = new Action() {
+			@Override
 			public void run() {
 				checkboxTreeViewer.collapseAll();
 			}
@@ -459,6 +464,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 				
 		//begin doubleClickAction
 		doubleClickAction = new Action() {
+			@Override
 			public void run() {
 				ISelection selection = checkboxTreeViewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
@@ -475,7 +481,8 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		//end doubleClickAction
 		
 		checkboxTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            public void selectionChanged(SelectionChangedEvent event) {
+            @Override
+			public void selectionChanged(SelectionChangedEvent event) {
                     
             }
 		});
@@ -485,6 +492,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
@@ -518,6 +526,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 
 	private void hookDoubleClickAction() {
 		checkboxTreeViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
@@ -527,6 +536,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		checkboxTreeViewer.getControl().setFocus();
 	}

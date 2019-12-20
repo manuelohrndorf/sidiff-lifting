@@ -138,6 +138,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExecutableModelSlice() {
 		if (executableModelSliceEClass == null) {
 			executableModelSliceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(RuleBasedSlicePackage.eNS_URI).getEClassifiers().get(0);
@@ -150,6 +151,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExecutableModelSlice_AsymmetricDifference() {
         return (EReference)getExecutableModelSlice().getEStructuralFeatures().get(0);
 	}
@@ -159,6 +161,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getExecutableModelSlice__Serialize__String_boolean() {
         return getExecutableModelSlice().getEOperations().get(0);
 	}
@@ -168,6 +171,7 @@ public class RuleBasedSlicePackageImpl extends EPackageImpl implements RuleBased
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBasedSliceFactory getRuleBasedSliceFactory() {
 		return (RuleBasedSliceFactory)getEFactoryInstance();
 	}

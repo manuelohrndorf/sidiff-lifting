@@ -271,6 +271,7 @@ public class ConfigurationEditor
 	 */
 	protected IPartListener partListener = new IPartListener()
 	{
+		@Override
 		public void partActivated(IWorkbenchPart p)
 		{
 			if(p instanceof ContentOutline)
@@ -295,21 +296,25 @@ public class ConfigurationEditor
 			}
 		}
 
+		@Override
 		public void partBroughtToTop(IWorkbenchPart p)
 		{
 			// Ignore.
 		}
 
+		@Override
 		public void partClosed(IWorkbenchPart p)
 		{
 			// Ignore.
 		}
 
+		@Override
 		public void partDeactivated(IWorkbenchPart p)
 		{
 			// Ignore.
 		}
 
+		@Override
 		public void partOpened(IWorkbenchPart p)
 		{
 			// Ignore.
@@ -364,6 +369,7 @@ public class ConfigurationEditor
 	 */
 	protected IResourceChangeListener resourceChangeListener = new IResourceChangeListener()
 	{
+		@Override
 		public void resourceChanged(IResourceChangeEvent event)
 		{
 			IResourceDelta delta = event.getDelta();
@@ -378,6 +384,7 @@ public class ConfigurationEditor
 					protected IPath movedFrom = null;
 					protected IPath movedTo = null;
 
+					@Override
 					public boolean visit(IResourceDelta delta)
 					{
 						if(delta.getResource().getType() == IResource.FILE)
@@ -422,6 +429,7 @@ public class ConfigurationEditor
 				{
 					getSite().getShell().getDisplay().asyncExec(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							removedResources.addAll(visitor.removedResources);
@@ -437,6 +445,7 @@ public class ConfigurationEditor
 				{
 					getSite().getShell().getDisplay().asyncExec(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							changedResources.addAll(visitor.changedResources);
@@ -453,6 +462,7 @@ public class ConfigurationEditor
 				{
 					getSite().getShell().getDisplay().asyncExec(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							// make sure that the file being moved is the input of this editor
@@ -720,10 +730,12 @@ public class ConfigurationEditor
 		//
 		commandStack.addCommandStackListener(new CommandStackListener()
 		{
+			@Override
 			public void commandStackChanged(final EventObject event)
 			{
 				getContainer().getDisplay().asyncExec(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						firePropertyChange(IEditorPart.PROP_DIRTY);
@@ -835,6 +847,7 @@ public class ConfigurationEditor
 		if (theSelection != null && !theSelection.isEmpty()) {
 			Runnable runnable =
 				new Runnable() {
+					@Override
 					public void run() {
 						// Try to select the items in the current content viewer of the editor.
 						//
@@ -855,6 +868,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EditingDomain getEditingDomain() {
 		return editingDomain;
 	}
@@ -897,6 +911,7 @@ public class ConfigurationEditor
 					new ISelectionChangedListener() {
 						// This just notifies those things that are affected by the section.
 						//
+						@Override
 						public void selectionChanged(SelectionChangedEvent selectionChangedEvent) {
 							setSelection(selectionChangedEvent.getSelection());
 						}
@@ -937,6 +952,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Viewer getViewer() {
 		return currentViewer;
 	}
@@ -1318,6 +1334,7 @@ public class ConfigurationEditor
 					//
 					getSite().getShell().getDisplay().syncExec(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							ViewerPane viewerPane = new ViewerPane(getSite().getPage(), ConfigurationEditor.this)
@@ -1373,6 +1390,7 @@ public class ConfigurationEditor
 
 					getSite().getShell().getDisplay().syncExec(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							setActivePage(0);
@@ -1382,6 +1400,7 @@ public class ConfigurationEditor
 
 				getSite().getShell().getDisplay().syncExec(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						updateProblemIndication(true);
@@ -1448,6 +1467,7 @@ public class ConfigurationEditor
 
 			getSite().getShell().getDisplay().syncExec(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					ImportedModelViewerPane viewerPane = new ImportedModelViewerPane(
@@ -1505,6 +1525,7 @@ public class ConfigurationEditor
 				// update problem indication
 				getSite().getShell().getDisplay().syncExec(new Runnable()
 				{
+					@Override
 					public void run()
 					{
 						analyzeImportedResources();
@@ -1595,6 +1616,7 @@ public class ConfigurationEditor
 			{
 				// This ensures that we handle selections correctly.
 				//
+				@Override
 				public void selectionChanged(SelectionChangedEvent event)
 				{
 					handleContentOutlineSelection(event.getSelection());
@@ -1843,6 +1865,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void gotoMarker(IMarker marker)
 	{
 		List<?> targetObjects = markerHelper.getTargetObjects(editingDomain, marker);
@@ -1894,6 +1917,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.add(listener);
 	}
@@ -1904,6 +1928,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
@@ -1914,6 +1939,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ISelection getSelection() {
 		return editorSelection;
 	}
@@ -1925,6 +1951,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setSelection(ISelection selection)
 	{
 		editorSelection = selection;
@@ -1990,6 +2017,7 @@ public class ConfigurationEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void menuAboutToShow(IMenuManager menuManager) {
 		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
 	}

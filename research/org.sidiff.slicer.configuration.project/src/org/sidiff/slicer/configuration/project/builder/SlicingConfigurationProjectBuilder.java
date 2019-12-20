@@ -45,6 +45,7 @@ public class SlicingConfigurationProjectBuilder extends IncrementalProjectBuilde
 	}
 
 	class SampleResourceVisitor implements IResourceVisitor {
+		@Override
 		public boolean visit(IResource resource) {
 			checkXML(resource);
 			//return true to continue visiting children.
@@ -65,14 +66,17 @@ public class SlicingConfigurationProjectBuilder extends IncrementalProjectBuilde
 					.getLineNumber(), severity);
 		}
 
+		@Override
 		public void error(SAXParseException exception) throws SAXException {
 			addMarker(exception, IMarker.SEVERITY_ERROR);
 		}
 
+		@Override
 		public void fatalError(SAXParseException exception) throws SAXException {
 			addMarker(exception, IMarker.SEVERITY_ERROR);
 		}
 
+		@Override
 		public void warning(SAXParseException exception) throws SAXException {
 			addMarker(exception, IMarker.SEVERITY_WARNING);
 		}
@@ -99,7 +103,7 @@ public class SlicingConfigurationProjectBuilder extends IncrementalProjectBuilde
 	}
 
 	@Override
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+	protected IProject[] build(int kind, Map<String,String> args, IProgressMonitor monitor)
 			throws CoreException {
 		if (kind == FULL_BUILD) {
 			fullBuild(monitor);
@@ -114,6 +118,7 @@ public class SlicingConfigurationProjectBuilder extends IncrementalProjectBuilde
 		return null;
 	}
 
+	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		// delete markers set and files created
 		getProject().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);

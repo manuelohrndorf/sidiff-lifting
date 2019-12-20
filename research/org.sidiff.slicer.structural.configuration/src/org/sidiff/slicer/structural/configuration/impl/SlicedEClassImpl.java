@@ -109,6 +109,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicingConfiguration getSlicingConfiguration() {
 		if (eContainerFeatureID() != ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION) return null;
 		return (SlicingConfiguration)eInternalContainer();
@@ -129,6 +130,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSlicingConfiguration(SlicingConfiguration newSlicingConfiguration) {
 		if (newSlicingConfiguration != eInternalContainer() || (eContainerFeatureID() != ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION && newSlicingConfiguration != null)) {
 			if (EcoreUtil.isAncestor(this, newSlicingConfiguration))
@@ -150,6 +152,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -176,6 +179,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EClass newType) {
 		EClass oldType = type;
 		type = newType;
@@ -188,6 +192,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Constraint getConstraint() {
 		return constraint;
 	}
@@ -212,6 +217,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setConstraint(Constraint newConstraint) {
 		if (newConstraint != constraint) {
 			NotificationChain msgs = null;
@@ -231,6 +237,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SlicedEReference> getSlicedEReferences() {
 		if (slicedEReferences == null) {
 			slicedEReferences = new EObjectContainmentWithInverseEList<SlicedEReference>(SlicedEReference.class, this, ConfigurationPackage.SLICED_ECLASS__SLICED_EREFERENCES, ConfigurationPackage.SLICED_EREFERENCE__SLICED_ECLASS);
@@ -243,6 +250,7 @@ public class SlicedEClassImpl extends MinimalEObjectImpl.Container implements Sl
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Map<EReference, SlicedEReference> getOppositeSlicedEReferenceType() {
 		oppositeSlicedEReferenceType = new HashMap<EReference, SlicedEReference>();
 		for (SlicedEReference slicedEReferences : slicedEReferences) {

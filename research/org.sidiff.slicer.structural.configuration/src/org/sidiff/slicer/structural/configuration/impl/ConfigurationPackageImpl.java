@@ -133,7 +133,8 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 			(theConfigurationPackage, 
 			 new EValidator.Descriptor()
 			 {
-				 public EValidator getEValidator()
+				 @Override
+				public EValidator getEValidator()
 				 {
 					 return ConfigurationValidator.INSTANCE;
 				 }
@@ -153,6 +154,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSlicingConfiguration() {
 		return slicingConfigurationEClass;
 	}
@@ -162,6 +164,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_Name() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(0);
 	}
@@ -171,6 +174,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_Description() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(1);
 	}
@@ -180,6 +184,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_DocumentTypes() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(2);
 	}
@@ -189,6 +194,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicingConfiguration_Imports() {
 		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(3);
 	}
@@ -198,6 +204,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_SlicingMode() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(4);
 	}
@@ -207,6 +214,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicingConfiguration_SlicedEClasses() {
 		return (EReference)slicingConfigurationEClass.getEStructuralFeatures().get(5);
 	}
@@ -216,6 +224,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_OppositeSlicedEClassType() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(6);
 	}
@@ -225,6 +234,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_CheckMultiplicity() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(7);
 	}
@@ -234,6 +244,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_ConstraintInterpreterID() {
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(8);
 	}
@@ -243,6 +254,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicingConfiguration_ConstraintInterpreter()
 	{
 		return (EAttribute)slicingConfigurationEClass.getEStructuralFeatures().get(9);
@@ -253,6 +265,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSlicedEClass() {
 		return slicedEClassEClass;
 	}
@@ -262,6 +275,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEClass_SlicingConfiguration() {
 		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(0);
 	}
@@ -271,6 +285,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEClass_Type() {
 		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(1);
 	}
@@ -280,6 +295,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEClass_Constraint() {
 		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(2);
 	}
@@ -289,6 +305,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEClass_SlicedEReferences() {
 		return (EReference)slicedEClassEClass.getEStructuralFeatures().get(3);
 	}
@@ -298,6 +315,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSlicedEClass_OppositeSlicedEReferenceType() {
 		return (EAttribute)slicedEClassEClass.getEStructuralFeatures().get(4);
 	}
@@ -307,6 +325,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getConstraint() {
 		return constraintEClass;
 	}
@@ -316,6 +335,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getConstraint_Expression() {
 		return (EAttribute)constraintEClass.getEStructuralFeatures().get(0);
 	}
@@ -325,6 +345,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSlicedEReference() {
 		return slicedEReferenceEClass;
 	}
@@ -334,6 +355,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEReference_Type() {
 		return (EReference)slicedEReferenceEClass.getEStructuralFeatures().get(0);
 	}
@@ -343,6 +365,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEReference_SlicedEClass() {
 		return (EReference)slicedEReferenceEClass.getEStructuralFeatures().get(1);
 	}
@@ -352,6 +375,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEReference_Constraint() {
 		return (EReference)slicedEReferenceEClass.getEStructuralFeatures().get(2);
 	}
@@ -361,6 +385,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedEReference_Overwrite() {
 		return (EReference)slicedEReferenceEClass.getEStructuralFeatures().get(3);
 	}
@@ -370,6 +395,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getSlicingMode() {
 		return slicingModeEEnum;
 	}
@@ -379,6 +405,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getIConstraintInterpreter()
 	{
 		return iConstraintInterpreterEDataType;
@@ -389,6 +416,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ConfigurationFactory getConfigurationFactory() {
 		return (ConfigurationFactory)getEFactoryInstance();
 	}

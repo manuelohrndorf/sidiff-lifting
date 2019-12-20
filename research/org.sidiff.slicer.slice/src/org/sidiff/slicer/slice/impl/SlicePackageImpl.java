@@ -32,7 +32,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final String copyright = "(c), Robert Müller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
+	public static final String copyright = "(c), Robert Mï¿½ller and Christopher Pietsch, Software Engineering Group, University of Siegen 2017 all rights reserved";
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,6 +125,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModelSlice() {
 		return modelSliceEClass;
 	}
@@ -134,6 +135,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelSlice_SlicedElements() {
 		return (EReference)modelSliceEClass.getEStructuralFeatures().get(0);
 	}
@@ -143,6 +145,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModelSlice_Type() {
 		return (EReference)modelSliceEClass.getEStructuralFeatures().get(1);
 	}
@@ -152,6 +155,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getModelSlice__Export__Predicate() {
 		return modelSliceEClass.getEOperations().get(0);
 	}
@@ -161,6 +165,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getModelSlice__Serialize__String() {
 		return modelSliceEClass.getEOperations().get(1);
 	}
@@ -170,6 +175,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSlicedElement() {
 		return slicedElementEClass;
 	}
@@ -179,6 +185,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedElement_SlicedReferences() {
 		return (EReference)slicedElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -188,6 +195,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSlicedElement_SlicedAttributes() {
 		return (EReference)slicedElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -197,6 +205,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getICopySelector() {
 		return iCopySelectorEDataType;
 	}
@@ -206,6 +215,7 @@ public class SlicePackageImpl extends EPackageImpl implements SlicePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SliceFactory getSliceFactory() {
 		return (SliceFactory)getEFactoryInstance();
 	}

@@ -221,6 +221,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -230,6 +231,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -242,6 +244,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -251,6 +254,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDescription(String newDescription) {
 		String oldDescription = description;
 		description = newDescription;
@@ -263,6 +267,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public EList<String> getDocumentTypes() {
 		EList<String> documentTypes = new EDataTypeUniqueEList<String>(String.class, this, ConfigurationPackage.SLICING_CONFIGURATION__DOCUMENT_TYPES);
 		for(EPackage ePackage : getImports()){
@@ -276,6 +281,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EPackage> getImports() {
 		if (imports == null) {
 			imports = new EObjectResolvingEList<EPackage>(EPackage.class, this, ConfigurationPackage.SLICING_CONFIGURATION__IMPORTS);
@@ -288,6 +294,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SlicingMode getSlicingMode() {
 		return slicingMode;
 	}
@@ -297,6 +304,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSlicingMode(SlicingMode newSlicingMode) {
 		SlicingMode oldSlicingMode = slicingMode;
 		slicingMode = newSlicingMode == null ? SLICING_MODE_EDEFAULT : newSlicingMode;
@@ -309,6 +317,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SlicedEClass> getSlicedEClasses() {
 		if (slicedEClasses == null) {
 			slicedEClasses = new EObjectContainmentWithInverseEList<SlicedEClass>(SlicedEClass.class, this, ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES, ConfigurationPackage.SLICED_ECLASS__SLICING_CONFIGURATION);
@@ -321,6 +330,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Map<EClass, SlicedEClass> getOppositeSlicedEClassType() {
 		oppositeSlicedEClassType = new HashMap<EClass, SlicedEClass>();
 		for (SlicedEClass slicedEClass : slicedEClasses) {
@@ -336,6 +346,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isCheckMultiplicity() {
 		return checkMultiplicity;
 	}
@@ -345,6 +356,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCheckMultiplicity(boolean newCheckMultiplicity) {
 		boolean oldCheckMultiplicity = checkMultiplicity;
 		checkMultiplicity = newCheckMultiplicity;
@@ -357,6 +369,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getConstraintInterpreterID() {
 		return constraintInterpreterID;
 	}
@@ -366,6 +379,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setConstraintInterpreterID(String newConstraintInterpreterID) {
 		String oldConstraintInterpreterID = constraintInterpreterID;
 		constraintInterpreterID = newConstraintInterpreterID;
@@ -380,6 +394,7 @@ public class SlicingConfigurationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public IConstraintInterpreter getConstraintInterpreter() {
 		if(constraintInterpreter == null){
 			constraintInterpreter = IConstraintInterpreter.MANAGER.getExtension(constraintInterpreterID)

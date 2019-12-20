@@ -16,13 +16,8 @@ public class ConfigurationWizardUtil
 		final IWorkbenchPart activePart = page.getActivePart();
 		if(activePart instanceof ISetSelectionTarget)
 		{
-			workbench.getActiveWorkbenchWindow().getShell().getDisplay().asyncExec(new Runnable()
-			{
-				public void run()
-				{
-					((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-				}
-			});
+			workbench.getActiveWorkbenchWindow().getShell().getDisplay().asyncExec(
+					() ->((ISetSelectionTarget)activePart).selectReveal(targetSelection));
 		}
 	}
 }

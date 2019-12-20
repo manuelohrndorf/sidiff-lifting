@@ -142,7 +142,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 	}
 
 	/**
-	 * @author mRakowski, rMüller
+	 * @author mRakowski, rMï¿½ller
 	 * 
 	 */
 	@Override
@@ -184,7 +184,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 				{
 					for(EObject obj : entry.getValue())
 					{
-						if(obj instanceof EClass && EcoreUtil.equals((EClass)obj, clazz))
+						if(obj instanceof EClass && EcoreUtil.equals(obj, clazz))
 						{
 							result.add(entry.getKey());
 							result.add(getContainingClass(entry.getKey()));
@@ -214,8 +214,6 @@ public class SlicingLogic extends AbstractSlicingLogic
 								ConfigurationPackage.SLICING_CONFIGURATION__SLICED_ECLASSES,
 								sC);
 						configurationEditor.executeCommand(remCmd);
-
-						// TODO: only return changed elements to further improve performance - result.add(Elements to refresh)
 						return null;
 					}
 				}
@@ -309,8 +307,6 @@ public class SlicingLogic extends AbstractSlicingLogic
 								ConfigurationPackage.SLICED_ECLASS__SLICED_EREFERENCES,
 								sR);
 						configurationEditor.executeCommand(remCmd);
-
-						// TODO: only return changed elements to further improve performance - result.add(Elements to refresh)
 						return null;
 					}
 				}
@@ -344,7 +340,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 	}
 
 	/**
-	 * @author mRakowski, mMinutillo, rMüller
+	 * @author mRakowski, mMinutillo, rMï¿½ller
 	 */
 	@Override
 	public Color getForegroundColor(Object object)
@@ -361,7 +357,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 	}
 
 	/**
-	 * @author mRakowski, mMinutillo, rMüller
+	 * @author mRakowski, mMinutillo, rMï¿½ller
 	 */
 	@Override
 	public Color getBackgroundColor(Object object)
@@ -377,7 +373,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 	}
 
 	/**
-	 * @author mRakowski, rMüller
+	 * @author mRakowski, rMï¿½ller
 	 */
 	@Override
 	public int getFontStyle(Object object)
@@ -402,7 +398,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 	}
 
 	/**
-	 * @author mMinutillo, mRakowski, rMüller
+	 * @author mMinutillo, mRakowski, rMï¿½ller
 	 */
 	@Override
 	public ImageDescriptor getDecoratedImage(Image baseImage, Object object)
@@ -516,7 +512,7 @@ public class SlicingLogic extends AbstractSlicingLogic
 
 			return dialog.getReturnCode() == IDialogConstants.YES_ID; // If the 'yes' button is not pressed don't confirm
 		}
-		else if(elem instanceof EReference && !ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), (EObject)elem).isEmpty())
+		else if(elem instanceof EReference && !ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), elem).isEmpty())
 		{
 			MessageDialogWithToggle dialog =  MessageDialogWithToggle.openYesNoQuestion(
 					null,
@@ -662,12 +658,12 @@ public class SlicingLogic extends AbstractSlicingLogic
 	 */
 	protected boolean hasSelfOrChildConstraints(EClass element)
 	{
-		if(!ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), (EObject)element).isEmpty())
+		if(!ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), element).isEmpty())
 			return true;
 
 		for(EReference curr : getAllReferences(element))
 		{
-			if(!ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), (EObject)curr).isEmpty())
+			if(!ConfigurationUtil.getConstraintExpression(configurationEditor.getConfig(), curr).isEmpty())
 				return true;
 		}
 
