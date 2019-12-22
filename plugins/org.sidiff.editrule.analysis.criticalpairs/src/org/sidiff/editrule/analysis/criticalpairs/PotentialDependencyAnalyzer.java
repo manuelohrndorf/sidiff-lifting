@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
 import org.sidiff.common.henshin.view.NodePair;
@@ -530,6 +531,11 @@ public abstract class PotentialDependencyAnalyzer {
 	protected boolean isUseDeleteDependency(NodePair predecessor, Node lhsSuccessor) {
 		
 		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion Failed!";
+		
+		// a rule creating an edge connected to a node that is deleted cannot be in dependency
+		if(predecessor.getRhsNode().getAllEdges().stream().anyMatch(e -> HenshinRuleAnalysisUtilEx.isCreationEdge(e))) {
+			return false;
+		}
 		
 		/*
 		 * Preserve-Node-Type + Preserve-Node-Sub-Types + Preserve-Node-Super-Types == Delete-Node-Type
