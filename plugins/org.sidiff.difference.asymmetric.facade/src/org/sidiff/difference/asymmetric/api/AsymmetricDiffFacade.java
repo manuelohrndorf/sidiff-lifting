@@ -91,14 +91,11 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 		ParameterMapper paramMapper = new ParameterMapper(asymmetricDifference);
 		paramMapper.mapParameters();
 		StatisticsUtil.getInstance().stop("ParameterMapping");
-		
-		// Create new difference container
-		Difference fullDiff = new Difference(symmetricDifference, asymmetricDifference);
-		
+
 		// Unmerge imports:
 		unmergeImports(settings);
 		
-		return fullDiff;
+		return new Difference(symmetricDifference, asymmetricDifference);
 	}
 	
 	/**
@@ -158,12 +155,12 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 			AsymmetricDifference asymmetricDifference, DifferenceSettings settings) {
 
 		if (settings.isEnabled_MergeImports()) {
-			if (settings.getImports() == null) {
-				AsymmetricMergeImports importMerger = new AsymmetricMergeImports(settings.getScope(), true);
-				settings.setImports(importMerger);
+			if (!(settings.getImports() instanceof AsymmetricMergeImports)) {
+				settings.setImports(new AsymmetricMergeImports(settings.getScope(), true));
 			}
-			((AsymmetricMergeImports) settings.getImports()).setSymmetricDifference(symmetricDifference);
-			((AsymmetricMergeImports) settings.getImports()).setAsymmetricDifference(asymmetricDifference);
+			AsymmetricMergeImports asymMergeImports = (AsymmetricMergeImports)settings.getImports();
+			asymMergeImports.setSymmetricDifference(symmetricDifference);
+			asymMergeImports.setAsymmetricDifference(asymmetricDifference);
 			LogUtil.log(LogEvent.NOTICE, "Merge imports");
 			settings.getImports().merge();
 		}
@@ -171,8 +168,7 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	}
 	
 	protected static void unmergeImports(DifferenceSettings settings) {
-		
-		if ((settings.getImports() != null) && (settings.isEnabled_UnmergeImports())) {
+		if (settings.getImports() != null && settings.isEnabled_UnmergeImports()) {
 			LogUtil.log(LogEvent.NOTICE, "Unmerge imports");
 			settings.getImports().unmerge();
 			settings.setImports(null);

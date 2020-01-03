@@ -1,5 +1,7 @@
 package org.sidiff.difference.asymmetric.api.util;
 
+import java.util.Objects;
+
 import org.eclipse.emf.common.util.URI;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -13,8 +15,8 @@ public class Difference {
 	private final AsymmetricDifference asymmetric;
 
 	public Difference(SymmetricDifference symmetric, AsymmetricDifference asymmetric) {
-		this.symmetric = symmetric;
-		this.asymmetric = asymmetric;
+		this.symmetric = Objects.requireNonNull(symmetric);
+		this.asymmetric = Objects.requireNonNull(asymmetric);
 	}
 
 	public SymmetricDifference getSymmetric() {

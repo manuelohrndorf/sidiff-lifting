@@ -62,7 +62,7 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 			
 			settings.getRecognitionEngine().getSetup().setDifference(symmetricDifference);
 			settings.getRecognitionEngine().getSetup().setImports(
-					(settings.getImports() != null) ? settings.getImports().getImports() : null);
+					settings.getImports() == null ? null : settings.getImports().getImports());
 
 			settings.getRecognitionEngine().execute();
 		}
