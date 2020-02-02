@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.slicer.structural.configuration.SlicedEClass;
 
 public class SlicingConfigurationOppositeSlicedEClassTypeItemDelegator extends AdapterFactoryItemDelegator {
@@ -23,7 +23,7 @@ public class SlicingConfigurationOppositeSlicedEClassTypeItemDelegator extends A
 			for(EClass key : oppositeSlicedEClassType.keySet()){
 				if(key.eIsProxy())
 				{
-					text += EMFUtil.getEObjectURI(key);
+					text += EcoreUtil.getURI(key);
 				}
 				else
 				{

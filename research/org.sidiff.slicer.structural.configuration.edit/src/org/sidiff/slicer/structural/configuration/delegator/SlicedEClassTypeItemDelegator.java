@@ -2,8 +2,8 @@ package org.sidiff.slicer.structural.configuration.delegator;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.sidiff.common.emf.EMFUtil;
 
 public class SlicedEClassTypeItemDelegator extends AdapterFactoryItemDelegator
 {
@@ -22,7 +22,7 @@ public class SlicedEClassTypeItemDelegator extends AdapterFactoryItemDelegator
 			// check if class is proxy
 			if(eClass.eIsProxy())
 			{
-				return "(unresolved) " + EMFUtil.getEObjectURI(eClass);
+				return "(unresolved) " + EcoreUtil.getURI(eClass);
 			}
 		}
 		

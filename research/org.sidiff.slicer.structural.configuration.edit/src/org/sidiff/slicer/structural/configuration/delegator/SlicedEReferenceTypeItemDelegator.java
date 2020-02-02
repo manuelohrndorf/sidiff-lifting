@@ -2,8 +2,8 @@ package org.sidiff.slicer.structural.configuration.delegator;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
-import org.sidiff.common.emf.EMFUtil;
 
 public class SlicedEReferenceTypeItemDelegator extends AdapterFactoryItemDelegator {
 
@@ -19,34 +19,31 @@ public class SlicedEReferenceTypeItemDelegator extends AdapterFactoryItemDelegat
 			// check if reference is proxy
 			if(eReference.eIsProxy())
 			{
-				return "(unresolved) " + EMFUtil.getEObjectURI(eReference);
+				return "(unresolved) " + EcoreUtil.getURI(eReference);
+			}
+			// check if containing class is proxy
+			String containingClassName;
+			if(eReference.getEContainingClass().eIsProxy())
+			{
+				containingClassName = EcoreUtil.getURI(eReference.getEContainingClass()).toString();
 			}
 			else
 			{
-				// check if containing class is proxy
-				String containingClassName;
-				if(eReference.getEContainingClass().eIsProxy())
-				{
-					containingClassName = EMFUtil.getEObjectURI(eReference.getEContainingClass());
-				}
-				else
-				{
-					containingClassName = eReference.getEContainingClass().getName();
-				}
-				
-				// check if type is proxy
-				String typeName;
-				if(eReference.getEType().eIsProxy())
-				{
-					typeName = EMFUtil.getEObjectURI(eReference.getEType());
-				}
-				else
-				{
-					typeName = eReference.getEType().getName();
-				}
-
-				return containingClassName + "." + eReference.getName() + ": " + typeName;
+				containingClassName = eReference.getEContainingClass().getName().toString();
 			}
+			
+			// check if type is proxy
+			String typeName;
+			if(eReference.getEType().eIsProxy())
+			{
+				typeName = EcoreUtil.getURI(eReference.getEType()).toString();
+			}
+			else
+			{
+				typeName = eReference.getEType().getName();
+			}
+
+			return containingClassName + "." + eReference.getName() + ": " + typeName;
 		}
 		return super.getText(object);
 	}

@@ -8,11 +8,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,7 +21,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.slicer.structural.configuration.ConfigurationFactory;
 import org.sidiff.slicer.structural.configuration.ConfigurationPackage;
 import org.sidiff.slicer.structural.configuration.SlicedEReference;
@@ -170,7 +168,7 @@ public class SlicedEReferenceItemProvider
 		{
 			if(type.eIsProxy())
 			{
-				label += " (unresolved): " + EMFUtil.getEObjectURI(type);
+				label += " (unresolved): " + EcoreUtil.getURI(type);
 			}
 			else
 			{
@@ -179,7 +177,7 @@ public class SlicedEReferenceItemProvider
 				// check if containing class is proxy
 				if(type.getEContainingClass().eIsProxy())
 				{
-					label += EMFUtil.getEObjectURI(type.getEContainingClass());
+					label += EcoreUtil.getURI(type.getEContainingClass());
 				}
 				else
 				{
@@ -191,7 +189,7 @@ public class SlicedEReferenceItemProvider
 				// check if type is proxy
 				if(type.getEType().eIsProxy())
 				{
-					label += EMFUtil.getEObjectURI(type.getEType());
+					label += EcoreUtil.getURI(type.getEType());
 				}
 				else
 				{

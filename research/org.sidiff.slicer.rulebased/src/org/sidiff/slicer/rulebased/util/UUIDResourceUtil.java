@@ -61,7 +61,7 @@ public class UUIDResourceUtil {
 				copies.put(eObject, EMFUtil.copyWithoutReferences(eObject));
 				for(EReference eReference : eObject.eClass().getEAllReferences()){
 					if(eReference.isChangeable() && !eReference.isDerived() && eReference.getLowerBound() > 0){
-						for(EObject target : EMFUtil.getObjectListFromReference(eObject, eReference)) {
+						for(EObject target : EMFUtil.getReferenceTargets(eObject, eReference)) {
 							if(target.eResource() != null && target.eResource().equals(resource_origin)) {
 								dependencies.add(target);
 							}
@@ -79,7 +79,7 @@ public class UUIDResourceUtil {
 		for(EObject eObject_origin : copies.keySet()){
 			for(EReference eReference : eObject_origin.eClass().getEAllReferences()){
 				if(eReference.isChangeable() && !eReference.isDerived() && eReference.isChangeable()){
-					for(EObject target : EMFUtil.getObjectListFromReference(eObject_origin, eReference)) {
+					for(EObject target : EMFUtil.getReferenceTargets(eObject_origin, eReference)) {
 						EObject target_copy = null;
 						if(copies.containsKey(target)) {
 							target_copy = copies.get(target);

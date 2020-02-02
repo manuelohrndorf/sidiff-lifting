@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
@@ -45,9 +47,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.copiers.XmiIdCopier;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
@@ -220,25 +224,15 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 		this.remoteResourceEmpty = UUIDResource.createUUIDResource(EMFStorage.pathToUri(input.getLocation().toOSString().replace(remoteResourceComplete.getURI().lastSegment(), "empty_" + remoteResourceComplete.getURI().lastSegment())), remoteRSS);
 
 		this.localSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local").replace(remoteResourceComplete.getURI().lastSegment(), "sliced" + remoteResourceComplete.getURI().lastSegment())));
-		
-		Map<EObject, EObject> copies_empty = EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents()));
-		
-		this.remoteResourceEmpty.getContents().addAll(copies_empty.values());
-		
-		for(EObject origin : copies_empty.keySet()){
-			String id = EMFUtil.getXmiId(origin);
-			EMFUtil.setXmiId(copies_empty.get(origin), id);
-		}
-		
-		Map<EObject, EObject> copies = EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents()));
-		
-		this.localSlicedResource.getContents().addAll(copies.values());
-		
-		for(EObject origin : copies.keySet()){
-			String id = EMFUtil.getXmiId(origin);
-			EMFUtil.setXmiId(copies.get(origin), id);
-		}
-		
+
+		Copier copierEmpty = new XmiIdCopier();
+		this.remoteResourceEmpty.getContents().addAll(copierEmpty.copyAll(remoteResourceComplete.getContents()));
+		copierEmpty.copyReferences();
+
+		Copier copier = new XmiIdCopier();
+		this.localSlicedResource.getContents().addAll(copier.copyAll(remoteResourceComplete.getContents()));
+		copier.copyReferences();
+
 		LiftingSettings settings = new LiftingSettings();
 		SettingsAdapterUtil.adaptSettingsGlobal(settings, EMFModelAccess.getDocumentTypes(
 				remoteResourceComplete, Scope.RESOURCE_SET), Collections.emptySet());
@@ -266,9 +260,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 			MessageDialog.openError(checkboxTreeViewer.getControl().getShell(), "Error", e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		this.checkboxTreeViewer.setGrayChecked(this.remoteResourceComplete, true);
-		for(EObject eObject : EMFUtil.copyAll(new HashSet<EObject>(remoteResourceComplete.getContents())).keySet()){
+		for(EObject eObject : CollectionUtil.asIterable(remoteResourceComplete.getAllContents())){
 			checkboxTreeViewer.setGrayChecked(eObject, true);
 		}
 		
@@ -345,14 +339,9 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 							
 							if(localModifiedSlicedResource == null){
 								localModifiedSlicedResource = UUIDResource.createUUIDResource(EMFStorage.pathToUri(EMFStorage.uriToPath(remoteResourceComplete.getURI()).replace("remote", "local")));
-								Map<EObject, EObject> copies = EMFUtil.copyAll(localSlicedResource.getContents());
-								for(EObject eObject : localSlicedResource.getContents()){
-									localModifiedSlicedResource.getContents().add(copies.get(eObject));
-								}
-								for(EObject o : copies.keySet()){
-									String id = EMFUtil.getXmiId(o);
-									EMFUtil.setXmiId(copies.get(o), id);
-								}
+								Copier copier = new XmiIdCopier();
+								localModifiedSlicedResource.getContents().addAll(copier.copyAll(localSlicedResource.getContents()));
+								copier.copyReferences();
 								localModifiedSlicedResource.save(null);
 								
 							}
