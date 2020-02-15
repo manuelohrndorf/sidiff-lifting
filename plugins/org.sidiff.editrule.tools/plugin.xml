@@ -57,6 +57,10 @@
             id="org.sidiff.editrule.tools.command.invertrules"
             name="Invert Edit-Rule Actions">
       </command>
+      <command
+            id="org.sidiff.editrule.tools.command.cleanup.dynamic"
+            name="Clean Up Dynamic EStructuralFeatures">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -266,6 +270,21 @@
                   </with>
                </or>
             </activeWhen>
+         </handler>
+         <handler
+               class="org.sidiff.editrule.tools.handlers.CleanUpDynamicEStructuralFeaturesHandler"
+               commandId="org.sidiff.editrule.tools.command.cleanup.dynamic">
+            <activeWhen>
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false">
+                     <reference
+                           definitionId="org.eclipse.emf.henshin.folder.fileextension">
+                     </reference>
+                  </iterate>
+               </with>
+            </activeWhen>
          </handler>         
    </extension>
    <extension
@@ -315,6 +334,10 @@
                   commandId="org.sidiff.editrule.tools.command.invertrules"
                   style="push">
             </command>
+            <command
+                  commandId="org.sidiff.editrule.tools.command.cleanup.dynamic"
+                  style="push">
+            </command>
          </menu>
          <separator
                name="org.sidiff.editrule.tools.separatorBottom"
@@ -332,5 +355,30 @@
             </or>
          </adapt>
       </definition>
+      <definition
+            id="org.eclipse.emf.henshin.folder.fileextension">
+         <adapt
+               type="org.eclipse.core.resources.IResource">
+            <or>
+               <reference
+                     definitionId="org.eclipse.emf.henshin.fileextension">
+               </reference>
+               <test
+                     forcePluginActivation="true"
+                     property="org.eclipse.emf.henshin.properties.henshinfile">
+               </test>
+            </or>
+         </adapt>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.sidiff.editrule.tools.handlers.HenshinPropertyTester"
+            id="org.eclipse.emf.henshin.propertyTester"
+            namespace="org.eclipse.emf.henshin.properties"
+            properties="henshinfile"
+            type="org.eclipse.core.resources.IResource">
+      </propertyTester>
    </extension>
 </plugin>
