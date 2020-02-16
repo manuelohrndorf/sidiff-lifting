@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.sidiff.common.emf.EMFResourceUtil;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.EObjectLocation;
@@ -34,7 +35,12 @@ import org.sidiff.matching.model.Correspondence;
  * Subclasses can add unconsideredNodeTypes, unconsideredEdgeTypes and
  * unconsideredAttributeTypes in order to filter the low-level difference.
  * 
- * @author kehrer
+ * Note: We do not consider dynamic nodes, edges and attributes
+ * @see {@link EMFUtil#isDynamic(EObject)}
+ * @see {@link EMFUtil#isDynamic(EObject, EReference)}
+ * @see {@link EMFUtil#isDynamic(EObject, EAttribute)}
+ * 
+ * @author kehrer, cpietsch
  */
 public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDifferenceBuilder {
 
@@ -87,6 +93,16 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 				continue;
 			}
 
+			if(EMFUtil.isDynamic(nodeA)) {
+				assert EMFUtil.isDynamic(nodeB): "Corresponence between an dynamic and non-dynamic element..!?";
+				LogUtil.log(LogEvent.DEBUG, "Skip correspondence (dynamic): " + nodeA + " <-> " + nodeB);
+				// skip and also delete correspondence
+				if(c.getContainerCorrespondence() != null)
+					c.getContainerCorrespondence().getContainmentCorrespondences().remove(c);
+				iterator.remove();
+				continue;
+			}
+			
 			if (unconsideredNodeTypes.contains(nodeType)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip correspondence (unconsideredNodeType): " + nodeA + " <-> " + nodeB);
 				// skip and also delete correspondence
@@ -134,22 +150,29 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 			// EAttributes
 			for (EAttribute attributeType : nodeType.getEAllAttributes()) {
-				if (!attributeType.isDerived()) {
 					deriveAttributeValueChange(nodeA, nodeB, attributeType);
-				}
 			}
 		}
 	}
 
 	private void processUnmatchedA() {
+		for(Iterator<EObject> iterator = diff.getMatching().getUnmatchedA().iterator(); iterator.hasNext();) {
+			EObject elementA = iterator.next();
 
-		for(EObject elementA : diff.getMatching().getUnmatchedA()){
 			if (!doProcess(elementA)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementA);
 				continue;
 			}
+			
+			if(EMFUtil.isDynamic(elementA)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip dynamic node: " + elementA);
+				iterator.remove();
+				continue;
+			}
+			
 			if (unconsideredNodeTypes.contains(elementA.eClass())) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementA);
+				iterator.remove();
 				continue;
 			}
 
@@ -171,13 +194,23 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 
 	private void processUnmatchedB() {
 
-		for(EObject elementB : diff.getMatching().getUnmatchedB()){
+		for(Iterator<EObject> iterator = diff.getMatching().getUnmatchedB().iterator(); iterator.hasNext();) {
+			EObject elementB = iterator.next();
+			
 			if (!doProcess(elementB)) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (does not match docType): " + elementB);
 				continue;
 			}
+			
+			if(EMFUtil.isDynamic(elementB)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip dynamic node: " + elementB);
+				iterator.remove();
+				continue;
+			}
+			
 			if (unconsideredNodeTypes.contains(elementB.eClass())) {
 				LogUtil.log(LogEvent.DEBUG, "Skip node (unconsideredNodeType): " + elementB);
+				iterator.remove();
 				continue;
 			}
 
@@ -198,12 +231,13 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 	}
 
 	private void deriveDiffA(EReference edgeType, EObject nodeA, Set<EObject> diffA) {
-		if (edgeType.isDerived()) {
-			return;
-		}
-		if (unconsideredEdgeTypes.contains(edgeType)) {
-			return;
-		}
+//		if (EMFUtil.isDynamic(nodeA, edgeType)) {
+//			LogUtil.log(LogEvent.DEBUG, "Skip dynamic edge type: " + edgeType);
+//			return;
+//		}
+//		if (unconsideredEdgeTypes.contains(edgeType)) {
+//			return;
+//		}
 
 		for (EObject tgt : diffA) {
 			LogUtil.log(LogEvent.DEBUG, "delEdge: src: " + getObjectName(nodeA) + " target: " + getObjectName(tgt)
@@ -213,12 +247,14 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 	}
 
 	private void deriveDiffB(EReference edgeType, EObject nodeB, Set<EObject> diffB) {
-		if (edgeType.isDerived()) {
-			return;
-		}
-		if (unconsideredEdgeTypes.contains(edgeType)) {
-			return;
-		}
+//		if (EMFUtil.isDynamic(nodeB, edgeType)) {
+//			LogUtil.log(LogEvent.DEBUG, "Skip dynamic edge type: " + edgeType);
+//			return;
+//		}
+//		if (unconsideredEdgeTypes.contains(edgeType)) {
+//			LogUtil.log(LogEvent.DEBUG, "Skip unconsidered edge type: " + edgeType);
+//			return;
+//		}
 
 		for (EObject tgt : diffB) {
 			LogUtil.log(LogEvent.DEBUG, "addEdge: src: " + getObjectName(nodeB) + " target: " + getObjectName(tgt)
@@ -258,7 +294,14 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 	}
 
 	private void deriveAttributeValueChange(EObject nodeA, EObject nodeB, EAttribute attributeType) {
+		
+		if(attributeType.isDerived()) {
+			LogUtil.log(LogEvent.DEBUG, "Skip derived attribute type: " + attributeType);
+			return;
+		}
+		
 		if (unconsideredAttributeTypes.contains(attributeType)) {
+			LogUtil.log(LogEvent.DEBUG, "Skip unconsidered attribute type: " + attributeType);
 			return;
 		}
 
@@ -352,16 +395,33 @@ public abstract class AbstractTechnicalDifferenceBuilder implements ITechnicalDi
 		diff.getChanges().add(c);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addReferencedObjects(EReference refType, EObject src, Collection<EObject> referencedObjects) {
-		if (refType.isMany()) {
-			referencedObjects.addAll((Collection<EObject>) src.eGet(refType));
-		} else {
-			EObject obj = (EObject) src.eGet(refType);
-			if (obj != null) {
-				referencedObjects.add(obj);
+		if(refType.isDerived()) {
+			LogUtil.log(LogEvent.DEBUG, "Skip derived reference: " + src + "." + refType);
+			return;
+		}
+		
+		if (unconsideredEdgeTypes.contains(refType)) {
+			LogUtil.log(LogEvent.DEBUG, "Skip unconsidered edge type: " + src + "." + refType);
+			return;
+		}
+		
+		for(EObject tgt : EMFUtil.getReferenceTargets(src, refType)) {
+			if(EMFUtil.isDynamic(tgt)) {
+				LogUtil.log(LogEvent.DEBUG, "Skip reference with dynamic target: " + src + "." + refType + "." + tgt);
+			}else {
+				referencedObjects.add(tgt);
 			}
 		}
+		
+//		if (refType.isMany()) {
+//			referencedObjects.addAll((Collection<EObject>) src.eGet(refType));
+//		} else {
+//			EObject obj = (EObject) src.eGet(refType);
+//			if (obj != null) {
+//				referencedObjects.add(obj);
+//			}
+//		}
 	}
 
 	@Override
