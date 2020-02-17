@@ -25,7 +25,7 @@ public class RuleBaseProjectNature implements IProjectNature {
 	public static final String BUILDER_ID = "org.sidiff.editrule.rulebase.builder.rulebasebuilder";
 	
 	private IProject project;
-	
+
 	@Override
 	public void configure() throws CoreException {
 		IProjectDescription desc = project.getDescription();

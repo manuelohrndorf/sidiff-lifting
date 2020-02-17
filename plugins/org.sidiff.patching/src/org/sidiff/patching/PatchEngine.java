@@ -80,9 +80,13 @@ public class PatchEngine {
 		Objects.requireNonNull(settings, "settings is null");
 
 		// Set SiLift default Correspondence-Service:
+		// FIXME (cpietsch: 09-06-2019) a matcher is only used if the argument manager extends  org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager
+		// otherwise the matcher is not set and no correspondences service is needed. However, this should be handled by the IPatchEngineSettings object.
+		if(settings.getMatcher() != null) {
 		settings.getMatcher().setCorrespondencesService(
 				ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
 						() -> new RuntimeException("No correspondences service is available")));
+		}
 		
 		// Get settings:
 		this.patchedResource = patchedResource;

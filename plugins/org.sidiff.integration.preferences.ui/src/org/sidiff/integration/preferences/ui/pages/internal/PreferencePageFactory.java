@@ -16,7 +16,7 @@ import org.sidiff.integration.preferences.util.PipelineStepUtil.PipelineStep;
 
 /**
  * Static factory for pipeline step, and index preference pages.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public class PreferencePageFactory {
@@ -69,8 +69,9 @@ public class PreferencePageFactory {
 		return stepPage;
 	}
 
-	public static PropertyAndPreferencePage createIndexPage(String pageName) {
+	public static PropertyAndPreferencePage createIndexPage(String pageName, String preferenceQualifier) {
 		TabbedPreferencePage indexPage = new TabbedPreferencePage();
+		indexPage.setPreferenceQualifier(preferenceQualifier);
 		for(PipelineStep step : PipelineStepUtil.getAllAvailablePipelineSteps().values()) {
 			PropertyAndPreferencePage subPage = PreferencePageFactory.createPipelineStepPage(pageName, step);
 			if(subPage != null) {

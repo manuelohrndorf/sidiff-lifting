@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -26,6 +27,7 @@ import org.sidiff.integration.preferences.ui.internal.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
+<<<<<<< HEAD
  * <p>The settings source widget allows selecting a source from which
  * the {@link ISettings} are to be adapted.</p>
  * <p>The source can be the global preference store, as well as
@@ -37,6 +39,10 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
  * from the *SettingsItem enums. If no considered items are set, all items
  * will be considered.</p>
  * @author Robert Müller
+=======
+ * 
+ * @author rmueller
+>>>>>>> refs/heads/oxygen
  */
 public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> {
 
@@ -61,6 +67,7 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	private IProject project;
 	private Set<String> documentTypes;
 	private Set<Enum<?>> consideredSettings;
+	private String preferenceQualifier = PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 
 	// outputs
 	private Diagnostic diagnostic;
@@ -108,6 +115,14 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 			showDiagnosticDialog();
 		});
 	}
+	
+	public void setPreferenceQualifier(String preferenceQualifier) {
+		this.preferenceQualifier = Objects.requireNonNull(preferenceQualifier);
+	}
+	
+	public String getPreferenceQualifier() {
+		return preferenceQualifier;
+	}
 
 	@Override
 	protected void hookInitButtons() {
@@ -150,11 +165,13 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	private void updateSettings() {
 		switch(getSource()) {	
 			case GLOBAL:
-				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(settings, documentTypes, consideredSettings);
+				diagnostic = SettingsAdapterUtil.adaptSettingsGlobal(
+						settings, documentTypes, consideredSettings, preferenceQualifier);
 				break;
 
 			case PROJECT:
-				diagnostic = SettingsAdapterUtil.adaptSettingsProject(settings, project, documentTypes, consideredSettings);
+				diagnostic = SettingsAdapterUtil.adaptSettingsProject(
+						settings, project, documentTypes, consideredSettings, preferenceQualifier);
 				break;
 
 			case CUSTOM:
@@ -168,7 +185,6 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 		if(diagnostic == null || diagnostic.getSeverity() == Diagnostic.OK) {
 			return;
 		}
-
 		Display.getCurrent().asyncExec(() ->
 			DiagnosticDialog.open(UIUtil.getActiveShell(), "Validation of settings", null, diagnostic));
 	}

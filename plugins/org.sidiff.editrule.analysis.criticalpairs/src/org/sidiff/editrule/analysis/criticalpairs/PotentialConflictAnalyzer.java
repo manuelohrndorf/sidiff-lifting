@@ -3,7 +3,7 @@ package org.sidiff.editrule.analysis.criticalpairs;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -138,10 +140,12 @@ public abstract class PotentialConflictAnalyzer {
 		List<Edge> successorRequireEdges = successor.getRequireEdges();
 		
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = predecessor.getSetAttributes();
+		List<Attribute> predecessorChangingAttributes = new ArrayList<Attribute>(predecessor.getSetAttributes());
+		predecessorChangingAttributes.addAll(predecessor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> predecessorUsingAttributes = predecessor.getPreserveAttributes();
 		
-		List<Attribute> successorChangingAttributes = successor.getSetAttributes();
+		List<Attribute> successorChangingAttributes = new ArrayList<Attribute>(successor.getSetAttributes());
+		successorChangingAttributes.addAll(successor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> successorUsingAttributes = successor.getPreserveAttributes(); 
 		
 		// Get <<forbid>> attributes
@@ -213,10 +217,7 @@ public abstract class PotentialConflictAnalyzer {
 			potRuleCon.addAllPNCs(createForbidNodePotConsPAC);
 		}
 		
-		if((!predecessorCreateEdges.isEmpty()) && (!successorForbidEdges.isEmpty())) {
-			Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbid_Edge(predecessorCreateEdges, successorForbidEdges, potRuleCon);
-			
-		}
+		
 //		
 //		// Create-Use
 //		if ((!predecessorCreateNodes.isEmpty()) && (!successorPreserveNodes.isEmpty())) {
@@ -305,6 +306,17 @@ public abstract class PotentialConflictAnalyzer {
 			}
 			potRuleCon.addAllPECs(useDeleteEdgePotConsPAC);
 		}
+		
+		// Create-Forbid (NAC)
+		if((!predecessorCreateEdges.isEmpty()) && (!successorForbidEdges.isEmpty())) {
+			Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbid_Edge(predecessorCreateEdges, successorForbidEdges, potRuleCon);
+			
+			for (PotentialEdgeConflict pec : createForbidEdgePotConcs) {
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPECs(createForbidEdgePotConcs);
+		}
 //		
 //		// Create-Use
 //		if ((!predecessorCreateEdges.isEmpty()) && (!successorPreserveEdges.isEmpty())) {
@@ -380,6 +392,18 @@ public abstract class PotentialConflictAnalyzer {
 				pac.setTargetRule(successorEditRule);
 			}
 			potRuleCon.addAllPACs(changeUseAttributePotConsPAC);
+		}
+		
+		// Change-Change
+		if ((!predecessorChangingAttributes.isEmpty()) && (!successorChangingAttributes.isEmpty())) {
+			Set<PotentialAttributeConflict> changeChangeAttributePotCons = findChangeChange_Attribute(
+					predecessorChangingAttributes, successorChangingAttributes);
+			
+			for (PotentialAttributeConflict pac : changeChangeAttributePotCons) {
+				pac.setSourceRule(predecessorEditRule);
+				pac.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPACs(changeChangeAttributePotCons);
 		}
 		
 //		// Use-Change
@@ -1757,6 +1781,35 @@ public abstract class PotentialConflictAnalyzer {
 	}
 	
 	/**
+	 * Checks all attributes for Change-Change conflicts.
+	 * 
+	 * @param rhsPredecessors
+	 *            Attributes on RHS only (<<create>>).
+	 * @param rhsSuccessors
+	 *            Attributes on RHS only (<<create>>).
+	 * @return All potential conflicts.
+	 */
+	protected Set<PotentialAttributeConflict> findChangeChange_Attribute (Collection<Attribute> rhsPredecessors, Collection<Attribute> rhsSuccessors){
+		Set<PotentialAttributeConflict> potConss = new HashSet<PotentialAttributeConflict>();
+		
+		for(Attribute rhsPredecessorAttribute : rhsPredecessors) {
+			for(Attribute rhsSuccessorAttribute : rhsSuccessors) {
+				if(isChangeChangeConflict(rhsPredecessorAttribute, rhsSuccessorAttribute)) {
+					// Change-Change conflict found
+					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
+
+					potcon.setSourceAttribute(rhsPredecessorAttribute);
+					potcon.setTargetAttribute(rhsSuccessorAttribute);
+					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_CHANGE);
+
+					potConss.add(potcon);
+				}
+			}
+		}
+		return potConss;
+	}
+	
+	/**
 	 * Checks two attributes for a Change-Use conflict.
 	 * 
 	 * @param rhsPredecessor
@@ -1778,6 +1831,35 @@ public abstract class PotentialConflictAnalyzer {
 				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
 					// Attribute case differentiation precondition is not fulfilled?
 					return !attributeCaseDifferentiation(rhsPredecessor, lhsSuccessor);
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks two attributes for a Change-Change conflict.
+	 * 
+	 * @param rhsPredecessor
+	 *            Attribute is on RHS only (<< create >>).
+	 * @param rhsSuccessor
+	 *            Attribute is on RHS (<< create >>).
+	 * @return <code>true</code> if there  is a conflict; <code>false</code> otherwise.
+	 */
+	protected boolean isChangeChangeConflict(Attribute rhsPredecessor, Attribute rhsSuccessor) {
+		
+		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isCreationAttribute(rhsSuccessor)) : "Input Assertion Failed!";
+
+		// Attributes have the same type
+		if (rhsPredecessor.getType().equals(rhsSuccessor.getType())){
+			// Predecessor nodes is <<preserve>> ?
+			if (isPreservedNode(rhsPredecessor.getNode()) && isPreservedNode(rhsSuccessor.getNode())) {
+				// is predecessor nodeType assignable to successor nodeType?
+				if (isAssignableTo(rhsPredecessor.getNode().getType(), rhsSuccessor.getNode().getType())){
+					// Attribute case differentiation precondition is not fulfilled?
+					return !attributeCaseDifferentiation(rhsPredecessor, rhsSuccessor);
 				}
 			}
 		}
@@ -2039,10 +2121,10 @@ public abstract class PotentialConflictAnalyzer {
 			}
 		}
 		
-		// Predecessor or successor is variable!
-		else {
-			isSufficiently = true;
-		}
+//		// Predecessor or successor is variable!
+//		else {
+//			isSufficiently = true;
+//		}
 		
 		return isSufficiently;
 	}

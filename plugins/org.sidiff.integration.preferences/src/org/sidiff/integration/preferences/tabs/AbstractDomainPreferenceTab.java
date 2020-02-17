@@ -2,7 +2,7 @@ package org.sidiff.integration.preferences.tabs;
 
 /**
  * Abstract superclass for domain specific preference tabs.
- * @author Robert Müller
+ * @author Robert Mï¿½ller
  *
  */
 public abstract class AbstractDomainPreferenceTab extends AbstractPreferenceTab implements IPreferenceTab.DomainSpecific {
@@ -20,5 +20,9 @@ public abstract class AbstractDomainPreferenceTab extends AbstractPreferenceTab 
 	@Override
 	public void setDocumentType(String documentType) {
 		this.documentType = documentType;
+	}
+	
+	protected String domainKey(String prefKey) {
+		return prefKey + "[" + documentType + "]";
 	}
 }

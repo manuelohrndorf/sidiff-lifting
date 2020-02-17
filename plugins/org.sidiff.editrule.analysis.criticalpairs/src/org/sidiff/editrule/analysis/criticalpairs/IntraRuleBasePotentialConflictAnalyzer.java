@@ -75,6 +75,8 @@ public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 				for (Rule ruleB : rulesB) {
 					// (2) Compare the new rule A with all old rules B
 					findRuleConflicts(getActionGraph(ruleA), editRuleA, getActionGraph(ruleB), editRuleB);
+					// (3) Compare all old rules B with the new rule A
+					findRuleConflicts(getActionGraph(ruleB), editRuleB, getActionGraph(ruleA), editRuleA);
 				}
 			}
 		}

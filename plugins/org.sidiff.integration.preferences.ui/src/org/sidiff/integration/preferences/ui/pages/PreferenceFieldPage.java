@@ -5,18 +5,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 
 /**
  * A preference page that contains {@link IPreferenceField preference fields}.
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser, Robert Mï¿½ller
  *
  */
 public class PreferenceFieldPage extends PropertyAndPreferencePage {
@@ -43,8 +42,7 @@ public class PreferenceFieldPage extends PropertyAndPreferencePage {
 	@Override
 	protected Control doCreateContents(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout(1, true));
-		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(container);
 
 		updatePreferenceFields();
 

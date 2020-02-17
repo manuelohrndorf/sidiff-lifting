@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.fieldeditors;
 
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,7 +9,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.widgets.Shell;
 import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.extension.IExtension;
 import org.sidiff.common.extension.configuration.ConfigurationOption;
@@ -17,6 +21,8 @@ import org.sidiff.common.extension.configuration.IExtensionConfiguration;
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckBoxPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.internal.CheckListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.internal.CompositeField;
+import org.sidiff.integration.preferences.fieldeditors.internal.EditableListField;
+import org.sidiff.integration.preferences.fieldeditors.internal.FilteredAddElementSelectionDialog;
 import org.sidiff.integration.preferences.fieldeditors.internal.NumberPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.internal.OrderedListSelectField;
 import org.sidiff.integration.preferences.fieldeditors.internal.RadioBoxPreferenceField;
@@ -27,8 +33,7 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 /**
  * The {@link PreferenceFieldFactory} contains methods to create various different {@link IPreferenceField}s and
  * {@link ICompositePreferenceField}s.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PreferenceFieldFactory {
 
@@ -151,6 +156,28 @@ public class PreferenceFieldFactory {
 	public static <T> IMultiPreferenceField<T> createOrderedList(String preferenceName, String title,
 			Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
 		return new OrderedListSelectField<T>(preferenceName, title, inputs, valueConverter);
+	}
+
+	public static <T> IMultiPreferenceField<T> createEditableList(String preferenceName, String title,
+			IPreferenceValueConverter<? super T> valueConverter, Function<Shell,? extends T> addedValueSelector,
+			Function<String,? extends T> keyToValueConverter) {
+		return new EditableListField<T>(preferenceName, title, valueConverter, addedValueSelector, keyToValueConverter);
+	}
+	
+	public static <T> IMultiPreferenceField<T> createEditableList(String preferenceName, String title,
+			Class<T> elementType, Collection<T> inputs, IPreferenceValueConverter<? super T> valueConverter) {
+		
+		Map<String, T> keyToValueMap = inputs.stream().collect(Collectors.toMap(valueConverter::getValue, Function.identity()));
+		Function<Shell, ? extends T> addedValueSupplier = shell -> {
+			FilteredAddElementSelectionDialog<T> dialog = 
+					new FilteredAddElementSelectionDialog<>(shell, elementType, inputs, valueConverter);
+			dialog.setBlockOnOpen(true);
+			if(dialog.open() != Dialog.OK) {
+				return null;
+			}
+			return elementType.cast(dialog.getFirstResult());
+		};
+		return new EditableListField<T>(preferenceName, title, valueConverter, addedValueSupplier, keyToValueMap::get);
 	}
 
 	/**

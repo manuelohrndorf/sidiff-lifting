@@ -12,16 +12,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
  * A preference pages with tabs to select nested preferences pages.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class TabbedPreferencePage extends PropertyAndPreferencePage {
 
 	private TabFolder tabFolder;
 	private List<Tab> tabs = new ArrayList<>();
+	private String preferenceQualifier = PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 
 	public TabbedPreferencePage() {
 		super();
@@ -37,11 +38,17 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 
 	@Override
 	protected Control doCreateContents(Composite parent) {
-		tabFolder = new TabFolder(parent, SWT.TOP);
-		for(Tab tab : tabs) {
-			tab.createTabControl(tabFolder);
+		switch(tabs.size()) {
+			case 0: return new Composite(parent, SWT.NONE);
+			case 1: return tabs.get(0).page.createContents(parent);
+			default: {
+				tabFolder = new TabFolder(parent, SWT.TOP);
+				for(Tab tab : tabs) {
+					tab.createTabControl(tabFolder);
+				}
+				return tabFolder;
+			}
 		}
-		return tabFolder;
 	}
 
 	@Override
@@ -93,7 +100,12 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 
 	@Override
 	protected String getHelpContextId() {
-		int index = tabFolder.getSelectionIndex();
+		int index = -1;
+		if(tabFolder != null) {
+			index = tabFolder.getSelectionIndex();
+		} else if(tabs.size() > 0) {
+			index = 0;
+		}
 		if(index == -1) {
 			return null;
 		}
@@ -105,12 +117,22 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 	}
 
 	public void addTab(PropertyAndPreferencePage page, String title, String tooltip) {
+		if(tabFolder != null) {
+			throw new IllegalStateException("Tabs must be added before the controls are created");
+		}
+
 		Tab tab = new Tab(Objects.requireNonNull(page), Objects.requireNonNull(title), tooltip);
 		page.setParentPage(this);
 		tabs.add(tab);
-		if(tabFolder != null && !tabFolder.isDisposed()) {
-			tab.createTabControl(tabFolder);
-		}
+	}
+
+	public void setPreferenceQualifier(String preferenceQualifier) {
+		this.preferenceQualifier = Objects.requireNonNull(preferenceQualifier);
+	}
+
+	@Override
+	public String getPreferenceQualifier() {
+		return preferenceQualifier;
 	}
 
 	public static class Tab {
@@ -131,7 +153,10 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 			item.setToolTipText(tooltip);
 
 			Composite content = new Composite(tabFolder, SWT.NONE);
-			content.setLayout(new FillLayout(SWT.HORIZONTAL));
+			FillLayout fill = new FillLayout(SWT.HORIZONTAL);
+			fill.marginWidth = 5;
+			fill.marginHeight = 5;
+			content.setLayout(fill);
 			page.createContents(content);
 
 			item.setControl(content);
