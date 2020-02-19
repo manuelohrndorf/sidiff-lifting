@@ -100,11 +100,6 @@ public class AuthenticationWidget extends AbstractWidget implements ISettingsCha
 		return this.container;
 	}
 
-	@Override
-	public void setLayoutData(Object layoutData) {
-		this.container.setLayoutData(layoutData);
-	}
-
 	// ---------- IWidgetValidation ----------
 
 	@Override
