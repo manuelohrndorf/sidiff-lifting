@@ -26,7 +26,7 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	}
 	
 	@Override
-	public <R extends IBasicRuleBase> R getRuleBaseView(Class<R> view) {
+	public synchronized <R extends IBasicRuleBase> R getRuleBaseView(Class<R> view) {
 		if (supportsRuleBaseView(view)) {
 			return view.cast(views.computeIfAbsent(view, v -> {
 				IRuleBaseFactory<R> ruleBaseFactory = RuleBaseViewLibrary.getRulebaseViewFactory(view);
@@ -47,7 +47,7 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	}
 
 	@Override
-	public RuleBase getRuleBaseData() {
+	public synchronized RuleBase getRuleBaseData() {
 		if (rulebase == null) {
 			rulebase = RuleBaseStorage.loadRuleBasePlugin(getRuleBasePath(), getRuleBasePluginID());
 		}
@@ -55,7 +55,7 @@ public abstract class AbstractRuleBaseProject implements IRuleBaseProject {
 	}
 
 	@Override
-	public void unloadRuleBaseData() {
+	public synchronized void unloadRuleBaseData() {
 		rulebase = null;
 		views.clear();
 	}
