@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.Status;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.symmetric.mergeimports.MergeImports;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.matcher.IMatcher;
@@ -58,7 +57,9 @@ public class DifferenceSettings extends MatchingSettings {
 	@Override
 	public void initDefaults(Set<String> documentTypes) {
 		super.initDefaults(documentTypes);
-		this.techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
+		if(techBuilder != null) {
+			this.techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
+		}
 	}
 	
 	protected ITechnicalDifferenceBuilder getDefaultTechnicalDifferenceBuilder(Set<String> documentTypes) {
@@ -69,12 +70,6 @@ public class DifferenceSettings extends MatchingSettings {
 		return ITechnicalDifferenceBuilder.MANAGER.getDefaultExtension(documentTypes).orElseThrow(
 				() -> new IllegalStateException("No technical difference builder available for the document types " + documentTypes));
 		
-	}
-	
-	@Override
-	protected ICorrespondences getDefaultCorrespondencesService(Set<String> documentTypes) {
-		return ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
-				() -> new IllegalStateException("MatchingModelCorrespondences correspondences service is not available"));
 	}
 
 	@Override
