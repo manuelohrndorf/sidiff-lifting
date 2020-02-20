@@ -1,8 +1,8 @@
 package org.sidiff.editrule.generator.serge.core;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -13,11 +13,8 @@ import org.sidiff.editrule.generator.serge.settings.SergeSettings;
 
 public class InverseModuleMapSerializer extends LogSerializer{
 
-	
 	public InverseModuleMapSerializer(SergeSettings settings) {
-		
 		super(settings);
-
 	}
 	
 	public void serialize(InverseModuleMapper inverseModuleMapper) {
@@ -42,29 +39,11 @@ public class InverseModuleMapSerializer extends LogSerializer{
 		}
 		
 		// write it into a file
-		
-		String outputFilePath = settings.getOutputFolderPath()
-				+ System.getProperty("file.separator")
-				+ "_InverseModuleMap.log";
-				
-		File file = new File(outputFilePath);
-		FileOutputStream fop = null;
 		try {
-			fop = new FileOutputStream(file);
-			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			// get the content in bytes
-			byte[] contentInBytes = content.getBytes();
-
-			fop.write(contentInBytes);
-			fop.flush();
-			fop.close();
+			Files.write(Paths.get(settings.getOutputFolderPath(), "_InverseModuleMap.log"), content.getBytes());
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	 
-
-
+		}
 	}
 }
