@@ -116,8 +116,7 @@ public class Serge implements IEditRuleGenerator {
 		// (3) ..which elements must occur as focal elements in a rule; i.e., must recieve dedicated rules.
 		ClassifierInclusionConfiguration.getInstance().collectConfiguredAndRequiredFocalClassifiers();
 		
-		// Finish monitor
-		progress.done();
+		progress.worked(10);
 	}
 
 	/**
@@ -132,28 +131,28 @@ public class Serge implements IEditRuleGenerator {
 	public void generateEditRules(IProgressMonitor monitor) throws EditRuleGenerationException {
 
 		// Visit all model elements and trigger rule generation for each
-		monitor.beginTask("Generating CPEOs", 100);
-		monitor.subTask("Visit MetaModel elements");
+		SubMonitor progress = SubMonitor.convert(monitor, "Generating CPEOs", 100);
+		progress.subTask("Visit MetaModel elements");
 		MetaModelElementVisitor eClassVisitor = new MetaModelElementVisitor();
 		ECoreTraversal.traverse(eClassVisitor, ePackagesStack.toArray(new EPackage[ePackagesStack.size()]));
 		
 		// Store all generated modules in this map by OperationType
 		Map<OperationType, Set<Module>> allModules = eClassVisitor.getAllModules();
-		monitor.worked(50);
+		progress.worked(50);
 		
 
 		// Filter out not executable or consistency violating rules
 		if (config.enable_execution_check_filter) {
-			monitor.subTask("Filtering Executions");
+			progress.subTask("Filtering Executions");
 			LogUtil.log(LogEvent.NOTICE, "-- Execution Filter --");
 			ExecutableFilter executionFilter = new ExecutableFilter();
 			executionFilter.applyOn(allModules);
-			monitor.worked(5);
+			progress.worked(5);
 		}
 
 		// Filter out duplicate rules
 		if (config.enable_duplicate_filter) {
-			monitor.subTask("Filtering Duplicates");
+			progress.subTask("Filtering Duplicates");
 			LogUtil.log(LogEvent.NOTICE, "-- Duplicate Filter --");
 			DuplicateFilter duplicateFilter = new DuplicateFilter();
 			duplicateFilter.filterIdenticalByName(allModules);
@@ -161,27 +160,27 @@ public class Serge implements IEditRuleGenerator {
 					allModules.get(OperationType.SET_REFERENCE));
 			duplicateFilter.filterRemoveUnset(allModules.get(OperationType.REMOVE),
 					allModules.get(OperationType.UNSET_REFERENCE));
-			monitor.worked(5);
+			progress.worked(5);
 
 		}
 
 		// Rule Parameter Application
-		monitor.subTask("Applying Rule Parameter");
+		progress.subTask("Applying Rule Parameter");
 		LogUtil.log(LogEvent.NOTICE, "-- Rule Parameter Applicator --");
 		RuleParameterApplicator ruleParameterApplicator = new RuleParameterApplicator();
 		ruleParameterApplicator.applyOn(allModules);
-		monitor.worked(5);
+		progress.worked(5);
 
 		// MainUnit Application
-		monitor.subTask("Applying Main Unit");
+		progress.subTask("Applying Main Unit");
 		LogUtil.log(LogEvent.NOTICE, "-- Main Unit Applicator --");
 		MainUnitApplicator mainUnitApplicator = new MainUnitApplicator();
 		mainUnitApplicator.applyOn(allModules);
-		monitor.worked(5);
+		progress.worked(5);
 
 		// Inverse Module Mapping and Serialization of logs/configs
-		monitor.subTask("Logging Inverse Modules and saving Logs");
 		if (settings.isSaveLogs()) {			
+			progress.subTask("Logging Inverse Modules and saving Logs");
 			LogUtil.log(LogEvent.NOTICE, "-- Inverse Module Log Serializer --");
 			InverseModuleMapper inverseModuleMapper = new InverseModuleMapper();
 			inverseModuleMapper.findAndMapInversePairs(allModules);
@@ -193,14 +192,13 @@ public class Serge implements IEditRuleGenerator {
 			try {
 				configSerializer.serialize();
 			} catch (IOException e) {
-				monitor.done();
 				throw new EditRuleGenerationException("When saving config/log.\n" + e.getMessage());
 			}
+			progress.worked(5);
 		}
-		monitor.worked(5);
 
 		// Name Mapping and Serialization...
-		monitor.subTask("Change module names according to name map");
+		progress.subTask("Change module names according to name map");
 		Set<Module> moduleSet = new HashSet<Module>();
 		for (OperationType opType : allModules.keySet()) {
 			Set<Module> opSet = allModules.get(opType);
@@ -208,16 +206,17 @@ public class Serge implements IEditRuleGenerator {
 				moduleSet.addAll(opSet);
 			}
 		}	
+		progress.worked(5);
 		if (config.enable_name_mapper) {
 			LogUtil.log(LogEvent.NOTICE, "-- Name Mapper --");
 			NameMapper nameMapper = new NameMapper(Configuration.getInstance().metaModel, moduleSet);
 			nameMapper.replaceNames();
+			progress.worked(5);
 		}
-		monitor.worked(5);
 
 		// Generate Annotations
 		if (config.enable_annotations) {
-			monitor.subTask("Generate Annotations");
+			progress.subTask("Generate Annotations");
 			AnnotationApplicator annotationApplicator = new AnnotationApplicator();
 			annotationApplicator.applyOn(allModules);		
 			// Remove internal Annotations
@@ -226,24 +225,22 @@ public class Serge implements IEditRuleGenerator {
 					InternalAnnotationsRemover.removeInternalAnnotations(m);
 				}
 			}
+			progress.worked(5);
 		}
-		monitor.worked(5);
 
 		// Serialize modules
-		monitor.subTask("Saving Edit Rules");
+		progress.subTask("Saving Edit Rules");
 		LogUtil.log(LogEvent.NOTICE, "-- Module Serializer --");
 		ModuleSerializer serializer = new ModuleSerializer(settings);
 		try {
 			serializer.serialize(moduleSet);
 		} catch (OperationTypeNotImplementedException e) {
-			monitor.done();
 			throw new EditRuleGenerationException(
 					"Error when serializing modules." + "There is an unsupported operation type.\n" + e.getMessage());
 		}
 		// finish
-		monitor.worked(10);
+		progress.worked(10);
 		LogUtil.log(LogEvent.NOTICE, "SERGe DONE..");
-		monitor.done();
 	}
 	
 	/**
@@ -293,7 +290,6 @@ public class Serge implements IEditRuleGenerator {
 				parser.setupDefaultConfig(settings.getMetaModelNsUri(), Paths.get(settings.getConfigPath()));
 				progress.worked(20);
 			} catch (Exception e) {
-				progress.done();
 				throw new EditRuleGenerationException(
 						"Error when loading selected meta model " + settings.getMetaModelNsUri() + ": " + e.getMessage(), e);
 			}
@@ -308,7 +304,6 @@ public class Serge implements IEditRuleGenerator {
 			} catch (SERGeConfigParserException | EPackageNotFoundException | NoEncapsulatedTypeInformationException
 					| EAttributeNotFoundException | EClassifierUnresolvableException | ParserConfigurationException
 					| IOException e) {
-				progress.done();
 				throw new EditRuleGenerationException("Error when parsing config file."
 						+ "Check for typos, validity and wellformedness.\n" + e.getMessage(), e);
 			}
@@ -317,7 +312,6 @@ public class Serge implements IEditRuleGenerator {
 		// set the EPackage Stack
 		this.ePackagesStack = config.EPACKAGESSTACK;		
 		if ((ePackagesStack == null) || (ePackagesStack.isEmpty())) {
-			progress.done();
 			throw new EditRuleGenerationException("EPackage could not be resolved.\n");
 		}
 	}
