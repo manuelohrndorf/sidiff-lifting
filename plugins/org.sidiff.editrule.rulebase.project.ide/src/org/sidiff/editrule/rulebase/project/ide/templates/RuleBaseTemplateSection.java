@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -12,6 +13,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginBase;
 import org.eclipse.pde.core.plugin.IPluginElement;
@@ -87,10 +89,16 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 	public String[] getNewFiles() {
 		// build.properties:
 		Set<String> newFiles = new HashSet<>();
-		newFiles.add(IRuleBaseProject.EDIT_RULE_FOLDER + "/");
 		newFiles.add(IRuleBaseProject.RULEBASE_FILE);
-		newFiles.addAll(IEditRuleAttachmentBuilder.MANAGER.getAttachmentNewFolders());
+		newFiles.addAll(getNewFolders());
 		return newFiles.toArray(new String[0]);
+	}
+
+	private static Set<String> getNewFolders() {
+		Set<String> folders = new HashSet<>();
+		folders.add(IRuleBaseProject.EDIT_RULE_FOLDER + "/");
+		folders.addAll(IEditRuleAttachmentBuilder.MANAGER.getAttachmentNewFolders());
+		return folders;
 	}
 
 	@Override
@@ -143,7 +151,10 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	public void execute(IProject project, IPluginModelBase model, IProgressMonitor monitor) throws CoreException {
-		super.execute(project, model, monitor);
+		SubMonitor progress = SubMonitor.convert(monitor, 10);
+		super.execute(project, model, progress.split(1));
+
+		createOutputFolders(project, progress.split(1));
 
 		// Use new plug-in project id + edit rule folder as output path 
 		settings.setOutputFolderPath(project.getName() + "/" + IRuleBaseProject.EDIT_RULE_FOLDER);
@@ -154,10 +165,23 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 			// Init Generator with settings. Whether default or refined config
 			// should be used is simply found out in init()-implementation (when pathToConfig is null).			
 			try {
-				settings.getGenerator().init(settings, monitor);
-				settings.getGenerator().generateEditRules(monitor);
+				settings.getGenerator().init(settings, progress.split(2));
+				settings.getGenerator().generateEditRules(progress.split(6));
 			} catch (WrongSettingsInstanceException | EditRuleGenerationException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.getPluginId(), "Generating editrules failed", e));
+			}
+		} else {
+			// Folders are only created when
+		}
+	}
+
+	private static void createOutputFolders(IProject project, IProgressMonitor monitor) throws CoreException {
+		Set<String> newFolders = getNewFolders();
+		SubMonitor progress = SubMonitor.convert(monitor, newFolders.size());
+		for(String folderName : newFolders) {
+			IFolder folder = project.getFolder(folderName);
+			if(!folder.exists()) {
+				folder.create(true, true, progress.split(1));
 			}
 		}
 	}
