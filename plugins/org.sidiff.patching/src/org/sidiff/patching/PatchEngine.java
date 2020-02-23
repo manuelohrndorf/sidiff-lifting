@@ -11,9 +11,7 @@ import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.correspondences.ICorrespondences;
@@ -93,23 +91,6 @@ public class PatchEngine {
 		this.argumentManager = settings.getArgumentManager();
 		this.transformationEngine = settings.getTransformationEngine();		
 		this.executionMode = settings.getExecutionMode();
-		
-		// Load the difference and the origin and changed models
-		// into the same resource set as the patched resource.
-		// In some cases, not all required resources can be loaded
-		// automatically when the patched resource is managed by
-		// the editing domain resource set of its editor, and when
-		// the asymmetric difference is loaded from a patch file.
-		ResourceSet resourceSet = patchedResource.getResourceSet();
-		if(resourceSet == null) {
-			resourceSet = SiDiffResourceSet.create();
-			resourceSet.getResources().add(patchedResource);
-		}
-		if(difference.eResource() != null) {
-			resourceSet.getResources().add(difference.eResource());
-		}
-		resourceSet.getResources().add(difference.getOriginModel());
-		resourceSet.getResources().add(difference.getChangedModel());
 
 		// Init managers
 		this.validationManager = new ValidationManager(settings.getValidationMode(), patchedResource);

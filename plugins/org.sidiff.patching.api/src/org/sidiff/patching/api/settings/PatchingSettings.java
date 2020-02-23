@@ -107,6 +107,20 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	}
 
 	@Override
+	public void initDefaults(Set<String> documentTypes) {
+		super.initDefaults(documentTypes);
+		if(transformationEngine == null) {
+			transformationEngine = getDefaultTransformationEngine(documentTypes);
+		}
+	}
+
+	protected ITransformationEngine getDefaultTransformationEngine(Set<String> documentTypes) {
+		return ITransformationEngine.MANAGER.getDefaultExtension(documentTypes)
+			.orElseThrow(() -> new IllegalStateException(
+				"No Transformation Engine was found for the target document types: " + documentTypes));
+	}
+
+	@Override
 	public String toString() {
 		return new StringBuilder(super.toString()).append("\n")
 			.append("PatchingSettings[")

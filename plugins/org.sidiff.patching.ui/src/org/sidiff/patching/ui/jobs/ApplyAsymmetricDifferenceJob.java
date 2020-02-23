@@ -2,7 +2,12 @@ package org.sidiff.patching.ui.jobs;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -10,11 +15,15 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
+import org.sidiff.common.emf.copiers.XmiIdCopier;
 import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.exceptions.SiDiffRuntimeException;
 import org.sidiff.common.logging.StatusWrapper;
@@ -22,8 +31,6 @@ import org.sidiff.common.ui.util.Exceptions;
 import org.sidiff.common.ui.util.MessageDialogUtil;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
-import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.profiles.handler.IDifferenceProfileHandler;
 import org.sidiff.integration.editor.IEditorIntegration;
@@ -33,7 +40,6 @@ import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.report.IPatchReportListener;
-import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.ui.animation.GMFAnimation;
 import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.perspective.SiLiftPerspective;
@@ -80,13 +86,17 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 
 	protected void copyTargetResources() {
 		SiDiffResourceSet resourceSet = SiDiffResourceSet.create();
-		targetResource = resourceSet.getResource(targetURI, true);
-		domainEditor = IEditorIntegration.MANAGER.getIntegrationEditorForModel(targetResource);
-		boolean domainEditorSupportsDiagramming = domainEditor.supportsDiagramming(targetResource);
+		Resource originalResource = resourceSet.getResource(targetURI, true);
 		URI outputURI = targetURI.trimSegments(1).appendSegment(
 				settings.getPatchMode() == PatchMode.PATCHING ? "patched" : "merged");
 		modelFileURI = outputURI.appendSegment(targetURI.lastSegment());
-		resourceSet.saveResourceAs(targetResource, modelFileURI);
+		targetResource = resourceSet.createResource(modelFileURI);
+		Copier copier = new XmiIdCopier();
+		targetResource.getContents().addAll(copier.copyAll(originalResource.getContents()));
+		copier.copyReferences();
+		domainEditor = IEditorIntegration.MANAGER.getIntegrationEditorForModel(targetResource);
+		boolean domainEditorSupportsDiagramming = domainEditor.supportsDiagramming(targetResource);
+		resourceSet.saveResource(targetResource);
 		if (domainEditorSupportsDiagramming) {
 			try {
 				diagramFileUri = domainEditor.copyDiagram(targetURI, outputURI);
@@ -143,14 +153,6 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 
 		Set<String> documentTypes = getDocumentTypes(targetResource);
 
-		// Find transformation engine
-		if(settings.getTransformationEngine() == null) {
-			settings.setTransformationEngine(
-				ITransformationEngine.MANAGER.getDefaultExtension(documentTypes)
-					.orElseThrow(() -> new SiDiffRuntimeException(
-							"No Transformation Engine was found for the target document type.", "No Transformation Engine found")));
-		}
-
 		// Get and init modified detector
 		if(settings.getPatchMode() == PatchMode.MERGING) {
 			if(settings.getModifiedDetector() == null) {
@@ -162,7 +164,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 			}
 		}
 
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
+		settings.initDefaults(documentTypes);
 	}
 
 	protected void initPatchEngine() {
@@ -179,7 +181,21 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 					}
 				});
 		}
+
 		patchEngine.setPatchedEditingDomain(editingDomain);
+		if(editingDomain instanceof AdapterFactoryEditingDomain) {
+			// Set read only attribute in the editing domain,
+			// else it will change the original models when saving.
+			ResourceSet resourceSet = editingDomain.getResourceSet();
+			Map<Resource,Boolean> readOnlyMap =
+				Stream.of(asymmetricDifference.eResource(),
+						asymmetricDifference.getOriginModel(),
+						asymmetricDifference.getChangedModel())
+					.map(r -> resourceSet.getResource(r.getURI(), false)) // get actual resource of the editing domain
+					.filter(Objects::nonNull)
+					.collect(Collectors.toMap(Function.identity(), r -> Boolean.TRUE));
+			((AdapterFactoryEditingDomain)editingDomain).setResourceToReadOnlyMap(readOnlyMap);
+		}
 	}
 
 	protected void openPerspectiveAndViews() {
