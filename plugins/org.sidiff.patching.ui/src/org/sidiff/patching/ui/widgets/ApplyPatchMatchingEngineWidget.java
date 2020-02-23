@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.eclipse.jface.dialogs.ControlEnableState;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
@@ -34,6 +35,7 @@ public class ApplyPatchMatchingEngineWidget extends MatchingEngineWidget impleme
 	protected Composite createContents(Composite container) {
 		Composite contents = new Composite(container, SWT.NONE);
 		contents.setLayout(new GridLayout(1, false));
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(contents);
 
 		use_manifest = new Button(contents, SWT.CHECK);
 		use_manifest.setText("Use manifest");
