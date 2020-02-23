@@ -11,7 +11,6 @@ import org.sidiff.common.extension.configuration.ConfigurationOption;
 import org.sidiff.common.extension.configuration.IConfigurableExtension;
 import org.sidiff.common.extension.configuration.IExtensionConfiguration;
 import org.sidiff.common.util.StringListSerializer;
-import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.matching.internal.MatchingPreferencesPlugin;
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 import org.sidiff.matcher.IMatcher;
@@ -36,13 +35,11 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		return "matcherOptions[" + matcher + "][" + option + "]";
 	}
 	public static final String KEY_CANDIDATES_SERVICE = "candidatesService";
-	public static final String KEY_CORRESPONDENCES_SERVICE = "correspondencesService";
 	public static final String KEY_SIMILARITIES_SERVICE = "similaritiesService";
 	public static final String KEY_SIMILARITIES_CALCULATION_SERVICE = "similaritiesCalculationService";
 
 	private List<IMatcher> matchers;
 	private ICandidates candidatesService;
-	private ICorrespondences correspondencesService;
 	private ISimilarities similaritiesService;
 	private ISimilaritiesCalculation similaritiesCalculationService;
 
@@ -64,9 +61,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(candidatesService != null && isConsidered(MatchingSettingsItem.CANDITATE_SERVICE)) {
 			matchingSettings.setCandidatesService(candidatesService);
 		}
-		if(correspondencesService != null && isConsidered(MatchingSettingsItem.CORRESPONDENCE_SERVICE)) {
-			matchingSettings.setCorrespondencesService(correspondencesService);
-		}
 		if(similaritiesService != null && isConsidered(MatchingSettingsItem.SIMILARTIY_SERVICE)) {
 			matchingSettings.setSimilaritiesService(similaritiesService);
 		}
@@ -79,7 +73,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void load(IPreferenceStore store) {
 		loadMatchers(store);
 		loadCandidatesService(store);
-		loadCorrespondencesService(store);
 		loadSimilaritiesService(store);
 		loadSimilaritiesCalculationService(store);
 	}
@@ -119,14 +112,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		}
 	}
 
-	protected void loadCorrespondencesService(IPreferenceStore store) {
-		String correspondencesServiceId = store.getString(KEY_CORRESPONDENCES_SERVICE);
-		correspondencesService = ICorrespondences.MANAGER.getExtension(correspondencesServiceId).orElse(null);
-		if(correspondencesService == null) {
-			addError("Correspondences Service with id '" + correspondencesServiceId + "' was not found.");
-		}
-	}
-
 	protected void loadSimilaritiesService(IPreferenceStore store) {
 		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
 		similaritiesService = ISimilarities.MANAGER.getExtension(similaritiesServiceId).orElse(null);
@@ -155,7 +140,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_MATCHERS, "org.sidiff.matcher.signature.name.NamedElementMatcher");
 		store.setDefault(KEY_CANDIDATES_SERVICE, "InterModelTypeCandidates");
-		store.setDefault(KEY_CORRESPONDENCES_SERVICE, "MatchingModelCorrespondences");
 		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilarities");
 		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "DefaultSimilaritiesCalculationService");
 	}

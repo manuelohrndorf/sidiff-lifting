@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.sidiff.candidates.ICandidates;
-import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.integration.preferences.fieldeditors.ICompositePreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.PreferenceFieldFactory;
@@ -18,13 +17,13 @@ import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 /**
  * 
  * Class for the matching settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
 	private IPreferenceField matchersField;
 	private IPreferenceField candidatesServiceField;
-	private IPreferenceField correspondencesServiceField;
 	private IPreferenceField similaritiesServiceField;
 	private IPreferenceField similaritiesCalculationServiceField;
 
@@ -47,19 +46,14 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 				ICandidates.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
 		list.add(candidatesServiceField);
 
-		correspondencesServiceField = PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_CORRESPONDENCES_SERVICE, "Correspondences Service",
-				ICorrespondences.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
-		list.add(correspondencesServiceField);
-
 		similaritiesServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
-				ISimilarities.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
+				ISimilarities.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance(), true);
 		list.add(similaritiesServiceField);
 
 		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(
 				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
-				ISimilaritiesCalculation.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
+				ISimilaritiesCalculation.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance(), true);
 		list.add(similaritiesCalculationServiceField);
 	}
 }
