@@ -11,18 +11,14 @@ import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
 
 public class CreatePatchPage02 extends AbstractWizardPage {
 
-	private CreatePatchPage01 createPatchPage01;
-
-	private String defaultMessage;
-
 	private MatchingEngineWidget matcherWidget;
 	private SymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
 	private DifferenceBuilderWidget builderWidget;
 
-	private InputModels inputModels;
-	private PatchingSettings settings;
-
-	private String mode;
+	private final InputModels inputModels;
+	private final PatchingSettings settings;
+	private final Mode mode;
+	private final CreatePatchPage01 createPatchPage01;
 
 	public CreatePatchPage02(InputModels inputModels, String pageName, String title, ImageDescriptor titleImage,
 			PatchingSettings settings, Mode mode, CreatePatchPage01 createPatchPage01) {
@@ -30,22 +26,19 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 
 		this.inputModels = inputModels;
 		this.settings = settings;
+		this.mode = mode;
 		this.createPatchPage01 = createPatchPage01;
-
-		if(mode == Mode.PATCH) {
-			this.mode = "Patch";
-		} else {
-			this.mode = "Asymmetric Difference";
-		}
-
-		this.defaultMessage =  "Create a " + this.mode + " from the changes between the models: origin -> changed";
 	}
 
 	@Override
 	protected void createWidgets() {
-
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels, settings);
+		if(mode == Mode.PATCH) {
+			// There can only be one matcher for patch files because
+			// serializing an incremental matcher does not work.
+			matcherWidget.setLowerUpperBounds(1, 1);
+		}
 		matcherWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 		addWidget(container, matcherWidget);
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
@@ -63,6 +56,6 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 
 	@Override
 	protected String getDefaultMessage() {
-		return defaultMessage;
+		return "Create a " + mode + " from the changes between the models: origin -> changed";
 	}
 }

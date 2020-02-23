@@ -18,17 +18,16 @@ import org.sidiff.patching.patch.ui.widgets.EditRuleMatchWidget;
 
 public class CreatePatchPage01 extends AbstractWizardPage {
 
-	private final String mode;
-
 	private SettingsSourceWidget settingsSourceWidget;
-	private org.sidiff.common.emf.input.ui.InputModelsWidget sourceWidget;
+	private InputModelsWidget sourceWidget;
 	private ValidateModelsWidget validateWidget;
 	private ScopeWidget scopeWidget;
 	private EditRuleMatchWidget erMatchWidget;
 	private RulebaseWidget rulebaseWidget;
 
-	private InputModels inputModels;
-	private LiftingSettings settings;
+	private final Mode mode;
+	private final InputModels inputModels;
+	private final LiftingSettings settings;
 
 	public CreatePatchPage01(InputModels inputModels,
 			String pageName, String title, ImageDescriptor titleImage, LiftingSettings settings, Mode mode) {
@@ -36,12 +35,7 @@ public class CreatePatchPage01 extends AbstractWizardPage {
 
 		this.inputModels = inputModels;
 		this.settings = settings;
-
-		if(mode == Mode.PATCH) {
-			this.mode = "Patch";
-		} else {
-			this.mode = "Asymmetric Difference";
-		}
+		this.mode = mode;
 	}
 
 	@Override

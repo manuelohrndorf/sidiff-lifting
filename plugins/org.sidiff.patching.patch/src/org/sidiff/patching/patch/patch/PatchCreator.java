@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -25,6 +26,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.integration.editor.IEditorIntegration;
 import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.IncrementalMatcher;
 import org.silift.difference.symboliclink.SymbolicLinks;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 import org.silift.difference.symboliclink.handler.util.SymbolicLinkHandlerUtil;
@@ -58,6 +60,7 @@ public class PatchCreator {
 		this.patch = PatchFactory.eINSTANCE.createPatch();
 		
 		this.useSymbolicLinks = useSymbolicLinks;
+		Assert.isLegal(!(matcher instanceof IncrementalMatcher), "Incremental matcher not supported by patch file format");
 		this.matcher = matcher;
 		this.symbolicLinkHandler = symbolicLinkHandler;
 		
