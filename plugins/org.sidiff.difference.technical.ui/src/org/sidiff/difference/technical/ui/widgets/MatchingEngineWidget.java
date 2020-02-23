@@ -25,13 +25,12 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 	public MatchingEngineWidget(InputModels inputModels, MatchingSettings settings) {
 		super(IMatcher.class);
 		setTitle("Matcher");
+		setEqualityDelegate(IMatcher.MANAGER.getEquality());
 		setLabelProvider(new ExtensionLabelProvider());
 		this.matchers = IMatcher.MANAGER.getMatchers(inputModels.getResources());
 		this.settings = Objects.requireNonNull(settings, "Settings must not be null");
 		this.settings.addSettingsChangedListener(this);
-		addModificationListener((oldMatchers,newMatchers) -> {
-			settings.setMatcher(wrapMatchers(getSelection()));
-		});
+		addModificationListener((oldMatchers,newMatchers) -> settings.setMatcher(wrapMatchers(getSelection())));
 	}
 
 	protected static IMatcher wrapMatchers(List<IMatcher> selection) {
