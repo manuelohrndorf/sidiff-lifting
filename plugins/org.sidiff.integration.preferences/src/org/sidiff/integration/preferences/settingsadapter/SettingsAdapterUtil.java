@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.settingsadapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,6 +14,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.settings.ISettings;
 import org.sidiff.integration.preferences.PreferencesPlugin;
@@ -170,6 +172,14 @@ public class SettingsAdapterUtil {
 				adapter.setConsideredSettings(consideredSettings);
 				ISettingsAdapter.Saveable saveableAdapter = (ISettingsAdapter.Saveable)adapter;
 				saveableAdapter.save(store, settings);
+			}
+		}
+		if(store.needsSaving() && store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				diagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
+						"Failed to persist preference store", new Object[] { e }));
 			}
 		}
 		diagnostic.recomputeSeverity();
