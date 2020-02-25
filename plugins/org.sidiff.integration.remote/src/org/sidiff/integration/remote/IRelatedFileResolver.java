@@ -9,8 +9,7 @@ import org.eclipse.emf.common.util.URI;
 /**
  * A <code>IRelatedFileResolver</code> resolves files related to a
  * given input, e.g. diagram files for a model file.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IRelatedFileResolver extends ILoader {
 

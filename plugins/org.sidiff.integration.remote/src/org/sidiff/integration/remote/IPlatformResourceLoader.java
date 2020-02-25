@@ -8,8 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 
 /**
  * A <code>IPlatformResourceLoader</code> loads a platform {@link IResource}.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IPlatformResourceLoader extends ILoader {
 

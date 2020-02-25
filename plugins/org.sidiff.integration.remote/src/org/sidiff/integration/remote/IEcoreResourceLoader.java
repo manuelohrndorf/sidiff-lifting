@@ -9,8 +9,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * A <code>IEcoreResourceLoader</code> loads an Ecore {@link Resource}.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IEcoreResourceLoader extends ILoader {
 

@@ -11,9 +11,7 @@ import org.sidiff.integration.remote.CompareResourceUtil;
 import org.sidiff.integration.remote.IEcoreResourceLoader;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class DefaultEcoreResourceLoader implements IEcoreResourceLoader {
 

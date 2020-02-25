@@ -5,8 +5,7 @@ import org.eclipse.compare.ITypedElement;
 /**
  * The <code>ILoader</code> interface is ancestor for all extension
  * classes to the compare resource loader extension and provides common functions.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface ILoader {
 

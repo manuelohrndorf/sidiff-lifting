@@ -23,8 +23,7 @@ import org.sidiff.common.logging.LogUtil;
  * {@link CompareResource} by delegating the loading/resolution to
  * extensions for the remote loader extension point.</p>
  * <p><b>This class is for internal use only.</b></p>
- * @author Robert Müller
- *
+ * @author rmueller
  */
 final class CompareResourceLoader {
 

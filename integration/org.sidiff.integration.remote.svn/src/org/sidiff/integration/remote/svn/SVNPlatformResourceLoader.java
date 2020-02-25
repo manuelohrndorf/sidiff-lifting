@@ -11,9 +11,7 @@ import org.eclipse.team.svn.ui.compare.ResourceCompareInput.ResourceElement;
 import org.sidiff.integration.remote.IPlatformResourceLoader;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class SVNPlatformResourceLoader implements IPlatformResourceLoader {
 

@@ -20,8 +20,8 @@ import org.sidiff.common.emf.EMFUtil;
  * The <code>CompareResource</code> class encapsulates a object
  * of type {@link ITypedElement} which is one of the sides of a {@link ICompareInput}.
  * A <code>CompareResource</code> can be loaded using the {@link #load(ITypedElement)} method.
- * @author Robert Müller, cpietsch
- *
+ * @author rmueller
+ * @author cpietsch
  */
 public class CompareResource {
 

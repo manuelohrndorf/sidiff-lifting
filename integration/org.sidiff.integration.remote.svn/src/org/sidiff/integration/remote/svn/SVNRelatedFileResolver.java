@@ -29,7 +29,7 @@ import org.sidiff.integration.remote.IRelatedFileResolver;
  * <b>This resolver only resolves files from exactly the same
  * revision as the given input, if the related file is only part
  * of another revision, it won't work!</b>
- * @author Robert Müller
+ * @author rmueller
  */
 public class SVNRelatedFileResolver implements IRelatedFileResolver {
 

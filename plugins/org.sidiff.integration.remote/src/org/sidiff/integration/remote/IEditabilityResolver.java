@@ -4,8 +4,7 @@ import org.eclipse.compare.ITypedElement;
 
 /**
  * A <code>IEditabilityResolver</code> resolves whether an input is editable.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IEditabilityResolver extends ILoader {
 

@@ -9,9 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.sidiff.integration.remote.IPlatformResourceLoader;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class DefaultPlatformResourceLoader implements IPlatformResourceLoader {
 

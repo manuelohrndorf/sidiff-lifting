@@ -5,9 +5,7 @@ import org.eclipse.compare.ITypedElement;
 import org.sidiff.integration.remote.IEditabilityResolver;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class DefaultEditabilityResolver implements IEditabilityResolver {
 

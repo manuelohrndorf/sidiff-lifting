@@ -7,9 +7,7 @@ import org.eclipse.team.internal.ui.history.FileRevisionTypedElement;
 import org.eclipse.team.svn.core.synchronize.variant.ResourceVariant;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 @SuppressWarnings("restriction") // FileRevisionTypedElement is not API
 class SVNRemoteResourceUtil {

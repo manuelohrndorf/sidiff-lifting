@@ -5,8 +5,7 @@ import org.eclipse.emf.common.util.URI;
 
 /**
  * A <code>IURIResolver</code> resolves the {@link URI} of an input.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IURIResolver extends ILoader {
 
