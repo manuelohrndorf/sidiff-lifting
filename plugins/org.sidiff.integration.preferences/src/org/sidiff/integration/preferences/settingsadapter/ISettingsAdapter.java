@@ -5,6 +5,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettingsItem;
 
 /**	
  * A settings adapter loads preferences from a {@link IPreferenceStore preference store}
@@ -61,7 +62,7 @@ public interface ISettingsAdapter {
 	 * If this set is empty, all settings will be considered.
 	 * @param consideredSettings set of settings items
 	 */
-	void setConsideredSettings(Set<Enum<?>> consideredSettings);
+	void setConsideredSettings(Set<ISettingsItem> consideredSettings);
 
 
 	/**

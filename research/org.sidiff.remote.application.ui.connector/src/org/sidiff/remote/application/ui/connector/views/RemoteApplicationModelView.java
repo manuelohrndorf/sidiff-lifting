@@ -463,7 +463,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 				PatchingSettings patchingSettings = new PatchingSettings();
 				SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings,
 						EMFModelAccess.getDocumentTypes(localModelResource, Scope.RESOURCE),
-						Collections.<Enum<?>>emptySet());
+						Collections.emptySet());
 				patchingSettings.setArgumentManager(new ModelSliceBasedArgumentManager());
 				patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 				patchingSettingsReference.set(patchingSettings);

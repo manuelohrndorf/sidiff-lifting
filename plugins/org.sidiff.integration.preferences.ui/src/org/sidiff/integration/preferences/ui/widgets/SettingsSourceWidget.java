@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.util.UIUtil;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
@@ -61,7 +62,7 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	private ISettings settings;
 	private IProject project;
 	private Set<String> documentTypes;
-	private Set<Enum<?>> consideredSettings;
+	private Set<ISettingsItem> consideredSettings;
 	private String preferenceQualifier = PreferenceStoreUtil.PREFERENCE_QUALIFIER;
 
 	// outputs
@@ -200,10 +201,10 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	 * settings that will be adapted. All items will be considered, if no item is added to this widget.
 	 * @param consideredSettings settings that should be adapted, not empty, not <code>null</code>
 	 */
-	public void addConsideredSettings(Enum<?> ...consideredSettings) {
+	public void addConsideredSettings(ISettingsItem ...consideredSettings) {
 		Assert.isNotNull(consideredSettings);
 		Assert.isLegal(consideredSettings.length > 0, "consideredSettings must not be empty");
-		for(Enum<?> item : consideredSettings) {
+		for(ISettingsItem item : consideredSettings) {
 			this.consideredSettings.add(item);
 		}
 	}
@@ -214,10 +215,10 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 	 * Removing items not added to this widget does nothing.
 	 * @param consideredSettings settings that should be adapted, not empty, not <code>null</code>
 	 */
-	public void removeConsideredSettings(Enum<?> ...consideredSettings) {
+	public void removeConsideredSettings(ISettingsItem ...consideredSettings) {
 		Assert.isNotNull(consideredSettings);
 		Assert.isLegal(consideredSettings.length > 0, "consideredSettings must not be empty");
-		for(Enum<?> item : consideredSettings) {
+		for(ISettingsItem item : consideredSettings) {
 			this.consideredSettings.remove(item);
 		}
 	}

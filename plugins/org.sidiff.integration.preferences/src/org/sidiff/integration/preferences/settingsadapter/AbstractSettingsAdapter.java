@@ -1,10 +1,12 @@
 package org.sidiff.integration.preferences.settingsadapter;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.sidiff.common.emf.settings.ISettingsItem;
 
 /**
  * Abstract implementation for {@link ISettingsAdapter}s.
@@ -13,7 +15,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 
 	private Set<String> documentTypes;
-	private Set<Enum<?>> consideredSettings;
+	private Set<ISettingsItem> consideredSettings;
 	private DiagnosticChain diagnosticChain;
 	private BasicDiagnostic diagnosticGroup;
 
@@ -27,11 +29,11 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	 * @return the document types that this settings adapter should use
 	 */
 	public Set<String> getDocumentTypes() {
-		return documentTypes;
+		return Collections.unmodifiableSet(documentTypes);
 	}
 
 	@Override
-	public void setConsideredSettings(Set<Enum<?>> consideredSettings) {
+	public void setConsideredSettings(Set<ISettingsItem> consideredSettings) {
 		this.consideredSettings = consideredSettings;
 	}
 
@@ -39,8 +41,8 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	 * Returns the settings items that are considered by this settings adapter.
 	 * @return settings items that this adapter should adapt
 	 */
-	public Set<Enum<?>> getConsideredSettings() {
-		return consideredSettings;
+	public Set<ISettingsItem> getConsideredSettings() {
+		return Collections.unmodifiableSet(consideredSettings);
 	}
 
 	/**
@@ -48,7 +50,7 @@ public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 	 * @param item the settings item
 	 * @return <code>true</code> if the item should be adapted, <code>false</code> otherwise
 	 */
-	public boolean isConsidered(Enum<?> item) {
+	public boolean isConsidered(ISettingsItem item) {
 		return consideredSettings.isEmpty() || consideredSettings.contains(item);
 	}
 

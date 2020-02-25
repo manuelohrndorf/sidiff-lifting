@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.sidiff.common.emf.settings.ISettings;
+import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.util.PipelineStepUtil;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
@@ -64,7 +65,7 @@ public class SettingsAdapterUtil {
 	}
 
 	public static Diagnostic adaptSettingsGlobal(ISettings settings,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings, String preferenceQualifier) {
 		return adaptSettings(settings, PreferenceStoreUtil.getPreferenceStore(preferenceQualifier),
 				documentTypes, consideredSettings);
 	}
@@ -79,12 +80,12 @@ public class SettingsAdapterUtil {
 	 * @return diagnostic containing information about the outcome of the adaptation
 	 */
 	public static Diagnostic adaptSettingsGlobal(ISettings settings,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings) {
 		return adaptSettingsGlobal(settings, documentTypes, consideredSettings, PreferenceStoreUtil.PREFERENCE_QUALIFIER);
 	}
 	
 	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings, String preferenceQualifier) {
 		try {
 			if(!PreferenceStoreUtil.useSpecificSettings(project, preferenceQualifier)) {
 				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
@@ -109,12 +110,12 @@ public class SettingsAdapterUtil {
 	 * @return diagnostic containing information about the outcome of the adaptation 
 	 */
 	public static Diagnostic adaptSettingsProject(ISettings settings, IProject project,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings) {
 		return adaptSettingsProject(settings, project, documentTypes, consideredSettings, PreferenceStoreUtil.PREFERENCE_QUALIFIER);
 	}
 
 	protected static Diagnostic adaptSettings(ISettings settings, IPreferenceStore store,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings) {
 		Assert.isNotNull(settings);
 		Assert.isNotNull(store);
 		Assert.isNotNull(documentTypes);
@@ -143,12 +144,12 @@ public class SettingsAdapterUtil {
 	
 
 	public static Diagnostic saveSettingsGlobal(ISettings settings, Set<String> documentTypes,
-			Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+			Set<ISettingsItem> consideredSettings, String preferenceQualifier) {
 		return saveSettings(settings, PreferenceStoreUtil.getPreferenceStore(preferenceQualifier), documentTypes, consideredSettings);
 	}
 
 	public static Diagnostic saveSettingsProject(ISettings settings, IProject project, boolean enableProjectSpecific,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings, String preferenceQualifier) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings, String preferenceQualifier) {
 		if(enableProjectSpecific) {
 			try {
 				PreferenceStoreUtil.setUseSpecificSettings(project, preferenceQualifier, true);
@@ -161,7 +162,7 @@ public class SettingsAdapterUtil {
 	}
 	
 	protected static Diagnostic saveSettings(ISettings settings, IPreferenceStore store,
-			Set<String> documentTypes, Set<Enum<?>> consideredSettings) {
+			Set<String> documentTypes, Set<ISettingsItem> consideredSettings) {
 		
 		BasicDiagnostic diagnostic = new BasicDiagnostic(PreferencesPlugin.PLUGIN_ID, 0,
 				"Settings were validated. See detailed messages below.", null);

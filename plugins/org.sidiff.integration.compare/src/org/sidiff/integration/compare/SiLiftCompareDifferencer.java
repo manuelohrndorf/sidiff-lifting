@@ -188,10 +188,9 @@ public class SiLiftCompareDifferencer {
 		if (platformResource != null && PreferenceStoreUtil.useSpecificSettings(
 				platformResource.getProject(), PreferenceStoreUtil.PREFERENCE_QUALIFIER)) {
 			SettingsAdapterUtil.adaptSettingsProject(patchingSettings, platformResource.getProject(),
-					documentTypes, Collections.<Enum<?>>emptySet());
+					documentTypes, Collections.emptySet());
 		} else {
-			SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings, documentTypes, 
-					Collections.<Enum<?>>emptySet());
+			SettingsAdapterUtil.adaptSettingsGlobal(patchingSettings, documentTypes, Collections.emptySet());
 		}
 		patchingSettings.setExecutionMode(ExecutionMode.INTERACTIVE);
 		patchingSettings.setPatchMode(ancestor.getResource() == null ? PatchMode.PATCHING : PatchMode.MERGING);
