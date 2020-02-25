@@ -2,38 +2,38 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="org.sidiff.integration.structureview.silift"
+         id="org.sidiff.integration.compare.structureview.silift"
          point="org.eclipse.compare.structureMergeViewers">
       <viewer
-      		extensions="symmetric, asymmetric"
-            class="org.sidiff.integration.structureview.SiLiftStructureMergeViewerCreator"
-            id="org.sidiff.integration.structureview.silift"
+      		extensions="*"
+            class="org.sidiff.integration.compare.structureview.SiLiftStructureMergeViewerCreator"
+            id="org.sidiff.integration.compare.structureview.silift"
             label="SiLift Model Differences Viewer">
       </viewer>
       <contentTypeBinding
             contentTypeId="org.eclipse.emf.ecore"
-            structureMergeViewerId="org.sidiff.integration.structureview.silift">
+            structureMergeViewerId="org.sidiff.integration.compare.structureview.silift">
       </contentTypeBinding>
       <contentTypeBinding
             contentTypeId="org.eclipse.uml2.uml"
-            structureMergeViewerId="org.sidiff.integration.structureview.silift">
+            structureMergeViewerId="org.sidiff.integration.compare.structureview.silift">
       </contentTypeBinding>
    </extension>
    <extension
-         id="org.sidiff.integration.contentview.silift"
+         id="org.sidiff.integration.compare.contentview.silift"
          point="org.eclipse.compare.contentMergeViewers">
       <viewer
-            class="org.sidiff.integration.contentview.SiLiftContentMergeViewerCreator"
-            extensions="ecore"
-            id="org.sidiff.integration.contentview.silift"
+            class="org.sidiff.integration.compare.contentview.SiLiftContentMergeViewerCreator"
+            extensions="*"
+            id="org.sidiff.integration.compare.contentview.silift"
             label="SiLift Model Compare Viewer">
       </viewer>
       <contentTypeBinding
-            contentMergeViewerId="org.sidiff.integration.contentview.silift"
+            contentMergeViewerId="org.sidiff.integration.compare.contentview.silift"
             contentTypeId="org.eclipse.emf.ecore">
       </contentTypeBinding>
       <contentTypeBinding
-            contentMergeViewerId="org.sidiff.integration.contentview.silift"
+            contentMergeViewerId="org.sidiff.integration.compare.contentview.silift"
             contentTypeId="org.eclipse.uml2.uml">
       </contentTypeBinding>
    </extension>
@@ -41,7 +41,7 @@
          point="org.eclipse.core.runtime.adapters">
       <factory
             adaptableType="org.eclipse.compare.internal.CompareEditor"
-            class="org.sidiff.integration.properties.CompareEditorPropertySheetPageAdapterFactory">
+            class="org.sidiff.integration.compare.properties.CompareEditorPropertySheetPageAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySheetPage">
          </adapter>
@@ -50,38 +50,38 @@
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
-            contributorId="org.sidiff.integration.compareeditor">
+            contributorId="org.sidiff.integration.compare.editor">
          <propertyCategory
-               category="org.sidiff.integration.compareeditor.category.default"></propertyCategory>
+               category="org.sidiff.integration.compare.editor.category.default"></propertyCategory>
          <propertyCategory
-               category="org.sidiff.integration.compareeditor.category.operation">
+               category="org.sidiff.integration.compare.editor.category.operation">
          </propertyCategory>
       </propertyContributor>
    </extension>
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
-            contributorId="org.sidiff.integration.compareeditor">
+            contributorId="org.sidiff.integration.compare.editor">
          <propertySection
-               class="org.sidiff.integration.properties.DefaultPropertySection"
-               id="org.sidiff.integration.compareeditor.section.default"
-               tab="org.sidiff.integration.compareeditor.tab.default">
+               class="org.sidiff.integration.compare.properties.DefaultPropertySection"
+               id="org.sidiff.integration.compare.editor.section.default"
+               tab="org.sidiff.integration.compare.editor.tab.default">
             <input
                   type="java.lang.Object">
             </input>
          </propertySection>
          <propertySection
                class="org.sidiff.patching.ui.view.InputParameterSection"
-               id="org.sidiff.integration.compareeditor.section.operation.arguments.input"
-               tab="org.sidiff.integration.compareeditor.tab.operation.arguments.input">
+               id="org.sidiff.integration.compare.editor.section.operation.arguments.input"
+               tab="org.sidiff.integration.compare.editor.tab.operation.arguments.input">
             <input
                   type="org.sidiff.patching.operation.OperationInvocationWrapper">
             </input>
          </propertySection>
          <propertySection
                class="org.sidiff.patching.ui.view.OutputParameterSection"
-               id="org.sidiff.integration.compareeditor.section.operation.arguments.output"
-               tab="org.sidiff.integration.compareeditor.tab.operation.arguments.output">
+               id="org.sidiff.integration.compare.editor.section.operation.arguments.output"
+               tab="org.sidiff.integration.compare.editor.tab.operation.arguments.output">
             <input
                   type="org.sidiff.patching.operation.OperationInvocationWrapper">
             </input>
@@ -91,22 +91,22 @@
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs
-            contributorId="org.sidiff.integration.compareeditor">
+            contributorId="org.sidiff.integration.compare.editor">
          <propertyTab
-               category="org.sidiff.integration.compareeditor.category.default"
-               id="org.sidiff.integration.compareeditor.tab.default"
+               category="org.sidiff.integration.compare.editor.category.default"
+               id="org.sidiff.integration.compare.editor.tab.default"
                label="Default">
          </propertyTab>
          <propertyTab
-               afterTab="org.sidiff.integration.compareeditor.tab.default"
-               category="org.sidiff.integration.compareeditor.category.operation"
-               id="org.sidiff.integration.compareeditor.tab.operation.arguments.input"
+               afterTab="org.sidiff.integration.compare.editor.tab.default"
+               category="org.sidiff.integration.compare.editor.category.operation"
+               id="org.sidiff.integration.compare.editor.tab.operation.arguments.input"
                label="Input">
          </propertyTab>
          <propertyTab
-               afterTab="org.sidiff.integration.compareeditor.tab.operation.arguments.input"
-               category="org.sidiff.integration.compareeditor.category.operation"
-               id="org.sidiff.integration.compareeditor.tab.operation.arguments.output"
+               afterTab="org.sidiff.integration.compare.editor.tab.operation.arguments.input"
+               category="org.sidiff.integration.compare.editor.category.operation"
+               id="org.sidiff.integration.compare.editor.tab.operation.arguments.output"
                label="Output">
          </propertyTab>
       </propertyTabs>
@@ -124,7 +124,7 @@
             <visibleWhen
                   checkEnabled="false">
                <reference
-                     definitionId="org.sidiff.integration.compareeditor.PropertyView">
+                     definitionId="org.sidiff.integration.compare.editor.PropertyView">
                </reference>
             </visibleWhen>
          </command>
@@ -136,7 +136,7 @@
             <visibleWhen
                   checkEnabled="false">
                <reference
-                     definitionId="org.sidiff.integration.compareeditor.PropertyView">
+                     definitionId="org.sidiff.integration.compare.editor.PropertyView">
                </reference>
             </visibleWhen>
          </command>
@@ -148,7 +148,7 @@
             <visibleWhen
                   checkEnabled="false">
                <reference
-                     definitionId="org.sidiff.integration.compareeditor.PropertyView">
+                     definitionId="org.sidiff.integration.compare.editor.PropertyView">
                </reference>
             </visibleWhen>
          </command>
@@ -157,7 +157,7 @@
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
-            id="org.sidiff.integration.compareeditor.PropertyView">
+            id="org.sidiff.integration.compare.editor.PropertyView">
          <with
                variable="activeEditorId">
             <equals
@@ -165,6 +165,9 @@
             </equals>
          </with>
       </definition>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
    </extension>
 
 </plugin>
