@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -240,17 +241,22 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	public Resource getOriginModel() {
 		
 		// Try to derive the model from the symmetric difference: (-> same resource)
-		if ((originModel == null) && (getSymmetricDifference() != null)) {
+		if (originModel == null && getSymmetricDifference() != null) {
 			originModel = getSymmetricDifference().getModelA();
 		}
 
 		// Load the model from the relative URI: (-> new resource)
 		if (originModel == null) {
 			URI uri = URI.createURI(getUriOriginModel());
-			if (uri.isRelative() && this.eResource() != null) {
-				uri = uri.resolve(this.eResource().getURI());
+			Resource res = eResource();
+			if (uri.isRelative() && res != null) {
+				uri = uri.resolve(res.getURI());
 			}
-			originModel = SiDiffResourceSet.create().getResource(uri, true);
+			ResourceSet resSet = res == null ? null : res.getResourceSet();
+			if(resSet == null) {
+				resSet = SiDiffResourceSet.create();
+			}
+			originModel = resSet.getResource(uri, true);
 		}
 
 		return originModel;
@@ -265,17 +271,22 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	public Resource getChangedModel() {
 		
 		// Try to derive the model from the symmetric difference: (-> same resource)
-		if ((changedModel == null) && (getSymmetricDifference() != null)) {
+		if (changedModel == null && getSymmetricDifference() != null) {
 			changedModel = getSymmetricDifference().getModelB();
 		}
 
 		// Load the model from the relative URI: (-> new resource)
 		if (changedModel == null) {
 			URI uri = URI.createURI(getUriChangedModel());
-			if (uri.isRelative() && this.eResource() != null) {
-				uri = uri.resolve(this.eResource().getURI());
+			Resource res = eResource();
+			if (uri.isRelative() && res != null) {
+				uri = uri.resolve(res.getURI());
 			}
-			changedModel = SiDiffResourceSet.create().getResource(uri, true);
+			ResourceSet resSet = res == null ? null : res.getResourceSet();
+			if(resSet == null) {
+				resSet = SiDiffResourceSet.create();
+			}
+			changedModel = resSet.getResource(uri, true);
 		}
 
 		return changedModel;
@@ -365,6 +376,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getUriOriginModel() {
 		
 		// Try to derive the URI from the symmetric difference:
@@ -380,6 +392,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUriOriginModel(String newUriOriginModel) {
 		String oldUriOriginModel = uriOriginModel;
 		uriOriginModel = newUriOriginModel;
@@ -392,6 +405,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getUriChangedModel() {
 		
 		// Try to derive the URI from the symmetric difference:
@@ -407,6 +421,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUriChangedModel(String newUriChangedModel) {
 		String oldUriChangedModel = uriChangedModel;
 		uriChangedModel = newUriChangedModel;
@@ -419,6 +434,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleBase getRulebase() {
 		return rulebase;
 	}
@@ -443,6 +459,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRulebase(RuleBase newRulebase) {
 		if (newRulebase != rulebase) {
 			NotificationChain msgs = null;
@@ -462,6 +479,7 @@ public class AsymmetricDifferenceImpl extends EObjectImpl implements AsymmetricD
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void initializeRuleBase() {
 		assert (getRulebase() == null) : "ruleBases have already been initialized!";
 
