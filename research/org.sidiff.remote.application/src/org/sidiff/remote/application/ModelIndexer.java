@@ -3,13 +3,13 @@ package org.sidiff.remote.application;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.core.resources.IFile;
 import org.sidiff.common.emf.access.EMFGenModelAccess;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
 import org.sidiff.patching.api.PatchingFacade;
@@ -26,7 +26,7 @@ public class ModelIndexer {
 	 */
 	private static final Set<String> SUPPORTED_FILE_EXTENSIONS = PipelineUtils.getAllAvailableRulebases().stream()
 			.flatMap(liftingRuleBase -> liftingRuleBase.getDocumentTypes().stream())
-			.flatMap(documentType -> EMFGenModelAccess.getFileExtensionFromDocumentType(documentType).stream())
+			.flatMap(documentType -> EMFGenModelAccess.getFileExtensions(Collections.singleton(documentType)).stream())
 			.collect(Collectors.toSet());
 	
 	/**
