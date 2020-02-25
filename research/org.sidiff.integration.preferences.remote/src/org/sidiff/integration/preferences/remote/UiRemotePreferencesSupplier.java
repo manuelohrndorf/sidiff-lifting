@@ -5,9 +5,7 @@ import org.sidiff.remote.common.settings.IRemotePreferencesSupplier;
 import org.sidiff.remote.common.settings.RemotePreferences;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class UiRemotePreferencesSupplier implements IRemotePreferencesSupplier {
 

@@ -10,9 +10,7 @@ import org.sidiff.integration.preferences.common.internal.CommonPreferencesPlugi
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
- * 
- * @author Robert M�ller
- *
+ * @author rmueller
  */
 public class BaseSettingsAdapter extends AbstractSettingsAdapter {
 

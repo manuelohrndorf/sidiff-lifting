@@ -15,20 +15,22 @@ import org.sidiff.matcher.IMatcher;
 /**
  * 
  * Class for the matching settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class DomainMatchingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
-
-	private IPreferenceField matchersField;
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
 		// get all non-generic matchers
 		Collection<IMatcher> matchers = IMatcher.MANAGER.getExtensions(Collections.singleton(getDocumentType()), false);
 
-		matchersField = PreferenceFieldFactory.createOrderedList(
-				MatchingSettingsAdapter.KEY_MATCHERS(getDocumentType()), "Matchers",
-				matchers, ExtensionValueConverter.getInstance());
+		IPreferenceField matchersField =
+			PreferenceFieldFactory.createOrderedList(
+				MatchingSettingsAdapter.KEY_MATCHERS(getDocumentType()),
+				"Matchers",
+				matchers,
+				ExtensionValueConverter.getInstance());
 		list.add(matchersField);
 		ICompositePreferenceField<IPreferenceField> matcherOptions =
 				PreferenceFieldFactory.createConfigurableExtensionsFields(

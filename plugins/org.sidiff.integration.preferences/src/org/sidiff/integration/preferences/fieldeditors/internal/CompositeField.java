@@ -24,8 +24,7 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
  * {@link #doCreateControls(Composite, String)} must be implemented to create the composite parent
  * and add the child preference fields created by {@link #createNestedPreferenceControl(Composite)} to it.
  * Calls to all other methods are delegated to the contained fields.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class CompositeField<T extends IPreferenceField>
 			extends PreferenceField implements ICompositePreferenceField<T> {

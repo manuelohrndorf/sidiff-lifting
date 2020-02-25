@@ -13,9 +13,7 @@ import org.sidiff.patching.validation.ValidationMode;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PatchingSettingsAdapter extends AbstractSettingsAdapter {
 

@@ -6,8 +6,7 @@ import java.util.Map;
  * A {@link IPreferenceValueConverter preference value converter} that uses a
  * map to convert preference values to labels. Values are returned unchanged,
  * labels are retrieved using <code>value2label.get(value)</code>.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class MappingPreferenceValueConverter implements IPreferenceValueConverter<String> {
 

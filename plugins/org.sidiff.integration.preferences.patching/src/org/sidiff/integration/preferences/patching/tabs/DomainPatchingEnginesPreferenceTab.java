@@ -13,24 +13,23 @@ import org.sidiff.patching.transformation.ITransformationEngine;
 
 /**
  * Class for the domain specific {@link org.sidiff.patching.api.settings.PatchingSettings}
- * @author Daniel Roedder, Robert Müller
- * 
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class DomainPatchingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
-	private IPreferenceField transformationEngineField;
-	private IPreferenceField modifiedDetectorField;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		transformationEngineField = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField transformationEngineField =
+			PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE(getDocumentType()),
 				"Transformation Engine",
-				ITransformationEngine.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true),
+				ITransformationEngine.MANAGER.getExtensions(Collections.singleton(getDocumentType()), false),
 				ExtensionValueConverter.getInstance());
 		list.add(transformationEngineField);
 
-		modifiedDetectorField = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField modifiedDetectorField =
+			PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_MODIFIED_DETECTOR(getDocumentType()),
 				"Modified Detector",
 				IModifiedDetector.MANAGER.getExtensions(Collections.singleton(getDocumentType()), true),

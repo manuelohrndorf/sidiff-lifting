@@ -26,6 +26,9 @@ import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.integration.preferences.fieldeditors.IMultiPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
+/**
+ * @author rmueller
+ */
 public class EditableListField<T> extends PreferenceField implements IMultiPreferenceField<T> {
 
 	private List<T> selected;

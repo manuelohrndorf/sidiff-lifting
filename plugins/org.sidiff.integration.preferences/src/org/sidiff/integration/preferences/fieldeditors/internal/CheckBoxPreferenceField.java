@@ -2,15 +2,15 @@ package org.sidiff.integration.preferences.fieldeditors.internal;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
  * PreferenceField for one CheckBox with a label
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class CheckBoxPreferenceField extends PreferenceField {
 
@@ -47,12 +47,8 @@ public class CheckBoxPreferenceField extends PreferenceField {
 		checkBox = new Button(parent, SWT.CHECK);
 		checkBox.setText(getTitle());
 		checkBox.setToolTipText(tooltip);
-		checkBox.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				firePropertyChanged(!checkBox.getSelection(), checkBox.getSelection());
-			}
-		});
+		checkBox.addSelectionListener(SelectionListener.widgetSelectedAdapter(
+				e -> firePropertyChanged(!checkBox.getSelection(), checkBox.getSelection())));
 		return checkBox;
 	}
 

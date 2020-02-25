@@ -11,8 +11,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
  * Extension factory for creating preference and property pages using the {@link PreferencePageFactory}.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PreferencePageExtensionFactory implements IExecutableExtensionFactory, IExecutableExtension {
 

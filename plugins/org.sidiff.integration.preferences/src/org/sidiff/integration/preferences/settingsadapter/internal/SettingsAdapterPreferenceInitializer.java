@@ -6,8 +6,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
  * Initializes default preference values using available settings adapters.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class SettingsAdapterPreferenceInitializer extends AbstractPreferenceInitializer {
 

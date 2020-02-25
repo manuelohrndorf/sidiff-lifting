@@ -10,8 +10,7 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Contains utility functions for retrieving {@link IPreferenceTab}s.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class PreferenceTabUtil {
 
@@ -22,7 +21,7 @@ public class PreferenceTabUtil {
 	 * @return preference tabs
 	 */
 	public static List<IPreferenceTab> getPreferenceTabs(String page, String pipelineStepId) {
-		List<IPreferenceTab> tabs = new ArrayList<IPreferenceTab>();
+		List<IPreferenceTab> tabs = new ArrayList<>();
 		for(IConfigurationElement element :
 			Platform.getExtensionRegistry().getConfigurationElementsFor(IPreferenceTab.EXTENSION_POINT_ID)) {
 			if(page.equals(element.getAttribute(IPreferenceTab.EXTENSION_POINT_ATTRIBUTE_PAGE))

@@ -22,17 +22,15 @@ import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
  */
 public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField matchersField;
-	private IPreferenceField candidatesServiceField;
-	private IPreferenceField similaritiesServiceField;
-	private IPreferenceField similaritiesCalculationServiceField;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
 		Collection<IMatcher> matchers = IMatcher.MANAGER.getGenericExtensions();
-		matchersField = PreferenceFieldFactory.createOrderedList(
-				MatchingSettingsAdapter.KEY_MATCHERS, "Matchers",
-				matchers, ExtensionValueConverter.getInstance());
+		IPreferenceField matchersField =
+			PreferenceFieldFactory.createOrderedList(
+				MatchingSettingsAdapter.KEY_MATCHERS,
+				"Matchers",
+				matchers,
+				ExtensionValueConverter.getInstance());
 		list.add(matchersField);
 		ICompositePreferenceField<IPreferenceField> matcherOptions =
 				PreferenceFieldFactory.createConfigurableExtensionsFields(
@@ -41,19 +39,30 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 			list.add(matcherOptions);			
 		}
 
-		candidatesServiceField = PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE, "Candidates Service",
-				ICandidates.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance());
+		IPreferenceField candidatesServiceField =
+			PreferenceFieldFactory.createRadioBox(
+				MatchingSettingsAdapter.KEY_CANDIDATES_SERVICE,
+				"Candidates Service",
+				ICandidates.MANAGER.getSortedExtensions(),
+				ExtensionValueConverter.getInstance());
 		list.add(candidatesServiceField);
 
-		similaritiesServiceField = PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE, "Similarities Service",
-				ISimilarities.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance(), true);
+		IPreferenceField similaritiesServiceField =
+			PreferenceFieldFactory.createRadioBox(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
+				"Similarities Service",
+				ISimilarities.MANAGER.getSortedExtensions(),
+				ExtensionValueConverter.getInstance(),
+				true);
 		list.add(similaritiesServiceField);
 
-		similaritiesCalculationServiceField = PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE, "Similarities Calculation Service",
-				ISimilaritiesCalculation.MANAGER.getSortedExtensions(), ExtensionValueConverter.getInstance(), true);
+		IPreferenceField similaritiesCalculationServiceField =
+			PreferenceFieldFactory.createRadioBox(
+				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE,
+				"Similarities Calculation Service",
+				ISimilaritiesCalculation.MANAGER.getSortedExtensions(),
+				ExtensionValueConverter.getInstance(),
+				true);
 		list.add(similaritiesCalculationServiceField);
 	}
 }

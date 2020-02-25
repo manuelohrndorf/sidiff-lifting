@@ -40,7 +40,7 @@ public class PreferenceFieldFactory {
 	private PreferenceFieldFactory() {
 		throw new AssertionError();
 	}
-	
+
 	/**
 	 * Creates a preference field with a text input.
 	 * @param preferenceName the name of the preference

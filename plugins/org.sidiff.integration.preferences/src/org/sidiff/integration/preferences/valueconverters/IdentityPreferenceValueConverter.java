@@ -3,7 +3,7 @@ package org.sidiff.integration.preferences.valueconverters;
 /**
  * A {@link IPreferenceValueConverter preference value converter} for strings,
  * that directly returns the input as both value and label.
- * @author Robert Müller
+ * @author rmueller
  */
 public class IdentityPreferenceValueConverter implements IPreferenceValueConverter<String> {
 

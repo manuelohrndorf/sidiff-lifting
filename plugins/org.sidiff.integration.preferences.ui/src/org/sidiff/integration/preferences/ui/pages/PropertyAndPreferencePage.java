@@ -29,13 +29,13 @@ import org.eclipse.ui.IWorkbenchPropertyPage;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.integration.preferences.ui.internal.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
-import org.sidiff.integration.preferences.util.ProjectSpecificSettingsListener;
+import org.sidiff.integration.preferences.util.PreferenceStoreUtil.IProjectSpecificSettingsToggleListener;
 
 /**
  * Abstract superclass for all preference pages, that are both a property and a preference page.
- * If the page is a property page, a button to enable project specific settings is shown.
- * @author Robert M�ller
- *
+ * The page will automatically use the correct preference store.
+ * If the page is a property page, a button to enable project specific settings is shown (only in root page).
+ * @author rmueller
  */
 public abstract class PropertyAndPreferencePage extends PreferencePage
 					implements IWorkbenchPreferencePage, IWorkbenchPropertyPage {
@@ -46,7 +46,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	private Button useSpecificSettingsButton;
 	private Control preferenceControl;
 	private ControlEnableState enableState;
-	private ProjectSpecificSettingsListener projectSpecificSettingsListener;
+	private IProjectSpecificSettingsToggleListener projectSpecificSettingsListener;
 
 	public PropertyAndPreferencePage() {
 		super();
@@ -131,7 +131,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 					try {
 						setUseSpecificSettings(useSpecificSettingsButton.getSelection());
 					} catch (CoreException e) {
-						ErrorDialog.openError(getShell(), "Enabling/disabling resource specific settings failed", null, e.getStatus());
+						ErrorDialog.openError(getShell(), "Enabling/disabling project specific settings failed", null, e.getStatus());
 						useSpecificSettingsButton.setSelection(!useSpecificSettingsButton.getSelection());
 					}
 				}
@@ -144,20 +144,17 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 	}
 
 	private void registerSpecificSettingsListener() {
-		projectSpecificSettingsListener = new ProjectSpecificSettingsListener() {
-			@Override
-			public void useProjectSpecificSettingsChanged(IProject project, boolean use) {
-				if(getElement() != project)
-					return;
-				useSpecificSettings = use;
-				if(useSpecificSettingsButton != null) {
-					useSpecificSettingsButton.setSelection(use);
-				}
-				setPreferenceStore(null); // update preference store
-				reloadPreferences();
-				if(isTopLevelPage()) {
-					updateEnabledState();
-				}
+		projectSpecificSettingsListener = (IProject project, boolean use) -> {
+			if(getElement() != project)
+				return;
+			useSpecificSettings = use;
+			if(useSpecificSettingsButton != null) {
+				useSpecificSettingsButton.setSelection(use);
+			}
+			setPreferenceStore(null); // update preference store
+			reloadPreferences();
+			if(isTopLevelPage()) {
+				updateEnabledState();
 			}
 		};
 		PreferenceStoreUtil.addProjectSpecificSettingsListener(projectSpecificSettingsListener);

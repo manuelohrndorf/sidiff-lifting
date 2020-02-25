@@ -4,6 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 
+/**
+ * @author rmueller
+ */
 public abstract class AbstractPreferenceTab implements IPreferenceTab, IExecutableExtension {
 
 	private String helpContextId;

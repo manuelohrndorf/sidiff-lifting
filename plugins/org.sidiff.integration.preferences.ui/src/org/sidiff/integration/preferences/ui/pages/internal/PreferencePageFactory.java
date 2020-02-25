@@ -16,8 +16,7 @@ import org.sidiff.integration.preferences.util.PipelineStepUtil.PipelineStep;
 
 /**
  * Static factory for pipeline step, and index preference pages.
- * @author Robert M�ller
- *
+ * @author rmueller
  */
 public class PreferencePageFactory {
 
@@ -38,7 +37,7 @@ public class PreferencePageFactory {
 		// first create all tabs for domain independent settings
 		for(IPreferenceTab tab : tabs) {
 			if(!(tab instanceof IPreferenceTab.DomainSpecific)) {
-				List<IPreferenceField> fields = new ArrayList<IPreferenceField>();
+				List<IPreferenceField> fields = new ArrayList<>();
 				tab.createPreferenceFields(fields);
 				if(fields.isEmpty())
 					continue; // empty tabs are skipped
@@ -54,7 +53,7 @@ public class PreferencePageFactory {
 			if(tab instanceof IPreferenceTab.DomainSpecific) {
 				for(String docType : IDomainSignificance.MANAGER.getSignificantDocumentTypes()) {
 					((IPreferenceTab.DomainSpecific)tab).setDocumentType(docType);
-					List<IPreferenceField> fields = new ArrayList<IPreferenceField>();
+					List<IPreferenceField> fields = new ArrayList<>();
 					tab.createPreferenceFields(fields);
 					if(fields.isEmpty())
 						continue; // empty tabs are skipped

@@ -121,7 +121,8 @@ public class SiLiftCompareDifferencer {
 		// else use global settings
 		IResource platformResource = left.getPlatformResource();
 		LiftingSettings settings = new LiftingSettings();
-		if (platformResource != null && PreferenceStoreUtil.useSpecificSettings(platformResource.getProject())) {
+		if (platformResource != null && PreferenceStoreUtil.useSpecificSettings(
+				platformResource.getProject(), PreferenceStoreUtil.PREFERENCE_QUALIFIER)) {
 			SettingsAdapterUtil.adaptSettingsProject(settings, platformResource.getProject(),
 					inputModels.getDocumentTypes(), Collections.<Enum<?>>emptySet());
 		} else {
@@ -180,7 +181,8 @@ public class SiLiftCompareDifferencer {
 			platformResource = getRight().getPlatformResource();
 		}
 		PatchingSettings patchingSettings = new PatchingSettings();
-		if (platformResource != null && PreferenceStoreUtil.useSpecificSettings(platformResource.getProject())) {
+		if (platformResource != null && PreferenceStoreUtil.useSpecificSettings(
+				platformResource.getProject(), PreferenceStoreUtil.PREFERENCE_QUALIFIER)) {
 			SettingsAdapterUtil.adaptSettingsProject(patchingSettings, platformResource.getProject(),
 					documentTypes, Collections.<Enum<?>>emptySet());
 		} else {

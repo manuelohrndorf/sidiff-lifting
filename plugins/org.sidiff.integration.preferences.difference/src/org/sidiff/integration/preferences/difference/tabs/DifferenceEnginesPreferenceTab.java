@@ -10,31 +10,32 @@ import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 
 /**
- * 
  * Class to create the tab for the difference settings.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class DifferenceEnginesPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField techDiffBuilderField;
-	private IPreferenceField mergeImports;
-	private IPreferenceField unmergeImports;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		techDiffBuilderField = PreferenceFieldFactory.createOrderedList(
+		IPreferenceField techDiffBuilderField =
+			PreferenceFieldFactory.createOrderedList(
 				DifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS,
 				"Technical Difference Builders",
 				ITechnicalDifferenceBuilder.MANAGER.getGenericExtensions(),
 				ExtensionValueConverter.getInstance());
 		list.add(techDiffBuilderField);
 
-		mergeImports = PreferenceFieldFactory.createCheckBox(
-				DifferenceSettingsAdapter.KEY_MERGE_IMPORTS, "Merge Imports");
+		IPreferenceField mergeImports =
+			PreferenceFieldFactory.createCheckBox(
+				DifferenceSettingsAdapter.KEY_MERGE_IMPORTS,
+				"Merge Imports");
 		list.add(mergeImports);
 
-		unmergeImports = PreferenceFieldFactory.createCheckBox(
-				DifferenceSettingsAdapter.KEY_UNMERGE_IMPORTS, "Unmerge Imports");
+		IPreferenceField unmergeImports =
+			PreferenceFieldFactory.createCheckBox(
+				DifferenceSettingsAdapter.KEY_UNMERGE_IMPORTS,
+				"Unmerge Imports");
 		list.add(unmergeImports);
 	}
 }

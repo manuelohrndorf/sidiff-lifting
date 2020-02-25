@@ -3,7 +3,7 @@ package org.sidiff.integration.preferences.valueconverters;
 /**
  * <p>Converts complex types to string values, that can be stored in a preference store,
  * and provides labels and optionally descriptions for the user interface.</p>
- * @author Robert Müller
+ * @author rmueller
  * @param <T> the (complex) type of preference value that this value converter handles
  */
 public interface IPreferenceValueConverter<T> {

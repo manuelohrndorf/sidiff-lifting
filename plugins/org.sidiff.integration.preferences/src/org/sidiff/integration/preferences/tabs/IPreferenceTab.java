@@ -8,8 +8,8 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
  * Classes implementing this interface represent preferences tabs that will be shown
  * on the respective preference pages.
  * Extensions must specify the page and pipeline step that this tab will be shown for.
- * @author Daniel Roedder, Robert Müller
- *
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public interface IPreferenceTab {
 

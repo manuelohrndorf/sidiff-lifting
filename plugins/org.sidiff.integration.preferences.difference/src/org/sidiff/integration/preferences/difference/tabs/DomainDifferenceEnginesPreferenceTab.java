@@ -13,7 +13,9 @@ import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverte
 /**
  * 
  * Class for the creation of domain specific difference settings tabs.
- * @author Daniel Roedder, cpietsch, Robert Müller
+ * @author Daniel Roedder
+ * @author cpietsch
+ * @author rmueller
  */
 public class DomainDifferenceEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
@@ -21,7 +23,8 @@ public class DomainDifferenceEnginesPreferenceTab extends AbstractDomainPreferen
 
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		techDiffBuilderField = PreferenceFieldFactory.createOrderedList(
+		techDiffBuilderField =
+			PreferenceFieldFactory.createOrderedList(
 				DifferenceSettingsAdapter.KEY_TECHNICAL_DIFFERENCE_BUILDERS(getDocumentType()),
 				"Technical Difference Builders",
 				ITechnicalDifferenceBuilder.MANAGER.getExtensions(Collections.singleton(getDocumentType()), false),

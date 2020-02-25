@@ -12,12 +12,7 @@ import org.sidiff.integration.preferences.PreferencesPlugin;
 
 /**
  * Contains utility functions for retrieving pipeline steps.
-<<<<<<< HEAD
- * @author Robert M�ller
- *
-=======
  * @author rmueller
->>>>>>> refs/heads/oxygen
  */
 public class PipelineStepUtil {
 
@@ -35,7 +30,7 @@ public class PipelineStepUtil {
 	public static Map<String, PipelineStep> getAllAvailablePipelineSteps() {
 		if(pipelineSteps == null) {
 			// get all pipeline steps and sort them
-			List<PipelineStep> list = new ArrayList<PipelineStep>();
+			List<PipelineStep> list = new ArrayList<>();
 			for(IConfigurationElement element : Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID)) {
 				try {
 					String id = element.getAttribute(EXTENSION_POINT_ATTRIBUTE_ID);
@@ -50,7 +45,7 @@ public class PipelineStepUtil {
 			list.sort(PipelineStep.COMPARATOR);
 
 			// add the sorted list to an ordered map for faster access
-			pipelineSteps = new LinkedHashMap<String, PipelineStep>();
+			pipelineSteps = new LinkedHashMap<>();
 			for(PipelineStep step : list) {
 				pipelineSteps.put(step.getId(), step);
 			}

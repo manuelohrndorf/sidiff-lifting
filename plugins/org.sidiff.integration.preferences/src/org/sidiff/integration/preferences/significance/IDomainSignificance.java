@@ -5,8 +5,7 @@ import org.sidiff.common.extension.IExtension;
 /**
  * A preference domain significance provider is used to find domains (via document type)
  * that are significant for showing the domain specific settings pages.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public interface IDomainSignificance extends IExtension {
 

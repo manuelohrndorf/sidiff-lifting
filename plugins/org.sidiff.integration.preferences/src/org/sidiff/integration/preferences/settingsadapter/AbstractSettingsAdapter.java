@@ -8,8 +8,7 @@ import org.eclipse.emf.common.util.DiagnosticChain;
 
 /**
  * Abstract implementation for {@link ISettingsAdapter}s.
- * @author Robert M�ller
- *
+ * @author rmueller
  */
 public abstract class AbstractSettingsAdapter implements ISettingsAdapter {
 

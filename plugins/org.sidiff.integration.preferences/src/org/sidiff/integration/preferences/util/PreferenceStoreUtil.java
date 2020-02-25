@@ -1,13 +1,12 @@
 package org.sidiff.integration.preferences.util;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -42,6 +41,12 @@ public class PreferenceStoreUtil {
 		return getPreferenceStore(PREFERENCE_QUALIFIER);
 	}
 
+	/**
+	 * Returns the preference store with the given qualifier specific to the given project.
+	 * @param project the project
+	 * @param preferenceQualifier the preference qualifier
+	 * @return project specific preference store
+	 */
 	public static IPreferenceStore getPreferenceStore(IProject project, String preferenceQualifier) {
 		return specificPreferenceStores
 			.computeIfAbsent(preferenceQualifier, unused -> new HashMap<>())
@@ -51,58 +56,39 @@ public class PreferenceStoreUtil {
 				return store;
 			});
 	}
-	
-	/**
-	 * Returns the preference store for SiDiff settings specific to the given project.
-	 * @param project the project
-	 * @return project specific preference store
-	 */
-	public static IPreferenceStore getPreferenceStore(IProject project) {
-		return getPreferenceStore(project, PREFERENCE_QUALIFIER);
-	}
 
 	private static QualifiedName getKeyUseResourceSettings(String preferenceQualifier) {
 		return new QualifiedName(preferenceQualifier, "USE_RESOURCE_SETTINGS");
 	}
 
-	private static List<ProjectSpecificSettingsListener> projectSpecificListeners =
-			new LinkedList<ProjectSpecificSettingsListener>();
+	private static ListenerList<IProjectSpecificSettingsToggleListener> projectSpecificListeners = new ListenerList<>();
 
-	public static boolean useSpecificSettings(IProject project, String preferenceQualifier) throws CoreException {
-		return Boolean.valueOf(project.getPersistentProperty(getKeyUseResourceSettings(preferenceQualifier)));
-	}
-	
 	/**
-	 * Returns whether the given project has project specific settings attached that should be used.
+	 * Returns whether the given project has project specific settings with the
+	 * given qualifier attached that should be used.
 	 * @param project the project
+	 * @param preferenceQualifier the preference qualifier
 	 * @return <code>true</code>, if project specific settings should be used, <code>false</code> otherwise
 	 * @throws CoreException if retrieving the property failed
 	 * @see IProject#getPersistentProperty(QualifiedName)
 	 */
-	public static boolean useSpecificSettings(IProject project) throws CoreException {
-		return useSpecificSettings(project, PREFERENCE_QUALIFIER);
+	public static boolean useSpecificSettings(IProject project, String preferenceQualifier) throws CoreException {
+		return Boolean.valueOf(project.getPersistentProperty(getKeyUseResourceSettings(preferenceQualifier)));
 	}
 
-	public static void setUseSpecificSettings(IProject project, String preferenceQualifier, boolean use) throws CoreException {
-		project.setPersistentProperty(getKeyUseResourceSettings(preferenceQualifier), Boolean.toString(use));
-
-		for(ProjectSpecificSettingsListener listener : projectSpecificListeners) {
-			listener.useProjectSpecificSettingsChanged(project, use);
-		}
-	}
-	
 	/**
 	 * Enable/disable project specific settings for the given project.
 	 * Notifies the {@link ProjectSpecificSettingsListener}s.
 	 * @param project the project
+	 * @param preferenceQualifier the qualifier for which to toggle project specific settings
 	 * @param use whether to enable project specific settings
 	 * @throws CoreException if changing the property failed
 	 * @see IProject#setPersistentProperty(QualifiedName, String)
 	 */
-	public static void setUseSpecificSettings(IProject project, boolean use) throws CoreException {
-		project.setPersistentProperty(getKeyUseResourceSettings(PREFERENCE_QUALIFIER), Boolean.toString(use));
+	public static void setUseSpecificSettings(IProject project, String preferenceQualifier, boolean use) throws CoreException {
+		project.setPersistentProperty(getKeyUseResourceSettings(preferenceQualifier), Boolean.toString(use));
 
-		for(ProjectSpecificSettingsListener listener : projectSpecificListeners) {
+		for(IProjectSpecificSettingsToggleListener listener : projectSpecificListeners) {
 			listener.useProjectSpecificSettingsChanged(project, use);
 		}
 	}
@@ -112,7 +98,7 @@ public class PreferenceStoreUtil {
 	 * when project specific settings are enabled/disabled.
 	 * @param listener the listener
 	 */
-	public static void addProjectSpecificSettingsListener(ProjectSpecificSettingsListener listener) {
+	public static void addProjectSpecificSettingsListener(IProjectSpecificSettingsToggleListener listener) {
 		projectSpecificListeners.add(listener);
 	}
 
@@ -122,7 +108,20 @@ public class PreferenceStoreUtil {
 	 * Does nothing, if the listener was not previously added.
 	 * @param listener the listener.
 	 */
-	public static void removeProjectSpecificSettingsListener(ProjectSpecificSettingsListener listener) {
+	public static void removeProjectSpecificSettingsListener(IProjectSpecificSettingsToggleListener listener) {
 		projectSpecificListeners.remove(listener);
+	}
+
+	/**
+	 * Listener for the activation/deactivation of project specific settings.
+	 * @author rmueller
+	 */
+	public interface IProjectSpecificSettingsToggleListener {
+		/**
+		 * Called when project specific settings are enabled/disabled for a project.
+		 * @param project the project
+		 * @param use <code>true</code> if project specific settings were enabled, <code>false</code> otherwise
+		 */
+		void useProjectSpecificSettingsChanged(IProject project, boolean use);
 	}
 }

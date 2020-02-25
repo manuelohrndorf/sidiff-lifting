@@ -27,7 +27,6 @@ import org.sidiff.integration.preferences.ui.internal.PreferencesUiPlugin;
 import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 
 /**
-<<<<<<< HEAD
  * <p>The settings source widget allows selecting a source from which
  * the {@link ISettings} are to be adapted.</p>
  * <p>The source can be the global preference store, as well as
@@ -38,11 +37,7 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
  * by using {@link #addConsideredSettings(Enum...)} to add the enum literals
  * from the *SettingsItem enums. If no considered items are set, all items
  * will be considered.</p>
- * @author Robert Müller
-=======
- * 
  * @author rmueller
->>>>>>> refs/heads/oxygen
  */
 public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> {
 
@@ -134,7 +129,7 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 				throw new CoreException(new Status(IStatus.ERROR, PreferencesUiPlugin.PLUGIN_ID,
 						"No project was specified / deduced from the input models."));
 			}
-			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project));
+			radioProject.setEnabled(PreferenceStoreUtil.useSpecificSettings(project, preferenceQualifier));
 		} catch (CoreException e) {
 			radioProject.setEnabled(false);
 			radioProject.setText(radioProject.getText() + " [not possible: " + e.getMessage() + "]");

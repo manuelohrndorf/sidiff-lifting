@@ -13,29 +13,31 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 /**
  * 
  * Class for the patching settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class PatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField transformationEngineField;
-	private IPreferenceField minReliability;
-	private IPreferenceField symbolicLinkHandlers;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		transformationEngineField = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField transformationEngineField =
+			PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_TRANSFORMATION_ENGINE,
 				"Transformation Engine",
 				ITransformationEngine.MANAGER.getGenericExtensions(),
 				ExtensionValueConverter.getInstance());
 		list.add(transformationEngineField);
 
-		minReliability = PreferenceFieldFactory.createNumber(
+		IPreferenceField minReliability =
+			PreferenceFieldFactory.createNumber(
 				PatchingSettingsAdapter.KEY_MIN_RELIABILITY,
-				"Minimum reliability", -1, Integer.MAX_VALUE);
+				"Minimum reliability",
+				-1,
+				Integer.MAX_VALUE);
 		list.add(minReliability);
 
-		symbolicLinkHandlers = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField symbolicLinkHandlers =
+			PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_SYMBOLIC_LINK_HANDLER,
 				"Symbolic Link Handler",
 				ISymbolicLinkHandler.MANAGER.getSortedExtensions(),

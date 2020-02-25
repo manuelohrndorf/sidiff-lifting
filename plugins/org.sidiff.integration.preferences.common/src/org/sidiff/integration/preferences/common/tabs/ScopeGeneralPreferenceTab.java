@@ -10,17 +10,18 @@ import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 
 /**
  * Class for general scope settings
- * @author Daniel Roedder, Robert Müller
- *
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class ScopeGeneralPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField scopeField;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		scopeField = PreferenceFieldFactory.createRadioBox(
-				BaseSettingsAdapter.KEY_SCOPE, "Scope", Scope.class);
+		IPreferenceField scopeField =
+			PreferenceFieldFactory.createRadioBox(
+				BaseSettingsAdapter.KEY_SCOPE,
+				"Scope",
+				Scope.class);
 		list.add(scopeField);
 	}
 }

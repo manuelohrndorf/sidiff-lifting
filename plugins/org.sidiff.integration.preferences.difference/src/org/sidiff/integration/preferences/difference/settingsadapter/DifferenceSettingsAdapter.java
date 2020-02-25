@@ -17,9 +17,7 @@ import org.sidiff.integration.preferences.difference.internal.DifferencePreferen
 import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapter;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 
@@ -66,7 +64,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadTechnicalDifferenceBuilders(IPreferenceStore store) {
 		// get keys of all domain specific technical difference builders
-		Set<String> techDiffBuilderKeys = new LinkedHashSet<String>();
+		Set<String> techDiffBuilderKeys = new LinkedHashSet<>();
 		for(String docType : getDocumentTypes()) {
 			String value = store.getString(KEY_TECHNICAL_DIFFERENCE_BUILDERS(docType));
 			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
@@ -77,7 +75,7 @@ public class DifferenceSettingsAdapter extends AbstractSettingsAdapter {
 			techDiffBuilderKeys.addAll(StringListSerializer.DEFAULT.deserialize(value));
 		}
 		// get the technical difference builders
-		technicalDifferenceBuilderList = new ArrayList<ITechnicalDifferenceBuilder>();
+		technicalDifferenceBuilderList = new ArrayList<>();
 		for(String techDiffBuilderKey : techDiffBuilderKeys) {
 			ITechnicalDifferenceBuilder techBuilder = ITechnicalDifferenceBuilder.MANAGER.getExtension(techDiffBuilderKey).orElse(null);
 			if(techBuilder != null) {

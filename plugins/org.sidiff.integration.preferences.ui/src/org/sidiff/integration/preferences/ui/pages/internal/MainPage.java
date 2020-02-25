@@ -8,7 +8,8 @@ import org.sidiff.integration.preferences.ui.pages.PropertyAndPreferencePage;
 
 /**
  * Preference MainPage that refers to Subpages
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class MainPage extends PropertyAndPreferencePage {
 

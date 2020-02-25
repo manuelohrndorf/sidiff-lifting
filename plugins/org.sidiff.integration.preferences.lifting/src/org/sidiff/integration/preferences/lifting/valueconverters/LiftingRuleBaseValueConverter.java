@@ -5,9 +5,7 @@ import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class LiftingRuleBaseValueConverter implements IPreferenceValueConverter<ILiftingRuleBase> {
 

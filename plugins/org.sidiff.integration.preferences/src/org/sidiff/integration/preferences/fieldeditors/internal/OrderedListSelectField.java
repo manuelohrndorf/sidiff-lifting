@@ -28,7 +28,8 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 
 /**
  * PreferenceField for selecting a subset of a given set with a configurable order
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class OrderedListSelectField<T> extends PreferenceField implements IMultiPreferenceField<T> {
 

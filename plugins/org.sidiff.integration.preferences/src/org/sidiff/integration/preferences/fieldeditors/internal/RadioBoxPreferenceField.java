@@ -23,7 +23,8 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 
 /**
  * A PreferenceField for multiple values, one of which can be selected
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class RadioBoxPreferenceField<T> extends PreferenceField implements IMultiPreferenceField<T> {
 

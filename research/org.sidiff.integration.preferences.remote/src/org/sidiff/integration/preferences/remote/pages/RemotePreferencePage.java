@@ -30,9 +30,7 @@ import org.sidiff.remote.common.settings.SingleSelectionRemoteApplicationPropert
 import org.sidiff.remote.common.settings.ValidationProperties;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class RemotePreferencePage extends TabbedPreferencePage {
 

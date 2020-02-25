@@ -135,7 +135,7 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 		return preferenceQualifier;
 	}
 
-	public static class Tab {
+	private static class Tab {
 		final PropertyAndPreferencePage page;
 		final String title;
 		final String tooltip;

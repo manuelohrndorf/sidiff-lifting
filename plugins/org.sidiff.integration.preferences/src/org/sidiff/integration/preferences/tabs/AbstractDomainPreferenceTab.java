@@ -2,8 +2,7 @@ package org.sidiff.integration.preferences.tabs;
 
 /**
  * Abstract superclass for domain specific preference tabs.
- * @author Robert M�ller
- *
+ * @author rmueller
  */
 public abstract class AbstractDomainPreferenceTab extends AbstractPreferenceTab implements IPreferenceTab.DomainSpecific {
 

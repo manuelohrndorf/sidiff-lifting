@@ -18,7 +18,9 @@ import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverte
 /**
  * 
  * Class for the domain specific lifting settings.
- * @author Daniel Roedder, cpietsch, Robert Müller
+ * @author Daniel Roedder
+ * @author cpietsch
+ * @author rmueller
  */
 public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceTab {
 
@@ -29,7 +31,8 @@ public class DomainLiftingEnginesPreferenceTab extends AbstractDomainPreferenceT
 	}
 
 	private IPreferenceField createRuleBasesField() {
-		List<ILiftingRuleBase> ruleBases = new ArrayList<>(PipelineUtils.getAvailableRulebases(Collections.singleton(getDocumentType())));
+		List<ILiftingRuleBase> ruleBases = new ArrayList<>(
+				PipelineUtils.getAvailableRulebases(Collections.singleton(getDocumentType())));
 		Collections.sort(ruleBases, Comparator.comparing(ILiftingRuleBase::getName));
 
 		return PreferenceFieldFactory.createCheckBoxList(

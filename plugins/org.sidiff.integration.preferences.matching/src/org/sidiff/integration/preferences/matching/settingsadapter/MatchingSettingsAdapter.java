@@ -21,9 +21,7 @@ import org.sidiff.similarities.ISimilarities;
 import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
@@ -79,14 +77,14 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadMatchers(IPreferenceStore store) {
 		// get keys of all domain specific matchers
-		List<String> matcherKeys = new ArrayList<String>();
+		List<String> matcherKeys = new ArrayList<>();
 		for(String docType : getDocumentTypes()) {
 			matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS(docType))));
 		}
 		// get keys of all generic matchers
 		matcherKeys.addAll(StringListSerializer.DEFAULT.deserialize(store.getString(KEY_MATCHERS)));
 		// get the matchers
-		matchers = new ArrayList<IMatcher>();
+		matchers = new ArrayList<>();
 		for(String matcherKey : matcherKeys) {
 			IMatcher matcher = IMatcher.MANAGER.getExtension(matcherKey).orElse(null);
 			if(matcher != null) {
@@ -114,17 +112,25 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 
 	protected void loadSimilaritiesService(IPreferenceStore store) {
 		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
-		similaritiesService = ISimilarities.MANAGER.getExtension(similaritiesServiceId).orElse(null);
-		if(similaritiesService == null) {
-			addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
+		if(similaritiesServiceId.isEmpty()) {
+			similaritiesService = null;
+		} else {
+			similaritiesService = ISimilarities.MANAGER.getExtension(similaritiesServiceId).orElse(null);
+			if(similaritiesService == null) {
+				addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
+			}			
 		}
 	}
 
 	protected void loadSimilaritiesCalculationService(IPreferenceStore store) {
 		String similaritiesCalculationServiceId = store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE);
-		similaritiesCalculationService = ISimilaritiesCalculation.MANAGER.getExtension(similaritiesCalculationServiceId).orElse(null);
-		if(similaritiesCalculationService == null) {
-			addError("Similarities Calculation Service with id '" + similaritiesCalculationServiceId + "' was not found.");
+		if(similaritiesCalculationServiceId.isEmpty()) {
+			similaritiesCalculationService = null;
+		} else {
+			similaritiesCalculationService = ISimilaritiesCalculation.MANAGER.getExtension(similaritiesCalculationServiceId).orElse(null);
+			if(similaritiesCalculationService == null) {
+				addError("Similarities Calculation Service with id '" + similaritiesCalculationServiceId + "' was not found.");
+			}			
 		}
 	}
 
@@ -140,8 +146,8 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_MATCHERS, "org.sidiff.matcher.signature.name.NamedElementMatcher");
 		store.setDefault(KEY_CANDIDATES_SERVICE, "InterModelTypeCandidates");
-		store.setDefault(KEY_SIMILARITIES_SERVICE, "DefaultSimilarities");
-		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "DefaultSimilaritiesCalculationService");
+		store.setDefault(KEY_SIMILARITIES_SERVICE, "");
+		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "");
 	}
 
 	@Override

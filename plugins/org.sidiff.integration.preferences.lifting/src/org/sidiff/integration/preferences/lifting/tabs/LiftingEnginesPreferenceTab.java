@@ -14,24 +14,15 @@ import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 /**
  * 
  * Class for the lifting settings tab.
- * @author Daniel Roedder, Robert Müller
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class LiftingEnginesPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField recognitionEngineMode;
-	private IPreferenceField calculateEditRuleMatch;
-	private IPreferenceField serializeEditRuleMatch;
-	private IPreferenceField useThreadPool;
-	private IPreferenceField numberOfThreads;
-	private IPreferenceField rulesPerThread;
-	private IPreferenceField sortRecognitionRuleNodes;
-	private IPreferenceField rulesetReduction;
-	private IPreferenceField buildGraphPerRule;
-	private IPreferenceField detectSplitJoins;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		recognitionEngineMode = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField recognitionEngineMode =
+			PreferenceFieldFactory.createRadioBox(
 				LiftingSettingsAdapter.KEY_RECOGNITION_ENGINE_MODE,
 				"Recognition Engine Mode",
 				RecognitionEngineMode.class);
@@ -42,16 +33,61 @@ public class LiftingEnginesPreferenceTab extends AbstractPreferenceTab {
 				PreferenceFieldFactory.createExpandableComposite("Advanced settings");
 		list.add(compositeField);
 
-		calculateEditRuleMatch = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_CALCULATE_EDIT_RULE_MATCH, "Calculate Edit Rule Match");
+		IPreferenceField calculateEditRuleMatch =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_CALCULATE_EDIT_RULE_MATCH,
+				"Calculate Edit Rule Match");
 		compositeField.addField(calculateEditRuleMatch);
 
-		serializeEditRuleMatch = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_SERIALIZE_EDIT_RULE_MATCH, "Serialize Edit Rule Match");
+		IPreferenceField serializeEditRuleMatch =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_SERIALIZE_EDIT_RULE_MATCH,
+				"Serialize Edit Rule Match");
 		compositeField.addField(serializeEditRuleMatch);
 
-		useThreadPool = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_USE_THREAD_POOL, "Use Thread Pool");
+		IPreferenceField useThreadPool =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_USE_THREAD_POOL,
+				"Use Thread Pool");
+		compositeField.addField(useThreadPool);
+
+		IPreferenceField numberOfThreads =
+			PreferenceFieldFactory.createNumber(
+				LiftingSettingsAdapter.KEY_NUMBER_OF_THREADS,
+				"Number of Threads");
+		compositeField.addField(numberOfThreads);
+
+		IPreferenceField rulesPerThread =
+			PreferenceFieldFactory.createNumber(
+				LiftingSettingsAdapter.KEY_RULES_PER_THREAD,
+				"Rules per Thread");
+		compositeField.addField(rulesPerThread);
+
+		IPreferenceField sortRecognitionRuleNodes =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_SORT_RECOGNITION_RULE_NODES,
+				"Sort Recognition Rule Nodes");
+		compositeField.addField(sortRecognitionRuleNodes);
+
+		IPreferenceField rulesetReduction =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_RULESET_REDUCTION,
+				"Ruleset Reduction");
+		compositeField.addField(rulesetReduction);
+
+		IPreferenceField buildGraphPerRule = 
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_BUILD_GRAPH_PER_RULE,
+				"Build Graph per Rule");
+		compositeField.addField(buildGraphPerRule);
+
+		IPreferenceField detectSplitJoins =
+			PreferenceFieldFactory.createCheckBox(
+				LiftingSettingsAdapter.KEY_DETECT_SPLIT_JOINS,
+				"Detect Split Joins");
+		compositeField.addField(detectSplitJoins);
+
+		// hook up enabled states
 		useThreadPool.addPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -59,30 +95,5 @@ public class LiftingEnginesPreferenceTab extends AbstractPreferenceTab {
 				rulesPerThread.setEnabled((Boolean)event.getNewValue());
 			}
 		});
-		compositeField.addField(useThreadPool);
-
-		numberOfThreads = PreferenceFieldFactory.createNumber(
-				LiftingSettingsAdapter.KEY_NUMBER_OF_THREADS, "Number of Threads");
-		compositeField.addField(numberOfThreads);
-
-		rulesPerThread = PreferenceFieldFactory.createNumber(
-				LiftingSettingsAdapter.KEY_RULES_PER_THREAD, "Rules per Thread");
-		compositeField.addField(rulesPerThread);
-
-		sortRecognitionRuleNodes = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_SORT_RECOGNITION_RULE_NODES, "Sort Recognition Rule Nodes");
-		compositeField.addField(sortRecognitionRuleNodes);
-
-		rulesetReduction = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_RULESET_REDUCTION, "Ruleset Reduction");
-		compositeField.addField(rulesetReduction);
-
-		buildGraphPerRule = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_BUILD_GRAPH_PER_RULE, "Build Graph per Rule");
-		compositeField.addField(buildGraphPerRule);
-
-		detectSplitJoins = PreferenceFieldFactory.createCheckBox(
-				LiftingSettingsAdapter.KEY_DETECT_SPLIT_JOINS, "Detect Split Joins");
-		compositeField.addField(detectSplitJoins);
 	}
 }

@@ -9,17 +9,17 @@ import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 
 /**
  * Class for general validation settings
- * @author Daniel Roedder, Robert Müller
- *
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class GeneralValidationPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField validateModelsField;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		validateModelsField = PreferenceFieldFactory.createCheckBox(
-				BaseSettingsAdapter.KEY_VALIDATE_MODELS, "Validate Models");
+		IPreferenceField validateModelsField =
+			PreferenceFieldFactory.createCheckBox(
+				BaseSettingsAdapter.KEY_VALIDATE_MODELS,
+				"Validate Models");
 		list.add(validateModelsField);
 	}
 }

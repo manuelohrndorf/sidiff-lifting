@@ -16,6 +16,9 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.sidiff.integration.preferences.PreferencesPlugin;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
+/**
+ * @author rmueller
+ */
 public class FilteredAddElementSelectionDialog<T> extends FilteredItemsSelectionDialog {
 
 	private static final String SETTINGS = FilteredAddElementSelectionDialog.class.getCanonicalName();

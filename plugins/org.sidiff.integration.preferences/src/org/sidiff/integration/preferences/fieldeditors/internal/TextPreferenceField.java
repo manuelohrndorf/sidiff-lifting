@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Preference field with a text input.
- * @author Robert Müller
+ * @author rmueller
  */
 public class TextPreferenceField extends PreferenceField {
 

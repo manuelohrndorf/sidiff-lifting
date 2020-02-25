@@ -9,8 +9,7 @@ import org.sidiff.common.extension.ExtensionManager;
 /**
  * Contains functions for finding whether a given domain (document type) is significant (e.g. has custom rulebases)
  * and for returning all registered document types that are significant.
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public final class DomainSignificanceManager extends ExtensionManager<IDomainSignificance> {
 

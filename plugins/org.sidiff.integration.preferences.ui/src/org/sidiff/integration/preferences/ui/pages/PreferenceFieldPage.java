@@ -15,15 +15,15 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 
 /**
  * A preference page that contains {@link IPreferenceField preference fields}.
- * @author Felix Breitweiser, Robert M�ller
- *
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class PreferenceFieldPage extends PropertyAndPreferencePage {
 
-	private final IPropertyChangeListener propertyChangeListener = (event) -> validatePreferences();
+	private final IPropertyChangeListener propertyChangeListener = event -> validatePreferences();
 
 	private String helpContextId;
-	private List<IPreferenceField> preferenceFields = new ArrayList<IPreferenceField>();
+	private List<IPreferenceField> preferenceFields = new ArrayList<>();
 
 	private Composite container;
 

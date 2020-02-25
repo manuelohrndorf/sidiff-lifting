@@ -10,16 +10,15 @@ import org.sidiff.patching.validation.ValidationMode;
 
 /**
  * Class for the validation patching settings.
- * @author Daniel Roedder, Robert Müller
- *
+ * @author Daniel Roedder
+ * @author rmueller
  */
 public class PatchingValidationPreferenceTab extends AbstractPreferenceTab {
 
-	private IPreferenceField validationMode;
-
 	@Override
 	public void createPreferenceFields(List<IPreferenceField> list) {
-		validationMode = PreferenceFieldFactory.createRadioBox(
+		IPreferenceField validationMode =
+			PreferenceFieldFactory.createRadioBox(
 				PatchingSettingsAdapter.KEY_VALIDATION_MODE,
 				"Validation Mode",
 				ValidationMode.class);

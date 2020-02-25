@@ -15,7 +15,8 @@ import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConver
 
 /**
  * Preference field for a List of Checkboxes which can individually be selected
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class CheckListSelectField<T> extends CompositeField<CheckBoxPreferenceField> implements IMultiPreferenceField<T> {
 

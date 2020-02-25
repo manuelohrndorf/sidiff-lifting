@@ -23,7 +23,7 @@ import org.sidiff.remote.common.settings.ValidationProperties;
 /**
  * The remote preference adapter allows storage of
  * {@link RemotePreferences} using a {@link IPreferenceStore}
- * @author Robert Müller
+ * @author rmueller
  */
 public class RemotePreferenceAdapter {
 

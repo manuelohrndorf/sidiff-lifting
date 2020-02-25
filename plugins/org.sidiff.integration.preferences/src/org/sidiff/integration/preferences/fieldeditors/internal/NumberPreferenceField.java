@@ -1,5 +1,6 @@
 package org.sidiff.integration.preferences.fieldeditors.internal;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -10,7 +11,8 @@ import org.eclipse.swt.widgets.Spinner;
 
 /**
  * PreferenceField for a number spinner
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public class NumberPreferenceField extends PreferenceField {
 
@@ -27,6 +29,7 @@ public class NumberPreferenceField extends PreferenceField {
 	 */
 	public NumberPreferenceField(String preferenceName, String title, int minimum, int maximum) {
 		super(preferenceName, title);
+		Assert.isLegal(minimum <= maximum);
 		this.minimum = minimum;
 		this.maximum = maximum;
 	}

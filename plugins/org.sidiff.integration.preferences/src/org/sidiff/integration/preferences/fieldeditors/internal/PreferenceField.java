@@ -1,9 +1,8 @@
 package org.sidiff.integration.preferences.fieldeditors.internal;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -15,7 +14,8 @@ import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
 /**
  * PreferenceField for use in a PreferenceFieldPage.
  * Responsible for storing and loading a preference as well as creating controls for changing the preference.
- * @author Felix Breitweiser, Robert Müller
+ * @author Felix Breitweiser
+ * @author rmueller
  */
 public abstract class PreferenceField implements IPreferenceField {
 
@@ -32,7 +32,7 @@ public abstract class PreferenceField implements IPreferenceField {
 	/**
 	 * all registered IPropertyChangeListener
 	 */
-	private List<IPropertyChangeListener> listeners;
+	private ListenerList<IPropertyChangeListener> listeners = new ListenerList<>();
 
 	/**
 	 * The created control
@@ -51,7 +51,6 @@ public abstract class PreferenceField implements IPreferenceField {
 	public PreferenceField(String preferenceName, String title) {
 		this.preferenceName = preferenceName;
 		this.title = title;
-		this.listeners = new ArrayList<IPropertyChangeListener>();
 	}
 
 	/**

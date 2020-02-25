@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * An {@link IMultiPreferenceField} is an {@link IPreferenceField} that displays
  * a collection of inputs and allows selection thereof.
- * @author Robert Müller
+ * @author rmueller
  * @param <T> the type of the preference field input
  */
 public interface IMultiPreferenceField<T> extends IPreferenceField {

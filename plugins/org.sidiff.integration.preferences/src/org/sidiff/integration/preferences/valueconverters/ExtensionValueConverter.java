@@ -4,15 +4,15 @@ import org.sidiff.common.extension.IExtension;
 
 /**
  * A preference value converter for {@link IExtension}s.
- * @author Robert Müller
+ * @author rmueller
  */
 public class ExtensionValueConverter implements IPreferenceValueConverter<IExtension> {
 
 	private static IPreferenceValueConverter<IExtension> instance;
-	
+
 	private ExtensionValueConverter() {
 	}
-	
+
 	@Override
 	public String getValue(IExtension object) {
 		if(object == null) {

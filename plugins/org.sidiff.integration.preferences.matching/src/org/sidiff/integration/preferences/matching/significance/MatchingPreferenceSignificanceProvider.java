@@ -6,9 +6,7 @@ import org.sidiff.integration.preferences.significance.IDomainSignificance;
 import org.sidiff.matcher.IMatcher;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class MatchingPreferenceSignificanceProvider implements IDomainSignificance {
 

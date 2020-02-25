@@ -21,9 +21,7 @@ import org.sidiff.integration.preferences.settingsadapter.AbstractSettingsAdapte
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
 /**
- * 
- * @author Robert Müller
- *
+ * @author rmueller
  */
 public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 
@@ -121,7 +119,7 @@ public class LiftingSettingsAdapter extends AbstractSettingsAdapter {
 	}
 
 	protected void loadRulebases(IPreferenceStore store) {
-		ruleBases = new HashSet<ILiftingRuleBase>();
+		ruleBases = new HashSet<>();
 		final IPreferenceValueConverter<ILiftingRuleBase> valueConverter = new LiftingRuleBaseValueConverter();
 		for(String documentType : getDocumentTypes()) {
 			List<String> ruleBasesKeys = StringListSerializer.DEFAULT.deserialize(store.getString(KEY_RULE_BASES(documentType)));
