@@ -191,6 +191,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 				Stream.of(asymmetricDifference.eResource(),
 						asymmetricDifference.getOriginModel(),
 						asymmetricDifference.getChangedModel())
+					.filter(Objects::nonNull)
 					.map(r -> resourceSet.getResource(r.getURI(), false)) // get actual resource of the editing domain
 					.filter(Objects::nonNull)
 					.collect(Collectors.toMap(Function.identity(), r -> Boolean.TRUE));
