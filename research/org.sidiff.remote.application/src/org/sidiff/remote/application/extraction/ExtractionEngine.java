@@ -20,6 +20,8 @@ import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorte
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
+import org.sidiff.matcher.IMatcher;
+import org.sidiff.matcher.id.xmiid.XMIIDMatcher;
 import org.sidiff.patching.PatchEngine;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.batch.handler.BatchInterruptHandler;
@@ -43,8 +45,6 @@ import org.sidiff.slicer.rulebased.slice.arguments.ModelSliceBasedArgumentManage
  *
  */
 public class ExtractionEngine {
-	
-	private final static String XMIIDMatcher = "org.sidiff.matcher.id.xmiid.XMIIDMatcher";
 	
 	private LiftingSettings liftingSettings;
 	
@@ -184,7 +184,7 @@ public class ExtractionEngine {
 		
 		this.liftingSettings = new LiftingSettings();
 		this.liftingSettings.setScope(scope);
-		this.liftingSettings.setMatcher(PipelineUtils.getMatcherByKey(XMIIDMatcher));
+		this.liftingSettings.setMatcher(IMatcher.MANAGER.getExtension(XMIIDMatcher.class).get());
 		this.liftingSettings.setTechBuilder(technicalDifferenceBuilder);
 		this.liftingSettings.setMergeImports(mergeImports);
 		this.liftingSettings.setUnmergeImports(unmergeImports);
