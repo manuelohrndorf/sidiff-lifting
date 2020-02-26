@@ -15,6 +15,7 @@ import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.exceptions.InvalidModelException;
 import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
+import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.emf.modelstorage.UUIDResource;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -402,7 +403,7 @@ public class RuleBasedSlicer implements ISlicer{
 			}
 		}
 		
-		AsymmetricDiffFacade.serializeLiftedDifference(diff, path, fileName);
+		diff.serialize(SiDiffResourceSet.create(), path, fileName);
 
 		return asymDiff;
 	}
