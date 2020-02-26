@@ -2,6 +2,7 @@ package org.sidiff.patching.arguments;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,9 +16,7 @@ import org.sidiff.difference.asymmetric.ObjectParameterBinding;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.matching.model.Correspondence;
-import org.sidiff.matching.model.Matching;
-import org.sidiff.matching.model.MatchingModelFactory;
+import org.sidiff.matching.model.util.MatchingModelUtil;
 
 public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentManager {
 
@@ -39,24 +38,25 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 
 	@Override
 	public void init(AsymmetricDifference patch, Resource targetModel, IArgumentManagerSettings settings) {
-		this.matcher = settings.getMatcher();
+		this.matcher = Objects.requireNonNull(settings.getMatcher(), "Matcher must be set");
 		this.matchingOriginTarget = null;
 		this.matchingChangedTarget = null;
 		super.init(patch, targetModel, settings);
 	}
 
 	protected SymmetricDifference initMatching(Collection<Resource> models) {
+		// SiLift always uses MatchingModelCorrespondences
+		MatchingModelCorrespondences correspondences =
+			ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
+				() -> new IllegalStateException("No correspondences service is available"));
+
 		matcher.reset();
+		matcher.setCorrespondencesService(correspondences);
 		matcher.startMatching(models, getScope());	
 
-		// Get Matching
-		// In SiLift we assume support of @see{MatchingModelCorrespondences}
-		ICorrespondences correspondences = matcher.getCorrespondencesService();
-		Matching matching = ((MatchingModelCorrespondences)correspondences).getMatching();	
-
-		//Contain Matching in Difference
+		// Contain Matching in Difference
 		SymmetricDifference symmetricDiff = SymmetricFactory.eINSTANCE.createSymmetricDifference();
-		symmetricDiff.setMatching(matching);
+		symmetricDiff.setMatching(correspondences.getMatching());
 		return symmetricDiff;
 	}
 
@@ -88,23 +88,18 @@ public abstract class AbstractMatcherBasedArgumentManager extends BaseArgumentMa
 
 		switch(EMFResourceUtil.locate(getOriginModel(), originObject)) {
 			case PACKAGE_REGISTRY:
-				Correspondence registryCorrespondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				registryCorrespondence.setMatchedA(originObject);
-				registryCorrespondence.setMatchedB(originObject);
-				matchingOriginTarget.addCorrespondence(registryCorrespondence);
+				matchingOriginTarget.addCorrespondence(MatchingModelUtil.createCorrespondence(originObject, originObject));
 				return originObject;
 				
 			case RESOURCE_SET_INTERNAL:
 				Resource targetResource = getTargetModel().getResourceSet().getResource(originObject.eResource().getURI(), true);
 				EObject targetObject = targetResource.getEObject(EcoreUtil.getURI(originObject).fragment());
-				Correspondence resourceSetCorrespondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				resourceSetCorrespondence.setMatchedA(originObject);
-				resourceSetCorrespondence.setMatchedB(targetObject);
-				matchingOriginTarget.addCorrespondence(resourceSetCorrespondence);
+				matchingOriginTarget.addCorrespondence(MatchingModelUtil.createCorrespondence(originObject, targetObject));
 				return originObject;
+			default:
+				return null;
 		}
 
-		return null;
 	}
 
 	@Override

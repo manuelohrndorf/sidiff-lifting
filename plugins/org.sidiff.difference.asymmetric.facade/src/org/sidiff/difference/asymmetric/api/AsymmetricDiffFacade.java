@@ -10,8 +10,6 @@ import org.sidiff.common.emf.modelstorage.SiDiffResourceSet;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.common.statistics.StatisticsUtil;
-import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.AsymmetricFactory;
 import org.sidiff.difference.asymmetric.api.util.Difference;
@@ -115,11 +113,9 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
 	 */
-	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-		
-		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
-		
+	public static Difference deriveLiftedAsymmetricDifference(Resource modelA, Resource modelB, LiftingSettings settings)
+			throws InvalidModelException, NoCorrespondencesException {
+
 		settings.setImports(new AsymmetricMergeImports(settings.getScope(), true));
 		
 		// Calculate model difference:
@@ -146,7 +142,9 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
 	 */
-	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
+	public static Difference deriveLiftedAsymmetricDifference(InputModels models, LiftingSettings settings)
+			throws InvalidModelException, NoCorrespondencesException {
+
 		Assert.isLegal(models.getResources().size() == 2, "Exactly two models are required.");
 		return deriveLiftedAsymmetricDifference(models.getResources().get(0), models.getResources().get(1), settings);
 	}
@@ -174,24 +172,6 @@ public class AsymmetricDiffFacade extends LiftingFacade {
 			settings.setImports(null);
 		}
 	}
-
-	/**
-	 * Serializes a difference.
-	 *
-	 * @param diff
-	 *            The difference to serialize.
-	 * @param outputDir
-	 *            The serialization output directory.
-	 * @param fileName The file name of the difference (without file extension).
-	 * @deprecated Use {@link Difference#serialize(SiDiffResourceSet, URI, String)} instead.
-	 */
-	public static void serializeLiftedDifference(Difference diff, URI outputDir, String fileName) {
-		SiDiffResourceSet.create().saveEObjectAs(diff.getSymmetric(),
-				outputDir.appendSegment(fileName).appendFileExtension(LiftingFacade.SYMMETRIC_DIFF_EXT));
-		SiDiffResourceSet.create().saveEObjectAs(diff.getAsymmetric(),
-				outputDir.appendSegment(fileName).appendFileExtension(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT));
-	}
-
 
 	/**
 	 * Load asymmetric difference.

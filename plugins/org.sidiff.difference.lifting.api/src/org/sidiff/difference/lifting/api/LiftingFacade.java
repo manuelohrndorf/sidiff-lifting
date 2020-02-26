@@ -14,8 +14,6 @@ import org.sidiff.common.emf.exceptions.NoCorrespondencesException;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.api.util.PipelineUtils;
@@ -150,16 +148,14 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException 
 	 */
-	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-		
-		// Set SiLift default Correspondence-Service:
-		settings.setCorrespondencesService(ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).get());
-		
+	public static SymmetricDifference liftTechnicalDifference(Resource modelA, Resource modelB, LiftingSettings settings)
+			throws InvalidModelException, NoCorrespondencesException {
+
 		// Calculate model difference:
 		settings.setUnmergeImports(false); // Do not unmerge imports until lifting is done...
 		SymmetricDifference symmetricDifference = deriveTechnicalDifference(modelA, modelB, settings);
 		settings.setUnmergeImports(true);
-		
+
 		// Lift model difference:
 		return liftTechnicalDifference(symmetricDifference, settings);
 	}
@@ -182,8 +178,10 @@ public class LiftingFacade extends TechnicalDifferenceFacade {
 	 * @throws InvalidModelException
 	 * @throws NoCorrespondencesException
 	 */
-	public static SymmetricDifference liftTechnicDifference(InputModels models, LiftingSettings settings) throws InvalidModelException, NoCorrespondencesException{
-		ArrayList<Resource> resources = new ArrayList<Resource>(models.getResources());
+	public static SymmetricDifference liftTechnicDifference(InputModels models, LiftingSettings settings)
+			throws InvalidModelException, NoCorrespondencesException {
+
+		ArrayList<Resource> resources = new ArrayList<>(models.getResources());
 		return liftTechnicalDifference(resources.get(0), resources.get(1), settings);
 	}
 	

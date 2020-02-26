@@ -13,7 +13,7 @@ import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matching.model.Correspondence;
-import org.sidiff.matching.model.MatchingModelFactory;
+import org.sidiff.matching.model.util.MatchingModelUtil;
 
 /**
  * Establishes missing correspondences between EObjects located at
@@ -230,12 +230,9 @@ public class ResourceSetAdapter {
 
 			// Create new Correspondence
 			if (objB != null){
-				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				correspondence.setMatchedA(objA);
-				correspondence.setMatchedB(objB);		
+				Correspondence correspondence = MatchingModelUtil.createCorrespondence(objA, objB);		
 				difference.addCorrespondence(correspondence);
 				resourceSetCorrespondences.add(correspondence);
-
 				assert (difference.getCorrespondingObjectInB(objA) != null);
 			}
 		}
@@ -322,12 +319,9 @@ public class ResourceSetAdapter {
 			
 			// Create new Correspondence
 			if (objA != null){
-				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				correspondence.setMatchedA(objA);
-				correspondence.setMatchedB(objB);		
+				Correspondence correspondence = MatchingModelUtil.createCorrespondence(objA, objB);		
 				difference.addCorrespondence(correspondence);
 				resourceSetCorrespondences.add(correspondence);
-
 				assert (difference.getCorrespondingObjectInA(objB) != null);
 			}
 		}

@@ -2,8 +2,8 @@ package org.sidiff.difference.technical.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -66,15 +66,16 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 		
 		// Unmerge Imports
 		unmergeImports(settings);	
-		
+
 		// Report
-		Map<Class<? extends Change>, Integer> counts = countChanges(symmetricDifference);
-		
-		LogUtil.log(LogEvent.NOTICE, "Add Object: " + counts.getOrDefault(AddObjectImpl.class, 0));
-		LogUtil.log(LogEvent.NOTICE, "Add Reference: " + counts.getOrDefault(AddReferenceImpl.class, 0));
-		LogUtil.log(LogEvent.NOTICE, "Remove Object: " + counts.getOrDefault(RemoveObjectImpl.class, 0));
-		LogUtil.log(LogEvent.NOTICE, "Remove Reference: " + counts.getOrDefault(RemoveReferenceImpl.class, 0));
-		LogUtil.log(LogEvent.NOTICE, "Attribute Value Change: " + counts.getOrDefault(AttributeValueChangeImpl.class, 0));
+		Map<Class<? extends Change>, Long> counts = symmetricDifference.getChanges().stream()
+				.collect(Collectors.groupingBy(Change::getClass, Collectors.counting()));
+
+		LogUtil.log(LogEvent.NOTICE, "Add Object: " + counts.getOrDefault(AddObjectImpl.class, 0L));
+		LogUtil.log(LogEvent.NOTICE, "Add Reference: " + counts.getOrDefault(AddReferenceImpl.class, 0L));
+		LogUtil.log(LogEvent.NOTICE, "Remove Object: " + counts.getOrDefault(RemoveObjectImpl.class, 0L));
+		LogUtil.log(LogEvent.NOTICE, "Remove Reference: " + counts.getOrDefault(RemoveReferenceImpl.class, 0L));
+		LogUtil.log(LogEvent.NOTICE, "Attribute Value Change: " + counts.getOrDefault(AttributeValueChangeImpl.class, 0L));
 		
 		return symmetricDifference;
 	}
@@ -166,16 +167,5 @@ public class TechnicalDifferenceFacade extends MatchingFacade {
 			settings.getImports().unmerge();
 			settings.setImports(null);
 		}
-	}
-	
-	private static Map<Class<? extends Change>, Integer> countChanges(SymmetricDifference diff){
-		Map<Class<? extends Change>, Integer> counts = new HashMap<Class<? extends Change>, Integer>();
-		
-		for(Change change : diff.getChanges()){
-			Integer count = counts.getOrDefault(change.getClass(), 0);
-			counts.put(change.getClass(), ++count);
-		}
-		
-		return counts;
 	}
 }

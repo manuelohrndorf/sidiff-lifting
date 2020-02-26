@@ -29,7 +29,7 @@ import org.sidiff.difference.symmetric.EditRuleMatch;
 import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.matching.model.Correspondence;
-import org.sidiff.matching.model.MatchingModelFactory;
+import org.sidiff.matching.model.util.MatchingModelUtil;
 
 public class PackageRegistryAdapter {
 	
@@ -197,18 +197,16 @@ public class PackageRegistryAdapter {
 	private void createCorrespondences() {
 		assertRelinkEnabled();
 
-		for (EObject mergeObjOriginal : copier.keySet()) {
-			EObject mergeObjCopy = copier.get(mergeObjOriginal);
-
+		copier.forEach((mergeObjOriginal, mergeObjCopy) -> {
 			// Create new Correspondence
-			Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-			correspondence.setMatchedA(Objects.requireNonNull(mergeObjOriginal, "mergeObjOriginal is null"));
-			correspondence.setMatchedB(Objects.requireNonNull(mergeObjCopy, "mergeObjCopy is null"));
+			Correspondence correspondence = MatchingModelUtil.createCorrespondence(
+					Objects.requireNonNull(mergeObjOriginal, "mergeObjOriginal is null"),
+					Objects.requireNonNull(mergeObjCopy, "mergeObjCopy is null"));
 
 			// Save new Correspondence
 			original2Correspondence.put(mergeObjOriginal, correspondence);
 			copy2Correspondence.put(mergeObjCopy, correspondence);
-		}
+		});
 	}
 
 	/**
@@ -354,12 +352,8 @@ public class PackageRegistryAdapter {
 		} else {
 			// orig <-> orig
 			if (!importsA.contains(orig) || !importsB.contains(orig)) {
-				
 				// Create new Correspondence
-				Correspondence correspondence = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				correspondence.setMatchedA(orig);
-				correspondence.setMatchedB(orig);
-				
+				Correspondence correspondence = MatchingModelUtil.createCorrespondence(orig, orig);
 				difference.addCorrespondence(correspondence);
 				registryCorrespondences.add(correspondence);
 				importsA.add(orig);

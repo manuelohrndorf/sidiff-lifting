@@ -34,6 +34,7 @@ import org.sidiff.entities.importer.ImportFailedException;
 import org.sidiff.matching.model.Correspondence;
 import org.sidiff.matching.model.Matching;
 import org.sidiff.matching.model.MatchingModelFactory;
+import org.sidiff.matching.model.util.MatchingModelUtil;
 import org.sidiff.slicer.rulebased.slice.ExecutableModelSlice;
 import org.sidiff.slicer.rulebased.slice.RuleBasedSliceFactory;
 import org.sidiff.slicer.slice.SlicedElement;
@@ -427,10 +428,7 @@ public class ExecutableModelSliceCreator {
 	public void calculateCorrespondences() {
 		for(SlicedElement element : objCopies.values()) {
 			if(!unmatchedElements.contains(element)) {
-				Correspondence c = MatchingModelFactory.eINSTANCE.createCorrespondence();
-				c.setMatchedA(element);
-				c.setMatchedB(element);
-				correspondences.add(c);
+				correspondences.add(MatchingModelUtil.createCorrespondence(element, element));
 			}
 		}		
 	}

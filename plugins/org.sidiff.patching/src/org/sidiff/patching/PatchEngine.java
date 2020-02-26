@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.correspondences.ICorrespondences;
-import org.sidiff.correspondences.matchingmodel.MatchingModelCorrespondences;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.difference.asymmetric.MultiParameterBinding;
 import org.sidiff.difference.asymmetric.ObjectParameterBinding;
@@ -77,15 +75,6 @@ public class PatchEngine {
 		Objects.requireNonNull(patchedResource, "patchedResource is null");
 		Objects.requireNonNull(settings, "settings is null");
 
-		// Set SiLift default Correspondence-Service:
-		// FIXME (cpietsch: 09-06-2019) a matcher is only used if the argument manager extends  org.sidiff.patching.arguments.AbstractMatcherBasedArgumentManager
-		// otherwise the matcher is not set and no correspondences service is needed. However, this should be handled by the IPatchEngineSettings object.
-		if(settings.getMatcher() != null) {
-		settings.getMatcher().setCorrespondencesService(
-				ICorrespondences.MANAGER.getExtension(MatchingModelCorrespondences.class).orElseThrow(
-						() -> new RuntimeException("No correspondences service is available")));
-		}
-		
 		// Get settings:
 		this.patchedResource = patchedResource;
 		this.argumentManager = settings.getArgumentManager();
