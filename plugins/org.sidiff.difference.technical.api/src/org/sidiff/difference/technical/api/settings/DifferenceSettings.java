@@ -57,8 +57,8 @@ public class DifferenceSettings extends MatchingSettings {
 	@Override
 	public void initDefaults(Set<String> documentTypes) {
 		super.initDefaults(documentTypes);
-		if(techBuilder != null) {
-			this.techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
+		if(techBuilder == null) {
+			techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
 		}
 	}
 	
