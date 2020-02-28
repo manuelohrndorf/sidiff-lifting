@@ -17,8 +17,6 @@ import org.sidiff.matcher.IMatcher;
 import org.sidiff.matcher.IncrementalMatcher;
 import org.sidiff.matching.api.settings.MatchingSettings;
 import org.sidiff.matching.api.settings.MatchingSettingsItem;
-import org.sidiff.similarities.ISimilarities;
-import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
 /**
  * @author rmueller
@@ -33,13 +31,9 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		return "matcherOptions[" + matcher + "][" + option + "]";
 	}
 	public static final String KEY_CANDIDATES_SERVICE = "candidatesService";
-	public static final String KEY_SIMILARITIES_SERVICE = "similaritiesService";
-	public static final String KEY_SIMILARITIES_CALCULATION_SERVICE = "similaritiesCalculationService";
 
 	private List<IMatcher> matchers;
 	private ICandidates candidatesService;
-	private ISimilarities similaritiesService;
-	private ISimilaritiesCalculation similaritiesCalculationService;
 
 	@Override
 	public boolean canAdapt(ISettings settings) {
@@ -59,20 +53,12 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		if(candidatesService != null && isConsidered(MatchingSettingsItem.CANDITATE_SERVICE)) {
 			matchingSettings.setCandidatesService(candidatesService);
 		}
-		if(similaritiesService != null && isConsidered(MatchingSettingsItem.SIMILARTIY_SERVICE)) {
-			matchingSettings.setSimilaritiesService(similaritiesService);
-		}
-		if(similaritiesCalculationService != null && isConsidered(MatchingSettingsItem.SIMILARITY_CALCULATION_SERVICE)) {
-			matchingSettings.setSimilaritiesCalculationService(similaritiesCalculationService);
-		}
 	}
 
 	@Override
 	public void load(IPreferenceStore store) {
 		loadMatchers(store);
 		loadCandidatesService(store);
-		loadSimilaritiesService(store);
-		loadSimilaritiesCalculationService(store);
 	}
 
 	protected void loadMatchers(IPreferenceStore store) {
@@ -110,30 +96,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 		}
 	}
 
-	protected void loadSimilaritiesService(IPreferenceStore store) {
-		String similaritiesServiceId = store.getString(KEY_SIMILARITIES_SERVICE);
-		if(similaritiesServiceId.isEmpty()) {
-			similaritiesService = null;
-		} else {
-			similaritiesService = ISimilarities.MANAGER.getExtension(similaritiesServiceId).orElse(null);
-			if(similaritiesService == null) {
-				addError("Similarities Service with id '" + similaritiesServiceId + "' was not found.");
-			}			
-		}
-	}
-
-	protected void loadSimilaritiesCalculationService(IPreferenceStore store) {
-		String similaritiesCalculationServiceId = store.getString(KEY_SIMILARITIES_CALCULATION_SERVICE);
-		if(similaritiesCalculationServiceId.isEmpty()) {
-			similaritiesCalculationService = null;
-		} else {
-			similaritiesCalculationService = ISimilaritiesCalculation.MANAGER.getExtension(similaritiesCalculationServiceId).orElse(null);
-			if(similaritiesCalculationService == null) {
-				addError("Similarities Calculation Service with id '" + similaritiesCalculationServiceId + "' was not found.");
-			}			
-		}
-	}
-
 	private IMatcher createMatcher() {
 		switch(matchers.size()) {
 			case 0: return null;
@@ -146,8 +108,6 @@ public class MatchingSettingsAdapter extends AbstractSettingsAdapter {
 	public void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(KEY_MATCHERS, "org.sidiff.matcher.signature.name.NamedElementMatcher");
 		store.setDefault(KEY_CANDIDATES_SERVICE, "InterModelTypeCandidates");
-		store.setDefault(KEY_SIMILARITIES_SERVICE, "");
-		store.setDefault(KEY_SIMILARITIES_CALCULATION_SERVICE, "");
 	}
 
 	@Override

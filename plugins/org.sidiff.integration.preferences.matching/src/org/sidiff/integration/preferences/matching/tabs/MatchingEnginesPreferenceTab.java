@@ -11,8 +11,6 @@ import org.sidiff.integration.preferences.matching.settingsadapter.MatchingSetti
 import org.sidiff.integration.preferences.tabs.AbstractPreferenceTab;
 import org.sidiff.integration.preferences.valueconverters.ExtensionValueConverter;
 import org.sidiff.matcher.IMatcher;
-import org.sidiff.similarities.ISimilarities;
-import org.sidiff.similaritiescalculation.ISimilaritiesCalculation;
 
 /**
  * 
@@ -46,23 +44,5 @@ public class MatchingEnginesPreferenceTab extends AbstractPreferenceTab {
 				ICandidates.MANAGER.getSortedExtensions(),
 				ExtensionValueConverter.getInstance());
 		list.add(candidatesServiceField);
-
-		IPreferenceField similaritiesServiceField =
-			PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_SERVICE,
-				"Similarities Service",
-				ISimilarities.MANAGER.getSortedExtensions(),
-				ExtensionValueConverter.getInstance(),
-				true);
-		list.add(similaritiesServiceField);
-
-		IPreferenceField similaritiesCalculationServiceField =
-			PreferenceFieldFactory.createRadioBox(
-				MatchingSettingsAdapter.KEY_SIMILARITIES_CALCULATION_SERVICE,
-				"Similarities Calculation Service",
-				ISimilaritiesCalculation.MANAGER.getSortedExtensions(),
-				ExtensionValueConverter.getInstance(),
-				true);
-		list.add(similaritiesCalculationServiceField);
 	}
 }
