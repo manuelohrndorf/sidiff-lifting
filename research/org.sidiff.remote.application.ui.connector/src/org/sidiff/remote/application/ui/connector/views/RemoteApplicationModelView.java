@@ -476,7 +476,7 @@ public class RemoteApplicationModelView extends AbstractRemoteApplicationView<Ch
 					try {
 						if (patchingSettings.getModifiedDetector() != null) {
 							patchingSettings.getModifiedDetector().init(asymmetricDifference.getChangedModel(),
-									targetResource.get(), patchingSettings.getMatcher(), Scope.RESOURCE);
+									targetResource.get(), patchingSettings);
 						}
 					} catch (IOException e) {
 						// TODO: handle exception

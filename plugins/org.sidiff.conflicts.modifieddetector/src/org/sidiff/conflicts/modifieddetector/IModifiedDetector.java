@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.extension.ITypedExtension;
 import org.sidiff.common.extension.TypedExtensionManager;
-import org.sidiff.matcher.IMatcher;
 
 /**
  * This interface belongs to the 'org.silift.modifieddetector'
@@ -32,7 +30,7 @@ public interface IModifiedDetector extends ITypedExtension {
 	 * @param scope the scope to use
 	 * @throws IOException 
 	 */
-	void init(Resource modelA, Resource modelB, IMatcher matcher, Scope scope) throws IOException;
+	void init(Resource modelA, Resource modelB, IModifiedDetectorSettings settings) throws IOException;
 
 	/**
 	 * 

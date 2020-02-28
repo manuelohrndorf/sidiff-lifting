@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,7 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -48,7 +46,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.sidiff.common.collections.CollectionUtil;
-import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.copiers.XmiIdCopier;
@@ -371,7 +368,7 @@ public class SlicingCriteriaView extends ViewPart implements ICheckStateListener
 								mergeEngine.setPatchedEditingDomain(editingDomain);
 								// Init detector if available
 								if (mergeSettings.getModifiedDetector() != null) {
-									mergeSettings.getModifiedDetector().init(localSlicedResource, localModifiedSlicedResource, mergeSettings.getMatcher(), Scope.RESOURCE);
+									mergeSettings.getModifiedDetector().init(localSlicedResource, localModifiedSlicedResource, mergeSettings);
 								}
 
 								// Opening and setting operation explorer view

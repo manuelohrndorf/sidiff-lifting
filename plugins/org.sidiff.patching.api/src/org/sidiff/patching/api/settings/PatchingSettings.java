@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
+import org.sidiff.conflicts.modifieddetector.IModifiedDetectorSettings;
 import org.sidiff.correspondences.ICorrespondences;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
@@ -23,7 +24,7 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 /**
  * @see PatchingSettingsItem
  */
-public class PatchingSettings extends LiftingSettings implements IPatchEngineSettings {
+public class PatchingSettings extends LiftingSettings implements IPatchEngineSettings, IModifiedDetectorSettings {
 
 	/**
 	 * 

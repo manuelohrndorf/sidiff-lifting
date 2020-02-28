@@ -137,7 +137,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		});
 	}
 
-	protected void initPatchingSettings() throws FileNotFoundException, IOException {
+	protected void initPatchingSettings() throws IOException {
 		settings.setExecutionMode(ExecutionMode.INTERACTIVE);
 
 		// Use interactive argument manager
@@ -160,7 +160,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 						IModifiedDetector.MANAGER.getDefaultExtension(documentTypes).orElse(null));				
 			}
 			if(settings.getModifiedDetector() != null) {
-				settings.getModifiedDetector().init(asymmetricDifference.getOriginModel(), targetResource, settings.getMatcher(), settings.getScope());
+				settings.getModifiedDetector().init(asymmetricDifference.getOriginModel(), targetResource, settings);
 			}
 		}
 

@@ -1,6 +1,7 @@
 package org.sidiff.ecore.modifieddetector;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Set;
 
@@ -21,9 +22,11 @@ public class EcoreModifiedDetector extends AnnotationModifiedDetector {
 	@Override
 	public void initAnnotator(IAnnotation annotator, Resource model) throws IOException {
 		LogUtil.log(LogEvent.DEBUG, "Config: " + CONFIG_PATH);	
-		
+
 		// Configure AnnotationService
-		annotator.getConfiguration().setOption("configDocument", XMLParser.parseStream(IOUtil.openInputStream(PLUGIN_ID, CONFIG_PATH)));
+		try (InputStream inStream = IOUtil.openInputStream(PLUGIN_ID, CONFIG_PATH)) {
+			annotator.getConfiguration().setOption("configDocument", XMLParser.parseStream(inStream));			
+		}
 	}
 
 	@Override

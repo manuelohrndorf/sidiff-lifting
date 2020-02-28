@@ -19,13 +19,11 @@ public class ObjectArgumentWrapper extends ArgumentWrapper {
 	/**
 	 * Is the argument already resolved?
 	 */
-	private boolean resolved;
-	
-	
+	private boolean resolved = false;
+
 	public ObjectArgumentWrapper(ObjectParameterBinding binding, IArgumentManager argumentManager) {
 		super(argumentManager);
 		this.binding = binding;
-		resolved = false;
 	}
 
 	/**
@@ -42,9 +40,8 @@ public class ObjectArgumentWrapper extends ArgumentWrapper {
 	public EObject getProxyObject() {
 		if (binding.getActualA() != null) {
 			return binding.getActualA();
-		} else {
-			return binding.getActualB();
 		}
+		return binding.getActualB();
 	}
 
 	public void resolveTo(EObject targetObject) {
@@ -76,9 +73,8 @@ public class ObjectArgumentWrapper extends ArgumentWrapper {
 		if (!resolved){
 			// not resolved, so modification check makes no sense
 			return false;
-		} else {
-			return getArgumentManager().isModified(targetObject);
 		}
+		return getArgumentManager().isModified(targetObject);
 	}
 	
 	@Override

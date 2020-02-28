@@ -159,8 +159,7 @@ public class SiLiftCompareDifferencer {
 					modifiedDetector.init(
 						getAncestor().getResource(),
 						getModifiedLeft().getResource(),
-						patchingSettings.getMatcher(),
-						patchingSettings.getScope());
+						patchingSettings);
 				} catch (IOException e) {
 					StatusManager.getManager().handle(new Status(IStatus.ERROR, CompareIntegrationPlugin.ID,
 							"SiLiftCompareDifferencer could not initialize modified detector", e));
