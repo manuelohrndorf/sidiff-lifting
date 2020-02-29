@@ -1,6 +1,5 @@
 package org.sidiff.difference.lifting.ui.pages;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
@@ -17,7 +16,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link LiftingSettings}
 	 */
 	private LiftingSettings settings;
-	
+
 	/**
 	 * The {@link InputModels}
 	 */
@@ -29,38 +28,34 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 	private BasicCompareSettingsPage basicCompareSettingsPage;
 
 	// ---------- UI Elements ----------
-	
+
 	/**
 	 * The {@link RecognitionEngineWidget} determining the recognition mode
 	 */
 	private RecognitionEngineWidget recognitionWidget;
-	
+
 	/**
 	 * The {@link MatchingEngineWidget} for choosing a matcher
 	 */
 	private MatchingEngineWidget matcherWidget;
-	
+
 	/**
 	 * The {@link DifferenceBuilderWidget} for choosing a technical difference builder
 	 */
 	private DifferenceBuilderWidget builderWidget;
-	
+
 	/**
 	 * The {@link RecognitionEngineWidget} for choosing a recognition rule sorter
 	 */
 	private RecognitionRuleSorterWidget rrSorterWidget;
-	
+
 	// ---------- Constructor ----------
 
-	public AdvancedCompareSettingsPage(String pageName, String title, InputModels inputModels,
+	public AdvancedCompareSettingsPage(InputModels inputModels,
 			LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
-		this(pageName, title, DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"), inputModels, settings, basicCompareSettingsPage);
-	}
 
-	public AdvancedCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
-			InputModels inputModels, LiftingSettings settings, BasicCompareSettingsPage basicCompareSettingsPage) {
-		super(pageName, title, titleImage);
-
+		super("Advanced Compare Settings Page", "Compare models with each other",
+				DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"));
 		this.inputModels = inputModels;
 		this.settings = settings;
 		this.basicCompareSettingsPage = basicCompareSettingsPage;
@@ -70,7 +65,6 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 
 	@Override
 	protected void createWidgets() {
-
 		// Matcher:
 		matcherWidget = new MatchingEngineWidget(inputModels, settings);
 		matcherWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
@@ -81,12 +75,12 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
-		
+
 		// Recognition Rule Sorter:
 		rrSorterWidget = new RecognitionRuleSorterWidget(inputModels, settings);
 		rrSorterWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, rrSorterWidget);
-		
+
 		// Recognition engine:
 		recognitionWidget = new RecognitionEngineWidget(settings);
 		recognitionWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());

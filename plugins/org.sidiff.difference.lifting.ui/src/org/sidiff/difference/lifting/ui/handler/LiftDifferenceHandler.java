@@ -4,6 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -15,13 +16,10 @@ public class LiftDifferenceHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		final Object selectedObjects[] = HandlerUtil.getCurrentStructuredSelection(event).toArray();
-		if(selectedObjects.length != 1) {
-			return null;
-		}
+		Assert.isLegal(selectedObjects.length == 1);
 		Display.getDefault().asyncExec(() -> {
-			// Lift a technical difference:
-			WizardDialog wizardDialog = new WizardDialog(UIUtil.getActiveShell(), new LiftDifferenceWizard((IFile)selectedObjects[0]));
-			wizardDialog.open();
+			new WizardDialog(UIUtil.getActiveShell(),
+				new LiftDifferenceWizard((IFile)selectedObjects[0])).open();
 		});
 		return null;
 	}

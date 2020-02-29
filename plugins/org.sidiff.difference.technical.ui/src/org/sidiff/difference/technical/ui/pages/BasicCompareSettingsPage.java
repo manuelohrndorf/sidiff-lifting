@@ -1,6 +1,5 @@
 package org.sidiff.difference.technical.ui.pages;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.input.ui.InputModelsWidget;
 import org.sidiff.common.emf.settings.BaseSettingsItem;
@@ -8,6 +7,7 @@ import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
+import org.sidiff.difference.technical.ui.internal.TechnicalDifferenceUiPlugin;
 import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
@@ -52,7 +52,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	/**
 	 * The {@link InputModelsWidget} for loading the models being compared.
 	 */
-	private org.sidiff.common.emf.input.ui.InputModelsWidget sourceWidget;
+	private InputModelsWidget sourceWidget;
 
 	/**
 	 * The {@link ScopeWidget} for determining the scope of the comparison.
@@ -61,13 +61,9 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 
 	// ---------- Constructor ----------
 
-	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, DifferenceSettings settings) {
-		this(pageName, title, null, inputModels, settings);
-	}
-
-	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
-			InputModels inputModels, DifferenceSettings settings) {
-		super(pageName, title, titleImage);
+	public BasicCompareSettingsPage(InputModels inputModels, DifferenceSettings settings) {
+		super("Basic Compare Settings Page", "Compare models with each other",
+				TechnicalDifferenceUiPlugin.getImageDescriptor("icon.gif"));
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}

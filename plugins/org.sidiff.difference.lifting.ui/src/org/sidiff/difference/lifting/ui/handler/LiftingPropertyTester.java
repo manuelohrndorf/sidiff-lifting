@@ -13,7 +13,7 @@ import org.sidiff.difference.technical.ITechnicalDifferenceBuilder;
 
 
 public class LiftingPropertyTester extends PropertyTester {
-	
+
 	private static final String MODEL_FILE = "modelFile";
 
 	@Override
@@ -21,12 +21,10 @@ public class LiftingPropertyTester extends PropertyTester {
 		if(property.equals(MODEL_FILE)){
 			if(receiver instanceof IFile) {
 				Resource resource = SiDiffResourceSet.create().getResource(EMFStorage.toPlatformURI((IFile)receiver), true);
-				Set<String> documentType =EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE_SET);
+				Set<String> documentType = EMFModelAccess.getDocumentTypes(resource, Scope.RESOURCE_SET);
 				return !ITechnicalDifferenceBuilder.MANAGER.getExtensions(documentType, true).isEmpty();				
 			}
 		}
-
 		return false;
 	}
-
 }

@@ -1,6 +1,5 @@
 package org.sidiff.difference.lifting.ui.pages;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.emf.input.ui.InputModelsWidget;
 import org.sidiff.common.emf.settings.BaseSettingsItem;
@@ -53,17 +52,12 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	 * The {@link RulebaseWidget} for choosing the rule bases used by the lifting engine.
 	 */
 	private RulebaseWidget rulebaseWidget;
-	
-	
+
 	// ---------- Constructor ----------
 
-	public BasicCompareSettingsPage(String pageName, String title, InputModels inputModels, LiftingSettings settings) {
-		this(pageName, title, DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"), inputModels, settings);
-	}
-
-	public BasicCompareSettingsPage(String pageName, String title, ImageDescriptor titleImage,
-			InputModels inputModels, LiftingSettings settings) {
-		super(pageName, title, titleImage);
+	public BasicCompareSettingsPage(InputModels inputModels, LiftingSettings settings) {
+		super("Basic Compare Settings Page", "Compare models with each other",
+				DifferenceLiftingUiPlugin.getImageDescriptor("icon.png"));
 		this.inputModels = inputModels;
 		this.settings = settings;
 	}

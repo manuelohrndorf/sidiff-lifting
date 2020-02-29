@@ -17,8 +17,13 @@ public class CreateLiftedDifferenceHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
 		Display.getDefault().asyncExec(() -> {
-			InputModels inputModels = InputModels.builder().addModels(selection).assertNumModels(2).assertSameDocumentType(true).build();			
-			new WizardDialog(UIUtil.getActiveShell(), new CreateLiftedDifferenceWizard(inputModels)).open();
+			InputModels inputModels = InputModels.builder()
+				.addModels(selection)
+				.assertNumModels(2)
+				.assertSameDocumentType(true)
+				.build();			
+			new WizardDialog(UIUtil.getActiveShell(),
+					new CreateLiftedDifferenceWizard(inputModels)).open();
 		});
 		return null;
 	}

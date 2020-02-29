@@ -1,7 +1,6 @@
 package org.sidiff.difference.lifting.ui.wizard;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
@@ -47,12 +46,10 @@ public class CreateLiftedDifferenceWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page",
-				"Compare models with each other", inputModels, settings);
+		basicCompareSettingsPage = new BasicCompareSettingsPage(inputModels, settings);
 		addPage(basicCompareSettingsPage);
 
-		advancedCompareSettingsPage = new AdvancedCompareSettingsPage("Advanced Compare Settings Page",
-				"Compare models with each other", inputModels, settings, basicCompareSettingsPage);
+		advancedCompareSettingsPage = new AdvancedCompareSettingsPage(inputModels, settings, basicCompareSettingsPage);
 		addPage(advancedCompareSettingsPage);
 	}
 
@@ -63,8 +60,7 @@ public class CreateLiftedDifferenceWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		Job job = new CreateLiftedDifferenceJob(inputModels, settings);
-		job.schedule();
+		new CreateLiftedDifferenceJob(inputModels, settings).schedule();
 		return true;
 	}
 }

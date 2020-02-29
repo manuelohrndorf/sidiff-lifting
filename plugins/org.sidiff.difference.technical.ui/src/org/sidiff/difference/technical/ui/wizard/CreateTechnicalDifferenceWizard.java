@@ -1,6 +1,5 @@
 package org.sidiff.difference.technical.ui.wizard;
 
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
@@ -13,22 +12,21 @@ public class CreateTechnicalDifferenceWizard extends Wizard {
 	 * The {@link InputModels}
 	 */
 	private InputModels inputModels;
-	
+
 	/**
 	 * The {@link DifferenceSettings}
 	 */
 	private DifferenceSettings settings;
 
 	// ---------- UI Elements ----------
-	
+
 	/**
 	 * The {@link BasicCompareSettingsPage}
 	 */
 	private BasicCompareSettingsPage basicCompareSettingsPage;
-	
 
 	// ---------- Constructor ----------
-	
+
 	public CreateTechnicalDifferenceWizard(InputModels inputModels) {
 		this.setWindowTitle("New Symmetric Difference Wizard");
 		this.inputModels = inputModels;
@@ -36,11 +34,10 @@ public class CreateTechnicalDifferenceWizard extends Wizard {
 	}
 
 	// ---------- Wizard ----------
-	
+
 	@Override
 	public void addPages() {
-		basicCompareSettingsPage = new BasicCompareSettingsPage("Basic Compare Settings Page",
-				"Compare models with each other", inputModels, settings);
+		basicCompareSettingsPage = new BasicCompareSettingsPage(inputModels, settings);
 		addPage(basicCompareSettingsPage);
 	}
 
@@ -51,8 +48,7 @@ public class CreateTechnicalDifferenceWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		Job job = new CreateTechnicalDifferenceJob(inputModels, settings);
-		job.schedule();
+		new CreateTechnicalDifferenceJob(inputModels, settings).schedule();
 		return true;
 	}
 }

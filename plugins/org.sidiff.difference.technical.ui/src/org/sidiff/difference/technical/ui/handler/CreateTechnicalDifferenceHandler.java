@@ -22,8 +22,8 @@ public class CreateTechnicalDifferenceHandler extends AbstractHandler {
 					.assertNumModels(2)
 					.assertSameDocumentType(true)
 					.build();
-
-			new WizardDialog(UIUtil.getActiveShell(), new CreateTechnicalDifferenceWizard(inputModels)).open();
+			new WizardDialog(UIUtil.getActiveShell(),
+					new CreateTechnicalDifferenceWizard(inputModels)).open();
 		});
 		return null;
 	}
