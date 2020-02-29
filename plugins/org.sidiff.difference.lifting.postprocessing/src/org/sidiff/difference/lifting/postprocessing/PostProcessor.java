@@ -39,6 +39,7 @@ import org.sidiff.difference.symmetric.util.SlicingChangeSetPriorityComparator;
 public class PostProcessor {
 
 	Comparator<SemanticChangeSet> csPrioComparator = new ChangeSetPriorityComparator();
+
 	public void setCsPrioComparator(Comparator<SemanticChangeSet> csPrioComparator) {
 		this.csPrioComparator = csPrioComparator;
 	}
@@ -147,20 +148,16 @@ public class PostProcessor {
 		DifferenceAnalysisUtil.analyzeDifferenceStructure(difference);
 		LogUtil.log(LogEvent.DEBUG, DifferenceAnalysisUtil.printDifferenceStructure(difference));
 		
-		
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "----------------- POSTPROCESSING ALGORITHM -----------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Reset previous post-processing
-//		difference.getChangeSets().addAll(difference.getUnusedChangeSets());
-//		difference.getUnusedChangeSets().clear();
 		assert(difference.getUnusedChangeSets().isEmpty());
 		
 		// Initialize PCS_D with all semantic change sets of the entry difference
 		PCS_D = new LinkedList<SemanticChangeSet>();
 
-		
 		// Remove empty Semantic Change Sets:
 		// Necessary if only the Kernel-Rule matches, but no Multi-Rule.
 		for (Iterator<SemanticChangeSet> iterator = difference.getChangeSets().iterator(); iterator.hasNext();) {
@@ -171,12 +168,11 @@ public class PostProcessor {
 				iterator.remove();
 			}
 		}
-			
+
 		// Remove equal semantic change sets. Two semantic change sets are
 		// equal if they have the same atomic changes.
 		Collection<List<SemanticChangeSet>> equalCS = DifferenceAnalysisUtil.classifyEqual(difference.getChangeSets());
 		for (List<SemanticChangeSet> changeSets : equalCS) {
-			assert(csPrioComparator != null);
 			Collections.sort(changeSets, csPrioComparator);
 			// the cs with the highest priority is at the end of the sorted list
 			PCS_D.add(changeSets.get(changeSets.size()-1)); 
@@ -185,7 +181,7 @@ public class PostProcessor {
 		// Sort semantic change sets by the size of their change count.
 		Collections.sort(PCS_D, compCS);
 
-		PCS_min = new HashSet<SemanticChangeSet>();
+		PCS_min = new HashSet<>();
 
 		// Step 1 in concept paper
 		findNotOverlapping();
@@ -210,15 +206,6 @@ public class PostProcessor {
 		int uncoveredBefore = getRemainingChanges(difference, difference.getChangeSets()).size();
 		int uncoveredAfter = getRemainingChanges(difference, PCS_min).size();
 
-		/*TODO Revise assertions
-		 * commented out for debugging purposes
-		 * 15.08.2013
-		 * 
-		 * assert (uncoveredBefore == 0) : "uncoveredBefore != 0";
-		 * assert (uncoveredAfter == 0) : "uncoveredAfter != 0";
-		 */
-		
-		
 		LogUtil.log(LogEvent.NOTICE, "Coverd atomic changes before post processing: "
 				+ (difference.getChanges().size() - uncoveredBefore));
 		LogUtil.log(LogEvent.NOTICE, "Coverd atomic changes after post processing: "
@@ -228,7 +215,6 @@ public class PostProcessor {
 		// Now PCS_min should include the proper change sets. Move all change
 		// sets which are not included in PCS_min to 'unused change sets'.
 		retainPCS_min(saveUnusedChangeSets);
-		
 	}
 
 	
@@ -247,7 +233,7 @@ public class PostProcessor {
 	 * overlapping SCS.
 	 */
 	private void findProperlyNested() {
-		Set<SemanticChangeSet> nestedCS = new HashSet<SemanticChangeSet>();
+		Set<SemanticChangeSet> nestedCS = new HashSet<>();
 
 		for (SemanticChangeSet cs : PCS_D) {
 			// SCS is not proper subset of another SCS and is not partially overlapping with another SCS.
@@ -268,11 +254,10 @@ public class PostProcessor {
 	 * without producing new uncovered (or ungrouped) atomic changes.
 	 */
 	private void findPartiallyOverlaids() {
-
 		for (int i = 0; i < PCS_D.size(); i++) {
 			SemanticChangeSet cs = PCS_D.get(i);
 
-			Collection<SemanticChangeSet> overlappingChangeSets = new HashSet<SemanticChangeSet>();
+			Collection<SemanticChangeSet> overlappingChangeSets = new HashSet<>();
 			overlappingChangeSets.addAll(cs.getPartiallyOverlappings());
 			overlappingChangeSets.addAll(cs.getSubsets());
 			overlappingChangeSets.addAll(cs.getSupersets());
@@ -355,7 +340,7 @@ public class PostProcessor {
 	 * as possibly. The secondary goal is to keep the largest semantic change sets.
 	 */
 	private void findMinimalSetPatitioning(List<List<SemanticChangeSet>> allGroupedSCS) {
-		List<FindBestCombination> threadList = new LinkedList<FindBestCombination>();
+		List<FindBestCombination> threadList = new LinkedList<>();
 
 		// Start calculation threads
 		for (List<SemanticChangeSet> changeSets : allGroupedSCS) {
@@ -387,23 +372,23 @@ public class PostProcessor {
 	 */
 	private List<List<SemanticChangeSet>> findGroupedSCS() {
 
-		List<List<SemanticChangeSet>> allGroupedSCS = new LinkedList<List<SemanticChangeSet>>();
+		List<List<SemanticChangeSet>> allGroupedSCS = new LinkedList<>();
 
 		while (PCS_D.size() > 0) {
 			SemanticChangeSet cs = PCS_D.get(0);
 
 			// Initialize the grouped set with the first remaining SCS in PCS_D
-			List<SemanticChangeSet> groupedSCS = new LinkedList<SemanticChangeSet>();
+			List<SemanticChangeSet> groupedSCS = new LinkedList<>();
 			groupedSCS.add(cs);
 			PCS_D.remove(cs);
 
 			// Initialize the overlappingSet with the first set in PCS_D
-			Set<SemanticChangeSet> overlappingSet = new HashSet<SemanticChangeSet>();
+			Set<SemanticChangeSet> overlappingSet = new HashSet<>();
 			overlappingSet.add(cs);
 
 			while (overlappingSet.size() > 0) {
 
-				Set<SemanticChangeSet> deeperOverlappingSet = new HashSet<SemanticChangeSet>();
+				Set<SemanticChangeSet> deeperOverlappingSet = new HashSet<>();
 
 				// Find all sets overlapping with the change sets in overlappingSet
 				for (SemanticChangeSet overlappingCS : overlappingSet) {
@@ -481,12 +466,12 @@ public class PostProcessor {
 			}
 
 			// Start calculation
-			best_PCS_min_result = new HashSet<SemanticChangeSet>();
+			best_PCS_min_result = new HashSet<>();
 			int bestRemaining = Integer.MAX_VALUE;
 			int bestCompression = Integer.MAX_VALUE;
 
 			// Get power set of PCS_D_part
-			PowerSet<SemanticChangeSet> powerSetCalculator = new PowerSet<SemanticChangeSet>(limit);
+			PowerSet<SemanticChangeSet> powerSetCalculator = new PowerSet<>(limit);
 			LinkedHashSet<LinkedHashSet<SemanticChangeSet>> pcs_d_powerSet = powerSetCalculator.powerSet(PCS_D_part);
 			
 			for (LinkedHashSet<SemanticChangeSet> subset : pcs_d_powerSet) {
@@ -506,10 +491,10 @@ public class PostProcessor {
 						if (compression < bestCompression) {
 							bestCompression = compression;
 							best_PCS_min_result = subset;
-						}else if (csPrioComparator instanceof SlicingChangeSetPriorityComparator && compression == bestCompression){
+						} else if (csPrioComparator instanceof SlicingChangeSetPriorityComparator && compression == bestCompression) {
 							Set<EObject> slicingCriteria = ((SlicingChangeSetPriorityComparator)csPrioComparator).getSlicingCriteria();
-							Map<EObject, SemanticChangeSet> overlappingBest = new HashMap<EObject, SemanticChangeSet>();
-							Map<EObject, SemanticChangeSet> overlappingSubset = new HashMap<EObject, SemanticChangeSet>();
+							Map<EObject, SemanticChangeSet> overlappingBest = new HashMap<>();
+							Map<EObject, SemanticChangeSet> overlappingSubset = new HashMap<>();
 							for(EObject eObject : slicingCriteria){
 								for(SemanticChangeSet scs : best_PCS_min_result){
 									for(Change change : scs.getChanges()){
@@ -531,7 +516,7 @@ public class PostProcessor {
 										}
 									}
 								}
-								if(new HashSet<SemanticChangeSet>(overlappingSubset.values()).size() < new HashSet<SemanticChangeSet>(overlappingBest.values()).size()){
+								if(new HashSet<>(overlappingSubset.values()).size() < new HashSet<>(overlappingBest.values()).size()) {
 									best_PCS_min_result = subset;
 								}
 							}
