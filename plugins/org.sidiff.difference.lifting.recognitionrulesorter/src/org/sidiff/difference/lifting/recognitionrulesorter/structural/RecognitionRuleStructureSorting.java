@@ -27,7 +27,6 @@ public class RecognitionRuleStructureSorting {
 	 *            All recognition rule to sort.
 	 */
 	public static void sort(Collection<Rule> recognitionRules) {
-		
 		for (Rule recognitionRule : recognitionRules) {
 			sort(recognitionRule);
 		}
@@ -52,7 +51,7 @@ public class RecognitionRuleStructureSorting {
 		
 		// Sort all multi-rules (if there are any)
 		for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-			EList<Node>  multiNodes = multiRule.getLhs().getNodes();
+			EList<Node> multiNodes = multiRule.getLhs().getNodes();
 			SortingConstraint.structuredSorting(RecognitionRuleStructureSorting.getMultiStartNode(multiRule), multiNodes);
 			
 			// Sort application conditions:

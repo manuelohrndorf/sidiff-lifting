@@ -68,10 +68,7 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isDifference(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getSymmetricDifference()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getSymmetricDifference();
 	}
 
 	/**
@@ -83,7 +80,6 @@ public class RecognitionRuleSorterUtil {
 	 *         otherwise.
 	 */
 	public static boolean isTypeNode(Node node) {
-
 		if (node.getAttributes().size() != 1) {
 			return false;
 		}
@@ -115,7 +111,7 @@ public class RecognitionRuleSorterUtil {
 	}
 
 	private static boolean isUsedAsTypeNodeInChange(Node node){
-		if (node == null){
+		if (node == null) {
 			return false;
 		}
 		
@@ -140,7 +136,7 @@ public class RecognitionRuleSorterUtil {
 	 */
 	public static boolean isChangeNode(Node node) {
 		return node.getType().getESuperTypes().contains(SymmetricPackage.eINSTANCE.getChange())
-				|| (node.getType() == SymmetricPackage.eINSTANCE.getChange());
+				|| node.getType() == SymmetricPackage.eINSTANCE.getChange();
 	}
 	
 	/**
@@ -152,10 +148,7 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isAddObject(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getAddObject()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getAddObject();
 	}
 
 	/**
@@ -167,10 +160,7 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isRemoveObject(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getRemoveObject()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getRemoveObject();
 	}
 
 	/**
@@ -182,10 +172,7 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isAddReference(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getAddReference()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getAddReference();
 	}
 
 	/**
@@ -197,10 +184,7 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isRemoveReference(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getRemoveReference()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getRemoveReference();
 	}
 
 	/**
@@ -212,10 +196,7 @@ public class RecognitionRuleSorterUtil {
 	 *         AttributeValueChange; <code>false</code> otherwise.
 	 */
 	public static boolean isAttributeValueChange(Node node) {
-		if (node.getType() == SymmetricPackage.eINSTANCE.getAttributeValueChange()) {
-			return true;
-		}
-		return false;
+		return node.getType() == SymmetricPackage.eINSTANCE.getAttributeValueChange();
 	}
 
 	/**
@@ -227,9 +208,6 @@ public class RecognitionRuleSorterUtil {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isCorrespondence(Node node) {
-		if (node.getType() == MatchingModelPackage.eINSTANCE.getCorrespondence()) {
-			return true;
-		}
-		return false;
+		return node.getType() == MatchingModelPackage.eINSTANCE.getCorrespondence();
 	}
 }

@@ -32,9 +32,6 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 	@Override
 	public int compare(Node n1, Node n2) {
 
-		int value1 = 0;
-		int value2 = 0;
-
 		// Move Difference always to the top
 		if (isDifference(n1)) {
 			return -1;
@@ -61,21 +58,20 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 		}
 
 		// Set values for Change-Nodes
-		value1 = getChangeNodeValue(n1);
-		value2 = getChangeNodeValue(n2);
+		int value1 = getChangeNodeValue(n1);
+		int value2 = getChangeNodeValue(n2);
 
-		if ((value1 == -1) && (value2 == -1)) {
+		if (value1 == -1 && value2 == -1) {
 			// Two model nodes: delegate their comparison to domain
 			// configuration
 			return compareModelNodes(n1, n2);
 		}
 		// Sort Model-Nodes between Change-Nodes and Correspondences
-		else if ((value1 == -1)) {
+		else if (value1 == -1) {
 			return 1;
-		} else if ((value2 == -1)) {
+		} else if (value2 == -1) {
 			return -1;
 		}
-
 		return value1 - value2;
 	}
 	
@@ -87,7 +83,6 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 	 * @return the object count of the Change-Node count in the difference.
 	 */
 	protected int getChangeNodeValue(Node node) {
-
 		if (isAddObject(node)) {
 			return analysis.getAddObjectCount();
 		} else if (isRemoveObject(node)) {
@@ -98,9 +93,8 @@ public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleS
 			return analysis.getAddReferenceCount();
 		} else if (isRemoveReference(node)) {
 			return analysis.getRemoveReferenceCount();
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 	
 	// Order of type nodes should be declared by an (optional) domain Plug-In
