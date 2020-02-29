@@ -7,23 +7,24 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 
 public class RuleBaseFilter {
-	
+
 	private Set<IEditRuleBase> rulebases;
-	private ArrayList <RuleBaseItem> changedItems = new ArrayList<RuleBaseItem>();
-	
+	private ArrayList<RuleBaseItem> changedItems = new ArrayList<>();
+
 	public RuleBaseFilter(Set<IEditRuleBase> rulebases){
 		this.rulebases = rulebases;
 	}
-	
+
 	/**
 	 * Disables all rules with derived references
 	 */
-	public void filterDerivedReferences(){
-		for(IEditRuleBase rb : rulebases){
-			for(RuleBaseItem item : rb.getActiveRuleBaseItems()){
-				if(item.getEditRule().isUseDerivedFeatures())
+	public void filterDerivedReferences() {
+		for(IEditRuleBase rb : rulebases) {
+			for(RuleBaseItem item : rb.getActiveRuleBaseItems()) {
+				if(item.getEditRule().isUseDerivedFeatures()) {
 					item.setActive(false);
-					changedItems.add(item);
+					changedItems.add(item);					
+				}
 			}
 		}
 	}
@@ -31,8 +32,8 @@ public class RuleBaseFilter {
 	/**
 	 * undoes all changes made by this class
 	 */
-	public void rollback(){
-		for(RuleBaseItem item : changedItems){
+	public void rollback() {
+		for(RuleBaseItem item : changedItems) {
 			item.setActive(true);
 		}
 	}
