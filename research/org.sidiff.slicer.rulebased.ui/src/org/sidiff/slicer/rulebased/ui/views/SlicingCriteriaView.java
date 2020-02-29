@@ -66,7 +66,7 @@ import org.sidiff.patching.operation.OperationInvocationWrapper;
 import org.sidiff.patching.transformation.ITransformationEngine;
 import org.sidiff.patching.ui.adapter.ModelAdapter;
 import org.sidiff.patching.ui.adapter.ModelChangeHandler;
-import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.interrupt.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 import org.sidiff.patching.validation.ValidationMode;

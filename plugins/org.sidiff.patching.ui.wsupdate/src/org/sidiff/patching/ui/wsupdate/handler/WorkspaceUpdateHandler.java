@@ -18,7 +18,8 @@ public class WorkspaceUpdateHandler extends AbstractHandler {
 		IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
 		Display.getDefault().asyncExec(() -> {
 			WSUModels mergeModels = WSUModels.wsuBuilder().assertSameDocumentType(true).addModels(selection).build();
-			new WizardDialog(UIUtil.getActiveShell(), new WorkspaceUpdateWizard(mergeModels)).open();
+			new WizardDialog(UIUtil.getActiveShell(),
+				new WorkspaceUpdateWizard(mergeModels)).open();
 		});
 		return null;
 	}

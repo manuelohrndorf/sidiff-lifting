@@ -1,9 +1,7 @@
 package org.sidiff.integration.compare.selection;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -11,8 +9,8 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.sidiff.common.ui.util.PropertySheetUtil;
 import org.sidiff.integration.compare.internal.CompareIntegrationPlugin;
-import org.sidiff.integration.compare.properties.PropertySheetPageHelper;
 import org.sidiff.integration.editor.highlighting.EditorHighlighting;
 
 /**
@@ -33,14 +31,11 @@ public class SiLiftCompareSelectionController implements ISelectionProvider, ISe
 		return instance;
 	}
 
-	private List<ISelectionChangedListener> listeners;
+	private ListenerList<ISelectionChangedListener> listeners = new ListenerList<>();
 	private ISelection selection;
 	private boolean propagatingSelection;
 
 	public SiLiftCompareSelectionController() {
-		this.listeners = new LinkedList<>();
-		this.selection = null;
-		this.propagatingSelection = false;
 		hookUpEditorHighlighting();
 		hookUpPropertySheetPage();
 	}
@@ -66,7 +61,7 @@ public class SiLiftCompareSelectionController implements ISelectionProvider, ISe
 		addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				PropertySheetPageHelper.notifiySelectionChanged(
+				PropertySheetUtil.notifySelectionChanged(
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart(),
 						event.getSelection());
 			}
@@ -75,9 +70,7 @@ public class SiLiftCompareSelectionController implements ISelectionProvider, ISe
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		if(!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
+		listeners.add(listener);
 	}
 
 	@Override

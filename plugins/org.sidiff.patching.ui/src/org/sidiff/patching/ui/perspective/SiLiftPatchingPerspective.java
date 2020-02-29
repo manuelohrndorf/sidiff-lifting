@@ -8,9 +8,9 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 
-public class SiLiftPerspective implements IPerspectiveFactory, IPersistableEditor {
+public class SiLiftPatchingPerspective implements IPerspectiveFactory, IPersistableEditor {
 
-	public static final String ID = "org.sidiff.patching.ui.perspective.SiLiftPerspective";
+	public static final String ID = "org.sidiff.patching.ui.perspective.SiLiftPatchingPerspective";
 
 	@Override
 	public void saveState(IMemento memento) {

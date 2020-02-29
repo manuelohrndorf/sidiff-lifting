@@ -10,10 +10,10 @@ import org.sidiff.patching.validation.IValidationError;
 public class BatchInterruptHandler implements IPatchInterruptHandler {
 
 	@Override
-	public PatchInterruptOption getInterruptOption(Boolean revertedOperation,
+	public PatchInterruptOption getInterruptOption(boolean revertedOperation,
 			OperationInvocation operationInvocation,
 			Collection<IValidationError> validationErrors) {
+
 		return PatchInterruptOption.IGNORE; 
 	}
-
 }

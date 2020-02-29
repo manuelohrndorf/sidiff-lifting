@@ -4,6 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
@@ -17,19 +18,13 @@ public class AsymmetricApplyHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
-		Object firstElement = selection.getFirstElement();
-		if(selection.size() != 1 || !(firstElement instanceof IFile)) {
-			return null;
-		}
-		IFile file = (IFile)firstElement;
-		if (!file.getFileExtension().equals(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT)) {
-			return null;					
-		}
+		Assert.isTrue(selection.size() == 1);
+		IFile file = (IFile)selection.getFirstElement();
+		Assert.isTrue(AsymmetricDiffFacade.ASYMMETRIC_DIFF_EXT.equals(file.getFileExtension()));
 
 		Display.getDefault().asyncExec(() -> {
-			WizardDialog wizardDialog = new WizardDialog(UIUtil.getActiveShell(),
-					new ApplyAsymmetricDifferenceWizard(file));
-			wizardDialog.open();
+			new WizardDialog(UIUtil.getActiveShell(),
+					new ApplyAsymmetricDifferenceWizard(file)).open();
 		});
 		return null;
 	}

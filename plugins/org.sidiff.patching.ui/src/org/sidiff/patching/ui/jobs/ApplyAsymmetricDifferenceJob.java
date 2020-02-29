@@ -41,8 +41,8 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.report.IPatchReportListener;
 import org.sidiff.patching.ui.animation.GMFAnimation;
-import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
-import org.sidiff.patching.ui.perspective.SiLiftPerspective;
+import org.sidiff.patching.ui.interrupt.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.perspective.SiLiftPatchingPerspective;
 import org.sidiff.patching.ui.view.OperationExplorerView;
 import org.sidiff.patching.ui.view.ReportView;
 
@@ -202,7 +202,7 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 	protected void openPerspectiveAndViews() {
 		Display.getDefault().asyncExec(() -> {
 			Exceptions.log(() -> {
-				UIUtil.showPerspective(SiLiftPerspective.ID);
+				UIUtil.showPerspective(SiLiftPatchingPerspective.ID);
 
 				// Opening and setting operation explorer view
 				OperationExplorerView operationExplorerView =

@@ -31,11 +31,10 @@ public class WorkspaceUpdateWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		threeWayMergePage01 = new WorkspaceUpdatePage01(
-				mergeModels, "Workspace update", settings);
+		threeWayMergePage01 = new WorkspaceUpdatePage01(mergeModels, settings);
 		addPage(threeWayMergePage01);
-		threeWayMergePage02 = new WorkspaceUpdatePage02(
-				mergeModels, "Workspace update", settings, threeWayMergePage01);
+
+		threeWayMergePage02 = new WorkspaceUpdatePage02(mergeModels, settings, threeWayMergePage01);
 		addPage(threeWayMergePage02);
 	}
 

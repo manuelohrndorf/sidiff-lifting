@@ -28,9 +28,9 @@ public class ApplyAsymmetricDifferenceWizard extends Wizard {
 	@Override
 	public void addPages() {
 		String pageTitle = "Apply Patch: " + diffFile.getName();
-		
+
 		applyAsymmetricDifferencePage01 = new ApplyAsymmetricDifferencePage01(
-				inputModels,  pageTitle, settings);
+				inputModels, pageTitle, settings);
 		addPage(applyAsymmetricDifferencePage01);
 
 		applyAsymmetricDifferencePage02 = new ApplyAsymmetricDifferencePage02(

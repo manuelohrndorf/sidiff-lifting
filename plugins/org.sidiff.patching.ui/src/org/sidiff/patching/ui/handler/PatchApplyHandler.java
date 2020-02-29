@@ -4,6 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -23,14 +24,9 @@ public class PatchApplyHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IStructuredSelection selection = HandlerUtil.getCurrentStructuredSelection(event);
-		Object firstElement = selection.getFirstElement();
-		if(selection.size() != 1 || !(firstElement instanceof IFile)) {
-			return null;
-		}
-		IFile file = (IFile)firstElement;
-		if (!file.getFileExtension().equals(AsymmetricDiffFacade.PATCH_EXTENSION)) {
-			return null;					
-		}
+		Assert.isTrue(selection.size() == 1);
+		IFile file = (IFile)selection.getFirstElement();
+		Assert.isTrue(AsymmetricDiffFacade.PATCH_EXTENSION.equals(file.getFileExtension()));
 
 		Display.getDefault().asyncExec(() -> {
 			URI patchURI = URI.createHierarchicalURI("archive", EMFStorage.toPlatformURI(file).toString() + "!",
@@ -40,8 +36,8 @@ public class PatchApplyHandler extends AbstractHandler {
 				MessageDialogUtil.showErrorDialog("Error in patch file", "The selected file does not contain a valid patch.");
 				return;
 			}
-			WizardDialog wizardDialog = new WizardDialog(UIUtil.getActiveShell(), new ApplyPatchWizard(patch, file));
-			wizardDialog.open();
+			new WizardDialog(UIUtil.getActiveShell(),
+					new ApplyPatchWizard(patch, file)).open();
 		});
 		return null;
 	}

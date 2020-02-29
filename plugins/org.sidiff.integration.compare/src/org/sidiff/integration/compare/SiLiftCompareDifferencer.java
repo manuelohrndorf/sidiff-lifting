@@ -45,7 +45,7 @@ import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.arguments.IArgumentManager;
 import org.sidiff.patching.operation.OperationInvocationStatus;
 import org.sidiff.patching.operation.OperationInvocationWrapper;
-import org.sidiff.patching.ui.handler.DialogPatchInterruptHandler;
+import org.sidiff.patching.ui.interrupt.DialogPatchInterruptHandler;
 import org.sidiff.patching.ui.view.ReportView;
 
 /**

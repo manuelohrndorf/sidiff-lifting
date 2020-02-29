@@ -6,8 +6,8 @@ import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.patching.validation.IValidationError;
 
 public interface IPatchInterruptHandler {
-	
-	public PatchInterruptOption getInterruptOption(Boolean revertedOperation, OperationInvocation operationInvocation,
-			Collection<IValidationError> validationErrors );
-	
+
+	PatchInterruptOption getInterruptOption(boolean revertedOperation,
+			OperationInvocation operationInvocation,
+			Collection<IValidationError> validationErrors);
 }
