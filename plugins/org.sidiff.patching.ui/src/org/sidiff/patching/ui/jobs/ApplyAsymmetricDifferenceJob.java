@@ -144,7 +144,8 @@ public class ApplyAsymmetricDifferenceJob extends Job {
 		IArgumentManager argumentManager = IArgumentManager.MANAGER.getArgumentManager(
 				asymmetricDifference, targetResource, settings, settings.getExecutionMode());
 		if(argumentManager == null) {
-			throw new SiDiffRuntimeException("No suitable Argument Manager was found for the target model.", "No Argument Manager found");
+			throw new SiDiffRuntimeException("No suitable Argument Manager was found to apply " + asymmetricDifference
+					+ " to the target model " + targetResource + " with " + settings, "No Argument Manager found");
 		}
 		settings.setArgumentManager(argumentManager);
 
