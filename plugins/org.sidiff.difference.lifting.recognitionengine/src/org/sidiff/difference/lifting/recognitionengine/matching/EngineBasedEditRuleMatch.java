@@ -41,32 +41,32 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	public EngineBasedEditRuleMatch(RecognitionRuleMatch recognitionRuleMatch, RecognitionEngine recognitionEngine) {
 		this.recognitionRuleMatch = recognitionRuleMatch;
 
-		StringBuffer info = new StringBuffer();
+		StringBuilder info = new StringBuilder();
 
 		// First: Process all nodes of RecognitionRule to get Node-Occurrences
 		recognitionRuleMatch.getNodeMapping().entrySet().forEach(nodeMapping -> {
 			Node rrNode = nodeMapping.getKey();
 			Set<EObject> diffObjects = nodeMapping.getValue();
 
-			Node erNode = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getSetup().getRulebases());
-			if (erNode != null) {
-				erNode = getKeyNode(erNode);
+			Node erNodeA = getEditRuleNodeViaTraceA(rrNode, recognitionEngine.getSetup().getRulebases());
+			if (erNodeA != null) {
+				erNodeA = getKeyNode(erNodeA);
 
-				info.append(" node trace A: " + erNode + " ==> ");
+				info.append(" node trace A: " + erNodeA + " ==> ");
 				info.append(rrNode + " ==> ");
 				info.append(diffObjects);
 
-				nodeOccurencesA.put(erNode, diffObjects);
+				nodeOccurencesA.put(erNodeA, diffObjects);
 			}
-			erNode = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getSetup().getRulebases());			
-			if (erNode != null) {
-				erNode = getKeyNode(erNode);
+			Node erNodeB = getEditRuleNodeViaTraceB(rrNode, recognitionEngine.getSetup().getRulebases());			
+			if (erNodeB != null) {
+				erNodeB = getKeyNode(erNodeB);
 
-				info.append("\n node trace B: " + erNode +  " (" + erNode.eResource() +  ") ==> ");
+				info.append("\n node trace B: " + erNodeB +  " (" + erNodeB.eResource() +  ") ==> ");
 				info.append(rrNode + " ==> ");
 				info.append(diffObjects);
 
-				nodeOccurencesB.put(erNode, diffObjects);
+				nodeOccurencesB.put(erNodeB, diffObjects);
 			}
 		});
 
@@ -76,7 +76,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		// corresponding partners
 		for (Node erNode : nodeOccurencesA.keySet()) {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesB.keySet().contains(erNode)) {
-				Set<EObject> diffObjectsB = new HashSet<EObject>();
+				Set<EObject> diffObjectsB = new HashSet<>();
 				for (EObject diffObjectA : getOccurenceA(erNode)) {
 					EObject diffObjectB = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInB(diffObjectA);
 					if (diffObjectB != null) {
@@ -93,7 +93,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		}
 		for (Node erNode : nodeOccurencesB.keySet()) {
 			if (HenshinRuleAnalysisUtilEx.isPreservedNode(erNode) && !nodeOccurencesA.keySet().contains(erNode)) {
-				Set<EObject> diffObjectsA = new HashSet<EObject>();
+				Set<EObject> diffObjectsA = new HashSet<>();
 				for (EObject diffObjectB : getOccurenceB(erNode)) {
 					EObject diffObjectA = recognitionEngine.getSetup().getDifference().getCorrespondingObjectInA(diffObjectB);
 					if (diffObjectA != null) {
@@ -119,7 +119,7 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 		// And now let's search for NAC occurrences, which is delegated to Nac
 		// and NacOccurrence
-		nacOccurrences = new HashSet<NacMatch>();
+		nacOccurrences = new HashSet<>();
 		// FIXME: May be many NACs
 		ApplicationCondition nac = MatchingHelper.getNAC(getEditRule());
 		if (nac != null) {
@@ -193,13 +193,11 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	private Node getEditRuleNodeViaTraceA(Node recognitionRuleNode, Set<ILiftingRuleBase> usedRulebases) {
 		for (ILiftingRuleBase iRuleBase : usedRulebases) {
 			Trace trace = iRuleBase.getTraceA(recognitionRuleNode);
-			
 			if (trace != null) {
 				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}
-
 		return null;
 	}
 
@@ -214,14 +212,11 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 	private Node getEditRuleNodeViaTraceB(Node recognitionRuleNode, Set<ILiftingRuleBase> usedRulebases) {
 		for (ILiftingRuleBase iRuleBase : usedRulebases) {
 			Trace trace = iRuleBase.getTraceB(recognitionRuleNode);
-			
 			if (trace != null) {
 				setEditRule(((RecognitionRule) trace.eContainer()).getEditRule());
 				return trace.getEditRuleTrace();
 			}
 		}
-
 		return null;
 	}
-
 }

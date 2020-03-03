@@ -22,36 +22,33 @@ import org.silift.difference.symboliclink.util.SymboliclinkUtil;
  *
  */
 public class UriBasedSymblEditRuleMatch extends UriBasedEditRuleMatch {	
-	
+
 	public UriBasedSymblEditRuleMatch(SemanticChangeSet scs) {
 		super(scs, Collections.singleton(SymboliclinkUtil.resolveCharacteristicDocumentType(((SymmetricDifference) scs.eContainer()).getModelA())));
 	}
-	
+
 	@Override
-	protected  void createLink(Set<Link> edgeOccurrences, EObject[] tuple, EReference reference ){
+	protected void createLink(Set<Link> edgeOccurrences, EObject source, EObject target, EReference reference) {
 		// FIXME (cpietsch: 02.09.2014) getNodeNeighbors doesn't work with symbolic links 
 		// (see also org.sidiff.common.emf.access.Link)
-		if (tuple[0] instanceof SymbolicLinkObject) {
-			SymbolicLinkObject symbloSrc = (SymbolicLinkObject) tuple[0];
-			for (SymbolicLinkReference symblRef : symbloSrc
-					.getOutgoings(reference)) {
-				if (symblRef.getTarget().equals(tuple[1])) {
-					edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
+		if (source instanceof SymbolicLinkObject) {
+			SymbolicLinkObject symbloSrc = (SymbolicLinkObject)source;
+			for (SymbolicLinkReference symblRef : symbloSrc.getOutgoings(reference)) {
+				if (symblRef.getTarget().equals(target)) {
+					edgeOccurrences.add(new Link(source, target, reference));
 				}
 			}
 		}
 	}
-	
+
 	@Override
-	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute){
-		
-		if(eObject instanceof SymbolicLinkObject){
+	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute) {
+		if(eObject instanceof SymbolicLinkObject) {
 			for(SymbolicLinkAttribute symblA : ((SymbolicLinkObject)eObject).getLinkAttributes()){
 				if(symblA.getType().equals(eAttribute)){
-					attributeOccurrences.add(new Field(symblA.eContainer(), symblA.getType() , symblA.getValue()));
+					attributeOccurrences.add(new Field(symblA.eContainer(), symblA.getType(), symblA.getValue()));
 				}
 			}
 		}
-		
 	}
 }

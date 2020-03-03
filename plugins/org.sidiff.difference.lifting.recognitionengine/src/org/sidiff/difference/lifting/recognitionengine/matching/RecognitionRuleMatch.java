@@ -91,7 +91,6 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 		for (Node rrNode : nodeMapping.keySet()) {
 			res += rrNode + " => " + nodeMapping.get(rrNode) + "\n";
 		}
-		
 		return res;
 	}
 	
@@ -102,15 +101,11 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 			putToNodeMapping(node, match.getNodeTarget(node));
 		}
 	}
-	
-	private void putToNodeMapping(Node node, EObject object) {
-		if (nodeMapping.get(node) == null) {
-			nodeMapping.put(node, new HashSet<>());
-		}
 
-		nodeMapping.get(node).add(object);
+	private void putToNodeMapping(Node node, EObject object) {
+		nodeMapping.computeIfAbsent(node, unused -> new HashSet<>()).add(object);
 	}
-	
+
 	private void processMultiMatches(Match kernelMatch){
 		// iterate over all multi rules
 		for (Rule multiRule : kernelMatch.getRule().getAllMultiRules()) {
@@ -123,6 +118,5 @@ public class RecognitionRuleMatch implements IRecognitionRuleMatch {
 				processMultiMatches(multiMatch);						
 			}
 		}
-		
 	}
 }

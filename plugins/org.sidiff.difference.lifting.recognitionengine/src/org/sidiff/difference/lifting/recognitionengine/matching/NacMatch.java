@@ -24,6 +24,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.collections.Pair;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.ApplicationCondition;
@@ -266,15 +267,14 @@ public class NacMatch {
 			// bilden
 			Set<EObject> srcOccurrenceA = getOccurrenceA(edge.getSource());
 			Set<EObject> tgtOccurrenceA = getOccurrenceA(edge.getTarget());
-
-			Set<EObject[]> crossProduct = MatchingHelper.getCartesianProduct(srcOccurrenceA, tgtOccurrenceA);
+			Set<Pair<EObject,EObject>> crossProduct = MatchingHelper.getCartesianProduct(srcOccurrenceA, tgtOccurrenceA);
 
 			// 2. Checken, welche References (= edge occurrence) tatsächlich
 			// existieren
-			for (EObject[] tuple : crossProduct) {
-				if (EMFModelAccess.getNodeNeighbors(tuple[0], edge.getType()).contains(tuple[1])) {
+			for (Pair<EObject,EObject> tuple : crossProduct) {
+				if (EMFModelAccess.getNodeNeighbors(tuple.getFirst(), edge.getType()).contains(tuple.getSecond())) {
 					// edge occurrence found
-					edgeOccurrences.add(new Link(tuple[0], tuple[1], edge.getType()));
+					edgeOccurrences.add(new Link(tuple.getFirst(), tuple.getSecond(), edge.getType()));
 				}
 			}
 

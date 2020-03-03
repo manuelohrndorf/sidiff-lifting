@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.collections.Pair;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
@@ -101,37 +103,29 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	@Override
 	public Set<EObject> getOccurenceA(Node editRuleNode) {
 		Node keyNode = getKeyNode(editRuleNode);
-		if (!nodeOccurencesA.containsKey(keyNode)) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(nodeOccurencesA.get(keyNode));
+		Set<EObject> occurences = nodeOccurencesA.get(keyNode);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 
 	@Override
 	public Set<EObject> getOccurenceB(Node editRuleNode) {
 		Node keyNode = getKeyNode(editRuleNode);
-		if (!nodeOccurencesB.containsKey(keyNode)) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(nodeOccurencesB.get(keyNode));
+		Set<EObject> occurences = nodeOccurencesB.get(keyNode);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 
 	@Override
 	public Set<Link> getOccurenceA(Edge editRuleEdge) {
 		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (!edgeOccurencesA.containsKey(keyEdge)) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(edgeOccurencesA.get(keyEdge));
+		Set<Link> occurences = edgeOccurencesA.get(keyEdge);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 
 	@Override
 	public Set<Link> getOccurenceB(Edge editRuleEdge) {
 		Edge keyEdge = getKeyEdge(editRuleEdge);
-		if (!edgeOccurencesB.containsKey(keyEdge)) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(edgeOccurencesB.get(keyEdge));
+		Set<Link> occurences = edgeOccurencesB.get(keyEdge);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 
 	@Override
@@ -155,22 +149,23 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	}
 	
 	protected String deriveEdgeOccurrences() {
-		StringBuffer info = new StringBuffer();
+		StringBuilder info = new StringBuilder();
 
 		// via trace A
 		for (Edge edge : getAllLHSEdges()) {
-			Set<Link> edgeOccurrences = new HashSet<Link>();
+			Set<Link> edgeOccurrences = new HashSet<>();
 
 			// 1. Kreuzprodukt aus getOccurenceA(src) und getOccurenceA(tgt)
 			// bilden
 			Node src = getKeyNode(edge.getSource());
 			Node tgt = getKeyNode(edge.getTarget());
-			Set<EObject[]> crossProduct = MatchingHelper.getCartesianProduct(getOccurenceA(src), getOccurenceA(tgt));
+			Set<Pair<EObject,EObject>> crossProduct =
+				MatchingHelper.getCartesianProduct(getOccurenceA(src), getOccurenceA(tgt));
 
 			// 2. Checken, welche References (= edge occurrence) tatsächlich
 			// existieren
-			for (EObject[] tuple : crossProduct) {
-				createLink(edgeOccurrences, tuple, edge.getType());
+			for (Pair<EObject,EObject> tuple : crossProduct) {
+				createLink(edgeOccurrences, tuple.getFirst(), tuple.getSecond(), edge.getType());
 			}
 
 			if (!edgeOccurrences.isEmpty()) {
@@ -189,12 +184,13 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 			// bilden
 			Node src = getKeyNode(edge.getSource());
 			Node tgt = getKeyNode(edge.getTarget());
-			Set<EObject[]> crossProduct = MatchingHelper.getCartesianProduct(getOccurenceB(src), getOccurenceB(tgt));
+			Set<Pair<EObject,EObject>> crossProduct =
+				MatchingHelper.getCartesianProduct(getOccurenceB(src), getOccurenceB(tgt));
 
 			// 2. Checken, welche References (= edge occurrence) tatsächlich
 			// existieren
-			for (EObject[] tuple : crossProduct) {
-				createLink(edgeOccurrences, tuple, edge.getType());
+			for (Pair<EObject,EObject> tuple : crossProduct) {
+				createLink(edgeOccurrences, tuple.getFirst(), tuple.getSecond(), edge.getType());
 			}
 
 			Edge keyEdge = getKeyEdge(edge);
@@ -208,18 +204,17 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 		return info.toString();
 	}
-	
-	protected void createLink(Set<Link> edgeOccurrences, EObject[] tuple, EReference reference ){
-		if (EMFModelAccess.getNodeNeighbors(tuple[0], reference).contains(tuple[1])) {
+
+	protected void createLink(Set<Link> edgeOccurrences, EObject source, EObject target, EReference reference) {
+		if (EMFModelAccess.getNodeNeighbors(source, reference).contains(target)) {
 			// edge occurrence found
-			edgeOccurrences.add(new Link(tuple[0], tuple[1], reference));
+			edgeOccurrences.add(new Link(source, target, reference));
 		}
 	}
 
-	protected void setEditRule(EditRule r) {
-		if (editRule == null) {
-			editRule = r;
-		}
+	protected void setEditRule(EditRule editRule) {
+		Assert.isTrue(this.editRule == null || this.editRule == editRule, "EditRule should always be the same");
+		this.editRule = editRule;
 	}
 
 	/**
@@ -229,11 +224,10 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * @return The set of LHS EditRule-edges
 	 */
 	protected Set<Edge> getAllLHSEdges() {
-		Set<Edge> res = new HashSet<Edge>();
+		Set<Edge> res = new HashSet<>();
 		for (Node n : nodeOccurencesA.keySet()) {
 			res.addAll(n.getOutgoing());
 		}
-
 		return res;
 	}
 
@@ -244,7 +238,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 * @return The set of RHS EditRule-edges
 	 */
 	protected Set<Edge> getAllRHSEdges() {
-		Set<Edge> res = new HashSet<Edge>();
+		Set<Edge> res = new HashSet<>();
 		for (Node n : nodeOccurencesB.keySet()) {
 			// Be sure it's a RHS node (because of our key convention)
 			if (HenshinRuleAnalysisUtilEx.isLHSNode(n)) {
@@ -296,11 +290,11 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 		}
 
 		// Schritt (2):
-		if (HenshinRuleAnalysisUtilEx.isPreservedNode(keyNode) && HenshinRuleAnalysisUtilEx.isRHSNode(keyNode)) {
+		if (HenshinRuleAnalysisUtilEx.isPreservedNode(keyNode)
+				&& HenshinRuleAnalysisUtilEx.isRHSNode(keyNode)) {
 			return HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(keyNode);
-		} else {
-			return keyNode;
 		}
+		return keyNode;
 	}
 
 	/**
@@ -319,7 +313,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 	@Override
 	public String toString() {
-		StringBuffer res = new StringBuffer();
+		StringBuilder res = new StringBuilder();
 		res.append("EditRuleMatch for " + editRule.getExecuteModule().getName());
 		for (Node erNode : nodeOccurencesA.keySet()) {
 			res.append("\n node trace A: " + erNode + " ==> " + nodeOccurencesA.get(erNode));
@@ -335,7 +329,6 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 			res.append("\n edge trace B: " + erEdge + " (" + erEdge.getType().getName() + ") ==> ");
 			res.append(edgeOccurencesB.get(erEdge));
 		}
-
 		return res.toString();
 	}
 

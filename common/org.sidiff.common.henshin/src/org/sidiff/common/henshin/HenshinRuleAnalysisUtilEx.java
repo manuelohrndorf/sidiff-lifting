@@ -398,7 +398,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 		HenshinFactory.eINSTANCE.createEdge(from, to, eRef);
 		
-		if(eRef.getEOpposite()!=null) {
+		if(eRef.getEOpposite() != null) {
 			Edge e = HenshinFactory.eINSTANCE.createEdge(to, from, eRef.getEOpposite());
 			return e;
 		}
@@ -605,9 +605,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the unit parameter or null if no mapping exists.
 	 */
 	public static ParameterMapping findUnitParamterMapping(List<ParameterMapping> mapping, Parameter ruleParameter) {
-
 		for (ParameterMapping unitMapping : mapping) {
-			if ((unitMapping.getSource() == ruleParameter) || (unitMapping.getTarget() == ruleParameter)) {
+			if (unitMapping.getSource() == ruleParameter || unitMapping.getTarget() == ruleParameter) {
 				return unitMapping;
 			}
 		}
@@ -623,17 +622,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the corresponding LHS node.
 	 */
 	public static Node findCorrespondingNodeInLHS(Node rhsNode) {
-		
 		Rule rule = (Rule) rhsNode.getGraph().eContainer();
-		
-		Node lhsNode = null;
+
 		for(Mapping mapping: rule.getMappings()) {
-			if(mapping.getImage().equals(rhsNode)) {
-				lhsNode = mapping.getOrigin();
+			if(mapping.getImage() == rhsNode) {
+				return mapping.getOrigin();
 			}
 		}
-
-		return lhsNode;
+		return null;
 	}
 	
 	/**
@@ -643,18 +639,15 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the node in LHS which shall be looked up in RHS.
 	 * @return the corresponding RHS node.
 	 */
-	public static Node findCorrespondingNodeInRHS(Node lhsNode) {
-		
+	public static Node findCorrespondingNodeInRHS(Node lhsNode) {		
 		Rule rule = (Rule) lhsNode.getGraph().eContainer();
-		
-		Node rhsNode = null;
-		for(Mapping mapping: rule.getMappings()) {
-			if(mapping.getOrigin().equals(lhsNode)) {
-				rhsNode = mapping.getImage();
+
+		for(Mapping mapping : rule.getMappings()) {
+			if(mapping.getOrigin() == lhsNode) {
+				return mapping.getImage();
 			}
 		}
-
-		return rhsNode;
+		return null;
 	}
 	
 	/**
@@ -669,12 +662,10 @@ public class HenshinRuleAnalysisUtilEx {
 		Node lhsTgt = findCorrespondingNodeInLHS(rhsEdge.getTarget());
 		
 		for (Edge lhsEdge : lhsSrc.getOutgoing()) {
-			if (lhsEdge.getTarget() == lhsTgt && lhsEdge.getType() == rhsEdge.getType()){
+			if (lhsEdge.getTarget() == lhsTgt && lhsEdge.getType() == rhsEdge.getType()) {
 				return lhsEdge;
 			}
 		}
-		
-		assert (false) : "No lhs node found";
 		return null;
 	}
 
@@ -743,9 +734,8 @@ public class HenshinRuleAnalysisUtilEx {
 			}
 			
 			return changingAttributes;
-		} else {
-			return Collections.emptyList();
 		}
+		return Collections.emptyList();
 	}
 
 	/**
@@ -962,7 +952,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 
 	 */
 	public static List<Edge> getForbidEdges(Rule rule) {
-		List<Edge> res = new ArrayList<Edge>();
+		List<Edge> res = new ArrayList<>();
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
@@ -987,7 +977,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 
 	 */
 	public static List<Edge> getRequireEdges(Rule rule) {
-		List<Edge> res = new ArrayList<Edge>();
+		List<Edge> res = new ArrayList<>();
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (!(nc.eContainer() instanceof Not)){
@@ -1018,7 +1008,7 @@ public class HenshinRuleAnalysisUtilEx {
 		// Nested condition that contains the attribute:
 		NestedCondition nestedCondition = (NestedCondition) container;
 
-		if (!(nestedCondition.isPAC())) {
+		if (!nestedCondition.isPAC()) {
 			return false;
 		}
 		
@@ -1026,7 +1016,7 @@ public class HenshinRuleAnalysisUtilEx {
 			if (mapping.getImage() == attribute.getNode()) {
 				// Node is a context attribute!
 				for (Attribute originAttribute : mapping.getOrigin().getAttributes()) {
-					if (originAttribute.getType().equals(attribute.getType())) {
+					if (originAttribute.getType() == attribute.getType()) {
 						// Mapped Attribute:
 						return false;
 					}
@@ -1667,7 +1657,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	public static Attribute getAttributeByType(Collection<Attribute> attributes, EAttribute type) {
 		for (Attribute attribute : attributes) {
-			if (attribute.getType().equals(type)) {
+			if (attribute.getType() == type) {
 				return attribute;
 			}
 		}
@@ -2355,8 +2345,7 @@ public class HenshinRuleAnalysisUtilEx {
 		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
 				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
-				
-				if ((rhsAttribute != null) && (lhsAttribute.getValue().equals(rhsAttribute.getValue()))) {
+				if (rhsAttribute != null && lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
 					return true;
 				}
 			}
@@ -2889,7 +2878,7 @@ public class HenshinRuleAnalysisUtilEx {
 		
 		if (parentNode != null) {
 			for (Attribute parentAttribute : parentNode.getAttributes()) {
-				if (attribute.getType().equals(parentAttribute.getType())) {
+				if (attribute.getType() == parentAttribute.getType()) {
 					return true;
 				}
 			}

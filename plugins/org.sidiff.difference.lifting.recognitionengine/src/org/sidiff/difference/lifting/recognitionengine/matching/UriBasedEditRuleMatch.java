@@ -1,17 +1,21 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
@@ -34,9 +38,11 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * Mapping: editRuleAttribute -> EObject B
 	 */
 	private Map<Attribute, Set<Field>> attributeOccurrencesB = new HashMap<>();
-	
+
 	public UriBasedEditRuleMatch(SemanticChangeSet scs) {
-		this(scs, Collections.singleton(EMFModelAccess.getDocumentType(((SymmetricDifference) scs.eContainer()).getModelA())));
+		this(scs, EMFModelAccess.getDocumentTypes(Arrays.asList(
+				((SymmetricDifference)scs.eContainer()).getModelA(),
+				((SymmetricDifference)scs.eContainer()).getModelB())));
 	}
 	
 	public UriBasedEditRuleMatch(SemanticChangeSet scs, Set<String> docTypes) {
@@ -51,7 +57,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		setEditRule(editRule);
 		EditRuleMatch erMatch = scs.getEditRuleMatch();
 
-		assert (erMatch != null) : "No EditRuleMatch has been seriaized for  SemanticChangeSet " + scs + "!";
+		assert (erMatch != null) : "No EditRuleMatch has been seriaized for SemanticChangeSet " + scs + "!";
 
 		// Resolve node occurrences in A
 		for (String fragment : erMatch.getNodeOccurrencesA().keySet()) {
@@ -111,7 +117,11 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 * @param eAttribute
 	 */
 	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute) {
-		attributeOccurrences.add(new Field(eObject, eAttribute , eObject.eGet(eAttribute).toString()));		
+		String stringValue =
+			EMFUtil.getAttributeValues(eObject, eAttribute).stream()
+				.map(value -> EcoreUtil.convertToString(eAttribute.getEAttributeType(), value))
+				.collect(Collectors.joining(","));
+		attributeOccurrences.add(new Field(eObject, eAttribute, stringValue));		
 	}
 	
 	/**
@@ -137,10 +147,8 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 */
 	public Set<Field> getOccurrenceA(Attribute editRuleAttribute) {
 		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		if(!attributeOccurrencesA.containsKey(keyAttribute)){
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(attributeOccurrencesA.get(keyAttribute));
+		Set<Field> occurences = attributeOccurrencesA.get(keyAttribute);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 	
 	/**
@@ -150,10 +158,8 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	 */
 	public Set<Field> getOccurrenceB(Attribute editRuleAttribute) {
 		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		if(!attributeOccurrencesB.containsKey(keyAttribute)){
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(attributeOccurrencesB.get(keyAttribute));
+		Set<Field> occurences = attributeOccurrencesB.get(keyAttribute);
+		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
 	
 	/**
@@ -197,8 +203,7 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		Set<Attribute> attributes = new HashSet<>();
 		for(Node n : nodeOccurencesB.keySet()){
 			if(HenshinRuleAnalysisUtilEx.isLHSNode(n)){
-				Node rhs_node = HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n);
-				attributes.addAll(rhs_node.getAttributes());
+				attributes.addAll(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n).getAttributes());
 			}
 		}
 		return attributes;

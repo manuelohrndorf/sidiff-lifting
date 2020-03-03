@@ -43,18 +43,16 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	
 	@Override
 	public List<RecognitionRule> getRecognitionRules() {
-		
 		if (recognitionRules == null) {
 			recognitionRules = getRuleBase().getEditRuleAttachments(RecognitionRule.class);
 		}
-		
 		return recognitionRules;
 	}
 	
 	@Override
 	public Set<Rule> getActiveRecognitonUnits() {
 		if (activeUnits == null) {
-			activeUnits = new HashSet<Rule>();
+			activeUnits = new HashSet<>();
 			for (EditRule eo : getActiveEditRules()) {
 				activeUnits.add(eo.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
 			}
@@ -85,7 +83,7 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	@Override
 	public Unit getEditUnit(Rule recognitionRule) {
 		for (RecognitionRule rule : getRecognitionRules()) {
-			if (rule.getRecognitionMainUnit().equals(recognitionRule)) {
+			if (rule.getRecognitionMainUnit() == recognitionRule) {
 				return rule.getEditRule().getExecuteMainUnit();
 			}
 		}
@@ -141,8 +139,7 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	 */
 	private Map<Node, Trace> getTraceAIndex() {
 		if (tracesA == null) {
-			tracesA = new HashMap<Node, Trace>();
-
+			tracesA = new HashMap<>();
 			for (RecognitionRule rr : getRecognitionRules()) {
 				for (Trace trace : rr.getTracesA()) {
 					tracesA.put(trace.getRecognitionRuleTrace(), trace);
@@ -161,8 +158,7 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	 */
 	private Map<Node, Trace> getTraceBIndex() {
 		if (tracesB == null) {
-			tracesB = new HashMap<Node, Trace>();
-
+			tracesB = new HashMap<>();
 			for (RecognitionRule rr : getRecognitionRules()) {
 				for (Trace trace : rr.getTracesB()) {
 					tracesB.put(trace.getRecognitionRuleTrace(), trace);

@@ -1,12 +1,13 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.collections.Pair;
 import org.sidiff.common.henshin.ApplicationCondition;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -33,15 +34,13 @@ public class MatchingHelper {
 	 * @param set2
 	 * @return The cartesian product set1 x set2
 	 */
-	public static Set<EObject[]> getCartesianProduct(Set<EObject> set1, Set<EObject> set2) {
-		Set<EObject[]> res = new HashSet<EObject[]>();
+	public static Set<Pair<EObject,EObject>> getCartesianProduct(Set<EObject> set1, Set<EObject> set2) {
+		Set<Pair<EObject,EObject>> res = new LinkedHashSet<>();
 		for (EObject eObject1 : set1) {
 			for (EObject eObject2 : set2) {
-				EObject[] tuple = new EObject[] { eObject1, eObject2 };
-				res.add(tuple);
+				res.add(Pair.of(eObject1, eObject2));
 			}
 		}
-
 		return res;
 	}
 	
