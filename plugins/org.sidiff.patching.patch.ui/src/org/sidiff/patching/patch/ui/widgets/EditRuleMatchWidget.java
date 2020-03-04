@@ -43,6 +43,7 @@ public class EditRuleMatchWidget extends AbstractCheckboxWidget<String> implemen
 	public void settingsChanged(ISettingsItem item) {
 		if(item == LiftingSettingsItem.SERIALIZE_EDIT_RULE_MATCH) {
 			setSelection(settings.isSerializeEditRuleMatch() ? Collections.singletonList(SERIALIZE) : Collections.emptyList());
+			getWidgetCallback().requestValidation();
 		}
 	}
 

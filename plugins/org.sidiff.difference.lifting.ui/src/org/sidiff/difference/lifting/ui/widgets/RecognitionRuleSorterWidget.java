@@ -22,6 +22,7 @@ public class RecognitionRuleSorterWidget extends AbstractRadioWidget<IRecognitio
 	private final ISettingsChangedListener settingsChangedListener = item -> {
 		if(item == LiftingSettingsItem.RECOGNITION_RULE_SORTER) {
 			setSelection(Collections.singletonList(settings.getRrSorter()));
+			getWidgetCallback().requestValidation();
 		}
 	};
 

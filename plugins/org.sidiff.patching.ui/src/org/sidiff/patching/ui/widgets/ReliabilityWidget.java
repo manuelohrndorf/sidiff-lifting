@@ -67,6 +67,7 @@ public class ReliabilityWidget extends AbstractContainerWidget implements IWidge
 			getWidgetCallback().requestValidation();
 		} else if(item == PatchingSettingsItem.RELIABILITY) {
 			updateSelection();
+			getWidgetCallback().requestValidation();
 		}
 	}
 

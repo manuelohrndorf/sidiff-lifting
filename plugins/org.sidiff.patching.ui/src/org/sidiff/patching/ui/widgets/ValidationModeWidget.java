@@ -54,6 +54,7 @@ public class ValidationModeWidget extends AbstractRadioWidget<ValidationMode> im
 			} else {
 				setSelection(Collections.singletonList(settings.getValidationMode()));
 			}
+			getWidgetCallback().requestValidation();
 		}
 	}
 

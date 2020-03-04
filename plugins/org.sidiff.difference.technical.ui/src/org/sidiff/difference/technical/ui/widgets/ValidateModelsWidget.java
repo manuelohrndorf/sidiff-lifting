@@ -30,6 +30,7 @@ public class ValidateModelsWidget extends AbstractCheckboxWidget<String> impleme
 	public void settingsChanged(ISettingsItem item) {
 		if(item == BaseSettingsItem.VALIDATE) {
 			setSelection(settings.isValidate() ? Collections.singletonList(VALIDATE) : Collections.emptyList());
+			getWidgetCallback().requestValidation();
 		}
 	}
 

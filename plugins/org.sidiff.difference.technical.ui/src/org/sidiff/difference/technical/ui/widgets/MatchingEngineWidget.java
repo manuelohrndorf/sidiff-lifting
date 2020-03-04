@@ -67,6 +67,7 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 	public void settingsChanged(ISettingsItem item) {
 		if (item == MatchingSettingsItem.MATCHER) {
 			setSelection(getSettingsMatchers());
+			getWidgetCallback().requestValidation();
 		}
 	}
 

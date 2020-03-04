@@ -53,6 +53,7 @@ public class ScopeWidget extends AbstractRadioWidget<Scope> implements ISettings
 			} else {
 				setSelection(Collections.singletonList(settings.getScope()));
 			}
+			getWidgetCallback().requestValidation();
 		}
 	}
 

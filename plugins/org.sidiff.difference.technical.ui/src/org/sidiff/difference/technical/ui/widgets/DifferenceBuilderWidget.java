@@ -36,6 +36,7 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 		this.settings.addSettingsChangedListener(item -> {
 			if(item == DifferenceSettingsItem.TECH_BUILDER) {
 				setSelection(getSettingsBuilders());
+				getWidgetCallback().requestValidation();
 			}
 		});
 		addModificationListener((oldMatchers, newMatchers) -> {

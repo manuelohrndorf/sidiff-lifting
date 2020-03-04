@@ -28,6 +28,7 @@ public class RulebaseWidget extends AbstractCheckboxWidget<ILiftingRuleBase> imp
 			setEnabled(isLiftingEnabled());
 		} else if(item == LiftingSettingsItem.RULEBASES) {
 			setSelection(new ArrayList<>(settings.getRuleBases()));
+			getWidgetCallback().requestValidation();
 		}
 	};
 

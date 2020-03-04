@@ -22,7 +22,8 @@ public class RecognitionEngineWidget extends AbstractRadioWidget<RecognitionEngi
 
 	private final ISettingsChangedListener settingsChangeListener = item -> {
 		if(item == LiftingSettingsItem.RECOGNITION_ENGINE_MODE) {
-			setSelection(Collections.singletonList(this.settings.getRecognitionEngineMode()));
+			setSelection(Collections.singletonList(settings.getRecognitionEngineMode()));
+			getWidgetCallback().requestValidation();
 		}
 	};
 

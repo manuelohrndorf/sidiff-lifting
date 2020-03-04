@@ -24,6 +24,7 @@ public class SymbolicLinkHandlerWidget extends AbstractListWidget<ISymbolicLinkH
 		settings.addSettingsChangedListener(item -> {
 			if(item == PatchingSettingsItem.SYMBOLIC_LINK_HANDLER) {
 				setSelection(settings.getSymbolicLinkHandler());
+				getWidgetCallback().requestValidation();
 			}
 		});
 		addModificationListener((oldValues, newValues) -> {
