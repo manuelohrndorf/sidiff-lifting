@@ -126,7 +126,7 @@ public abstract class DependencyAnalyzer {
 							throw new AssertionError();
 						}
 						if(dependency == null) {
-							break;
+							continue; // there could still be another target SCS
 						}
 
 						dependency.setKind(AsymmetricDifferenceUtil.getDependencyKind(potDep.getKind()));
@@ -134,19 +134,17 @@ public abstract class DependencyAnalyzer {
 						OperationInvocation src = getOperationInvocationOfSCS(asymmetricDiff, scsSrc);
 						OperationInvocation tgt = getOperationInvocationOfSCS(asymmetricDiff, scsTgt);
 
-						DependencyContainer depContainer =
-							asymmetricDiff.getDepContainers().stream()
-								.filter(c -> c.getSource() == src && c.getTarget() == tgt)
-								.findFirst()
-								.orElseGet(() -> {
-									DependencyContainer c = AsymmetricFactory.eINSTANCE.createDependencyContainer();
-									// Real dependency found: scsSrc --> scsTgt
-									c.setSource(src);
-									c.setTarget(tgt);
-									asymmetricDiff.getDepContainers().add(c);
-									return c;
-								});
-						depContainer.getDependencies().add(dependency);
+						asymmetricDiff.getDepContainers().stream()
+							.filter(c -> c.getSource() == src && c.getTarget() == tgt)
+							.findFirst()
+							.orElseGet(() -> {
+								DependencyContainer c = AsymmetricFactory.eINSTANCE.createDependencyContainer();
+								// Real dependency found: scsSrc --> scsTgt
+								c.setSource(src);
+								c.setTarget(tgt);
+								asymmetricDiff.getDepContainers().add(c);
+								return c;
+							}).getDependencies().add(dependency);
 
 						LogUtil.log(LogEvent.DEBUG, "Potential Dependency:\n" + potDep + "\nActual Dependency:\n"
 								+ erSrc.getExecuteModule().getName() + " -> " + erTgt.getExecuteModule().getName());
@@ -208,7 +206,6 @@ public abstract class DependencyAnalyzer {
 	 * @param erTgtMatch
 	 * @param pnd
 	 * @return An object, which is finally an {@link EObject}. 
-	 * If the intersection is empty, null will be returned.
 	 */
 	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialNodeDependency pnd) {
 		switch(pnd.getKind()) {
@@ -242,7 +239,8 @@ public abstract class DependencyAnalyzer {
 		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 			Set<EObject> result = new HashSet<>(srcOccurence);
 			result.retainAll(tgtOccurence);
-			assert result.size() == 1 : "PND-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+			assert result.size() == 1 : "PND-CreateUse: the intersection has "
+					+ result.size() + "elements (should only have one).";
 			return result.stream().findFirst();
 		}
 		return Optional.empty();
@@ -256,7 +254,8 @@ public abstract class DependencyAnalyzer {
 		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 			Set<EObject> result = new HashSet<>(srcOccurence);
 			result.retainAll(tgtOccurence);
-			assert result.size() == 1 : "PND-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+			assert result.size() == 1 : "PND-DeleteForbid: the intersection has "
+					+ result.size() + "elements (should only have one).";
 			return result.stream().findFirst();
 		}
 		return Optional.empty();
@@ -277,7 +276,6 @@ public abstract class DependencyAnalyzer {
 	 * @param erTgtMatch
 	 * @param ped
 	 * @return An object, which is finally an {@link Link}. 
-	 * If the intersection is empty, null will be returned.
 	 */
 	private Optional<Link> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialEdgeDependency ped) {
 		switch(ped.getKind()) {
@@ -290,15 +288,6 @@ public abstract class DependencyAnalyzer {
 	}
 
 	private Optional<Link> intersectsUseDelete(PotentialEdgeDependency ped) {
-		// // check A intersection
-		// Set<Link> srcOccurence =
-		// erSrcMatch.getOccurenceA(ped.getSourceEdge());
-		// Set<Link> tgtOccurence =
-		// erTgtMatch.getOccurenceA(ped.getTargetEdge());
-		// if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
-		// return true;
-		// }
-		//
 		// TODO
 		// Due to our conceptual design, we will never detect operations
 		// leading to a UseDelete-EdgeDependency
@@ -315,7 +304,8 @@ public abstract class DependencyAnalyzer {
 		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 			Set<Link> result = new HashSet<>(srcOccurence);
 			result.retainAll(tgtOccurence);
-			assert result.size() == 1 : "PED-CreateUse: the intersection has " + result.size() + "elements (should only have one).";
+			assert result.size() == 1 : "PED-CreateUse: the intersection has "
+					+ result.size() + "elements (should only have one).";
 			return result.stream().findFirst();
 		}
 		return Optional.empty();
@@ -329,7 +319,8 @@ public abstract class DependencyAnalyzer {
 		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 			Set<Link> result = new HashSet<>(srcOccurence);
 			result.retainAll(tgtOccurence);
-			assert result.size() == 1 : "PED-DeleteForbid: the intersection has " + result.size() + "elements (should only have one).";
+			assert result.size() == 1 : "PED-DeleteForbid: the intersection has "
+					+ result.size() + "elements (should only have one).";
 			return result.stream().findFirst();
 		}
 		return Optional.empty();
@@ -352,7 +343,6 @@ public abstract class DependencyAnalyzer {
 	 * @param pad
 	 * @param scsSrc
 	 * @return An object, which is finally an {@link EObject}.
-	 * If the intersection is empty, null will be returned.
 	 */
 	private Optional<EObject> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
 			PotentialAttributeDependency pad, SemanticChangeSet scsTgt) {
@@ -434,11 +424,13 @@ public abstract class DependencyAnalyzer {
 		if (!Collections.disjoint(srcOccurence, tgtOccurence)) {
 			Set<EObject> result = new HashSet<>(srcOccurence);
 			result.retainAll(tgtOccurence);
-			assert result.size() == 1 : "PAD-ChangeForbid: the intersection has " + result.size() + "elements (should only have one).";
+			assert result.size() == 1 : "PAD-ChangeForbid: the intersection has "
+					+ result.size() + "elements (should only have one).";
 			return result.stream().findFirst();
 		}
 		return Optional.empty();
 	}
+
 
 
 	protected AsymmetricDifference getAsymmetricDiff() {
