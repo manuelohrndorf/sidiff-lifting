@@ -215,4 +215,9 @@ public class TraceImpl extends EObjectImpl implements Trace {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString() {
+		return "Trace[" + getEditRuleTrace() + " -> " + getRecognitionRuleTrace() + "]";
+	}
+
 } //TraceImpl
