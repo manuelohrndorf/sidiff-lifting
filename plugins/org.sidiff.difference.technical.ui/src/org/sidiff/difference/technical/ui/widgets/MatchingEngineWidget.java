@@ -1,5 +1,6 @@
 package org.sidiff.difference.technical.ui.widgets;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 		setTitle("Matcher");
 		setEqualityDelegate(IMatcher.MANAGER.getEquality());
 		setLabelProvider(new ExtensionLabelProvider());
-		this.matchers = IMatcher.MANAGER.getMatchers(inputModels.getResources());
+		this.matchers = new ArrayList<>(IMatcher.MANAGER.getMatchers(inputModels.getResources()));
 		this.settings = Objects.requireNonNull(settings, "Settings must not be null");
 		this.settings.addSettingsChangedListener(this);
 		addModificationListener((oldMatchers,newMatchers) -> settings.setMatcher(wrapMatchers(getSelection())));
@@ -40,10 +41,10 @@ public class MatchingEngineWidget extends AbstractListWidget<IMatcher> implement
 			default: return new IncrementalMatcher(selection);
 		}
 	}
-	
+
 	@Override
 	public List<IMatcher> getSelectableValues() {
-		return Collections.unmodifiableList(matchers);
+		return matchers;
 	}
 
 	@Override
