@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -33,16 +34,15 @@ public abstract class RuleBasePotentialDependencyAnalyzer extends PotentialDepen
 	 * @return All imports of the Henshin rules (document types) which shall be analyzed.
 	 */
 	protected Set<EPackage> getImports(Collection<String> documentTypes) {
-
-		Set<EPackage> docTypePackages = new HashSet<EPackage>();
+		Set<EPackage> imports = new HashSet<>();
 
 		for (String docType : documentTypes) {
-			EPackage docTypePackage = EPackage.Registry.INSTANCE.getEPackage(docType);
-			assert (docTypePackage != null) : "Package for docType " + docType
-					+ " not found in the global EMF package registry";
-			docTypePackages.add(docTypePackage);
+			EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(docType);
+			Assert.isNotNull(ePackage,
+				"Package for docType " + docType + " not found in the global EMF package registry");
+			imports.add(ePackage);
 		}
 
-		return docTypePackages;
+		return imports;
 	}
 }

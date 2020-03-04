@@ -3,19 +3,19 @@ package org.sidiff.difference.lifting.recognitionengine.impl;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.EXECUTION;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.RULE_SET_REDUCTION;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
@@ -89,7 +89,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 	/**
 	 * Set of all rule applications created by the recognizer threads.
 	 */
-	private Set<RuleApplication> recognizerRuleApplications = new HashSet<RuleApplication>();
+	private Set<RuleApplication> recognizerRuleApplications = new HashSet<>();
 
 	/**
 	 * Matching information:<br/>
@@ -110,7 +110,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 *            The Recognition-Engine setup.
 	 */
 	public RecognitionEngine(RecognitionEngineSetup setup) {
-		this.setup = setup;
+		this.setup = Objects.requireNonNull(setup, "setup is null");
 	}
 
 	@Override
@@ -129,17 +129,16 @@ public class RecognitionEngine implements IRecognitionEngine {
 				setup.isBuildGraphPerRule(), liftingGraphDomainMap, setup.getImports(), setup.getScope());
 		
 		// Get all recognition rules to be used:
-		this.recognitionRules = new HashMap<Rule, RecognitionRuleBlueprint>();
+		this.recognitionRules = new HashMap<>();
 		
 		for (ILiftingRuleBase rb : setup.getRulebases()) {
 			for (Rule rr : rb.getActiveRecognitonUnits()) {
-				RecognitionRuleBlueprint blueprint = new RecognitionRuleBlueprint(rr);
-				recognitionRules.put(rr, blueprint);
+				recognitionRules.put(rr, new RecognitionRuleBlueprint(rr));
 			}
 		}
 
 		// Initialize Rule Applications:
-		recognizerRuleApplications = new HashSet<RuleApplication>();
+		recognizerRuleApplications = new HashSet<>();
 
 		// Some further initialization:
 		scs2rrMatch = new HashMap<SemanticChangeSet, RecognitionRuleMatch>();
@@ -208,7 +207,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		ExecutorService executor = Executors.newFixedThreadPool(setup.getNumberOfThreads());
 
 		// List of units for each thread
-		Set<Rule> units = new HashSet<Rule>();
+		Set<Rule> units = new HashSet<>();
 
 		// Start recognizer threads
 		for (Rule transformationUnit : recognitionRules.keySet()) {
@@ -223,7 +222,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 					executor.execute(recognizerThread);
 
 					// New rule collection for next thread
-					units = new HashSet<Rule>();
+					units = new HashSet<>();
 				}
 
 				// Add rule to thread
@@ -248,7 +247,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		try {
 			executor.awaitTermination(24, TimeUnit.HOURS);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		// Apply recognition rules
@@ -286,9 +285,9 @@ public class RecognitionEngine implements IRecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		DifferenceAnalysis analysis = RecognitionRuleSorterUtil.sort(
-				setup.getRuleSorter(), recognitionRules.keySet(), filtered, setup.getDifference()) ;
+				setup.getRuleSorter(), recognitionRules.keySet(), filtered, setup.getDifference());
 
-
+		
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
@@ -312,7 +311,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		// recognition rule) recognition rule applications.
 		Collection<List<RuleApplication>> rrApplicationsByRule = RecognitionRuleApplicationAnalysis
 				.partitionByEqualRule(recognizerRuleApplications);
-		Set<RuleApplication> toBeRemoved = new HashSet<RuleApplication>();
+		Set<RuleApplication> toBeRemoved = new HashSet<>();
 		
 		for (List<RuleApplication> rrApplicationsRule : rrApplicationsByRule) {
 			Collection<List<RuleApplication>> partitionsByEqual = RecognitionRuleApplicationAnalysis
@@ -333,9 +332,10 @@ public class RecognitionEngine implements IRecognitionEngine {
 			EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
 			
 			// Check injectivity
-			if(recognitionRuleApp.getRule().isInjectiveMatching()){
-				if (isNonInjective(erMatch)){
-					LogUtil.log(LogEvent.DEBUG, "Skip recognition rule (non-injective matching): " + recognitionRuleApp.getRule().eResource());
+			if(recognitionRuleApp.getRule().isInjectiveMatching()) {
+				if (erMatch.isNonInjective()) {
+					LogUtil.log(LogEvent.DEBUG, "Skip recognition rule (non-injective matching): "
+							+ recognitionRuleApp.getRule().eResource());
 					continue;
 				}				
 			}
@@ -349,7 +349,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 			}
 		}
 	}
-	
+
 	@Override
 	public Set<RuleApplication> getRecognitionRuleApplications() {
 		return recognizerRuleApplications;
@@ -376,52 +376,6 @@ public class RecognitionEngine implements IRecognitionEngine {
 		}
 	}
 
-	/**
-	 * Checks if the edit rule is matched non-injectively. <br>
-	 * The reason for this check is that this cannot be checked based on the recognition rule
-	 * (done by Henshin) in all cases. 
-	 * 
-	 * @param erMatch
-	 * @return true if the edit rule match is non-injective
-	 */
-	private boolean isNonInjective(EngineBasedEditRuleMatch erMatch){
-		// Check A traces (all erNodes must be traced to distinct model elements in A)
-		for (Node erNode : erMatch.getMatchedNodesA()) {
-			Set<EObject> occurences = erMatch.getOccurenceA(erNode);
-			for (Node otherErNode : erMatch.getMatchedNodesA()) {
-				if (otherErNode != erNode){
-					Set<EObject> otherOccurences = erMatch.getOccurenceA(otherErNode);
-					
-					// Intersection test
-					Set<EObject> intersection = new HashSet<EObject>(occurences);
-					intersection.retainAll(otherOccurences);
-					if (!intersection.isEmpty()){
-						return true;
-					}
-				}
-			}
-		}
-		
-		// Check B traces (all erNodes must be traced to distinct model elements in B)
-		for (Node erNode : erMatch.getMatchedNodesB()) {
-			Set<EObject> occurences = erMatch.getOccurenceB(erNode);
-			for (Node otherErNode : erMatch.getMatchedNodesB()) {
-				if (otherErNode != erNode){
-					Set<EObject> otherOccurences = erMatch.getOccurenceB(otherErNode);
-					
-					// Intersection test
-					Set<EObject> intersection = new HashSet<EObject>(occurences);
-					intersection.retainAll(otherOccurences);
-					if (!intersection.isEmpty()){
-						return true;
-					}
-				}
-			}
-		}
-		
-		return false;
-	}
-	
 	/**
 	 * Adds editRuleMatch and recognitionRuleMatch for recognitionruleApp
 	 * 
@@ -456,13 +410,15 @@ public class RecognitionEngine implements IRecognitionEngine {
 	/**
 	 * The recognizer threads call this method to add the recognition rule
 	 * applications for all recognition rule matches that can be found. Thus,
-	 * method is synchronized!
+	 * method is thread-safe!
 	 * 
 	 * @param rrApp
 	 *            All recognition rule applications of a recognizer thread.
 	 */
-	protected synchronized void addRecognitionRuleApplication(Collection<RuleApplication> rrApplications) {
-		recognizerRuleApplications.addAll(rrApplications);
+	protected void addRecognitionRuleApplication(Collection<RuleApplication> rrApplications) {
+		synchronized(recognizerRuleApplications) {
+			recognizerRuleApplications.addAll(rrApplications);
+		}
 	}
 	
 	/**
@@ -472,15 +428,12 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * @param recognitionRuleApp
 	 * @return SemanticChangeSet
 	 */
-	private SemanticChangeSet getSemanticChangeSet(RuleApplication recognitionRuleApp) {
-		Collection<EObject> values = recognitionRuleApp.getResultMatch().getNodeTargets();
-		List<SemanticChangeSet> createdChangeSets = new ArrayList<SemanticChangeSet>();
-		
-		for (EObject eObject : values) {
-			if (eObject instanceof SemanticChangeSet) {
-				createdChangeSets.add((SemanticChangeSet) eObject);
-			}
-		}
+	private static SemanticChangeSet getSemanticChangeSet(RuleApplication recognitionRuleApp) {
+		List<SemanticChangeSet> createdChangeSets =
+			recognitionRuleApp.getResultMatch().getNodeTargets().stream()
+				.filter(SemanticChangeSet.class::isInstance)
+				.map(SemanticChangeSet.class::cast)
+				.collect(Collectors.toList());
 
 		assert (createdChangeSets.size() == 1) : "No or multiple semantic change sets were created by ruleApp "
 				+ recognitionRuleApp.toString();
@@ -490,18 +443,9 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 	@Override
 	public Map<EditRule, Set<SemanticChangeSet>> getChangeSets() {
-		Map<EditRule, Set<SemanticChangeSet>> editRule2SCS = new HashMap<EditRule, Set<SemanticChangeSet>>();
-		
-		for (SemanticChangeSet scs : scs2erMatch.keySet()) {
-			EngineBasedEditRuleMatch editRuleMatch = scs2erMatch.get(scs);
-			EditRule er = editRuleMatch.getEditRule();
-			if (!editRule2SCS.containsKey(er)) {
-				editRule2SCS.put(er, new HashSet<SemanticChangeSet>());
-			}
-			editRule2SCS.get(er).add(scs);
-		}
-
-		return editRule2SCS;
+		return scs2erMatch.entrySet().stream()
+				.collect(Collectors.groupingBy(e -> e.getValue().getEditRule(),
+						Collectors.mapping(e -> e.getKey(), Collectors.toSet())));
 	}
 	
 	/**
@@ -510,9 +454,8 @@ public class RecognitionEngine implements IRecognitionEngine {
 	public Engine createGraphMatchingEngine() {
 		if (setup.isOptimizeMatchingEngine()) {
 			return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
-		} else {
-			return new EngineImpl();
 		}
+		return new EngineImpl();
 	}
 	
 	/**
@@ -529,18 +472,16 @@ public class RecognitionEngine implements IRecognitionEngine {
 	public EGraph getGraphModelA() {
 		if (getGraphFactory() != null) {
 			return getGraphFactory().getModelAGraph();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
 	public EGraph getGraphModelB() {
 		if (getGraphFactory() != null) {
 			return getGraphFactory().getModelBGraph();
-		} else {
-			return null;
 		}
+		return null;
 	}
 	
 	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {
@@ -562,11 +503,9 @@ public class RecognitionEngine implements IRecognitionEngine {
 	
 	@Override
 	public RecognitionEngineStatistics getStatistic() {
-		
 		if (statistic == null) {
 			statistic = new RecognitionEngineStatistics();
 		}
-		
 		return statistic;
 	}
 }

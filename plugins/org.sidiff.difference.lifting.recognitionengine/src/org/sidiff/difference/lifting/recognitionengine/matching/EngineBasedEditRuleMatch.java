@@ -219,4 +219,47 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 		}
 		return null;
 	}
+
+	/**
+	 * Checks if the edit rule is matched non-injectively. <br>
+	 * The reason for this check is that this cannot be checked based on the recognition rule
+	 * (done by Henshin) in all cases. 
+	 * 
+	 * @return true if the edit rule match is non-injective
+	 */
+	public boolean isNonInjective() {
+		// Check A traces (all erNodes must be traced to distinct model elements in A)
+		for (Node erNode : getMatchedNodesA()) {
+			Set<EObject> occurences = getOccurenceA(erNode);
+			for (Node otherErNode : getMatchedNodesA()) {
+				if (otherErNode != erNode){
+					Set<EObject> otherOccurences = getOccurenceA(otherErNode);
+					// Intersection test
+					Set<EObject> intersection = new HashSet<>(occurences);
+					intersection.retainAll(otherOccurences);
+					if (!intersection.isEmpty()) {
+						return true;
+					}
+				}
+			}
+		}
+
+		// Check B traces (all erNodes must be traced to distinct model elements in B)
+		for (Node erNode : getMatchedNodesB()) {
+			Set<EObject> occurences = getOccurenceB(erNode);
+			for (Node otherErNode : getMatchedNodesB()) {
+				if (otherErNode != erNode){
+					Set<EObject> otherOccurences = getOccurenceB(otherErNode);
+					// Intersection test
+					Set<EObject> intersection = new HashSet<>(occurences);
+					intersection.retainAll(otherOccurences);
+					if (!intersection.isEmpty()) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 }

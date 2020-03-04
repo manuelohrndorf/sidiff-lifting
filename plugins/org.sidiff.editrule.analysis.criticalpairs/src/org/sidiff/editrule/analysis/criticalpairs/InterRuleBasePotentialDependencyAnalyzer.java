@@ -1,13 +1,12 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
@@ -32,8 +31,8 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	/**
 	 * All document types of all rules in the rulebases.
 	 */
-	private Collection<String> documentTypes;
-	
+	private Set<String> documentTypes;
+
 	/**
 	 * Potential dependency index.
 	 */
@@ -53,8 +52,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * difference in this case.
 	 * </p>
 	 * 
-	 * @param engine
-	 *            The engine that has been used to lift the symmetric difference.
+	 * @param ruleBases the rulebases
 	 * @param transientPDs
 	 *            <code>true</code> to calculate transient potential dependencies; 
 	 *            <code>false</code> otherwise.
@@ -63,26 +61,26 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 *            <code>false</code> otherwise.
 	 */
 	public InterRuleBasePotentialDependencyAnalyzer(
-			Collection<? extends IEditRuleBase> rulebases,
+			Collection<? extends IEditRuleBase> ruleBases,
 			boolean transientPDs, boolean nonTransientPDs) {
-		
-		super(transientPDs, nonTransientPDs);
 
-		// Initialize:
-		this.documentTypes = new HashSet<String>();
-		List<EditRule> editRules = new ArrayList<EditRule>();
-		
-		for (IEditRuleBase rb : rulebases) {
-			documentTypes.addAll(rb.getDocumentTypes());
-
-			// Consider active rules only:
-			editRules.addAll(rb.getActiveEditRules());
-		}
-
-		// Calculate:
-		calculate(editRules);
+		this(deriveDocTypes(ruleBases), deriveEditRules(ruleBases), transientPDs, nonTransientPDs);
 	}
-	
+
+	private static Collection<String> deriveDocTypes(Collection<? extends IEditRuleBase> ruleBases) {
+		return ruleBases.stream()
+				.map(IEditRuleBase::getDocumentTypes)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toSet());
+	}
+
+	private static Set<EditRule> deriveEditRules(Collection<? extends IEditRuleBase> ruleBases) {
+		return ruleBases.stream()
+				.map(IEditRuleBase::getActiveEditRules)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toSet());
+	}
+
 	/**
 	 * <p>
 	 * Calculates the potential inter-dependencies between two or more rulebases.
@@ -142,12 +140,12 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	public InterRuleBasePotentialDependencyAnalyzer(
 			Collection<String> documentTypes, Set<EditRule> editRules,
 			boolean transientPDs, boolean nonTransientPDs) {
-		
+
 		super(transientPDs, nonTransientPDs);
-		
+
 		// Set document types:
-		this.documentTypes = documentTypes;
-		
+		this.documentTypes = new HashSet<>(documentTypes);
+
 		// Calculate:
 		calculate(editRules);
 	}
@@ -159,7 +157,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 *            All rules of various rulebases.
 	 */
 	private void calculate(Collection<EditRule> editRules) {
-		potDeps = new HashMap<EditRule, PotentialRuleDependencies>();
+		potDeps = new HashMap<>();
 
 		// Calculate potential dependencies
 		for (EditRule editRuleA : editRules) {
@@ -189,7 +187,6 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 *         rule bases; <code>false</code> otherwise.
 	 */
 	public boolean isNecessary() {
-
 		/*
 		 * If there are only matched edit rules from one rule base then
 		 * potDeps.size() will be 0. (ruleBaseA != ruleBaseB) 
@@ -198,11 +195,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		 * matched edit rules of all rule bases are in potDeps map. Maybe with
 		 * empty Set<PotentialRuleDependencies>.
 		 */
-
-		if (potDeps.size() == 0) {
-			return false;
-		}
-		return true;
+		return !potDeps.isEmpty();
 	}
 
 	/**
@@ -211,11 +204,8 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * @return All potential node dependencies that are caused by the given edit rule.
 	 */
 	public Set<PotentialNodeDependency> getPotentialNodeDependencies(EditRule sourceEditRule) {
-		if (potDeps.containsKey(sourceEditRule)){
-			return potDeps.get(sourceEditRule).getPotentialNodeDependencies();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleDependencies dependencies = potDeps.get(sourceEditRule);
+		return dependencies == null ? Collections.emptySet() : dependencies.getPotentialNodeDependencies();
 	}
 
 	/**
@@ -224,11 +214,8 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * @return All potential edge dependencies that are caused by the given edit rule.
 	 */
 	public Set<PotentialEdgeDependency> getPotentialEdgeDependencies(EditRule sourceEditRule) {		
-		if (potDeps.containsKey(sourceEditRule)){
-			return potDeps.get(sourceEditRule).getPotentialEdgeDependencies();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleDependencies dependencies = potDeps.get(sourceEditRule);
+		return dependencies == null ? Collections.emptySet() : dependencies.getPotentialEdgeDependencies();
 	}
 
 	/**
@@ -237,24 +224,18 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	 * @return All potential attribute dependencies that are caused by the given edit rule.
 	 */
 	public Set<PotentialAttributeDependency> getPotentialAttributeDependencies(EditRule sourceEditRule) {		
-		if (potDeps.containsKey(sourceEditRule)){
-			return potDeps.get(sourceEditRule).getPotentialAttributeDependencies();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleDependencies dependencies = potDeps.get(sourceEditRule);
+		return dependencies == null ? Collections.emptySet() : dependencies.getPotentialAttributeDependencies();
 	}
-	
+
 	/**
 	 * @param sourceEditRule
 	 *            The source or successor of the dependency.
 	 * @return All potential dependencies that are caused by the given edit rule.
 	 */
 	public Set<PotentialDependency> getPotentialDependencies(EditRule sourceEditRule) {		
-		if (potDeps.containsKey(sourceEditRule)){
-			return potDeps.get(sourceEditRule).getPotentialDependencies();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleDependencies dependencies = potDeps.get(sourceEditRule);
+		return dependencies == null ? Collections.emptySet() : dependencies.getPotentialDependencies();
 	}
 
 	@Override
@@ -263,18 +244,18 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 			ActionGraph successor, EditRule successorEditRule) {
 
 		// Calculate dependencies
-		PotentialRuleDependencies PotRuleDeps = super.findRuleDependencies(
+		PotentialRuleDependencies potentialDependencies = super.findRuleDependencies(
 				predecessor, predecessorEditRule, 
 				successor, successorEditRule);
 
 		// Indexing the new dependencies
 		if (!potDeps.containsKey(successorEditRule)) {
-			potDeps.put(successorEditRule, PotRuleDeps);
+			potDeps.put(successorEditRule, potentialDependencies);
 		} else {
-			potDeps.get(successorEditRule).add(PotRuleDeps);
+			potDeps.get(successorEditRule).add(potentialDependencies);
 		}
 
-		return PotRuleDeps;
+		return potentialDependencies;
 	}
 
 	@Override

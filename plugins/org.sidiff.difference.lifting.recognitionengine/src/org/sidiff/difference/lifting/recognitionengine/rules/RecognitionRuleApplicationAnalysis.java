@@ -33,7 +33,7 @@ public class RecognitionRuleApplicationAnalysis {
 	 *         applications which refer to the same recognition rule.
 	 */
 	public static Collection<List<RuleApplication>> partitionByEqualRule(Collection<RuleApplication> rrApplications) {
-		Collection<List<RuleApplication>> res = new ArrayList<List<RuleApplication>>(rrApplications.size());
+		Collection<List<RuleApplication>> res = new ArrayList<>(rrApplications.size());
 		for (RuleApplication rrApplication : rrApplications) {
 
 			// do we already have a bucket for this rrApplication
@@ -47,7 +47,7 @@ public class RecognitionRuleApplicationAnalysis {
 
 			if (!bucketExisting) {
 				// no bucket so far
-				List<RuleApplication> bucket = new LinkedList<RuleApplication>();
+				List<RuleApplication> bucket = new LinkedList<>();
 				bucket.add(rrApplication);
 				res.add(bucket);
 			}
@@ -69,7 +69,7 @@ public class RecognitionRuleApplicationAnalysis {
 	 *         cover the same low-level changes.
 	 */
 	public static Collection<List<RuleApplication>> partitionByEqualChanges(Collection<RuleApplication> rrApplications) {
-		Collection<List<RuleApplication>> res = new ArrayList<List<RuleApplication>>(rrApplications.size());
+		Collection<List<RuleApplication>> res = new ArrayList<>(rrApplications.size());
 		for (RuleApplication rrApplication : rrApplications) {
 
 			// do we already have a bucket for this rrApplication
@@ -83,7 +83,7 @@ public class RecognitionRuleApplicationAnalysis {
 
 			if (!bucketExisting) {
 				// no bucket so far
-				List<RuleApplication> bucket = new LinkedList<RuleApplication>();
+				List<RuleApplication> bucket = new LinkedList<>();
 				bucket.add(rrApplication);
 				res.add(bucket);
 			}
@@ -95,14 +95,12 @@ public class RecognitionRuleApplicationAnalysis {
 	public static boolean compriseEqualChanges(RuleApplication rrApplication1, RuleApplication rrApplication2) {
 		Set<Change> changes1 = getMatchedChanges(rrApplication1);
 		Set<Change> changes2 = getMatchedChanges(rrApplication2);
-
 		return changes1.equals(changes2);
 	}
 
 	public static Set<Change> getMatchedChanges(RuleApplication rrApplication) {
-		Set<Change> res = new HashSet<Change>();
+		Set<Change> res = new HashSet<>();
 		addMatchedChanges(res, rrApplication.getCompleteMatch());
-
 		return res;
 	}
 

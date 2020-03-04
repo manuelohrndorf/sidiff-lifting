@@ -51,7 +51,6 @@ public class NacMatch {
 	private Map<Edge, Set<Link>> forbidEdgeOccurrencesA;
 
 	public NacMatch(ApplicationCondition nac, EngineBasedEditRuleMatch editRuleMatch, RecognitionEngine recognitionEngine) {
-		super();
 		this.nac = nac;
 		this.editRuleMatch = editRuleMatch;
 		this.recognitionEngine = recognitionEngine;
@@ -80,10 +79,8 @@ public class NacMatch {
 	 * @return
 	 */
 	public Set<EObject> getForbidNodeOccurenceA(Node forbidNode) {
-		if (!forbidNodeOccurrencesA.containsKey(forbidNode)) {
-			return Collections.emptySet();
-		}
-		return Collections.singleton(forbidNodeOccurrencesA.get(forbidNode));
+		EObject occurence = forbidNodeOccurrencesA.get(forbidNode);
+		return occurence == null ? Collections.emptySet() : Collections.singleton(occurence);
 	}
 
 	/**
@@ -93,10 +90,8 @@ public class NacMatch {
 	 * @return
 	 */
 	public Set<Link> getForbidEdgeOccurenceA(Edge forbidEdge) {
-		if (!forbidEdgeOccurrencesA.containsKey(forbidEdge)) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(forbidEdgeOccurrencesA.get(forbidEdge));
+		Set<Link> occurence = forbidEdgeOccurrencesA.get(forbidEdge);
+		return occurence == null ? Collections.emptySet() : Collections.unmodifiableSet(occurence);
 	}
 
 	/**
@@ -109,25 +104,23 @@ public class NacMatch {
 
 	private boolean isNacContextInAComplete() {
 		for (Node lhsContextNode : lhsContextOccurrencesA.keySet()) {
-			if (lhsContextOccurrencesA.get(lhsContextNode) == null) {
+			if (!lhsContextOccurrencesA.containsKey(lhsContextNode)) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
 	private void findNacContextInA() {
-		lhsContextOccurrencesA = new HashMap<Node, EObject>();
-
+		lhsContextOccurrencesA = new HashMap<>();
 		for (Node lhsContextNode : nac.getLhsBoundaryNodes()) {
-			EObject occurrence = null;
-			if (!editRuleMatch.getOccurenceA(lhsContextNode).isEmpty()) {
+			Set<EObject> occurence = editRuleMatch.getOccurenceA(lhsContextNode);
+			if (!occurence.isEmpty()) {
 				// FIXME must be better than assertion
-				assert (editRuleMatch.getOccurenceA(lhsContextNode).size() == 1) : "Multiple Occurrences of a NAC-Node (Possible in case of Amalgamation) not yet supported!";
-				occurrence = editRuleMatch.getOccurenceA(lhsContextNode).iterator().next();
+				assert (occurence.size() == 1) :
+					"Multiple Occurrences of a NAC-Node (Possible in case of Amalgamation) not yet supported!";
+				lhsContextOccurrencesA.put(lhsContextNode, occurence.iterator().next());
 			}
-			lhsContextOccurrencesA.put(lhsContextNode, occurrence);
 		}
 	}
 
@@ -196,14 +189,14 @@ public class NacMatch {
 		// Set value parameters (if any)
 		for (Parameter p : searchRule.getParameters()) {
 			Object pValue = editRuleMatch.getRecognitionRuleMatch().getParameterValue(p.getName());
-			if (pValue != null){
+			if (pValue != null) {
 				preMatch.setParameterValue(searchRule.getParameter(p.getName()), pValue);
 			}
 		}
-		
+
 		// Try to find matches
 		Engine emfEngine = new EngineImpl();
-		List<Match> matches = new ArrayList<Match>();
+		List<Match> matches = new ArrayList<>();
 		matches.addAll(getPostconditionMatches(emfEngine, searchRule, preMatch));
 		matches.addAll(getPreconditionMatches(emfEngine, searchRule, preMatch));	
 
@@ -244,18 +237,12 @@ public class NacMatch {
 	}
 	
 	private List<Match> getPostconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
-
 		if (EditRuleConditions.isPostcondition(nac.getNestedCondition().getConclusion())) {
 			List<Match> matches = new ArrayList<Match>();		 
 			EGraph graph = recognitionEngine.getGraphFactory().getModelBGraph();
-			
-			for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
-				matches.add(m);
-			}
-			
+			emfEngine.findMatches(searchRule, graph, preMatch).forEach(matches::add);
 			return matches;
 		}
-		
 		return Collections.emptyList();
 	}
 
@@ -310,12 +297,8 @@ public class NacMatch {
 		}
 		// LHS node of the rule
 		Node lhsNode = nac.getLhsBoundaryNode(nacNode);
-
-		// FIXME: Simply return lhsContextOccurrencesA.get(lhsNode)
-		Set<EObject> res = new HashSet<EObject>();
-		assert (lhsContextOccurrencesA.get(lhsNode) != null);
-		res.add(lhsContextOccurrencesA.get(lhsNode));
-		return res;
+		EObject occurence = lhsContextOccurrencesA.get(lhsNode);
+		return occurence == null ? Collections.emptySet() : Collections.singleton(occurence);
 	}
 
 	/**
@@ -328,14 +311,14 @@ public class NacMatch {
 	 */
 	private Set<String> getRequiredRuleParameters() {
 		// get all attribute values
-		Set<String> attrValues = new HashSet<String>();
+		Set<String> attrValues = new HashSet<>();
 		for (Node node : nac.getNonBoundaryNodes()) {
 			for (Attribute attr : node.getAttributes()) {
 				attrValues.add(attr.getValue());
 			}
 		}
 
-		Set<String> res = new HashSet<String>();
+		Set<String> res = new HashSet<>();
 		for (Rule rule : HenshinModuleAnalysis.getAllRules(editRuleMatch.getEditRule().getExecuteModule())) {
 			for (Parameter param : rule.getParameters()) {
 				if (attrValues.contains(param.getName())) {
@@ -346,5 +329,4 @@ public class NacMatch {
 
 		return res;
 	}
-
 }
