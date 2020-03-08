@@ -64,16 +64,15 @@ public abstract class AbstractSymblBasedArgumentManager extends BaseArgumentMana
 					getTargetModel(), true);
 		}
 		if(originObject instanceof SymbolicLinkObject){
-			if(linkResolvingA.get(originObject)!=null){
-				return linkResolvingA.get(originObject);
-			}else{
-				return linkResolvingB.get(originObject);
+			EObject inA = linkResolvingA.get(originObject);
+			if(inA != null){
+				return inA;
 			}
-		}else{
-			//if the origin object is not a symbolic link, it can only be 
-			//taken from a model of the package registry
-			return originObject;
+			return linkResolvingB.get(originObject);
 		}
+		//if the origin object is not a symbolic link, it can only be 
+		//taken from a model of the package registry
+		return originObject;
 	}
 	
 	@Override

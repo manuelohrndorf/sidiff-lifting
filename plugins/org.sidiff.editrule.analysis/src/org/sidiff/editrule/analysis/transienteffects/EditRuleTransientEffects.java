@@ -38,19 +38,11 @@ public class EditRuleTransientEffects {
 	 */
 	public static boolean isPreservedNodeSearchedInModelA(NodePair editRuleNode) {
 		Node lhsNode = editRuleNode.getLhsNode();
-
-		if (isNodeWithDeletionEdges(lhsNode) 
+		return isNodeWithDeletionEdges(lhsNode) 
 				|| isNodeWithChangingAttributes(lhsNode)
 				|| (isPreservedAttributePreCondition() && isNodeWithPreservedAttributes(lhsNode))
-				|| (isPreservedEdgePreCondition() && isNodeWithPreservedEdges(lhsNode))) {
-			return true;
-		}
-
-		else if (isMultiContextNodeModelA(editRuleNode)) {
-			return true;
-		}
-
-		return false;
+				|| (isPreservedEdgePreCondition() && isNodeWithPreservedEdges(lhsNode))
+				|| isMultiContextNodeModelA(editRuleNode);
 	}
 
 	/**
@@ -98,12 +90,9 @@ public class EditRuleTransientEffects {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isMultiContextNode(NodePair editRuleNode) {
-
-		if ((editRuleNode.getLhsNode() != null) && (editRuleNode.getRhsNode() != null)) {
-			return isMultiContextNodeModelA(editRuleNode) || isMultiContextNodeModelB(editRuleNode);
-		} else {
-			return false;
-		}
+		return editRuleNode.getLhsNode() != null
+					&& editRuleNode.getRhsNode() != null
+					&& (isMultiContextNodeModelA(editRuleNode) || isMultiContextNodeModelB(editRuleNode));
 	}
 
 	/**
@@ -132,7 +121,7 @@ public class EditRuleTransientEffects {
 						multiRule.getRhs());
 
 				// Is multi-node?
-				if ((lhsNodeMulti != null) && (rhsNodeMulti != null)) {
+				if (lhsNodeMulti != null && rhsNodeMulti != null) {
 					return isPreservedNodeSearchedInModelA(new NodePair(lhsNodeMulti, rhsNodeMulti));
 				}
 			}
@@ -167,7 +156,7 @@ public class EditRuleTransientEffects {
 						multiRule.getRhs());
 
 				// Is multi-node?
-				if ((lhsNodeMulti != null) && (rhsNodeMulti != null)) {
+				if (lhsNodeMulti != null && rhsNodeMulti != null) {
 					return isPreservedNodeSearchedInModelB(new NodePair(lhsNodeMulti, rhsNodeMulti));
 				}
 			}
