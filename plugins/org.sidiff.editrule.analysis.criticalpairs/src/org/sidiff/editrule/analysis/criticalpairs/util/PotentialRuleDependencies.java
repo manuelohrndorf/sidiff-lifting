@@ -17,8 +17,6 @@ import org.sidiff.editrule.rulebase.PotentialNodeDependency;
  * Simple container class that holds different kinds of potential dependencies.
  * 
  */
-// TODO: When we are sure that everything runs fine we can remove the
-// "unmodifiableSet"-calls to get better performance
 public class PotentialRuleDependencies {
 
 	private Set<PotentialNodeDependency> potentialNodeDependencies = new HashSet<>();
@@ -82,24 +80,26 @@ public class PotentialRuleDependencies {
 
 	private boolean exclude(PotentialDependency pd) {
 		if (pd.getKind() == PotentialDependencyKind.DELETE_FORBID) {
-			if (pd.getSourceRule().getExecuteModule().getName().equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")
-					&& pd.getTargetRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")) {
+			String sourceName = pd.getSourceRule().getExecuteModule().getName();
+			String targetName = pd.getTargetRule().getExecuteModule().getName();
+			if (sourceName.equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")
+					&& targetName.equals("DELETE_EReferenceInEClass")) {
 				return true;
 			}
-			if (pd.getSourceRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")
-					&& pd.getTargetRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")) {
+			if (sourceName.equals("DELETE_EReferenceInEClass")
+					&& targetName.equals("DELETE_EReferenceInEClass")) {
 				return true;
 			}
-			if (pd.getSourceRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")
-					&& pd.getTargetRule().getExecuteModule().getName().equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")) {
+			if (sourceName.equals("DELETE_EReferenceInEClass")
+					&& targetName.equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")) {
 				return true;
 			}
-			if (pd.getSourceRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")
-					&& pd.getTargetRule().getExecuteModule().getName().equals("CHANGE_EReferenceType")) {
+			if (sourceName.equals("DELETE_EReferenceInEClass")
+					&& targetName.equals("CHANGE_EReferenceType")) {
 				return true;
 			}
-			if (pd.getSourceRule().getExecuteModule().getName().equals("CHANGE_EReferenceType")
-					&& pd.getTargetRule().getExecuteModule().getName().equals("DELETE_EReferenceInEClass")) {
+			if (sourceName.equals("CHANGE_EReferenceType")
+					&& targetName.equals("DELETE_EReferenceInEClass")) {
 				return true;
 			}
 			

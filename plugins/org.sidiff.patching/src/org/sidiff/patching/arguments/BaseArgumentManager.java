@@ -1,6 +1,8 @@
 package org.sidiff.patching.arguments;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -223,7 +225,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * @return
 	 */
 	protected Set<Resource> getPackageRegistryResources() {
-		return packageRegistryResources;
+		return Collections.unmodifiableSet(packageRegistryResources);
 	}
 
 	/**
@@ -232,7 +234,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * @param packageRegistryResources
 	 */
 	protected void setPackageRegistryResources(Set<Resource> packageRegistryResources) {
-		this.packageRegistryResources = packageRegistryResources;
+		this.packageRegistryResources = new HashSet<>(packageRegistryResources);
 	}
 
 	/**
@@ -241,7 +243,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * @return
 	 */
 	protected Set<Resource> getResourceSetResources() {
-		return resourceSetResources;
+		return Collections.unmodifiableSet(resourceSetResources);
 	}
 
 	/**
@@ -250,7 +252,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	 * @param resourceSetResources
 	 */
 	protected void setResourceSetResources(Set<Resource> resourceSetResources) {
-		this.resourceSetResources = resourceSetResources;
+		this.resourceSetResources = new HashSet<>(resourceSetResources);
 	}
 
 	/**
@@ -303,7 +305,7 @@ public abstract class BaseArgumentManager implements IArgumentManager {
 	protected void collectReferencedRegistryAndResourceSetResources(){
 		ExternalReferenceCalculator refCalculator = new ExternalReferenceCalculator();
 		ExternalReferenceContainer extContainer = refCalculator.calculate(originModel, scope);
-		packageRegistryResources = extContainer.getReferencedRegistryModels();
-		resourceSetResources = extContainer.getReferencedResourceSetModels();
+		setPackageRegistryResources(extContainer.getReferencedRegistryModels());
+		setResourceSetResources(extContainer.getReferencedResourceSetModels());
 	}
 }

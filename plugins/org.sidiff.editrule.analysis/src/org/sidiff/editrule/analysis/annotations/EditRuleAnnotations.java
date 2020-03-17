@@ -1,8 +1,6 @@
 
 package org.sidiff.editrule.analysis.annotations;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.henshin.model.Annotation;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -49,17 +47,9 @@ public class EditRuleAnnotations {
 	 * @return <code>true</code> if the annotation is known; <code>false</code> otherwise.
 	 */
 	public static boolean isKnownAnnotation(Annotation annotation) {
-		ModuleAnnotations known = null;
-		
 		try {
-			known = ModuleAnnotations.valueOf(annotation.getKey());
+			return ModuleAnnotations.valueOf(annotation.getKey()) != null;
 		} catch (Exception e) {
-			return false;
-		}
-		
-		if (known != null) {
-			return true;
-		} else {
 			return false;
 		}
 	}
@@ -85,11 +75,9 @@ public class EditRuleAnnotations {
 	 */
 	public static Condition getCondition(Graph applicationCondition) {
 		String value = getAnnotation(applicationCondition, ModuleAnnotations.condition);
-		
 		if (value != null) {
 			return Condition.valueOf(value);
 		}
-		
 		return DEFAULT_CONDITION_TYPE;
 	}
 	
@@ -136,11 +124,9 @@ public class EditRuleAnnotations {
 	 */
 	public static Integer getPriority(Module editRule) {
 		String value = getAnnotation(editRule, ModuleAnnotations.priority);
-		
 		if (value != null) {
 			return Integer.valueOf(value);
 		}
-		
 		return null;
 	}
 	
@@ -206,15 +192,11 @@ public class EditRuleAnnotations {
 	 */
 	private static String getAnnotation(ModelElement element, Enum<?> type) {
 		String key = getAnnotationKey(type);
-		
-		for (Iterator<Annotation> it = element.getAnnotations().iterator(); it.hasNext();) {
-			Annotation annotation = it.next();
-			
+		for (Annotation annotation : element.getAnnotations()) {
 			if (annotation.getKey().equals(key)) {
 				return annotation.getValue();
 			}
 		}
-		
 		return null;
 	}
 	
@@ -228,15 +210,7 @@ public class EditRuleAnnotations {
 	 */
 	private static void removeAnnotation(ModelElement element, Enum<?> type) {
 		String key = getAnnotationKey(type);
-		
-		for (Iterator<Annotation> it = element.getAnnotations().iterator(); it.hasNext();) {
-			Annotation annotation = it.next();
-			
-			if (annotation.getKey().equals(key)) {
-				it.remove();
-				break;
-			}
-		}
+		element.getAnnotations().removeIf(annotation -> annotation.getKey().equals(key));
 	}
 	
 	/**
@@ -251,22 +225,16 @@ public class EditRuleAnnotations {
 	 */
 	private static void setAnnotation(ModelElement element, Enum<?> type, String value) {
 		String key = getAnnotationKey(type);
-		boolean found = false;
-		
-		// Search existing annotation:
-		for (Iterator<Annotation> it = element.getAnnotations().iterator(); it.hasNext();) {
-			Annotation annotation = it.next();
-			
+
+		// Search and update existing annotation:
+		for (Annotation annotation : element.getAnnotations()) {
 			if (annotation.getKey().equals(key)) {
-				found = true;
 				annotation.setValue(value);
-				break;
+				return;
 			}
 		}
-		
+
 		// Create a new annotation if necessary:
-		if (!found) {
-			createAnnotation(element, type, value);
-		}
+		createAnnotation(element, type, value);
 	}
 }
