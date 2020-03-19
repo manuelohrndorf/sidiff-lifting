@@ -57,25 +57,14 @@ public class EditRuleTransientEffects {
 		Node lhsNode = editRuleNode.getLhsNode();
 		Node rhsNode = editRuleNode.getRhsNode();
 
-		if (isNodeWithCreationEdges(rhsNode)
-				|| isNodeWithCreationAttributes(rhsNode)
-				|| isNodeWithDeletionAttributes(lhsNode)
-				|| isNodeWithChangingAttributes(lhsNode)
-				|| (isPreservedAttributePostCondition() && isNodeWithPreservedAttributes(lhsNode))
-				|| (isPreservedEdgePostCondition() && isNodeWithPreservedEdges(lhsNode))) {
-			return true;
-		}
-
-		else if (isMultiContextNodeModelB(editRuleNode)) {
-			return true;
-		}
-
-		else if (!isPreservedNodeSearchedInModelA(editRuleNode)) {
-			// Empty node!?
-			return true;
-		}
-
-		return false;
+		return isNodeWithCreationEdges(rhsNode)
+			|| isNodeWithCreationAttributes(rhsNode)
+			|| isNodeWithDeletionAttributes(lhsNode)
+			|| isNodeWithChangingAttributes(lhsNode)
+			|| (isPreservedAttributePostCondition() && isNodeWithPreservedAttributes(lhsNode))
+			|| (isPreservedEdgePostCondition() && isNodeWithPreservedEdges(lhsNode))
+			|| isMultiContextNodeModelB(editRuleNode)
+			|| !isPreservedNodeSearchedInModelA(editRuleNode); // Empty node!?
 	}
 	
 	/**
@@ -115,10 +104,8 @@ public class EditRuleTransientEffects {
 				&& isNodeWithoutAttributes(rhsNode) && isNodeWithoutAttributes(lhsNode)) {
 
 			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
-				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode,
-						multiRule.getLhs());
-				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode,
-						multiRule.getRhs());
+				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
+				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode, multiRule.getRhs());
 
 				// Is multi-node?
 				if (lhsNodeMulti != null && rhsNodeMulti != null) {
@@ -150,10 +137,8 @@ public class EditRuleTransientEffects {
 				&& isNodeWithoutAttributes(rhsNode) && isNodeWithoutAttributes(lhsNode)) {
 
 			for (Rule multiRule : lhsNode.getGraph().getRule().getMultiRules()) {
-				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode,
-						multiRule.getLhs());
-				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode,
-						multiRule.getRhs());
+				Node lhsNodeMulti = multiRule.getMultiMappings().getImage(lhsNode, multiRule.getLhs());
+				Node rhsNodeMulti = multiRule.getMultiMappings().getImage(rhsNode, multiRule.getRhs());
 
 				// Is multi-node?
 				if (lhsNodeMulti != null && rhsNodeMulti != null) {

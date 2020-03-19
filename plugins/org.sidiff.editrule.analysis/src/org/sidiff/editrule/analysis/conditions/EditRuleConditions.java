@@ -52,15 +52,11 @@ public class EditRuleConditions {
 	 *         edge; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreconditionForbidEdges(Node node) {
-	
 		for (Edge forbidEdge : getForbidEdges(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(forbidEdge.getGraph());
-	
-			if (conditionType.equals(Condition.pre)) {
+			if (EditRuleAnnotations.getCondition(forbidEdge.getGraph()) == Condition.pre) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -73,15 +69,11 @@ public class EditRuleConditions {
 	 *         edge; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPostconditionForbidEdges(Node node) {
-	
 		for (Edge forbidEdge : getForbidEdges(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(forbidEdge.getGraph());
-	
-			if (conditionType.equals(Condition.post)) {
+			if (EditRuleAnnotations.getCondition(forbidEdge.getGraph()) == Condition.post) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -94,15 +86,11 @@ public class EditRuleConditions {
 	 *         edge; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreconditionRequireEdges(Node node) {
-	
 		for (Edge requireEdge : getRequireEdges(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(requireEdge.getGraph());
-	
-			if (conditionType.equals(Condition.pre)) {
+			if (EditRuleAnnotations.getCondition(requireEdge.getGraph()) == Condition.pre) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -115,15 +103,11 @@ public class EditRuleConditions {
 	 *         edge; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPostconditionRequireEdges(Node node) {
-	
 		for (Edge requireEdge : getRequireEdges(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(requireEdge.getGraph());
-	
-			if (conditionType.equals(Condition.post)) {
+			if (EditRuleAnnotations.getCondition(requireEdge.getGraph()) == Condition.post) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -136,15 +120,11 @@ public class EditRuleConditions {
 	 *         attribute; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreconditionForbidAttributes(Node node) {
-	
 		for (Attribute forbidAttribute : getForbidAttributes(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(forbidAttribute.getGraph());
-	
-			if (conditionType.equals(Condition.pre)) {
+			if (EditRuleAnnotations.getCondition(forbidAttribute.getGraph()) == Condition.pre) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -157,15 +137,11 @@ public class EditRuleConditions {
 	 *         attribute; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPostconditionForbidAttributes(Node node) {
-	
 		for (Attribute forbidAttribute : getForbidAttributes(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(forbidAttribute.getGraph());
-	
-			if (conditionType.equals(Condition.post)) {
+			if (EditRuleAnnotations.getCondition(forbidAttribute.getGraph()) == Condition.post) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -178,15 +154,11 @@ public class EditRuleConditions {
 	 *         attribute; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreconditionRequireAttributes(Node node) {
-	
 		for (Attribute requireAttribute : getRequireAttributes(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(requireAttribute.getGraph());
-	
-			if (conditionType.equals(Condition.pre)) {
+			if (EditRuleAnnotations.getCondition(requireAttribute.getGraph()) == Condition.pre) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
 
@@ -199,16 +171,11 @@ public class EditRuleConditions {
 	 *         attribute; <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPostconditionRequireAttributes(Node node) {
-	
 		for (Attribute requireAttribute : getRequireAttributes(node)) {
-			Condition conditionType = EditRuleAnnotations.getCondition(requireAttribute.getGraph());
-	
-			if (conditionType.equals(Condition.post)) {
+			if (EditRuleAnnotations.getCondition(requireAttribute.getGraph()) == Condition.post) {
 				return true;
 			}
 		}
-	
 		return false;
 	}
-
 }

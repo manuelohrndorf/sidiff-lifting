@@ -25,24 +25,16 @@ import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEff
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.common.emf.access.EMFMetaAccess;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
@@ -53,7 +45,6 @@ import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
-import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * Calculates all potential dependencies between two rules. This algorithm isn't
@@ -61,41 +52,26 @@ import org.sidiff.editrule.rulebase.RulebaseFactory;
  *
  * @author Manuel Ohrndorf
  */
-public abstract class PotentialDependencyAnalyzer {
+public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 
-	/**
-	 * The EMF Rulebase factory instance.
-	 */
-	protected static RulebaseFactory rbFactory = RulebaseFactory.eINSTANCE;
-	
-	/**
-	 * Caches the Henshin rules as {@link ActionGraph}.
-	 */
-	protected Map<Rule, ActionGraph> actionGraphCache = new HashMap<>();
-	
-	/**
-	 * Type index form each EClass to its sub-types.
-	 */
-	protected Map<EClass, Set<EClass>> subTypes;
-	
 	/**
 	 * <code>true</code> to calculate transient potential dependencies;
 	 * <code>false</code> otherwise.
 	 */
 	protected boolean transientPDs;
-	
+
 	/**
 	 * <code>true</code> to calculate non transient potential dependencies;
 	 * <code>false</code> otherwise.
 	 */
 	protected boolean nonTransientPDs;
-	
+
 	/*
 	 * The >S<ource of a dependency is the >S<uccessor rule in a sequence of two rules! 
 	 * Create -> Use <-> Target -> Source <-> Predecessor -> Successor 
 	 * Use -> Delete <-> Target -> Source <-> Predecessor -> Successor
 	 */
-	
+
 	/**
 	 * Initializes a new potential dependency analyzer.
 	 * 
@@ -106,27 +82,10 @@ public abstract class PotentialDependencyAnalyzer {
 	 *            <code>true</code> to calculate non transient potential dependencies; 
 	 *            <code>false</code> otherwise.
 	 */
-	public PotentialDependencyAnalyzer(boolean transientPDs, boolean nonTransientPDs) {
+	public PotentialDependencyAnalyzer(Set<EPackage> imports, boolean transientPDs, boolean nonTransientPDs) {
+		super(imports);
 		this.transientPDs = transientPDs;
 		this.nonTransientPDs = nonTransientPDs;
-	}
-	
-	/**
-	 * Transforms the Henshin rule to a {@link ActionGraph}
-	 * 
-	 * @param rule
-	 *            The Henshin rule.
-	 * @return The {@link ActionGraph}.
-	 */
-	protected ActionGraph getActionGraph(Rule rule) {
-		ActionGraph actionGraph = actionGraphCache.get(rule);
-		
-		if (actionGraph == null) {
-			actionGraph = new ActionGraph(rule, true);
-			actionGraphCache.put(rule, actionGraph);
-		}
-		
-		return actionGraph;
 	}
 
 	/**
@@ -367,7 +326,7 @@ public abstract class PotentialDependencyAnalyzer {
 	protected Set<PotentialNodeDependency> findUseDeletes_Node(
 			Collection<NodePair> predecessors, Collection<Node> lhsSuccessors) {
 
-		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
+		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 
 		for (NodePair predecessorNode : predecessors) {
 			
@@ -432,7 +391,7 @@ public abstract class PotentialDependencyAnalyzer {
 
 		boolean superType = predecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
 		boolean directType = predecessor.getType() == lhsSuccessor.getType();
-		boolean subType = getSubTypes(predecessor.getType()).contains(lhsSuccessor.getType());
+		boolean subType = getSubTypeIndex().getSubTypes(predecessor.getType()).contains(lhsSuccessor.getType());
 		
 		return directType || superType || subType;
 	}
@@ -449,7 +408,7 @@ public abstract class PotentialDependencyAnalyzer {
 	protected Set<PotentialNodeDependency> findUseDeletes_Node_PAC(
 			Collection<Node> requirePredecessors, Collection<Node> lhsSuccessors) {
 
-		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
+		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 
 		for (Node predecessorNode : requirePredecessors) {
 			
@@ -509,7 +468,7 @@ public abstract class PotentialDependencyAnalyzer {
 
 		boolean superType = requirePredecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
 		boolean directType = requirePredecessor.getType() == lhsSuccessor.getType();
-		boolean subType = getSubTypes(requirePredecessor.getType()).contains(lhsSuccessor.getType());
+		boolean subType = getSubTypeIndex().getSubTypes(requirePredecessor.getType()).contains(lhsSuccessor.getType());
 		
 		return directType || superType || subType;
 	}
@@ -526,8 +485,7 @@ public abstract class PotentialDependencyAnalyzer {
 	protected Set<PotentialNodeDependency> findCreateUses_Node(
 			Collection<Node> rhsPredecessors, Collection<NodePair> successors) {
 
-		Set<PotentialNodeDependency> potDeps = new HashSet<PotentialNodeDependency>();
-
+		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 		for (NodePair successorNode : successors) {
 			
 			// Is transient potential dependences?
@@ -548,17 +506,15 @@ public abstract class PotentialDependencyAnalyzer {
 					continue;
 				}
 			}
-			
+
 			for (Node predecessorNode : rhsPredecessors) {
 				if (isCreateUseDependency(predecessorNode, successorNode)) {
 					// Create-Use dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
-
 					potDep.setSourceNode(successorNode.getLhsNode());
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(isTransient);
-					
 					potDeps.add(potDep);
 				}
 			}
@@ -1817,81 +1773,11 @@ public abstract class PotentialDependencyAnalyzer {
 		
 		return false;
 	}
-	
-	/**
-	 * Tests if at least one of the attributes is a variable or if both
-	 * attributes contain the same literal.
-	 * 
-	 * @param predecessor
-	 *            The predecessor attribute, i.e. the target of dependencies.
-	 * @param successor
-	 *            The successor attribute, i.e. the source of dependencies
-	 * @return <code>true</code> if at least one of the attributes is a variable
-	 *         or if both attributes contain the same literal;
-	 *         <code>false</code> otherwise.
-	 */
-	protected boolean attributeCaseDifferentiation(Attribute predecessor, Attribute successor) {
-		
-		// Test precondition: Values => 'equal literals' or 'at least one is variable' == true
-		boolean isSufficiently = false;
-		
-		// Is literal?
-		if (isLiteral(predecessor) && isLiteral(successor)) {
-			// Literals are equal
-			if (predecessor.getValue().equals(successor.getValue())) {
-				isSufficiently = true;
-			}
-		}
-		
-		// Predecessor or successor is variable!
-		else {
-			isSufficiently = true;
-		}
-		
-		return isSufficiently;
-	}
-	
+
 	/*
 	 * Utils
 	 */
 
-	/**
-	 * Checks if the attribute is a literal attribute.
-	 * 
-	 * @param attribute
-	 *            The attribute to test.
-	 * @return <code>true</code> if the attribute is a literal;
-	 *         <code>false</code> if it is a variable or expression.
-	 */
-	protected boolean isLiteral(Attribute attribute) {
-		String value = attribute.getValue();
-
-		/*
-		 *  String
-		 */
-		if (value.startsWith("\"") && value.endsWith("\"")) {
-			return true;
-		}
-
-		/*
-		 * Value
-		 */
-		try {
-			EAttribute type = attribute.getType();
-			if(type != null) {
-				// Strings must have been escaped with " "
-				EDataType dataType = type.getEAttributeType();
-				if(dataType.getInstanceClass() != String.class) {
-					EcoreUtil.createFromString(dataType, value);
-					return true;					
-				}
-			}
-		} catch(Exception e) {
-		}
-
-		return false;
-	}
-	
 	/**
 	 * Tests if the given list contains a potential dependency between the two nodes.
 	 * 
@@ -1913,45 +1799,4 @@ public abstract class PotentialDependencyAnalyzer {
 		}
 		return false;
 	}
-
-	/**
-	 * Returns all sub-types of the given EClass.
-	 * 
-	 * @param referenceType
-	 *            The super-type.
-	 * @return All sub-types of the given EClass.
-	 */
-	private Set<EClass> getSubTypes(EClass referenceType){
-		if (subTypes == null) {
-			subTypes = getSubtypeIndex(getImports());
-		}
-		return subTypes.getOrDefault(referenceType, Collections.emptySet());
-	}
-	
-	/**
-	 * Creates a map form each class in the package to its corresponding sub-types (in the package).
-	 * 
-	 * @param ePackage
-	 *            The package containing the sub- and super-classes.
-	 * @return A map EClass -> Set of EClass sup-types.
-	 */
-	protected Map<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
-		// Class (A) -> [Sub classes (X, Y, Z)]
-		Map<EClass, Set<EClass>> subTypes = new HashMap<>();
-		for (EClass eSubClass : EMFMetaAccess.getAllEClasses(ePackages)) {
-			subTypes.putIfAbsent(eSubClass, new HashSet<>());
-
-			// Lookup the super types (X,Y,Z) of class (A) and add
-			// class (A) as sub type to the classes (X, Y, Z)
-			for (EClass eSuperClass : eSubClass.getEAllSuperTypes()) {
-				subTypes.computeIfAbsent(eSuperClass, unused -> new HashSet<>()).add(eSubClass);
-			}
-		}
-		return subTypes;
-	}
-	
-	/**
-	 * @return All imports of the Henshin rules (document types) which shall be analyzed.
-	 */
-	protected abstract Set<EPackage> getImports();
 }

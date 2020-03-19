@@ -9,13 +9,11 @@ import java.util.stream.Stream;
 
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependency;
-import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
 
 /**
  * Simple container class that holds different kinds of potential dependencies.
- * 
  */
 public class PotentialRuleDependencies {
 
@@ -42,27 +40,15 @@ public class PotentialRuleDependencies {
 	}
 
 	public void addAllPNDs(Set<PotentialNodeDependency> pnds) {
-		for (PotentialNodeDependency pnd : pnds) {
-			if (!exclude(pnd)) {
-				potentialNodeDependencies.add(pnd);
-			}
-		}
+		potentialNodeDependencies.addAll(pnds);
 	}
 
 	public void addAllPEDs(Set<PotentialEdgeDependency> peds) {
-		for (PotentialEdgeDependency ped : peds) {
-			if (!exclude(ped)) {
-				potentialEdgeDependencies.add(ped);
-			}
-		}
+		potentialEdgeDependencies.addAll(peds);
 	}
 
 	public void addAllPADs(Set<PotentialAttributeDependency> pads) {
-		for (PotentialAttributeDependency pad : pads) {
-			if (!exclude(pad)) {
-				potentialAttributeDependencies.add(pad);
-			}
-		}
+		potentialAttributeDependencies.addAll(pads);
 	}
 
 	public void add(PotentialRuleDependencies deps) {
@@ -70,45 +56,4 @@ public class PotentialRuleDependencies {
 		addAllPEDs(deps.getPotentialEdgeDependencies());
 		addAllPADs(deps.getPotentialAttributeDependencies());
 	}
-
-	// FIXME (will be obsolete in future Henshin Versions)
-	/************************************************************************
-	 * WORKAROUND: Verhindern von Dependency-Zyklen, solange
-	 * CriticalPair-Analysis zur Berechnung potentieller Abhängigkeiten noch
-	 * nicht integriert ist.
-	 ************************************************************************/
-
-	private boolean exclude(PotentialDependency pd) {
-		if (pd.getKind() == PotentialDependencyKind.DELETE_FORBID) {
-			String sourceName = pd.getSourceRule().getExecuteModule().getName();
-			String targetName = pd.getTargetRule().getExecuteModule().getName();
-			if (sourceName.equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")
-					&& targetName.equals("DELETE_EReferenceInEClass")) {
-				return true;
-			}
-			if (sourceName.equals("DELETE_EReferenceInEClass")
-					&& targetName.equals("DELETE_EReferenceInEClass")) {
-				return true;
-			}
-			if (sourceName.equals("DELETE_EReferenceInEClass")
-					&& targetName.equals("MOVE_EReference_Ref_eStructuralFeatures_To_EClass")) {
-				return true;
-			}
-			if (sourceName.equals("DELETE_EReferenceInEClass")
-					&& targetName.equals("CHANGE_EReferenceType")) {
-				return true;
-			}
-			if (sourceName.equals("CHANGE_EReferenceType")
-					&& targetName.equals("DELETE_EReferenceInEClass")) {
-				return true;
-			}
-			
-		}
-
-		return false;
-	}
-
-	/************************************************************************
-	 * WORKAROUND ENDE
-	 ************************************************************************/
 }

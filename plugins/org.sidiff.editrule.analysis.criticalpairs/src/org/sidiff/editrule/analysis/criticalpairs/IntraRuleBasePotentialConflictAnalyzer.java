@@ -1,9 +1,8 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinUnitAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
@@ -15,9 +14,10 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 /**
  * Calculates the potential intra-conflicts in a single rulebases. 
  * 
- * @author Manuel Ohrndorf, cpietsch
+ * @author Manuel Ohrndorf
+ * @author cpietsch
  */
-public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialConflictAnalyzer {
+public class IntraRuleBasePotentialConflictAnalyzer extends PotentialConflictAnalyzer {
 
 	/**
 	 * The rulebase to process.
@@ -31,9 +31,8 @@ public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 *            The rulebase to process.
 	 */
 	public IntraRuleBasePotentialConflictAnalyzer(RuleBase rulebase) {
-		
-		super();
-		this.rulebase = rulebase;
+		super(getImports(rulebase.getDocumentTypes()));
+		this.rulebase = Objects.requireNonNull(rulebase, "rulebase is null");
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 			// (1) Compare each rule in the Module with itself.
 			findRuleConflicts(getActionGraph(ruleA), editRuleA, getActionGraph(ruleA), editRuleA);
 		}
-		
+
 		for (RuleBaseItem item : rulebase.getItems()) {
 			EditRule editRuleB = item.getEditRule();
 
@@ -65,8 +64,9 @@ public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 			 * in this Module. E.g. a kernel- and a multi-rule. (Currently the
 			 * only Modules with more than one rule are multi-rules.)
 			 */
-			if (editRuleA == editRuleB)
+			if (editRuleA == editRuleB) {
 				continue;
+			}
 
 			// Compare all rules in both transformation systems
 			List<Rule> rulesB = HenshinUnitAnalysis.getRules(editRuleB.getExecuteMainUnit());
@@ -87,19 +87,14 @@ public class IntraRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 			ActionGraph predecessor, EditRule predecessorEditRule, 
 			ActionGraph successor, EditRule successorEditRule) {
 
-		PotentialRuleConflicts potConss = super.findRuleConflicts(
+		PotentialRuleConflicts potRuleConflicts = super.findRuleConflicts(
 				predecessor, predecessorEditRule,
 				successor, successorEditRule);
-		
-		rulebase.getPotentialNodeConflicts().addAll(potConss.getPotentialNodeConflicts());
-		rulebase.getPotentialEdgeConflicts().addAll(potConss.getPotentialEdgeConflicts());
-		rulebase.getPotentialAttributeConflicts().addAll(potConss.getPotentialAttributeConflicts());
-		
-		return potConss;
-	}
 
-	@Override
-	protected Set<EPackage> getImports() {
-		return getImports(rulebase.getDocumentTypes());
+		rulebase.getPotentialNodeConflicts().addAll(potRuleConflicts.getPotentialNodeConflicts());
+		rulebase.getPotentialEdgeConflicts().addAll(potRuleConflicts.getPotentialEdgeConflicts());
+		rulebase.getPotentialAttributeConflicts().addAll(potRuleConflicts.getPotentialAttributeConflicts());
+
+		return potRuleConflicts;
 	}
 }

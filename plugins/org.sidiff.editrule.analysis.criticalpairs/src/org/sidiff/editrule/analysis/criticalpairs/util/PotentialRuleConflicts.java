@@ -1,8 +1,11 @@
 package org.sidiff.editrule.analysis.criticalpairs.util;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.PotentialConflict;
@@ -11,82 +14,41 @@ import org.sidiff.editrule.rulebase.PotentialNodeConflict;
 
 /**
  * Simple container class that holds different kinds of potential conflicts.
- * 
  */
-
 public class PotentialRuleConflicts {
 
-	private Set<PotentialNodeConflict> potentialNodeConflicts;
-	private Set<PotentialEdgeConflict> potentialEdgeConflicts;
-	private Set<PotentialAttributeConflict> potentialAttributeConflicts;
+	private Set<PotentialNodeConflict> potentialNodeConflicts = new HashSet<>();
+	private Set<PotentialEdgeConflict> potentialEdgeConflicts = new HashSet<>();
+	private Set<PotentialAttributeConflict> potentialAttributeConflicts = new HashSet<>();
 
 	public Set<PotentialNodeConflict> getPotentialNodeConflicts() {
-		if (potentialNodeConflicts == null) {
-			potentialNodeConflicts = new HashSet<PotentialNodeConflict>();
-		}
-
 		return Collections.unmodifiableSet(potentialNodeConflicts);
 	}
 
 	public Set<PotentialEdgeConflict> getPotentialEdgeConflicts() {
-		if (potentialEdgeConflicts == null) {
-			potentialEdgeConflicts = new HashSet<PotentialEdgeConflict>();
-		}
-
 		return Collections.unmodifiableSet(potentialEdgeConflicts);
 	}
 
 	public Set<PotentialAttributeConflict> getPotentialAttributeConflicts() {
-		if (potentialAttributeConflicts == null) {
-			potentialAttributeConflicts = new HashSet<PotentialAttributeConflict>();
-		}
-
 		return Collections.unmodifiableSet(potentialAttributeConflicts);
 	}
 
 	public Set<PotentialConflict> getPotentialConflicts() {
-		Set<PotentialConflict> potDeps = new HashSet<PotentialConflict>();
-		potDeps.addAll(getPotentialNodeConflicts());
-		potDeps.addAll(getPotentialEdgeConflicts());
-		potDeps.addAll(getPotentialAttributeConflicts());
-
-		return Collections.unmodifiableSet(potDeps);
+		return Stream.of(potentialNodeConflicts, potentialEdgeConflicts, potentialAttributeConflicts)
+			.flatMap(Collection::stream)
+			.collect(Collectors.toSet());
 	}
 
 	public void addAllPNCs(Set<PotentialNodeConflict> pncs) {
-		if (potentialNodeConflicts == null) {
-			potentialNodeConflicts = new HashSet<PotentialNodeConflict>();
-		}
-
-		for (PotentialNodeConflict pnc : pncs) {
-
-				potentialNodeConflicts.add(pnc);
-			
-		}
+		potentialNodeConflicts.addAll(pncs);
 	}
 
 	public void addAllPECs(Set<PotentialEdgeConflict> pecs) {
-		if (potentialEdgeConflicts == null) {
-			potentialEdgeConflicts = new HashSet<PotentialEdgeConflict>();
-		}
-
-		for (PotentialEdgeConflict pec : pecs) {
-
-				potentialEdgeConflicts.add(pec);
-			
-		}
+		potentialEdgeConflicts.addAll(pecs);
 	}
 
 	public void addAllPACs(Set<PotentialAttributeConflict> pacs) {
-		if (potentialAttributeConflicts == null) {
-			potentialAttributeConflicts = new HashSet<PotentialAttributeConflict>();
-		}
-
-		for (PotentialAttributeConflict pac : pacs) {
-		
-				potentialAttributeConflicts.add(pac);
-			
-		}
+		potentialAttributeConflicts.addAll(pacs);
 	}
 
 	public void add(PotentialRuleConflicts deps) {
@@ -94,5 +56,4 @@ public class PotentialRuleConflicts {
 		addAllPECs(deps.getPotentialEdgeConflicts());
 		addAllPACs(deps.getPotentialAttributeConflicts());
 	}
-
 }

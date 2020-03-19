@@ -3,12 +3,10 @@ package org.sidiff.editrule.analysis.criticalpairs;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
@@ -26,12 +24,7 @@ import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
  * 
  * @author Manuel Ohrndorf
  */
-public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialDependencyAnalyzer {
-
-	/**
-	 * All document types of all rules in the rulebases.
-	 */
-	private Set<String> documentTypes;
+public class InterRuleBasePotentialDependencyAnalyzer extends PotentialDependencyAnalyzer {
 
 	/**
 	 * Potential dependency index.
@@ -104,7 +97,7 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 	public InterRuleBasePotentialDependencyAnalyzer(Collection<? extends IEditRuleBase> rulebases) {
 		this(rulebases, false, true);
 	}
-	
+
 	/**
 	 * Calculates the potential inter-dependencies between two or more rulebases.
 	 * (Non-transient dependencies only.)
@@ -141,15 +134,10 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 			Collection<String> documentTypes, Set<EditRule> editRules,
 			boolean transientPDs, boolean nonTransientPDs) {
 
-		super(transientPDs, nonTransientPDs);
-
-		// Set document types:
-		this.documentTypes = new HashSet<>(documentTypes);
-
-		// Calculate:
+		super(getImports(documentTypes), transientPDs, nonTransientPDs);
 		calculate(editRules);
 	}
-	
+
 	/**
 	 * Calculates the potential inter-dependencies between two or more rulebases.
 	 * 
@@ -256,10 +244,5 @@ public class InterRuleBasePotentialDependencyAnalyzer extends RuleBasePotentialD
 		}
 
 		return potentialDependencies;
-	}
-
-	@Override
-	protected Set<EPackage> getImports() {
-		return getImports(documentTypes);
 	}
 }

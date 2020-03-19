@@ -1,26 +1,31 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.*;
 import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
 import org.sidiff.common.henshin.view.NodePair;
@@ -30,59 +35,27 @@ import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
-import org.sidiff.editrule.rulebase.RulebaseFactory;
 
 /**
  * Calculates all potential conflicts between two rules. This algorithm isn't
  * optimal in the sense that it may reports more potential conflicts than necessary.
  *
- * @author Manuel Ohrndorf, cpietsch
+ * @author Manuel Ohrndorf
+ * @author cpietsch
  */
-public abstract class PotentialConflictAnalyzer {
+public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
-	/**
-	 * The EMF Rulebase factory instance.
-	 */
-	protected static RulebaseFactory rbFactory = RulebaseFactory.eINSTANCE;
-	
-	/**
-	 * Caches the Henshin rules as {@link ActionGraph}.
-	 */
-	protected Map<Rule, ActionGraph> actionGraphCache = new HashMap<Rule, ActionGraph>();
-	
-	/**
-	 * Type index form each EClass to its sub-types.
-	 */
-	protected Map<EClass, Set<EClass>> subTypes;
-	
 	/*
 	 * The >S<ource of a dependency is the >S<uccessor rule in a sequence of two rules! 
 	 * Create -> Use <-> Target -> Source <-> Predecessor -> Successor 
 	 * Use -> Delete <-> Target -> Source <-> Predecessor -> Successor
 	 */
-	
+
 	/**
 	 * Initializes a new potential conflict analyzer.
 	 */
-	public PotentialConflictAnalyzer() {
-	}
-	
-	/**
-	 * Transforms the Henshin rule to a {@link ActionGraph}
-	 * 
-	 * @param rule
-	 *            The Henshin rule.
-	 * @return The {@link ActionGraph}.
-	 */
-	protected ActionGraph getActionGraph(Rule rule) {
-		ActionGraph actionGraph = actionGraphCache.get(rule);
-		
-		if (actionGraph == null) {
-			actionGraph = new ActionGraph(rule, true);
-			actionGraphCache.put(rule, actionGraph);
-		}
-		
-		return actionGraph;
+	public PotentialConflictAnalyzer(Set<EPackage> imports) {
+		super(imports);
 	}
 
 	/**
@@ -140,11 +113,11 @@ public abstract class PotentialConflictAnalyzer {
 		List<Edge> successorRequireEdges = successor.getRequireEdges();
 		
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = new ArrayList<Attribute>(predecessor.getSetAttributes());
+		List<Attribute> predecessorChangingAttributes = new ArrayList<>(predecessor.getSetAttributes());
 		predecessorChangingAttributes.addAll(predecessor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> predecessorUsingAttributes = predecessor.getPreserveAttributes();
 		
-		List<Attribute> successorChangingAttributes = new ArrayList<Attribute>(successor.getSetAttributes());
+		List<Attribute> successorChangingAttributes = new ArrayList<>(successor.getSetAttributes());
 		successorChangingAttributes.addAll(successor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
 		List<Attribute> successorUsingAttributes = successor.getPreserveAttributes(); 
 		
@@ -473,20 +446,15 @@ public abstract class PotentialConflictAnalyzer {
 	protected Set<PotentialNodeConflict> findDeleteDelete_Node(
 			Collection<Node> lhsPredecessors, Collection<Node> lhsSuccessors) {
 
-		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
-
+		Set<PotentialNodeConflict> potCons = new HashSet<>();
 		for (Node predecessorNode : lhsPredecessors) {
-			
 			for (Node successorNode : lhsSuccessors) {
-				
 				if (isDeleteDeleteConflict(predecessorNode, successorNode)) {
 					// Delete-Use conflict found
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
-
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode);
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-
 					potCons.add(potCon);
 				}
 			}
@@ -506,20 +474,15 @@ public abstract class PotentialConflictAnalyzer {
 	protected Set<PotentialNodeConflict> findDeleteUse_Node(
 			Collection<Node> lhsPredecessors, Collection<NodePair> successors) {
 
-		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
-
+		Set<PotentialNodeConflict> potCons = new HashSet<>();
 		for (Node predecessorNode : lhsPredecessors) {
-			
 			for (NodePair successorNode : successors) {
-				
 				if (isDeleteUseConflict(predecessorNode, successorNode)) {
 					// Delete-Use conflict found
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
-
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode.getLhsNode());
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-
 					potCons.add(potCon);
 				}
 			}
@@ -547,13 +510,8 @@ public abstract class PotentialConflictAnalyzer {
 
 		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
 		boolean directType = lhsPredecessor.getType() == lhsSuccessor.getType();
-		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(lhsSuccessor.getType());
-		
-		if (directType || superType || subType) {
-			return true;
-		}
-
-		return false;
+		boolean subType = getSubTypeIndex().getSubTypes(lhsPredecessor.getType()).contains(lhsSuccessor.getType());
+		return directType || superType || subType;
 	}
 	
 	/**
@@ -576,13 +534,8 @@ public abstract class PotentialConflictAnalyzer {
 
 		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(successor.getType());
 		boolean directType = lhsPredecessor.getType() == successor.getType();
-		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(successor.getType());
-		
-		if (directType || superType || subType) {
-			return true;
-		}
-
-		return false;
+		boolean subType = getSubTypeIndex().getSubTypes(lhsPredecessor.getType()).contains(successor.getType());
+		return directType || superType || subType;
 	}
 	
 	/**
@@ -597,19 +550,15 @@ public abstract class PotentialConflictAnalyzer {
 	protected Set<PotentialNodeConflict> findDeleteUse_Node_PAC(
 			Collection<Node> lhsPredecessors, Collection<Node> requiredSuccessors) {
 
-		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
-
+		Set<PotentialNodeConflict> potCons = new HashSet<>();
 		for (Node predecessorNode : lhsPredecessors) {
-			
 			for (Node successorNode : requiredSuccessors) {
 				if (isDeleteUseConflict_PAC(predecessorNode, successorNode)) {
 					// Delete-Use conflict found
 					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
-
 					potDep.setSourceNode(predecessorNode);
 					potDep.setTargetNode(successorNode);
 					potDep.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-
 					potCons.add(potDep);
 				}
 			}
@@ -637,13 +586,8 @@ public abstract class PotentialConflictAnalyzer {
 
 		boolean superType = lhsPredecessor.getType().getEAllSuperTypes().contains(requiredSuccessor.getType());
 		boolean directType = lhsPredecessor.getType() == requiredSuccessor.getType();
-		boolean subType = getSubTypes(lhsPredecessor.getType()).contains(requiredSuccessor.getType());
-		
-		if (directType || superType || subType) {
-			return true;
-		}
-
-		return false;
+		boolean subType = getSubTypeIndex().getSubTypes(lhsPredecessor.getType()).contains(requiredSuccessor.getType());
+		return directType || superType || subType;
 	}
 	
 	/**
@@ -656,25 +600,22 @@ public abstract class PotentialConflictAnalyzer {
 	 * @return All potential Create-Forbid conflicts.
 	 */
 	protected Set<PotentialNodeConflict> findCreateForbid_Node(
-			Collection<Node> rhsPredecessors, Collection<Node> forbiddenSuccessors) {
-		Set<PotentialNodeConflict> potCons = new HashSet<PotentialNodeConflict>();
-		
+			Collection<Node> rhsPredecessors,
+			Collection<Node> forbiddenSuccessors) {
+
+		Set<PotentialNodeConflict> potCons = new HashSet<>();
 		for (Node predecessorNode : rhsPredecessors) {
-			
 			for (Node successorNode : forbiddenSuccessors) {
 				if (isCreateForbidConflict_NAC(predecessorNode, successorNode)) {
 					// Create-Forbid conflict found
 					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
-
 					potDep.setSourceNode(predecessorNode);
 					potDep.setTargetNode(successorNode);
 					potDep.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID);
-
 					potCons.add(potDep);
 				}
 			}
 		}
-
 		return potCons;
 	}
 	
@@ -699,28 +640,24 @@ public abstract class PotentialConflictAnalyzer {
 
 		boolean superType = forbiddenSuccessor.getType().getEAllSuperTypes().contains(rhsPredecessor.getType());
 		boolean directType = forbiddenSuccessor.getType() == rhsPredecessor.getType();
-		boolean subType = getSubTypes(forbiddenSuccessor.getType()).contains(rhsPredecessor.getType());
-		
-		if (directType || superType || subType) {
-			return true;
-		}
-
-		return false;
+		boolean subType = getSubTypeIndex().getSubTypes(forbiddenSuccessor.getType()).contains(rhsPredecessor.getType());
+		return directType || superType || subType;
 	}
 	
-	protected Set<PotentialEdgeConflict> findCreateForbid_Edge(Collection<Edge> rhsPredecessors, Collection<Edge> forbidSuccessors, PotentialRuleConflicts potRuleCon){
-		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
-		
+	protected Set<PotentialEdgeConflict> findCreateForbid_Edge(
+			Collection<Edge> rhsPredecessors,
+			Collection<Edge> forbidSuccessors,
+			PotentialRuleConflicts potRuleCon) {
+
+		Set<PotentialEdgeConflict> potCons = new HashSet<>();
 		for(Edge successorEdge : forbidSuccessors) {
 			for(Edge predecessorEdge : rhsPredecessors) {
 				if(isCreateForbidConflict(predecessorEdge, successorEdge, potRuleCon)) {
 					// Create-Forbid conflict found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
-
 					potCon.setSourceEdge(predecessorEdge);
 					potCon.setTargetEdge(successorEdge);
 					potCon.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID);
-					
 					potCons.add(potCon);
 				}
 			}
@@ -731,31 +668,31 @@ public abstract class PotentialConflictAnalyzer {
 	protected boolean isCreateForbidConflict(Edge rhsPredecessors, Edge forbidSuccessor, PotentialRuleConflicts potRuleCon) {
 		assert(isCreationEdge(rhsPredecessors)) : "Input Assertion Failed!";
 		assert(isForbiddenEdge(forbidSuccessor)) : "Input Assertion Failed!";
-		
-		if(rhsPredecessors.getType().equals(forbidSuccessor.getType())) {
-			Node predecessorSrc = rhsPredecessors.getSource();
-			Node predecessorTgt = rhsPredecessors.getTarget();
-			Node successorSrc = forbidSuccessor.getSource();
-			Node successorTgt = forbidSuccessor.getTarget();
-			
-			boolean srcOK = false;
-			if(isCreationNode(predecessorSrc)) {
-				srcOK = hasPotentialNodeConflict(potRuleCon, predecessorSrc, successorSrc);
-			}else {
-				srcOK = isPreservedNode(predecessorSrc);
-			}
-			
-			boolean tgtOK = false;
-			if(isCreationNode(predecessorTgt)) {
-				tgtOK = hasPotentialNodeConflict(potRuleCon, predecessorTgt, successorTgt);
-			}else {
-				tgtOK = isPreservedNode(predecessorTgt);
-			}
-			
-			return srcOK && tgtOK;
-			
+
+		if(rhsPredecessors.getType() != forbidSuccessor.getType()) {
+			return false;
 		}
-		return false;
+
+		Node predecessorSrc = rhsPredecessors.getSource();
+		Node predecessorTgt = rhsPredecessors.getTarget();
+		Node successorSrc = forbidSuccessor.getSource();
+		Node successorTgt = forbidSuccessor.getTarget();
+
+		boolean srcOK = false;
+		if(isCreationNode(predecessorSrc)) {
+			srcOK = hasPotentialNodeConflict(potRuleCon, predecessorSrc, successorSrc);
+		} else {
+			srcOK = isPreservedNode(predecessorSrc);
+		}
+
+		boolean tgtOK = false;
+		if(isCreationNode(predecessorTgt)) {
+			tgtOK = hasPotentialNodeConflict(potRuleCon, predecessorTgt, successorTgt);
+		} else {
+			tgtOK = isPreservedNode(predecessorTgt);
+		}
+		
+		return srcOK && tgtOK;
 	}
 	
 //
@@ -798,12 +735,10 @@ public abstract class PotentialConflictAnalyzer {
 //				if (isCreateUseDependency(predecessorNode, successorNode)) {
 //					// Create-Use dependence found
 //					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
-//
 //					potDep.setSourceNode(successorNode.getLhsNode());
 //					potDep.setTargetNode(predecessorNode);
 //					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 //					potDep.setTransient(isTransient);
-//					
 //					potDeps.add(potDep);
 //				}
 //			}
@@ -958,12 +893,10 @@ public abstract class PotentialConflictAnalyzer {
 //				if (isForbidCreateDependency(predecessorNode, successorNode)) {
 //					// Change-Forbid dependence found
 //					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
-//
 //					potDep.setSourceNode(successorNode);
 //					potDep.setTargetNode(predecessorNode);
 //					potDep.setKind(PotentialDependencyKind.FORBID_CREATE);
 //					potDep.setTransient(isTransient);
-//					
 //					potDeps.add(potDep);
 //				}
 //			}
@@ -1089,19 +1022,15 @@ public abstract class PotentialConflictAnalyzer {
 	protected Set<PotentialEdgeConflict> findDeleteDelete_Edge(
 			List<Edge> lhsPredecessors, List<Edge> lhsSuccessors) {
 		
-		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
-
+		Set<PotentialEdgeConflict> potCons = new HashSet<>();
 		for (Edge predecessorEdge : lhsPredecessors) {
-			
 			for (Edge successorEdge : lhsSuccessors) {
 				if (isDeleteDeleteConflict(predecessorEdge, successorEdge)) {
 					// Delete-Use dependence found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
-
 					potCon.setSourceEdge(successorEdge);
 					potCon.setTargetEdge(predecessorEdge);
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-					
 					potCons.add(potCon);
 				}
 			}
@@ -1123,10 +1052,7 @@ public abstract class PotentialConflictAnalyzer {
 		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
 		assert(isDeletionEdge(lhsSuccessor)) : "Input Assertion Failed: Must be a deletion edge!";
 		
-		if (lhsPredecessor.getType() == lhsSuccessor.getType()) {
-			return true;
-		}
-		return false;
+		return lhsPredecessor.getType() == lhsSuccessor.getType();
 	}
 	
 	/**
@@ -1141,19 +1067,15 @@ public abstract class PotentialConflictAnalyzer {
 	protected Set<PotentialEdgeConflict> findDeleteUse_Edge(
 			List<Edge> lhsPredecessors, List<EdgePair> successors) {
 		
-		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
-
+		Set<PotentialEdgeConflict> potCons = new HashSet<>();
 		for (Edge predecessorEdge : lhsPredecessors) {
-			
 			for (EdgePair successorEdge : successors) {
 				if (isDeleteUseConflict(predecessorEdge, successorEdge)) {
 					// Delete-Use dependence found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
-
 					potCon.setSourceEdge(predecessorEdge);
 					potCon.setTargetEdge(successorEdge.getLhsEdge());
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-					
 					potCons.add(potCon);
 				}
 			}
@@ -1175,10 +1097,7 @@ public abstract class PotentialConflictAnalyzer {
 		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
 		assert(isPreservedEdge(successor.getLhsEdge())) : "Input Assertion Failed: Must be a preserved edge!";
 		
-		if (lhsPredecessor.getType() == successor.getType()) {
-			return true;
-		}
-		return false;
+		return lhsPredecessor.getType() == successor.getType();
 	}
 	
 	/**
@@ -1193,20 +1112,16 @@ public abstract class PotentialConflictAnalyzer {
 	 */
 	protected Set<PotentialEdgeConflict> findDeleteUse_Edge_PAC(
 			List<Edge> lhsPredecessors, List<Edge> requiredSuccessors) {
-		
-		Set<PotentialEdgeConflict> potCons = new HashSet<PotentialEdgeConflict>();
 
+		Set<PotentialEdgeConflict> potCons = new HashSet<>();
 		for (Edge predecessorEdge : lhsPredecessors) {
-			
 			for (Edge successorEdge : requiredSuccessors) {
 				if (isDeleteUseConflict_PAC(predecessorEdge, successorEdge)) {
 					// Delete-Use conflict found
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
-
 					potCon.setSourceEdge(predecessorEdge);
 					potCon.setTargetEdge(successorEdge);
 					potCon.setPotentialConflictKind(PotentialConflictKind.DELETE_USE);
-					
 					potCons.add(potCon);
 				}
 			}
@@ -1228,10 +1143,7 @@ public abstract class PotentialConflictAnalyzer {
 		assert(isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
 		assert(isRequireEdge(successor)) : "Input Assertion Failed: Must be a required edge!";
 		
-		if (lhsPredecessor.getType() == successor.getType()) {
-			return true;
-		}
-		return false;
+		return lhsPredecessor.getType() == successor.getType();
 	}
 //	
 //	/**
@@ -1745,10 +1657,12 @@ public abstract class PotentialConflictAnalyzer {
 //		return false;
 //	}
 //	
-//	/*
-//	 * Attributes
-//	 */
-//
+
+
+	/*
+	 * Attributes
+	 */
+
 	/**
 	 * Checks all attributes for Change-Use conflicts.
 	 * 
@@ -1760,19 +1674,16 @@ public abstract class PotentialConflictAnalyzer {
 	 */
 	protected Set<PotentialAttributeConflict> findChangeUses_Attribute(
 			Collection<Attribute> rhsPredecessors, Collection<Attribute> lhsSuccessors) {
-		
-		Set<PotentialAttributeConflict> potConss = new HashSet<PotentialAttributeConflict>();
 
+		Set<PotentialAttributeConflict> potConss = new HashSet<>();
 		for (Attribute rhsPredecessorAttribute : rhsPredecessors) {
 			for (Attribute lhsSuccessorAttribute : lhsSuccessors) {
 				if (isChangeUseConflict(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
 					// Change-Use dependence found
 					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
-
 					potcon.setSourceAttribute(rhsPredecessorAttribute);
 					potcon.setTargetAttribute(lhsSuccessorAttribute);
 					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_USE);
-
 					potConss.add(potcon);
 				}
 			}
@@ -1789,19 +1700,19 @@ public abstract class PotentialConflictAnalyzer {
 	 *            Attributes on RHS only (<<create>>).
 	 * @return All potential conflicts.
 	 */
-	protected Set<PotentialAttributeConflict> findChangeChange_Attribute (Collection<Attribute> rhsPredecessors, Collection<Attribute> rhsSuccessors){
-		Set<PotentialAttributeConflict> potConss = new HashSet<PotentialAttributeConflict>();
-		
+	protected Set<PotentialAttributeConflict> findChangeChange_Attribute(
+			Collection<Attribute> rhsPredecessors,
+			Collection<Attribute> rhsSuccessors) {
+
+		Set<PotentialAttributeConflict> potConss = new HashSet<>();
 		for(Attribute rhsPredecessorAttribute : rhsPredecessors) {
 			for(Attribute rhsSuccessorAttribute : rhsSuccessors) {
 				if(isChangeChangeConflict(rhsPredecessorAttribute, rhsSuccessorAttribute)) {
 					// Change-Change conflict found
 					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
-
 					potcon.setSourceAttribute(rhsPredecessorAttribute);
 					potcon.setTargetAttribute(rhsSuccessorAttribute);
 					potcon.setPotentialConflictKind(PotentialConflictKind.CHANGE_CHANGE);
-
 					potConss.add(potcon);
 				}
 			}
@@ -2096,102 +2007,11 @@ public abstract class PotentialConflictAnalyzer {
 //		return false;
 //	}
 //	
-	/**
-	 * Tests if at least one of the attributes is a variable or if both
-	 * attributes contain a different literal.
-	 * 
-	 * @param predecessor
-	 *            The predecessor attribute, i.e. the target of conflicts.
-	 * @param successor
-	 *            The successor attribute, i.e. the source of conflicts
-	 * @return <code>true</code> if at least one of the attributes is a variable
-	 *         or if both attributes contain different literal;
-	 *         <code>false</code> otherwise.
-	 */
-	protected boolean attributeCaseDifferentiation(Attribute predecessor, Attribute successor) {
-		
-		// Test precondition: Values => 'equal literals' or 'at least one is variable' == true
-		boolean isSufficiently = false;
-		
-		// Is literal?
-		if (isLiteral(predecessor) && isLiteral(successor)) {
-			// Literals are equal
-			if (predecessor.getValue().equals(successor.getValue())) {
-				isSufficiently = true;
-			}
-		}
-		
-//		// Predecessor or successor is variable!
-//		else {
-//			isSufficiently = true;
-//		}
-		
-		return isSufficiently;
-	}
-	
+
 	/*
 	 * Utils
 	 */
 
-	/**
-	 * Checks if the attribute is a literal attribute.
-	 * 
-	 * @param attribute
-	 *            The attribute to test.
-	 * @return <code>true</code> if the attribute is a literal;
-	 *         <code>false</code> if it is a variable or expression.
-	 */
-	protected boolean isLiteral(Attribute attribute) {
-		String value = attribute.getValue();
-
-		/*
-		 *  String
-		 */
-		if (value.startsWith("\"") && value.endsWith("\"")) {
-			return true;
-		}
-		
-		/*
-		 * Boolean
-		 */
-		
-		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-			return true;
-		}
-		
-		/*
-		 * Value
-		 */
-		
-		boolean isValue = false;
-		
-		// Integer
-		try {
-			Integer.valueOf(value);
-			isValue = true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		
-		// Float
-		try {
-			Float.valueOf(value);
-			isValue = true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		
-		// Double
-		try {
-			Double.valueOf(value);
-			isValue = true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-
-		return isValue;
-	}
-	
 	/**
 	 * Tests if the given list contains a potential conflict between the two nodes.
 	 * 
@@ -2206,122 +2026,11 @@ public abstract class PotentialConflictAnalyzer {
 	 */
 	protected boolean hasPotentialNodeConflict(PotentialRuleConflicts potRuleDep, Node nodeA, Node nodeB) {
 		for(PotentialNodeConflict potCon : potRuleDep.getPotentialNodeConflicts()) {
-			if (potCon.getSourceNode().equals(nodeA) || potCon.getTargetNode().equals(nodeA)) {
-				if (potCon.getSourceNode().equals(nodeB) || potCon.getTargetNode().equals(nodeB)) {
-					return true;	
-				}
+			if ((potCon.getSourceNode().equals(nodeA) || potCon.getTargetNode().equals(nodeA))
+					&& (potCon.getSourceNode().equals(nodeB) || potCon.getTargetNode().equals(nodeB))) {
+				return true;
 			}
 		}
 		return false;
 	}
-	
-	/**
-	 * Removes all node pairs from the list which matches (LHS or RHS) a node in the other list.
-	 * 
-	 * @param collection
-	 *            Node pair collection.
-	 * @param toBeRemoved
-	 *            Nodes that will be removed from the other list.
-	 */
-	protected void removeAllNodes(List<NodePair> collection, Set<Node> toBeRemoved) {
-		Iterator<NodePair> it = collection.iterator();
-
-		while (it.hasNext()) {
-			NodePair pNode = it.next();
-			if ((toBeRemoved.contains(pNode.getLhsNode())) || (toBeRemoved.contains(pNode.getRhsNode()))) {
-				it.remove();
-			}
-		}
-	}
-	
-	/**
-	 * Removes all edge pairs from the list which matches (LHS or RHS) a edge in the other list.
-	 * 
-	 * @param collection
-	 *            Edge pair collection.
-	 * @param toBeRemoved
-	 *            Edges that will be removed from the other list.
-	 */
-	protected void removeAllEdges(List<EdgePair> collection, Set<Edge> toBeRemoved) {
-		Iterator<EdgePair> it = collection.iterator();
-
-		while (it.hasNext()) {
-			EdgePair pNode = it.next();
-			if ((toBeRemoved.contains(pNode.getLhsEdge())) || (toBeRemoved.contains(pNode.getRhsEdge()))) {
-				it.remove();
-			}
-		}
-	}
-	
-	/**
-	 * Returns all sub-types of the given EClass.
-	 * 
-	 * @param referenceType
-	 *            The super-type.
-	 * @return All sub-types of the given EClass.
-	 */
-	private Set<EClass> getSubTypes(EClass referenceType){
-		
-		if (subTypes == null) {
-			subTypes = getSubtypeIndex(getImports());
-		}
-		
-		Set<EClass> res = subTypes.get(referenceType);
-		if (res == null){
-			return new HashSet<EClass>();
-		} else {
-			return res;
-		}		
-	}
-	
-	/**
-	 * Creates a map form each class in the package to its corresponding sub-types (in the package).
-	 * 
-	 * @param ePackage
-	 *            The package containing the sub- and super-classes.
-	 * @return A map EClass -> Set of EClass sup-types.
-	 */
-	protected Map<EClass, Set<EClass>> getSubtypeIndex(Set<EPackage> ePackages) {
-
-		// Class (A) -> [Sub classes (X, Y, Z)]
-		Map<EClass, Set<EClass>> subTypes = new HashMap<EClass, Set<EClass>>();
-
-		// Iterate over all docType packages
-		for (EPackage ePackage : ePackages) {
-
-			// Iterate over all classes in the package
-			for (Iterator<EObject> i = ePackage.eAllContents(); i.hasNext();) {
-				EObject obj = i.next();
-	
-				if (obj instanceof EClass) {
-					// Next class (A)
-					EClass eSubClass = (EClass) obj;
-	
-					if (subTypes.get(eSubClass) == null) {
-						subTypes.put(eSubClass, new HashSet<EClass>());
-					}
-	
-					// Lookup the super types (X,Y,Z) of class (A) and add
-					// class (A) as sub type to the classes (X, Y, Z)
-					for (EClass eSuperClass : eSubClass.getEAllSuperTypes()) {
-						Set<EClass> allSubTypes = subTypes.get(eSuperClass);
-	
-						if (allSubTypes == null) {
-							allSubTypes = new HashSet<EClass>();
-							subTypes.put(eSuperClass, allSubTypes);
-						}
-	
-						allSubTypes.add(eSubClass);
-					}
-				}
-			}
-		}
-
-		return subTypes;
-	}
-	
-	/**
-	 * @return All imports of the Henshin rules (document types) which shall be analyzed.
-	 */
-	protected abstract Set<EPackage> getImports();
 }

@@ -1,15 +1,13 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.henshin.HenshinModuleAnalysis;
 import org.sidiff.common.henshin.view.ActionGraph;
@@ -25,57 +23,41 @@ import org.sidiff.editrule.rulebase.view.editrule.IEditRuleBase;
 /**
  * Calculates the potential inter-conflicts between two or more rulebases. 
  * 
- * @author Manuel Ohrndorf, cpietsch
+ * @author Manuel Ohrndorf
+ * @author cpietsch
  */
-public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialConflictAnalyzer {
+public class InterRuleBasePotentialConflictAnalyzer extends PotentialConflictAnalyzer {
 
-	/**
-	 * All document types of all rules in the rulebases.
-	 */
-	private Collection<String> documentTypes;
-	
 	/**
 	 * Potential conflict index.
 	 */
 	private Map<EditRule, PotentialRuleConflicts> potCons;
 
-	/**
-	 * 
-	 */
 	public InterRuleBasePotentialConflictAnalyzer(
-			Collection<? extends IEditRuleBase> rulebases) {
-		
-		super();
+			Collection<? extends IEditRuleBase> ruleBases) {
 
-		// Initialize:
-		this.documentTypes = new HashSet<String>();
-		List<EditRule> editRules = new ArrayList<EditRule>();
-		
-		for (IEditRuleBase rb : rulebases) {
-			documentTypes.addAll(rb.getDocumentTypes());
-
-			// Consider active rules only:
-			editRules.addAll(rb.getActiveEditRules());
-		}
-
-		// Calculate:
-		calculate(editRules);
+		this(deriveDocTypes(ruleBases), deriveEditRules(ruleBases));
 	}
-	
-	/**
-	 * 
-	 * @param documentTypes
-	 * @param editRules
-	 */
+
+	private static Collection<String> deriveDocTypes(Collection<? extends IEditRuleBase> ruleBases) {
+		return ruleBases.stream()
+				.map(IEditRuleBase::getDocumentTypes)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toSet());
+	}
+
+	private static Set<EditRule> deriveEditRules(Collection<? extends IEditRuleBase> ruleBases) {
+		return ruleBases.stream()
+				.map(IEditRuleBase::getActiveEditRules)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toSet());
+	}
+
 	public InterRuleBasePotentialConflictAnalyzer(
-			Collection<String> documentTypes, Set<EditRule> editRules) {
-		
-		super();
-		
-		// Set document types:
-		this.documentTypes = documentTypes;
-		
-		// Calculate:
+			Collection<String> documentTypes,
+			Set<EditRule> editRules) {
+
+		super(getImports(documentTypes));
 		calculate(editRules);
 	}
 	
@@ -86,7 +68,7 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 *            All rules of various rulebases.
 	 */
 	private void calculate(Collection<EditRule> editRules) {
-		potCons = new HashMap<EditRule, PotentialRuleConflicts>();
+		potCons = new HashMap<>();
 
 		// Calculate potential dependencies
 		for (EditRule editRuleA : editRules) {
@@ -118,7 +100,6 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 *         rule bases; <code>false</code> otherwise.
 	 */
 	public boolean isNecessary() {
-
 		/*
 		 * If there are only matched edit rules from one rule base then
 		 * potCons.size() will be 0. (ruleBaseA != ruleBaseB) 
@@ -127,11 +108,7 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 		 * matched edit rules of all rule bases are in potCons map. Maybe with
 		 * empty Set<PotentialRuleDependencies>.
 		 */
-
-		if (potCons.size() == 0) {
-			return false;
-		}
-		return true;
+		return !potCons.isEmpty();
 	}
 
 	/**
@@ -140,11 +117,8 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 * @return All potential node conflicts that are caused by the given edit rule.
 	 */
 	public Set<PotentialNodeConflict> getPotentialNodeConflicts(EditRule sourceEditRule) {
-		if (potCons.containsKey(sourceEditRule)){
-			return potCons.get(sourceEditRule).getPotentialNodeConflicts();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleConflicts potentialConflicts = potCons.get(sourceEditRule);
+		return potentialConflicts == null ? Collections.emptySet() : potentialConflicts.getPotentialNodeConflicts();
 	}
 
 	/**
@@ -153,11 +127,8 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 * @return All potential edge conflicts that are caused by the given edit rule.
 	 */
 	public Set<PotentialEdgeConflict> getPotentialEdgeConflicts(EditRule sourceEditRule) {		
-		if (potCons.containsKey(sourceEditRule)){
-			return potCons.get(sourceEditRule).getPotentialEdgeConflicts();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleConflicts potentialConflicts = potCons.get(sourceEditRule);
+		return potentialConflicts == null ? Collections.emptySet() : potentialConflicts.getPotentialEdgeConflicts();
 	}
 
 	/**
@@ -166,24 +137,18 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 	 * @return All potential attribute conflicts that are caused by the given edit rule.
 	 */
 	public Set<PotentialAttributeConflict> getPotentialAttributeConflicts(EditRule sourceEditRule) {		
-		if (potCons.containsKey(sourceEditRule)){
-			return potCons.get(sourceEditRule).getPotentialAttributeConflicts();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleConflicts potentialConflicts = potCons.get(sourceEditRule);
+		return potentialConflicts == null ? Collections.emptySet() : potentialConflicts.getPotentialAttributeConflicts();
 	}
-	
+
 	/**
 	 * @param sourceEditRule
 	 *            The source or successor of the conflict.
 	 * @return All potential conflicts that are caused by the given edit rule.
 	 */
 	public Set<PotentialConflict> getPotentialConflicts(EditRule sourceEditRule) {		
-		if (potCons.containsKey(sourceEditRule)){
-			return potCons.get(sourceEditRule).getPotentialConflicts();
-		} else {
-			return Collections.emptySet();
-		}
+		PotentialRuleConflicts potentialConflicts = potCons.get(sourceEditRule);
+		return potentialConflicts == null ? Collections.emptySet() : potentialConflicts.getPotentialConflicts();
 	}
 
 	@Override
@@ -192,22 +157,17 @@ public class InterRuleBasePotentialConflictAnalyzer extends RuleBasePotentialCon
 			ActionGraph successor, EditRule successorEditRule) {
 
 		// Calculate dependencies
-		PotentialRuleConflicts PotRuleCons = super.findRuleConflicts(
+		PotentialRuleConflicts potentialRuleConflicts = super.findRuleConflicts(
 				predecessor, predecessorEditRule, 
 				successor, successorEditRule);
 
 		// Indexing the new dependencies
 		if (!potCons.containsKey(successorEditRule)) {
-			potCons.put(successorEditRule, PotRuleCons);
+			potCons.put(successorEditRule, potentialRuleConflicts);
 		} else {
-			potCons.get(successorEditRule).add(PotRuleCons);
+			potCons.get(successorEditRule).add(potentialRuleConflicts);
 		}
 
-		return PotRuleCons;
-	}
-
-	@Override
-	protected Set<EPackage> getImports() {
-		return getImports(documentTypes);
+		return potentialRuleConflicts;
 	}
 }
