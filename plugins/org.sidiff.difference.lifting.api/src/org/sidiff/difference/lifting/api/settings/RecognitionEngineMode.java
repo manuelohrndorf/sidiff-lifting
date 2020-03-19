@@ -16,16 +16,31 @@ public enum RecognitionEngineMode {
 	/**
 	 * Disable the operation detection (Lifting).
 	 */
-	NO_LIFTING,
+	NO_LIFTING {
+		@Override
+		public String toString() {
+			return "No Semantic Lifting (Operation Detection)";
+		}
+	},
 
 	/**
 	 * Enable the operation detection (Lifting).
 	 */
-	LIFTING,
+	LIFTING {
+		@Override
+		public String toString() {
+			return "Semantic Lifting (Operation Detection)";
+		}
+	},
 
 	/**
 	 * Post processed (remove overlapping Semantic-Change-Sets) operation
 	 * detection (Lifting).
 	 */
-	LIFTING_AND_POST_PROCESSING
+	LIFTING_AND_POST_PROCESSING {
+		@Override
+		public String toString() {
+			return "Semantic Lifting and Post Processing (Default)";
+		}
+	};
 }

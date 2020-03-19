@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
 import org.sidiff.common.emf.settings.ISettingsItem;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
@@ -16,22 +14,9 @@ import org.sidiff.patching.validation.ValidationMode;
 public class ValidationModeWidget extends AbstractRadioWidget<ValidationMode> implements ISettingsChangedListener {
 
 	private PatchingSettings settings;
-	
-	private static ILabelProvider labelProvider = new ColumnLabelProvider() {
-		@Override
-		public String getText(Object element) {
-			switch((ValidationMode)element) {
-				case NO_VALIDATION: return "No Validation";
-				case MODEL_VALIDATION: return "Model Validation";
-				case ITERATIVE_VALIDATION: return "Iterative Validation";
-			};
-			throw new AssertionError();
-		}
-	};
 
 	public ValidationModeWidget() {
 		setTitle("Validation mode");
-		setLabelProvider(labelProvider);
 		addModificationListener((oldValues, newValues) -> {
 			if(!getSelection().isEmpty()) {
 				settings.setValidationMode(getSelection().get(0));

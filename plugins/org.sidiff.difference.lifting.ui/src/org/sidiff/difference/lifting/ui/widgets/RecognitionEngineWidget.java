@@ -13,7 +13,6 @@ import org.sidiff.common.ui.widgets.IWidgetDisposable;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
-import org.sidiff.difference.lifting.ui.labelprovider.RecognitionEngineModeLabelProvider;
 
 public class RecognitionEngineWidget extends AbstractRadioWidget<RecognitionEngineMode> implements IWidgetDisposable {
 
@@ -29,14 +28,9 @@ public class RecognitionEngineWidget extends AbstractRadioWidget<RecognitionEngi
 
 	public RecognitionEngineWidget(LiftingSettings settings) {
 		this.settings = Objects.requireNonNull(settings, "settings must not be null");
-		setLabelProvider(new RecognitionEngineModeLabelProvider());
 		setTitle("Recognition Engine");
 		settings.addSettingsChangedListener(settingsChangeListener);
-		addModificationListener((oldValues, newValues) -> {
-			if(!newValues.isEmpty()) {
-				settings.setRecognitionEngineMode(newValues.get(0));				
-			}
-		});
+		addModificationListener((oldValues, newValues) -> settings.setRecognitionEngineMode(newValues.isEmpty() ? null : newValues.get(0)));
 	}
 
 	@Override

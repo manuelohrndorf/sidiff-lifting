@@ -8,7 +8,6 @@ import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.emf.settings.BaseSettingsItem;
 import org.sidiff.common.emf.settings.ISettingsChangedListener;
 import org.sidiff.common.emf.settings.ISettingsItem;
-import org.sidiff.common.emf.ui.labelprovider.ScopeLabelProvider;
 import org.sidiff.common.ui.widgets.AbstractRadioWidget;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.matching.api.settings.MatchingSettings;
@@ -19,7 +18,6 @@ public class ScopeWidget extends AbstractRadioWidget<Scope> implements ISettings
 
 	public ScopeWidget() {
 		setTitle("Scope");
-		setLabelProvider(new ScopeLabelProvider());
 		addModificationListener((oldValues, newValues) -> {
 			if(!getSelection().isEmpty()) {
 				settings.setScope(getSelection().get(0));
