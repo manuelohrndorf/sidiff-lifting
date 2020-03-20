@@ -15,7 +15,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -130,7 +129,7 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		buttonBox = createButtonBox(listContainer);
-		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 
 		right = new org.eclipse.swt.widgets.List(listContainer, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		right.addSelectionListener(getSelectionListener());
@@ -151,12 +150,20 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 	 * @return the parent
 	 */
 	private Composite createButtonBox(Composite parent) {
-		buttonBox = new Composite(parent, SWT.NULL);
-		buttonBox.setLayout(new RowLayout(SWT.VERTICAL));
+		Composite buttonBox = new Composite(parent, SWT.NONE);
+		buttonBox.setLayout(new GridLayout());
+
 		add = createButton(buttonBox, "Add");
 		remove = createButton(buttonBox, "Remove");
-		up = createButton(buttonBox, "Move Up");
-		down = createButton(buttonBox, "Move Down");
+
+		Label spaceLabel = new Label(buttonBox, SWT.NONE);
+		GridData spaceLabelGridData = new GridData();
+		spaceLabelGridData.verticalSpan = 2;
+		spaceLabel.setLayoutData(spaceLabelGridData);
+
+		up = createButton(buttonBox, "Up");
+		down = createButton(buttonBox, "Down");
+
 		return buttonBox;
 	}
 
@@ -171,6 +178,7 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 		button.setText(text);
 		button.addSelectionListener(getSelectionListener());
 		button.setEnabled(false); // button defaults to disabled state and is enabled when items are selected
+		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		return button;
 	}
 
