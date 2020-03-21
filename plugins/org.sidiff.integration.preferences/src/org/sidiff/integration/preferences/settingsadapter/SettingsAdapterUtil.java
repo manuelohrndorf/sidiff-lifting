@@ -1,11 +1,12 @@
 package org.sidiff.integration.preferences.settingsadapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Assert;
@@ -45,31 +46,30 @@ public class SettingsAdapterUtil {
 		return settingsAdapters;
 	}
 
-	private static List<ISettingsAdapter> initSettingsAdapters() {
-		List<IConfigurationElement> elements = new ArrayList<>( // copy the list
-				Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(ISettingsAdapter.EXTENSION_POINT_ID)));
-		// sort the settings adapter extensions according to their pipeline steps' positions
-		elements.sort(new Comparator<IConfigurationElement>() {
-			@Override
-			public int compare(IConfigurationElement e1, IConfigurationElement e2) {
-				String step1 = e1.getAttribute(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP);
-				String step2 = e2.getAttribute(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP);
-				return PipelineStepUtil.getPipelineStep(step1).getPosition()
-						- PipelineStepUtil.getPipelineStep(step2).getPosition();
-			}
-		});
+	// sorts the settings adapter extensions according to their pipeline steps' positions
+	private static final Comparator<IConfigurationElement> comparator = (e1, e2) -> {
+		String step1 = e1.getAttribute(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP);
+		String step2 = e2.getAttribute(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_PIPELINE_STEP);
+		return PipelineStepUtil.getPipelineStep(step1).getPosition()
+				- PipelineStepUtil.getPipelineStep(step2).getPosition();
+	};
 
-		List<ISettingsAdapter> settingsAdapters = new ArrayList<>();
-		for(IConfigurationElement element : elements) {
-			try {
-				settingsAdapters.add((ISettingsAdapter)
-						element.createExecutableExtension(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_CLASS));
-			} catch(CoreException e) {
-				PreferencesPlugin.logError("Failed to create ISettingsAdapter contributed by '"
-											+ element.getDeclaringExtension().getContributor().getName() + "'", e);
-			}
+	private static List<ISettingsAdapter> initSettingsAdapters() {
+		return Stream.of(Platform.getExtensionRegistry().getConfigurationElementsFor(ISettingsAdapter.EXTENSION_POINT_ID))
+			.sorted(comparator)
+			.map(SettingsAdapterUtil::createSettingsAdapter)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
+	}
+
+	private static ISettingsAdapter createSettingsAdapter(IConfigurationElement element) {
+		try {
+			return (ISettingsAdapter)element.createExecutableExtension(ISettingsAdapter.EXTENSION_POINT_ATTRIBUTE_CLASS);
+		} catch(CoreException e) {
+			PreferencesPlugin.logError("Failed to create ISettingsAdapter contributed by '"
+					+ element.getDeclaringExtension().getContributor().getName() + "'", e);
+			return null;
 		}
-		return settingsAdapters;
 	}
 
 	public static Diagnostic adaptSettingsGlobal(
@@ -206,11 +206,11 @@ public class SettingsAdapterUtil {
 				PreferenceStoreUtil.setUseSpecificSettings(project, preferenceQualifier, true);
 			} catch (CoreException e) {
 				return new BasicDiagnostic(Diagnostic.ERROR, PreferencesPlugin.PLUGIN_ID, 0,
-						"Project specific cannot be used for the project " + project.getName() + ".", new Object[] { e });
+						"Project specific cannot be used for the project '" + project.getName() + "'.", new Object[] { e });
 			}
 		}
 		return saveSettings(settings,
-				"Project " + project.getName(),
+				"Project '" + project.getName() + "'",
 				PreferenceStoreUtil.getPreferenceStore(project, preferenceQualifier),
 				documentTypes,
 				consideredSettings);
