@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.markers.WorkbenchMarkerResolution;
 import org.sidiff.common.emf.modelstorage.EMFStorage;
 import org.sidiff.editrule.consistency.fixing.ERFixingEngine;
+import org.sidiff.editrule.consistency.fixing.ide.internal.Activator;
 
 /**
  * This class represents a fix for a occurred validation error

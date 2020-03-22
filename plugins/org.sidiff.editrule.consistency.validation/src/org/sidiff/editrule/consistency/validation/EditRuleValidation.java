@@ -24,7 +24,7 @@ public class EditRuleValidation {
 	/**
 	 * The object(s) violating a constraint.
 	 */
-	public List<Object> violatings = new LinkedList<Object>();
+	public List<Object> violatings = new LinkedList<>();
 
 	/**
 	 * 
