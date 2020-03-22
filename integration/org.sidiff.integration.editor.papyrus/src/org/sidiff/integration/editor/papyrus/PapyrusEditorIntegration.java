@@ -13,12 +13,13 @@ import org.sidiff.integration.editor.BasicEditorIntegration;
 
 public class PapyrusEditorIntegration extends BasicEditorIntegration {
 
-	private final String NOTATION_FILE_EXT = "notation";
+	private static final String NOTATION_FILE_EXT = "notation";
+	private static final String DIAGRAM_FILE_EXT = "di";
 
 	public PapyrusEditorIntegration() {
 		super("org.eclipse.uml2.uml.editor.presentation.UMLEditorID",
 			"org.eclipse.papyrus.infra.core.papyrusEditor",
-			UMLPackage.eINSTANCE.getNsURI(), "uml", "di");
+			UMLPackage.eINSTANCE.getNsURI(), "uml", DIAGRAM_FILE_EXT);
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class PapyrusEditorIntegration extends BasicEditorIntegration {
 
 	@Override
 	protected boolean allowFileCopy(URI diagramFile) {
-		return "di".equals(diagramFile.fileExtension()) || super.allowFileCopy(diagramFile);
+		return DIAGRAM_FILE_EXT.equals(diagramFile.fileExtension()) || super.allowFileCopy(diagramFile);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class PapyrusEditorIntegration extends BasicEditorIntegration {
 
 	@Override
 	public Map<String, String> getFileExtensions() {
-		Map<String, String>  extensions = new HashMap<String, String> ();
+		Map<String, String>  extensions = new HashMap<> ();
 		extensions.put("notation", this.NOTATION_FILE_EXT);
 		extensions.put("diagram", super.diagramFileExt);
 		extensions.put("model", super.modelFileExt);

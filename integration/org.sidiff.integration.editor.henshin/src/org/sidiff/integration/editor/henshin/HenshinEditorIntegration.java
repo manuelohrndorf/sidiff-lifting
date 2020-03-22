@@ -66,11 +66,9 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 
 		if (element instanceof Node) {
 			Node node = (Node) element;
-			
-			if ((node.getGraph() != null) && (node.getGraph().getRule() != null)) {
+			if (node.getGraph() != null && node.getGraph().getRule() != null) {
 				Rule rule = node.getGraph().getRule();
 				Node remoteNode = HenshinRuleAnalysisUtilEx.getRemoteNode(rule.getMappings(), node);
-				
 				if (remoteNode != null) {
 					res.add(remoteNode);
 				}
@@ -78,11 +76,9 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 		}
 		if (element instanceof Edge) {
 			Edge edge = (Edge) element;
-			
-			if ((edge.getGraph() != null) && (edge.getGraph().getRule() != null)) {
+			if (edge.getGraph() != null && edge.getGraph().getRule() != null) {
 				Rule rule = edge.getGraph().getRule();
 				Edge remoteEdge = HenshinRuleAnalysisUtilEx.getRemoteEdge(rule.getMappings(), edge);
-				
 				if (remoteEdge != null) {
 					res.add(remoteEdge);
 				}
@@ -90,10 +86,8 @@ public class HenshinEditorIntegration extends BasicEditorIntegration {
 		}
 		if (element instanceof Attribute) {
 			Attribute attribute = (Attribute) element;
-			
-			if ((attribute.getNode() != null) && (attribute.getNode().getGraph() != null) && (attribute.getNode().getGraph().getRule() != null)) {
+			if (attribute.getNode() != null && attribute.getNode().getGraph() != null && attribute.getNode().getGraph().getRule() != null) {
 				Attribute remoteAttribute = HenshinRuleAnalysisUtilEx.getRemoteAttribute(attribute);
-				
 				if (remoteAttribute != null) {
 					res.add(remoteAttribute);
 				}
