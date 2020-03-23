@@ -8,6 +8,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,6 +26,7 @@ import org.sidiff.common.util.StringListSerializer;
 import org.sidiff.integration.preferences.fieldeditors.IMultiPreferenceField;
 import org.sidiff.integration.preferences.valueconverters.IPreferenceValueConverter;
 
+// TODO: Initial size of lists not consistent; should be smaller but allow some shrinking and vertical scrolling?
 /**
  * PreferenceField for selecting a subset of a given set with a configurable order
  * @author Felix Breitweiser
@@ -126,14 +128,14 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 
 		left = new org.eclipse.swt.widgets.List(listContainer, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		left.addSelectionListener(getSelectionListener());
-		left.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridDataFactory.fillDefaults().grab(true, true).minSize(200, 100).applyTo(left);
 
 		buttonBox = createButtonBox(listContainer);
 		buttonBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 
 		right = new org.eclipse.swt.widgets.List(listContainer, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 		right.addSelectionListener(getSelectionListener());
-		right.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		GridDataFactory.fillDefaults().grab(true, true).minSize(200, 100).applyTo(right);
 
 		descriptionLabel = new Label(group, SWT.NONE);
 		descriptionData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -267,11 +269,7 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 		}
 		right.setSelection(selectionRight);
 
-		// update the size of the lists
-		left.pack();
-		left.requestLayout();
-		right.pack();
-		right.requestLayout();
+		group.pack();
 	}
 
 	private void updateDescription(T selection) {
@@ -284,7 +282,6 @@ public class OrderedListSelectField<T> extends PreferenceField implements IMulti
 			descriptionData.exclude = false;
 			descriptionLabel.setVisible(true);
 		}
-		descriptionLabel.requestLayout();
 	}
 
 	@Override

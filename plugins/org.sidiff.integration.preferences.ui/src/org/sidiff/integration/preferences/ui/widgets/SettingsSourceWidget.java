@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.ui.dialogs.DiagnosticDialog;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.sidiff.common.emf.input.InputModels;
@@ -43,19 +42,24 @@ import org.sidiff.integration.preferences.util.PreferenceStoreUtil;
 public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidget.Source> {
 
 	public static enum Source {
-		GLOBAL("Use global settings"),
-		PROJECT("Use settings of project"),
-		CUSTOM("Use custom settings");
-
-		private String label;
-
-		Source(String label) {
-			this.label = label;
-		}
-
-		public String getLabel() {
-			return label;
-		}
+		GLOBAL {
+			@Override
+			public String toString() {
+				return "Use global settings";
+			}
+		},
+		PROJECT {
+			@Override
+			public String toString() {
+				return "Use settings of project";
+			}
+		},
+		CUSTOM {
+			@Override
+			public String toString() {
+				return "Use custom settings";
+			}
+		};
 	}
 
 	// inputs
@@ -93,12 +97,6 @@ public class SettingsSourceWidget extends AbstractRadioWidget<SettingsSourceWidg
 		this.consideredSettings = new HashSet<>();
 
 		setTitle("Settings Source");
-		setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((Source)element).getLabel();
-			}
-		});
 		addModificationListener((oldValues, newValues) -> {
 			// adapt the settings using the changed settings source
 			updateSettings();

@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.util.PreferenceFieldUtil;
 
 /**
  * PreferenceField for use in a PreferenceFieldPage.
@@ -96,9 +97,12 @@ public abstract class PreferenceField implements IPreferenceField {
 	 */
 	@Override
 	public void setVisible(boolean visible) {
+		if(control.isVisible() == visible) {
+			return;
+		}
 		control.setVisible(visible);
 		layoutData.exclude = !visible;
-		control.pack();
+		PreferenceFieldUtil.requestLayout(control);
 	}
 
 	/**

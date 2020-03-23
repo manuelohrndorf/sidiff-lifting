@@ -18,6 +18,7 @@ import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.sidiff.integration.preferences.fieldeditors.ICompositePreferenceField;
 import org.sidiff.integration.preferences.fieldeditors.IPreferenceField;
+import org.sidiff.integration.preferences.util.PreferenceFieldUtil;
 
 /**
  * Abstract superclass for preference fields containing other preference fields.
@@ -183,7 +184,7 @@ public class CompositeField<T extends IPreferenceField>
 				public void expansionStateChanged(ExpansionEvent e) {
 					nestedControl.pack();
 					expandableParent.pack();
-					nestedControl.requestLayout();
+					PreferenceFieldUtil.requestLayout(nestedControl);
 				}
 			});
 			return expandableParent;

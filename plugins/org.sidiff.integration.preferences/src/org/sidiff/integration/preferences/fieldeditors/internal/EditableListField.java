@@ -222,7 +222,6 @@ public class EditableListField<T> extends PreferenceField implements IMultiPrefe
 		selectedItems.setSelection(selectionLeft);
 
 		selectedItems.pack();
-		selectedItems.requestLayout();
 	}
 
 	private void updateDescription(T selection) {

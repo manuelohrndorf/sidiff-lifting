@@ -19,6 +19,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -117,6 +118,16 @@ public abstract class PropertyAndPreferencePage extends PreferencePage
 		}
 
 		return container;
+	}
+	
+	@Override
+	protected Point doComputeSize() {
+		Point computedSize = super.doComputeSize();
+		Point minSize = new Point(600, 400);
+		if(computedSize.x < minSize.x || computedSize.y < minSize.y) {
+			return minSize;
+		}
+		return computedSize;
 	}
 
 	private void createControlButton(Composite container) {

@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
@@ -139,7 +140,6 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 		final PropertyAndPreferencePage page;
 		final String title;
 		final String tooltip;
-		TabItem item;
 
 		Tab(PropertyAndPreferencePage page, String title, String tooltip) {
 			this.page = page;
@@ -148,16 +148,15 @@ public class TabbedPreferencePage extends PropertyAndPreferencePage {
 		}
 
 		void createTabControl(TabFolder tabFolder) {
-			item = new TabItem(tabFolder, SWT.NONE);
+			TabItem item = new TabItem(tabFolder, SWT.NONE);
 			item.setText(title);
 			item.setToolTipText(tooltip);
 
 			Composite content = new Composite(tabFolder, SWT.NONE);
-			FillLayout fill = new FillLayout(SWT.HORIZONTAL);
-			fill.marginWidth = 5;
-			fill.marginHeight = 5;
-			content.setLayout(fill);
-			page.createContents(content);
+			GridLayoutFactory.fillDefaults().margins(5, 5).spacing(0, 0).applyTo(content);
+
+			Control pageControl = page.createContents(content);
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(pageControl);
 
 			item.setControl(content);
 		}

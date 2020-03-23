@@ -42,7 +42,7 @@ public class PreferenceFieldPage extends PropertyAndPreferencePage {
 	@Override
 	protected Control doCreateContents(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(container);
+		GridLayoutFactory.fillDefaults().applyTo(container);
 
 		updatePreferenceFields();
 
