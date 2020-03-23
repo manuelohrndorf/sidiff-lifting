@@ -117,8 +117,8 @@ public class PackageRegistryAdapter {
 			copy2Correspondence = null;
 		}
 		registryCorrespondences = new HashSet<>();
-		importsA = new HashSet<EObject>();
-		importsB = new HashSet<EObject>();
+		importsA = new HashSet<>();
+		importsB = new HashSet<>();
 
 		// Find models which are imported from PackageRegistry
 		Set<Resource> registryModels = new HashSet<>();
@@ -263,7 +263,7 @@ public class PackageRegistryAdapter {
 				for(Change change : difference.getChanges()) {
 					if(change instanceof AddReference) {
 						AddReference addReference = (AddReference)change;
-						if(addReference.getSrc().equals(extRef.getSourceObject()) && addReference.getTgt().equals(original)){
+						if(addReference.getSrc() == extRef.getSourceObject() && addReference.getTgt() == original){
 							addReference.setTgt(copy);
 						}
 					}
@@ -439,14 +439,13 @@ public class PackageRegistryAdapter {
 		// EditRuleMatches (occurrences B)
 		for (SemanticChangeSet cs : difference.getChangeSets()) {
 			EditRuleMatch erMatch = cs.getEditRuleMatch();
-
 			if (erMatch != null) {
 				for (String nodeURI : erMatch.getNodeOccurrencesB().keySet()) {
 
 					// (1) Calculate replacements in occurrence set (to avoid
 					// concurrent modification exception)
 					EObjectSet occurrences = erMatch.getNodeOccurrencesB().get(nodeURI);
-					Map<EObject, EObject> replacements = new HashMap<EObject, EObject>();
+					Map<EObject, EObject> replacements = new HashMap<>();
 					for (EObject occurrence : occurrences.getElements()) {
 						Correspondence c = copy2Correspondence.get(occurrence);
 						if (c != null) {
@@ -455,10 +454,7 @@ public class PackageRegistryAdapter {
 					}
 
 					// (2) Do perform replacement
-					for (EObject oldElement : replacements.keySet()) {
-						EObject newElement = replacements.get(oldElement);
-						occurrences.replaceElement(oldElement, newElement);
-					}
+					replacements.forEach(occurrences::replaceElement);
 				}
 			}
 		}

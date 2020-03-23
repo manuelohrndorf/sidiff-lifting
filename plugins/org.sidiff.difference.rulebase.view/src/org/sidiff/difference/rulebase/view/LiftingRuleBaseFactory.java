@@ -13,5 +13,4 @@ public class LiftingRuleBaseFactory implements IRuleBaseFactory<ILiftingRuleBase
 	public ILiftingRuleBase createRuleBase() {
 		return new LiftingRuleBase();
 	}
-
 }

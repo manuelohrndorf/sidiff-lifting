@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -127,22 +128,19 @@ public class RecognitionEngine implements IRecognitionEngine {
 		// Create the graph factory:
 		this.graphFactory = new LiftingGraphFactory(
 				setup.isBuildGraphPerRule(), liftingGraphDomainMap, setup.getImports(), setup.getScope());
-		
+
 		// Get all recognition rules to be used:
-		this.recognitionRules = new HashMap<>();
-		
-		for (ILiftingRuleBase rb : setup.getRulebases()) {
-			for (Rule rr : rb.getActiveRecognitonUnits()) {
-				recognitionRules.put(rr, new RecognitionRuleBlueprint(rr));
-			}
-		}
+		this.recognitionRules = setup.getRulebases().stream()
+				.map(ILiftingRuleBase::getActiveRecognitonUnits)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toMap(Function.identity(), RecognitionRuleBlueprint::new));
 
 		// Initialize Rule Applications:
 		recognizerRuleApplications = new HashSet<>();
 
 		// Some further initialization:
-		scs2rrMatch = new HashMap<SemanticChangeSet, RecognitionRuleMatch>();
-		scs2erMatch = new HashMap<SemanticChangeSet, EngineBasedEditRuleMatch>();
+		scs2rrMatch = new HashMap<>();
+		scs2erMatch = new HashMap<>();
 
 		// Optimize the Rulebase: Rule Set Reduction
 		if (setup.isRuleSetReduction()) {
@@ -181,7 +179,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 
 		// Sequential recognizer:
-		Set<Rule> units = new HashSet<Rule>();
+		Set<Rule> units = new HashSet<>();
 		units.addAll(recognitionRules.keySet());
 		units.removeAll(filtered);
 

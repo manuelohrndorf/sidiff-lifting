@@ -68,7 +68,8 @@ IItemPropertySource
 	/**
 	 * @generated NOT
 	 */
-	 public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter){
+	 @Override
+	public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter){
 		return UnexecutableCommand.INSTANCE;
 	}
 	

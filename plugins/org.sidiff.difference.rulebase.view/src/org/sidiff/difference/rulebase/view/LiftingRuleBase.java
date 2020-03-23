@@ -1,69 +1,65 @@
 package org.sidiff.difference.rulebase.view;
 
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.difference.rulebase.RecognitionRule;
 import org.sidiff.difference.rulebase.Trace;
-import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.view.editrule.EditRuleBase;
 
 /**
  * Basic implementation of @link {@link ILiftingRuleBase}.
  */
 public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
-	
+
 	/**
 	 * Trace index.
 	 */
 	private Map<Node, Trace> tracesA;
-	
+
 	/**
 	 * Trace index.
 	 */
 	private Map<Node, Trace> tracesB;
-	
+
 	/**
 	 * Cache: All rulebase recognition rule items. 
 	 */
 	private List<RecognitionRule> recognitionRules;
-	
+
 	/**
 	 * Cache: Active (henshin) recognition rule patterns.
 	 */
 	private Set<Rule> activeUnits;
-	
+
 	@Override
 	public List<RecognitionRule> getRecognitionRules() {
 		if (recognitionRules == null) {
 			recognitionRules = getRuleBase().getEditRuleAttachments(RecognitionRule.class);
 		}
-		return recognitionRules;
+		return Collections.unmodifiableList(recognitionRules);
 	}
-	
+
 	@Override
 	public Set<Rule> getActiveRecognitonUnits() {
 		if (activeUnits == null) {
-			activeUnits = new HashSet<>();
-			for (EditRule eo : getActiveEditRules()) {
-				activeUnits.add(eo.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
-			}
+			activeUnits = getRecognitionRules().stream().map(RecognitionRule::getRecognitionMainUnit).collect(Collectors.toSet());
 		}
-		return activeUnits;
+		return Collections.unmodifiableSet(activeUnits);
 	}
 
 	@Override
 	public Rule getRecognitionUnit(String name) {
 		for (Rule unit : getActiveRecognitonUnits()) {
-			if (getRuleName(unit).equals(name)) {
+			if (unit.getModule().getName().equals(name)) {
 				return unit;
 			}
 		}
@@ -93,44 +89,28 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 	@Override
 	public Trace getTraceA(Node recognitionRuleNode) {
 		Trace trace = getTraceAIndex().get(recognitionRuleNode);
-
-		// Check for missing or inconsistent edit rule:
-		if (trace != null) {
-			Node editRuleNode = trace.getEditRuleTrace();
-
-			if (editRuleNode.eIsProxy()) {
-				String uri = ((InternalEObject) editRuleNode).eProxyURI().toString();
-				throw new RuntimeException("Corrupted edit to recognition rule trace!" + "\n"
-						+ "Edit rule node not found: " + uri);
-			}
-		}
-
+		ensureValidTrace(trace);
 		return trace;
 	}
 
 	@Override
 	public Trace getTraceB(Node recognitionRuleNode) {
 		Trace trace = getTraceBIndex().get(recognitionRuleNode);
-
-		// Check for missing or inconsistent edit rule:
-		if (trace != null) {
-			Node editRuleNode = trace.getEditRuleTrace();
-
-			if (editRuleNode.eIsProxy()) {
-				String uri = ((InternalEObject) editRuleNode).eProxyURI().toString();
-				throw new RuntimeException("Corrupted edit to recognition rule trace!" + "\n"
-						+ "Edit rule node not found: " + uri);
-			}
-		}
-
+		ensureValidTrace(trace);
 		return trace;
 	}
-	
-	private String getRuleName(Unit unit) {	
-		Module module = unit.getModule();
-		return module.getName();
+
+	private static void ensureValidTrace(Trace trace) {
+		if (trace == null) {
+			return;
+		}
+		Node editRuleNode = trace.getEditRuleTrace();
+		if (editRuleNode.eIsProxy()) {
+			String uri = ((InternalEObject) editRuleNode).eProxyURI().toString();
+			throw new RuntimeException("Corrupted edit to recognition rule trace. Edit rule node not found: " + uri);
+		}
 	}
-	
+
 	/**
 	 * Lazy builds an index for all model A traces.
 	 * 
@@ -146,7 +126,6 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 				}
 			}
 		}
-
 		return tracesA;
 	}
 
@@ -165,7 +144,6 @@ public class LiftingRuleBase extends EditRuleBase implements ILiftingRuleBase {
 				}
 			}
 		}
-
 		return tracesB;
 	}
 	
