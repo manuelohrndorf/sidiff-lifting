@@ -2,7 +2,6 @@ package org.sidiff.patching.patch.ui.wizard;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.sidiff.common.emf.input.InputModels;
-import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.jobs.CreateAsymmetricDifferenceJob;
 
@@ -19,8 +18,6 @@ public class CreateAsymmetricDifferenceWizard extends Wizard {
 
 		this.inputModels = inputModels;
 		settings = new PatchingSettings();
-		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
-		settings.setCalculateEditRuleMatch(true);
 		settings.initDefaults(inputModels.getDocumentTypes());
 	}
 

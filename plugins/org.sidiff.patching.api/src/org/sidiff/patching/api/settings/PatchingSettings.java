@@ -1,9 +1,12 @@
 package org.sidiff.patching.api.settings;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.sidiff.candidates.ICandidates;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.conflicts.modifieddetector.IModifiedDetector;
@@ -26,55 +29,33 @@ import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
  */
 public class PatchingSettings extends LiftingSettings implements IPatchEngineSettings, IModifiedDetectorSettings {
 
-	/**
-	 * 
-	 */
+	private static final String PLUGIN_ID = "org.sidiff.patching.api";
+
 	private IArgumentManager argumentManager;
-
-	/**
-	 * 
-	 */
 	private IPatchInterruptHandler interruptHandler;
-
-	/**
-	 * 
-	 */
 	private ITransformationEngine transformationEngine;
-
-	/**
-	 * 
-	 */
 	private IModifiedDetector modifiedDetector;
-
-	/**
-	 * 
-	 */
 	private ExecutionMode executionMode;
-
-	/**
-	 * 
-	 */
 	private PatchMode patchMode;
-
-	/**
-	 * 
-	 */
 	private int minReliability = -1;
-
-	/**
-	 * 
-	 */
-	private ValidationMode validationMode;
+	private ValidationMode validationMode = ValidationMode.NO_VALIDATION; // must not be null
 
 	/**
 	 * The Symbolic Link Handler for calculating symbolic links.
 	 */
 	private ISymbolicLinkHandler symbolicLinkHandler;
 
+	/**
+	 * Default constructor to create mostly empty settings.
+	 * Call initDefaults last, after calling the necessary setters.
+	 */
 	public PatchingSettings() {
 		super();
 	}
 
+	/**
+	 * @deprecated Use the empty constructor and initDefaults instead.
+	 */
 	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
 			ICandidates candidatesService, ICorrespondences correspondenceService, 
 			ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler,
@@ -90,9 +71,12 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 		this.executionMode = executionMode;
 		this.patchMode = patchMode;
 		this.minReliability = minReliability;
-		this.validationMode = validationMode;
+		this.validationMode = validationMode == null ? ValidationMode.NO_VALIDATION : validationMode;
 	}
 
+	/**
+	 * @deprecated Use the empty constructor and initDefaults instead.
+	 */
 	public PatchingSettings(Scope scope, boolean validate, IMatcher matcher, 
 			ICandidates candidatesService, ICorrespondences correspondenceService, 
 			ITechnicalDifferenceBuilder techBuilder, ISymbolicLinkHandler symbolicLinkHandler) {
@@ -104,14 +88,34 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	@Override
 	public void validate(MultiStatus multiStatus) {
 		super.validate(multiStatus);
-		// TODO CPietsch (2016-02-08)
+
+		if(argumentManager == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Argument Manager is not set.", null));
+		}
+
+		if(interruptHandler == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Interrupt Handler is not set.", null));
+		}
+
+		if(transformationEngine == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "TransformationEngine is not set.", null));
+		}
+
+		if(executionMode == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Execution Mode is not set.", null));
+		}
+
+		if(patchMode == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Patch Mode is not set.", null));
+		}
 	}
 
 	@Override
 	public void initDefaults(Set<String> documentTypes) {
 		super.initDefaults(documentTypes);
+
 		if(transformationEngine == null) {
-			transformationEngine = getDefaultTransformationEngine(documentTypes);
+			setTransformationEngine(getDefaultTransformationEngine(documentTypes));
 		}
 	}
 
@@ -123,19 +127,17 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 
 	@Override
 	public String toString() {
-		return new StringBuilder(super.toString()).append("\n")
-			.append("PatchingSettings[")
-			.append("Argument Manager: ").append(getArgumentManager() != null ? getArgumentManager().getName() : "none").append(", ")
-			.append("Interrupt Handler: ").append(getInterruptHandler()).append(", ")
-			.append("Transformation Engine: ").append(getTransformationEngine() != null ? getTransformationEngine().getName() : "none").append(", ")
-			.append("Modified Detector: ").append(getModifiedDetector() != null ? getModifiedDetector().getName() : "none").append(", ")
-			.append("Validation Mode: ").append(getValidationMode()).append(", ")
-			.append("Execution Mode: ").append(getExecutionMode()).append(", ")
-			.append("Patch Mode: ").append(getPatchMode()).append(", ")
-			.append("Minimum Reliability: ").append(getMinReliability() > -1 ? getMinReliability() : "N/A").append(", ")
-			.append("Symbolic Link Handler: ").append(getSymbolicLinkHandler() != null ? getSymbolicLinkHandler().getName() : "none")
-			.append("]")
-			.toString();
+		return super.toString() + "\n"
+			+ "PatchingSettings["
+			+ "Argument Manager: " + toString(getArgumentManager()) + ", "
+			+ "Interrupt Handler: " + toString(getInterruptHandler()) + ", "
+			+ "Transformation Engine: " + toString(getTransformationEngine()) + ", "
+			+ "Modified Detector: " + toString(getModifiedDetector()) + ", "
+			+ "Validation Mode: " + getValidationMode() + ", "
+			+ "Execution Mode: " + getExecutionMode() + ", "
+			+ "Patch Mode: " + getPatchMode() + ", "
+			+ "Minimum Reliability: " + (getMinReliability() > -1 ? getMinReliability() : "N/A") + ", "
+			+ "Symbolic Link Handler: " + toString(getSymbolicLinkHandler()) + "]";
 	}
 
 	// ---------- Getter and Setter Methods----------
@@ -296,7 +298,7 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	 */
 	public void setValidationMode(ValidationMode validationMode) {
 		if (this.validationMode != validationMode) {
-			this.validationMode = validationMode;
+			this.validationMode = Objects.requireNonNull(validationMode, "validationMode must not be null");
 			notifyListeners(PatchingSettingsItem.VALIDATION_MODE);
 		}
 	}
@@ -328,13 +330,12 @@ public class PatchingSettings extends LiftingSettings implements IPatchEngineSet
 	public boolean useSymbolicLinks() {
 		return symbolicLinkHandler != null;
 	}
-	
+
+
 	public static PatchingSettings defaultSettings() {
-		PatchingSettings settings = new PatchingSettings();
-		settings.initDefaults();
-		return settings;
+		return defaultSettings(Collections.emptySet());
 	}
-	
+
 	public static PatchingSettings defaultSettings(Set<String> documentTypes) {
 		PatchingSettings settings = new PatchingSettings();
 		settings.initDefaults(documentTypes);

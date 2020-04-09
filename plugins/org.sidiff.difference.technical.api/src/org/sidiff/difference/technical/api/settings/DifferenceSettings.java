@@ -1,5 +1,6 @@
 package org.sidiff.difference.technical.api.settings;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,21 +45,29 @@ public class DifferenceSettings extends MatchingSettings {
 	 */
 	private ITechnicalDifferenceBuilder techBuilder;
 
+	/**
+	 * Default constructor to create mostly empty settings.
+	 * Call initDefaults last, after calling the necessary setters.
+	 */
 	public DifferenceSettings() {
 		super();
 	}
 
+	/**
+	 * @deprecated Use the empty constructor and initDefaults instead.
+	 */
 	public DifferenceSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder) {
 		super(scope, validate, matcher, candidatesService, correspondenceService);
 		this.techBuilder = techBuilder;
 	}
-	
+
 	@Override
 	public void initDefaults(Set<String> documentTypes) {
 		super.initDefaults(documentTypes);
-		if(techBuilder == null) {
-			techBuilder = getDefaultTechnicalDifferenceBuilder(documentTypes);
+
+		if(techBuilder == null || !techBuilder.canHandle(documentTypes)) {
+			setTechBuilder(getDefaultTechnicalDifferenceBuilder(documentTypes));
 		}
 	}
 	
@@ -83,14 +92,12 @@ public class DifferenceSettings extends MatchingSettings {
 
 	@Override
 	public String toString() {
-		return new StringBuilder(super.toString()).append("\n")
-			.append("DifferenceSettings[")
-			.append("Merge Imports: ").append(isEnabled_MergeImports()).append(", ")
-			.append("Unmerge Imports: ").append(isEnabled_UnmergeImports()).append(", ")
-			.append("Imports: ").append(getImports()).append(", ")
-			.append("Technical-Difference-Builder: ").append(getTechBuilder() != null ? getTechBuilder().getName() : "none")
-			.append("]")
-			.toString();
+		return super.toString() + "\n"
+			+ "DifferenceSettings["
+			+ "Merge Imports: " + isEnabled_MergeImports() + ", "
+			+ "Unmerge Imports: " + isEnabled_UnmergeImports() + ", "
+			+ "Imports: " + getImports() + ", "
+			+ "Technical-Difference-Builder: " + toString(getTechBuilder()) + "]";
 	}
 
 	// ---------- Getter and Setter Methods----------
@@ -174,13 +181,12 @@ public class DifferenceSettings extends MatchingSettings {
 			notifyListeners(DifferenceSettingsItem.TECH_BUILDER);
 		}
 	}
-	
+
+
 	public static DifferenceSettings defaultSettings() {
-		DifferenceSettings settings = new DifferenceSettings();
-		settings.initDefaults();
-		return settings;
+		return defaultSettings(Collections.emptySet());
 	}
-	
+
 	public static DifferenceSettings defaultSettings(Set<String> documentTypes) {
 		DifferenceSettings settings = new DifferenceSettings();
 		settings.initDefaults(documentTypes);

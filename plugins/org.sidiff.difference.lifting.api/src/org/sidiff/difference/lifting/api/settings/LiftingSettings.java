@@ -1,6 +1,8 @@
 package org.sidiff.difference.lifting.api.settings;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,9 +30,9 @@ public class LiftingSettings extends DifferenceSettings {
 	private static final String PLUGIN_ID = "org.sidiff.difference.lifting.api";
 
 	/**
-	 * List of active Rulebases.
+	 * Set of active Rulebases.
 	 */
-	private Set<ILiftingRuleBase> ruleBases;
+	private Set<ILiftingRuleBase> ruleBases = new LinkedHashSet<>(); // must not be null
 
 	/**
 	 * The Recognition Rule Sorter to use. ({@link IRecognitionRuleSorter})
@@ -47,7 +49,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 * 
 	 * @see RecognitionEngineMode (Default: Post processed operation detection)
 	 */
-	private RecognitionEngineMode recognitionEngineMode = RecognitionEngineMode.LIFTING_AND_POST_PROCESSING;
+	private RecognitionEngineMode recognitionEngineMode = RecognitionEngineMode.LIFTING_AND_POST_PROCESSING; // must not be null
 
 	/**
 	 * Creates a thread pool that reuses a fixed number of threads for the
@@ -107,80 +109,42 @@ public class LiftingSettings extends DifferenceSettings {
 
 	private Comparator<SemanticChangeSet> comparator;
 
+
 	/**
-	 * Setup the lifting settings.
+	 * Default constructor to create mostly empty settings.
+	 * Call initDefaults last, after calling the necessary setters.
 	 */
 	public LiftingSettings() {
 		super();
 	}
 
+	/**
+	 * @deprecated Use the empty constructor and initDefaults instead.
+	 */
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder) {
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
 
 		// Default: Use the default RecognitionRuleSorter
-		this.rrSorter = IRecognitionRuleSorter.MANAGER.getDefaultExtension().get();
-	}
-
-	@Override
-	public void initDefaults(Set<String> documentTypes) {
-		super.initDefaults(documentTypes);
-		if(ruleBases == null || ruleBases.isEmpty()
-				|| ruleBases.stream().anyMatch(rb -> !rb.getDocumentTypes().containsAll(documentTypes))) {
-			ruleBases = getDefaultRuleBases(documentTypes);
-		}
-		if(rrSorter == null || !rrSorter.canHandle(documentTypes)) {
-			rrSorter = getDefaultRecognitionRuleSorter(documentTypes);			
-		}
-	}
-
-	protected Set<ILiftingRuleBase> getDefaultRuleBases(Set<String> documentTypes) {
-		return IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
-	}
-
-	protected IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
-		if(documentTypes.isEmpty()) {
-			return IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow(
-					() -> new IllegalStateException("No generic recognition rule sorter is available"));
-		}
-		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow(
-				() -> new IllegalStateException("No recognition rule sorter is available for the document types " + documentTypes));
+		this.rrSorter = getDefaultRecognitionRuleSorter(Collections.emptySet());
 	}
 
 	/**
-	 * 
-	 * @param scope
-	 * @param matcher
-	 * @param candidatesService
-	 * @param correspondenceService
-	 * @param techBuilder
-	 * @param symbolicLinkHandler
-	 * @param validate
-	 * @param ruleBases
-	 * @param rrSorter
+	 * @deprecated Use the empty constructor and initDefaults instead.
 	 */
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
 			Set<ILiftingRuleBase> ruleBases, IRecognitionRuleSorter rrSorter) {
 
 		super(scope, validate, matcher, candidatesService, correspondenceService, techBuilder);
-		this.ruleBases = ruleBases;
+		if(ruleBases != null) {
+			this.ruleBases.addAll(ruleBases);
+		}
 		this.rrSorter = rrSorter;
 	}
 
 	/**
-	 * 
-	 * @param scope
-	 * @param matcher
-	 * @param candidatesService
-	 * @param correspondenceService
-	 * @param techBuilder
-	 * @param symbolicLinkHandler
-	 * @param validate
-	 * @param ruleBases
-	 * @param rrsorter
-	 * @param calculateEditRuleMatch
-	 * @param serializeEditRuleMatch
+	 * @deprecated Use the empty constructor and initDefaults instead.
 	 */
 	public LiftingSettings(Scope scope, boolean validate, IMatcher matcher, ICandidates candidatesService,
 			ICorrespondences correspondenceService, ITechnicalDifferenceBuilder techBuilder,
@@ -193,46 +157,70 @@ public class LiftingSettings extends DifferenceSettings {
 	}
 
 	@Override
+	public void initDefaults(Set<String> documentTypes) {
+		super.initDefaults(documentTypes);
+		if(ruleBases.isEmpty() || ruleBases.stream().anyMatch(rb -> !rb.getDocumentTypes().containsAll(documentTypes))) {
+			setRuleBases(getDefaultRuleBases(documentTypes));
+		}
+		if(rrSorter == null || !rrSorter.canHandle(documentTypes)) {
+			setRrSorter(getDefaultRecognitionRuleSorter(documentTypes));
+		}
+	}
+
+	protected Set<ILiftingRuleBase> getDefaultRuleBases(Set<String> documentTypes) {
+		if(documentTypes.isEmpty()) {
+			return Collections.emptySet();
+		}
+		return IRuleBaseProject.MANAGER.getRuleBases(documentTypes, ILiftingRuleBase.TYPE);
+	}
+
+	protected IRecognitionRuleSorter getDefaultRecognitionRuleSorter(Set<String> documentTypes) {
+		if(documentTypes.isEmpty()) {
+			return IRecognitionRuleSorter.MANAGER.getDefaultExtension().orElseThrow(
+					() -> new IllegalStateException("No generic recognition rule sorter is available"));
+		}
+		return IRecognitionRuleSorter.MANAGER.getDefaultExtension(documentTypes).orElseThrow(
+				() -> new IllegalStateException("No recognition rule sorter is available for the document types " + documentTypes));
+	}
+
+	@Override
 	public void validate(MultiStatus multiStatus) {
 		super.validate(multiStatus);
 
-		if(ruleBases == null) {
+		if(ruleBases.isEmpty()) {
 			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Rulebases are not set.", null));
 		}
 
-		// TODO CPietsch (2016-02-08)
+		if(rrSorter == null) {
+			multiStatus.add(new Status(IStatus.ERROR, PLUGIN_ID, 0, "Recognition Rule Sorter is not set.", null));
+		}
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder ruleBasesString = new StringBuilder();
-		if(getRuleBases() != null) {
-			for (IBasicRuleBase rb : getRuleBases()) {
-				if(ruleBasesString.length() > 0) {
-					ruleBasesString.append(", ");
-				}
-				ruleBasesString.append(rb.getName());
-			}
-		} else {
-			ruleBasesString.append("none");
-		}
+		return super.toString() + "\n"
+			+ "LiftingSettings["
+			+ "Rulebases: " + toString(getRuleBases()) + ", "
+			+ "Recognition-Rule-Sorter: " + toString(getRrSorter()) + ", "
+			+ "Recognition-Engine mode: " + getRecognitionEngineMode() + ", "
+			+ "Use thread pool: " + isUseThreadPool() + ", "
+			+ "Number of threads in the pool: " + getNumberOfThreads() + ", "
+			+ "Recognition-Rules per thread: " + getRulesPerThread() + ", "
+			+ "Sort of Recognition-Rule nodes: " + isSortRecognitionRuleNodes() + ", "
+			+ "Rule set reduction: " + isRuleSetReduction() + ", "
+			+ "Build minimal working graph per rule: " + isBuildGraphPerRule() + ", "
+			+ "Calculate edit rule match: " + isCalculateEditRuleMatch() + ", "
+			+ "Serialize edit rule match: " + isSerializeEditRuleMatch() + ", "
+			+ "Split and Join Detection: " + isSerializeEditRuleMatch() + ", "
+			+ "Comparator: " + toString(getComparator()) + "]";
+	}
 
-		return new StringBuilder(super.toString()).append("\n")
-			.append("LiftingSettings[")
-			.append("Rulebases: ").append(ruleBasesString).append(", ")
-			.append("Recognition-Rule-Sorter: ").append(rrSorter != null ? rrSorter.getName() : "none").append(", ")
-			.append("Recognition-Engine mode: ").append(getRecognitionEngineMode()).append(", ")
-			.append("Use thread pool: ").append(isUseThreadPool()).append(", ")
-			.append("Number of threads in the pool: ").append(getNumberOfThreads()).append(", ")
-			.append("Recognition-Rules per thread: ").append(getRulesPerThread()).append(", ")
-			.append("Sort of Recognition-Rule nodes: ").append(isSortRecognitionRuleNodes()).append(", ")
-			.append("Rule set reduction: ").append(isRuleSetReduction()).append(", ")
-			.append("Build minimal working graph per rule: ").append(isBuildGraphPerRule()).append(", ")
-			.append("Calculate edit rule match: ").append(isCalculateEditRuleMatch()).append(", ")
-			.append("Serialize edit rule match: ").append(isSerializeEditRuleMatch()).append(", ")
-			.append("Split and Join Detection: ").append(isSerializeEditRuleMatch())
-			.append("]")
-			.toString();
+	@Override
+	protected String toStringImpl(Object object) {
+		if(object instanceof IBasicRuleBase) {
+			return ((IBasicRuleBase)object).getName();
+		}
+		return super.toStringImpl(object);
 	}
 
 	// ---------- Getter and Setter Methods----------
@@ -243,7 +231,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 * @see LiftingSettingsItem#RULEBASES
 	 */
 	public Set<ILiftingRuleBase> getRuleBases() {
-		return ruleBases;
+		return Collections.unmodifiableSet(ruleBases);
 	}
 
 	/**
@@ -253,7 +241,8 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public void setRuleBases(Set<ILiftingRuleBase> ruleBases) {
 		if (!Objects.equals(this.ruleBases, ruleBases)) {
-			this.ruleBases = ruleBases;
+			this.ruleBases.clear();
+			this.ruleBases.addAll(ruleBases);
 			notifyListeners(LiftingSettingsItem.RULEBASES);
 		}
 	}
@@ -311,7 +300,7 @@ public class LiftingSettings extends DifferenceSettings {
 	 */
 	public void setRecognitionEngineMode(RecognitionEngineMode recognitionEngineMode) {
 		if (this.recognitionEngineMode != recognitionEngineMode) {
-			this.recognitionEngineMode = recognitionEngineMode;
+			this.recognitionEngineMode = Objects.requireNonNull(recognitionEngineMode, "recognitionEngineMode must not be null");
 			notifyListeners(LiftingSettingsItem.RECOGNITION_ENGINE_MODE);
 		}
 	}
@@ -543,12 +532,11 @@ public class LiftingSettings extends DifferenceSettings {
 		}
 	}
 
+
 	public static LiftingSettings defaultSettings() {
-		LiftingSettings settings = new LiftingSettings();
-		settings.initDefaults();
-		return settings;
+		return defaultSettings(Collections.emptySet());
 	}
-	
+
 	public static LiftingSettings defaultSettings(Set<String> documentTypes) {
 		LiftingSettings settings = new LiftingSettings();
 		settings.initDefaults(documentTypes);

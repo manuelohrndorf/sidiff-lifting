@@ -2,7 +2,6 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.Wizard;
-import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.patching.PatchMode;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.wsupdate.jobs.WorkspaceUpdateJob;
@@ -23,9 +22,7 @@ public class WorkspaceUpdateWizard extends Wizard {
 		this.settings = new PatchingSettings();
 		settings.setPatchMode(PatchMode.MERGING); // required for the ApplyAsymmetricDifferenceJob
 		// Init the lifting settings from the patching settings:
-		settings.setCalculateEditRuleMatch(true);
 		settings.setValidate(settings.getValidationMode() != ValidationMode.NO_VALIDATION);
-		settings.setRecognitionEngineMode(RecognitionEngineMode.LIFTING_AND_POST_PROCESSING);
 		settings.initDefaults(mergeModels.getDocumentTypes());
 	}
 
