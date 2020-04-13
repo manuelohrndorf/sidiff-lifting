@@ -174,8 +174,8 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 			resourceSet.getSaveOptions().put(XMIResource.OPTION_URI_HANDLER, new SiDiffResourceSet.DeresolveLastSegment());
 			
 			// Load the diagram file:
-			List<Resource> diagramResources = new ArrayList<Resource>();
-			List<File> diagramNonResources = new ArrayList<File>();
+			List<Resource> diagramResources = new ArrayList<>();
+			List<File> diagramNonResources = new ArrayList<>();
 			for (URI diagramFile : diagramFiles) {
 				File file = EMFStorage.toFile(diagramFile);
 				if (file == null || !file.exists() || !file.isFile()) {
@@ -237,7 +237,7 @@ public class BasicEditorIntegration extends AbstractEditorIntegration {
 
 	@Override
 	public Map<String, String> getFileExtensions() {
-		Map<String, String>  extensions = new HashMap<String, String> ();
+		Map<String, String>  extensions = new HashMap<>();
 		extensions.put("model", this.modelFileExt);
 		extensions.put("diagram", this.diagramFileExt);
 		return extensions;

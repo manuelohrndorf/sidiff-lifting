@@ -31,7 +31,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseClassBuilder;
 import org.sidiff.editrule.rulebase.builder.attachment.IEditRuleAttachmentBuilder;
-import org.sidiff.editrule.rulebase.project.ide.internal.Activator;
+import org.sidiff.editrule.rulebase.project.ide.internal.RulebaseProjectIdePlugin;
 import org.sidiff.editrule.rulebase.project.ide.nature.RuleBaseProjectNature;
 import org.sidiff.editrule.rulebase.project.ide.wizard.RuleBaseProjectPage01;
 import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
@@ -58,13 +58,13 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 
 	@Override
 	protected ResourceBundle getPluginResourceBundle() {
-		Bundle bundle = Platform.getBundle(Activator.getPluginId());
+		Bundle bundle = Platform.getBundle(RulebaseProjectIdePlugin.getPluginId());
 		return Platform.getResourceBundle(bundle);
 	}
 
 	@Override
 	protected URL getInstallURL() {
-		return Activator.getDefault().getInstallURL();
+		return RulebaseProjectIdePlugin.getDefault().getInstallURL();
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class RuleBaseTemplateSection extends OptionTemplateSection {
 				settings.getGenerator().init(settings, progress.split(2));
 				settings.getGenerator().generateEditRules(progress.split(6));
 			} catch (WrongSettingsInstanceException | EditRuleGenerationException e) {
-				throw new CoreException(new Status(IStatus.ERROR, Activator.getPluginId(), "Generating editrules failed", e));
+				throw new CoreException(new Status(IStatus.ERROR, RulebaseProjectIdePlugin.getPluginId(), "Generating editrules failed", e));
 			}
 		} else {
 			// Folders are only created when

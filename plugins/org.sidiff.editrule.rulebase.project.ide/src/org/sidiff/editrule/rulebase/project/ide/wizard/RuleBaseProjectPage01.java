@@ -5,7 +5,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorChooserWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorSettingsWidget;
 import org.sidiff.editrule.generator.ui.widgets.EditRuleGeneratorWidget;
-import org.sidiff.editrule.rulebase.project.ide.internal.Activator;
+import org.sidiff.editrule.rulebase.project.ide.internal.RulebaseProjectIdePlugin;
 
 public class RuleBaseProjectPage01 extends AbstractWizardPage {
 
@@ -13,7 +13,7 @@ public class RuleBaseProjectPage01 extends AbstractWizardPage {
 
 	public RuleBaseProjectPage01(EditRuleGenerationSettings settings) {
 		super("RuleBaseProjectPage1", "Advanced RuleBase Project Settings");
-		this.setImageDescriptor(Activator.imageDescriptorFromPlugin(Activator.getPluginId(), "16x16_rulebase.gif"));
+		this.setImageDescriptor(RulebaseProjectIdePlugin.imageDescriptorFromPlugin(RulebaseProjectIdePlugin.getPluginId(), "16x16_rulebase.gif"));
 		this.settings = settings;
 	}
 

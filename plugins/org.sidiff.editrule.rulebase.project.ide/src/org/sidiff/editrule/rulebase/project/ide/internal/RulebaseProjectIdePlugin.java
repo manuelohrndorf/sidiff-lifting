@@ -5,16 +5,16 @@ import java.net.URL;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-public class Activator extends AbstractUIPlugin {
+public class RulebaseProjectIdePlugin extends AbstractUIPlugin {
 
 	// Shared instance
-	private static Activator fInstance;
+	private static RulebaseProjectIdePlugin fInstance;
 
 	public URL getInstallURL() {
 		return getDefault().getBundle().getEntry("/"); //$NON-NLS-1$
 	}
 
-	public static Activator getDefault() {
+	public static RulebaseProjectIdePlugin getDefault() {
 		return fInstance;
 	}
 

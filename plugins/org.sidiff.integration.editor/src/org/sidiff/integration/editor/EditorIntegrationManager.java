@@ -70,7 +70,7 @@ public class EditorIntegrationManager extends ExtensionManager<IEditorIntegratio
 	 * @return 
 	 */
 	public Collection<EObject> getHighlightableElements(EObject element){
-		Set<EObject> candidates = new HashSet<EObject>();
+		Set<EObject> candidates = new HashSet<>();
 		for (IEditorIntegration de : IEditorIntegration.MANAGER.getExtensions()) {
 			candidates.addAll(de.getHighlightableElements(element));
 		}
