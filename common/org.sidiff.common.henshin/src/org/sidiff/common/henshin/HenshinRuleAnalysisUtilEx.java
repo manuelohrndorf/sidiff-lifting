@@ -1987,7 +1987,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isCreationAttribute(Attribute attribute) {
 		
 		// Attribute on RHS
-		if (!isRHSAttribute(attribute)) {
+		if (!isRHS(attribute)) {
 			return false;
 		}
 		
@@ -2121,16 +2121,28 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean haveEqualNodeIdentifiers(Node n1, Node n2) {
 		return Objects.equals(n1.getName(), n2.getName());
 	}
-	
+
+	/**
+	 * Returns whether the GraphElement is a LHS of a Rule.
+	 * 
+	 * @param element
+	 *            the element to test.
+	 * @return whether the element is a LHS of a Rule.
+	 */
+	public static boolean isLHS(GraphElement element) {
+		return element.getGraph().isLhs();
+	}
+
 	/**
 	 * Returns whether the Node is a LHS of a Rule.
 	 * 
 	 * @param node
 	 *            the node to test.
 	 * @return whether the Node is a LHS of a Rule.
+	 * @deprecated Use {@link #isLHS(GraphElement)} instead.
 	 */
 	public static boolean isLHSNode(Node node) {
-		return node.getGraph().isLhs();
+		return isLHS(node);
 	}
 	
 	/**
@@ -2139,9 +2151,10 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @param edge
 	 *            the edge to test.
 	 * @return whether the Edge is a LHS of a Rule.
+	 * @deprecated Use {@link #isLHS(GraphElement)} instead.
 	 */
 	public static boolean isLHSEdge(Edge edge) {
-		return edge.getGraph().isLhs();
+		return isLHS(edge);
 	}
 	
 	/**
@@ -2150,20 +2163,33 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return whether the Attribute is a LHS of a Rule.
+	 * @deprecated Use {@link #isLHS(GraphElement)} instead.
 	 */
 	public static boolean isLHSAttribute(Attribute attribute) {
-		return isLHSNode(attribute.getNode());
+		return isLHS(attribute);
 	}
-	
+
+	/**
+	 * Returns whether the GraphElement is a RHS of a Rule.
+	 * 
+	 * @param element
+	 *            the element to test.
+	 * @return whether the element is a RHS of a Rule.
+	 */
+	public static boolean isRHS(GraphElement element) {
+		return element.getGraph().isRhs();
+	}
+
 	/**
 	 * Returns whether the Node is a RHS of a Rule.
 	 * 
 	 * @param node
 	 *            the node to test.
 	 * @return whether the Node is a RHS of a Rule.
+	 * @deprecated Use {@link #isRHS(GraphElement)} instead.
 	 */
 	public static boolean isRHSNode(Node node) {
-		return node.getGraph().isRhs();
+		return isRHS(node);
 	}
 
 	/**
@@ -2172,9 +2198,10 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @param edge
 	 *            the edge to test.
 	 * @return whether the Edge is a RHS of a Rule.
+	 * @deprecated Use {@link #isRHS(GraphElement)} instead.
 	 */
 	public static boolean isRHSEdge(Edge edge) {
-		return edge.getGraph().isRhs();		
+		return isRHS(edge);		
 	}
 	
 	/**
@@ -2183,9 +2210,10 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return whether the Attribute is a RHS of a Rule.
+	 * @deprecated Use {@link #isRHS(GraphElement)} instead.
 	 */
 	public static boolean isRHSAttribute(Attribute attribute) {
-		return isRHSNode(attribute.getNode());
+		return isRHS(attribute);
 	}
 	
 	/**
@@ -2723,7 +2751,7 @@ public class HenshinRuleAnalysisUtilEx {
 		Set<Mapping> rhsMappings = new HashSet<>();
 
 		for (Mapping mapping : mappings) {
-			if (isRHSNode(mapping.getImage())) {
+			if (isRHS(mapping.getImage())) {
 				rhsMappings.add(mapping);
 			}
 		}
