@@ -154,12 +154,7 @@ public class HenshinConditionAnalysis {
 		}
 
 		List<Mapping> mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
-
-		if (HenshinRuleAnalysisUtilEx.isNodeMapped(mappings, node)) {
-			return true;
-		} else {
-			return false;
-		}
+		return HenshinRuleAnalysisUtilEx.isNodeMapped(mappings, node);
 	}
 
 	/**
@@ -184,11 +179,7 @@ public class HenshinConditionAnalysis {
 		Mapping target_mapping = findMappingByImage(mappings, edge.getTarget());
 
 		// Is edge mapped?
-		if ((source_mapping != null) && (target_mapping != null)) {
-			return true;
-		} else {
-			return false;
-		}
+		return source_mapping != null && target_mapping != null;
 	}
 	
 	/**

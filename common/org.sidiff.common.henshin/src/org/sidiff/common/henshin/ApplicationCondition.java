@@ -62,11 +62,11 @@ public class ApplicationCondition {
 	}
 	
 	private void init() {
-		lhsBoundaryNodes = new HashSet<Node>();
-		acBoundaryNodes = new HashSet<Node>();
-		nonBoundaryNodes = new HashSet<Node>();
-		acBoundaryNode2LhsBoundaryNode = new HashMap<Node, Node>();
-		lhsBoundaryNode2acBoundaryNode = new HashMap<Node, Node>();
+		lhsBoundaryNodes = new HashSet<>();
+		acBoundaryNodes = new HashSet<>();
+		nonBoundaryNodes = new HashSet<>();
+		acBoundaryNode2LhsBoundaryNode = new HashMap<>();
+		lhsBoundaryNode2acBoundaryNode = new HashMap<>();
 		
 		inverted = nestedCondition.eContainer() instanceof Not;
 		

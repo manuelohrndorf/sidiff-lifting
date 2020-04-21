@@ -42,7 +42,7 @@ public class HenshinModuleAnalysis {
 	 * @return all Kernel Rules contained by the module in an unmodifiable list.
 	 */
 	public static EList<Rule> getAllKernelRules(Module module) {
-		EList<Rule> rules = new BasicEList<Rule>();
+		EList<Rule> rules = new BasicEList<>();
 		
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule) {

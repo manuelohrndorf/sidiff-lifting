@@ -83,7 +83,6 @@ public class HenshinMultiRuleAnalysis {
 	public static Set<Edge> getEmbeddedEdges(Rule rule, Collection<Node> embeddedNodes) {
 		Set<Edge> embeddedMultiEdges = HenshinRuleAnalysisUtilEx.getEmbeddedEdges(rule.getLhs(), embeddedNodes);
 		embeddedMultiEdges.addAll(HenshinRuleAnalysisUtilEx.getEmbeddedEdges(rule.getRhs(), embeddedNodes));
-		
 		return embeddedMultiEdges;
 	}
 	
@@ -99,7 +98,6 @@ public class HenshinMultiRuleAnalysis {
 	public static Set<Attribute> getEmbeddedAttributes(Rule rule, Collection<Node> embeddedNodes) {
 		Set<Attribute> embeddedMultiAttributes = HenshinRuleAnalysisUtilEx.getEmbeddedAttributes(rule.getLhs(), embeddedNodes);
 		embeddedMultiAttributes.addAll(HenshinRuleAnalysisUtilEx.getEmbeddedAttributes(rule.getRhs(), embeddedNodes));
-		
 		return embeddedMultiAttributes;
 	}
 	
@@ -126,7 +124,7 @@ public class HenshinMultiRuleAnalysis {
 	 * @return All top level (root) rules of multi-rules contained by the module.
 	 */
 	public static Set<Rule> getRootRules(Module module) {
-		Set<Rule> rootRules = new HashSet<Rule>();
+		Set<Rule> rootRules = new HashSet<>();
 		
 		for (Unit unit : module.getUnits()) {
 			if (unit instanceof Rule && !((Rule)unit).getMultiRules().isEmpty()){
@@ -147,7 +145,7 @@ public class HenshinMultiRuleAnalysis {
 	 * @return All parent kernel rules of the given multi-rule.
 	 */
 	public List<Rule> getParentKernelRules(Rule rule) {
-		List<Rule> parentRules = new ArrayList<Rule>();
+		List<Rule> parentRules = new ArrayList<>();
 		getParentKernelRules(rule, parentRules);
 		
 		return parentRules;
@@ -188,7 +186,7 @@ public class HenshinMultiRuleAnalysis {
 		multiSourceNodes.add(source);
 		
 		// Collect all mapped node (LHS/RHS):
-		List<Node> mappedMultiSourceNodes = new ArrayList<Node>();
+		List<Node> mappedMultiSourceNodes = new ArrayList<>();
 		for (Node multiSourceNode : multiSourceNodes) {
 			List<Mapping> mappings = multiSourceNode.getGraph().getRule().getMappings();
 
@@ -203,7 +201,7 @@ public class HenshinMultiRuleAnalysis {
 		multiSourceNodes.addAll(mappedMultiSourceNodes);
 		
 		// Collect all multi target nodes:
-		List<Node> multiTargetNodes = new ArrayList<Node>();
+		List<Node> multiTargetNodes = new ArrayList<>();
 		for (Node multiSourceNode : multiSourceNodes) {
 			for (Edge edgeType : multiSourceNode.getOutgoing(type)) {
 				multiTargetNodes.add(edgeType.getTarget());
@@ -230,7 +228,7 @@ public class HenshinMultiRuleAnalysis {
 		multiTargetNodes.add(target);
 		
 		// Collect all mapped node (LHS/RHS):
-		List<Node> mappedMultiTargetNodes = new ArrayList<Node>();
+		List<Node> mappedMultiTargetNodes = new ArrayList<>();
 		for (Node multiTargetNode : multiTargetNodes) {
 			List<Mapping> mappings = multiTargetNode.getGraph().getRule().getMappings();
 
@@ -245,7 +243,7 @@ public class HenshinMultiRuleAnalysis {
 		multiTargetNodes.addAll(mappedMultiTargetNodes);
 		
 		// Collect all multi edges:
-		List<Node> multiSourceNodes = new ArrayList<Node>();
+		List<Node> multiSourceNodes = new ArrayList<>();
 		for (Node multiTargetNode : multiTargetNodes) {
 			for (Edge edgeType : multiTargetNode.getIncoming(type)) {
 				multiSourceNodes.add(edgeType.getSource());
@@ -265,7 +263,7 @@ public class HenshinMultiRuleAnalysis {
 	 *         multi-rules).
 	 */
 	public static Set<Node> getAllMappedNodes(Node node) {
-		Set<Node> multiNodes = new HashSet<Node>();
+		Set<Node> multiNodes = new HashSet<>();
 		getImages(findOrigin(node), multiNodes);
 		return multiNodes;
 	}
@@ -327,7 +325,7 @@ public class HenshinMultiRuleAnalysis {
 	 */
 	public static List<Parameter> getMultiRuleParameters(Rule multiRule) {
 		
-		List<Parameter> multiParameters = new ArrayList<Parameter>();
+		List<Parameter> multiParameters = new ArrayList<>();
 		
 		for (Parameter parameter : multiRule.getParameters()) {
 			if (multiRule.getKernelRule().getParameter(parameter.getName()) == null) {
@@ -347,7 +345,7 @@ public class HenshinMultiRuleAnalysis {
 	 */
 	public static List<Mapping> getMultiRulePreservedNodes(Rule multiRule) {
 		
-		List<Mapping> multiRulePresevedNodesMapping = new ArrayList<Mapping>();
+		List<Mapping> multiRulePresevedNodesMapping = new ArrayList<>();
 		
 		for (Mapping mapping : multiRule.getMappings()) {
 			if ((findMappingByImage(multiRule.getMultiMappings(), mapping.getImage()) == null)
@@ -368,7 +366,7 @@ public class HenshinMultiRuleAnalysis {
 	 */
 	public static List<Node> getMultiRuleNodes(Rule multiRule) {
 		
-		List<Node> multiNodes = new ArrayList<Node>();
+		List<Node> multiNodes = new ArrayList<>();
 		
 		for (Node lhsNode : multiRule.getLhs().getNodes()) {
 			if (findMappingByImage(multiRule.getMultiMappings(), lhsNode) == null) {
@@ -396,7 +394,7 @@ public class HenshinMultiRuleAnalysis {
 	 */
 	public static List<Node> getMultiRuleNodes(Graph multiRuleGraph) {
 		
-		List<Node> multiNodes = new ArrayList<Node>();
+		List<Node> multiNodes = new ArrayList<>();
 		Rule multiRule = multiRuleGraph.getRule();
 		
 		for (Node lhsNode : multiRuleGraph.getNodes()) {
@@ -417,7 +415,7 @@ public class HenshinMultiRuleAnalysis {
 	 * @return All (real) multi-rule edges.
 	 */
 	public static List<Edge> getMultiRuleEdges(Rule multiRule) {
-		List<Edge> multiEdges = new ArrayList<Edge>();
+		List<Edge> multiEdges = new ArrayList<>();
 
 		for (Edge lhsEdge : multiRule.getLhs().getEdges()) {
 			if ((findMappingByImage(multiRule.getMultiMappings(), lhsEdge.getSource()) == null)

@@ -56,7 +56,7 @@ public class HenshinUtil {
 		Resource resource = resourceSet.createResource(uri);
 		resource.getContents().add(newModule);
 
-		Map<String, Boolean> options = new HashMap<String, Boolean>();
+		Map<String, Boolean> options = new HashMap<>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 
 		try {
@@ -82,7 +82,7 @@ public class HenshinUtil {
 		Resource resource = resourceSet.createResource(uri);
 		resource.getContents().add(module);
 
-		Map<String, Boolean> options = new HashMap<String, Boolean>();
+		Map<String, Boolean> options = new HashMap<>();
 		options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 
 		try {

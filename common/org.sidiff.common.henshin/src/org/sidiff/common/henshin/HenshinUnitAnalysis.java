@@ -18,7 +18,7 @@ public class HenshinUnitAnalysis {
 	 * @return all rules of the unit.
 	 */
 	public static List<Rule> getRules(Unit unit) {
-		List<Rule> rules = new ArrayList<Rule>();
+		List<Rule> rules = new ArrayList<>();
 
 		for (Unit subUnit : unit.getSubUnits(true)) {
 			if (subUnit instanceof Rule) {

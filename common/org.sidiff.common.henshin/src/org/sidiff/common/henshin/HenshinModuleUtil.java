@@ -26,62 +26,55 @@ public class HenshinModuleUtil {
 	 * @return the new Module.
 	 */	
 	public static Module createInverse(String name, String description, Module inputModule) {
-		
-		// create inverse
 		Module module = EcoreUtil.copy(inputModule);
 		module.setName(name);
 		module.setDescription(description);
-		for(Unit unit: module.getUnits()) {
+		for(Unit unit : module.getUnits()) {
 			if(unit instanceof Rule){
 				
-				Rule r = (Rule)unit;
-				Graph lhs = r.getRhs();
+				Rule rule = (Rule)unit;
+				Graph lhs = rule.getRhs();
 				lhs.setName("LHS");
-				Graph rhs = r.getLhs();
+				Graph rhs = rule.getLhs();
 				rhs.setName("RHS");
-				r.setLhs(lhs);
-				r.setRhs(rhs);
+				rule.setLhs(lhs);
+				rule.setRhs(rhs);
 			
-				for(Mapping m: r.getMappings()) {
-					Node origin = m.getImage();
-					Graph orginGraph = m.getImage().getGraph();
+				for(Mapping mapping : rule.getMappings()) {
+					Node origin = mapping.getImage();
+					Graph orginGraph = mapping.getImage().getGraph();
 					origin.setGraph(orginGraph);
 				
-					Node image = m.getOrigin();
-					Graph imageGraph = m.getOrigin().getGraph();
+					Node image = mapping.getOrigin();
+					Graph imageGraph = mapping.getOrigin().getGraph();
 					image.setGraph(imageGraph);
 				
-					m.setImage(image);
-					m.setOrigin(origin);
+					mapping.setImage(image);
+					mapping.setOrigin(origin);
 				
 				}
-			
+
 				// remove attributes under <<delete>> nodes and their ParameterMappings
 				// and not used Parameters will be deleted automatically then.
-				for(Node n:r.getLhs().getNodes()) {
-					List<ParameterMapping> removableMappings = new ArrayList<ParameterMapping>();
-				
-					if(HenshinRuleAnalysisUtilEx.isDeletionNode(n)) {
-						for(Attribute a:n.getAttributes()) {
-						
-							for(ParameterMapping pm:r.getParameterMappings()) {
-								if(	pm.getTarget().getName().equals(a.getValue()) ||
-										pm.getSource().getName().equals(a.getValue())) {
-								
+				for (Node node : rule.getLhs().getNodes()) {
+					List<ParameterMapping> removableMappings = new ArrayList<>();
+					if (HenshinRuleAnalysisUtilEx.isDeletionNode(node)) {
+						for (Attribute attribute : node.getAttributes()) {
+							for (ParameterMapping pm : rule.getParameterMappings()) {
+								if (pm.getTarget().getName().equals(attribute.getValue())
+										|| pm.getSource().getName().equals(attribute.getValue())) {
+
 									removableMappings.add(pm);
 								}
 							}
 						}
-						n.getAttributes().clear();
+						node.getAttributes().clear();
 					}
-					r.getParameterMappings().removeAll(removableMappings);
+					rule.getParameterMappings().removeAll(removableMappings);
 				}
-	
 			}
 	
 		}
 		return module;
-		
 	}
-
 }

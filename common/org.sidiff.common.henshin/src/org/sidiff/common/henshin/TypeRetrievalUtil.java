@@ -47,7 +47,7 @@ public class TypeRetrievalUtil {
 	 */
 	public static List<EClassifier> getRealType(EList<ParameterMapping> mappings, Parameter parameter) {
 
-		List<EClassifier> types = new ArrayList<EClassifier>();
+		List<EClassifier> types = new ArrayList<>();
 		Parameter oppositeParameter = null;
 		EClassifier type = null;
 		Rule rule = null;
@@ -138,7 +138,7 @@ public class TypeRetrievalUtil {
 
 	public static List<EClassifier> findTypeOfAnAttribute(Parameter oppositeParameter) {
 
-		List<EClassifier> types = new ArrayList<EClassifier>();
+		List<EClassifier> types = new ArrayList<>();
 		EClassifier type = null;
 		
 		// container == Rule
@@ -148,7 +148,7 @@ public class TypeRetrievalUtil {
 
 			// get all attributes under all nodes of RHS
 			EList<Node> rightNodes = rule.getRhs().getNodes();
-			List<Attribute> rightAttributes = new ArrayList<Attribute>();
+			List<Attribute> rightAttributes = new ArrayList<>();
 			for (Node rN : rightNodes) {
 				rightAttributes.addAll(rN.getAttributes());
 			}
@@ -167,7 +167,7 @@ public class TypeRetrievalUtil {
 			if (type == null) {
 				// get all attributes under all nodes of LHS
 				EList<Node> leftNodes = rule.getLhs().getNodes();
-				List<Attribute> leftAttributes = new ArrayList<Attribute>();
+				List<Attribute> leftAttributes = new ArrayList<>();
 				for (Node lN : leftNodes) {
 					leftAttributes.addAll(lN.getAttributes());
 				}

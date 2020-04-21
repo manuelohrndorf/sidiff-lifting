@@ -39,15 +39,13 @@ import org.sidiff.common.henshin.view.NodePair;
  */
 public class HenshinRuleAnalysisUtilEx {
 
-	
-	public static enum NodeKindSelection{
-		CREATE,DELETE,PRESERVED,FORBID,ALL,REQUIRED
+	public static enum NodeKindSelection {
+		CREATE, DELETE, PRESERVED, FORBID, ALL, REQUIRED
 	}
-	
+
 	public static enum FormulaCombineOperator {
-		AND,OR,XOR
+		AND, OR, XOR
 	}
-	
 
 	/**
 	 * Get all rules of the module.
@@ -234,7 +232,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return A list of all attributes.
 	 */
 	public static List<Attribute> getAttributes(Graph graph) {
-		List<Attribute> attributes = new ArrayList<Attribute>();
+		List<Attribute> attributes = new ArrayList<>();
 
 		for (Node node : graph.getNodes()) {
 			attributes.addAll(node.getAttributes());
@@ -676,7 +674,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 *         given rule.
 	 */
 	public static List<GraphElement> getChanges(Rule rule) {
-		List<GraphElement> changes = new ArrayList<GraphElement>();
+		List<GraphElement> changes = new ArrayList<>();
 
 		// << delete >> nodes:
 		for (Node deleteNode : getLHSMinusRHSNodes(rule)) {
@@ -716,7 +714,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static List<Attribute> getChangingAttributes(Node lhs, Node rhs) {
 		
 		if (!rhs.getAttributes().isEmpty()) {
-			List<Attribute> changingAttributes = new ArrayList<Attribute>(rhs.getAttributes().size());
+			List<Attribute> changingAttributes = new ArrayList<>(rhs.getAttributes().size());
 			
 			for (Attribute rhsAttribute : rhs.getAttributes()) {
 				boolean hasRemote = false;
@@ -746,7 +744,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the <<delete>> edges.
 	 */
 	public static List<Edge> getLHSMinusRHSEdges(Rule rule) {
-		List<Edge> res = new ArrayList<Edge>();
+		List<Edge> res = new ArrayList<>();
 		for (Edge lhsEdge : rule.getLhs().getEdges()) {
 			if (!isEdgeMapped(rule.getMappings(), lhsEdge)) {
 				res.add(lhsEdge);
@@ -764,7 +762,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << delete >> nodes.
 	 */
 	public static List<Node> getLHSMinusRHSNodes(Rule rule) {
-		List<Node> res = new ArrayList<Node>();
+		List<Node> res = new ArrayList<>();
 		for (Node lhsNode : rule.getLhs().getNodes()) {
 			if (!isNodeMapped(rule.getMappings(), lhsNode)) {
 				res.add(lhsNode);
@@ -782,7 +780,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << create >> edges.
 	 */
 	public static List<Edge> getRHSMinusLHSEdges(Rule rule) {
-		List<Edge> res = new ArrayList<Edge>();
+		List<Edge> res = new ArrayList<>();
 		for (Edge rhsEdge : rule.getRhs().getEdges()) {
 			if (!isEdgeMapped(rule.getMappings(), rhsEdge)) {
 				res.add(rhsEdge);
@@ -800,7 +798,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << create >> nodes.
 	 */
 	public static List<Node> getRHSMinusLHSNodes(Rule rule) {
-		List<Node> res = new ArrayList<Node>();
+		List<Node> res = new ArrayList<>();
 		for (Node rhsNode : rule.getRhs().getNodes()) {
 			if (!isNodeMapped(rule.getMappings(), rhsNode)) {
 				res.add(rhsNode);
@@ -818,7 +816,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << preserve >> edges.
 	 */
 	public static List<Edge> getLHSIntersectRHSEdges(Rule r) {
-		List<Edge> res = new ArrayList<Edge>();
+		List<Edge> res = new ArrayList<>();
 		for (Edge lhsEdge : r.getLhs().getEdges()) {
 			if (isEdgeMapped(r.getMappings(), lhsEdge)) {
 				res.add(lhsEdge);
@@ -836,7 +834,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << preserve >> nodes.
 	 */
 	public static List<Node> getLHSIntersectRHSNodes(Rule rule) {
-		List<Node> res = new ArrayList<Node>();
+		List<Node> res = new ArrayList<>();
 		for (Node lhsNode : rule.getLhs().getNodes()) {
 			if (isNodeMapped(rule.getMappings(), lhsNode)) {
 				res.add(lhsNode);
@@ -854,7 +852,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << preserve >> nodes.
 	 */
 	public static List<NodePair> getPreservedNodes(Rule rule) {
-		List<NodePair> res = new ArrayList<NodePair>();
+		List<NodePair> res = new ArrayList<>();
 
 		for (Node lhsNode : rule.getLhs().getNodes()) {
 			Node rhsNode = getRemoteNode(rule.getMappings(), lhsNode);
@@ -877,7 +875,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the list of forbid nodes.
 	 */
 	public static List<Node> getForbidNodes(Rule rule) {
-		ArrayList<Node> forbidNodes = new ArrayList<Node>();
+		ArrayList<Node> forbidNodes = new ArrayList<>();
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
@@ -904,7 +902,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the list of require nodes.
 	 */
 	public static List<Node> getRequireNodes(Rule rule) {
-		ArrayList<Node> forbidNodes = new ArrayList<Node>();
+		ArrayList<Node> forbidNodes = new ArrayList<>();
 		
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (!(nc.eContainer() instanceof Not)){
@@ -930,7 +928,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << preserve >> edges.
 	 */
 	public static List<EdgePair> getPreservedEdges(Rule r) {
-		List<EdgePair> res = new ArrayList<EdgePair>();
+		List<EdgePair> res = new ArrayList<>();
 		
 		for (Edge lhsEdge : r.getLhs().getEdges()) {
 			Edge lhsRemoteEdge = getRemoteEdge(r.getMappings(), lhsEdge);
@@ -1050,7 +1048,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << preserve >> attributes (LHS).
 	 */
 	public static List<Attribute> getPreservedAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 		for (Node lhsNode : getLHSIntersectRHSNodes(rule)) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
 				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
@@ -1078,7 +1076,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the changing attributes.
 	 */
 	public static List<AttributePair> getLHStoRHSChangingAttributes(Rule rule) {
-		List<AttributePair> res = new ArrayList<AttributePair>();
+		List<AttributePair> res = new ArrayList<>();
 
 		for (Node lhsNode : getLHSIntersectRHSNodes(rule)) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
@@ -1103,7 +1101,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << create >> attributes.
 	 */
 	public static List<Attribute> getRHSChangingAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 
 		for (Node rhsNode : rule.getRhs().getNodes()) {
 			if (isNodeMapped(rule.getMappings(), rhsNode)) {
@@ -1128,7 +1126,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << delete >> attributes.
 	 */
 	public static List<Attribute> getDeletionAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 
 		for (Node lhsNode : getLHSMinusRHSNodes(rule)) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
@@ -1147,7 +1145,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << create >> attributes.
 	 */
 	public static List<Attribute> getCreationAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 
 		for (Node rhsNode : getRHSMinusLHSNodes(rule)) {
 			for (Attribute rhsAttribute : rhsNode.getAttributes()) {
@@ -1166,7 +1164,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << forbid >> attributes.
 	 */
 	public static List<Attribute> getForbidAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
@@ -1190,7 +1188,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Set<Attribute> getForbidAttributes(Node node) {
 		
 		// Collect all << forbid >> nodes:
-		List<Node> forbidNodes = new ArrayList<Node>();
+		List<Node> forbidNodes = new ArrayList<>();
 		
 		if(isForbiddenNode(node)) {
 			// Given node is a forbid node:
@@ -1218,7 +1216,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		// Collect all << forbid >> attributes:
-		Set<Attribute> forbidAttributes = new HashSet<Attribute>();
+		Set<Attribute> forbidAttributes = new HashSet<>();
 		
 		for (Node forbidNode : forbidNodes) {
 			forbidAttributes.addAll(forbidNode.getAttributes());
@@ -1237,7 +1235,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Set<Edge> getForbidEdges(Node node) {
 		
 		// Collect all << forbid >> nodes:
-		List<Node> forbidNodes = new ArrayList<Node>();
+		List<Node> forbidNodes = new ArrayList<>();
 		
 		if(isForbiddenNode(node)) {
 			// Given node is a forbid node:
@@ -1265,7 +1263,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		// Collect all << forbid >> attributes:
-		Set<Edge> forbidEdges = new HashSet<Edge>();
+		Set<Edge> forbidEdges = new HashSet<>();
 		
 		for (Node forbidNode : forbidNodes) {
 			forbidEdges.addAll(forbidNode.getAllEdges());
@@ -1282,7 +1280,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the << require >> attributes.
 	 */
 	public static List<Attribute> getRequireAttributes(Rule rule) {
-		List<Attribute> res = new ArrayList<Attribute>();
+		List<Attribute> res = new ArrayList<>();
 
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (!(nc.eContainer() instanceof Not)){
@@ -1306,7 +1304,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Set<Attribute> getRequireAttributes(Node node) {
 		
 		// Collect all << forbid >> nodes:
-		List<Node> requireNodes = new ArrayList<Node>();
+		List<Node> requireNodes = new ArrayList<>();
 		
 		if(isRequireNode(node)) {
 			// Given node is a forbid node:
@@ -1334,7 +1332,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		// Collect all << require >> attributes:
-		Set<Attribute> requireAttributes = new HashSet<Attribute>();
+		Set<Attribute> requireAttributes = new HashSet<>();
 		
 		for (Node requireNode: requireNodes) {
 			requireAttributes.addAll(requireNode.getAttributes());
@@ -1353,7 +1351,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Set<Edge> getRequireEdges(Node node) {
 		
 		// Collect all << forbid >> nodes:
-		List<Node> requireNodes = new ArrayList<Node>();
+		List<Node> requireNodes = new ArrayList<>();
 		
 		if(isRequireNode(node)) {
 			// Given node is a forbid node:
@@ -1381,7 +1379,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		
 		// Collect all << require >> attributes:
-		Set<Edge> requireAttributes = new HashSet<Edge>();
+		Set<Edge> requireAttributes = new HashSet<>();
 		
 		for (Node requireNode : requireNodes) {
 			requireAttributes.addAll(requireNode.getAllEdges());
@@ -1465,7 +1463,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return list of matched nodes.
 	 */
 	public static List<Node> getNodesBy(EClass type, EReference eRef, boolean isIncomingERef, List<Node> allNodes) {
-		List<Node> nodeList = new ArrayList<Node>();
+		List<Node> nodeList = new ArrayList<>();
 
 		for(Node n: allNodes) {
 			if(n.getType() == type) {
@@ -1500,8 +1498,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static List<Node> getChildNodesWithinAContainmentRelation(Module module, NodeKindSelection nodeKind, boolean onlyAbstracts) {
 	
-		List<Node> nodeList = new ArrayList<Node>();
-		List<Node> resultList = new ArrayList<Node>();
+		List<Node> nodeList = new ArrayList<>();
+		List<Node> resultList = new ArrayList<>();
 		
 		// choose the correct nodeList
 		for(Unit u: module.getUnits()) {
@@ -1809,11 +1807,10 @@ public class HenshinRuleAnalysisUtilEx {
 		if (getRemoteAttribute(attribute) != null) {
 			// << preserve >> attribute in << preserve >> node:
 			return true;
-		} else {
-			if (isPreservedNode(attribute.getNode()) && isLHSAttribute(attribute)) {
-				// << delete >> attribute in << preserve >> node:
-				return true;
-			}
+		}
+		if (isPreservedNode(attribute.getNode()) && isLHSAttribute(attribute)) {
+			// << delete >> attribute in << preserve >> node:
+			return true;
 		}
 		
 		return false;
@@ -2213,11 +2210,8 @@ public class HenshinRuleAnalysisUtilEx {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean isChangedNode(Node node) {
-		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
-			return (HenshinRuleAnalysisUtilEx.getRemoteNode(node.getGraph().getRule().getMappings(), node) == null);
-		} else {
-			return false;
-		}
+		return (node.getGraph().isLhs() || node.getGraph().isRhs())
+				&& (HenshinRuleAnalysisUtilEx.getRemoteNode(node.getGraph().getRule().getMappings(), node) == null);
 	}
 	
 	/**
@@ -2578,9 +2572,8 @@ public class HenshinRuleAnalysisUtilEx {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isLhs()
 					&& (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
-		} else {
-			return false;
 		}
+		return false;
 	}// isDeletionEdge
 	
 	/**
@@ -2598,9 +2591,8 @@ public class HenshinRuleAnalysisUtilEx {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isRhs()
 					&& (getEdgeOrigin(edge, rule.getMappings()) == null);
-		} else {
-			return false;
 		}
+		return false;
 	}// isCreationEdge
 	
 	/**
@@ -2761,9 +2753,8 @@ public class HenshinRuleAnalysisUtilEx {
 		if ((subUnits.size() == 1) && (subUnits.get(0) instanceof Rule)) {
 			Rule kernelRule = (Rule) subUnits.get(0);
 			return isKernelRule(kernelRule);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**

@@ -27,11 +27,11 @@ public class ParameterInfo {
 
 	public enum ParameterDirection {
 		IN, OUT, UNDEFINED
-	};
+	}
 
 	public enum ParameterKind {
 		OBJECT, VALUE
-	};
+	}
 
 	/**
 	 * Prüft, ob Parameter ein IN Parameter oder ein OUT Parameter ist.
@@ -210,7 +210,7 @@ public class ParameterInfo {
 
 		// get all attributes under all nodes of RHS
 		EList<Node> rightNodes = rule.getRhs().getNodes();
-		List<Attribute> rightAttributes = new ArrayList<Attribute>();
+		List<Attribute> rightAttributes = new ArrayList<>();
 		for (Node rN : rightNodes) {
 			rightAttributes.addAll(rN.getAttributes());
 		}
@@ -226,7 +226,7 @@ public class ParameterInfo {
 
 		// get all attributes under all nodes of LHS
 		EList<Node> leftNodes = rule.getLhs().getNodes();
-		List<Attribute> leftAttributes = new ArrayList<Attribute>();
+		List<Attribute> leftAttributes = new ArrayList<>();
 		for (Node lN : leftNodes) {
 			leftAttributes.addAll(lN.getAttributes());
 		}
@@ -306,28 +306,27 @@ public class ParameterInfo {
 			assert (parameter.getUnit().getName().equals(INamingConventions.MAIN_UNIT)) : "Geschachtelte Units !?";
 			return parameter;
 
-		} else {
-			// Rule parameter
-			Rule rule = (Rule) parameter.getUnit();
-			if (rule.getRootRule() == rule) {
-				// rule is a kernel rule
-				Unit mainUnit = rule.getModule().getUnit(INamingConventions.MAIN_UNIT);
-				for (ParameterMapping mapping : mainUnit.getParameterMappings()) {
-					if (mapping.getSource().equals(parameter)) {
-						return mapping.getTarget();
-					}
-					if (mapping.getTarget().equals(parameter)) {
-						return mapping.getSource();
-					}
+		}
+		// Rule parameter
+		Rule rule = (Rule) parameter.getUnit();
+		if (rule.getRootRule() == rule) {
+			// rule is a kernel rule
+			Unit mainUnit = rule.getModule().getUnit(INamingConventions.MAIN_UNIT);
+			for (ParameterMapping mapping : mainUnit.getParameterMappings()) {
+				if (mapping.getSource().equals(parameter)) {
+					return mapping.getTarget();
 				}
+				if (mapping.getTarget().equals(parameter)) {
+					return mapping.getSource();
+				}
+			}
 
-			} else {
-				// rule is a multi rule
-				Rule kernelRule = (Rule) rule.eContainer();
-				for (Parameter krp : kernelRule.getParameters()) {
-					if (krp.getName().equals(parameter.getName())) {
-						return getOutermostParameter(krp);
-					}
+		} else {
+			// rule is a multi rule
+			Rule kernelRule = (Rule) rule.eContainer();
+			for (Parameter krp : kernelRule.getParameters()) {
+				if (krp.getName().equals(parameter.getName())) {
+					return getOutermostParameter(krp);
 				}
 			}
 		}
@@ -351,7 +350,7 @@ public class ParameterInfo {
 	 */
 	public static Set<Parameter> getUsedParameters(Rule rule, Attribute attribute) {
 
-		Set<Parameter> parameters = new HashSet<Parameter>();
+		Set<Parameter> parameters = new HashSet<>();
 		String value = attribute.getValue();
 
 		// Remove string parts
@@ -427,7 +426,7 @@ public class ParameterInfo {
 	 * @return A mapping from all parameters of the rule to attributes with the same name.
 	 */
 	public static Map<Parameter, List<Attribute>> getParameterTargets(Rule editRule) {
-		Map<Parameter, List<Attribute>> targets = new HashMap<Parameter, List<Attribute>>();
+		Map<Parameter, List<Attribute>> targets = new HashMap<>();
 		
 		for (Node lhsNode : editRule.getLhs().getNodes()) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {

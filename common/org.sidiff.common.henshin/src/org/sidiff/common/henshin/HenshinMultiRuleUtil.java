@@ -37,7 +37,7 @@ public class HenshinMultiRuleUtil {
 	 * @return all multi rules
 	 */
 	public static EList<Rule> getAllMultiRules(Rule rule) {
-		EList<Rule> allMultiRules = new BasicEList<Rule>();
+		EList<Rule> allMultiRules = new BasicEList<>();
 		getAllMultiRules(rule, allMultiRules);
 		return ECollections.unmodifiableEList(allMultiRules);
 	}
@@ -119,7 +119,7 @@ public class HenshinMultiRuleUtil {
 		kernelRule.getMultiRules().add(multiRule);
 		
 		// Trace: Origin -> Image
-		Map<Node, Node> traces = new HashMap<Node, Node>();
+		Map<Node, Node> traces = new HashMap<>();
 		
 		// Nodes (Attributes):
 		for (Node kernelNode : kernelRule.getLhs().getNodes()) {
