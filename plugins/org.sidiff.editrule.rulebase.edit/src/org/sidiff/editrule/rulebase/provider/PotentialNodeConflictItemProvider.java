@@ -136,7 +136,7 @@ public class PotentialNodeConflictItemProvider extends PotentialConflictItemProv
 	 */
 	@Override
 	public String getText(Object object) {
-		PotentialConflictKind labelValue = ((PotentialNodeConflict)object).getPotentialConflictKind();
+		PotentialConflictKind labelValue = ((PotentialNodeConflict)object).getKind();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_PotentialNodeConflict_type") :

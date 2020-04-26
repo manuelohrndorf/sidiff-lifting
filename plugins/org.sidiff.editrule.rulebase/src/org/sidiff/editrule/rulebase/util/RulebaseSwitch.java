@@ -169,6 +169,13 @@ public class RulebaseSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT: {
+				PotentialDanglingEdgeConflict potentialDanglingEdgeConflict = (PotentialDanglingEdgeConflict)theEObject;
+				T result = casePotentialDanglingEdgeConflict(potentialDanglingEdgeConflict);
+				if (result == null) result = casePotentialConflict(potentialDanglingEdgeConflict);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -380,6 +387,21 @@ public class RulebaseSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T casePotentialAttributeConflict(PotentialAttributeConflict object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Potential Dangling Edge Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Potential Dangling Edge Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePotentialDanglingEdgeConflict(PotentialDanglingEdgeConflict object) {
 		return null;
 	}
 

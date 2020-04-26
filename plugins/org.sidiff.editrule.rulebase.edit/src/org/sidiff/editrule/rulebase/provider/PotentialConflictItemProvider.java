@@ -61,55 +61,31 @@ public class PotentialConflictItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addPotentialConflictKindPropertyDescriptor(object);
-			addResolvablePropertyDescriptor(object);
+			addKindPropertyDescriptor(object);
 			addSourceRulePropertyDescriptor(object);
 			addTargetRulePropertyDescriptor(object);
-			addConflictResolutionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Potential Conflict Kind feature.
+	 * This adds a property descriptor for the Kind feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addPotentialConflictKindPropertyDescriptor(Object object) {
+	protected void addKindPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialConflict_potentialConflictKind_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_potentialConflictKind_feature", "_UI_PotentialConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND,
+				 getString("_UI_PotentialConflict_kind_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_kind_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__KIND,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Resolvable feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addResolvablePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PotentialConflict_resolvable_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_resolvable_feature", "_UI_PotentialConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_CONFLICT__RESOLVABLE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -159,28 +135,6 @@ public class PotentialConflictItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Conflict Resolution feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addConflictResolutionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PotentialConflict_conflictResolution_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_conflictResolution_feature", "_UI_PotentialConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This returns PotentialConflict.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -199,7 +153,7 @@ public class PotentialConflictItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		PotentialConflictKind labelValue = ((PotentialConflict)object).getPotentialConflictKind();
+		PotentialConflictKind labelValue = ((PotentialConflict)object).getKind();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
 			getString("_UI_PotentialConflict_type") :
@@ -219,8 +173,7 @@ public class PotentialConflictItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(PotentialConflict.class)) {
-			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
-			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
+			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

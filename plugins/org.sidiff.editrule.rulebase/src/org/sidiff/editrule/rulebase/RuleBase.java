@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialNodeConflicts <em>Potential Node Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialEdgeConflicts <em>Potential Edge Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialAttributeConflicts <em>Potential Attribute Conflicts</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase()
@@ -167,6 +168,20 @@ public interface RuleBase extends EObject {
 	 * @generated
 	 */
 	EList<PotentialAttributeConflict> getPotentialAttributeConflicts();
+
+	/**
+	 * Returns the value of the '<em><b>Potential Dangling Edge Conflicts</b></em>' reference list.
+	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict}.
+	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Potential Dangling Edge Conflicts</em>' reference list.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialDanglingEdgeConflicts()
+	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase
+	 * @model opposite="ruleBase"
+	 * @generated
+	 */
+	EList<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts();
 
 	/**
 	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.

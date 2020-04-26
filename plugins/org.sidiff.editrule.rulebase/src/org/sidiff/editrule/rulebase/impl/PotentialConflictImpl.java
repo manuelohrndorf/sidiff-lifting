@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialConflict;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
-import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.RulebasePackage;
 
 /**
@@ -21,45 +20,33 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getPotentialConflictKind <em>Potential Conflict Kind</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#isResolvable <em>Resolvable</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getTargetRule <em>Target Rule</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getConflictResolution <em>Conflict Resolution</em>}</li>
  * </ul>
  *
  * @generated
  */
 public abstract class PotentialConflictImpl extends EObjectImpl implements PotentialConflict {
 	/**
-	 * The default value of the '{@link #getPotentialConflictKind() <em>Potential Conflict Kind</em>}' attribute.
+	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPotentialConflictKind()
+	 * @see #getKind()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final PotentialConflictKind POTENTIAL_CONFLICT_KIND_EDEFAULT = PotentialConflictKind.DELETE_USE;
+	protected static final PotentialConflictKind KIND_EDEFAULT = PotentialConflictKind.DELETE_USE;
 
 	/**
-	 * The cached value of the '{@link #getPotentialConflictKind() <em>Potential Conflict Kind</em>}' attribute.
+	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPotentialConflictKind()
+	 * @see #getKind()
 	 * @generated
 	 * @ordered
 	 */
-	protected PotentialConflictKind potentialConflictKind = POTENTIAL_CONFLICT_KIND_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isResolvable() <em>Resolvable</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isResolvable()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean RESOLVABLE_EDEFAULT = false;
+	protected PotentialConflictKind kind = KIND_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getSourceRule() <em>Source Rule</em>}' reference.
@@ -80,16 +67,6 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @ordered
 	 */
 	protected EditRule targetRule;
-
-	/**
-	 * The cached value of the '{@link #getConflictResolution() <em>Conflict Resolution</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getConflictResolution()
-	 * @generated
-	 * @ordered
-	 */
-	protected PotentialDependency conflictResolution;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,8 +93,8 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @generated
 	 */
 	@Override
-	public PotentialConflictKind getPotentialConflictKind() {
-		return potentialConflictKind;
+	public PotentialConflictKind getKind() {
+		return kind;
 	}
 
 	/**
@@ -126,21 +103,11 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @generated
 	 */
 	@Override
-	public void setPotentialConflictKind(PotentialConflictKind newPotentialConflictKind) {
-		PotentialConflictKind oldPotentialConflictKind = potentialConflictKind;
-		potentialConflictKind = newPotentialConflictKind == null ? POTENTIAL_CONFLICT_KIND_EDEFAULT : newPotentialConflictKind;
+	public void setKind(PotentialConflictKind newKind) {
+		PotentialConflictKind oldKind = kind;
+		kind = newKind == null ? KIND_EDEFAULT : newKind;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND, oldPotentialConflictKind, potentialConflictKind));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public boolean isResolvable() {
-		return getConflictResolution() != null;
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__KIND, oldKind, kind));
 	}
 
 	/**
@@ -229,61 +196,16 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @generated
 	 */
 	@Override
-	public PotentialDependency getConflictResolution() {
-		if (conflictResolution != null && conflictResolution.eIsProxy()) {
-			InternalEObject oldConflictResolution = (InternalEObject)conflictResolution;
-			conflictResolution = (PotentialDependency)eResolveProxy(oldConflictResolution);
-			if (conflictResolution != oldConflictResolution) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION, oldConflictResolution, conflictResolution));
-			}
-		}
-		return conflictResolution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PotentialDependency basicGetConflictResolution() {
-		return conflictResolution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setConflictResolution(PotentialDependency newConflictResolution) {
-		PotentialDependency oldConflictResolution = conflictResolution;
-		conflictResolution = newConflictResolution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION, oldConflictResolution, conflictResolution));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
-				return getPotentialConflictKind();
-			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
-				return isResolvable();
+			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
+				return getKind();
 			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
 				if (resolve) return getSourceRule();
 				return basicGetSourceRule();
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				if (resolve) return getTargetRule();
 				return basicGetTargetRule();
-			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
-				if (resolve) return getConflictResolution();
-				return basicGetConflictResolution();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -296,17 +218,14 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
-				setPotentialConflictKind((PotentialConflictKind)newValue);
+			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
+				setKind((PotentialConflictKind)newValue);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
 				setSourceRule((EditRule)newValue);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				setTargetRule((EditRule)newValue);
-				return;
-			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
-				setConflictResolution((PotentialDependency)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -320,17 +239,14 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
-				setPotentialConflictKind(POTENTIAL_CONFLICT_KIND_EDEFAULT);
+			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
+				setKind(KIND_EDEFAULT);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
 				setSourceRule((EditRule)null);
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				setTargetRule((EditRule)null);
-				return;
-			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
-				setConflictResolution((PotentialDependency)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -344,16 +260,12 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RulebasePackage.POTENTIAL_CONFLICT__POTENTIAL_CONFLICT_KIND:
-				return potentialConflictKind != POTENTIAL_CONFLICT_KIND_EDEFAULT;
-			case RulebasePackage.POTENTIAL_CONFLICT__RESOLVABLE:
-				return isResolvable() != RESOLVABLE_EDEFAULT;
+			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
+				return kind != KIND_EDEFAULT;
 			case RulebasePackage.POTENTIAL_CONFLICT__SOURCE_RULE:
 				return sourceRule != null;
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				return targetRule != null;
-			case RulebasePackage.POTENTIAL_CONFLICT__CONFLICT_RESOLUTION:
-				return conflictResolution != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -368,8 +280,8 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (potentialConflictKind: ");
-		result.append(potentialConflictKind);
+		result.append(" (kind: ");
+		result.append(kind);
 		result.append(')');
 		return result.toString();
 	}

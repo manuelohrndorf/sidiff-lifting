@@ -32,6 +32,8 @@
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeUse"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/CreateForbid"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeForbid"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/CreateForbidDuplicate"/>
     </genEnums>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/key"/>
@@ -45,6 +47,7 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialNodeConflicts"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialEdgeConflicts"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialAttributeConflicts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialDanglingEdgeConflicts"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//EditRule">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/executeMainUnit"/>
@@ -103,11 +106,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRuleAttachment/editRule"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialConflict">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/potentialConflictKind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/resolvable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/kind"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/sourceRule"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/targetRule"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/conflictResolution"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/ruleBase"/>
@@ -125,6 +126,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/targetAttribute"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/sourceNode"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialAttributeConflict/targetNode"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//PotentialDanglingEdgeConflict">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/ruleBase"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/deletionNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/creationEdge"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

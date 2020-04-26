@@ -125,6 +125,15 @@ public interface RulebaseFactory extends EFactory {
 	PotentialAttributeConflict createPotentialAttributeConflict();
 
 	/**
+	 * Returns a new object of class '<em>Potential Dangling Edge Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Potential Dangling Edge Conflict</em>'.
+	 * @generated
+	 */
+	PotentialDanglingEdgeConflict createPotentialDanglingEdgeConflict();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -62,7 +62,7 @@ public interface PotentialEdgeConflict extends PotentialConflict {
 	 * @return the value of the '<em>Source Edge</em>' reference.
 	 * @see #setSourceEdge(Edge)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict_SourceEdge()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Edge getSourceEdge();
@@ -88,7 +88,7 @@ public interface PotentialEdgeConflict extends PotentialConflict {
 	 * @return the value of the '<em>Target Edge</em>' reference.
 	 * @see #setTargetEdge(Edge)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialEdgeConflict_TargetEdge()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Edge getTargetEdge();

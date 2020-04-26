@@ -13,11 +13,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getPotentialConflictKind <em>Potential Conflict Kind</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#isResolvable <em>Resolvable</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getTargetRule <em>Target Rule</em>}</li>
- *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getConflictResolution <em>Conflict Resolution</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict()
@@ -26,48 +24,29 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface PotentialConflict extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Potential Conflict Kind</b></em>' attribute.
+	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.sidiff.editrule.rulebase.PotentialConflictKind}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Potential Conflict Kind</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Potential Conflict Kind</em>' attribute.
+	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see org.sidiff.editrule.rulebase.PotentialConflictKind
-	 * @see #setPotentialConflictKind(PotentialConflictKind)
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_PotentialConflictKind()
+	 * @see #setKind(PotentialConflictKind)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_Kind()
 	 * @model required="true"
 	 * @generated
 	 */
-	PotentialConflictKind getPotentialConflictKind();
+	PotentialConflictKind getKind();
 
 	/**
-	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialConflict#getPotentialConflictKind <em>Potential Conflict Kind</em>}' attribute.
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialConflict#getKind <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Potential Conflict Kind</em>' attribute.
+	 * @param value the new value of the '<em>Kind</em>' attribute.
 	 * @see org.sidiff.editrule.rulebase.PotentialConflictKind
-	 * @see #getPotentialConflictKind()
+	 * @see #getKind()
 	 * @generated
 	 */
-	void setPotentialConflictKind(PotentialConflictKind value);
-
-	/**
-	 * Returns the value of the '<em><b>Resolvable</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resolvable</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Resolvable</em>' attribute.
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_Resolvable()
-	 * @model transient="true" changeable="false" volatile="true" derived="true"
-	 * @generated
-	 */
-	boolean isResolvable();
+	void setKind(PotentialConflictKind value);
 
 	/**
 	 * Returns the value of the '<em><b>Source Rule</b></em>' reference.
@@ -120,31 +99,5 @@ public interface PotentialConflict extends EObject {
 	 * @generated
 	 */
 	void setTargetRule(EditRule value);
-
-	/**
-	 * Returns the value of the '<em><b>Conflict Resolution</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Conflict Resolution</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Conflict Resolution</em>' reference.
-	 * @see #setConflictResolution(PotentialDependency)
-	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_ConflictResolution()
-	 * @model
-	 * @generated
-	 */
-	PotentialDependency getConflictResolution();
-
-	/**
-	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialConflict#getConflictResolution <em>Conflict Resolution</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Conflict Resolution</em>' reference.
-	 * @see #getConflictResolution()
-	 * @generated
-	 */
-	void setConflictResolution(PotentialDependency value);
 
 } // PotentialConflict

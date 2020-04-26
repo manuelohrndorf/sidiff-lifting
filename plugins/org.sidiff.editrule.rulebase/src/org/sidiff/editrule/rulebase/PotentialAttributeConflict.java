@@ -116,7 +116,7 @@ public interface PotentialAttributeConflict extends PotentialConflict {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source Node</em>' reference.
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_SourceNode()
-	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	Node getSourceNode();
@@ -131,7 +131,7 @@ public interface PotentialAttributeConflict extends PotentialConflict {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target Node</em>' reference.
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialAttributeConflict_TargetNode()
-	 * @model required="true" transient="true" changeable="false" volatile="true" derived="true"
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	Node getTargetNode();

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.PotentialConflict;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
 
@@ -19,6 +20,8 @@ public class PotentialRuleConflicts {
 
 	private Set<PotentialNodeConflict> potentialNodeConflicts = new HashSet<>();
 	private Set<PotentialEdgeConflict> potentialEdgeConflicts = new HashSet<>();
+	private Set<PotentialDanglingEdgeConflict> potentialDanglingEdgeConflicts = new HashSet<PotentialDanglingEdgeConflict>();
+
 	private Set<PotentialAttributeConflict> potentialAttributeConflicts = new HashSet<>();
 
 	public Set<PotentialNodeConflict> getPotentialNodeConflicts() {
@@ -54,6 +57,16 @@ public class PotentialRuleConflicts {
 	public void add(PotentialRuleConflicts deps) {
 		addAllPNCs(deps.getPotentialNodeConflicts());
 		addAllPECs(deps.getPotentialEdgeConflicts());
+		addAllPDECs(deps.getPotentialDanglingEdgeConflicts());
 		addAllPACs(deps.getPotentialAttributeConflicts());
+	}
+
+	public Set<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts() {
+		return potentialDanglingEdgeConflicts;
+	}
+
+	public void addAllPDECs(Set<PotentialDanglingEdgeConflict> createForbidDanglingEdgePotCons) {
+		potentialDanglingEdgeConflicts.addAll(potentialDanglingEdgeConflicts);
+		
 	}
 }

@@ -13,23 +13,23 @@ import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
-import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict;
 import org.sidiff.editrule.rulebase.RulebasePackage;
 
 /**
- * This is the item provider adapter for a {@link org.sidiff.editrule.rulebase.PotentialEdgeConflict} object.
+ * This is the item provider adapter for a {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProvider {
+public class PotentialDanglingEdgeConflictItemProvider extends PotentialConflictItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PotentialEdgeConflictItemProvider(AdapterFactory adapterFactory) {
+	public PotentialDanglingEdgeConflictItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -45,8 +45,8 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 			super.getPropertyDescriptors(object);
 
 			addRuleBasePropertyDescriptor(object);
-			addSourceEdgePropertyDescriptor(object);
-			addTargetEdgePropertyDescriptor(object);
+			addDeletionNodePropertyDescriptor(object);
+			addCreationEdgePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -62,9 +62,9 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialEdgeConflict_ruleBase_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_ruleBase_feature", "_UI_PotentialEdgeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__RULE_BASE,
+				 getString("_UI_PotentialDanglingEdgeConflict_ruleBase_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDanglingEdgeConflict_ruleBase_feature", "_UI_PotentialDanglingEdgeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE,
 				 true,
 				 false,
 				 true,
@@ -74,19 +74,19 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 	}
 
 	/**
-	 * This adds a property descriptor for the Source Edge feature.
+	 * This adds a property descriptor for the Deletion Node feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addSourceEdgePropertyDescriptor(Object object) {
+	protected void addDeletionNodePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialEdgeConflict_sourceEdge_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_sourceEdge_feature", "_UI_PotentialEdgeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__SOURCE_EDGE,
+				 getString("_UI_PotentialDanglingEdgeConflict_deletionNode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDanglingEdgeConflict_deletionNode_feature", "_UI_PotentialDanglingEdgeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_DANGLING_EDGE_CONFLICT__DELETION_NODE,
 				 true,
 				 false,
 				 true,
@@ -96,19 +96,19 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 	}
 
 	/**
-	 * This adds a property descriptor for the Target Edge feature.
+	 * This adds a property descriptor for the Creation Edge feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addTargetEdgePropertyDescriptor(Object object) {
+	protected void addCreationEdgePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_PotentialEdgeConflict_targetEdge_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialEdgeConflict_targetEdge_feature", "_UI_PotentialEdgeConflict_type"),
-				 RulebasePackage.Literals.POTENTIAL_EDGE_CONFLICT__TARGET_EDGE,
+				 getString("_UI_PotentialDanglingEdgeConflict_creationEdge_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDanglingEdgeConflict_creationEdge_feature", "_UI_PotentialDanglingEdgeConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_DANGLING_EDGE_CONFLICT__CREATION_EDGE,
 				 true,
 				 false,
 				 true,
@@ -118,14 +118,14 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 	}
 
 	/**
-	 * This returns PotentialEdgeConflict.gif.
+	 * This returns PotentialDanglingEdgeConflict.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/PotentialEdgeConflict"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PotentialDanglingEdgeConflict"));
 	}
 
 	/**
@@ -136,13 +136,13 @@ public class PotentialEdgeConflictItemProvider extends PotentialConflictItemProv
 	 */
 	@Override
 	public String getText(Object object) {
-		PotentialConflictKind labelValue = ((PotentialEdgeConflict)object).getKind();
+		PotentialConflictKind labelValue = ((PotentialDanglingEdgeConflict)object).getKind();
 		String label = labelValue == null ? null : labelValue.toString();
 		return label == null || label.length() == 0 ?
-			getString("_UI_PotentialEdgeConflict_type") :
-			getString("_UI_PotentialEdgeConflict_type") + " " + label;
+			getString("_UI_PotentialDanglingEdgeConflict_type") :
+			getString("_UI_PotentialDanglingEdgeConflict_type") + " " + label;
 	}
-	
+
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

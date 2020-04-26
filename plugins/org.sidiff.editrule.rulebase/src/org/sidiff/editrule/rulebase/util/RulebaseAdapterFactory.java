@@ -136,6 +136,10 @@ public class RulebaseAdapterFactory extends AdapterFactoryImpl {
 				return createPotentialAttributeConflictAdapter();
 			}
 			@Override
+			public Adapter casePotentialDanglingEdgeConflict(PotentialDanglingEdgeConflict object) {
+				return createPotentialDanglingEdgeConflictAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -348,6 +352,20 @@ public class RulebaseAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPotentialAttributeConflictAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict <em>Potential Dangling Edge Conflict</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict
+	 * @generated
+	 */
+	public Adapter createPotentialDanglingEdgeConflictAdapter() {
 		return null;
 	}
 

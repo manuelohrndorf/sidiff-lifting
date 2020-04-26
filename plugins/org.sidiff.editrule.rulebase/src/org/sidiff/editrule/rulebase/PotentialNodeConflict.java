@@ -62,7 +62,7 @@ public interface PotentialNodeConflict extends PotentialConflict {
 	 * @return the value of the '<em>Source Node</em>' reference.
 	 * @see #setSourceNode(Node)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict_SourceNode()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Node getSourceNode();
@@ -88,7 +88,7 @@ public interface PotentialNodeConflict extends PotentialConflict {
 	 * @return the value of the '<em>Target Node</em>' reference.
 	 * @see #setTargetNode(Node)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialNodeConflict_TargetNode()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Node getTargetNode();

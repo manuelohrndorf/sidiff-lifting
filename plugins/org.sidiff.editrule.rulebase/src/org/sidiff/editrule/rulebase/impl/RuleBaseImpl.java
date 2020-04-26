@@ -20,11 +20,13 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.EditRuleAttachment;
 import org.sidiff.editrule.rulebase.PotentialAttributeConflict;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeConflict;
@@ -52,6 +54,7 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getPotentialNodeConflicts <em>Potential Node Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getPotentialEdgeConflicts <em>Potential Edge Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getPotentialAttributeConflicts <em>Potential Attribute Conflicts</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.RuleBaseImpl#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}</li>
  * </ul>
  *
  * @generated
@@ -176,6 +179,16 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @ordered
 	 */
 	protected EList<PotentialAttributeConflict> potentialAttributeConflicts;
+
+	/**
+	 * The cached value of the '{@link #getPotentialDanglingEdgeConflicts() <em>Potential Dangling Edge Conflicts</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPotentialDanglingEdgeConflicts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<PotentialDanglingEdgeConflict> potentialDanglingEdgeConflicts;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -316,6 +329,19 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	 * @generated
 	 */
 	@Override
+	public EList<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts() {
+		if (potentialDanglingEdgeConflicts == null) {
+			potentialDanglingEdgeConflicts = new EObjectWithInverseResolvingEList<PotentialDanglingEdgeConflict>(PotentialDanglingEdgeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE);
+		}
+		return potentialDanglingEdgeConflicts;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EList<RuleBaseItem> getItems() {
 		if (items == null) {
 			items = new EObjectContainmentWithInverseEList<RuleBaseItem>(RuleBaseItem.class, this, RulebasePackage.RULE_BASE__ITEMS, RulebasePackage.RULE_BASE_ITEM__RULE_BASE);
@@ -401,6 +427,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPotentialEdgeConflicts()).basicAdd(otherEnd, msgs);
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPotentialAttributeConflicts()).basicAdd(otherEnd, msgs);
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPotentialDanglingEdgeConflicts()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -427,6 +455,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return ((InternalEList<?>)getPotentialEdgeConflicts()).basicRemove(otherEnd, msgs);
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				return ((InternalEList<?>)getPotentialAttributeConflicts()).basicRemove(otherEnd, msgs);
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				return ((InternalEList<?>)getPotentialDanglingEdgeConflicts()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -461,6 +491,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return getPotentialEdgeConflicts();
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				return getPotentialAttributeConflicts();
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				return getPotentialDanglingEdgeConflicts();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -512,6 +544,10 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				getPotentialAttributeConflicts().clear();
 				getPotentialAttributeConflicts().addAll((Collection<? extends PotentialAttributeConflict>)newValue);
 				return;
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				getPotentialDanglingEdgeConflicts().clear();
+				getPotentialDanglingEdgeConflicts().addAll((Collection<? extends PotentialDanglingEdgeConflict>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -554,6 +590,9 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				getPotentialAttributeConflicts().clear();
 				return;
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				getPotentialDanglingEdgeConflicts().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -588,6 +627,8 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 				return potentialEdgeConflicts != null && !potentialEdgeConflicts.isEmpty();
 			case RulebasePackage.RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS:
 				return potentialAttributeConflicts != null && !potentialAttributeConflicts.isEmpty();
+			case RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS:
+				return potentialDanglingEdgeConflicts != null && !potentialDanglingEdgeConflicts.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
