@@ -1,5 +1,7 @@
 package org.sidiff.difference.rulebase.util;
 
+import java.util.Objects;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -52,49 +54,42 @@ public class RecognitionRuleItemUtil {
 
 	public static EClass getRRType(RuleBaseItem item) {
 		// Get unit type of recognition main unit
-		return item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit().eClass();
+		return getRecognitionRule(item).getRecognitionMainUnit().eClass();
 	}
 
 	public static String getDisplayRRType(RuleBaseItem item) {
 		// Get unit type of recognition main unit
-		return EditRuleItemUtil.getUnitType(item.getEditRuleAttachment(RecognitionRule.class).getRecognitionMainUnit());
+		return EditRuleItemUtil.getUnitType(getRecognitionRule(item).getRecognitionMainUnit());
 	}
 
 	private static Attribute getSematicChangeSetPriority(RuleBaseItem item) {
-
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
 			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_Priority()) {
 				return attribute;
 			}
 		}
-
 		return null;
 	}
 
 	private static Attribute getSematicChangeSetRefinementLevel(RuleBaseItem item) {
-
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
 			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_RefinementLevel()) {
 				return attribute;
 			}
 		}
-
 		return null;
 	}
 
 	private static Attribute getSematicChangeSetNumberOfACs(RuleBaseItem item) {
-
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
 			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_NumberOfACs()) {
 				return attribute;
 			}
 		}
-
 		return null;
 	}
 
 	private static Attribute getSematicChangeSetNumberOfParams(RuleBaseItem item) {
-
 		for (Attribute attribute : getSematicChangeSet(item).getAttributes()) {
 			if (attribute.getType() == SymmetricPackage.eINSTANCE.getSemanticChangeSet_NumberOfParams()) {
 				return attribute;
@@ -105,7 +100,7 @@ public class RecognitionRuleItemUtil {
 	}
 
 	private static Node getSematicChangeSet(RuleBaseItem item) {
-		Module recognitionModule = item.getEditRuleAttachment(RecognitionRule.class).getRecognitionModule();
+		Module recognitionModule = getRecognitionRule(item).getRecognitionModule();
 		if(recognitionModule.eIsProxy()) {
 			throw new IllegalArgumentException("Recognition module is a proxy: " + EcoreUtil.getURI(recognitionModule));
 		}
@@ -117,7 +112,12 @@ public class RecognitionRuleItemUtil {
 				}
 			}
 		}
+		throw new IllegalArgumentException("No SemanticChangeSet-Node found for " + item);
+	}
 
-		return null;
+	private static RecognitionRule getRecognitionRule(RuleBaseItem item) {
+		return Objects.requireNonNull(
+				item.getEditRuleAttachment(RecognitionRule.class),
+				"No RecognitionRule attachment found for " + item);
 	}
 }
