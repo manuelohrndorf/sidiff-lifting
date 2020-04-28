@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 
@@ -33,16 +34,6 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  * @generated
  */
 public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl implements PotentialDanglingEdgeConflict {
-	/**
-	 * The cached value of the '{@link #getRuleBase() <em>Rule Base</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRuleBase()
-	 * @generated
-	 * @ordered
-	 */
-	protected RuleBase ruleBase;
-
 	/**
 	 * The cached value of the '{@link #getDeletionNode() <em>Deletion Node</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -89,24 +80,8 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	 */
 	@Override
 	public RuleBase getRuleBase() {
-		if (ruleBase != null && ruleBase.eIsProxy()) {
-			InternalEObject oldRuleBase = (InternalEObject)ruleBase;
-			ruleBase = (RuleBase)eResolveProxy(oldRuleBase);
-			if (ruleBase != oldRuleBase) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE, oldRuleBase, ruleBase));
-			}
-		}
-		return ruleBase;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public RuleBase basicGetRuleBase() {
-		return ruleBase;
+		if (eContainerFeatureID() != RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE) return null;
+		return (RuleBase)eInternalContainer();
 	}
 
 	/**
@@ -115,12 +90,7 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	 * @generated
 	 */
 	public NotificationChain basicSetRuleBase(RuleBase newRuleBase, NotificationChain msgs) {
-		RuleBase oldRuleBase = ruleBase;
-		ruleBase = newRuleBase;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE, oldRuleBase, newRuleBase);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+		msgs = eBasicSetContainer((InternalEObject)newRuleBase, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE, msgs);
 		return msgs;
 	}
 
@@ -131,10 +101,12 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	 */
 	@Override
 	public void setRuleBase(RuleBase newRuleBase) {
-		if (newRuleBase != ruleBase) {
+		if (newRuleBase != eInternalContainer() || (eContainerFeatureID() != RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE && newRuleBase != null)) {
+			if (EcoreUtil.isAncestor(this, newRuleBase))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (ruleBase != null)
-				msgs = ((InternalEObject)ruleBase).eInverseRemove(this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RuleBase.class, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
 			if (newRuleBase != null)
 				msgs = ((InternalEObject)newRuleBase).eInverseAdd(this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RuleBase.class, msgs);
 			msgs = basicSetRuleBase(newRuleBase, msgs);
@@ -233,8 +205,8 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE:
-				if (ruleBase != null)
-					msgs = ((InternalEObject)ruleBase).eInverseRemove(this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RuleBase.class, msgs);
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetRuleBase((RuleBase)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -260,11 +232,24 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE:
+				return eInternalContainer().eInverseRemove(this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RuleBase.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE:
-				if (resolve) return getRuleBase();
-				return basicGetRuleBase();
+				return getRuleBase();
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__DELETION_NODE:
 				if (resolve) return getDeletionNode();
 				return basicGetDeletionNode();
@@ -326,7 +311,7 @@ public class PotentialDanglingEdgeConflictImpl extends PotentialConflictImpl imp
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE:
-				return ruleBase != null;
+				return getRuleBase() != null;
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__DELETION_NODE:
 				return deletionNode != null;
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__CREATION_EDGE:

@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.EditRuleAttachment;
@@ -181,7 +180,7 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	protected EList<PotentialAttributeConflict> potentialAttributeConflicts;
 
 	/**
-	 * The cached value of the '{@link #getPotentialDanglingEdgeConflicts() <em>Potential Dangling Edge Conflicts</em>}' reference list.
+	 * The cached value of the '{@link #getPotentialDanglingEdgeConflicts() <em>Potential Dangling Edge Conflicts</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getPotentialDanglingEdgeConflicts()
@@ -331,7 +330,7 @@ public class RuleBaseImpl extends EObjectImpl implements RuleBase {
 	@Override
 	public EList<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts() {
 		if (potentialDanglingEdgeConflicts == null) {
-			potentialDanglingEdgeConflicts = new EObjectWithInverseResolvingEList<PotentialDanglingEdgeConflict>(PotentialDanglingEdgeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE);
+			potentialDanglingEdgeConflicts = new EObjectContainmentWithInverseEList<PotentialDanglingEdgeConflict>(PotentialDanglingEdgeConflict.class, this, RulebasePackage.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS, RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE);
 		}
 		return potentialDanglingEdgeConflicts;
 	}

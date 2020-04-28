@@ -190,7 +190,7 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS = 10;
 
 	/**
-	 * The feature id for the '<em><b>Potential Dangling Edge Conflicts</b></em>' reference list.
+	 * The feature id for the '<em><b>Potential Dangling Edge Conflicts</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1102,7 +1102,7 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DANGLING_EDGE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
 
 	/**
-	 * The feature id for the '<em><b>Rule Base</b></em>' reference.
+	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1257,10 +1257,10 @@ public interface RulebasePackage extends EPackage {
 	EReference getRuleBase_PotentialAttributeConflicts();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Potential Dangling Edge Conflicts</em>'.
+	 * @return the meta object for the containment reference list '<em>Potential Dangling Edge Conflicts</em>'.
 	 * @see org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts()
 	 * @see #getRuleBase()
 	 * @generated
@@ -2002,10 +2002,10 @@ public interface RulebasePackage extends EPackage {
 	EClass getPotentialDanglingEdgeConflict();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}'.
+	 * Returns the meta object for the container reference '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Rule Base</em>'.
+	 * @return the meta object for the container reference '<em>Rule Base</em>'.
 	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase()
 	 * @see #getPotentialDanglingEdgeConflict()
 	 * @generated
@@ -2155,7 +2155,7 @@ public interface RulebasePackage extends EPackage {
 		EReference RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS = eINSTANCE.getRuleBase_PotentialAttributeConflicts();
 
 		/**
-		 * The meta object literal for the '<em><b>Potential Dangling Edge Conflicts</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Potential Dangling Edge Conflicts</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2735,7 +2735,7 @@ public interface RulebasePackage extends EPackage {
 		EClass POTENTIAL_DANGLING_EDGE_CONFLICT = eINSTANCE.getPotentialDanglingEdgeConflict();
 
 		/**
-		 * The meta object literal for the '<em><b>Rule Base</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Rule Base</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

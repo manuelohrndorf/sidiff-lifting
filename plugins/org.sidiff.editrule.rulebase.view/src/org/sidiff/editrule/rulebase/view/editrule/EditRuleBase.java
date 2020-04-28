@@ -174,6 +174,14 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 				}
 				potConIndex.get(potCon.getSourceRule()).add(potCon);
 			}
+			
+			// Danglings
+			for(PotentialConflict potCon : getRuleBase().getPotentialDanglingEdgeConflicts()) {
+				if(!potConIndex.containsKey(potCon.getSourceRule())) {
+					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
+				}
+				potConIndex.get(potCon.getSourceRule()).add(potCon);
+			}
 		}
 
 		return potConIndex;

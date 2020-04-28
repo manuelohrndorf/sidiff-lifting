@@ -94,7 +94,7 @@ public class IntraRuleBasePotentialConflictAnalyzer extends PotentialConflictAna
 		rulebase.getPotentialNodeConflicts().addAll(potRuleConflicts.getPotentialNodeConflicts());
 		rulebase.getPotentialEdgeConflicts().addAll(potRuleConflicts.getPotentialEdgeConflicts());
 		rulebase.getPotentialAttributeConflicts().addAll(potRuleConflicts.getPotentialAttributeConflicts());
-
+		rulebase.getPotentialDanglingEdgeConflicts().addAll(potRuleConflicts.getPotentialDanglingEdgeConflicts());
 		return potRuleConflicts;
 	}
 }

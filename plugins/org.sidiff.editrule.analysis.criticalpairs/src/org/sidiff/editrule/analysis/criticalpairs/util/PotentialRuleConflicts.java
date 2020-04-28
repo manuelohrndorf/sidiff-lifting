@@ -37,7 +37,7 @@ public class PotentialRuleConflicts {
 	}
 
 	public Set<PotentialConflict> getPotentialConflicts() {
-		return Stream.of(potentialNodeConflicts, potentialEdgeConflicts, potentialAttributeConflicts)
+		return Stream.of(potentialNodeConflicts, potentialEdgeConflicts, potentialAttributeConflicts, potentialDanglingEdgeConflicts)
 			.flatMap(Collection::stream)
 			.collect(Collectors.toSet());
 	}
@@ -66,7 +66,7 @@ public class PotentialRuleConflicts {
 	}
 
 	public void addAllPDECs(Set<PotentialDanglingEdgeConflict> createForbidDanglingEdgePotCons) {
-		potentialDanglingEdgeConflicts.addAll(potentialDanglingEdgeConflicts);
+		potentialDanglingEdgeConflicts.addAll(createForbidDanglingEdgePotCons);
 		
 	}
 }

@@ -170,15 +170,15 @@ public interface RuleBase extends EObject {
 	EList<PotentialAttributeConflict> getPotentialAttributeConflicts();
 
 	/**
-	 * Returns the value of the '<em><b>Potential Dangling Edge Conflicts</b></em>' reference list.
+	 * Returns the value of the '<em><b>Potential Dangling Edge Conflicts</b></em>' containment reference list.
 	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict}.
 	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Potential Dangling Edge Conflicts</em>' reference list.
+	 * @return the value of the '<em>Potential Dangling Edge Conflicts</em>' containment reference list.
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialDanglingEdgeConflicts()
 	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase
-	 * @model opposite="ruleBase"
+	 * @model opposite="ruleBase" containment="true"
 	 * @generated
 	 */
 	EList<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts();

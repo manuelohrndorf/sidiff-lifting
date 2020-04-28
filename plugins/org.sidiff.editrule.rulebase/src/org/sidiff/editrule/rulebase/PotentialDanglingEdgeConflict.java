@@ -25,24 +25,24 @@ import org.eclipse.emf.henshin.model.Node;
  */
 public interface PotentialDanglingEdgeConflict extends PotentialConflict {
 	/**
-	 * Returns the value of the '<em><b>Rule Base</b></em>' reference.
+	 * Returns the value of the '<em><b>Rule Base</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rule Base</em>' reference.
+	 * @return the value of the '<em>Rule Base</em>' container reference.
 	 * @see #setRuleBase(RuleBase)
 	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDanglingEdgeConflict_RuleBase()
 	 * @see org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts
-	 * @model opposite="potentialDanglingEdgeConflicts"
+	 * @model opposite="potentialDanglingEdgeConflicts" transient="false"
 	 * @generated
 	 */
 	RuleBase getRuleBase();
 
 	/**
-	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}' reference.
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict#getRuleBase <em>Rule Base</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rule Base</em>' reference.
+	 * @param value the new value of the '<em>Rule Base</em>' container reference.
 	 * @see #getRuleBase()
 	 * @generated
 	 */

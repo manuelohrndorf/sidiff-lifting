@@ -768,7 +768,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Collection<Setting> settings = EcoreUtil.UsageCrossReferencer.find(deleteSuccessor.getType(),
 				deleteSuccessor.getType().eResource());
 		for (Setting setting : settings) {
-			if (setting.getEStructuralFeature() == createPredecessor.getType()) {
+			if (setting.getEObject() == createPredecessor.getType()) {
 				if (deleteSuccessor.getIncoming(createPredecessor.getType()).isEmpty()) {
 					return true;
 				}
