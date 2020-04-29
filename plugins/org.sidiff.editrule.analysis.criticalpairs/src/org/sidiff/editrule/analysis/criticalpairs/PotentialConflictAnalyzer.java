@@ -89,8 +89,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Set<Node> successorRequireNodes = new HashSet<Node>(successor.getRequireNodes());
 		Set<Node> successorForbidNodes = new HashSet<Node>(successor.getForbidNodes());
 
-		Set<Node> successorUseNodes = new HashSet<Node>(successorDeleteNodes);
-		successorUseNodes.addAll(successorPreseveNodes);
+		Set<Node> successorUseNodes = new HashSet<Node>(successorPreseveNodes);
 		successorUseNodes.addAll(successorRequireNodes);
 
 		// Get edges
@@ -104,8 +103,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Set<Edge> successorRequireEdges = new HashSet<Edge>(successor.getRequireEdges());
 		Set<Edge> successorForbidEdges = new HashSet<Edge>(successor.getForbidEdges());
 
-		Set<Edge> successorUseEdges = new HashSet<Edge>(successorDeleteEdges);
-		successorUseEdges.addAll(successorPreserveEdges);
+		Set<Edge> successorUseEdges = new HashSet<Edge>(successorPreserveEdges);
 		successorUseEdges.addAll(successorRequireEdges);
 
 		// Get attributes
@@ -143,8 +141,20 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 * Search node conflicts
 		 */
 
+		// Delete-Delete ((partial) duplicates)
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
+			Set<PotentialNodeConflict> deleteDeleteNodePotCons = findDeleteDeleteConflicts(predecessorDeleteNodes,
+					successorDeleteNodes);
+
+			for (PotentialNodeConflict pnc : deleteDeleteNodePotCons) {
+				pnc.setSourceRule(predecessorEditRule);
+				pnc.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPNCs(deleteDeleteNodePotCons);
+		}
+				
 		// Delete-Use
-		if ((!predecessorDeleteNodes.isEmpty()) && (!successorUseNodes.isEmpty())) {
+		if ((!predecessorDeleteNodes.isEmpty()) && (!successorDeleteNodes.isEmpty())) {
 			Set<PotentialNodeConflict> deleteUseNodePotCons = findDeleteUseConflicts(predecessorDeleteNodes,
 					successorUseNodes);
 
@@ -155,7 +165,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			potRuleCon.addAllPNCs(deleteUseNodePotCons);
 		}
 
-		// Create-Forbid (create-create) ((partial) duplicates)
+		// Create-Create ((partial) duplicates)
 		if ((!predecessorCreateNodes.isEmpty()) && (!successorCreateNodes.isEmpty())) {
 			Set<PotentialNodeConflict> createCreateNodePotCons = findCreateCreateConflicts(predecessorCreateNodes,
 					successorCreateNodes);
@@ -182,6 +192,17 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 * Search edge conflicts
 		 */
 
+		// Delete-Delete ((partial) duplicates)
+		if((!predecessorDeleteEdges.isEmpty()) && !successorDeleteEdges.isEmpty()) {
+			Set<PotentialEdgeConflict> deleteDeleteEdgePotCons = findDeleteDeleteConflicts(predecessorDeleteEdges,
+					successorDeleteEdges, potRuleCon);
+			for (PotentialEdgeConflict pec : deleteDeleteEdgePotCons) {
+				pec.setSourceRule(predecessorEditRule);
+				pec.setTargetRule(successorEditRule);
+			}
+			potRuleCon.addAllPECs(deleteDeleteEdgePotCons);
+		}
+		
 		// Delete-Use
 		if ((!predecessorDeleteEdges.isEmpty()) && (!successorUseEdges.isEmpty())) {
 			Set<PotentialEdgeConflict> deleteUseEdgePotCons = findDeleteUseConflicts(predecessorDeleteEdges,
@@ -194,7 +215,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			potRuleCon.addAllPECs(deleteUseEdgePotCons);
 		}
 
-		// Create-Forbid (create-create) ((partial) duplicates)
+		// Create-Create ((partial) duplicates)
 		if ((!predecessorCreateEdges.isEmpty()) && (!successorCreateEdges.isEmpty())) {
 			Set<PotentialEdgeConflict> createCreateEdgePotConcs = findCreateCreateConflicts(predecessorCreateEdges,
 					successorCreateEdges, potRuleCon);
@@ -327,11 +348,62 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 */
 
 	/**
+	 * Checks all nodes for Delete-Delete conflicts.
+	 * 
+	 * @param deletePredecessors Nodes on LHS only (<<delete>>).
+	 * @param deleteSuccessors   Nodes on LHS only (<<delete>>).
+	 * 
+	 * @return All potential Delete-Delete node conflicts.
+	 */
+	protected Set<PotentialNodeConflict> findDeleteDeleteConflicts(Collection<Node> deletePredecessors,
+			Collection<Node> deleteSuccessors) {
+
+		Set<PotentialNodeConflict> potCons = new HashSet<>();
+		for (Node predecessorNode : deletePredecessors) {
+			for (Node successorNode : deleteSuccessors) {
+				if (isDeleteDeleteConflict(predecessorNode, successorNode)) {
+					// delete-delete conflict found
+					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
+					potCon.setSourceNode(predecessorNode);
+					potCon.setTargetNode(successorNode);
+					potCon.setKind(PotentialConflictKind.DELETE_DELETE);
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks two nodes for a Delete-Delete conflict.
+	 * 
+	 * @param deletePredecessor Node is on LHS (<<delete>>).
+	 * @param deleteSuccessor   Node is on LHS (<<delete>>).
+	 * 
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
+	 */
+	protected boolean isDeleteDeleteConflict(Node deletePredecessor, Node deleteSuccessor) {
+
+		assert (isDeletionNode(deletePredecessor)) : "Input Assertion Failed: Must be a deletion node!";
+		assert (isDeletionNode(deleteSuccessor)) : "Input Assertion Failed: Must be a deletion node!";
+
+		/*
+		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types ==
+		 * Delete-Node-Type
+		 */
+
+		boolean superType = deletePredecessor.getType().getEAllSuperTypes().contains(deleteSuccessor.getType());
+		boolean directType = deletePredecessor.getType() == deleteSuccessor.getType();
+		boolean subType = getSubTypeIndex().getSubTypes(deletePredecessor.getType()).contains(deleteSuccessor.getType());
+		return directType || superType || subType;
+	}
+	
+	/**
 	 * Checks all nodes for Delete-Use conflicts.
 	 * 
 	 * @param deletePredecessors Nodes on LHS only (<<delete>>).
-	 * @param useSuccessors      Nodes on LHS or LHS and RHS or PAC (<<delete>> or
-	 *                           <<preserve>> or <<require>>).
+	 * @param useSuccessors      Nodes on LHS and RHS or PAC (<<preserve>> or <<require>>).
 	 * 
 	 * @return All potential Delete-Use node conflicts.
 	 */
@@ -358,8 +430,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 * Checks two nodes for a Delete-Use conflict.
 	 * 
 	 * @param deletePredecessor Node is on LHS (<<delete>>).
-	 * @param useSuccessor      Node is LHS or LHS and RHS or PAC (<<delete>> or
-	 *                          <<preserve>> or <<require>>).
+	 * @param useSuccessor      Node is on LHS and RHS or PAC (<<preserve>> or <<require>>).
 	 * 
 	 * @return <code>true</code> if there is a conflict; <code>false</code>
 	 *         otherwise.
@@ -367,8 +438,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	protected boolean isDeleteUseConflict(Node deletePredecessor, Node useSuccessor) {
 
 		assert (isDeletionNode(deletePredecessor)) : "Input Assertion Failed: Must be a deletion node!";
-		assert (isDeletionNode(useSuccessor) || isPreservedNode(useSuccessor) || isRequireNode(
-				useSuccessor)) : "Input Assertion Failed: Must be a deletion, preserved or required node!";
+		assert (isPreservedNode(useSuccessor) || isRequireNode(
+				useSuccessor)) : "Input Assertion Failed: Must be a preserved or required node!";
 
 		/*
 		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types ==
@@ -402,8 +473,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode);
-//					potCon.setPotentialConflictKind(PotentialConflictKind.CREATE_FORBID_DUPLICATE);
-					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setKind(PotentialConflictKind.CREATE_CREATE);
 					potCons.add(potCon);
 				}
 			}
@@ -497,11 +567,85 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 */
 
 	/**
+	 * Checks all edges for Delete-Delete conflicts.
+	 * 
+	 * @param deletePredecessors Edges on LHS only (<<delete>>).
+	 * @param deleteSuccessors      Edges on LHS only (<<delete>>).
+	 * @param potRuleCon         potential conflicts
+	 * 
+	 * @return All potential Delete-use edge conflicts.
+	 */
+	protected Set<PotentialEdgeConflict> findDeleteDeleteConflicts(Collection<Edge> deletePredecessors,
+			Collection<Edge> deleteSuccessors, PotentialRuleConflicts potRuleCon) {
+
+		Set<PotentialEdgeConflict> potCons = new HashSet<>();
+		for (Edge predecessorEdge : deletePredecessors) {
+			for (Edge successorEdge : deleteSuccessors) {
+				if (isDeleteDeleteConflict(predecessorEdge, successorEdge, potRuleCon)) {
+					// Delete-Delete dependence found
+					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
+					potCon.setSourceEdge(successorEdge);
+					potCon.setTargetEdge(predecessorEdge);
+					potCon.setKind(PotentialConflictKind.DELETE_DELETE);
+					potCons.add(potCon);
+				}
+			}
+		}
+		return potCons;
+	}
+	
+	/**
+	 * Checks two edges for a Delete-Delete conflict.
+	 * 
+	 * @param deletePredecessor Edge is on LHS only (<<delete>>)
+	 * @param deleteSuccessor      Edge is on LHS only (<<delete>>).
+	 * @param potRuleCon        potential conflicts
+	 * 
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
+	 */
+	protected boolean isDeleteDeleteConflict(Edge deletePredecessor, Edge deleteSuccessor,
+			PotentialRuleConflicts potRuleCon) {
+
+		assert (isDeletionEdge(deletePredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
+		assert (isDeletionEdge(deleteSuccessor)) : "Input Assertion Failed: Must be a deletion!";
+
+		if (deletePredecessor.getType() != deleteSuccessor.getType()) {
+			return false;
+		}
+
+		Node deletePredecessorSrc = deletePredecessor.getSource();
+		Node deletePredecessorTgt = deletePredecessor.getTarget();
+		Node useSuccesorSrc = deleteSuccessor.getSource();
+		Node useSuccesorTgt = deleteSuccessor.getTarget();
+
+		// Src
+		boolean srcOK = false;
+		if (isDeletionNode(deletePredecessorSrc)) {
+			srcOK = hasPotentialNodeConflict(potRuleCon, deletePredecessorSrc, useSuccesorSrc);
+		} else {
+			assert isPreservedNode(deletePredecessorSrc) : "<< preserve >> predecessor source node expected!";
+			srcOK = true;
+		}
+
+		// Tgt
+		boolean tgtOK = false;
+		if (isDeletionNode(deletePredecessorTgt)) {
+			tgtOK = hasPotentialNodeConflict(potRuleCon, deletePredecessorTgt, useSuccesorTgt);
+		} else {
+			assert isPreservedNode(deletePredecessorTgt) : "<< preserve >> predecessor target node expected!";
+			tgtOK = true;
+		}
+
+		// Tgt & Src
+		return srcOK && tgtOK;
+	}
+	
+	/**
 	 * Checks all edges for Delete-Use conflicts.
 	 * 
 	 * @param deletePredecessors Edges on LHS only (<<delete>>).
-	 * @param useSuccessors      Edges on LHS or LHS and RHS or PAC (<<delete>> or
-	 *                           <<preserver>> or <<require>>).
+	 * @param useSuccessors      Edges on LHS and RHS or PAC (<<preserver>> or <<require>>).
 	 * @param potRuleCon         potential conflicts
 	 * 
 	 * @return All potential Delete-use edge conflicts.
@@ -529,8 +673,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 * Checks two edges for a Delete-Use conflict.
 	 * 
 	 * @param deletePredecessor Edge is on LHS only (<<delete>>)
-	 * @param useSuccessor      Edge is on LHS or LHS and RHS or PAC (<<delete>> or
-	 *                          <<preserve>> or <<require>>).
+	 * @param useSuccessor      Edge is on LHS and RHS or PAC (<<preserve>> or <<require>>).
 	 * @param potRuleCon        potential conflicts
 	 * 
 	 * @return <code>true</code> if there is a conflict; <code>false</code>
@@ -540,8 +683,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			PotentialRuleConflicts potRuleCon) {
 
 		assert (isDeletionEdge(deletePredecessor)) : "Input Assertion Failed: Must be a deletion edge!";
-		assert (isDeletionEdge(useSuccessor) || isPreservedEdge(useSuccessor) || isRequireEdge(
-				useSuccessor)) : "Input Assertion Failed: Must be a deletion, preserved or required edge!";
+		assert (isPreservedEdge(useSuccessor) || isRequireEdge(
+				useSuccessor)) : "Input Assertion Failed: Must be a preserved or required edge!";
 
 		if (deletePredecessor.getType() != useSuccessor.getType()) {
 			return false;
