@@ -1347,6 +1347,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.DELETE_FORBID);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CHANGE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CHANGE_FORBID);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CREATE_DELETE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.DELETE_CREATE);
 
 		initEEnum(parameterDirectionEEnum, ParameterDirection.class, "ParameterDirection");
 		addEEnumLiteral(parameterDirectionEEnum, ParameterDirection.IN);
@@ -1362,7 +1364,8 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_FORBID);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_FORBID);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_CHANGE);
-		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_FORBID_DUPLICATE);
+		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_CREATE);
+		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.DELETE_DELETE);
 
 		// Create resource
 		createResource(eNS_URI);

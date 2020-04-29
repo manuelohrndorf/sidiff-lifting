@@ -65,14 +65,22 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @ordered
 	 */
 	CHANGE_CHANGE(4, "ChangeChange", "ChangeChange"), /**
-	 * The '<em><b>Create Forbid Duplicate</b></em>' literal object.
+	 * The '<em><b>Create Create</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #CREATE_FORBID_DUPLICATE_VALUE
+	 * @see #CREATE_CREATE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	CREATE_FORBID_DUPLICATE(5, "CreateForbidDuplicate", "CreateForbidDuplicate");
+	CREATE_CREATE(5, "CreateCreate", "CreateCreate"), /**
+	 * The '<em><b>Delete Delete</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_DELETE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DELETE_DELETE(6, "DeleteDelete", "DeleteDelete");
 
 	/**
 	 * The '<em><b>Delete Use</b></em>' literal value.
@@ -150,15 +158,26 @@ public enum PotentialConflictKind implements Enumerator {
 	public static final int CHANGE_CHANGE_VALUE = 4;
 
 	/**
-	 * The '<em><b>Create Forbid Duplicate</b></em>' literal value.
+	 * The '<em><b>Create Create</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #CREATE_FORBID_DUPLICATE
-	 * @model name="CreateForbidDuplicate"
+	 * @see #CREATE_CREATE
+	 * @model name="CreateCreate"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CREATE_FORBID_DUPLICATE_VALUE = 5;
+	public static final int CREATE_CREATE_VALUE = 5;
+
+	/**
+	 * The '<em><b>Delete Delete</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_DELETE
+	 * @model name="DeleteDelete"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DELETE_DELETE_VALUE = 6;
 
 	/**
 	 * An array of all the '<em><b>Potential Conflict Kind</b></em>' enumerators.
@@ -173,7 +192,8 @@ public enum PotentialConflictKind implements Enumerator {
 			CREATE_FORBID,
 			CHANGE_FORBID,
 			CHANGE_CHANGE,
-			CREATE_FORBID_DUPLICATE,
+			CREATE_CREATE,
+			DELETE_DELETE,
 		};
 
 	/**
@@ -235,7 +255,8 @@ public enum PotentialConflictKind implements Enumerator {
 			case CREATE_FORBID_VALUE: return CREATE_FORBID;
 			case CHANGE_FORBID_VALUE: return CHANGE_FORBID;
 			case CHANGE_CHANGE_VALUE: return CHANGE_CHANGE;
-			case CREATE_FORBID_DUPLICATE_VALUE: return CREATE_FORBID_DUPLICATE;
+			case CREATE_CREATE_VALUE: return CREATE_CREATE;
+			case DELETE_DELETE_VALUE: return DELETE_DELETE;
 		}
 		return null;
 	}

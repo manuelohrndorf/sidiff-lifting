@@ -92,7 +92,23 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHANGE_FORBID(7, "ChangeForbid", "ChangeForbid");
+	CHANGE_FORBID(7, "ChangeForbid", "ChangeForbid"), /**
+	 * The '<em><b>Create Delete</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CREATE_DELETE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CREATE_DELETE(8, "CreateDelete", "CreateDelete"), /**
+	 * The '<em><b>Delete Create</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_CREATE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DELETE_CREATE(9, "DeleteCreate", "DeleteCreate");
 
 	/**
 	 * The '<em><b>Use Delete</b></em>' literal value.
@@ -215,6 +231,28 @@ public enum PotentialDependencyKind implements Enumerator {
 	public static final int CHANGE_FORBID_VALUE = 7;
 
 	/**
+	 * The '<em><b>Create Delete</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CREATE_DELETE
+	 * @model name="CreateDelete"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CREATE_DELETE_VALUE = 8;
+
+	/**
+	 * The '<em><b>Delete Create</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_CREATE
+	 * @model name="DeleteCreate"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DELETE_CREATE_VALUE = 9;
+
+	/**
 	 * An array of all the '<em><b>Potential Dependency Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -230,6 +268,8 @@ public enum PotentialDependencyKind implements Enumerator {
 			DELETE_FORBID,
 			FORBID_CHANGE,
 			CHANGE_FORBID,
+			CREATE_DELETE,
+			DELETE_CREATE,
 		};
 
 	/**
@@ -294,6 +334,8 @@ public enum PotentialDependencyKind implements Enumerator {
 			case DELETE_FORBID_VALUE: return DELETE_FORBID;
 			case FORBID_CHANGE_VALUE: return FORBID_CHANGE;
 			case CHANGE_FORBID_VALUE: return CHANGE_FORBID;
+			case CREATE_DELETE_VALUE: return CREATE_DELETE;
+			case DELETE_CREATE_VALUE: return DELETE_CREATE;
 		}
 		return null;
 	}
