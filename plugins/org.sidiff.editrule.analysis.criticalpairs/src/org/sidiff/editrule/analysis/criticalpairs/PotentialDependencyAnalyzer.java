@@ -2,6 +2,9 @@ package org.sidiff.editrule.analysis.criticalpairs;
 
 import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
 import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getCreationAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getDeletionAttributes;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isChangingAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isCreationNode;
@@ -22,11 +25,9 @@ import static org.sidiff.editrule.analysis.conditions.EditRuleConditionsConfigur
 import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelA;
 import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEffects.isPreservedNodeSearchedInModelB;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ import org.sidiff.editrule.rulebase.PotentialNodeDependency;
  * Calculates all potential dependencies between two rules. This algorithm isn't
  * optimal in the sense that it may reports more potential dependencies than necessary.
  *
- * @author Manuel Ohrndorf, cpietsch
+ * @author Manuel Ohrndorf
  */
 public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 
@@ -105,55 +106,65 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		 */
 
 		// Get nodes
-		List<NodePair> predecessorPreserveNodes = predecessor.getPreserveNodes();
-		List<Node> predecessorCreateNodes = predecessor.getCreateNodes();
-		List<Node> predecessorDeleteNodes = predecessor.getDeleteNodes();
+		Collection<NodePair> predecessorPreserveNodes = predecessor.getPreserveNodes();
+		Collection<Node> predecessorCreateNodes = predecessor.getCreateNodes();
+		Collection<Node> predecessorDeleteNodes = predecessor.getDeleteNodes();
 
-		List<NodePair> successorPreserveNodes = successor.getPreserveNodes();
-		List<Node> successorCreateNodes = successor.getCreateNodes();
-		List<Node> successorDeleteNodes = successor.getDeleteNodes();
+		Collection<NodePair> successorPreserveNodes = successor.getPreserveNodes();
+		Collection<Node> successorCreateNodes = successor.getCreateNodes();
+		Collection<Node> successorDeleteNodes = successor.getDeleteNodes();
 
 		// Get <<forbid>> nodes
-		List<Node> predecessorForbidNodes  = predecessor.getForbidNodes();
-		List<Node> successorForbidNodes = successor.getForbidNodes();
+		Collection<Node> predecessorForbidNodes  = predecessor.getForbidNodes();
+		Collection<Node> successorForbidNodes = successor.getForbidNodes();
 
 		// Get <<require>> nodes
-		List<Node> predecessorRequireNodes = predecessor.getRequireNodes();
-		List<Node> successorRequireNodes = successor.getRequireNodes();
+		Collection<Node> predecessorRequireNodes = predecessor.getRequireNodes();
+		Collection<Node> successorRequireNodes = successor.getRequireNodes();
 
 		// Get edges
-		List<EdgePair> predecessorPreserveEdges = predecessor.getPreserveEdges();
-		List<Edge> predecessorCreateEdges = predecessor.getCreateEdges();
-		List<Edge> predecessorDeleteEdges = predecessor.getDeleteEdges();
-		List<EdgePair> successorPreserveEdges = successor.getPreserveEdges();
-		List<Edge> successorCreateEdges = successor.getCreateEdges();
-		List<Edge> successorDeleteEdges = successor.getDeleteEdges();
+		Collection<EdgePair> predecessorPreserveEdges = predecessor.getPreserveEdges();
+		Collection<Edge> predecessorCreateEdges = predecessor.getCreateEdges();
+		Collection<Edge> predecessorDeleteEdges = predecessor.getDeleteEdges();
+		Collection<EdgePair> successorPreserveEdges = successor.getPreserveEdges();
+		Collection<Edge> successorCreateEdges = successor.getCreateEdges();
+		Collection<Edge> successorDeleteEdges = successor.getDeleteEdges();
 
 		// Get <<forbid>> edges
-		List<Edge> predecessorForbidEdges  = predecessor.getForbidEdges();
-		List<Edge> successorForbidEdges = successor.getForbidEdges();
+		Collection<Edge> predecessorForbidEdges  = predecessor.getForbidEdges();
+		Collection<Edge> successorForbidEdges = successor.getForbidEdges();
 
 		// Get <<require>> edges
-		List<Edge> predecessorRequireEdges = predecessor.getRequireEdges();
-		List<Edge> successorRequireEdges = successor.getRequireEdges();
+		Collection<Edge> predecessorRequireEdges = predecessor.getRequireEdges();
+		Collection<Edge> successorRequireEdges = successor.getRequireEdges();
 
 		// Get attributes
-		List<Attribute> predecessorChangingAttributes = new ArrayList<>(predecessor.getSetAttributes());
-		predecessorChangingAttributes.addAll(predecessor.getChangeAttributes().stream()
-				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
-		List<Attribute> predecessorUsingAttributes = predecessor.getPreserveAttributes();
-		List<Attribute> successorChangingAttributes = new ArrayList<>(successor.getSetAttributes());
-		successorChangingAttributes.addAll(successor.getChangeAttributes().stream()
-				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toList()));
-		List<Attribute> successorUsingAttributes = successor.getPreserveAttributes(); 
-
-		// Get <<forbid>> attributes
-		List<Attribute> predecessorForbidAttributes = predecessor.getForbidAttributes();
-		List<Attribute> successorForbidAttributes = successor.getForbidAttributes();
-
-		// Get <<require>> attributes
-		List<Attribute> predecessorRequireAttributes = predecessor.getRequireAttributes();
-		List<Attribute> successorRequireAttributes = successor.getRequireAttributes();
+		Collection<Attribute> predecessorCreateAttributes = getCreationAttributes(predecessor.getRule());
+		Collection<Attribute> predecessorSetAttributes = predecessor.getSetAttributes();
+		Collection<Attribute> predecessorChangeAttributes = predecessor.getChangeAttributes().stream()
+				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
+		Collection<Attribute> predecessorPreserveAttributes = predecessor.getPreserveAttributes();
+		Collection<Attribute> predecessorRequireAttributes = predecessor.getRequireAttributes();
+		Collection<Attribute> predecessorForbidAttributes = predecessor.getForbidAttributes();
+		Collection<Attribute> predecessorSetChangeAttributes = new HashSet<Attribute>(predecessorSetAttributes);
+		predecessorSetChangeAttributes.addAll(predecessorChangeAttributes);
+		Collection<Attribute> predecessorUseAttributes = new HashSet<Attribute>(predecessorChangeAttributes);
+		predecessorUseAttributes.addAll(predecessorPreserveAttributes);
+		predecessorUseAttributes.addAll(predecessorRequireAttributes);
+		
+		Collection<Attribute> successorDeleteAttributes = getDeletionAttributes(successor.getRule());
+		Collection<Attribute> successorSetAttributes = successor.getSetAttributes();
+		Collection<Attribute> successorChangeAttributes = successor.getChangeAttributes().stream()
+				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
+		Collection<Attribute> successorPreserveAttributes = successor.getPreserveAttributes();
+		Collection<Attribute> successorRequireAttributes = successor.getRequireAttributes();
+		Collection<Attribute> successorForbidAttributes = successor.getForbidAttributes();
+		Collection<Attribute> successorSetChangeAttributes = new HashSet<Attribute>(successorSetAttributes);
+		successorSetChangeAttributes.addAll(successorChangeAttributes);
+		Collection<Attribute> successorUseAttributes = new HashSet<Attribute>(successorDeleteAttributes);
+		successorUseAttributes.addAll(successorChangeAttributes);
+		successorUseAttributes.addAll(successorPreserveAttributes);
+		successorUseAttributes.addAll(successorRequireAttributes);
 
 		/*
 		 *  Find all potential dependencies - if the predecessor rule is applied first
@@ -174,48 +185,53 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 			}
 			potRuleDep.addAllPNDs(pnds);
 		};
-
-		// Use-Delete
-		if (!predecessorPreserveNodes.isEmpty() && !successorDeleteNodes.isEmpty()) {
-			pndConsumer.accept(findUseDeletes_Node(predecessorPreserveNodes, successorDeleteNodes));
-		}
-
-		// Use-Delete (PAC)
-		if (!predecessorRequireNodes.isEmpty() && !successorDeleteNodes.isEmpty()) {
-			pndConsumer.accept(findUseDeletes_Node_PAC(predecessorRequireNodes, successorDeleteNodes));
-		}
+		
 
 		if(!predecessorCreateNodes.isEmpty()) {
-			// Create-Use
-			if (!successorPreserveNodes.isEmpty()) {
-				pndConsumer.accept(findCreateUses_Node(predecessorCreateNodes, successorPreserveNodes));
-			}
-
 			// Create-Delete
 			if (!successorDeleteNodes.isEmpty()) {
-				pndConsumer.accept(findCreateDelete_Node(predecessorCreateNodes, successorDeleteNodes));
+				pndConsumer.accept(findeCreateDeleteNodeDependencies(predecessorCreateNodes, successorDeleteNodes));
 			}
-
-			// Create-Use (PAC)
+			// Create-Use
+			if (!successorPreserveNodes.isEmpty()) {
+				pndConsumer.accept(findCreateUseNodeDependencies(predecessorCreateNodes, successorPreserveNodes));
+			}
+			// Create-Require
 			if (!successorRequireNodes.isEmpty()) {
-				pndConsumer.accept(findCreateUses_Node_PAC(predecessorCreateNodes, successorRequireNodes));
+				pndConsumer.accept(findCreateRequireNodeDependencies(predecessorCreateNodes, successorRequireNodes));
+			}
+		}
+		
+
+		if(!predecessorDeleteNodes.isEmpty()) {
+			// Delete-Create
+			if(!successorCreateNodes.isEmpty()) {
+				pndConsumer.accept(findDeleteCreateNodeDependencies(predecessorDeleteNodes, successorDeleteNodes));
+			}
+			// Delete-Forbid 
+			if (!successorForbidNodes.isEmpty()) {
+				pndConsumer.accept(findDeleteForbidNodeDependencies(predecessorDeleteNodes, successorForbidNodes));
+			}
+			
+		}
+
+		
+		if(!successorDeleteNodes.isEmpty()) {
+			// Use-Delete
+			if (!predecessorPreserveNodes.isEmpty()) {
+				pndConsumer.accept(findUseDeleteNodeDependencies(predecessorPreserveNodes, successorDeleteNodes));
+			}
+			// Require-Delete
+			if (!predecessorRequireNodes.isEmpty()) {
+				pndConsumer.accept(findRequireDeleteNodeDependencies(predecessorRequireNodes, successorDeleteNodes));
 			}
 		}
 
 		// Forbid-Create
-		if (!predecessorForbidNodes.isEmpty() && !successorCreateNodes.isEmpty()) {
-			pndConsumer.accept(findForbidCreates_Node(predecessorForbidNodes, successorCreateNodes));
+		if(!predecessorForbidNodes.isEmpty() && !successorCreateNodes.isEmpty()) {
+			pndConsumer.accept(findForbidCreateNodeDependencies(predecessorForbidNodes, successorCreateNodes));
 		}
 
-		// Delete-Forbid
-		if (!predecessorDeleteNodes.isEmpty() && !successorForbidNodes.isEmpty()) {
-			pndConsumer.accept(findDeleteForbids_Node(predecessorDeleteNodes, successorForbidNodes));
-		}
-
-		// Delete-Create
-		if(!predecessorDeleteNodes.isEmpty() && !successorCreateNodes.isEmpty()) {
-			pndConsumer.accept(findDeleteCreate_Node(predecessorDeleteNodes, successorCreateNodes));
-		}
 
 		/*
 		 * Search edge dependencies
@@ -229,46 +245,52 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 			potRuleDep.addAllPEDs(peds);
 		};
 
-		// Use-Delete
-		if (!predecessorPreserveEdges.isEmpty() && !successorDeleteEdges.isEmpty()) {
-			pedConsumer.accept(findUseDeletes_Edge(predecessorPreserveEdges, successorDeleteEdges, potRuleDep));
-		}
-
-		// Use-Delete (PAC)
-		if (!predecessorRequireEdges.isEmpty() && !successorDeleteEdges.isEmpty()) {
-			pedConsumer.accept(findUseDeletes_Edge_PAC(predecessorRequireEdges, successorDeleteEdges, potRuleDep));
-		}
+	
 
 		if(!predecessorCreateEdges.isEmpty()) {
-			// Create-Use
-			if (!successorPreserveEdges.isEmpty()) {
-				pedConsumer.accept(findCreateUses_Edge(predecessorCreateEdges, successorPreserveEdges, potRuleDep));
-			}
-			
 			// Create-Delete
 			if (!successorDeleteEdges.isEmpty()) {
-				pedConsumer.accept(findCreateDelete_Edge(predecessorCreateEdges, successorDeleteEdges, potRuleDep));
+				pedConsumer.accept(
+						findCreateDeleteEdgeDependencies(predecessorCreateEdges, successorDeleteEdges, potRuleDep));
 			}
-			
+			// Create-Use
+			if (!successorPreserveEdges.isEmpty()) {
+				pedConsumer.accept(findCreateUseEdgeDependencies(predecessorCreateEdges, successorPreserveEdges, potRuleDep));
+			}
 			// Create-Use (PAC)
 			if (!successorRequireEdges.isEmpty()) {
-				pedConsumer.accept(findCreateUses_Edge_PAC(predecessorCreateEdges, successorRequireEdges, potRuleDep));
+				pedConsumer.accept(findCreateRequireEdgeDependencies(predecessorCreateEdges, successorRequireEdges, potRuleDep));
+			}
+		}
+		
+		if(!predecessorDeleteEdges.isEmpty()) {
+			// Delete-Create
+			if(!successorCreateEdges.isEmpty()) {
+				pedConsumer.accept(findDeleteCreateEdgeDependencies(predecessorDeleteEdges, successorCreateEdges, potRuleDep));
+			}
+			
+			// Delete-Forbid
+			if (!successorForbidEdges.isEmpty()) {
+				pedConsumer.accept(findDeleteForbidEdgeDependencies(predecessorDeleteEdges, successorForbidEdges, potRuleDep));
 			}
 		}
 
+		if (!successorDeleteEdges.isEmpty()) {
+			// Use-Delete
+			if (!predecessorPreserveEdges.isEmpty()) {
+				pedConsumer.accept(
+						findUseDeleteEdgeDependencies(predecessorPreserveEdges, successorDeleteEdges, potRuleDep));
+			}
+			// Use-Delete (PAC)
+			if (!predecessorRequireEdges.isEmpty()) {
+				pedConsumer.accept(
+						findRequireDeleteEdgeDependencies(predecessorRequireEdges, successorDeleteEdges, potRuleDep));
+			}
+		}
+		
 		// Forbid-Create
 		if (!predecessorForbidEdges.isEmpty() && !successorCreateEdges.isEmpty()) {
-			pedConsumer.accept(findForbidCreates_Edge(predecessorForbidEdges, successorCreateEdges, potRuleDep));
-		}
-
-		// Delete-Forbid
-		if (!predecessorDeleteEdges.isEmpty() && !successorForbidEdges.isEmpty()) {
-			pedConsumer.accept(findDeleteForbids_Edge(predecessorDeleteEdges, successorForbidEdges, potRuleDep));
-		}
-
-		// Delete-Create
-		if(!predecessorDeleteEdges.isEmpty() && !successorCreateEdges.isEmpty()) {
-			pedConsumer.accept(findDeleteCreate_Edge(predecessorDeleteEdges, successorCreateEdges, potRuleDep));
+			pedConsumer.accept(findForbidCreateEdgeDependencies(predecessorForbidEdges, successorCreateEdges, potRuleDep));
 		}
 
 		/*
@@ -283,37 +305,36 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 			potRuleDep.addAllPADs(pads);
 		};
 
-		if(!predecessorChangingAttributes.isEmpty()) {
+		// Create-Use
+		if(!predecessorCreateAttributes.isEmpty() && !successorUseAttributes.isEmpty()) {
+			padConsumer.accept(findCreateUseAttributeDependency(predecessorCreateAttributes, successorUseAttributes));
+		}
+		
+		if(!predecessorSetChangeAttributes.isEmpty()) {
 			// Change-Use
-			if (!successorUsingAttributes.isEmpty()) {
-				padConsumer.accept(findChangeUses_Attribute(predecessorChangingAttributes, successorUsingAttributes));
-			}
-			
-			// Change-Use (PAC)
-			if (!successorRequireAttributes.isEmpty()) {
-				padConsumer.accept(findChangeUses_Attribute(predecessorChangingAttributes, successorRequireAttributes));
+			if (!successorUseAttributes.isEmpty()) {
+				padConsumer.accept(findChangeUseAttributeDependency(predecessorSetChangeAttributes, successorUseAttributes));
 			}
 			
 			// Change-Forbid
 			if (!successorForbidAttributes.isEmpty()) {
-				padConsumer.accept(findChangeForbids_Attribute(predecessorChangingAttributes, successorForbidAttributes));
+				padConsumer.accept(findChangeForbidAttributeDependencies(predecessorChangeAttributes, successorForbidAttributes));
 			}
+		}
 
+		if(!successorChangeAttributes.isEmpty()) {
 			// Forbid-Change
 			if (!predecessorForbidAttributes.isEmpty()) {
-				padConsumer.accept(findForbidChanges_Attribute(predecessorForbidAttributes, predecessorChangingAttributes));
+				padConsumer.accept(
+						findForbidChangeAttributeDependencies(predecessorForbidAttributes, successorChangeAttributes));
+			}
+			
+			// Use-Change
+			if (!predecessorUseAttributes.isEmpty()) {
+				padConsumer.accept(findUseChangeAttributeDependencies(predecessorUseAttributes, successorChangeAttributes));
 			}
 		}
 
-		// Use-Change
-		if (!predecessorUsingAttributes.isEmpty() && !successorChangingAttributes.isEmpty()) {
-			padConsumer.accept(findUseChanges_Attribute(predecessorUsingAttributes, successorChangingAttributes));
-		}
-
-		// Use-Change (PAC)
-		if (!predecessorRequireAttributes.isEmpty() && !successorChangingAttributes.isEmpty()) {
-			padConsumer.accept(findUseChanges_Attribute(predecessorRequireAttributes, successorChangingAttributes));
-		}
 
 		return potRuleDep;
 	}
@@ -323,24 +344,20 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 */
 
 	/**
-	 * 
 	 * Checks all nodes for Create-Delete dependencies.
-	 * 
-	 * @param predecessorCreateNodes
-	 *            Node on RHS only (<< create >>).
-	 * @param successorDeleteNodes
-	 *            Nodes on LHS only (<< delete >>).
-	 * @return All potential dependencies.
+	 * @param createPredecessors Node on RHS only (<< create >>).
+	 * @param deleteSuccessors  Nodes on LHS only (<< delete >>).
+	 * @return All potential Create-Delete dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findCreateDelete_Node(
-			Collection<Node> predecessorCreateNodes,
-			Collection<Node> successorDeleteNodes) {
+	protected Set<PotentialNodeDependency> findeCreateDeleteNodeDependencies(
+			Collection<Node> createPredecessors,
+			Collection<Node> deleteSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
-		for (Node successorNode : successorDeleteNodes) {
-			for (Node predecessorNode : predecessorCreateNodes) {
+		for (Node successorNode : deleteSuccessors) {
+			for (Node predecessorNode : createPredecessors) {
 				if (isCreateDeleteDependency(predecessorNode, successorNode)) {
-					// Create-Delete dependence found
+					// Create-Use dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
 					potDep.setSourceNode(successorNode);
 					potDep.setTargetNode(predecessorNode);
@@ -356,21 +373,21 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two nodes for a Create-Delete dependency.
 	 * 
-	 * @param predecessorCreateNode
+	 * @param createPredecessor
 	 *            Node is on RHS only (<< create >>).
-	 * @param successorDeleteNode
+	 * @param deleteSuccessor
 	 *            Node is on LHS only (<< delete >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isCreateDeleteDependency(Node predecessorCreateNode, Node successorDeleteNode) {
-		assert (isCreationNode(predecessorCreateNode)) : "Input Assertion Failed!";
-		assert (isDeletionNode(successorDeleteNode)) : "Input Assertion Failed!";
+	protected boolean isCreateDeleteDependency(Node createPredecessor, Node deleteSuccessor) {
+		assert (isCreationNode(createPredecessor)) : "Input Assertion failed: creation node expected!";
+		assert (isDeletionNode(deleteSuccessor)): "Input Assertion failed: deletion node expected!";
 		/*
 		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Preserve-Node-Type
 		 */
 
-		boolean superType = predecessorCreateNode.getType().getEAllSuperTypes().contains(successorDeleteNode.getType());
-		boolean directType = predecessorCreateNode.getType() == successorDeleteNode.getType();
+		boolean superType = createPredecessor.getType().getEAllSuperTypes().contains(deleteSuccessor.getType());
+		boolean directType = createPredecessor.getType() == deleteSuccessor.getType();
 
 		return directType || superType;
 	}
@@ -378,17 +395,17 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all nodes for Create-Use dependencies.
 	 * 
-	 * @param rhsPredecessors
+	 * @param createPredecessors
 	 *            Nodes on RHS only (<< create >>).
-	 * @param successors
+	 * @param preservedSuccessors
 	 *            Edges on LHS and RHS (<< preserve >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findCreateUses_Node(
-			Collection<Node> rhsPredecessors, Collection<NodePair> successors) {
+	protected Set<PotentialNodeDependency> findCreateUseNodeDependencies(
+			Collection<Node> createPredecessors, Collection<NodePair> preservedSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
-		for (NodePair successorNode : successors) {
+		for (NodePair successorNode : preservedSuccessors) {
 			
 			// Is transient potential dependences?
 			boolean isTransient;
@@ -409,7 +426,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Node predecessorNode : rhsPredecessors) {
+			for (Node predecessorNode : createPredecessors) {
 				if (isCreateUseDependency(predecessorNode, successorNode)) {
 					// Create-Use dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
@@ -427,22 +444,22 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two nodes for a Create-Use dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param createPredecessor
 	 *            Node is on RHS only (<< create >>).
-	 * @param successor
+	 * @param preservedSuccessor
 	 *            Node is on LHS and RHS (<< preserve >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isCreateUseDependency(Node rhsPredecessor, NodePair successor) {
+	protected boolean isCreateUseDependency(Node createPredecessor, NodePair preservedSuccessor) {
 
-		assert (isCreationNode(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isCreationNode(createPredecessor)) : "Input Assertion failed: creation node expected!";
 		
 		/*
 		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Preserve-Node-Type
 		 */
 
-		boolean superType = rhsPredecessor.getType().getEAllSuperTypes().contains(successor.getType());
-		boolean directType = rhsPredecessor.getType() == successor.getType();
+		boolean superType = createPredecessor.getType().getEAllSuperTypes().contains(preservedSuccessor.getType());
+		boolean directType = createPredecessor.getType() == preservedSuccessor.getType();
 
 		return directType || superType;
 	}
@@ -450,14 +467,14 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all nodes for Create-Use dependencies.
 	 * 
-	 * @param rhsPredecessors
+	 * @param createPredecessors
 	 *            Nodes on RHS only (<< create >>).
 	 * @param requireSuccessors
 	 *            Edges from PACs (<< require >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findCreateUses_Node_PAC(
-			Collection<Node> rhsPredecessors,
+	protected Set<PotentialNodeDependency> findCreateRequireNodeDependencies(
+			Collection<Node> createPredecessors,
 			Collection<Node> requireSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
@@ -481,8 +498,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 			
-			for (Node predecessorNode : rhsPredecessors) {
-				if (isCreateUseDependency_PAC(predecessorNode, successorNode)) {
+			for (Node predecessorNode : createPredecessors) {
+				if (isCreateRequireDependency(predecessorNode, successorNode)) {
 					// Create-Use dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
 					potDep.setSourceNode(successorNode);
@@ -499,23 +516,23 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two nodes for a Create-Use dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param createPredecessor
 	 *            Node is on RHS only (<< create >>).
 	 * @param requireSuccessor
 	 *            Node is in PAC (<< require >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isCreateUseDependency_PAC(Node rhsPredecessor, Node requireSuccessor) {
+	protected boolean isCreateRequireDependency(Node createPredecessor, Node requireSuccessor) {
 
-		assert (isCreationNode(rhsPredecessor)) : "Input Assertion Failed!";
-		assert (isRequireNode(requireSuccessor)) : "Input Assertion Failed!";
+		assert (isCreationNode(createPredecessor)) : "Input Assertion failed: creation node expected!";
+		assert (isRequireNode(requireSuccessor)) : "Input Assertion failed: require node expected!";
 		
 		/*
 		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Require-Node-Type
 		 */
 
-		boolean superType = rhsPredecessor.getType().getEAllSuperTypes().contains(requireSuccessor.getType());
-		boolean directType = rhsPredecessor.getType() == requireSuccessor.getType();
+		boolean superType = createPredecessor.getType().getEAllSuperTypes().contains(requireSuccessor.getType());
+		boolean directType = createPredecessor.getType() == requireSuccessor.getType();
 
 		return directType || superType;
 	}
@@ -523,20 +540,20 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all nodes for Delete-Create dependencies. Note, that is no real dependency but needed to detect potential (partial) transient effects.
 	 * 
-	 * @param predecessorDeleteNodes
+	 * @param deletePredecessors
 	 *            Nodes on LHS only (<< delete >>).
-	 * @param successorsCreateNodes
+	 * @param createSuccessors
 	 *            Edges on RHS only (<< create >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findDeleteCreate_Node(
-			Collection<Node> predecessorDeleteNodes, 
-			Collection<Node> successorsCreateNodes) {
+	protected Set<PotentialNodeDependency> findDeleteCreateNodeDependencies(
+			Collection<Node> deletePredecessors, 
+			Collection<Node> createSuccessors) {
 		
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
-		for (Node successorNode : successorsCreateNodes) {
+		for (Node successorNode : createSuccessors) {
 
-			for (Node predecessorNode : predecessorDeleteNodes) {
+			for (Node predecessorNode : deletePredecessors) {
 				if (isDeleteCreateDependency(predecessorNode, successorNode)) {
 					// Change-Forbid dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
@@ -554,38 +571,39 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two nodes for a Delete-Create dependency. Note, that is no real dependency but needed to detect potential (partial) transient effects.
 	 * 
-	 * @param predecessorDeleteNode
+	 * @param deletePredecessor
 	 *            Node is on LHS only (<< delete >>).
-	 * @param successorCreateNode
+	 * @param createSuccessor
 	 *            Node is on RHS only (<< create >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isDeleteCreateDependency(Node predecessorDeleteNode, Node successorCreateNode) {
+	protected boolean isDeleteCreateDependency(Node deletePredecessor, Node createSuccessor) {
 
-		assert (isDeletionNode(predecessorDeleteNode)) : "Input Assertion Failed!";
-		assert (isCreationNode(successorCreateNode)) : "Input Assertion Failed!";
+		assert (isDeletionNode(deletePredecessor)) : "Input Assertion failed: deletion node expected!";
+		assert (isCreationNode(createSuccessor)) : "Input Assertion Failed: creation node expected!";
 		
 		/*
 		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Require-Node-Type
 		 */
 
-		boolean superType = predecessorDeleteNode.getType().getEAllSuperTypes().contains(successorCreateNode.getType());
-		boolean directType = predecessorDeleteNode.getType() == successorCreateNode.getType();
+		boolean superType = deletePredecessor.getType().getEAllSuperTypes().contains(createSuccessor.getType());
+		boolean directType = deletePredecessor.getType() == createSuccessor.getType();
 
 		return directType || superType;
 	}
 	
+	
 	/**
 	 * Checks all nodes for Delete-Forbid dependencies.
 	 * 
-	 * @param lhsPredecessors
+	 * @param deletePredecessors
 	 *            Nodes on LHS only (<< delete >>).
 	 * @param forbidSuccessors
 	 *            Edges from NACs (<< forbid >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findDeleteForbids_Node(
-			Collection<Node> lhsPredecessors, 
+	protected Set<PotentialNodeDependency> findDeleteForbidNodeDependencies(
+			Collection<Node> deletePredecessors, 
 			Collection<Node> forbidSuccessors) {
 		
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
@@ -609,7 +627,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Node predecessorNode : lhsPredecessors) {
+			for (Node predecessorNode : deletePredecessors) {
 				if (isDeleteForbidDependency(predecessorNode, successorNode)) {
 					// Change-Forbid dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
@@ -627,35 +645,35 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two nodes for a Delete-Forbid dependency.
 	 * 
-	 * @param lhsPredecessor
+	 * @param deletePredecessor
 	 *            Node is on LHS only (<< delete >>).
 	 * @param forbidSuccessor
 	 *            Node is a NAC (<< forbid >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isDeleteForbidDependency(Node lhsPredecessor, Node forbidSuccessor) {
+	protected boolean isDeleteForbidDependency(Node deletePredecessor, Node forbidSuccessor) {
 		
-		assert (isDeletionNode(lhsPredecessor)) : "Input Assertion Failed!";
-		assert (isForbiddenNode(forbidSuccessor)) : "Input Assertion Failed!";
+		assert (isDeletionNode(deletePredecessor)) : "Input Assertion failed: deletion node expected!";
+		assert (isForbiddenNode(forbidSuccessor)) : "Input Assertion failed: forbidden node expected!";
 		
-		return assignable(lhsPredecessor.getType(), forbidSuccessor.getType());
+		return assignable(deletePredecessor.getType(), forbidSuccessor.getType());
 	}
 	
 	/**
 	 * Checks all nodes for Use-Delete dependencies.
 	 * 
-	 * @param predecessors
+	 * @param preservePredecessors
 	 *            Edges on LHS and RHS (<< preserve >>).
-	 * @param lhsSuccessors
+	 * @param deleteSuccessors
 	 *            Nodes on LHS only (<< delete >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findUseDeletes_Node(
-			Collection<NodePair> predecessors, Collection<Node> lhsSuccessors) {
+	protected Set<PotentialNodeDependency> findUseDeleteNodeDependencies(
+			Collection<NodePair> preservePredecessors, Collection<Node> deleteSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 
-		for (NodePair predecessorNode : predecessors) {
+		for (NodePair predecessorNode : preservePredecessors) {
 			
 			// Is transient potential dependences?
 			boolean isTransient;
@@ -676,7 +694,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 			
-			for (Node successorNode : lhsSuccessors) {
+			for (Node successorNode : deleteSuccessors) {
 				
 				if (isUseDeleteDependency(predecessorNode, successorNode)) {
 					// Delete-Use dependence found
@@ -705,7 +723,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 */
 	protected boolean isUseDeleteDependency(NodePair predecessor, Node lhsSuccessor) {
 		
-		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion Failed!";
+		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion failed: deletion node expected!";
 		
 		// a rule creating an edge connected to a node that is deleted cannot be in dependency
 		if(predecessor.getRhsNode().getAllEdges().stream().anyMatch(e -> HenshinRuleAnalysisUtilEx.isCreationEdge(e))) {
@@ -728,12 +746,12 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param requirePredecessors
 	 *            Edges from PACs (<< require >>).
-	 * @param lhsSuccessors
+	 * @param deleteSuccessors
 	 *            Nodes on LHS only (<< delete >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findUseDeletes_Node_PAC(
-			Collection<Node> requirePredecessors, Collection<Node> lhsSuccessors) {
+	protected Set<PotentialNodeDependency> findRequireDeleteNodeDependencies(
+			Collection<Node> requirePredecessors, Collection<Node> deleteSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 
@@ -758,8 +776,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 			
-			for (Node successorNode : lhsSuccessors) {
-				if (isUseDeleteDependency_PAC(predecessorNode, successorNode)) {
+			for (Node successorNode : deleteSuccessors) {
+				if (isRequireDeleteDependency(predecessorNode, successorNode)) {
 					// Delete-Use dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
 
@@ -780,39 +798,38 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param requirePredecessor
 	 *            Node is in PAC (<< require >>).
-	 * @param lhsSuccessor
+	 * @param deleteSuccessor
 	 *            Node is on LHS only (<< delete >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isUseDeleteDependency_PAC(Node requirePredecessor, Node lhsSuccessor) {
+	protected boolean isRequireDeleteDependency(Node requirePredecessor, Node deleteSuccessor) {
 		
-		assert(isRequireNode(requirePredecessor)) : "Input Assertion Failed!";
-		assert(isDeletionNode(lhsSuccessor)) : "Input Assertion Failed!";
+		assert(isRequireNode(requirePredecessor)) : "Input Assertion failed: required node expected!";
+		assert(isDeletionNode(deleteSuccessor)) : "Input Assertion failed: deletion node expected!";
 		
 		/*
 		 * Preserve-Node-Type + Preserve-Node-Sub-Types + Preserve-Node-Super-Types == Delete-Node-Type
 		 */
 
-		boolean superType = requirePredecessor.getType().getEAllSuperTypes().contains(lhsSuccessor.getType());
-		boolean directType = requirePredecessor.getType() == lhsSuccessor.getType();
-		boolean subType = getSubTypeIndex().getSubTypes(requirePredecessor.getType()).contains(lhsSuccessor.getType());
+		boolean superType = requirePredecessor.getType().getEAllSuperTypes().contains(deleteSuccessor.getType());
+		boolean directType = requirePredecessor.getType() == deleteSuccessor.getType();
+		boolean subType = getSubTypeIndex().getSubTypes(requirePredecessor.getType()).contains(deleteSuccessor.getType());
 		
 		return directType || superType || subType;
 	}
-
 	
 	/**
 	 * Checks all nodes for Forbid-Create dependencies.
 	 * 
 	 * @param forbidPredecessors
 	 *            Edges from NACs (<< forbid >>).
-	 * @param rhsSuccessors
+	 * @param createSuccessors
 	 *            Nodes on RHS only (<< create >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialNodeDependency> findForbidCreates_Node(
+	protected Set<PotentialNodeDependency> findForbidCreateNodeDependencies(
 			Collection<Node> forbidPredecessors, 
-			Collection<Node> rhsSuccessors) {
+			Collection<Node> createSuccessors) {
 
 		Set<PotentialNodeDependency> potDeps = new HashSet<>();
 		for (Node predecessorNode : forbidPredecessors) {
@@ -835,7 +852,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Node successorNode : rhsSuccessors) {
+			for (Node successorNode : createSuccessors) {
 				if (isForbidCreateDependency(predecessorNode, successorNode)) {
 					// Change-Forbid dependence found
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
@@ -855,21 +872,21 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param forbidPredecessor
 	 *            Node is a NAC (<< forbid >>).
-	 * @param rhsSuccessor
+	 * @param createSuccessor
 	 *            Node is on RHS only (<< create >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isForbidCreateDependency(Node forbidPredecessor, Node rhsSuccessor) {
+	protected boolean isForbidCreateDependency(Node forbidPredecessor, Node createSuccessor) {
 		
-		assert (isForbiddenNode(forbidPredecessor)) : "Input Assertion Failed!";
-		assert (isCreationNode(rhsSuccessor)) : "Input Assertion Failed!";
+		assert (isForbiddenNode(forbidPredecessor)) : "Input Assertion failed: forbidden node expected!";
+		assert (isCreationNode(createSuccessor)) : "Input Assertion failed: creation node expected!";
 
 		/*
 		 * Create-Node-Type + Create-Node-Sub-Types + Create-Node-Super-Types == Forbid-Node-Type
 		 */
 
-		boolean superType = rhsSuccessor.getType().getEAllSuperTypes().contains(forbidPredecessor.getType());
-		boolean directType = rhsSuccessor.getType() == forbidPredecessor.getType();
+		boolean superType = createSuccessor.getType().getEAllSuperTypes().contains(forbidPredecessor.getType());
+		boolean directType = createSuccessor.getType() == forbidPredecessor.getType();
 
 		if (directType || superType) {
 			return true;
@@ -878,38 +895,33 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		return false;
 	}
 	
+
 	
 	/*
 	 * Edges
 	 */
 
 	/**
-	 * Checks all edges for Create-Delete dependencies.
 	 * 
-	 * @param predecessorCreateEdges
-	 *            Edges on RHS only (<< create >>).
-	 * @param successorDeleteEdges
-	 *            Edges on LHS only (<< delete >>).
+	 * @param createPredecessors
+	 * @param deleteSuccessors
 	 * @param potRuleDep
-	 *            List of potential node dependencies. Contains at least all
-	 *            potential node dependencies of the predecessor and successor
-	 *            source and target nodes.
-	 * @return All potential dependencies.
+	 * @return
 	 */
-	protected Set<PotentialEdgeDependency> findCreateDelete_Edge(
-			Collection<Edge> predecessorCreateEdges,
-			Collection<Edge> successorDeleteEdges,
+	protected Set<PotentialEdgeDependency> findCreateDeleteEdgeDependencies(
+			Collection<Edge> createPredecessors,
+			Collection<Edge> deleteSuccessors,
 			PotentialRuleDependencies potRuleDep) {
 
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
-		for (Edge rhsPredecessorEdge : predecessorCreateEdges) {
-			for (Edge successorEdge : successorDeleteEdges) {
+		for (Edge rhsPredecessorEdge : createPredecessors) {
+			for (Edge successorEdge : deleteSuccessors) {
 				if (isCreateDeleteDependency(rhsPredecessorEdge, successorEdge, potRuleDep)) {
-					// Create-Delete dependence found
+					// Create-Use dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 					potDep.setSourceEdge(successorEdge);
 					potDep.setTargetEdge(rhsPredecessorEdge);
-					potDep.setKind(PotentialDependencyKind.CREATE_DELETE);
+					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(true);
 					potDeps.add(potDep);
 				}
@@ -918,34 +930,22 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		return potDeps;
 	}
 	
-	/**
-	 * Checks two edges for a Create-Delete dependency.
-	 * 
-	 * @param predecessorCreateEdge
-	 *            Edge is on RHS only (<< create >>).
-	 * @param successorDeleteEdge
-	 *            Edge is on LHS only (<< delete >>).
-	 * @param potRuleDep
-	 *            List of potential node dependencies. Contains at least all
-	 *            potential node dependencies of the predecessor and successor
-	 *            source and target nodes.
-	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-	 */
 	protected boolean isCreateDeleteDependency(
-			Edge predecessorCreateEdge,
-			Edge successorDeleteEdge,
+			Edge createPredecessor,
+			Edge deleteSuccessor,
 			PotentialRuleDependencies potRuleDep) {
 
-		assert (isCreationEdge(predecessorCreateEdge)) : "Input Assertion Failed!";
-
-		if (predecessorCreateEdge.getType() != successorDeleteEdge.getType()) {
+		assert (isCreationEdge(createPredecessor)) : "Input Assertion failed: creation edge expected!";
+		assert (isDeletionEdge(deleteSuccessor)) : "Input Assertion failed: deletion edge expected!";
+		
+		if (createPredecessor.getType() != deleteSuccessor.getType()) {
 			return false;
 		}
 
-		Node predecessorSrc = predecessorCreateEdge.getSource();
-		Node predecessorTgt = predecessorCreateEdge.getTarget();
-		Node succesorSrc = successorDeleteEdge.getSource();
-		Node succesorTgt = successorDeleteEdge.getTarget();
+		Node predecessorSrc = createPredecessor.getSource();
+		Node predecessorTgt = createPredecessor.getTarget();
+		Node succesorSrc = deleteSuccessor.getSource();
+		Node succesorTgt = deleteSuccessor.getTarget();
 
 		// Src
 		boolean srcOK = false;
@@ -972,9 +972,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all edges for Create-Use dependencies.
 	 * 
-	 * @param rhsPredecessors
+	 * @param createPredecessors
 	 *            Edges on RHS only (<< create >>).
-	 * @param successors
+	 * @param preserveSuccessors
 	 *            Edges on LHS and RHS (<< preserved >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -982,13 +982,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findCreateUses_Edge(
-			List<Edge> rhsPredecessors,
-			List<EdgePair> successors,
+	protected Set<PotentialEdgeDependency> findCreateUseEdgeDependencies(
+			Collection<Edge> createPredecessors,
+			Collection<EdgePair> preserveSuccessors,
 			PotentialRuleDependencies potRuleDep) {
 
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
-		for (Edge rhsPredecessorEdge : rhsPredecessors) {
+		for (Edge rhsPredecessorEdge : createPredecessors) {
 			
 			// Is transient potential dependences?
 			boolean isTransient;
@@ -1008,7 +1008,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (EdgePair successorEdge : successors) {
+			for (EdgePair successorEdge : preserveSuccessors) {
 				if (isCreateUseDependency(rhsPredecessorEdge, successorEdge, potRuleDep)) {
 					// Create-Use dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
@@ -1022,13 +1022,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		}
 		return potDeps;
 	}
-	
+
 	/**
 	 * Checks two edges for a Create-Use dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param createPredecessor
 	 *            Edge is on RHS only (<< create >>).
-	 * @param successor
+	 * @param preserveSuccessor
 	 *            Edge is on LHS and RHS (<< preserve >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1036,19 +1036,19 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isCreateUseDependency(Edge rhsPredecessor, EdgePair successor, 
+	protected boolean isCreateUseDependency(Edge createPredecessor, EdgePair preserveSuccessor, 
 			PotentialRuleDependencies potRuleDep) {
 
-		assert (isCreationEdge(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isCreationEdge(createPredecessor)) : "Input Assertion failed: creation edge expected!";
 
-		if (rhsPredecessor.getType() != successor.getType()) {
+		if (createPredecessor.getType() != preserveSuccessor.getType()) {
 			return false;
 		}
 
-		Node predecessorSrc = rhsPredecessor.getSource();
-		Node predecessorTgt = rhsPredecessor.getTarget();
-		Node succesorSrc = successor.getLhsEdge().getSource();
-		Node succesorTgt = successor.getLhsEdge().getTarget();
+		Node predecessorSrc = createPredecessor.getSource();
+		Node predecessorTgt = createPredecessor.getTarget();
+		Node succesorSrc = preserveSuccessor.getLhsEdge().getSource();
+		Node succesorTgt = preserveSuccessor.getLhsEdge().getTarget();
 
 		// Src
 		boolean srcOK = false;
@@ -1075,7 +1075,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all edges for Create-Use dependencies.
 	 * 
-	 * @param rhsPredecessors
+	 * @param createPredecessors
 	 *            Edges on RHS only (<< create >>).
 	 * @param requireSuccessors
 	 *            Edges from PACs (<< require >>).
@@ -1085,9 +1085,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findCreateUses_Edge_PAC(
-			List<Edge> rhsPredecessors,
-			List<Edge> requireSuccessors,
+	protected Set<PotentialEdgeDependency> findCreateRequireEdgeDependencies(
+			Collection<Edge> createPredecessors,
+			Collection<Edge> requireSuccessors,
 			PotentialRuleDependencies potRuleDep) {
 
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
@@ -1111,8 +1111,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Edge rhsPredecessorEdge : rhsPredecessors) {
-				if (isCreateUseDependency_PAC(rhsPredecessorEdge, successorEdge, potRuleDep)) {
+			for (Edge rhsPredecessorEdge : createPredecessors) {
+				if (isCreateRequireDependency(rhsPredecessorEdge, successorEdge, potRuleDep)) {
 					// Create-Use dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 					potDep.setSourceEdge(successorEdge);
@@ -1129,7 +1129,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two edges for a Create-Use dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param createPredecessor
 	 *            Edge is on RHS only (<< create >>).
 	 * @param requireSuccessor
 	 *            Edge is in PAC (<< require >>).
@@ -1139,18 +1139,18 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isCreateUseDependency_PAC(Edge rhsPredecessor, Edge requireSuccessor, 
+	protected boolean isCreateRequireDependency(Edge createPredecessor, Edge requireSuccessor, 
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert (isCreationEdge(rhsPredecessor)) : "Input Assertion Failed!";
+		assert (isCreationEdge(createPredecessor)) : "Input Assertion Failed!";
 		assert (isRequireEdge(requireSuccessor)) : "Input Assertion Failed!";
 
-		if (rhsPredecessor.getType() != requireSuccessor.getType()) {
+		if (createPredecessor.getType() != requireSuccessor.getType()) {
 			return false;
 		}
 
-		Node predecessorSrc = rhsPredecessor.getSource();
-		Node predecessorTgt = rhsPredecessor.getTarget();
+		Node predecessorSrc = createPredecessor.getSource();
+		Node predecessorTgt = createPredecessor.getTarget();
 		Node succesorSrc = requireSuccessor.getSource();
 		Node succesorTgt = requireSuccessor.getTarget();
 
@@ -1179,9 +1179,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all edges for Delete-Create dependencies. Note, that is no real dependency but needed to detect potential (partial) transient effects.
 	 * 
-	 * @param predecessorDeleteEdges
+	 * @param deletePredecessors
 	 *            Edges on LHS only (<< delete >>).
-	 * @param successorsCreateEdges
+	 * @param createSuccessors
 	 *            Edges on RHS only (<< create >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1189,17 +1189,17 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findDeleteCreate_Edge(
-			Collection<Edge> predecessorDeleteEdges,
-			Collection<Edge> successorsCreateEdges,
+	protected Set<PotentialEdgeDependency> findDeleteCreateEdgeDependencies(
+			Collection<Edge> deletePredecessors,
+			Collection<Edge> createSuccessors,
 			PotentialRuleDependencies potRuleDep) {
 		
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
-		for (Edge successorEdge : successorsCreateEdges) {
+		for (Edge successorEdge : createSuccessors) {
 
-			for (Edge predecessorEdge : predecessorDeleteEdges) {
+			for (Edge predecessorEdge : deletePredecessors) {
 				if (isDeleteCreateDependency(predecessorEdge, successorEdge, potRuleDep)) {
-					// Change-Forbid dependence found
+					// Delete-Create dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 					potDep.setSourceEdge(successorEdge);
 					potDep.setTargetEdge(predecessorEdge);
@@ -1215,9 +1215,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two edges for a Delete-Create dependency. Note, that is no real dependency but needed to detect potential (partial) transient effects.
 	 * 
-	 * @param predecessorDeleteEdge
+	 * @param deletePredecessor
 	 *            Edge is on LHS only (<< delete >>).
-	 * @param successorCreateEdge
+	 * @param createSuccessor
 	 *            Edge is on RHS only (<< create >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1226,22 +1226,22 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
 	protected boolean isDeleteCreateDependency(
-			Edge predecessorDeleteEdge,
-			Edge successorCreateEdge,
+			Edge deletePredecessor,
+			Edge createSuccessor,
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert (isDeletionEdge(predecessorDeleteEdge)) : "Input Assertion Failed!";
-		assert (isCreationEdge(successorCreateEdge)) : "Input Assertion Failed!";
+		assert (isDeletionEdge(deletePredecessor)) : "Input Assertion failed: deletion edge expected!";
+		assert (isCreationEdge(createSuccessor)) : "Input Assertion failed: creation edge expected!";
 
 		// Edge types are equal?
-		if (predecessorDeleteEdge.getType() != successorCreateEdge.getType()) {
+		if (deletePredecessor.getType() != createSuccessor.getType()) {
 			return false;
 		}
 
-		Node predecessorSrc = predecessorDeleteEdge.getSource();
-		Node predecessorTgt = predecessorDeleteEdge.getTarget();
-		Node succesorSrc = successorCreateEdge.getSource();
-		Node succesorTgt = successorCreateEdge.getTarget();
+		Node predecessorSrc = deletePredecessor.getSource();
+		Node predecessorTgt = deletePredecessor.getTarget();
+		Node succesorSrc = createSuccessor.getSource();
+		Node succesorTgt = createSuccessor.getTarget();
 
 		// Src
 		boolean srcOK = false;
@@ -1268,7 +1268,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks all edges for Delete-Forbid dependencies.
 	 * 
-	 * @param lhsPredecessors
+	 * @param deletePredecessors
 	 *            Edges on LHS only (<< delete >>).
 	 * @param forbidSuccessors
 	 *            Edges from NACs (<< forbid >>).
@@ -1278,8 +1278,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findDeleteForbids_Edge(
-			Collection<Edge> lhsPredecessors,
+	protected Set<PotentialEdgeDependency> findDeleteForbidEdgeDependencies(
+			Collection<Edge> deletePredecessors,
 			Collection<Edge> forbidSuccessors,
 			PotentialRuleDependencies potRuleDep) {
 		
@@ -1304,7 +1304,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Edge predecessorEdge : lhsPredecessors) {
+			for (Edge predecessorEdge : deletePredecessors) {
 				if (isDeleteForbidDependency(predecessorEdge, successorEdge, potRuleDep)) {
 					// Change-Forbid dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
@@ -1322,7 +1322,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two edges for a Delete-Forbid dependency.
 	 * 
-	 * @param lhsPredecessor
+	 * @param deletePredecessor
 	 *            Edge is on LHS only (<< delete >>).
 	 * @param forbidSuccessor
 	 *            Edge is a NAC (<< forbid >>).
@@ -1333,20 +1333,20 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
 	protected boolean isDeleteForbidDependency(
-			Edge lhsPredecessor,
+			Edge deletePredecessor,
 			Edge forbidSuccessor,
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert (isDeletionEdge(lhsPredecessor)) : "Input Assertion Failed!";
-		assert (isForbiddenEdge(forbidSuccessor)) : "Input Assertion Failed!";
+		assert (isDeletionEdge(deletePredecessor)) : "Input Assertion failed: deletion edge expected!";
+		assert (isForbiddenEdge(forbidSuccessor)) : "Input Assertion Failed: forbidden edge expected!";
 
 		// Edge types are equal?
-		if (lhsPredecessor.getType() != forbidSuccessor.getType()) {
+		if (deletePredecessor.getType() != forbidSuccessor.getType()) {
 			return false;
 		}
 
-		Node predecessorSrc = lhsPredecessor.getSource();
-		Node predecessorTgt = lhsPredecessor.getTarget();
+		Node predecessorSrc = deletePredecessor.getSource();
+		Node predecessorTgt = deletePredecessor.getTarget();
 		Node succesorSrc = forbidSuccessor.getSource();
 		Node succesorTgt = forbidSuccessor.getTarget();
 
@@ -1371,15 +1371,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		// Tgt & Src
 		return srcOK && tgtOK;
 	}
-
-
 	
 	/**
 	 * Checks all edges for Use-Delete dependencies.
 	 * 
-	 * @param predecessors
+	 * @param preservePredecessors
 	 *            Edges on LHS and RHS (<< preserved >>).
-	 * @param lhsSuccessors
+	 * @param deleteSuccessors
 	 *            Edges on LHS only (<< delete >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1387,13 +1385,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findUseDeletes_Edge(
-			List<EdgePair> predecessors,
-			List<Edge> lhsSuccessors, 
+	protected Set<PotentialEdgeDependency> findUseDeleteEdgeDependencies(
+			Collection<EdgePair> preservePredecessors,
+			Collection<Edge> deleteSuccessors, 
 			PotentialRuleDependencies potRuleDep) {
 
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
-		for (EdgePair predecessorEdge : predecessors) {
+		for (EdgePair predecessorEdge : preservePredecessors) {
 
 			// Is transient potential dependences?
 			boolean isTransient;
@@ -1413,7 +1411,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Edge successorEdge : lhsSuccessors) {
+			for (Edge successorEdge : deleteSuccessors) {
 				if (isUseDeleteDependency(predecessorEdge, successorEdge, potRuleDep)) {
 					// Delete-Use dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
@@ -1431,9 +1429,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two edges for a Use-Delete dependency.
 	 * 
-	 * @param predecessor
+	 * @param preservePredecessor
 	 *            Edge is on LHS and RHS (<< preserve >>).
-	 * @param lhsSuccessor
+	 * @param deleteSuccessor
 	 *            Edge is on LHS only (<< delete >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1442,19 +1440,19 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
 	protected boolean isUseDeleteDependency(
-			EdgePair predecessor,
-			Edge lhsSuccessor, 
+			EdgePair preservePredecessor,
+			Edge deleteSuccessor, 
 			PotentialRuleDependencies potRuleDep) {
 
-		assert(isDeletionEdge(lhsSuccessor)) : "Input Assertion Failed!";
+		assert(isDeletionEdge(deleteSuccessor)) : "Input Assertion failed: deletion edge expected!";
 
-		if (predecessor.getType() != lhsSuccessor.getType()) {
+		if (preservePredecessor.getType() != deleteSuccessor.getType()) {
 			return false;
 		}
-		Node predecessorSrc = predecessor.getLhsEdge().getSource();
-		Node predecessorTgt = predecessor.getLhsEdge().getTarget();
-		Node succesorSrc = lhsSuccessor.getSource();
-		Node succesorTgt = lhsSuccessor.getTarget();
+		Node predecessorSrc = preservePredecessor.getLhsEdge().getSource();
+		Node predecessorTgt = preservePredecessor.getLhsEdge().getTarget();
+		Node succesorSrc = deleteSuccessor.getSource();
+		Node succesorTgt = deleteSuccessor.getTarget();
 		
 		// Src
 		boolean srcOK = false;
@@ -1483,7 +1481,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param requirePredecessors
 	 *            Edges from PACs (<< require >>).
-	 * @param lhsSuccessors
+	 * @param deleteSuccessors
 	 *            Edges on LHS only (<< delete >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1491,9 +1489,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findUseDeletes_Edge_PAC(
-			List<Edge> requirePredecessors,
-			List<Edge> lhsSuccessors, 
+	protected Set<PotentialEdgeDependency> findRequireDeleteEdgeDependencies(
+			Collection<Edge> requirePredecessors,
+			Collection<Edge> deleteSuccessors, 
 			PotentialRuleDependencies potRuleDep) {
 		
 		Set<PotentialEdgeDependency> potDeps = new HashSet<>();
@@ -1517,8 +1515,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 			
-			for (Edge successorEdge : lhsSuccessors) {
-				if (isUseDeleteDependency_PAC(predecessorEdge, successorEdge, potRuleDep)) {
+			for (Edge successorEdge : deleteSuccessors) {
+				if (isRequireDeleteDependency(predecessorEdge, successorEdge, potRuleDep)) {
 					// Delete-Use dependence found
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 					potDep.setSourceEdge(successorEdge);
@@ -1537,7 +1535,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param requirePredecessor
 	 *            Edge is in PAC (<< require >>).
-	 * @param lhsSuccessor
+	 * @param deleteSuccessor
 	 *            Edge is on LHS only (<< delete >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1545,20 +1543,20 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isUseDeleteDependency_PAC(Edge requirePredecessor, Edge lhsSuccessor, 
+	protected boolean isRequireDeleteDependency(Edge requirePredecessor, Edge deleteSuccessor, 
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert(isRequireEdge(requirePredecessor)) : "Input Assertion Failed!";
-		assert(isDeletionEdge(lhsSuccessor)) : "Input Assertion Failed!";
+		assert(isRequireEdge(requirePredecessor)) : "Input Assertion failed: required edge expected!";
+		assert(isDeletionEdge(deleteSuccessor)) : "Input Assertion failed: deletion edge expected!";
 
-		if (requirePredecessor.getType() != lhsSuccessor.getType()) {
+		if (requirePredecessor.getType() != deleteSuccessor.getType()) {
 			return false;
 		}
 
 		Node predecessorSrc = requirePredecessor.getSource();
 		Node predecessorTgt = requirePredecessor.getTarget();
-		Node succesorSrc = lhsSuccessor.getSource();
-		Node succesorTgt = lhsSuccessor.getTarget();
+		Node succesorSrc = deleteSuccessor.getSource();
+		Node succesorTgt = deleteSuccessor.getTarget();
 
 		// Src
 		boolean srcOK = false;
@@ -1582,14 +1580,6 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		return srcOK && tgtOK;
 	}
 	
-	
-	
-
-	
-	
-	
-
-	
 	/**
 	 * Checks all edges for Forbid-Create dependencies.
 	 * 
@@ -1603,7 +1593,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            source and target nodes.
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialEdgeDependency> findForbidCreates_Edge(
+	protected Set<PotentialEdgeDependency> findForbidCreateEdgeDependencies(
 			Collection<Edge> forbidPredecessors,
 			Collection<Edge> createSuccessors,
 			PotentialRuleDependencies potRuleDep) {
@@ -1649,7 +1639,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * 
 	 * @param forbidPredecessors
 	 *            Edge is a NAC (<< forbid >>).
-	 * @param rhsSuccessor
+	 * @param createSuccessor
 	 *            Edge is on RHS only (<< create >>).
 	 * @param potRuleDep
 	 *            List of potential node dependencies. Contains at least all
@@ -1659,21 +1649,21 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 */
 	protected boolean isForbidCreateDependency(
 			Edge forbidPredecessors,
-			Edge rhsSuccessor,
+			Edge createSuccessor,
 			PotentialRuleDependencies potRuleDep) {
 		
-		assert (isForbiddenEdge(forbidPredecessors)) : "Input Assertion Failed!";
-		assert (isCreationEdge(rhsSuccessor)) : "Input Assertion Failed!";
+		assert (isForbiddenEdge(forbidPredecessors)) : "Input Assertion failed: forbidden edge expected!";
+		assert (isCreationEdge(createSuccessor)) : "Input Assertion failed: creation edge expected!";
 
 		// Edge types are equal?
-		if (forbidPredecessors.getType() != rhsSuccessor.getType()) {
+		if (forbidPredecessors.getType() != createSuccessor.getType()) {
 			return false;
 		}
 
 		Node predecessorSrc = forbidPredecessors.getSource();
 		Node predecessorTgt = forbidPredecessors.getTarget();
-		Node succesorSrc = rhsSuccessor.getSource();
-		Node succesorTgt = rhsSuccessor.getTarget();
+		Node succesorSrc = createSuccessor.getSource();
+		Node succesorTgt = createSuccessor.getTarget();
 
 		// Src
 		boolean srcOK = false;
@@ -1697,23 +1687,80 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		return srcOK && tgtOK;
 	}
 
-	
-
 	/*
 	 * Attributes
 	 */
 
+	
+	/**
+	 * Checks all attributes for a Create-Use dependency.
+	 * @param createPredecessors Attribute is on RHS only in a creation node(<< create >>).
+	 * @param useSuccessors Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
+	 * @return All attribute create-use dependencies
+	 */
+	protected Set<PotentialAttributeDependency> findCreateUseAttributeDependency(Collection<Attribute> createPredecessors, Collection<Attribute> useSuccessors){
+		// Calculate non-transients?
+		if (!nonTransientPDs) {
+			return Collections.emptySet();
+		}
+
+		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
+		for (Attribute createPredecessor : createPredecessors) {
+			for (Attribute useSuccessor : useSuccessors) {
+				if (isCreateUseDependency(createPredecessor, useSuccessor)) {
+					// Create-Use dependence found
+					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
+					potDep.setSourceAttribute(useSuccessor);
+					potDep.setTargetAttribute(createPredecessor);
+					potDep.setKind(PotentialDependencyKind.CREATE_USE);
+					potDep.setTransient(false);
+					potDeps.add(potDep);
+				}
+			}
+		}
+		return potDeps;
+	}
+	
+	/**
+	 * Checks two attributes for a Create-Use dependency.
+	 * 
+	 * @param createPredecessor
+	 *            Attribute is on RHS only in a creation node(<< create >>).
+	 * @param useSuccessor
+	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
+	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
+	 */
+	protected boolean isCreateUseDependency(Attribute createPredecessor, Attribute useSuccessor) {
+		
+		assert (isCreationAttribute(createPredecessor) && isCreationNode(createPredecessor.getNode())) : "Input Assertion failed: set attribute in creation node expected!";
+		assert (isLHSAttribute(useSuccessor)
+				|| isRequireAttribute(useSuccessor)) : "Input Assertion failed: lhs or required attribute expected!";
+
+		// Attributes have the same type
+		if (createPredecessor.getType() == useSuccessor.getType()) {
+
+			// is predecessor nodeType assignable to successor nodeType?
+			if (isAssignableTo(createPredecessor.getNode().getType(), useSuccessor.getNode().getType())) {
+				// Attribute case differentiation precondition is fulfilled?
+				if (attributeCaseDifferentiation(createPredecessor, useSuccessor)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Checks all attributes for Change-Use dependencies.
 	 * 
-	 * @param rhsPredecessors
+	 * @param setPredecessors
 	 *            Attributes on RHS only (<< create >>).
-	 * @param lhsSuccessors
+	 * @param useSuccessors
 	 *            Attributes on LHS (<< delete / preserve >>) or from PACs (<<require>>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialAttributeDependency> findChangeUses_Attribute(
-			Collection<Attribute> rhsPredecessors, Collection<Attribute> lhsSuccessors) {
+	protected Set<PotentialAttributeDependency> findChangeUseAttributeDependency(
+			Collection<Attribute> setPredecessors, Collection<Attribute> useSuccessors) {
 
 		// Calculate non-transients? 
 		if (!nonTransientPDs) {
@@ -1721,8 +1768,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		}
 
 		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
-		for (Attribute rhsPredecessorAttribute : rhsPredecessors) {
-			for (Attribute lhsSuccessorAttribute : lhsSuccessors) {
+		for (Attribute rhsPredecessorAttribute : setPredecessors) {
+			for (Attribute lhsSuccessorAttribute : useSuccessors) {
 				if (isChangeUseDependency(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
 					// Change-Use dependence found
 					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
@@ -1740,165 +1787,27 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two attributes for a Change-Use dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param setPredecessor
 	 *            Attribute is on RHS only (<< create >>).
-	 * @param lhsSuccessor
+	 * @param useSuccessor
 	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isChangeUseDependency(Attribute rhsPredecessor, Attribute lhsSuccessor) {
+	protected boolean isChangeUseDependency(Attribute setPredecessor, Attribute useSuccessor) {
 		
-		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
-		assert (isLHSAttribute(lhsSuccessor) || isRequireAttribute(lhsSuccessor)) : "Input Assertion Failed!";
+		assert ((isCreationAttribute(setPredecessor) || isChangingAttribute(setPredecessor))
+				&& isPreservedNode(setPredecessor
+						.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";
+		assert (isLHSAttribute(useSuccessor)
+				|| isRequireAttribute(useSuccessor)) : "Input Assertion failed: lhs or required attribute expected!";
 
 		// Attributes have the same type
-		if (rhsPredecessor.getType() == lhsSuccessor.getType()) {
-			// Predecessor nodes is <<preserve>> ?
-			if (isPreservedNode(rhsPredecessor.getNode())) {
-				// is predecessor nodeType assignable to successor nodeType?
-				if (isAssignableTo(rhsPredecessor.getNode().getType(), lhsSuccessor.getNode().getType())){
-					// Attribute case differentiation precondition is fulfilled?
-					if (attributeCaseDifferentiation(rhsPredecessor, lhsSuccessor)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks all attributes for Use-Change dependencies.
-	 * 
-	 * @param lhsPredecessors
-	 *            Attributes on LHS (<< delete / preserve >>) or from PACs (<<require>>).
-	 * @param rhsSuccessors
-	 *            Attributes on RHS only (<< create >>).
-	 * @return All potential dependencies.
-	 */
-	protected Set<PotentialAttributeDependency> findUseChanges_Attribute(
-			Collection<Attribute> lhsPredecessors,
-			Collection<Attribute> rhsSuccessors) {
+		if (setPredecessor.getType() == useSuccessor.getType()) {
 
-		// Calculate transients? 
-		if (!transientPDs) {
-			return Collections.emptySet();
-		}
-
-		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
-		for (Attribute rhsPredecessorAttribute : lhsPredecessors) {
-			for (Attribute lhsSuccessorAttribute : rhsSuccessors) {
-				if (isUseChangeDependency(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
-					// Change-Use dependence found
-					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
-					potDep.setSourceAttribute(lhsSuccessorAttribute);
-					potDep.setTargetAttribute(rhsPredecessorAttribute);
-					potDep.setKind(PotentialDependencyKind.USE_CHANGE);
-					potDep.setTransient(true);
-					potDeps.add(potDep);
-				}
-			}
-		}
-		return potDeps;
-	}
-	
-	/**
-	 * Checks two attributes for a Use-Change dependency.
-	 * 
-	 * @param lhsPredecessor
-	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
-	 * @param rhsSuccessor
-	 *            Attribute is on RHS only (<< create >>).
-	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-	 */
-	protected boolean isUseChangeDependency(Attribute lhsPredecessor, Attribute rhsSuccessor) {
-		
-		assert (isLHSAttribute(lhsPredecessor) || isRequireAttribute(lhsPredecessor)) : "Input Assertion Failed!";
-		assert (isCreationAttribute(rhsSuccessor)) : "Input Assertion Failed!";
-
-		// Attributes have the same type
-		if (lhsPredecessor.getType().equals(rhsSuccessor.getType())){
-			// Predecessor/Successor nodes is <<preserve>> ?
-			if (isPreservedNode(lhsPredecessor.getNode()) && isPreservedNode(rhsSuccessor.getNode())) {
+			// is predecessor nodeType assignable to successor nodeType?
+			if (isAssignableTo(setPredecessor.getNode().getType(), useSuccessor.getNode().getType())) {
 				// Attribute case differentiation precondition is fulfilled?
-				if (attributeCaseDifferentiation(lhsPredecessor, rhsSuccessor)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-	
-	/**
-	 * Checks all attributes for Forbid-Change dependencies.
-	 * 
-	 * @param forbidPredecessors
-	 *            Attributes from NACs (<< forbid >>).
-	 * @param rhsSuccessors
-	 *            Attributes on RHS only (<< create >>).
-	 * @return All potential dependencies.
-	 */
-	protected Set<PotentialAttributeDependency> findForbidChanges_Attribute(
-			List<Attribute> forbidPredecessors,
-			List<Attribute> rhsSuccessors) {
-
-		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
-		for (Attribute successorAttribute : rhsSuccessors) {
-			
-			// Is transient potential dependences?
-			boolean isTransient;
-			if (isPrecondition(successorAttribute.getGraph())) {
-				isTransient = false;
-				
-				// Calculate non-transients? 
-				if (!nonTransientPDs) {
-					continue;
-				}
-			} else {
-				isTransient = true;
-				
-				// Calculate transients? 
-				if (!transientPDs) {
-					continue;
-				}
-			}
-			
-			for (Attribute predecessorAttribute : forbidPredecessors) {
-				if (isChangeForbidDependency(predecessorAttribute, successorAttribute)) {
-					// Change-Forbid dependence found
-					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
-					potDep.setSourceAttribute(successorAttribute);
-					potDep.setTargetAttribute(predecessorAttribute);
-					potDep.setKind(PotentialDependencyKind.FORBID_CHANGE);
-					potDep.setTransient(isTransient);
-					potDeps.add(potDep);
-				}
-			}
-		}
-		return potDeps;
-	}
-	
-	/**
-	 * Checks two attributes for a Forbid-Change dependency.
-	 * 
-	 * @param forbidPredecessor
-	 *            Attribute is a NAC (<< forbid >>).
-	 * @param rhsSuccessor
-	 *            Attribute is on RHS only (<< create >>).
-	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
-	 */
-	protected boolean isForbidChangeDependency(Attribute forbidPredecessor, Attribute rhsSuccessor) {
-		
-		assert (isForbiddenAttribute(forbidPredecessor)) : "Input Assertion Failed!";
-		assert (isCreationAttribute(rhsSuccessor)) : "Input Assertion Failed!";
-				
-		// Attributes have the same type
-		if (forbidPredecessor.getType() == rhsSuccessor.getType()){
-			// Predecessor/Successor nodes is <<preserve>> ?
-			if (isPreservedNode(rhsSuccessor.getNode())) {
-				// Attribute case differentiation precondition is fulfilled?
-				if (attributeCaseDifferentiation(forbidPredecessor, rhsSuccessor)) {
+				if (attributeCaseDifferentiation(setPredecessor, useSuccessor)) {
 					return true;
 				}
 			}
@@ -1915,9 +1824,9 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 *            Attributes from NACs (<< forbid >>).
 	 * @return All potential dependencies.
 	 */
-	protected Set<PotentialAttributeDependency> findChangeForbids_Attribute(
-			List<Attribute> rhsPredecessors,
-			List<Attribute> forbidSuccessors) {
+	protected Set<PotentialAttributeDependency> findChangeForbidAttributeDependencies(
+			Collection<Attribute> setPredecessors,
+			Collection<Attribute> forbidSuccessors) {
 
 		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
 		for (Attribute successorAttribute : forbidSuccessors) {
@@ -1940,7 +1849,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 				}
 			}
 
-			for (Attribute predecessorAttribute : rhsPredecessors) {
+			for (Attribute predecessorAttribute : setPredecessors) {
 				if (isChangeForbidDependency(predecessorAttribute, successorAttribute)) {
 					// Change-Forbid dependence found
 					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
@@ -1958,32 +1867,175 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Checks two attributes for a Change-Forbid dependency.
 	 * 
-	 * @param rhsPredecessor
+	 * @param setPredecessor
 	 *            Attribute is on RHS only (<< create >>).
 	 * @param forbidSuccessor
 	 *            Attribute is a NAC (<< forbid >>).
 	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
 	 */
-	protected boolean isChangeForbidDependency(Attribute rhsPredecessor, Attribute forbidSuccessor) {
+	protected boolean isChangeForbidDependency(Attribute setPredecessor, Attribute forbidSuccessor) {
 
-		assert (isCreationAttribute(rhsPredecessor)) : "Input Assertion Failed!";
-		assert (isForbiddenAttribute(forbidSuccessor)) : "Input Assertion Failed!";
+		assert ((isCreationAttribute(setPredecessor) || isChangingAttribute(setPredecessor))
+				&& isPreservedNode(setPredecessor
+						.getNode())) : "Input Assertion failed: creation or changing attribute in preserved node expected!";
+		assert (isForbiddenAttribute(forbidSuccessor)) : "Input Assertion failed: forbidden attribute expected!";
 
 		// Attributes have the same type
-		if (rhsPredecessor.getType() == forbidSuccessor.getType()){
-			// Predecessor nodes is <<preserve>> ?
-			if (isPreservedNode(rhsPredecessor.getNode())) {
-				if (assignable(rhsPredecessor.getNode().getType(), forbidSuccessor.getNode().getType())) {
-					// Attribute case differentiation precondition is fulfilled?
-					if (attributeCaseDifferentiation(rhsPredecessor, forbidSuccessor)) {
-						return true;
-					}
+		if (setPredecessor.getType() == forbidSuccessor.getType()) {
+
+			if (assignable(setPredecessor.getNode().getType(), forbidSuccessor.getNode().getType())) {
+				// Attribute case differentiation precondition is fulfilled?
+				if (attributeCaseDifferentiation(setPredecessor, forbidSuccessor)) {
+					return true;
+				}
+			}
+
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Checks all attributes for Use-Change dependencies.
+	 * 
+	 * @param usePredecessors
+	 *            Attributes on LHS (<< delete / preserve >>) or from PACs (<<require>>).
+	 * @param setSuccessors
+	 *            Attributes on RHS only (<< create >>).
+	 * @return All potential dependencies.
+	 */
+	protected Set<PotentialAttributeDependency> findUseChangeAttributeDependencies(
+			Collection<Attribute> usePredecessors,
+			Collection<Attribute> setSuccessors) {
+
+		// Calculate transients? 
+		if (!transientPDs) {
+			return Collections.emptySet();
+		}
+
+		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
+		for (Attribute rhsPredecessorAttribute : usePredecessors) {
+			for (Attribute lhsSuccessorAttribute : setSuccessors) {
+				if (isUseChangeDependency(rhsPredecessorAttribute, lhsSuccessorAttribute)) {
+					// Change-Use dependence found
+					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
+					potDep.setSourceAttribute(lhsSuccessorAttribute);
+					potDep.setTargetAttribute(rhsPredecessorAttribute);
+					potDep.setKind(PotentialDependencyKind.USE_CHANGE);
+					potDep.setTransient(true);
+					potDeps.add(potDep);
 				}
 			}
 		}
-		
+		return potDeps;
+	}
+	
+	/**
+	 * Checks two attributes for a Use-Change dependency.
+	 * 
+	 * @param usePredecessor
+	 *            Attribute is on LHS (<< delete / preserve >>) or in PAC (<<require>>).
+	 * @param setSuccessor
+	 *            Attribute is on RHS only (<< create >>).
+	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
+	 */
+	protected boolean isUseChangeDependency(Attribute usePredecessor, Attribute setSuccessor) {
+
+		assert (isLHSAttribute(usePredecessor)
+				|| isRequireAttribute(usePredecessor)) : "Input Assertion failed: lhs or required attribute expected!";
+		assert ((isCreationAttribute(setSuccessor) || isChangingAttribute(setSuccessor)) && isPreservedNode(setSuccessor
+				.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";
+
+		// Attributes have the same type
+		if (usePredecessor.getType().equals(setSuccessor.getType())) {
+
+			// Attribute case differentiation precondition is fulfilled?
+			if (attributeCaseDifferentiation(usePredecessor, setSuccessor)) {
+				return true;
+			}
+
+		}
+
 		return false;
 	}
+	
+	/**
+	 * Checks all attributes for Forbid-Change dependencies.
+	 * 
+	 * @param forbidPredecessors
+	 *            Attributes from NACs (<< forbid >>).
+	 * @param setSuccessors
+	 *            Attributes on RHS only (<< create >>).
+	 * @return All potential dependencies.
+	 */
+	protected Set<PotentialAttributeDependency> findForbidChangeAttributeDependencies(
+			Collection<Attribute> forbidPredecessors,
+			Collection<Attribute> setSuccessors) {
+
+		Set<PotentialAttributeDependency> potDeps = new HashSet<>();
+		for (Attribute successorAttribute : setSuccessors) {
+			
+			// Is transient potential dependences?
+			boolean isTransient;
+			if (isPrecondition(successorAttribute.getGraph())) {
+				isTransient = false;
+				
+				// Calculate non-transients? 
+				if (!nonTransientPDs) {
+					continue;
+				}
+			} else {
+				isTransient = true;
+				
+				// Calculate transients? 
+				if (!transientPDs) {
+					continue;
+				}
+			}
+			
+			for (Attribute predecessorAttribute : forbidPredecessors) {
+				if (isForbidChangeDependency(predecessorAttribute, successorAttribute)) {
+					// Change-Forbid dependence found
+					PotentialAttributeDependency potDep = rbFactory.createPotentialAttributeDependency();
+					potDep.setSourceAttribute(successorAttribute);
+					potDep.setTargetAttribute(predecessorAttribute);
+					potDep.setKind(PotentialDependencyKind.FORBID_CHANGE);
+					potDep.setTransient(isTransient);
+					potDeps.add(potDep);
+				}
+			}
+		}
+		return potDeps;
+	}
+	
+	/**
+	 * Checks two attributes for a Forbid-Change dependency.
+	 * 
+	 * @param forbidPredecessor
+	 *            Attribute is a NAC (<< forbid >>).
+	 * @param setSuccessor
+	 *            Attribute is on RHS only (<< create >>).
+	 * @return <code>true</code> if there  is a dependency; <code>false</code> otherwise.
+	 */
+	protected boolean isForbidChangeDependency(Attribute forbidPredecessor, Attribute setSuccessor) {
+
+		assert (isForbiddenAttribute(forbidPredecessor)) : "Input Assertion failed: forbidden attribute expected!";
+		assert ((isCreationAttribute(setSuccessor)) || isChangingAttribute(setSuccessor))
+				&& isPreservedNode(setSuccessor
+						.getNode()) : "Input Assertion failed: set or changing attribute in preserve node expected!";
+
+		// Attributes have the same type
+		if (forbidPredecessor.getType() == setSuccessor.getType()) {
+			// Attribute case differentiation precondition is fulfilled?
+			if (attributeCaseDifferentiation(forbidPredecessor, setSuccessor)) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+	
+
 
 	/*
 	 * Utils
