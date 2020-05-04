@@ -82,7 +82,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 		Collection<Node> successorCreateNodes = successor.getCreateNodes();
 		Collection<Node> successorDeleteNodes = successor.getDeleteNodes();
-		Collection<Node> successorPreserveNodes = successor.getPreserveNodes().stream().map(pair -> pair.getLhsNode()).collect(Collectors.toSet());
+		Collection<Node> successorPreserveNodes = successor.getPreserveNodes().stream().map(pair -> pair.getLhsNode())
+				.collect(Collectors.toSet());
 		Collection<Node> successorRequireNodes = successor.getRequireNodes();
 		Collection<Node> successorForbidNodes = successor.getForbidNodes();
 		Collection<Node> successorUseNodes = new HashSet<Node>(successorPreserveNodes);
@@ -94,7 +95,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 		Collection<Edge> successorCreateEdges = successor.getCreateEdges();
 		Collection<Edge> successorDeleteEdges = successor.getDeleteEdges();
-		Collection<Edge> successorPreserveEdges = successor.getPreserveEdges().stream().map(pair -> pair.getLhsEdge()).collect(Collectors.toSet());
+		Collection<Edge> successorPreserveEdges = successor.getPreserveEdges().stream().map(pair -> pair.getLhsEdge())
+				.collect(Collectors.toSet());
 		Collection<Edge> successorRequireEdges = successor.getRequireEdges();
 		Collection<Edge> successorForbidEdges = successor.getForbidEdges();
 		Collection<Edge> successorUseEdges = new HashSet<Edge>(successorPreserveEdges);
@@ -103,13 +105,15 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		// Get attributes
 		Collection<Attribute> predecessorCreateAttributes = getCreationAttributes(predecessor.getRule());
 		Collection<Attribute> predecessorSetAttributes = predecessor.getSetAttributes();
-		Collection<Attribute> predecessorChangeAttributes = predecessor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
+		Collection<Attribute> predecessorChangeAttributes = predecessor.getChangeAttributes().stream()
+				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
 		Collection<Attribute> predecessorSetChangeAttributes = new HashSet<Attribute>(predecessorSetAttributes);
 		predecessorSetChangeAttributes.addAll(predecessorChangeAttributes);
 
 		Collection<Attribute> successorDeleteAttributes = getDeletionAttributes(successor.getRule());
 		Collection<Attribute> successorSetAttributes = successor.getSetAttributes();
-		Collection<Attribute> successorChangeAttributes = successor.getChangeAttributes().stream().map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
+		Collection<Attribute> successorChangeAttributes = successor.getChangeAttributes().stream()
+				.map(pair -> pair.getRhsAttribute()).collect(Collectors.toSet());
 		Collection<Attribute> successorPreserveAttributes = successor.getPreserveAttributes();
 		Collection<Attribute> successorRequireAttributes = successor.getRequireAttributes();
 		Collection<Attribute> successorForbidAttributes = successor.getForbidAttributes();
@@ -131,8 +135,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 * Search node conflicts
 		 */
 
-		// Delete-Delete ((partial) duplicates) and Delete-Use
 		if (!predecessorDeleteNodes.isEmpty()) {
+			// Delete-Delete ((partial) duplicates)
 			if (!successorDeleteNodes.isEmpty()) {
 				Set<PotentialNodeConflict> deleteDeleteNodePotCons = findDeleteDeleteNodeConflicts(
 						predecessorDeleteNodes, successorDeleteNodes);
@@ -143,6 +147,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPNCs(deleteDeleteNodePotCons);
 			}
+			// Delete-Use
 			if (!successorUseNodes.isEmpty()) {
 				Set<PotentialNodeConflict> deleteUseNodePotCons = findDeleteUseNodeConflicts(predecessorDeleteNodes,
 						successorUseNodes);
@@ -155,8 +160,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			}
 		}
 
-		// Create-Create ((partial) duplicates) and Create-Forbid
 		if (!predecessorCreateNodes.isEmpty()) {
+			// Create-Create ((partial) duplicates)
 			if (!successorCreateNodes.isEmpty()) {
 				Set<PotentialNodeConflict> createCreateNodePotCons = findCreateCreateNodeConflicts(
 						predecessorCreateNodes, successorCreateNodes);
@@ -166,6 +171,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPNCs(createCreateNodePotCons);
 			}
+			// Create-Forbid
 			if (!successorForbidNodes.isEmpty()) {
 				Set<PotentialNodeConflict> createForbidNodePotCons = findCreateForbidNodeConflicts(
 						predecessorCreateNodes, successorForbidNodes);
@@ -182,8 +188,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 * Search edge conflicts
 		 */
 
-		// Delete-Delete ((partial) duplicates) and Delete-Use
 		if (!predecessorDeleteEdges.isEmpty()) {
+			// Delete-Delete ((partial) duplicates) 
 			if (!successorDeleteEdges.isEmpty()) {
 				Set<PotentialEdgeConflict> deleteDeleteEdgePotCons = findDeleteDeleteEdgeConflicts(
 						predecessorDeleteEdges, successorDeleteEdges, potRuleCon);
@@ -193,6 +199,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPECs(deleteDeleteEdgePotCons);
 			}
+			// Delete-Use
 			if (!successorUseEdges.isEmpty()) {
 				Set<PotentialEdgeConflict> deleteUseEdgePotCons = findDeleteUseEdgeConflicts(predecessorDeleteEdges,
 						successorUseEdges, potRuleCon);
@@ -205,9 +212,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			}
 		}
 
-		// Create-Create ((partial) duplicates) and Create-Forbid and Create-Forbid
-		// (dangling edges)
 		if (!predecessorCreateEdges.isEmpty()) {
+			// Create-Create ((partial) duplicates)
 			if (!successorCreateEdges.isEmpty()) {
 				Set<PotentialEdgeConflict> createCreateEdgePotConcs = findCreateCreateEdgeConflicts(
 						predecessorCreateEdges, successorCreateEdges, potRuleCon);
@@ -218,6 +224,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPECs(createCreateEdgePotConcs);
 			}
+			// Create-Forbid
 			if (!successorForbidEdges.isEmpty()) {
 				Set<PotentialEdgeConflict> createForbidEdgePotConcs = findCreateForbidEdgeConflicts(
 						predecessorCreateEdges, successorForbidEdges, potRuleCon);
@@ -228,6 +235,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPECs(createForbidEdgePotConcs);
 			}
+			// Create-Forbid (dangling edges)
 			if (!successorDeleteNodes.isEmpty()) {
 				Set<PotentialDanglingEdgeConflict> createForbidDanglingEdgePotCons = findDanglingEdgeConflict(
 						predecessorCreateEdges, successorDeleteNodes);
@@ -255,8 +263,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			potRuleCon.addAllPACs(createForbidAttributePotCons);
 		}
 
-		// Change-Use and Change-Forbid and Change-Change
 		if (!predecessorSetChangeAttributes.isEmpty()) {
+			// Change-Use
 			if (!successorUseAttributes.isEmpty()) {
 				Set<PotentialAttributeConflict> setUseAttributePotCons = findChangeUseAttributeConflicts(
 						predecessorSetChangeAttributes, successorUseAttributes, potRuleCon);
@@ -267,7 +275,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPACs(setUseAttributePotCons);
 			}
-
+			// Change-Forbid 
 			if (!successorForbidAttributes.isEmpty()) {
 				Set<PotentialAttributeConflict> setForbidAttributePotCons = findChangeForbidAttributeConflicts(
 						predecessorSetChangeAttributes, successorForbidAttributes, potRuleCon);
@@ -278,18 +286,18 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPACs(setForbidAttributePotCons);
 			}
+		}
+		
+		// Change-Change
+		if(!predecessorSetAttributes.isEmpty() && !successorSetAttributes.isEmpty()) {
+			Set<PotentialAttributeConflict> changeChangeAttributePotCons = findChangeChangeAttributeConflicts(
+					predecessorSetAttributes, successorSetAttributes, potRuleCon);
 
-			if (!successorSetChangeAttributes.isEmpty()) {
-				Set<PotentialAttributeConflict> changeChangeAttributePotCons = findChangeChangeAttributeConflicts(
-						predecessorSetChangeAttributes, successorSetChangeAttributes, potRuleCon);
-
-				for (PotentialAttributeConflict pac : changeChangeAttributePotCons) {
-					pac.setSourceRule(predecessorEditRule);
-					pac.setTargetRule(successorEditRule);
-				}
-				potRuleCon.addAllPACs(changeChangeAttributePotCons);
+			for (PotentialAttributeConflict pac : changeChangeAttributePotCons) {
+				pac.setSourceRule(predecessorEditRule);
+				pac.setTargetRule(successorEditRule);
 			}
-
+			potRuleCon.addAllPACs(changeChangeAttributePotCons);
 		}
 
 		return potRuleCon;
@@ -355,13 +363,14 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all nodes for Delete-Use conflicts.
+	 * Checks all nodes for Delete-Use conflicts except Delete-Delete conflicts.
 	 * 
 	 * @param deletePredecessors Nodes on LHS only (<<delete>>).
 	 * @param useSuccessors      Nodes on LHS and RHS or PAC (<<preserve>> or
 	 *                           <<require>>).
 	 * 
-	 * @return All potential Delete-Use node conflicts.
+	 * @return All potential Delete-Use node conflicts except Delete-Delete
+	 *         conflicts.
 	 */
 	protected Set<PotentialNodeConflict> findDeleteUseNodeConflicts(Collection<Node> deletePredecessors,
 			Collection<Node> useSuccessors) {
@@ -383,7 +392,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks two nodes for a Delete-Use conflict.
+	 * Checks two nodes for a Delete-Use conflict except Delete-Delete conflict.
 	 * 
 	 * @param deletePredecessor Node is on LHS only (<<delete>>).
 	 * @param useSuccessor      Node is on LHS and RHS or PAC (<<preserve>> or
@@ -410,8 +419,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all nodes for Create-Create conflicts (special kind of create-forbid
-	 * for identifying (partial) duplicates).
+	 * Checks all nodes for Create-Create conflicts. Note: This isn't a real
+	 * potential conflict but is used for identifying (partial) duplicates.
 	 * 
 	 * @param createPredecessors Nodes on RHS only (<<create>>).
 	 * @param createSuccessors   Nodes on RHS only (<<create>>).
@@ -438,8 +447,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks two nodes for a Create-Forbid (create-create) conflict (special kind
-	 * of create-forbid for identifying (partial) duplicates).
+	 * Checks two nodes for a Create-Create conflict. Note: This isn't a real
+	 * potential conflict but is used for identifying (partial) duplicates.
 	 * 
 	 * @param lhsPredecessor Node is on RHS (<<create>>).
 	 * @param lhsSuccessor   Node is on RHS (<<create>>).
@@ -531,7 +540,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 * @param deleteSuccessors   Edges on LHS only (<<delete>>).
 	 * @param potRuleCon         potential conflicts
 	 * 
-	 * @return All potential Delete-use edge conflicts.
+	 * @return All potential Delete-Delete edge conflicts.
 	 */
 	protected Set<PotentialEdgeConflict> findDeleteDeleteEdgeConflicts(Collection<Edge> deletePredecessors,
 			Collection<Edge> deleteSuccessors, PotentialRuleConflicts potRuleCon) {
@@ -601,14 +610,15 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all edges for Delete-Use conflicts.
+	 * Checks all edges for Delete-Use conflicts except Delete-Delete conflicts.
 	 * 
 	 * @param deletePredecessors Edges on LHS only (<<delete>>).
 	 * @param useSuccessors      Edges on LHS and RHS or PAC (<<preserver>> or
 	 *                           <<require>>).
 	 * @param potRuleCon         potential conflicts
 	 * 
-	 * @return All potential Delete-use edge conflicts.
+	 * @return All potential Delete-use edge conflicts except Delete-Delete
+	 *         conflicts.
 	 */
 	protected Set<PotentialEdgeConflict> findDeleteUseEdgeConflicts(Collection<Edge> deletePredecessors,
 			Collection<Edge> useSuccessors, PotentialRuleConflicts potRuleCon) {
@@ -630,7 +640,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks two edges for a Delete-Use conflict.
+	 * Checks two edges for a Delete-Use conflict except Delete-Delete conflict.
 	 * 
 	 * @param deletePredecessor Edge is on LHS only (<<delete>>)
 	 * @param useSuccessor      Edge is on LHS and RHS or PAC (<<preserve>> or
@@ -679,8 +689,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all edges for Create-Create conflicts (special kind of create-forbid
-	 * for identifying (partial) duplicates).
+	 * Checks all edges for Create-Create conflicts. Note: This isn't a real
+	 * potential conflict but is used for identifying (partial) duplicates.
 	 * 
 	 * @param createPredecessors Edge is on RHS only (<<create>>)
 	 * @param createSuccessor    Edge is on RHS only (<<create>>)
@@ -708,8 +718,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks two edges for a Create-Forbid (create-create) conflict (special kind
-	 * of create-forbid for identifying (partial) duplicates).
+	 * Checks two edges for a Create-Create conflict. Note: This isn't a real
+	 * potential conflict but is used for identifying (partial) duplicates.
 	 * 
 	 * @param createPredecessor Edge is on RHS only (<<create>>)
 	 * @param createSuccessor   Edge is on RHS only (<<create>>)
@@ -829,7 +839,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all potential dangling edges conflicts (special kind of Create-Forbid
+	 * Checks all potential dangling edge conflicts (special kind of Create-Forbid
 	 * conflict).
 	 * 
 	 * @param createPredecessors Edge is on RHS only (<<create>>)
@@ -855,8 +865,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks if a creation edge leads to dangling edges of a deletion node (special
-	 * kind of Create-Forbid conflict).
+	 * Checks if a creation edge leads to a dangling edge of a deletion node
+	 * (special kind of Create-Forbid conflict).
 	 * 
 	 * @param createPredecessor Edge is on RHS only (<<create>>)
 	 * @param deleteSuccessor   Node is on LHS only (<<delete>>)
@@ -930,14 +940,14 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all attributes for Create-Forbid conflicts (the attributes are set
-	 * when creating the node, such that a negative precondition isn't fulfilled
-	 * anymore)
+	 * Checks two attributes for Create-Forbid conflict (the attribute is set when
+	 * creating the node, such that a negative precondition isn't fulfilled anymore)
 	 * 
 	 * @param createPredecessor Attribute of a node that is on RHS only (<<create>>)
 	 * @param forbidSuccessor   Attribute from NAC (<<forbid>>)
 	 * @param potRuleCon        potential conflicts
-	 * @return All Create-Forbid attribute conflicts.
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
 	 */
 	protected boolean isCreateForbidConflict(Attribute createPredecessor, Attribute forbidSuccessor,
 			PotentialRuleConflicts potRuleCon) {
@@ -960,19 +970,21 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
-	 * Checks all attributes for Change-Use conflicts
+	 * Checks all attributes for Change-Use conflicts.
 	 * 
-	 * @param setPredecessors Attribute is RHS only or changing value (<<set>>)
-	 * @param useSuccessors   is LHS or required (<<delete>>, <<preserve>>,
-	 *                        <<required>>)
-	 * @param potRuleCon
-	 * @return
+	 * @param setChangePredecessors Attribute is RHS only or changing value
+	 *                              (<<set>>)
+	 * @param useSuccessors         is LHS or required (<<delete>>, <<preserve>>,
+	 *                              <<required>>)
+	 * @param potRuleCon            potential conflicts
+	 * @return All Change-Use attribute conflicts.
 	 */
-	protected Set<PotentialAttributeConflict> findChangeUseAttributeConflicts(Collection<Attribute> setPredecessors,
-			Collection<Attribute> useSuccessors, PotentialRuleConflicts potRuleCon) {
+	protected Set<PotentialAttributeConflict> findChangeUseAttributeConflicts(
+			Collection<Attribute> setChangePredecessors, Collection<Attribute> useSuccessors,
+			PotentialRuleConflicts potRuleCon) {
 		Set<PotentialAttributeConflict> potConss = new HashSet<>();
 
-		for (Attribute rhsPredecessorAttribute : setPredecessors) {
+		for (Attribute rhsPredecessorAttribute : setChangePredecessors) {
 			for (Attribute lhsSuccessorAttribute : useSuccessors) {
 				if (isChangeUseConflict(rhsPredecessorAttribute, lhsSuccessorAttribute, potRuleCon)) {
 					// Create-Use conflict found
@@ -988,50 +1000,59 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
+	 * Checks two attributes for Change-Use conflict.
 	 * 
-	 * @param setPredecessor
-	 * @param useSuccessor
-	 * @param potRulecon
-	 * @return
+	 * @param setChangePredecessor Attribute is RHS only or changing value (<<set>>)
+	 * @param useSuccessor         is LHS or required (<<delete>>, <<preserve>>,
+	 *                             <<required>>)
+	 * @param potRulecon           potential conflicts
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
 	 */
-	private boolean isChangeUseConflict(Attribute setPredecessor, Attribute useSuccessor,
+	private boolean isChangeUseConflict(Attribute setChangePredecessor, Attribute useSuccessor,
 			PotentialRuleConflicts potRulecon) {
 
-		assert (isCreationAttribute(setPredecessor) || isChangingAttribute(setPredecessor)) : "Input Assertion Failed!";
+		assert ((isCreationAttribute(setChangePredecessor) || isChangingAttribute(setChangePredecessor))
+				&& isPreservedNode(setChangePredecessor
+						.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";
 		assert (isDeletionAttribute(useSuccessor) || isChangingAttribute(useSuccessor)
-				|| isPreservedAttribute(useSuccessor) || isRequireAttribute(useSuccessor)) : "Input Assertion Failed!";
+				|| isPreservedAttribute(useSuccessor) || isRequireAttribute(
+						useSuccessor)) : "Input Assertion failed: deletion, changing, preserved or required attribute expected!";
 
-		if (!(setPredecessor.getType().equals(useSuccessor.getType())
-				&& isAssignableTo(setPredecessor.getNode().getType(), useSuccessor.getNode().getType()))) {
+		if (!(setChangePredecessor.getType().equals(useSuccessor.getType())
+				&& isAssignableTo(setChangePredecessor.getNode().getType(), useSuccessor.getNode().getType()))) {
 			return false;
 		}
 
 		// Attribute case differentiation precondition is not fulfilled?
-		if (isCreationAttribute(setPredecessor) && isLiteral(setPredecessor) && isLiteral(useSuccessor)) {
+		if (isCreationAttribute(setChangePredecessor) && isLiteral(setChangePredecessor) && isLiteral(useSuccessor)) {
 			// Literals are equal
-			return !setPredecessor.getValue().equals(useSuccessor.getValue());
+			return !setChangePredecessor.getValue().equals(useSuccessor.getValue());
 
-		} else if (isChangingAttribute(setPredecessor) && isLiteral(getRemoteAttribute(setPredecessor))
+		} else if (isChangingAttribute(setChangePredecessor) && isLiteral(getRemoteAttribute(setChangePredecessor))
 				&& isLiteral(useSuccessor)) {
 			// Predecessor or successor is variable!
-			return getRemoteAttribute(setPredecessor).getValue().equals(useSuccessor.getValue());
+			return getRemoteAttribute(setChangePredecessor).getValue().equals(useSuccessor.getValue());
 		}
 
 		return true;
 	}
 
 	/**
+	 * Checks all attributes for Change-Forbid conflicts.
 	 * 
-	 * @param setPredecessors
-	 * @param forbidSuccessors
-	 * @param potRuleCon
-	 * @return
+	 * @param setChangePredecessors Attribute is RHS only or changing value
+	 *                              (<<set>>)
+	 * @param forbidSuccessors      Attribute from NAC (<<forbid>>)
+	 * @param potRuleCon            potential conflicts
+	 * @return All Change-Forbid attribute conflicts.
 	 */
-	protected Set<PotentialAttributeConflict> findChangeForbidAttributeConflicts(Collection<Attribute> setPredecessors,
-			Collection<Attribute> forbidSuccessors, PotentialRuleConflicts potRuleCon) {
+	protected Set<PotentialAttributeConflict> findChangeForbidAttributeConflicts(
+			Collection<Attribute> setChangePredecessors, Collection<Attribute> forbidSuccessors,
+			PotentialRuleConflicts potRuleCon) {
 		Set<PotentialAttributeConflict> potCons = new HashSet<>();
 
-		for (Attribute setPredecessor : setPredecessors) {
+		for (Attribute setPredecessor : setChangePredecessors) {
 			for (Attribute forbidSuccessor : forbidSuccessors) {
 				if (isChangeForbidConflict(setPredecessor, forbidSuccessor, potRuleCon)) {
 					// Set-Forbid conflict found
@@ -1047,26 +1068,30 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	}
 
 	/**
+	 * Checks two attributes for Change-Forbid conflict.
 	 * 
-	 * @param setPredecessor
-	 * @param forbidSuccessor
-	 * @param potRuleCon
-	 * @return
+	 * @param setChangePredecessor Attribute is RHS only or changing value (<<set>>)
+	 * @param forbidSuccessor      Attribute from NAC (<<forbid>>)
+	 * @param potRuleCon           potential conflicts
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
 	 */
-	protected boolean isChangeForbidConflict(Attribute setPredecessor, Attribute forbidSuccessor,
+	protected boolean isChangeForbidConflict(Attribute setChangePredecessor, Attribute forbidSuccessor,
 			PotentialRuleConflicts potRuleCon) {
-		assert (isCreationAttribute(setPredecessor) || isChangingAttribute(setPredecessor)) : "Input Assertion Failed!";
-		assert (isForbiddenAttribute(forbidSuccessor)) : "Input Assertion Failed!";
+		assert ((isCreationAttribute(setChangePredecessor) || isChangingAttribute(setChangePredecessor))
+				&& isPreservedNode(setChangePredecessor
+						.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";
+		assert (isForbiddenAttribute(forbidSuccessor)) : "Input Assertion failed: forbidden attribute expected!";
 
 		// Attributes have the same type
-		if (setPredecessor.getType().equals(forbidSuccessor.getType())) {
+		if (setChangePredecessor.getType().equals(forbidSuccessor.getType())) {
 
 			// is predecessor nodeType assignable to successor nodeType?
-			if (isAssignableTo(setPredecessor.getNode().getType(), forbidSuccessor.getNode().getType())) {
+			if (isAssignableTo(setChangePredecessor.getNode().getType(), forbidSuccessor.getNode().getType())) {
 				// Attribute case differentiation precondition is not fulfilled?
-				if (isLiteral(setPredecessor) && isLiteral(forbidSuccessor)) {
+				if (isLiteral(setChangePredecessor) && isLiteral(forbidSuccessor)) {
 					// Literals are equal
-					return setPredecessor.getValue().equals(forbidSuccessor.getValue());
+					return setChangePredecessor.getValue().equals(forbidSuccessor.getValue());
 				}
 				return true;
 			}
@@ -1076,15 +1101,24 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		return false;
 	}
 
-	protected Set<PotentialAttributeConflict> findChangeChangeAttributeConflicts(
-			Collection<Attribute> predecessorSetAttributes, Collection<Attribute> successorSetAttributes,
-			PotentialRuleConflicts potRuleCon) {
+	/**
+	 * Checks all attributes for Change-Change conflicts. Note: That isn't a real
+	 * potential conflict but is used to detect so-called soft-conflicts, i.e. blind
+	 * overwrites.
+	 * 
+	 * @param setPredecessors Attribute is RHS only (<<set>>)
+	 * @param setSuccessors   Attribute is RHS only (<<set>>)
+	 * @param potRuleCon      potential conflicts
+	 * @return All Change-Change attribute conflicts.
+	 */
+	protected Set<PotentialAttributeConflict> findChangeChangeAttributeConflicts(Collection<Attribute> setPredecessors,
+			Collection<Attribute> setSuccessors, PotentialRuleConflicts potRuleCon) {
 		Set<PotentialAttributeConflict> potCons = new HashSet<>();
 
-		for (Attribute setPredecessor : successorSetAttributes) {
-			for (Attribute setSuccessor : successorSetAttributes) {
+		for (Attribute setPredecessor : setPredecessors) {
+			for (Attribute setSuccessor : setSuccessors) {
 				if (isChangeChangeConflict(setPredecessor, setSuccessor, potRuleCon)) {
-					// Set-Forbid conflict found
+					// Set-Set conflict found
 					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
 					potcon.setSourceAttribute(setPredecessor);
 					potcon.setTargetAttribute(setSuccessor);
@@ -1096,10 +1130,23 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		return potCons;
 	}
 
+	/**
+	 * Checks two attributes for Change-Change conflicts. Note: That isn't a real
+	 * potential conflict but is used to detect so-called soft-conflicts, i.e. blind
+	 * overwrites.
+	 * 
+	 * @param setPredecessor Attribute is RHS only or changing value (<<set>>)
+	 * @param setSuccessor   Attribute is RHS only or changing value (<<set>>)
+	 * @param potRuleCon     potential conflicts
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
+	 */
 	protected boolean isChangeChangeConflict(Attribute setPredecessor, Attribute setSuccessor,
 			PotentialRuleConflicts potRuleCon) {
-		assert (isCreationAttribute(setPredecessor)) : "Input Assertion Failed!";
-		assert (isCreationAttribute(setSuccessor)) : "Input Assertion Failed!";
+		assert (isCreationAttribute(setPredecessor) && isPreservedNode(
+				setPredecessor.getNode())) : "Input Assertion failed: set attribute in preserved node expected!";
+		assert (isCreationAttribute(setSuccessor) && isPreservedNode(
+				setSuccessor.getNode())) : "Input Assertion failed: set attribute in preserved node expected!";
 
 		if (!(setPredecessor.getType().equals(setSuccessor.getType())
 				&& isAssignableTo(setPredecessor.getNode().getType(), setSuccessor.getNode().getType()))) {
@@ -1123,14 +1170,14 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	/**
 	 * Tests if the given list contains a potential conflict between the two nodes.
 	 * 
-	 * @param potRuleCon The list of potential conflicts.
-	 * @param nodeA      The first node to test.
-	 * @param nodeB      The second node to test.
+	 * @param potRuleCons The list of potential conflicts.
+	 * @param nodeA       The first node to test.
+	 * @param nodeB       The second node to test.
 	 * @return <code>true</code> if the list contains a potential conflict;
 	 *         <code>false</code> otherwise.
 	 */
-	protected boolean hasPotentialNodeConflict(PotentialRuleConflicts potRuleDep, Node nodeA, Node nodeB) {
-		for (PotentialNodeConflict potCon : potRuleDep.getPotentialNodeConflicts()) {
+	protected boolean hasPotentialNodeConflict(PotentialRuleConflicts potRuleCons, Node nodeA, Node nodeB) {
+		for (PotentialNodeConflict potCon : potRuleCons.getPotentialNodeConflicts()) {
 			if ((potCon.getSourceNode().equals(nodeA) || potCon.getTargetNode().equals(nodeA))
 					&& (potCon.getSourceNode().equals(nodeB) || potCon.getTargetNode().equals(nodeB))) {
 				return true;
