@@ -9,17 +9,14 @@ public interface IRuleBaseColumn {
 	/**
 	 * Initializes a new (given) column.
 	 * 
-	 * @param editor
-	 *            The editor of the column.
-	 * @param column
-	 *            The column to initialize.
-	 * @param layout
-	 *            The layout to initialize.
+	 * @param editor The editor of the column.
+	 * @param column The column to initialize.
+	 * @param layout The layout to initialize.
 	 */
-	public void createColumn(final RulebaseEditor editor, TableViewerColumn column, TableColumnLayout layout);
+	void createColumn(RulebaseEditor editor, TableViewerColumn column, TableColumnLayout layout);
 
 	/**
 	 * @return {@link SWT#NONE}, {@link SWT#LEFT}, {@link SWT#CENTER} , {@link SWT#RIGHT}
 	 */
-	public int getStyle();
+	int getStyle();
 }

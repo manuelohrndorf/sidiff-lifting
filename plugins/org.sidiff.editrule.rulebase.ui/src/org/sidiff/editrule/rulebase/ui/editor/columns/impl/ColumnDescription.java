@@ -11,8 +11,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
@@ -23,21 +22,18 @@ public class ColumnDescription extends AbstractRuleBaseColumn {
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn descriptionColumn, TableColumnLayout layout) {
 		layout.setColumnData(descriptionColumn.getColumn(), new ColumnWeightData(50, 200));
-		
+
 		descriptionColumn.getColumn().setText("Description");
 		descriptionColumn.getColumn().setToolTipText("Description of the edit rule");
-		
+
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
-		
-		descriptionColumn.getColumn().addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				editor.invertSortedAscending();
-				ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
-				ruleViewer.refresh();
-			}
-		});
+
+		descriptionColumn.getColumn().addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+			editor.invertSortedAscending();
+			ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
+			ruleViewer.refresh();
+		}));
 
 		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
