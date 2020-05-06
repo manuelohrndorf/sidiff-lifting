@@ -41,14 +41,13 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		this.editingSupport.setOperationInvocationWrapper(operationInvocationWrapper);
 		this.inputArgumentsViewer.setInput(operationInvocationWrapper.getOperationInvocation().getInParameterBindings());
 	}
-	
-	
+
 	@Override
 	public void refresh() {
 		super.refresh();
 		this.parent.pack();
     }
-	
+
 	@Override
 	public void createControls(Composite parent, TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		this.parent = parent;
@@ -102,28 +101,25 @@ public class InputParameterSection extends AbstractPropertySection implements IV
 		return viewerColumn;
 	}
 
-
 	@Override
 	public void valueChanged() {
 		this.refresh();
-		
 	}
-	
-	public void showQualifiedArgumentName(boolean b){
+
+	public void showQualifiedArgumentName(boolean b) {
 		this.argumentValueLabelProvider.setShowQualifiedArgumentName(b);
 		this.editingSupport.setShowQualifiedArgumentName(b);
 	}
 	
-	public void showReliability(boolean b){
+	public void showReliability(boolean b) {
 		this.argumentValueLabelProvider.setShowReliablities(b);
 		this.editingSupport.setShowReliablities(b);
 	}
 	
-	public void showUnchangedArguments(boolean b){
-		if(!b){
+	public void showUnchangedArguments(boolean b) {
+		if(!b) {
 			this.inputArgumentsViewer.addFilter(this.argumentsFilter);			
-		}
-		else{
+		} else {
 			this.inputArgumentsViewer.removeFilter(this.argumentsFilter);
 		}
 	}

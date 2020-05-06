@@ -207,18 +207,19 @@ public class EditRuleItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		EditRule editRule = (EditRule)object;
-		String typeName = getString("_UI_EditRule_type");
+		return getString("_UI_EditRule_type") + " " + getEditRuleName((EditRule)object);
+	}
+
+	public static String getEditRuleName(EditRule editRule) {
 		Module executeModule = editRule.getExecuteModule();
 		if(executeModule == null) {
-			return typeName + " [no module]";
+			return "[no module]";
 		}
 		if(executeModule.eIsProxy()) {
-			return typeName + " Proxy[" + EcoreUtil.getURI(executeModule) + "]";
+			return "Proxy[" + EcoreUtil.getURI(executeModule) + "]";
 		}
-		return typeName + " " + executeModule.getName();
+		return executeModule.getName();
 	}
-	
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached

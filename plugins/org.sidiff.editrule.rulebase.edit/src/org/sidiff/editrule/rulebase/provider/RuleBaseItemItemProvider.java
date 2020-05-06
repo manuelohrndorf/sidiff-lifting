@@ -155,12 +155,13 @@ public class RuleBaseItemItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		RuleBaseItem ruleBaseItem = (RuleBaseItem)object;
-		return getString("_UI_RuleBaseItem_type") + " " + ruleBaseItem.isActive();
+		return (ruleBaseItem.isActive() ? "[active]" : "[inactive]") + " "
+				+ EditRuleItemProvider.getEditRuleName(ruleBaseItem.getEditRule()) + " ";
 	}
 	
 

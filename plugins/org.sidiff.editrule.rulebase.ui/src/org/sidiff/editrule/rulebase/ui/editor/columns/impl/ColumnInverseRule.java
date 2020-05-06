@@ -11,8 +11,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
@@ -23,21 +22,18 @@ public class ColumnInverseRule extends AbstractRuleBaseColumn {
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn inverseRuleColumn, TableColumnLayout layout) {
 		layout.setColumnData(inverseRuleColumn.getColumn(), new ColumnPixelData(100));
-		
+
 		inverseRuleColumn.getColumn().setText("Inverse");
 		inverseRuleColumn.getColumn().setToolTipText("Inverse edit rule");
-		
+
 		// Sorting support:
 		final TableViewer ruleViewer = editor.getRuleViewer();
-		
-		inverseRuleColumn.getColumn().addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				editor.invertSortedAscending();
-				ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
-				ruleViewer.refresh();
-			}
-		});
+
+		inverseRuleColumn.getColumn().addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+			editor.invertSortedAscending();
+			ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
+			ruleViewer.refresh();
+		}));
 
 		ruleViewer.getTable().setSortColumn(inverseRuleColumn.getColumn());
 

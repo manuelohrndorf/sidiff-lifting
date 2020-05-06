@@ -16,13 +16,14 @@ import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
+import org.sidiff.editrule.rulebase.ui.internal.EditruleRulebaseUiPlugin;
 
 public class ColumnActive extends AbstractRuleBaseColumn {
 
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn activeColumn, TableColumnLayout layout) {
 		layout.setColumnData(activeColumn.getColumn(), new ColumnPixelData(25));
-		
+
 		activeColumn.getColumn().setText("");
 		activeColumn.getColumn().setAlignment(SWT.CENTER);
 		activeColumn.getColumn().setResizable(false);
@@ -30,9 +31,8 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 
 		// Setup editing support for active column header
 		final EditRuleBaseWrapper rbManager = editor.getRulebaseWrapper();
-		
-		activeColumn.getColumn().addSelectionListener(new SelectionListener() {
 
+		activeColumn.getColumn().addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Invert all
@@ -58,10 +58,10 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 			public String getText(Object element) {
 				return "";
 			}
-
 			@Override
 			public Image getImage(Object element) {
-				return editor.getImageDescriptor(((RuleBaseItem) element).isActive() ? "checked.png" : "unchecked.png").createImage();
+				String iconName = ((RuleBaseItem) element).isActive() ? "checked.png" : "unchecked.png";
+				return EditruleRulebaseUiPlugin.getImageDescriptor(iconName).createImage();
 			}
 		});
 
@@ -69,7 +69,6 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 		final TableViewer ruleViewer = editor.getRuleViewer();
 		
 		activeColumn.setEditingSupport(new EditingSupport(ruleViewer) {
-
 			@Override
 			protected boolean canEdit(Object element) {
 				return true;

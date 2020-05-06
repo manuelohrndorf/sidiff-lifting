@@ -11,8 +11,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 import org.sidiff.editrule.rulebase.ui.editor.columns.AbstractRuleBaseColumn;
@@ -20,32 +19,31 @@ import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
 public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 
+	private static final String CLASSIFICATOR = "NameBasedClassificator";
+
 	@Override
 	public void createColumn(final RulebaseEditor editor, TableViewerColumn nameBasedClassificationColumn, TableColumnLayout layout) {
 		layout.setColumnData(nameBasedClassificationColumn.getColumn(), new ColumnPixelData(150));
-		
+
 		nameBasedClassificationColumn.getColumn().setText("Classification");
 		nameBasedClassificationColumn.getColumn().setToolTipText("Classification of the edit rule");
-		
+
 		final TableViewer ruleViewer = editor.getRuleViewer();
-		
+
 		// Sorting support:
-		nameBasedClassificationColumn.getColumn().addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				editor.invertSortedAscending();
-				ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
-				ruleViewer.refresh();
-			}
-		});
+		nameBasedClassificationColumn.getColumn().addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
+			editor.invertSortedAscending();
+			ruleViewer.getTable().setSortDirection(editor.isSortedAscending() ? SWT.UP : SWT.DOWN);
+			ruleViewer.refresh();
+		}));
 
 		nameBasedClassificationColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return EditRuleItemUtil.getClassificationName((RuleBaseItem)element, "NameBasedClassificator");
+				return EditRuleItemUtil.getClassificationName((RuleBaseItem)element, CLASSIFICATOR);
 			}
 		});
-		
+
 		nameBasedClassificationColumn.setEditingSupport(new EditingSupport(ruleViewer) {
 			@Override
 			protected boolean canEdit(Object element) {
@@ -59,13 +57,13 @@ public class ColumnNameBasedClassification extends AbstractRuleBaseColumn {
 
 			@Override
 			protected Object getValue(Object element) {
-				return EditRuleItemUtil.getClassificationName((RuleBaseItem) element, "NameBasedClassificator");
+				return EditRuleItemUtil.getClassificationName((RuleBaseItem) element, CLASSIFICATOR);
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
 				if(!Objects.equals(value, getValue(element))) {
-					EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, "NameBasedClassificator");
+					EditRuleItemUtil.setClassificationName((RuleBaseItem) element, (String) value, CLASSIFICATOR);
 					ruleViewer.update(element, null);
 					editor.setDirty();					
 				}

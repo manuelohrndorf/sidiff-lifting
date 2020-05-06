@@ -14,7 +14,7 @@ public class ColumnEditType extends AbstractRuleBaseColumn {
 	@Override
 	public void createColumn(RulebaseEditor editor, TableViewerColumn editUnitTypeColumn, TableColumnLayout layout) {
 		layout.setColumnData(editUnitTypeColumn.getColumn(), new ColumnPixelData(100));
-		
+
 		editUnitTypeColumn.getColumn().setText("Rule Type");
 		editUnitTypeColumn.getColumn().setResizable(false);
 		editUnitTypeColumn.getColumn().setToolTipText("Edit rule main unit type");

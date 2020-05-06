@@ -67,7 +67,7 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 		this.editingSupport.setListener(this);
 		createColumns();
 	}
-	
+
 	// This will create the columns for the table
 	private void createColumns() {
 		// the status
@@ -99,12 +99,12 @@ public class OutputParameterSection extends AbstractPropertySection implements I
 	public void valueChanged() {
 		this.refresh();
 	}
-	
-	public void showQualifiedArgumentName(boolean b){
+
+	public void showQualifiedArgumentName(boolean b) {
 		this.argumentValueLabelProvider.setShowQualifiedArgumentName(b);
 	}
-	
-	public void showReliability(boolean b){
+
+	public void showReliability(boolean b) {
 		this.argumentValueLabelProvider.setShowReliablities(b);
 	}
 }

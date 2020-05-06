@@ -1,5 +1,9 @@
 package org.sidiff.editrule.rulebase.ui.internal;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -49,4 +53,9 @@ public class EditruleRulebaseUiPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	public static ImageDescriptor getImageDescriptor(String name) {
+		return ImageDescriptor.createFromURL(
+				FileLocator.find(Platform.getBundle(EditruleRulebaseUiPlugin.PLUGIN_ID),
+						new Path(String.format("icons/%s", name)), null));
+	}
 }
