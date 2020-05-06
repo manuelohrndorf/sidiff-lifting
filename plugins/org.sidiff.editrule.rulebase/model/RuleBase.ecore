@@ -57,16 +57,14 @@
         eType="#//EditRuleAttachment" containment="true" eOpposite="#//EditRuleAttachment/ruleBaseItem"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PotentialDependencyKind">
-    <eLiterals name="CreateDelete"/>
-    <eLiterals name="CreateUse" value="1"/>
-    <eLiterals name="DeleteCreate" value="2"/>
-    <eLiterals name="DeleteForbid" value="3"/>
-    <eLiterals name="ChangeUse" value="4"/>
-    <eLiterals name="ChangeForbid" value="5"/>
-    <eLiterals name="UseDelete" value="6"/>
-    <eLiterals name="ForbidCreate" value="7"/>
-    <eLiterals name="UseChange" value="8"/>
-    <eLiterals name="ForbidChange" value="9"/>
+    <eLiterals name="CreateUse"/>
+    <eLiterals name="DeleteForbid" value="1"/>
+    <eLiterals name="ChangeUse" value="2"/>
+    <eLiterals name="ChangeForbid" value="3"/>
+    <eLiterals name="UseDelete" value="4"/>
+    <eLiterals name="ForbidCreate" value="5"/>
+    <eLiterals name="UseChange" value="6"/>
+    <eLiterals name="ForbidChange" value="7"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PotentialDependency" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//PotentialDependencyKind"/>
@@ -131,15 +129,14 @@
         eType="#//EditRule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" lowerBound="1"
         eType="#//EditRule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duplicate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PotentialConflictKind">
-    <eLiterals name="DeleteDelete"/>
-    <eLiterals name="DeleteUse" value="1"/>
-    <eLiterals name="CreateCreate" value="2"/>
-    <eLiterals name="CreateForbid" value="3"/>
-    <eLiterals name="ChangeUse" value="4"/>
-    <eLiterals name="ChangeForbid" value="5"/>
-    <eLiterals name="ChangeChange" value="6" literal="ChangeChange"/>
+    <eLiterals name="DeleteUse"/>
+    <eLiterals name="CreateForbid" value="1"/>
+    <eLiterals name="ChangeUse" value="2"/>
+    <eLiterals name="ChangeForbid" value="3"/>
+    <eLiterals name="ChangeChange" value="4" literal="ChangeChange"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PotentialNodeConflict" eSuperTypes="#//PotentialConflict">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"

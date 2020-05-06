@@ -23,16 +23,6 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum PotentialDependencyKind implements Enumerator {
 	/**
-	 * The '<em><b>Use Delete</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #USE_DELETE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	USE_DELETE(0, "UseDelete", "UseDelete"),
-
-	/**
 	 * The '<em><b>Create Use</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -40,9 +30,15 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CREATE_USE(1, "CreateUse", "CreateUse"),
-
-	/**
+	CREATE_USE(0, "CreateUse", "CreateUse"), /**
+	 * The '<em><b>Delete Forbid</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_FORBID_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DELETE_FORBID(1, "DeleteForbid", "DeleteForbid"), /**
 	 * The '<em><b>Change Use</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -50,17 +46,23 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHANGE_USE(2, "ChangeUse", "ChangeUse"),
-
-	/**
-	 * The '<em><b>Use Change</b></em>' literal object.
+	CHANGE_USE(2, "ChangeUse", "ChangeUse"), /**
+	 * The '<em><b>Change Forbid</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #USE_CHANGE_VALUE
+	 * @see #CHANGE_FORBID_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	USE_CHANGE(3, "UseChange", "UseChange"), /**
+	CHANGE_FORBID(3, "ChangeForbid", "ChangeForbid"), /**
+	 * The '<em><b>Use Delete</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #USE_DELETE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	USE_DELETE(4, "UseDelete", "UseDelete"), /**
 	 * The '<em><b>Forbid Create</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,14 +71,14 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @ordered
 	 */
 	FORBID_CREATE(5, "ForbidCreate", "ForbidCreate"), /**
-	 * The '<em><b>Delete Forbid</b></em>' literal object.
+	 * The '<em><b>Use Change</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #DELETE_FORBID_VALUE
+	 * @see #USE_CHANGE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	DELETE_FORBID(4, "DeleteForbid", "DeleteForbid"), /**
+	USE_CHANGE(6, "UseChange", "UseChange"), /**
 	 * The '<em><b>Forbid Change</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,46 +86,7 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FORBID_CHANGE(6, "ForbidChange", "ForbidChange"), /**
-	 * The '<em><b>Change Forbid</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CHANGE_FORBID_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	CHANGE_FORBID(7, "ChangeForbid", "ChangeForbid"), /**
-	 * The '<em><b>Create Delete</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CREATE_DELETE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	CREATE_DELETE(8, "CreateDelete", "CreateDelete"), /**
-	 * The '<em><b>Delete Create</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DELETE_CREATE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DELETE_CREATE(9, "DeleteCreate", "DeleteCreate");
-
-	/**
-	 * The '<em><b>Use Delete</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Use Delete</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #USE_DELETE
-	 * @model name="UseDelete"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int USE_DELETE_VALUE = 0;
+	FORBID_CHANGE(7, "ForbidChange", "ForbidChange");
 
 	/**
 	 * The '<em><b>Create Use</b></em>' literal value.
@@ -138,7 +101,22 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CREATE_USE_VALUE = 1;
+	public static final int CREATE_USE_VALUE = 0;
+
+	/**
+	 * The '<em><b>Delete Forbid</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Delete Forbid</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DELETE_FORBID
+	 * @model name="DeleteForbid"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DELETE_FORBID_VALUE = 1;
 
 	/**
 	 * The '<em><b>Change Use</b></em>' literal value.
@@ -156,19 +134,34 @@ public enum PotentialDependencyKind implements Enumerator {
 	public static final int CHANGE_USE_VALUE = 2;
 
 	/**
-	 * The '<em><b>Use Change</b></em>' literal value.
+	 * The '<em><b>Change Forbid</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Use Change</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Change Forbid</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #USE_CHANGE
-	 * @model name="UseChange"
+	 * @see #CHANGE_FORBID
+	 * @model name="ChangeForbid"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USE_CHANGE_VALUE = 3;
+	public static final int CHANGE_FORBID_VALUE = 3;
+
+	/**
+	 * The '<em><b>Use Delete</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Use Delete</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #USE_DELETE
+	 * @model name="UseDelete"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int USE_DELETE_VALUE = 4;
 
 	/**
 	 * The '<em><b>Forbid Create</b></em>' literal value.
@@ -186,19 +179,19 @@ public enum PotentialDependencyKind implements Enumerator {
 	public static final int FORBID_CREATE_VALUE = 5;
 
 	/**
-	 * The '<em><b>Delete Forbid</b></em>' literal value.
+	 * The '<em><b>Use Change</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Delete Forbid</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Use Change</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #DELETE_FORBID
-	 * @model name="DeleteForbid"
+	 * @see #USE_CHANGE
+	 * @model name="UseChange"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DELETE_FORBID_VALUE = 4;
+	public static final int USE_CHANGE_VALUE = 6;
 
 	/**
 	 * The '<em><b>Forbid Change</b></em>' literal value.
@@ -213,44 +206,7 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FORBID_CHANGE_VALUE = 6;
-
-	/**
-	 * The '<em><b>Change Forbid</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Change Forbid</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CHANGE_FORBID
-	 * @model name="ChangeForbid"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CHANGE_FORBID_VALUE = 7;
-
-	/**
-	 * The '<em><b>Create Delete</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CREATE_DELETE
-	 * @model name="CreateDelete"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CREATE_DELETE_VALUE = 8;
-
-	/**
-	 * The '<em><b>Delete Create</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DELETE_CREATE
-	 * @model name="DeleteCreate"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DELETE_CREATE_VALUE = 9;
+	public static final int FORBID_CHANGE_VALUE = 7;
 
 	/**
 	 * An array of all the '<em><b>Potential Dependency Kind</b></em>' enumerators.
@@ -260,16 +216,14 @@ public enum PotentialDependencyKind implements Enumerator {
 	 */
 	private static final PotentialDependencyKind[] VALUES_ARRAY =
 		new PotentialDependencyKind[] {
-			USE_DELETE,
 			CREATE_USE,
-			CHANGE_USE,
-			USE_CHANGE,
-			FORBID_CREATE,
 			DELETE_FORBID,
-			FORBID_CHANGE,
+			CHANGE_USE,
 			CHANGE_FORBID,
-			CREATE_DELETE,
-			DELETE_CREATE,
+			USE_DELETE,
+			FORBID_CREATE,
+			USE_CHANGE,
+			FORBID_CHANGE,
 		};
 
 	/**
@@ -326,16 +280,14 @@ public enum PotentialDependencyKind implements Enumerator {
 	 */
 	public static PotentialDependencyKind get(int value) {
 		switch (value) {
-			case USE_DELETE_VALUE: return USE_DELETE;
 			case CREATE_USE_VALUE: return CREATE_USE;
-			case CHANGE_USE_VALUE: return CHANGE_USE;
-			case USE_CHANGE_VALUE: return USE_CHANGE;
-			case FORBID_CREATE_VALUE: return FORBID_CREATE;
 			case DELETE_FORBID_VALUE: return DELETE_FORBID;
-			case FORBID_CHANGE_VALUE: return FORBID_CHANGE;
+			case CHANGE_USE_VALUE: return CHANGE_USE;
 			case CHANGE_FORBID_VALUE: return CHANGE_FORBID;
-			case CREATE_DELETE_VALUE: return CREATE_DELETE;
-			case DELETE_CREATE_VALUE: return DELETE_CREATE;
+			case USE_DELETE_VALUE: return USE_DELETE;
+			case FORBID_CREATE_VALUE: return FORBID_CREATE;
+			case USE_CHANGE_VALUE: return USE_CHANGE;
+			case FORBID_CHANGE_VALUE: return FORBID_CHANGE;
 		}
 		return null;
 	}

@@ -189,7 +189,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 */
 
 		if (!predecessorDeleteEdges.isEmpty()) {
-			// Delete-Delete ((partial) duplicates) 
+			// Delete-Delete ((partial) duplicates)
 			if (!successorDeleteEdges.isEmpty()) {
 				Set<PotentialEdgeConflict> deleteDeleteEdgePotCons = findDeleteDeleteEdgeConflicts(
 						predecessorDeleteEdges, successorDeleteEdges, potRuleCon);
@@ -275,7 +275,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				}
 				potRuleCon.addAllPACs(setUseAttributePotCons);
 			}
-			// Change-Forbid 
+			// Change-Forbid
 			if (!successorForbidAttributes.isEmpty()) {
 				Set<PotentialAttributeConflict> setForbidAttributePotCons = findChangeForbidAttributeConflicts(
 						predecessorSetChangeAttributes, successorForbidAttributes, potRuleCon);
@@ -287,9 +287,9 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				potRuleCon.addAllPACs(setForbidAttributePotCons);
 			}
 		}
-		
+
 		// Change-Change
-		if(!predecessorSetAttributes.isEmpty() && !successorSetAttributes.isEmpty()) {
+		if (!predecessorSetAttributes.isEmpty() && !successorSetAttributes.isEmpty()) {
 			Set<PotentialAttributeConflict> changeChangeAttributePotCons = findChangeChangeAttributeConflicts(
 					predecessorSetAttributes, successorSetAttributes, potRuleCon);
 
@@ -309,7 +309,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks all nodes for Delete-Delete conflicts (special kind of delete-use for
-	 * identifying (partial) duplicates).
+	 * identifying duplicates).
 	 * 
 	 * @param deletePredecessors Nodes on LHS only (<<delete>>).
 	 * @param deleteSuccessors   Nodes on LHS only (<<delete>>).
@@ -327,7 +327,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode);
-					potCon.setKind(PotentialConflictKind.DELETE_DELETE);
+					potCon.setKind(PotentialConflictKind.DELETE_USE);
+					potCon.setDuplicate(true);
 					potCons.add(potCon);
 				}
 			}
@@ -420,7 +421,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks all nodes for Create-Create conflicts. Note: This isn't a real
-	 * potential conflict but is used for identifying (partial) duplicates.
+	 * potential conflict but is used for identifying duplicates. It is treated as
+	 * special kind of create-forbid conflict
 	 * 
 	 * @param createPredecessors Nodes on RHS only (<<create>>).
 	 * @param createSuccessors   Nodes on RHS only (<<create>>).
@@ -438,7 +440,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode);
-					potCon.setKind(PotentialConflictKind.CREATE_CREATE);
+					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setDuplicate(true);
 					potCons.add(potCon);
 				}
 			}
@@ -448,7 +451,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks two nodes for a Create-Create conflict. Note: This isn't a real
-	 * potential conflict but is used for identifying (partial) duplicates.
+	 * potential conflict but is used for identifying duplicates.
 	 * 
 	 * @param lhsPredecessor Node is on RHS (<<create>>).
 	 * @param lhsSuccessor   Node is on RHS (<<create>>).
@@ -534,7 +537,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks all edges for Delete-Delete conflicts (special kind of delete-use for
-	 * identifying (partial) duplicates).
+	 * identifying duplicates).
 	 * 
 	 * @param deletePredecessors Edges on LHS only (<<delete>>).
 	 * @param deleteSuccessors   Edges on LHS only (<<delete>>).
@@ -553,7 +556,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
 					potCon.setSourceEdge(successorEdge);
 					potCon.setTargetEdge(predecessorEdge);
-					potCon.setKind(PotentialConflictKind.DELETE_DELETE);
+					potCon.setKind(PotentialConflictKind.DELETE_USE);
+					potCon.setDuplicate(true);
 					potCons.add(potCon);
 				}
 			}
@@ -563,7 +567,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks two edges for a Delete-Delete conflict (special kind of delete-use for
-	 * identifying (partial) duplicates).
+	 * identifying duplicates).
 	 * 
 	 * @param deletePredecessor Edge is on LHS only (<<delete>>)
 	 * @param deleteSuccessor   Edge is on LHS only (<<delete>>).
@@ -690,7 +694,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 	/**
 	 * Checks all edges for Create-Create conflicts. Note: This isn't a real
-	 * potential conflict but is used for identifying (partial) duplicates.
+	 * potential conflict but is used for identifying duplicates. It is treated as
+	 * special kind of create-forbid conflict
 	 * 
 	 * @param createPredecessors Edge is on RHS only (<<create>>)
 	 * @param createSuccessor    Edge is on RHS only (<<create>>)
@@ -709,7 +714,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialEdgeConflict potCon = rbFactory.createPotentialEdgeConflict();
 					potCon.setSourceEdge(predecessorEdge);
 					potCon.setTargetEdge(successorEdge);
-					potCon.setKind(PotentialConflictKind.CREATE_CREATE);
+					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setDuplicate(true);
 					potCons.add(potCon);
 				}
 			}
@@ -1031,10 +1037,10 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 		} else if (isChangingAttribute(setChangePredecessor) && isLiteral(getRemoteAttribute(setChangePredecessor))
 				&& isLiteral(useSuccessor)) {
-			// Predecessor or successor is variable!
+
 			return getRemoteAttribute(setChangePredecessor).getValue().equals(useSuccessor.getValue());
 		}
-
+		// Predecessor or successor is variable!
 		return true;
 	}
 

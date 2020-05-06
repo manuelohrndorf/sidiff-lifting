@@ -13,7 +13,7 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isDeletionNode
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isForbiddenNode;
-import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHSAttribute;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLHS;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isPreservedNode;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireAttribute;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
@@ -359,7 +359,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
 					potDep.setSourceNode(successorNode);
 					potDep.setTargetNode(predecessorNode);
-					potDep.setKind(PotentialDependencyKind.CREATE_DELETE);
+					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(true);
 					potDeps.add(potDep);
 				}
@@ -551,7 +551,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					PotentialNodeDependency potDep = rbFactory.createPotentialNodeDependency();
 					potDep.setSourceNode(successorNode);
 					potDep.setTargetNode(predecessorNode);
-					potDep.setKind(PotentialDependencyKind.DELETE_CREATE);
+					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(true);
 					potDeps.add(potDep);
 				}
@@ -1175,7 +1175,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					PotentialEdgeDependency potDep = rbFactory.createPotentialEdgeDependency();
 					potDep.setSourceEdge(successorEdge);
 					potDep.setTargetEdge(predecessorEdge);
-					potDep.setKind(PotentialDependencyKind.DELETE_CREATE);
+					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(true);
 					potDeps.add(potDep);
 				}
@@ -1674,7 +1674,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 
 		assert (isCreationAttribute(createPredecessor) && isCreationNode(
 				createPredecessor.getNode())) : "Input Assertion failed: set attribute in creation node expected!";
-		assert (isLHSAttribute(useSuccessor)
+		assert (isLHS(useSuccessor)
 				|| isRequireAttribute(useSuccessor)) : "Input Assertion failed: lhs or required attribute expected!";
 
 		// Attributes have the same type
@@ -1738,7 +1738,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		assert ((isCreationAttribute(setPredecessor) || isChangingAttribute(setPredecessor))
 				&& isPreservedNode(setPredecessor
 						.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";
-		assert (isLHSAttribute(useSuccessor)
+		assert (isLHS(useSuccessor)
 				|| isRequireAttribute(useSuccessor)) : "Input Assertion failed: lhs or required attribute expected!";
 
 		// Attributes have the same type
@@ -1875,7 +1875,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 */
 	protected boolean isUseChangeDependency(Attribute usePredecessor, Attribute setSuccessor) {
 
-		assert (isLHSAttribute(usePredecessor)
+		assert (isLHS(usePredecessor)
 				|| isRequireAttribute(usePredecessor)) : "Input Assertion failed: lhs or required attribute expected!";
 		assert ((isCreationAttribute(setSuccessor) || isChangingAttribute(setSuccessor)) && isPreservedNode(setSuccessor
 				.getNode())) : "Input Assertion failed: set or changing attribute in preserved node expected!";

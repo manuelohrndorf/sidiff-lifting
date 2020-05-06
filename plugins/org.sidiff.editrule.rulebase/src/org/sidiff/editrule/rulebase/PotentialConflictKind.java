@@ -26,19 +26,7 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	DELETE_USE(0, "DeleteUse", "DeleteUse"),
-
-	/**
-	 * The '<em><b>Change Use</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CHANGE_USE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	CHANGE_USE(1, "ChangeUse", "ChangeUse"),
-
-	/**
+	DELETE_USE(0, "DeleteUse", "DeleteUse"), /**
 	 * The '<em><b>Create Forbid</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -46,9 +34,15 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CREATE_FORBID(2, "CreateForbid", "CreateForbid"),
-
-	/**
+	CREATE_FORBID(1, "CreateForbid", "CreateForbid"), /**
+	 * The '<em><b>Change Use</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CHANGE_USE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CHANGE_USE(2, "ChangeUse", "ChangeUse"), /**
 	 * The '<em><b>Change Forbid</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -64,23 +58,7 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHANGE_CHANGE(4, "ChangeChange", "ChangeChange"), /**
-	 * The '<em><b>Create Create</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CREATE_CREATE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	CREATE_CREATE(5, "CreateCreate", "CreateCreate"), /**
-	 * The '<em><b>Delete Delete</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DELETE_DELETE_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	DELETE_DELETE(6, "DeleteDelete", "DeleteDelete");
+	CHANGE_CHANGE(4, "ChangeChange", "ChangeChange");
 
 	/**
 	 * The '<em><b>Delete Use</b></em>' literal value.
@@ -98,21 +76,6 @@ public enum PotentialConflictKind implements Enumerator {
 	public static final int DELETE_USE_VALUE = 0;
 
 	/**
-	 * The '<em><b>Change Use</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Change Use</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #CHANGE_USE
-	 * @model name="ChangeUse"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CHANGE_USE_VALUE = 1;
-
-	/**
 	 * The '<em><b>Create Forbid</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -125,7 +88,22 @@ public enum PotentialConflictKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CREATE_FORBID_VALUE = 2;
+	public static final int CREATE_FORBID_VALUE = 1;
+
+	/**
+	 * The '<em><b>Change Use</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Change Use</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CHANGE_USE
+	 * @model name="ChangeUse"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CHANGE_USE_VALUE = 2;
 
 	/**
 	 * The '<em><b>Change Forbid</b></em>' literal value.
@@ -158,28 +136,6 @@ public enum PotentialConflictKind implements Enumerator {
 	public static final int CHANGE_CHANGE_VALUE = 4;
 
 	/**
-	 * The '<em><b>Create Create</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #CREATE_CREATE
-	 * @model name="CreateCreate"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int CREATE_CREATE_VALUE = 5;
-
-	/**
-	 * The '<em><b>Delete Delete</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #DELETE_DELETE
-	 * @model name="DeleteDelete"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DELETE_DELETE_VALUE = 6;
-
-	/**
 	 * An array of all the '<em><b>Potential Conflict Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -188,12 +144,10 @@ public enum PotentialConflictKind implements Enumerator {
 	private static final PotentialConflictKind[] VALUES_ARRAY =
 		new PotentialConflictKind[] {
 			DELETE_USE,
-			CHANGE_USE,
 			CREATE_FORBID,
+			CHANGE_USE,
 			CHANGE_FORBID,
 			CHANGE_CHANGE,
-			CREATE_CREATE,
-			DELETE_DELETE,
 		};
 
 	/**
@@ -251,12 +205,10 @@ public enum PotentialConflictKind implements Enumerator {
 	public static PotentialConflictKind get(int value) {
 		switch (value) {
 			case DELETE_USE_VALUE: return DELETE_USE;
-			case CHANGE_USE_VALUE: return CHANGE_USE;
 			case CREATE_FORBID_VALUE: return CREATE_FORBID;
+			case CHANGE_USE_VALUE: return CHANGE_USE;
 			case CHANGE_FORBID_VALUE: return CHANGE_FORBID;
 			case CHANGE_CHANGE_VALUE: return CHANGE_CHANGE;
-			case CREATE_CREATE_VALUE: return CREATE_CREATE;
-			case DELETE_DELETE_VALUE: return DELETE_DELETE;
 		}
 		return null;
 	}

@@ -856,6 +856,16 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
+	public EAttribute getPotentialConflict_Duplicate() {
+		return (EAttribute)potentialConflictEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getPotentialNodeConflict() {
 		return potentialNodeConflictEClass;
 	}
@@ -1170,6 +1180,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__KIND);
 		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__SOURCE_RULE);
 		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__TARGET_RULE);
+		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__DUPLICATE);
 
 		potentialNodeConflictEClass = createEClass(POTENTIAL_NODE_CONFLICT);
 		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__RULE_BASE);
@@ -1314,6 +1325,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEAttribute(getPotentialConflict_Kind(), this.getPotentialConflictKind(), "kind", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialConflict_SourceRule(), this.getEditRule(), null, "sourceRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialConflict_TargetRule(), this.getEditRule(), null, "targetRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPotentialConflict_Duplicate(), ecorePackage.getEBoolean(), "duplicate", null, 0, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialNodeConflictEClass, PotentialNodeConflict.class, "PotentialNodeConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialNodeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialNodeConflicts(), "ruleBase", null, 0, 1, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1339,16 +1351,14 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		// Initialize enums and add enum literals
 		initEEnum(potentialDependencyKindEEnum, PotentialDependencyKind.class, "PotentialDependencyKind");
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.USE_DELETE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CREATE_USE);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CHANGE_USE);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.USE_CHANGE);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CREATE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.DELETE_FORBID);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CHANGE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CHANGE_USE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CHANGE_FORBID);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.CREATE_DELETE);
-		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.DELETE_CREATE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.USE_DELETE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CREATE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.USE_CHANGE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CHANGE);
 
 		initEEnum(parameterDirectionEEnum, ParameterDirection.class, "ParameterDirection");
 		addEEnumLiteral(parameterDirectionEEnum, ParameterDirection.IN);
@@ -1360,12 +1370,10 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 
 		initEEnum(potentialConflictKindEEnum, PotentialConflictKind.class, "PotentialConflictKind");
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.DELETE_USE);
-		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_USE);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_FORBID);
+		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_USE);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_FORBID);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_CHANGE);
-		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CREATE_CREATE);
-		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.DELETE_DELETE);
 
 		// Create resource
 		createResource(eNS_URI);

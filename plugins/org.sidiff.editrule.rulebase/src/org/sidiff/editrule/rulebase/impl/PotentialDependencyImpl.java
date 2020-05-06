@@ -41,7 +41,7 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * @generated
 	 * @ordered
 	 */
-	protected static final PotentialDependencyKind KIND_EDEFAULT = PotentialDependencyKind.USE_DELETE;
+	protected static final PotentialDependencyKind KIND_EDEFAULT = PotentialDependencyKind.CREATE_USE;
 
 	/**
 	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.

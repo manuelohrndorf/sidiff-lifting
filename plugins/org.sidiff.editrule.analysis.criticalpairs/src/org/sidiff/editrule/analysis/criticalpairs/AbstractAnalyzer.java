@@ -13,9 +13,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.editrule.analysis.criticalpairs.util.SubTypeIndex;
 import org.sidiff.editrule.rulebase.RulebaseFactory;
+import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isLiteral;
 
 /**
  * 
@@ -85,6 +87,7 @@ public abstract class AbstractAnalyzer {
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is a literal;
 	 *         <code>false</code> if it is a variable or expression.
+	 * @deprecated use {@link HenshinRuleAnalysisUtilEx#isLiteral(Attribute)}
 	 */
 	protected boolean isLiteral(Attribute attribute) {
 		String value = attribute.getValue();

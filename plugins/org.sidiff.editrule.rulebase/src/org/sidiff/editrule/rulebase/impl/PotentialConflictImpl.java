@@ -23,6 +23,7 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#getTargetRule <em>Target Rule</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialConflictImpl#isDuplicate <em>Duplicate</em>}</li>
  * </ul>
  *
  * @generated
@@ -67,6 +68,26 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @ordered
 	 */
 	protected EditRule targetRule;
+
+	/**
+	 * The default value of the '{@link #isDuplicate() <em>Duplicate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDuplicate()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean DUPLICATE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isDuplicate() <em>Duplicate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDuplicate()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean duplicate = DUPLICATE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -196,6 +217,29 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 	 * @generated
 	 */
 	@Override
+	public boolean isDuplicate() {
+		return duplicate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setDuplicate(boolean newDuplicate) {
+		boolean oldDuplicate = duplicate;
+		duplicate = newDuplicate;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE, oldDuplicate, duplicate));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
@@ -206,6 +250,8 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				if (resolve) return getTargetRule();
 				return basicGetTargetRule();
+			case RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE:
+				return isDuplicate();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -226,6 +272,9 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 				return;
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				setTargetRule((EditRule)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE:
+				setDuplicate((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -248,6 +297,9 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				setTargetRule((EditRule)null);
 				return;
+			case RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE:
+				setDuplicate(DUPLICATE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -266,6 +318,8 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 				return sourceRule != null;
 			case RulebasePackage.POTENTIAL_CONFLICT__TARGET_RULE:
 				return targetRule != null;
+			case RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE:
+				return duplicate != DUPLICATE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -282,6 +336,8 @@ public abstract class PotentialConflictImpl extends EObjectImpl implements Poten
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (kind: ");
 		result.append(kind);
+		result.append(", duplicate: ");
+		result.append(duplicate);
 		result.append(')');
 		return result.toString();
 	}

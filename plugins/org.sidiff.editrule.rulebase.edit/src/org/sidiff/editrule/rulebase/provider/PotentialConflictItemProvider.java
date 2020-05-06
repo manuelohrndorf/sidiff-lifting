@@ -64,6 +64,7 @@ public class PotentialConflictItemProvider
 			addKindPropertyDescriptor(object);
 			addSourceRulePropertyDescriptor(object);
 			addTargetRulePropertyDescriptor(object);
+			addDuplicatePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -135,6 +136,28 @@ public class PotentialConflictItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Duplicate feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addDuplicatePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialConflict_duplicate_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialConflict_duplicate_feature", "_UI_PotentialConflict_type"),
+				 RulebasePackage.Literals.POTENTIAL_CONFLICT__DUPLICATE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns PotentialConflict.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -174,6 +197,7 @@ public class PotentialConflictItemProvider
 
 		switch (notification.getFeatureID(PotentialConflict.class)) {
 			case RulebasePackage.POTENTIAL_CONFLICT__KIND:
+			case RulebasePackage.POTENTIAL_CONFLICT__DUPLICATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

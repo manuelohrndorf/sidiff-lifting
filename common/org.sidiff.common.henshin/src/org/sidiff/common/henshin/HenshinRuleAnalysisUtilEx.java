@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -2905,6 +2906,43 @@ public class HenshinRuleAnalysisUtilEx {
 			return isEmbeddedAttribute(parentNode, attribute);
 		}
 		
+		return false;
+	}
+	
+	/**
+	 * Checks if the attribute is a literal attribute.
+	 * 
+	 * @param attribute
+	 *            The attribute to test.
+	 * @return <code>true</code> if the attribute is a literal;
+	 *         <code>false</code> if it is a variable or expression.
+	 */
+	public static boolean isLiteral(Attribute attribute) {
+		String value = attribute.getValue();
+
+		/*
+		 *  String
+		 */
+		if (value.startsWith("\"") && value.endsWith("\"")) {
+			return true;
+		}
+
+		/*
+		 * Value
+		 */
+		try {
+			EAttribute type = attribute.getType();
+			if(type != null) {
+				// Strings must have been escaped with " "
+				EDataType dataType = type.getEAttributeType();
+				if(dataType.getInstanceClass() != String.class) {
+					EcoreUtil.createFromString(dataType, value);
+					return true;					
+				}
+			}
+		} catch(Exception e) {
+		}
+
 		return false;
 	}
 }

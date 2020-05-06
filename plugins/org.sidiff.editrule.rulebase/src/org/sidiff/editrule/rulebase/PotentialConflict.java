@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getKind <em>Kind</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getTargetRule <em>Target Rule</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#isDuplicate <em>Duplicate</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict()
@@ -99,5 +100,27 @@ public interface PotentialConflict extends EObject {
 	 * @generated
 	 */
 	void setTargetRule(EditRule value);
+
+	/**
+	 * Returns the value of the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Duplicate</em>' attribute.
+	 * @see #setDuplicate(boolean)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_Duplicate()
+	 * @model
+	 * @generated
+	 */
+	boolean isDuplicate();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialConflict#isDuplicate <em>Duplicate</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Duplicate</em>' attribute.
+	 * @see #isDuplicate()
+	 * @generated
+	 */
+	void setDuplicate(boolean value);
 
 } // PotentialConflict

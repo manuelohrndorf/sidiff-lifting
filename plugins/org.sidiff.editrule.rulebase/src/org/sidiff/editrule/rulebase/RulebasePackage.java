@@ -819,13 +819,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_CONFLICT__TARGET_RULE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_CONFLICT__DUPLICATE = 3;
+
+	/**
 	 * The number of structural features of the '<em>Potential Conflict</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_CONFLICT_FEATURE_COUNT = 3;
+	int POTENTIAL_CONFLICT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl <em>Potential Node Conflict</em>}' class.
@@ -863,6 +872,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_NODE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -938,6 +956,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
 
 	/**
+	 * The feature id for the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1009,6 +1036,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_ATTRIBUTE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1100,6 +1136,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_DANGLING_EDGE_CONFLICT__TARGET_RULE = POTENTIAL_CONFLICT__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Duplicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1839,6 +1884,17 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getPotentialConflict_TargetRule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialConflict#isDuplicate <em>Duplicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Duplicate</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialConflict#isDuplicate()
+	 * @see #getPotentialConflict()
+	 * @generated
+	 */
+	EAttribute getPotentialConflict_Duplicate();
 
 	/**
 	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict <em>Potential Node Conflict</em>}'.
@@ -2605,6 +2661,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference POTENTIAL_CONFLICT__TARGET_RULE = eINSTANCE.getPotentialConflict_TargetRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Duplicate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POTENTIAL_CONFLICT__DUPLICATE = eINSTANCE.getPotentialConflict_Duplicate();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl <em>Potential Node Conflict</em>}' class.

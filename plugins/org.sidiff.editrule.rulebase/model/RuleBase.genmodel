@@ -10,16 +10,14 @@
   <genPackages prefix="Rulebase" basePackage="org.sidiff.editrule" disposableProviderFactory="true"
       ecorePackage="RuleBase.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//PotentialDependencyKind">
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseDelete"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/CreateUse"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ChangeUse"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseChange"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidCreate"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/DeleteForbid"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ChangeUse"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ChangeForbid"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/CreateDelete"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/DeleteCreate"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseDelete"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidCreate"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidChange"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//ParameterDirection">
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterDirection/IN"/>
@@ -31,12 +29,10 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//PotentialConflictKind">
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/DeleteUse"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeUse"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/CreateForbid"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeUse"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeForbid"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeChange"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/CreateCreate"/>
-      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/DeleteDelete"/>
     </genEnums>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/key"/>
@@ -112,6 +108,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/kind"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/sourceRule"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/targetRule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/duplicate"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/ruleBase"/>
