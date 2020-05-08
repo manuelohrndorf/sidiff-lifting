@@ -8,7 +8,7 @@ import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
 
 /**
  * An {@link AdvancedPropertySection} that assumes the part is
- * a {@link RulebaseEditor} to obtains and use its adapter factory.
+ * a {@link RulebaseEditor} to obtain and use its adapter factory.
  * @author rmueller
  */
 public class DefaultPropertySection extends AdvancedPropertySection {

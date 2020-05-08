@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -37,6 +39,7 @@ import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.provider.EditRuleItemProvider;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
+import org.sidiff.editrule.rulebase.ui.internal.EditruleRulebaseUiPlugin;
 
 /**
  * Property section which shows the outgoing {@link PotentialConflict}s
@@ -115,56 +118,16 @@ public class PotentialConflictsSection extends AbstractPropertySection {
 			treeViewer.getTree().setLayoutData(data);
 		}
 
-		createConflictColumn();
-		createDetailsColumn();
+		TreeViewerColumn conflictColumn = createColumn(treeViewer, "Potential Conflict", 400);
+		conflictColumn.setLabelProvider(new ConflictsColumnLabelProvider());
+
+		TreeViewerColumn detailsColumn = createColumn(treeViewer, "Details", 300);
+		detailsColumn.setLabelProvider(new DetailsColumnLabelProvider());
+
+		ColumnViewerToolTipSupport.enableFor(treeViewer);
 	}
 
-	private void createConflictColumn() {
-		TreeViewerColumn column = createTreeViewerColumn("Potential Conflict", 400);
-		column.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				if(element instanceof ConflictTargetRuleWrapper) {
-					ConflictTargetRuleWrapper wrapper = (ConflictTargetRuleWrapper)element;
-					return EditRuleItemProvider.getEditRuleName(wrapper.targetRule);					
-				} else if(element instanceof ConflictKindWrapper) {
-					ConflictKindWrapper wrapper = (ConflictKindWrapper)element;
-					return wrapper.kind.toString();					
-				} else if(element instanceof PotentialConflict) {
-					return conflictSourceToString((PotentialConflict)element);
-				}
-				return null;
-			}
-		});
-	}
-
-	private void createDetailsColumn() {
-		TreeViewerColumn column = createTreeViewerColumn("Details", 300);
-		column.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				if(element instanceof ConflictTargetRuleWrapper) {
-					ConflictTargetRuleWrapper wrapper = (ConflictTargetRuleWrapper)element;
-					return wrapper.kindWrappers.stream()
-							.map(w -> w.kind)
-							.distinct()
-							.map(Object::toString)
-							.collect(Collectors.joining(", "));
-				} else if(element instanceof ConflictKindWrapper) {
-					ConflictKindWrapper wrapper = (ConflictKindWrapper)element;
-					return wrapper.conflicts.stream()
-							.map(PotentialConflictsSection::conflictToTypeString)
-							.distinct()
-							.collect(Collectors.joining(", "));
-				} else if(element instanceof PotentialConflict) {
-					return conflictTargetToString((PotentialConflict)element);
-				}
-				return null;
-			}
-		});
-	}
-
-	private TreeViewerColumn createTreeViewerColumn(String title, int width) {
+	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width) {
 		TreeViewerColumn viewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn column = viewerColumn.getColumn();
 		column.setText(title);
@@ -172,53 +135,6 @@ public class PotentialConflictsSection extends AbstractPropertySection {
 		column.setResizable(true);
 		column.setMoveable(false);
 		return viewerColumn;
-	}
-
-	private static String conflictSourceToString(PotentialConflict conflict) {
-		if(conflict instanceof PotentialNodeConflict) {
-			PotentialNodeConflict nodeConflict = (PotentialNodeConflict)conflict;
-			return nodeConflict.getSourceNode().toString();
-		} else if(conflict instanceof PotentialEdgeConflict) {
-			PotentialEdgeConflict edgeConflict = (PotentialEdgeConflict)conflict;
-			return edgeConflict.getSourceEdge().toString();
-		} else if(conflict instanceof PotentialAttributeConflict) {
-			PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)conflict;
-			return attributeConflict.getSourceAttribute().toString();
-		} else if(conflict instanceof PotentialDanglingEdgeConflict) {
-			PotentialDanglingEdgeConflict danglingEdgeConflict = (PotentialDanglingEdgeConflict)conflict;
-			return danglingEdgeConflict.getCreationEdge().toString();
-		}
-		throw new AssertionError();
-	}
-
-	private static String conflictTargetToString(PotentialConflict conflict) {
-		if(conflict instanceof PotentialNodeConflict) {
-			PotentialNodeConflict nodeConflict = (PotentialNodeConflict)conflict;
-			return nodeConflict.getTargetNode().toString();
-		} else if(conflict instanceof PotentialEdgeConflict) {
-			PotentialEdgeConflict edgeConflict = (PotentialEdgeConflict)conflict;
-			return edgeConflict.getTargetEdge().toString();
-		} else if(conflict instanceof PotentialAttributeConflict) {
-			PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)conflict;
-			return attributeConflict.getTargetAttribute().toString();
-		} else if(conflict instanceof PotentialDanglingEdgeConflict) {
-			PotentialDanglingEdgeConflict danglingEdgeConflict = (PotentialDanglingEdgeConflict)conflict;
-			return danglingEdgeConflict.getDeletionNode().toString();
-		}
-		throw new AssertionError();
-	}
-
-	private static String conflictToTypeString(PotentialConflict conflict) {
-		if(conflict instanceof PotentialNodeConflict) {
-			return "Node";
-		} else if(conflict instanceof PotentialEdgeConflict) {
-			return "Edge";
-		} else if(conflict instanceof PotentialAttributeConflict) {
-			return "Attribute";
-		} else if(conflict instanceof PotentialDanglingEdgeConflict) {
-			return "Dangling-Edge";
-		} 
-		throw new AssertionError();
 	}
 
 	static class ConflictTargetRuleWrapper {
@@ -280,6 +196,108 @@ public class PotentialConflictsSection extends AbstractPropertySection {
 		public boolean hasChildren(Object element) {
 			return element instanceof ConflictTargetRuleWrapper
 				|| element instanceof ConflictKindWrapper;
+		}
+	}
+
+	static class ConflictsColumnLabelProvider extends ColumnLabelProvider {
+
+		@Override
+		public String getText(Object element) {
+			if(element instanceof ConflictTargetRuleWrapper) {
+				ConflictTargetRuleWrapper wrapper = (ConflictTargetRuleWrapper)element;
+				return EditRuleItemProvider.getEditRuleName(wrapper.targetRule);					
+			} else if(element instanceof ConflictKindWrapper) {
+				ConflictKindWrapper wrapper = (ConflictKindWrapper)element;
+				return wrapper.kind.toString();
+			} else if(element instanceof PotentialNodeConflict) {
+				PotentialNodeConflict nodeConflict = (PotentialNodeConflict)element;
+				return nodeConflict.getSourceNode().toString();
+			} else if(element instanceof PotentialEdgeConflict) {
+				PotentialEdgeConflict edgeConflict = (PotentialEdgeConflict)element;
+				return edgeConflict.getSourceEdge().toString();
+			} else if(element instanceof PotentialAttributeConflict) {
+				PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)element;
+				return attributeConflict.getSourceAttribute().toString();
+			} else if(element instanceof PotentialDanglingEdgeConflict) {
+				PotentialDanglingEdgeConflict danglingEdgeConflict = (PotentialDanglingEdgeConflict)element;
+				return danglingEdgeConflict.getCreationEdge().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public String getToolTipText(Object element) {
+			if(element instanceof PotentialAttributeConflict) {
+				PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)element;
+				return attributeConflict.getSourceNode().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			if(element instanceof PotentialConflict) {
+				if(((PotentialConflict)element).isDuplicate()) {
+					return EditruleRulebaseUiPlugin.getImageDescriptor("duplicate.png").createImage();
+				}
+			}
+			return null;
+		}
+	}
+
+	static class DetailsColumnLabelProvider extends ColumnLabelProvider {
+
+		@Override
+		public String getText(Object element) {
+			if(element instanceof ConflictTargetRuleWrapper) {
+				ConflictTargetRuleWrapper wrapper = (ConflictTargetRuleWrapper)element;
+				return wrapper.kindWrappers.stream()
+						.map(w -> w.kind)
+						.distinct()
+						.map(Object::toString)
+						.collect(Collectors.joining(", "));
+			} else if(element instanceof ConflictKindWrapper) {
+				ConflictKindWrapper wrapper = (ConflictKindWrapper)element;
+				return wrapper.conflicts.stream()
+						.map(DetailsColumnLabelProvider::conflictToTypeString)
+						.distinct()
+						.collect(Collectors.joining(", "));
+			} else if(element instanceof PotentialNodeConflict) {
+				PotentialNodeConflict nodeConflict = (PotentialNodeConflict)element;
+				return nodeConflict.getTargetNode().toString();
+			} else if(element instanceof PotentialEdgeConflict) {
+				PotentialEdgeConflict edgeConflict = (PotentialEdgeConflict)element;
+				return edgeConflict.getTargetEdge().toString();
+			} else if(element instanceof PotentialAttributeConflict) {
+				PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)element;
+				return attributeConflict.getTargetAttribute().toString();
+			} else if(element instanceof PotentialDanglingEdgeConflict) {
+				PotentialDanglingEdgeConflict danglingEdgeConflict = (PotentialDanglingEdgeConflict)element;
+				return danglingEdgeConflict.getDeletionNode().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public String getToolTipText(Object element) {
+			if(element instanceof PotentialAttributeConflict) {
+				PotentialAttributeConflict attributeConflict = (PotentialAttributeConflict)element;
+				return attributeConflict.getTargetNode().toString();
+			}
+			return null;
+		}
+
+		private static String conflictToTypeString(PotentialConflict conflict) {
+			if(conflict instanceof PotentialNodeConflict) {
+				return "Node";
+			} else if(conflict instanceof PotentialEdgeConflict) {
+				return "Edge";
+			} else if(conflict instanceof PotentialAttributeConflict) {
+				return "Attribute";
+			} else if(conflict instanceof PotentialDanglingEdgeConflict) {
+				return "Dangling-Edge";
+			} 
+			throw new AssertionError();
 		}
 	}
 }

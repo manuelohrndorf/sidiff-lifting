@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -36,6 +38,7 @@ import org.sidiff.editrule.rulebase.RuleBase;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 import org.sidiff.editrule.rulebase.provider.EditRuleItemProvider;
 import org.sidiff.editrule.rulebase.ui.editor.RulebaseEditor;
+import org.sidiff.editrule.rulebase.ui.internal.EditruleRulebaseUiPlugin;
 
 /**
  * Property section which shows the outgoing {@link PotentialDependency}s
@@ -113,56 +116,16 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 			treeViewer.getTree().setLayoutData(data);
 		}
 
-		createDependencyColumn();
-		createDetailsColumn();
+		TreeViewerColumn dependencyColumn = createColumn(treeViewer, "Potential Dependency", 400);
+		dependencyColumn.setLabelProvider(new DependencyColumnLabelProvider());
+
+		TreeViewerColumn detailsColumn = createColumn(treeViewer, "Details", 300);
+		detailsColumn.setLabelProvider(new DetailColumnLabelProvider());
+
+		ColumnViewerToolTipSupport.enableFor(treeViewer);
 	}
 
-	private void createDependencyColumn() {
-		TreeViewerColumn column = createTreeViewerColumn("Potential Dependency", 400);
-		column.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				if(element instanceof DependencyTargetRuleWrapper) {
-					DependencyTargetRuleWrapper wrapper = (DependencyTargetRuleWrapper)element;
-					return EditRuleItemProvider.getEditRuleName(wrapper.targetRule);					
-				} else if(element instanceof DependencyKindWrapper) {
-					DependencyKindWrapper wrapper = (DependencyKindWrapper)element;
-					return wrapper.kind.toString();					
-				} else if(element instanceof PotentialDependency) {
-					return dependencySourceToString((PotentialDependency)element);
-				}
-				return null;
-			}
-		});
-	}
-
-	private void createDetailsColumn() {
-		TreeViewerColumn column = createTreeViewerColumn("Details", 300);
-		column.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				if(element instanceof DependencyTargetRuleWrapper) {
-					DependencyTargetRuleWrapper wrapper = (DependencyTargetRuleWrapper)element;
-					return wrapper.kindWrappers.stream()
-							.map(w -> w.kind)
-							.distinct()
-							.map(Object::toString)
-							.collect(Collectors.joining(", "));
-				} else if(element instanceof DependencyKindWrapper) {
-					DependencyKindWrapper wrapper = (DependencyKindWrapper)element;
-					return wrapper.dependencies.stream()
-							.map(PotentialDependenciesSection::dependencyToTypeString)
-							.distinct()
-							.collect(Collectors.joining(", "));
-				} else if(element instanceof PotentialDependency) {
-					return dependencyTargetToString((PotentialDependency)element);
-				}
-				return null;
-			}
-		});
-	}
-
-	private TreeViewerColumn createTreeViewerColumn(String title, int width) {
+	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width) {
 		TreeViewerColumn viewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn column = viewerColumn.getColumn();
 		column.setText(title);
@@ -170,45 +133,6 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 		column.setResizable(true);
 		column.setMoveable(false);
 		return viewerColumn;
-	}
-
-	private static String dependencySourceToString(PotentialDependency dependency) {
-		if(dependency instanceof PotentialNodeDependency) {
-			PotentialNodeDependency nodeDependency = (PotentialNodeDependency)dependency;
-			return nodeDependency.getSourceNode().toString();
-		} else if(dependency instanceof PotentialEdgeDependency) {
-			PotentialEdgeDependency edgeDependency = (PotentialEdgeDependency)dependency;
-			return edgeDependency.getSourceEdge().toString();
-		} else if(dependency instanceof PotentialAttributeDependency) {
-			PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)dependency;
-			return attributeDependency.getSourceAttribute().toString();
-		}
-		throw new AssertionError();
-	}
-	
-	private static String dependencyTargetToString(PotentialDependency dependency) {
-		if(dependency instanceof PotentialNodeDependency) {
-			PotentialNodeDependency nodeDependency = (PotentialNodeDependency)dependency;
-			return nodeDependency.getTargetNode().toString();
-		} else if(dependency instanceof PotentialEdgeDependency) {
-			PotentialEdgeDependency edgeDependency = (PotentialEdgeDependency)dependency;
-			return edgeDependency.getTargetEdge().toString();
-		} else if(dependency instanceof PotentialAttributeDependency) {
-			PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)dependency;
-			return attributeDependency.getTargetAttribute().toString();
-		}
-		throw new AssertionError();
-	}
-
-	private static String dependencyToTypeString(PotentialDependency dependency) {
-		if(dependency instanceof PotentialNodeDependency) {
-			return "Node";
-		} else if(dependency instanceof PotentialEdgeDependency) {
-			return "Edge";
-		} else if(dependency instanceof PotentialAttributeDependency) {
-			return "Attribute";
-		}
-		throw new AssertionError();
 	}
 
 	static class DependencyTargetRuleWrapper {
@@ -270,6 +194,100 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 		public boolean hasChildren(Object element) {
 			return element instanceof DependencyTargetRuleWrapper
 				|| element instanceof DependencyKindWrapper;
+		}
+	}
+
+	static class DependencyColumnLabelProvider extends ColumnLabelProvider {
+
+		@Override
+		public String getText(Object element) {
+			if(element instanceof DependencyTargetRuleWrapper) {
+				DependencyTargetRuleWrapper wrapper = (DependencyTargetRuleWrapper)element;
+				return EditRuleItemProvider.getEditRuleName(wrapper.targetRule);					
+			} else if(element instanceof DependencyKindWrapper) {
+				DependencyKindWrapper wrapper = (DependencyKindWrapper)element;
+				return wrapper.kind.toString();					
+			} else if(element instanceof PotentialNodeDependency) {
+				PotentialNodeDependency nodeDependency = (PotentialNodeDependency)element;
+				return nodeDependency.getSourceNode().toString();
+			} else if(element instanceof PotentialEdgeDependency) {
+				PotentialEdgeDependency edgeDependency = (PotentialEdgeDependency)element;
+				return edgeDependency.getSourceEdge().toString();
+			} else if(element instanceof PotentialAttributeDependency) {
+				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
+				return attributeDependency.getSourceAttribute().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public String getToolTipText(Object element) {
+			if(element instanceof PotentialAttributeDependency) {
+				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
+				return attributeDependency.getSourceNode().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			if(element instanceof PotentialDependency) {
+				if(((PotentialDependency)element).isTransient()) {
+					return EditruleRulebaseUiPlugin.getImageDescriptor("transient.png").createImage();
+				}
+			}
+			return null;
+		}
+	}
+
+	static class DetailColumnLabelProvider extends ColumnLabelProvider {
+
+		@Override
+		public String getText(Object element) {
+			if(element instanceof DependencyTargetRuleWrapper) {
+				DependencyTargetRuleWrapper wrapper = (DependencyTargetRuleWrapper)element;
+				return wrapper.kindWrappers.stream()
+						.map(w -> w.kind)
+						.distinct()
+						.map(Object::toString)
+						.collect(Collectors.joining(", "));
+			} else if(element instanceof DependencyKindWrapper) {
+				DependencyKindWrapper wrapper = (DependencyKindWrapper)element;
+				return wrapper.dependencies.stream()
+						.map(DetailColumnLabelProvider::dependencyToTypeString)
+						.distinct()
+						.collect(Collectors.joining(", "));
+			} else if(element instanceof PotentialNodeDependency) {
+				PotentialNodeDependency nodeDependency = (PotentialNodeDependency)element;
+				return nodeDependency.getTargetNode().toString();
+			} else if(element instanceof PotentialEdgeDependency) {
+				PotentialEdgeDependency edgeDependency = (PotentialEdgeDependency)element;
+				return edgeDependency.getTargetEdge().toString();
+			} else if(element instanceof PotentialAttributeDependency) {
+				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
+				return attributeDependency.getTargetAttribute().toString();
+			}
+			return null;
+		}
+
+		@Override
+		public String getToolTipText(Object element) {
+			if(element instanceof PotentialAttributeDependency) {
+				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
+				return attributeDependency.getTargetNode().toString();
+			}
+			return null;
+		}
+
+		private static String dependencyToTypeString(PotentialDependency dependency) {
+			if(dependency instanceof PotentialNodeDependency) {
+				return "Node";
+			} else if(dependency instanceof PotentialEdgeDependency) {
+				return "Edge";
+			} else if(dependency instanceof PotentialAttributeDependency) {
+				return "Attribute";
+			}
+			throw new AssertionError();
 		}
 	}
 }
