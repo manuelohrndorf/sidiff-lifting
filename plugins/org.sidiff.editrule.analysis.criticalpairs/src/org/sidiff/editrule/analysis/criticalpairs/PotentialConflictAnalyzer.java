@@ -1,5 +1,6 @@
 package org.sidiff.editrule.analysis.criticalpairs;
 
+import static org.sidiff.common.emf.access.EMFMetaAccess.assignable;
 import static org.sidiff.common.emf.access.EMFMetaAccess.isAssignableTo;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getCreationAttributes;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.getDeletionAttributes;
@@ -591,6 +592,13 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Node useSuccesorSrc = deleteSuccessor.getSource();
 		Node useSuccesorTgt = deleteSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(deletePredecessorSrc.getType(), useSuccesorSrc.getType());
+		boolean assignableTgt = assignable(deletePredecessorTgt.getType(), useSuccesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isDeletionNode(deletePredecessorSrc)) {
@@ -670,6 +678,13 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Node useSuccesorSrc = useSuccessor.getSource();
 		Node useSuccesorTgt = useSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(deletePredecessorSrc.getType(), useSuccesorSrc.getType());
+		boolean assignableTgt = assignable(deletePredecessorTgt.getType(), useSuccesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isDeletionNode(deletePredecessorSrc)) {
@@ -748,6 +763,13 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = createSuccessor.getSource();
 		Node succesorTgt = createSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
@@ -822,6 +844,13 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = forbidSuccessor.getSource();
 		Node succesorTgt = forbidSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
@@ -883,11 +912,12 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		assert isCreationEdge(createPredecessor) : "Input Assertion failed: creation edge expected!";
 		assert isDeletionNode(deleteSuccessor) : "Input Assertion failed: deletion node expected!";
 
-		for (EReference eReference : deleteSuccessor.getType().getEAllReferences()) {
-			if (deleteSuccessor.getOutgoing(eReference).isEmpty()) {
-				return true;
-			}
+
+		if (deleteSuccessor.getType().getEAllReferences().contains(createPredecessor.getType())
+				&& deleteSuccessor.getOutgoing(createPredecessor.getType()).isEmpty()) {
+			return true;
 		}
+		
 
 		Collection<Setting> settings = EcoreUtil.UsageCrossReferencer.find(deleteSuccessor.getType(),
 				deleteSuccessor.getType().eResource());

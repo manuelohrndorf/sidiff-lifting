@@ -937,6 +937,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = deleteSuccessor.getSource();
 		Node succesorTgt = deleteSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
@@ -1033,6 +1040,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = preserveSuccessor.getLhsEdge().getSource();
 		Node succesorTgt = preserveSuccessor.getLhsEdge().getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
@@ -1130,6 +1144,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = requireSuccessor.getSource();
 		Node succesorTgt = requireSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
@@ -1211,6 +1232,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node predecessorTgt = deletePredecessor.getTarget();
 		Node succesorSrc = createSuccessor.getSource();
 		Node succesorTgt = createSuccessor.getTarget();
+
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
 
 		// Src
 		boolean srcOK = false;
@@ -1310,6 +1338,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = forbidSuccessor.getSource();
 		Node succesorTgt = forbidSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+
 		// Src
 		boolean srcOK = false;
 		if (isDeletionNode(predecessorSrc)) {
@@ -1405,6 +1440,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node predecessorTgt = preservePredecessor.getLhsEdge().getTarget();
 		Node succesorSrc = deleteSuccessor.getSource();
 		Node succesorTgt = deleteSuccessor.getTarget();
+
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
 
 		// Src
 		boolean srcOK = false;
@@ -1502,6 +1544,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node predecessorTgt = requirePredecessor.getTarget();
 		Node succesorSrc = deleteSuccessor.getSource();
 		Node succesorTgt = deleteSuccessor.getTarget();
+
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
 
 		// Src
 		boolean srcOK = false;
@@ -1601,6 +1650,13 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		Node succesorSrc = createSuccessor.getSource();
 		Node succesorTgt = createSuccessor.getTarget();
 
+		boolean assignableSrc = assignable(predecessorSrc.getType(), succesorSrc.getType());
+		boolean assignableTgt = assignable(predecessorTgt.getType(), succesorTgt.getType());
+		
+		if(!(assignableSrc && assignableTgt)) {
+			return false;
+		}
+		
 		// Src
 		boolean srcOK = false;
 		if (isCreationNode(predecessorSrc)) {
