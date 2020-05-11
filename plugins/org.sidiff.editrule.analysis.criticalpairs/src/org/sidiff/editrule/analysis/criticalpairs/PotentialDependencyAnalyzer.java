@@ -200,7 +200,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		if (!predecessorDeleteNodes.isEmpty()) {
 			// Delete-Create
 			if (!successorCreateNodes.isEmpty()) {
-				pndConsumer.accept(findDeleteCreateNodeDependencies(predecessorDeleteNodes, successorDeleteNodes));
+				pndConsumer.accept(findDeleteCreateNodeDependencies(predecessorDeleteNodes, successorCreateNodes));
 			}
 			// Delete-Forbid
 			if (!successorForbidNodes.isEmpty()) {
