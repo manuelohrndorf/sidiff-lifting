@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
@@ -118,22 +119,20 @@ public class PotentialConflictsSection extends AbstractPropertySection {
 			treeViewer.getTree().setLayoutData(data);
 		}
 
-		TreeViewerColumn conflictColumn = createColumn(treeViewer, "Potential Conflict", 400);
-		conflictColumn.setLabelProvider(new ConflictsColumnLabelProvider());
-
-		TreeViewerColumn detailsColumn = createColumn(treeViewer, "Details", 300);
-		detailsColumn.setLabelProvider(new DetailsColumnLabelProvider());
+		createColumn(treeViewer, "Potential Conflict", 400, new ConflictsColumnLabelProvider());
+		createColumn(treeViewer, "Details", 300, new DetailsColumnLabelProvider());
 
 		ColumnViewerToolTipSupport.enableFor(treeViewer);
 	}
 
-	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width) {
+	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width, CellLabelProvider labelProvider) {
 		TreeViewerColumn viewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn column = viewerColumn.getColumn();
 		column.setText(title);
 		column.setWidth(width);
 		column.setResizable(true);
 		column.setMoveable(false);
+		viewerColumn.setLabelProvider(labelProvider);
 		return viewerColumn;
 	}
 

@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
@@ -116,22 +117,20 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 			treeViewer.getTree().setLayoutData(data);
 		}
 
-		TreeViewerColumn dependencyColumn = createColumn(treeViewer, "Potential Dependency", 400);
-		dependencyColumn.setLabelProvider(new DependencyColumnLabelProvider());
-
-		TreeViewerColumn detailsColumn = createColumn(treeViewer, "Details", 300);
-		detailsColumn.setLabelProvider(new DetailColumnLabelProvider());
+		createColumn(treeViewer, "Potential Dependency", 400, new DependencyColumnLabelProvider());
+		createColumn(treeViewer, "Details", 300, new DetailColumnLabelProvider());
 
 		ColumnViewerToolTipSupport.enableFor(treeViewer);
 	}
 
-	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width) {
+	private static TreeViewerColumn createColumn(TreeViewer treeViewer, String title, int width, CellLabelProvider labelProvider) {
 		TreeViewerColumn viewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		TreeColumn column = viewerColumn.getColumn();
 		column.setText(title);
 		column.setWidth(width);
 		column.setResizable(true);
 		column.setMoveable(false);
+		viewerColumn.setLabelProvider(labelProvider);
 		return viewerColumn;
 	}
 

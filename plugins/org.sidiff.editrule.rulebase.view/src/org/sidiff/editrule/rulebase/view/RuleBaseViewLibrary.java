@@ -31,11 +31,9 @@ public class RuleBaseViewLibrary {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <R extends IBasicRuleBase> IRuleBaseFactory<R> getRulebaseViewFactory(Class<R> type) {
-		
 		if (getRulebaseViews().containsKey(type)) {
-			return (IRuleBaseFactory<R>) rulebaseViews.get(type).getFactory();
+			return (IRuleBaseFactory<R>) rulebaseViews.get(type).factory;
 		}
-		
 		return null;
 	}
 	
@@ -45,61 +43,59 @@ public class RuleBaseViewLibrary {
 	 * @return All supported view-types
 	 */
 	public static Set<Class<? extends IBasicRuleBase>> getSupportedViewTypes(Set<String> supportedAttachments) {
-		
-		Set<Class<? extends IBasicRuleBase>> supportedViewTypes = new HashSet<Class<? extends IBasicRuleBase>>();
-		
+		Set<Class<? extends IBasicRuleBase>> supportedViewTypes = new HashSet<>();
 		for (RuleBaseViewEntry view : getRulebaseViews().values()) {
-			if (supportedAttachments.containsAll(view.getRequiredAttachments())) {
-				supportedViewTypes.add(view.getViewType());
+			if (supportedAttachments.containsAll(view.requiredAttachments)) {
+				supportedViewTypes.add(view.factory.getRuleBaseViewType());
 			}
 		}
-		
 		return supportedViewTypes;
 	}
 	
 	private static Map<Class<? extends IBasicRuleBase>, RuleBaseViewEntry> getRulebaseViews() {
-		
 		if (rulebaseViews == null) {
 			readRegisteredRulebaseViews();
 		}
-		
 		return rulebaseViews;
 	}
 	
 	private static void readRegisteredRulebaseViews() {
-		
 		// Collect all registered rulebase types:
-		rulebaseViews = new HashMap<Class<? extends IBasicRuleBase>, RuleBaseViewEntry>();
+		rulebaseViews = new HashMap<>();
 		
 		for (IConfigurationElement configurationElement : Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID_RULEBASE_VIEW_TYPE)) {
-			
+
 			try {
-				IRuleBaseFactory<?> rulebaseFactory = null;
-				Set<String> requiredAttachments = new HashSet<String>();
-				
 				// Factory:
-				Object rulebaseFactoryExtension = configurationElement.createExecutableExtension("factory");
-				
-				if (rulebaseFactoryExtension instanceof IRuleBaseFactory<?>) {
-					rulebaseFactory = (IRuleBaseFactory<?>) rulebaseFactoryExtension;
-				}
-				
+				IRuleBaseFactory<?> rulebaseFactory = (IRuleBaseFactory<?>)configurationElement.createExecutableExtension("factory");				
+
 				// Attachments:
+				Set<String> requiredAttachments = new HashSet<>();
 				for (IConfigurationElement requiredAttachment : configurationElement.getChildren("requiredAttachment")) {
 					requiredAttachments.add(requiredAttachment.getAttribute("attachment"));
 				}
-				
-				if (rulebaseFactory != null) {
-					rulebaseViews.put(
-							rulebaseFactory.getRuleBaseViewType(), 
-							new RuleBaseViewEntry(
-									configurationElement.getAttribute("id"),
-									rulebaseFactory, requiredAttachments));
-				}
+
+				rulebaseViews.put(
+					rulebaseFactory.getRuleBaseViewType(), 
+					new RuleBaseViewEntry(
+						rulebaseFactory,
+						requiredAttachments));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	static class RuleBaseViewEntry {
+
+		String id;
+		IRuleBaseFactory<?> factory;
+		Set<String> requiredAttachments;
+
+		public RuleBaseViewEntry(IRuleBaseFactory<?> factory, Set<String> requiredAttachments) {
+			this.factory = factory;
+			this.requiredAttachments = requiredAttachments;
 		}
 	}
 }

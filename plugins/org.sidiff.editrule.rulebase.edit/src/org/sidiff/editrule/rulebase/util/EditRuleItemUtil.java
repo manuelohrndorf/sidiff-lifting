@@ -25,7 +25,7 @@ public class EditRuleItemUtil {
 	private static final Map<String, String> dict;
 
 	static {
-		dict = new HashMap<String, String>();
+		dict = new HashMap<>();
 		dict.put("SET", "Set");
 		dict.put("UNSET", "Unset");
 		dict.put("ADD", "Add");
@@ -138,14 +138,14 @@ public class EditRuleItemUtil {
 			}
 		}
 	}
-	
+
 	public static String getInverseName(RuleBaseItem item) {
 		if (item.getEditRule().getInverse() != null) {
 			return item.getEditRule().getInverse().getExecuteModule().getName();
 		}
 		return "";
 	}
-	
+
 	public static void setInverseName(RuleBaseItem item, String name) {
 		if (item.getEditRule().getInverse() != null) {
 			item.getEditRule().getInverse().getExecuteModule().setName(name);
@@ -153,7 +153,7 @@ public class EditRuleItemUtil {
 	}
 
 	public static void invertActivity(RuleBaseItem item) {
-		item.setActive(item.isActive());
+		item.setActive(!item.isActive());
 	}
 
 	public static EClass getERType(RuleBaseItem item) {
