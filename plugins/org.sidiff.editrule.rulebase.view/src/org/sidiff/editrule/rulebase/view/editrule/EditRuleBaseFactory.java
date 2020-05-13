@@ -13,5 +13,4 @@ public class EditRuleBaseFactory implements IRuleBaseFactory<IEditRuleBase> {
 	public IEditRuleBase createRuleBase() {
 		return new EditRuleBase();
 	}
-
 }

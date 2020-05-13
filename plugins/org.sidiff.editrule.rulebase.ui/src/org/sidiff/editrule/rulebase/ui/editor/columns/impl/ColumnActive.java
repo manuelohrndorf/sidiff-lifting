@@ -40,6 +40,7 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 
 				// Refresh the GUI
 				editor.update();
+				editor.setDirty();
 			}
 
 			@Override
@@ -49,6 +50,7 @@ public class ColumnActive extends AbstractRuleBaseColumn {
 
 				// Refresh the GUI
 				editor.update();
+				editor.setDirty();
 			}
 		});
 

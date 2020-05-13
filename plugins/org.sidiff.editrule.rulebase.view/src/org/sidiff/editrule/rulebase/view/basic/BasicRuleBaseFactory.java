@@ -13,5 +13,4 @@ public class BasicRuleBaseFactory implements IRuleBaseFactory<IBasicRuleBase> {
 	public IBasicRuleBase createRuleBase() {
 		return new BasicRuleBase();
 	}
-
 }

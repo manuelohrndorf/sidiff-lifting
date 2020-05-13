@@ -1,12 +1,13 @@
 package org.sidiff.editrule.rulebase.view.editrule;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialConflict;
@@ -17,22 +18,21 @@ import org.sidiff.editrule.rulebase.view.basic.BasicRuleBase;
  * Basic implementation of {@link IEditRuleBase}.
  */
 public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
-	
+
 	/**
 	 * Mapping: src EditRule -> set of PotentialDependencies where EditRule is the source of
 	 */
 	private Map<EditRule, Set<PotentialDependency>> potDepIndex;
-	
+
 	/**
 	 * Mapping: EditRule -> set of PotentialConflicts containing the EditRule
 	 */
 	private Map<EditRule, Set<PotentialConflict>> potConIndex;
-	
+
 	@Override
 	public EditRule getEditRule(String name) {
-		Set<EditRule> editRules = getActiveEditRules();
-		for (EditRule er : editRules) {
-			if (getRuleName(er.getExecuteMainUnit()).equals(name)) {
+		for (EditRule er : getActiveEditRules()) {
+			if (er.getExecuteModule().getName().equals(name)) {
 				return er;
 			}
 		}
@@ -41,28 +41,17 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 
 	@Override
 	public Set<PotentialDependency> getPotentialDependencies(EditRule editRule) {
-		Set<PotentialDependency> res = getPotentialDependencyIndex().get(editRule);
-		if (res != null) {
-			return res;
-		} else {
-			return Collections.emptySet();
-		}
+		return getPotentialDependencyIndex().getOrDefault(editRule, Collections.emptySet());
 	}
 
 	@Override
 	public Set<PotentialConflict> getPotentialConflicts(EditRule editRule) {
-		Set<PotentialConflict> res = getPotentialConflictIndex().get(editRule);
-		if (res != null) {
-			return res;
-		} else {
-			return Collections.emptySet();
-		}
+		return getPotentialConflictIndex().getOrDefault(editRule, Collections.emptySet());
 	}
-	
+
 	@Override
 	public Set<EditRule> getActiveEditRules() {
-		Set<EditRule> items = new HashSet<EditRule>();
-		
+		Set<EditRule> items = new HashSet<>();
 		for (EditRule er : getRuleBase().getEditRules()) {
 			if (er.getRuleBaseItem().isActive()) {
 				items.add(er);
@@ -70,11 +59,10 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 		}
 		return items;
 	}
-	
+
 	@Override
 	public Set<Unit> getActiveEditRuleMainUnits() {
-		Set<Unit> units = new HashSet<Unit>();
-
+		Set<Unit> units = new HashSet<>();
 		for (EditRule er : getActiveEditRules()) {
 			units.add(er.getExecuteMainUnit());
 		}
@@ -94,17 +82,7 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 			er.getRuleBaseItem().setActive(false);
 		}
 	}
-	
-	/**
-	 * @param unit
-	 *            An (henshin) edit rule.
-	 * @return The corresponding identifying name of the edit rule.
-	 */
-	private String getRuleName(Unit unit) {
-		Module module = unit.getModule();
-		return module.getName();
-	}
-	
+
 	/**
 	 * Lazy builds an index for all potential Dependencies.
 	 * 
@@ -112,36 +90,16 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 	 */
 	private Map<EditRule, Set<PotentialDependency>> getPotentialDependencyIndex() {
 		if (potDepIndex == null) {
-			potDepIndex = new HashMap<EditRule, Set<PotentialDependency>>();
-
-			// Nodes
-			for (PotentialDependency potDep : getRuleBase().getPotentialNodeDependencies()) {
-				if (!potDepIndex.containsKey(potDep.getSourceRule())) {
-					potDepIndex.put(potDep.getSourceRule(), new HashSet<PotentialDependency>());
-				}
-				potDepIndex.get(potDep.getSourceRule()).add(potDep);
-			}
-
-			// Edges
-			for (PotentialDependency potDep : getRuleBase().getPotentialEdgeDependencies()) {
-				if (!potDepIndex.containsKey(potDep.getSourceRule())) {
-					potDepIndex.put(potDep.getSourceRule(), new HashSet<PotentialDependency>());
-				}
-				potDepIndex.get(potDep.getSourceRule()).add(potDep);
-			}
-
-			// Attributes
-			for (PotentialDependency potDep : getRuleBase().getPotentialAttributeDependencies()) {
-				if (!potDepIndex.containsKey(potDep.getSourceRule())) {
-					potDepIndex.put(potDep.getSourceRule(), new HashSet<PotentialDependency>());
-				}
-				potDepIndex.get(potDep.getSourceRule()).add(potDep);
-			}
+			potDepIndex =
+				Stream.of(getRuleBase().getPotentialNodeDependencies(),
+						getRuleBase().getPotentialEdgeDependencies(),
+						getRuleBase().getPotentialAttributeDependencies())
+					.flatMap(Collection::stream)
+					.collect(Collectors.groupingBy(PotentialDependency::getSourceRule, Collectors.toSet()));
 		}
-
 		return potDepIndex;
 	}
-	
+
 	/**
 	 * Lazy builds an index for all potential Conflicts.
 	 * 
@@ -149,39 +107,13 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 	 */
 	private Map<EditRule, Set<PotentialConflict>> getPotentialConflictIndex() {
 		if (potConIndex == null) {
-			potConIndex = new HashMap<EditRule, Set<PotentialConflict>>();
-
-			// Nodes
-			for (PotentialConflict potCon : getRuleBase().getPotentialNodeConflicts()) {
-				if (!potConIndex.containsKey(potCon.getSourceRule())) {
-					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potCon.getSourceRule()).add(potCon);
-			}
-
-			// Edges
-			for (PotentialConflict potCon : getRuleBase().getPotentialEdgeConflicts()) {
-				if (!potConIndex.containsKey(potCon.getSourceRule())) {
-					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potCon.getSourceRule()).add(potCon);
-			}
-
-			// Attributes
-			for (PotentialConflict potCon : getRuleBase().getPotentialAttributeConflicts()) {
-				if (!potConIndex.containsKey(potCon.getSourceRule())) {
-					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potCon.getSourceRule()).add(potCon);
-			}
-			
-			// Danglings
-			for(PotentialConflict potCon : getRuleBase().getPotentialDanglingEdgeConflicts()) {
-				if(!potConIndex.containsKey(potCon.getSourceRule())) {
-					potConIndex.put(potCon.getSourceRule(), new HashSet<PotentialConflict>());
-				}
-				potConIndex.get(potCon.getSourceRule()).add(potCon);
-			}
+			potConIndex =
+				Stream.of(getRuleBase().getPotentialNodeConflicts(),
+						getRuleBase().getPotentialEdgeConflicts(),
+						getRuleBase().getPotentialAttributeConflicts(),
+						getRuleBase().getPotentialDanglingEdgeConflicts())
+					.flatMap(Collection::stream)
+					.collect(Collectors.groupingBy(PotentialConflict::getSourceRule, Collectors.toSet()));
 		}
 
 		return potConIndex;
