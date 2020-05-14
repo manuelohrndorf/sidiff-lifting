@@ -1,4 +1,4 @@
-package org.sidiff.difference.asymmetric.api.matching;
+package org.sidiff.symboliclink.matching;
 
 import java.util.Collections;
 import java.util.Set;

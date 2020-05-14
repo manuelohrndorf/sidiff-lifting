@@ -70,6 +70,7 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getEObject() {
 		if (eObject != null && eObject.eIsProxy()) {
 			InternalEObject oldEObject = (InternalEObject)eObject;
@@ -96,6 +97,7 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEObject(EObject newEObject) {
 		EObject oldEObject = eObject;
 		eObject = newEObject;
@@ -108,6 +110,7 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getFrom() {
 		return
 		EMFModelAccess.getDocumentType(getEObject().eResource());
@@ -118,6 +121,7 @@ public class ExternalSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFrom(String newFrom) {
 		// TODO: implement this method to set the 'From' attribute
 		// Ensure that you remove @generated or mark it @generated NOT

@@ -125,6 +125,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public float getReliability() {
 		return reliability;
 	}
@@ -134,6 +135,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setReliability(float newReliability) {
 		float oldReliability = reliability;
 		reliability = newReliability;
@@ -146,9 +148,10 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SymbolicLinkReference> getOutgoing() {
 		if (outgoing == null) {
-			outgoing = new EObjectWithInverseResolvingEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__OUTGOING, SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE__SOURCE);
+			outgoing = new EObjectWithInverseResolvingEList<>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__OUTGOING, SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE__SOURCE);
 		}
 		return outgoing;
 	}
@@ -158,9 +161,10 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SymbolicLinkReference> getIncoming() {
 		if (incoming == null) {
-			incoming = new EObjectWithInverseResolvingEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING, SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE__TARGET);
+			incoming = new EObjectWithInverseResolvingEList<>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__INCOMING, SymboliclinkPackage.SYMBOLIC_LINK_REFERENCE__TARGET);
 		}
 		return incoming;
 	}
@@ -170,9 +174,10 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SymbolicLinkAttribute> getLinkAttributes() {
 		if (linkAttributes == null) {
-			linkAttributes = new EObjectContainmentEList<SymbolicLinkAttribute>(SymbolicLinkAttribute.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES);
+			linkAttributes = new EObjectContainmentEList<>(SymbolicLinkAttribute.class, this, SymboliclinkPackage.SYMBOLIC_LINK_OBJECT__LINK_ATTRIBUTES);
 		}
 		return linkAttributes;
 	}
@@ -182,6 +187,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -208,6 +214,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EObject newType) {
 		EObject oldType = type;
 		type = newType;
@@ -220,8 +227,9 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public EList<SymbolicLinkReference> getOutgoings(EReference type) {
-		EList<SymbolicLinkReference> outgoings = new EObjectEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.EXTERNAL_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE);
+		EList<SymbolicLinkReference> outgoings = new EObjectEList<>(SymbolicLinkReference.class, this, SymboliclinkPackage.EXTERNAL_SYMBOLIC_LINK_OBJECT___GET_OUTGOINGS__EREFERENCE);
 		for(SymbolicLinkReference ref : getOutgoing()){
 			if(ref.getType().equals(type)){
 				outgoings.add(ref);
@@ -235,6 +243,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public abstract int hashCode();
 
 	/**
@@ -242,6 +251,7 @@ public abstract class SymbolicLinkObjectImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public abstract boolean equals(Object o);
 	
 	/**

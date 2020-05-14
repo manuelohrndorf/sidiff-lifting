@@ -82,6 +82,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -108,6 +109,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EReference newType) {
 		EReference oldType = type;
 		type = newType;
@@ -120,6 +122,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymbolicLinkObject getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -161,6 +164,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(SymbolicLinkObject newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -180,6 +184,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymbolicLinkObject getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -221,6 +226,7 @@ public class SymbolicLinkReferenceImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(SymbolicLinkObject newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;

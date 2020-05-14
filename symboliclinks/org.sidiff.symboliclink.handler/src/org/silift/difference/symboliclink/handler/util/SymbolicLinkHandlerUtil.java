@@ -9,7 +9,7 @@ import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.silift.difference.symboliclink.SymbolicLinks;
 
 /**
- * Util class for serializing {@link SymbolicLinks} and gathering {@link ISymbolicLinkHandler}.
+ * Util class for serializing {@link SymbolicLinks}.
  * 
  * @author cpietsch
  *

@@ -139,6 +139,7 @@ public interface SymbolicLinkObject extends EObject {
 	 */
 	EList<SymbolicLinkReference> getOutgoings(EReference type);
 
+	@Override
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -147,6 +148,7 @@ public interface SymbolicLinkObject extends EObject {
 	 */
 	int hashCode();
 
+	@Override
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

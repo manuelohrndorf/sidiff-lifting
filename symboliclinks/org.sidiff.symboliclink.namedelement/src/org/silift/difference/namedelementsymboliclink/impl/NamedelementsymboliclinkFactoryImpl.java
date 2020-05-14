@@ -66,6 +66,7 @@ public class NamedelementsymboliclinkFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NamedElementSymbolicLinkObject createNamedElementSymbolicLinkObject() {
 		NamedElementSymbolicLinkObjectImpl namedElementSymbolicLinkObject = new NamedElementSymbolicLinkObjectImpl();
 		return namedElementSymbolicLinkObject;
@@ -76,6 +77,7 @@ public class NamedelementsymboliclinkFactoryImpl extends EFactoryImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NamedelementsymboliclinkPackage getNamedelementsymboliclinkPackage() {
 		return (NamedelementsymboliclinkPackage)getEPackage();
 	}

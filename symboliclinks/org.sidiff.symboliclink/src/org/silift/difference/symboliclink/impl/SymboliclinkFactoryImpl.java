@@ -72,6 +72,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymbolicLinks createSymbolicLinks() {
 		SymbolicLinksImpl symbolicLinks = new SymbolicLinksImpl();
 		return symbolicLinks;
@@ -82,6 +83,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymbolicLinkReference createSymbolicLinkReference() {
 		SymbolicLinkReferenceImpl symbolicLinkReference = new SymbolicLinkReferenceImpl();
 		return symbolicLinkReference;
@@ -92,6 +94,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExternalSymbolicLinkObject createExternalSymbolicLinkObject() {
 		ExternalSymbolicLinkObjectImpl externalSymbolicLinkObject = new ExternalSymbolicLinkObjectImpl();
 		return externalSymbolicLinkObject;
@@ -102,6 +105,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymbolicLinkAttribute createSymbolicLinkAttribute() {
 		SymbolicLinkAttributeImpl symbolicLinkAttribute = new SymbolicLinkAttributeImpl();
 		return symbolicLinkAttribute;
@@ -112,6 +116,7 @@ public class SymboliclinkFactoryImpl extends EFactoryImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymboliclinkPackage getSymboliclinkPackage() {
 		return (SymboliclinkPackage)getEPackage();
 	}

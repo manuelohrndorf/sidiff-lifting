@@ -93,6 +93,7 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUUIDSymbolicLinkObject() {
 		return uuidSymbolicLinkObjectEClass;
 	}
@@ -102,6 +103,7 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUUIDSymbolicLinkObject_Uuid() {
 		return (EAttribute)uuidSymbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -111,6 +113,7 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUUIDSymbolicLinkObject_Name() {
 		return (EAttribute)uuidSymbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -120,6 +123,7 @@ public class UuidsymboliclinkPackageImpl extends EPackageImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UuidsymboliclinkFactory getUuidsymboliclinkFactory() {
 		return (UuidsymboliclinkFactory)getEFactoryInstance();
 	}

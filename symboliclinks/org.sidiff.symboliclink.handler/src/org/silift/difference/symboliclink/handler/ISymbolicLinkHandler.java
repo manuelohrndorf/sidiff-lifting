@@ -35,7 +35,8 @@ public interface ISymbolicLinkHandler extends IExtension {
 	 * 					flag to determine if a reliability shall be calculated
 	 * @return a collection with a {@link SymbolicLinks} object for each model
 	 */
-	public Collection<SymbolicLinks> generateSymbolicLinks(AsymmetricDifference asymmetricDifference, boolean calculateReliability);
+	Collection<SymbolicLinks> generateSymbolicLinks(
+			AsymmetricDifference asymmetricDifference, boolean calculateReliability);
 	
 	/**
 	 * Resolves the symbolic links.
@@ -48,12 +49,13 @@ public interface ISymbolicLinkHandler extends IExtension {
 	 * 					flag to determine if a reliability shall be calculated
 	 * @return a map, which assigns an object to the appropriate {@link SymbolicLinkObject}
 	 */
-	public Map<SymbolicLinkObject, EObject> resolveSymbolicLinkObjects(SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability);
+	Map<SymbolicLinkObject, EObject> resolveSymbolicLinkObjects(
+			SymbolicLinks symbolicLinks, Resource targetModel, boolean calculateReliability);
 
 	/**
 	 * Determines if the handler is able to compute reliabilities
 	 * 
 	 * @return <code>true</code> if the symbolic-link-handler is able to compute reliabilities, otherwise <code>false</code>
 	 */
-	public boolean canComputeReliability();
+	boolean canComputeReliability();
 }

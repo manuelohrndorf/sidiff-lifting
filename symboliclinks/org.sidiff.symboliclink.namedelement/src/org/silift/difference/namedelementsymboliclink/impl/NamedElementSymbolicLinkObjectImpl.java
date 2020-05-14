@@ -78,6 +78,7 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getName() {
 		return qualifiedName.substring(qualifiedName.lastIndexOf('.')+1);
 	}
@@ -87,6 +88,7 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		// TODO: implement this method to set the 'Name' attribute
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -98,6 +100,7 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getQualifiedName() {
 		return qualifiedName;
 	}
@@ -107,6 +110,7 @@ public class NamedElementSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQualifiedName(String newQualifiedName) {
 		String oldQualifiedName = qualifiedName;
 		qualifiedName = newQualifiedName;

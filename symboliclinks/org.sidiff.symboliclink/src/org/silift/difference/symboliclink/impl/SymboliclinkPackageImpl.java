@@ -129,6 +129,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSymbolicLinks() {
 		return symbolicLinksEClass;
 	}
@@ -138,6 +139,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinks_LinkObjects() {
 		return (EReference)symbolicLinksEClass.getEStructuralFeatures().get(0);
 	}
@@ -147,6 +149,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSymbolicLinks_DocType() {
 		return (EAttribute)symbolicLinksEClass.getEStructuralFeatures().get(1);
 	}
@@ -156,6 +159,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinks_LinkReferences() {
 		return (EReference)symbolicLinksEClass.getEStructuralFeatures().get(2);
 	}
@@ -165,6 +169,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSymbolicLinkObject() {
 		return symbolicLinkObjectEClass;
 	}
@@ -174,6 +179,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSymbolicLinkObject_Reliability() {
 		return (EAttribute)symbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -183,6 +189,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkObject_Outgoing() {
 		return (EReference)symbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -192,6 +199,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkObject_Incoming() {
 		return (EReference)symbolicLinkObjectEClass.getEStructuralFeatures().get(2);
 	}
@@ -201,6 +209,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkObject_LinkAttributes() {
 		return (EReference)symbolicLinkObjectEClass.getEStructuralFeatures().get(3);
 	}
@@ -210,6 +219,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkObject_Type() {
 		return (EReference)symbolicLinkObjectEClass.getEStructuralFeatures().get(4);
 	}
@@ -219,6 +229,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getSymbolicLinkObject__GetOutgoings__EReference() {
 		return symbolicLinkObjectEClass.getEOperations().get(0);
 	}
@@ -228,6 +239,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getSymbolicLinkObject__HashCode() {
 		return symbolicLinkObjectEClass.getEOperations().get(1);
 	}
@@ -237,6 +249,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EOperation getSymbolicLinkObject__Equals__Object() {
 		return symbolicLinkObjectEClass.getEOperations().get(2);
 	}
@@ -246,6 +259,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSymbolicLinkReference() {
 		return symbolicLinkReferenceEClass;
 	}
@@ -255,6 +269,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkReference_Type() {
 		return (EReference)symbolicLinkReferenceEClass.getEStructuralFeatures().get(0);
 	}
@@ -264,6 +279,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkReference_Source() {
 		return (EReference)symbolicLinkReferenceEClass.getEStructuralFeatures().get(1);
 	}
@@ -273,6 +289,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkReference_Target() {
 		return (EReference)symbolicLinkReferenceEClass.getEStructuralFeatures().get(2);
 	}
@@ -282,6 +299,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExternalSymbolicLinkObject() {
 		return externalSymbolicLinkObjectEClass;
 	}
@@ -291,6 +309,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExternalSymbolicLinkObject_EObject() {
 		return (EReference)externalSymbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -300,6 +319,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getExternalSymbolicLinkObject_From() {
 		return (EAttribute)externalSymbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -309,6 +329,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSymbolicLinkAttribute() {
 		return symbolicLinkAttributeEClass;
 	}
@@ -318,6 +339,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSymbolicLinkAttribute_Value() {
 		return (EAttribute)symbolicLinkAttributeEClass.getEStructuralFeatures().get(0);
 	}
@@ -327,6 +349,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSymbolicLinkAttribute_Type() {
 		return (EReference)symbolicLinkAttributeEClass.getEStructuralFeatures().get(1);
 	}
@@ -336,6 +359,7 @@ public class SymboliclinkPackageImpl extends EPackageImpl implements Symboliclin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SymboliclinkFactory getSymboliclinkFactory() {
 		return (SymboliclinkFactory)getEFactoryInstance();
 	}

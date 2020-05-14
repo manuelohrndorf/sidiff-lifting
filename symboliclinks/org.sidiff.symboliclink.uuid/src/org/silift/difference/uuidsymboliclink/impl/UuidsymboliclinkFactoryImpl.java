@@ -66,6 +66,7 @@ public class UuidsymboliclinkFactoryImpl extends EFactoryImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UUIDSymbolicLinkObject createUUIDSymbolicLinkObject() {
 		UUIDSymbolicLinkObjectImpl uuidSymbolicLinkObject = new UUIDSymbolicLinkObjectImpl();
 		return uuidSymbolicLinkObject;
@@ -76,6 +77,7 @@ public class UuidsymboliclinkFactoryImpl extends EFactoryImpl implements Uuidsym
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public UuidsymboliclinkPackage getUuidsymboliclinkPackage() {
 		return (UuidsymboliclinkPackage)getEPackage();
 	}

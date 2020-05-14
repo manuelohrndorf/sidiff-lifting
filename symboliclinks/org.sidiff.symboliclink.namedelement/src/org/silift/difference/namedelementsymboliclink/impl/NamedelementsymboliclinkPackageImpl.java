@@ -93,6 +93,7 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNamedElementSymbolicLinkObject() {
 		return namedElementSymbolicLinkObjectEClass;
 	}
@@ -102,6 +103,7 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedElementSymbolicLinkObject_Name() {
 		return (EAttribute)namedElementSymbolicLinkObjectEClass.getEStructuralFeatures().get(0);
 	}
@@ -111,6 +113,7 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNamedElementSymbolicLinkObject_QualifiedName() {
 		return (EAttribute)namedElementSymbolicLinkObjectEClass.getEStructuralFeatures().get(1);
 	}
@@ -120,6 +123,7 @@ public class NamedelementsymboliclinkPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NamedelementsymboliclinkFactory getNamedelementsymboliclinkFactory() {
 		return (NamedelementsymboliclinkFactory)getEFactoryInstance();
 	}

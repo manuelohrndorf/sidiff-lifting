@@ -88,6 +88,7 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getUuid() {
 		return uuid;
 	}
@@ -97,6 +98,7 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUuid(String newUuid) {
 		String oldUuid = uuid;
 		uuid = newUuid;
@@ -109,6 +111,7 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -118,6 +121,7 @@ public class UUIDSymbolicLinkObjectImpl extends SymbolicLinkObjectImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;

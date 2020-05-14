@@ -94,9 +94,10 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SymbolicLinkObject> getLinkObjects() {
 		if (linkObjects == null) {
-			linkObjects = new EObjectContainmentEList<SymbolicLinkObject>(SymbolicLinkObject.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS);
+			linkObjects = new EObjectContainmentEList<>(SymbolicLinkObject.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_OBJECTS);
 		}
 		return linkObjects;
 	}
@@ -106,6 +107,7 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getDocType() {
 		return docType;
 	}
@@ -115,6 +117,7 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDocType(String newDocType) {
 		String oldDocType = docType;
 		docType = newDocType;
@@ -127,9 +130,10 @@ public class SymbolicLinksImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<SymbolicLinkReference> getLinkReferences() {
 		if (linkReferences == null) {
-			linkReferences = new EObjectContainmentEList<SymbolicLinkReference>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES);
+			linkReferences = new EObjectContainmentEList<>(SymbolicLinkReference.class, this, SymboliclinkPackage.SYMBOLIC_LINKS__LINK_REFERENCES);
 		}
 		return linkReferences;
 	}

@@ -23,43 +23,29 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 
 	@Override
 	public SymbolicLinkObject generateInternalSymbolicLinkObject(EObject eObject) {
-		
-		UUIDSymbolicLinkObject link = null;
 		String uuid = deriveUUID(eObject);
-		
-		if(uuid != null){
-			link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
-			
-			try{
-				link.setName(eObject.eGet(eObject.eClass().getEStructuralFeature("name")).toString());
-			}catch (NullPointerException e){
-				System.out.println("INFO: " + eObject + " has no name");
-			}
-			link.setUuid(uuid);
-			
-			link.setReliability(1.f);
+		if(uuid == null) {
+			return null;
 		}
-		
+		UUIDSymbolicLinkObject link = UuidsymboliclinkFactory.eINSTANCE.createUUIDSymbolicLinkObject();
+		link.setName(EMFUtil.getEObjectName(eObject));
+		link.setUuid(uuid);
+		link.setReliability(1.f);
 		return link;
-		
 	}
 
 	@Override
 	public EObject resolveSymbolicLinkObject(SymbolicLinkObject symbolicLink, Resource targetModel) {
-		
 		UUIDSymbolicLinkObject uuidSymbolicLink = (UUIDSymbolicLinkObject)symbolicLink;
-		
 		for (EObject eObject : CollectionUtil.asIterable(targetModel.getAllContents())) {
-			String uuid = deriveUUID(eObject);
-			EObjectLocation location = EMFResourceUtil.locate(targetModel, eObject);
-			if(location.equals(EObjectLocation.RESOURCE_INTERNAL) && uuidSymbolicLink.getUuid().equals(uuid)){
+			if(EMFResourceUtil.locate(targetModel, eObject) == EObjectLocation.RESOURCE_INTERNAL
+					&& uuidSymbolicLink.getUuid().equals(deriveUUID(eObject))){
 				return eObject;
 			}
 		}
-		
 		return null;
 	}
-	
+
 	/**
 	 * Help method that derives the UUID of a model element.
 	 * 
@@ -69,11 +55,8 @@ public class UUIDSymbolicLinkHandler extends AbstractDifferenceSymbolicLinkHandl
 	 * @return a String representation of the UUID
 	 */
 	private static String deriveUUID(EObject eObject){
-		
 		String uuid = EMFUtil.getXmiId(eObject);
-		
 		assert (!(eObject instanceof EGenericType) || uuid != null): eObject +"("+eObject.eClass().getName()+")" + "has no uuid";
-		
 		return uuid;
 	}
 
