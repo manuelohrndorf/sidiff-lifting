@@ -23,16 +23,21 @@ import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireEdge;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isRequireNode;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleConflicts;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -55,6 +60,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 	 * The >S<ource of a conflict is the >P<redecessor rule in a sequence of two
 	 * rules!
 	 */
+
+	private Map<Resource,Map<EClass,Set<EReference>>> referenceTypeIndex = new HashMap<>();
 
 	/**
 	 * Initializes a new potential conflict analyzer.
@@ -911,24 +918,25 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		assert isCreationEdge(createPredecessor) : "Input Assertion failed: creation edge expected!";
 		assert isDeletionNode(deleteSuccessor) : "Input Assertion failed: deletion node expected!";
 
+		EReference predecessorType = createPredecessor.getType();
+		EClass successorType = deleteSuccessor.getType();
 
-		if (deleteSuccessor.getType().getEAllReferences().contains(createPredecessor.getType())
-				&& deleteSuccessor.getOutgoing(createPredecessor.getType()).isEmpty()) {
+		if (successorType.getEAllReferences().contains(predecessorType)
+				&& deleteSuccessor.getOutgoing(predecessorType).isEmpty()) {
 			return true;
 		}
-		
-
-		Collection<Setting> settings = EcoreUtil.UsageCrossReferencer.find(deleteSuccessor.getType(),
-				deleteSuccessor.getType().eResource());
-		for (Setting setting : settings) {
-			if (setting.getEObject() == createPredecessor.getType()) {
-				if (deleteSuccessor.getIncoming(createPredecessor.getType()).isEmpty()) {
-					return true;
-				}
-			}
+		if (!deleteSuccessor.getIncoming(predecessorType).isEmpty()) {
+			return false;
 		}
 
-		return false;
+		return referenceTypeIndex
+			.computeIfAbsent(successorType.eResource(),
+				resource -> CollectionUtil.asStream(resource.getAllContents())
+					.filter(EReference.class::isInstance)
+					.map(EReference.class::cast)
+					.collect(Collectors.groupingBy(EReference::getEReferenceType, Collectors.toSet())))
+			.getOrDefault(successorType, Collections.emptySet())
+			.contains(predecessorType);
 	}
 
 	/*
