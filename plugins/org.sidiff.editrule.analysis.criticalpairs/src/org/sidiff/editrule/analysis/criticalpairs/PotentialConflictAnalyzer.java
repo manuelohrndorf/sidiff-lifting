@@ -921,7 +921,9 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		EReference predecessorType = createPredecessor.getType();
 		EClass successorType = deleteSuccessor.getType();
 
-		if (successorType.getEAllReferences().contains(predecessorType)
+		Node srcNode = createPredecessor.getSource();
+		Node tgtNode = createPredecessor.getTarget();
+		if (assignable(srcNode.getType(), deleteSuccessor.getType()) && successorType.getEAllReferences().contains(predecessorType)
 				&& deleteSuccessor.getOutgoing(predecessorType).isEmpty()) {
 			return true;
 		}
@@ -929,14 +931,15 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			return false;
 		}
 
-		return referenceTypeIndex
-			.computeIfAbsent(successorType.eResource(),
-				resource -> CollectionUtil.asStream(resource.getAllContents())
-					.filter(EReference.class::isInstance)
-					.map(EReference.class::cast)
-					.collect(Collectors.groupingBy(EReference::getEReferenceType, Collectors.toSet())))
-			.getOrDefault(successorType, Collections.emptySet())
-			.contains(predecessorType);
+		if(assignable(tgtNode.getType(), deleteSuccessor.getType())){
+			return referenceTypeIndex
+					.computeIfAbsent(successorType.eResource(),
+							resource -> CollectionUtil.asStream(resource.getAllContents())
+									.filter(EReference.class::isInstance).map(EReference.class::cast)
+									.collect(Collectors.groupingBy(EReference::getEReferenceType, Collectors.toSet())))
+					.getOrDefault(successorType, Collections.emptySet()).contains(predecessorType);
+		}
+		return false;
 	}
 
 	/*
