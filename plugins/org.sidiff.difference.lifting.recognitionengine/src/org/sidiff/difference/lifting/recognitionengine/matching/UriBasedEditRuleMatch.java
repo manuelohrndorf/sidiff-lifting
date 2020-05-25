@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,9 +17,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.emf.EMFUtil;
-import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Field;
 import org.sidiff.common.emf.access.Link;
+import org.sidiff.common.emf.doctype.util.EMFDocumentTypeUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
 import org.sidiff.difference.symmetric.EditRuleMatch;
@@ -40,82 +41,63 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 	private Map<Attribute, Set<Field>> attributeOccurrencesB = new HashMap<>();
 
 	public UriBasedEditRuleMatch(SemanticChangeSet scs) {
-		this(scs, EMFModelAccess.getDocumentTypes(Arrays.asList(
+		this(scs, new HashSet<>(EMFDocumentTypeUtil.resolve(Arrays.asList(
 				((SymmetricDifference)scs.eContainer()).getModelA(),
-				((SymmetricDifference)scs.eContainer()).getModelB())));
+				((SymmetricDifference)scs.eContainer()).getModelB()))));
 	}
-	
-	public UriBasedEditRuleMatch(SemanticChangeSet scs, Set<String> docTypes) {
 
+	public UriBasedEditRuleMatch(SemanticChangeSet scs, Set<String> docTypes) {
 		EditRule editRule =  IRuleBaseProject.MANAGER.resolveEditRule(docTypes, scs.getEditRName());
-		
-		assert (editRule != null) : "EditRule for SemanticChangeSet " + scs + " cannot be resolved!";
-		assert (editRule.eResource() != null) : "editRule " + editRule + " is not contained in a resource!";
+		Objects.requireNonNull(editRule.eResource(), "editRule " + editRule + " is not contained in a resource!");
 
 		Resource henshinResource = editRule.getExecuteMainUnit().eResource();		
-		
+	
 		setEditRule(editRule);
-		EditRuleMatch erMatch = scs.getEditRuleMatch();
-
-		assert (erMatch != null) : "No EditRuleMatch has been seriaized for SemanticChangeSet " + scs + "!";
+		
+		EditRuleMatch erMatch = Objects.requireNonNull(scs.getEditRuleMatch(),
+				"No EditRuleMatch has been seriaized for SemanticChangeSet " + scs + "!");
 
 		// Resolve node occurrences in A
 		for (String fragment : erMatch.getNodeOccurrencesA().keySet()) {
-			Node node = (Node) henshinResource.getEObject(fragment);
-
-			assert (node != null) : "Node with the URI fragment " + fragment + " cannot be found in resource "
-					+ henshinResource + "!";
-
+			Node node = Objects.requireNonNull((Node)henshinResource.getEObject(fragment),
+					"Node with the URI fragment " + fragment + " cannot be found in resource " + henshinResource + "!");
 			nodeOccurencesA.put(node, erMatch.getNodeOccurrencesA().get(fragment).toJavaSet());
 		}
 
 		// Resolve node occurrences in B
 		for (String fragment : erMatch.getNodeOccurrencesB().keySet()) {
-			Node node = (Node) henshinResource.getEObject(fragment);
-
-			assert (node != null) : "Node with the URI fragment " + fragment + " cannot be found in resource "
-					+ henshinResource + "!";
-
+			Node node = Objects.requireNonNull((Node)henshinResource.getEObject(fragment),
+					"Node with the URI fragment " + fragment + " cannot be found in resource " + henshinResource + "!");
 			nodeOccurencesB.put(node, erMatch.getNodeOccurrencesB().get(fragment).toJavaSet());
 		}
 
-		// Derive the edge occurrences
 		super.deriveEdgeOccurrences();
-		
+
 		deriveAttributeOccurrences();
 	}
-	
-	/**
-	 * 
-	 */
+
 	private void deriveAttributeOccurrences() {
-		for(Attribute a : getAllLHSAttributes()){
+		for(Attribute attribute : getAllLHSAttributes()) {
 			Set<Field> attributeOccurences = new HashSet<>();
-			for(EObject eObject : nodeOccurencesA.get(a.getNode())){
-				createAttribute(attributeOccurences, eObject, a.getType());
+			for(EObject eObject : nodeOccurencesA.get(attribute.getNode())) {
+				createAttribute(attributeOccurences, eObject, attribute.getType());
 			}
-			if(!attributeOccurences.isEmpty()){
-				attributeOccurrencesA.put(a, attributeOccurences);
+			if(!attributeOccurences.isEmpty()) {
+				attributeOccurrencesA.put(attribute, attributeOccurences);
 			}
 		}
-		
-		for(Attribute a: getAllRHSAttributes()){
+
+		for(Attribute attribute : getAllRHSAttributes()) {
 			Set<Field> attributeOccurences = new HashSet<>();
-			for(EObject eObject : nodeOccurencesB.get(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(a.getNode()))) {
-				createAttribute(attributeOccurences, eObject, a.getType());
+			for(EObject eObject : nodeOccurencesB.get(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(attribute.getNode()))) {
+				createAttribute(attributeOccurences, eObject, attribute.getType());
 			}
-			if(!attributeOccurences.isEmpty()){
-				attributeOccurrencesB.put(a, attributeOccurences);
+			if(!attributeOccurences.isEmpty()) {
+				attributeOccurrencesB.put(attribute, attributeOccurences);
 			}
 		}
 	}
-	
-	/**
-	 * 
-	 * @param attributeOccurrences
-	 * @param eObject
-	 * @param eAttribute
-	 */
+
 	protected void createAttribute(Set<Field> attributeOccurrences, EObject eObject, EAttribute eAttribute) {
 		String stringValue =
 			EMFUtil.getAttributeValues(eObject, eAttribute).stream()
@@ -123,70 +105,42 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 				.collect(Collectors.joining(","));
 		attributeOccurrences.add(new Field(eObject, eAttribute, stringValue));		
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	public Set<Attribute> getMatchedAttributesA() {
 		return Collections.unmodifiableSet(attributeOccurrencesA.keySet());
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	public Set<Attribute> getMatchedAttributesB() {
 		return Collections.unmodifiableSet(attributeOccurrencesB.keySet());
 	}
-	
-	/**
-	 * 
-	 * @param editRuleAttribute
-	 * @return
-	 */
+
 	public Set<Field> getOccurrenceA(Attribute editRuleAttribute) {
-		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		Set<Field> occurences = attributeOccurrencesA.get(keyAttribute);
+		Set<Field> occurences = attributeOccurrencesA.get(getKeyAttribute(editRuleAttribute));
 		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
-	
-	/**
-	 * 
-	 * @param editRuleAttribute
-	 * @return
-	 */
+
 	public Set<Field> getOccurrenceB(Attribute editRuleAttribute) {
-		Attribute keyAttribute = getKeyAttribute(editRuleAttribute);
-		Set<Field> occurences = attributeOccurrencesB.get(keyAttribute);
+		Set<Field> occurences = attributeOccurrencesB.get(getKeyAttribute(editRuleAttribute));
 		return occurences == null ? Collections.emptySet() : Collections.unmodifiableSet(occurences);
 	}
-	
-	/**
-	 * 
-	 * @param editRuleAttribute
-	 * @return
-	 */
+
 	public Attribute getKeyAttribute(Attribute editRuleAttribute) {
 		Attribute keyAttribute = editRuleAttribute;
-		
+
 		// Schritt(1):
 		Node editRuleNode = getKeyNode(keyAttribute.getNode());
-		
+
 		// Schritt(2):
-		if(HenshinRuleAnalysisUtilEx.isRHSChangingAttribute(keyAttribute)||HenshinRuleAnalysisUtilEx.isChangingAttribute(keyAttribute)){
-			if(HenshinRuleAnalysisUtilEx.isLHSAttribute(keyAttribute)){
+		if(HenshinRuleAnalysisUtilEx.isRHSChangingAttribute(keyAttribute)
+				|| HenshinRuleAnalysisUtilEx.isChangingAttribute(keyAttribute)) {
+			if(HenshinRuleAnalysisUtilEx.isLHS(keyAttribute)) {
 				return HenshinRuleAnalysisUtilEx.getRemoteAttribute(keyAttribute);
 			}
 			return keyAttribute;
 		}
 		return editRuleNode.getAttribute(keyAttribute.getType());
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	private Set<Attribute> getAllLHSAttributes() {
 		Set<Attribute> attributes = new HashSet<>();
 		for(Node n : nodeOccurencesA.keySet()){
@@ -194,15 +148,11 @@ public class UriBasedEditRuleMatch extends BasicEditRuleMatch {
 		}
 		return attributes;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	private Set<Attribute> getAllRHSAttributes() {
 		Set<Attribute> attributes = new HashSet<>();
 		for(Node n : nodeOccurencesB.keySet()){
-			if(HenshinRuleAnalysisUtilEx.isLHSNode(n)){
+			if(HenshinRuleAnalysisUtilEx.isLHS(n)){
 				attributes.addAll(HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n).getAttributes());
 			}
 		}
