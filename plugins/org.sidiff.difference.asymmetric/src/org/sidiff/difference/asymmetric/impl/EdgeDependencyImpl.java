@@ -81,6 +81,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getSrcObject() {
 		if (srcObject != null && srcObject.eIsProxy()) {
 			InternalEObject oldSrcObject = (InternalEObject)srcObject;
@@ -107,6 +108,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSrcObject(EObject newSrcObject) {
 		EObject oldSrcObject = srcObject;
 		srcObject = newSrcObject;
@@ -119,6 +121,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getTgtObject() {
 		if (tgtObject != null && tgtObject.eIsProxy()) {
 			InternalEObject oldTgtObject = (InternalEObject)tgtObject;
@@ -145,6 +148,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTgtObject(EObject newTgtObject) {
 		EObject oldTgtObject = tgtObject;
 		tgtObject = newTgtObject;
@@ -157,6 +161,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -183,6 +188,7 @@ public class EdgeDependencyImpl extends DependencyImpl implements EdgeDependency
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EReference newType) {
 		EReference oldType = type;
 		type = newType;

@@ -70,6 +70,7 @@ public class ValueParameterBindingImpl extends ParameterBindingImpl implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getActual() {
 		return actual;
 	}
@@ -79,6 +80,7 @@ public class ValueParameterBindingImpl extends ParameterBindingImpl implements V
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActual(String newActual) {
 		String oldActual = actual;
 		actual = newActual;
@@ -153,7 +155,7 @@ public class ValueParameterBindingImpl extends ParameterBindingImpl implements V
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (actual: ");
 		result.append(actual);
 		result.append(')');

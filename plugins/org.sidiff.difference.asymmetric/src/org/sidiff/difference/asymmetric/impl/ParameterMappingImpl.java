@@ -75,6 +75,7 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectParameterBinding getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -116,6 +117,7 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(ObjectParameterBinding newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -135,6 +137,7 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectParameterBinding getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -176,6 +179,7 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(ObjectParameterBinding newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;

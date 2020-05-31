@@ -102,6 +102,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getActualA() {
 		if (actualA != null && actualA.eIsProxy()) {
 			InternalEObject oldActualA = (InternalEObject)actualA;
@@ -128,6 +129,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActualA(EObject newActualA) {
 		EObject oldActualA = actualA;
 		actualA = newActualA;
@@ -140,6 +142,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getActualB() {
 		if (actualB != null && actualB.eIsProxy()) {
 			InternalEObject oldActualB = (InternalEObject)actualB;
@@ -166,6 +169,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActualB(EObject newActualB) {
 		EObject oldActualB = actualB;
 		actualB = newActualB;
@@ -178,6 +182,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ParameterMapping> getOutgoing() {
 		if (outgoing == null) {
 			outgoing = new EObjectWithInverseResolvingEList<ParameterMapping>(ParameterMapping.class, this, AsymmetricPackage.OBJECT_PARAMETER_BINDING__OUTGOING, AsymmetricPackage.PARAMETER_MAPPING__SOURCE);
@@ -190,6 +195,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterMapping getIncoming() {
 		if (incoming != null && incoming.eIsProxy()) {
 			InternalEObject oldIncoming = (InternalEObject)incoming;
@@ -231,6 +237,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIncoming(ParameterMapping newIncoming) {
 		if (newIncoming != incoming) {
 			NotificationChain msgs = null;
@@ -250,6 +257,7 @@ public class ObjectParameterBindingImpl extends ParameterBindingImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public boolean isMappingTarget() {
 		return getIncoming() != null;
 	}

@@ -63,6 +63,7 @@ public class ParallelExecutionImpl extends ExecutionImpl implements ParallelExec
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Execution> getSubExecutions() {
 		if (subExecutions == null) {
 			subExecutions = new EObjectResolvingEList<Execution>(Execution.class, this, AsymmetricPackage.PARALLEL_EXECUTION__SUB_EXECUTIONS);

@@ -70,6 +70,7 @@ public class AttributeDependencyImpl extends DependencyImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getObject() {
 		if (object != null && object.eIsProxy()) {
 			InternalEObject oldObject = (InternalEObject)object;
@@ -96,6 +97,7 @@ public class AttributeDependencyImpl extends DependencyImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setObject(EObject newObject) {
 		EObject oldObject = object;
 		object = newObject;
@@ -108,6 +110,7 @@ public class AttributeDependencyImpl extends DependencyImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getType() {
 		if (type != null && type.eIsProxy()) {
 			InternalEObject oldType = (InternalEObject)type;
@@ -134,6 +137,7 @@ public class AttributeDependencyImpl extends DependencyImpl implements Attribute
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(EAttribute newType) {
 		EAttribute oldType = type;
 		type = newType;

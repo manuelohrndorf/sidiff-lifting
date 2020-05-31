@@ -88,6 +88,7 @@ public class DependencyContainerImpl extends EObjectImpl implements DependencyCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationInvocation getSource() {
 		if (source != null && source.eIsProxy()) {
 			InternalEObject oldSource = (InternalEObject)source;
@@ -129,6 +130,7 @@ public class DependencyContainerImpl extends EObjectImpl implements DependencyCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(OperationInvocation newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -148,6 +150,7 @@ public class DependencyContainerImpl extends EObjectImpl implements DependencyCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationInvocation getTarget() {
 		if (target != null && target.eIsProxy()) {
 			InternalEObject oldTarget = (InternalEObject)target;
@@ -189,6 +192,7 @@ public class DependencyContainerImpl extends EObjectImpl implements DependencyCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTarget(OperationInvocation newTarget) {
 		if (newTarget != target) {
 			NotificationChain msgs = null;
@@ -208,6 +212,7 @@ public class DependencyContainerImpl extends EObjectImpl implements DependencyCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Dependency> getDependencies() {
 		if (dependencies == null) {
 			dependencies = new EObjectContainmentEList<Dependency>(Dependency.class, this, AsymmetricPackage.DEPENDENCY_CONTAINER__DEPENDENCIES);

@@ -70,6 +70,7 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFormalName() {
 		return formalName;
 	}
@@ -78,6 +79,7 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFormalName(String newFormalName) {
 		String oldFormalName = formalName;
 		formalName = newFormalName;
@@ -90,6 +92,7 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 	 * 
 	 * @generated NOT
 	 */
+	@Override
 	public boolean isDefaultValue() {
 
 		// Can only be default if it is a value
@@ -99,36 +102,28 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 			// Check if there is a default value at all
 			if (valBinding.getFormalParameter().getType().getDefaultValue() == null) {
 				// Check if there is a value at all
-				if (valBinding.getActual() == null) {
+				return valBinding.getActual() == null;
+			}
+
+			// FIXME: This is not completely correct. Actually, we should
+			// check the default value of the EStructuralFeature
+			// (EAttribute) which is set by this parameter. BUt this
+			// information is currently not available in the operation
+			// interface. Finally this leads to the UpperBound workaround
+
+			// Workaround
+			if (valBinding.getFormalName().equals("UpperBound")) {
+				OperationInvocation op = (OperationInvocation) valBinding.eContainer();
+				if (op.getChangeSet().getName() != null && op.getChangeSet().getName().equals("createTypedAttribute")) {
 					return true;
-				} else {
-					return false;
 				}
 			}
 
-			// Check whether the current value equals the default value
-			else {
-				// FIXME: This is not completely correct. Actually, we should
-				// check the default value of the EStructuralFeature
-				// (EAttribute) which is set by this parameter. BUt this
-				// information is currently not available in the operation
-				// interface. Finally this leads to the UpperBound workaround
-
-				// Workaround
-				if (valBinding.getFormalName().equals("UpperBound")) {
-					OperationInvocation op = (OperationInvocation) valBinding.eContainer();
-					if (op.getChangeSet().getName() != null && op.getChangeSet().getName().equals("createTypedAttribute")) {
-						return true;
-					}
-				}
-
-				// Fixme (see above)
-				return valBinding.getFormalParameter().getType().getDefaultValue().toString()
-						.equals(valBinding.getActual());
-			}
-		} else {
-			return false;
+			// Fixme (see above)
+			return valBinding.getFormalParameter().getType().getDefaultValue().toString()
+					.equals(valBinding.getActual());
 		}
+		return false;
 	}
 
 	/**
@@ -193,7 +188,7 @@ public abstract class ParameterBindingImpl extends EObjectImpl implements Parame
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (formalName: ");
 		result.append(formalName);
 		result.append(')');

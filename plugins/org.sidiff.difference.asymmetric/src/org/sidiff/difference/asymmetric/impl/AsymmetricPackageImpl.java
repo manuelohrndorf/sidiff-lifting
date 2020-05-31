@@ -183,7 +183,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link AsymmetricPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -197,7 +197,8 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		if (isInited) return (AsymmetricPackage)EPackage.Registry.INSTANCE.getEPackage(AsymmetricPackage.eNS_URI);
 
 		// Obtain or create and register package
-		AsymmetricPackageImpl theAsymmetricPackage = (AsymmetricPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof AsymmetricPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new AsymmetricPackageImpl());
+		Object registeredAsymmetricPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		AsymmetricPackageImpl theAsymmetricPackage = registeredAsymmetricPackage instanceof AsymmetricPackageImpl ? (AsymmetricPackageImpl)registeredAsymmetricPackage : new AsymmetricPackageImpl();
 
 		isInited = true;
 
@@ -217,7 +218,6 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		// Mark meta-data to indicate it can't be changed
 		theAsymmetricPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(AsymmetricPackage.eNS_URI, theAsymmetricPackage);
 		return theAsymmetricPackage;
@@ -228,6 +228,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAsymmetricDifference() {
 		return asymmetricDifferenceEClass;
 	}
@@ -237,6 +238,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_OperationInvocations() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(0);
 	}
@@ -246,6 +248,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAsymmetricDifference_OriginModel() {
 		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(1);
 	}
@@ -255,6 +258,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAsymmetricDifference_ChangedModel() {
 		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(2);
 	}
@@ -264,6 +268,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_DepContainers() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(3);
 	}
@@ -273,6 +278,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_ParameterMappings() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(4);
 	}
@@ -282,6 +288,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_Executions() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(5);
 	}
@@ -291,6 +298,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_SymmetricDifference() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(6);
 	}
@@ -300,6 +308,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAsymmetricDifference_UriOriginModel() {
 		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(7);
 	}
@@ -309,6 +318,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAsymmetricDifference_UriChangedModel() {
 		return (EAttribute)asymmetricDifferenceEClass.getEStructuralFeatures().get(8);
 	}
@@ -318,6 +328,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAsymmetricDifference_Rulebase() {
 		return (EReference)asymmetricDifferenceEClass.getEStructuralFeatures().get(9);
 	}
@@ -327,6 +338,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperationInvocation() {
 		return operationInvocationEClass;
 	}
@@ -336,6 +348,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperationInvocation_Name() {
 		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(0);
 	}
@@ -345,6 +358,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperationInvocation_EditRuleName() {
 		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(1);
 	}
@@ -354,6 +368,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationInvocation_ParameterBindings() {
 		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(3);
 	}
@@ -363,6 +378,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationInvocation_Outgoing() {
 		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(4);
 	}
@@ -372,6 +388,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationInvocation_Incoming() {
 		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(5);
 	}
@@ -381,6 +398,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperationInvocation_Apply() {
 		return (EAttribute)operationInvocationEClass.getEStructuralFeatures().get(2);
 	}
@@ -390,6 +408,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationInvocation_ChangeSet() {
 		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(6);
 	}
@@ -399,6 +418,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationInvocation_AsymmetricDifference() {
 		return (EReference)operationInvocationEClass.getEStructuralFeatures().get(7);
 	}
@@ -408,6 +428,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameterBinding() {
 		return parameterBindingEClass;
 	}
@@ -417,6 +438,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getParameterBinding_FormalName() {
 		return (EAttribute)parameterBindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -426,6 +448,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getObjectParameterBinding() {
 		return objectParameterBindingEClass;
 	}
@@ -435,6 +458,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectParameterBinding_ActualA() {
 		return (EReference)objectParameterBindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -444,6 +468,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectParameterBinding_ActualB() {
 		return (EReference)objectParameterBindingEClass.getEStructuralFeatures().get(1);
 	}
@@ -453,6 +478,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectParameterBinding_Outgoing() {
 		return (EReference)objectParameterBindingEClass.getEStructuralFeatures().get(2);
 	}
@@ -462,6 +488,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getObjectParameterBinding_Incoming() {
 		return (EReference)objectParameterBindingEClass.getEStructuralFeatures().get(3);
 	}
@@ -471,6 +498,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getValueParameterBinding() {
 		return valueParameterBindingEClass;
 	}
@@ -480,6 +508,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getValueParameterBinding_Actual() {
 		return (EAttribute)valueParameterBindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -489,6 +518,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDependencyContainer() {
 		return dependencyContainerEClass;
 	}
@@ -498,6 +528,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDependencyContainer_Source() {
 		return (EReference)dependencyContainerEClass.getEStructuralFeatures().get(0);
 	}
@@ -507,6 +538,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDependencyContainer_Target() {
 		return (EReference)dependencyContainerEClass.getEStructuralFeatures().get(1);
 	}
@@ -516,6 +548,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDependencyContainer_Dependencies() {
 		return (EReference)dependencyContainerEClass.getEStructuralFeatures().get(2);
 	}
@@ -525,6 +558,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDependency() {
 		return dependencyEClass;
 	}
@@ -534,6 +568,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDependency_Source() {
 		return (EReference)dependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -543,6 +578,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDependency_Target() {
 		return (EReference)dependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -552,6 +588,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getDependency_Kind() {
 		return (EAttribute)dependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -561,6 +598,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameterMapping() {
 		return parameterMappingEClass;
 	}
@@ -570,6 +608,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameterMapping_Source() {
 		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(0);
 	}
@@ -579,6 +618,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParameterMapping_Target() {
 		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(1);
 	}
@@ -588,6 +628,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParallelExecution() {
 		return parallelExecutionEClass;
 	}
@@ -597,6 +638,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getParallelExecution_SubExecutions() {
 		return (EReference)parallelExecutionEClass.getEStructuralFeatures().get(0);
 	}
@@ -606,6 +648,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSequentialExecution() {
 		return sequentialExecutionEClass;
 	}
@@ -615,6 +658,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSequentialExecution_SubExecutions() {
 		return (EReference)sequentialExecutionEClass.getEStructuralFeatures().get(0);
 	}
@@ -624,6 +668,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExecution() {
 		return executionEClass;
 	}
@@ -633,6 +678,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMultiParameterBinding() {
 		return multiParameterBindingEClass;
 	}
@@ -642,6 +688,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMultiParameterBinding_ParameterBindings() {
 		return (EReference)multiParameterBindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -651,6 +698,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNodeDependency() {
 		return nodeDependencyEClass;
 	}
@@ -660,6 +708,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getNodeDependency_Object() {
 		return (EReference)nodeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -669,6 +718,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEdgeDependency() {
 		return edgeDependencyEClass;
 	}
@@ -678,6 +728,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdgeDependency_SrcObject() {
 		return (EReference)edgeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -687,6 +738,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdgeDependency_TgtObject() {
 		return (EReference)edgeDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -696,6 +748,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getEdgeDependency_Type() {
 		return (EReference)edgeDependencyEClass.getEStructuralFeatures().get(2);
 	}
@@ -705,6 +758,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttributeDependency() {
 		return attributeDependencyEClass;
 	}
@@ -714,6 +768,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttributeDependency_Object() {
 		return (EReference)attributeDependencyEClass.getEStructuralFeatures().get(0);
 	}
@@ -723,6 +778,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttributeDependency_Type() {
 		return (EReference)attributeDependencyEClass.getEStructuralFeatures().get(1);
 	}
@@ -732,6 +788,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getDependencyKind() {
 		return dependencyKindEEnum;
 	}
@@ -741,6 +798,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricFactory getAsymmetricFactory() {
 		return (AsymmetricFactory)getEFactoryInstance();
 	}
