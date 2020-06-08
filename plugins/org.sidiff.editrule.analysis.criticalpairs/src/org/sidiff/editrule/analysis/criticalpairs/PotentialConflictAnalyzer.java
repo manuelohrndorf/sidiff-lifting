@@ -927,9 +927,9 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				&& deleteSuccessor.getOutgoing(predecessorType).isEmpty()) {
 			return true;
 		}
-		if (!deleteSuccessor.getIncoming(predecessorType).isEmpty()) {
-			return false;
-		}
+//		if (!deleteSuccessor.getIncoming(predecessorType).isEmpty()) {
+//			return false;
+//		}
 
 		if(assignable(tgtNode.getType(), deleteSuccessor.getType())){
 			return referenceTypeIndex
