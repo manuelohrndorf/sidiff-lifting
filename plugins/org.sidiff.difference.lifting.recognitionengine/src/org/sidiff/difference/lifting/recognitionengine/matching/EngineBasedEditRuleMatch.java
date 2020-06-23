@@ -119,12 +119,21 @@ public class EngineBasedEditRuleMatch extends BasicEditRuleMatch {
 
 		// And now let's search for NAC occurrences, which is delegated to Nac
 		// and NacOccurrence
-		nacOccurrences = new HashSet<>();
+
 		// FIXME: May be many NACs
-		ApplicationCondition nac = MatchingHelper.getNAC(getEditRule());
-		if (nac != null) {
+		// (CP 2020-06-23): At the moment we support multiple NACs if they are contained in an AND Formula.
+		// Furthermore the NAC must have a NestedCondition as child.
+//		Collection<ApplicationCondition> nac = MatchingHelper.getNAC(getEditRule());
+//		if (nac != null) {
+//			NacMatch no = new NacMatch(nac, this, recognitionEngine);
+//			if (no.hasMatch()) {
+//				nacOccurrences.add(no);
+//			}
+//		}
+		nacOccurrences = new HashSet<>();
+		for(ApplicationCondition nac : MatchingHelper.getNAC(getEditRule())) {
 			NacMatch no = new NacMatch(nac, this, recognitionEngine);
-			if (no.hasMatch()) {
+			if(no.hasMatch()) {
 				nacOccurrences.add(no);
 			}
 		}

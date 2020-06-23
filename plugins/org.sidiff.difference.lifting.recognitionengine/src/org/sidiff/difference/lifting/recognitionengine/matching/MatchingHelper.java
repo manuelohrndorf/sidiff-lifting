@@ -1,9 +1,12 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
@@ -15,14 +18,29 @@ import org.sidiff.editrule.rulebase.EditRule;
 public class MatchingHelper {
 
 	//FIXME(TK): Usually we can have multiple NACs
-	public static ApplicationCondition getNAC(EditRule editRule) {
+	// (CP 2020-06-23): At the moment we support multiple NACs if they are contained in an AND Formula.
+	// Furthermore the NAC must have a NestedCondition as child.
+	public static Collection<ApplicationCondition> getNAC(EditRule editRule) {
+		Collection<ApplicationCondition> nacs = new HashSet<ApplicationCondition>();
 		for (Rule rule : HenshinModuleAnalysis.getAllRules(editRule.getExecuteModule())) {
-			if (rule.getLhs().getFormula() instanceof Not) {
-				return new ApplicationCondition((NestedCondition) ((Not)rule.getLhs().getFormula()).getChild());
+			
+			if(rule.getLhs().getFormula() instanceof And){
+				And and = (And) rule.getLhs().getFormula();
+				if(and.getLeft() instanceof Not) {
+					Not not = (Not) and.getLeft();
+					nacs.add(new ApplicationCondition((NestedCondition)not.getChild()));
+				}
+				if(and.getRight() instanceof Not) {
+					Not not = (Not) and.getRight();
+					nacs.add(new ApplicationCondition((NestedCondition) not.getChild()));
+				}
+			}else if (rule.getLhs().getFormula() instanceof Not) {
+				Not not = (Not) rule.getLhs().getFormula();
+				nacs.add(new ApplicationCondition((NestedCondition) not.getChild()));
 			}
 		}
 		
-		return null;
+		return nacs;
 	}
 
 	/**
