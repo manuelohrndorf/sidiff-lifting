@@ -178,7 +178,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 		// via trace B
 		for (Edge edge : getAllRHSEdges()) {
-			Set<Link> edgeOccurrences = new HashSet<Link>();
+			Set<Link> edgeOccurrences = new HashSet<>();
 
 			// 1. Kreuzprodukt aus getOccurenceA(src) und getOccurenceA(tgt)
 			// bilden
@@ -241,7 +241,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 		Set<Edge> res = new HashSet<>();
 		for (Node n : nodeOccurencesB.keySet()) {
 			// Be sure it's a RHS node (because of our key convention)
-			if (HenshinRuleAnalysisUtilEx.isLHSNode(n)) {
+			if (HenshinRuleAnalysisUtilEx.isLHS(n)) {
 				n = HenshinRuleAnalysisUtilEx.findCorrespondingNodeInRHS(n);
 			}
 			res.addAll(n.getOutgoing());
@@ -291,7 +291,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 
 		// Schritt (2):
 		if (HenshinRuleAnalysisUtilEx.isPreservedNode(keyNode)
-				&& HenshinRuleAnalysisUtilEx.isRHSNode(keyNode)) {
+				&& HenshinRuleAnalysisUtilEx.isRHS(keyNode)) {
 			return HenshinRuleAnalysisUtilEx.findCorrespondingNodeInLHS(keyNode);
 		}
 		return keyNode;
@@ -305,7 +305,7 @@ public abstract class BasicEditRuleMatch implements IEditRuleMatch {
 	 */
 	protected Edge getKeyEdge(Edge editRuleEdge) {
 		if (HenshinRuleAnalysisUtilEx.isPreservedEdge(editRuleEdge)
-				&& HenshinRuleAnalysisUtilEx.isRHSEdge(editRuleEdge)) {
+				&& HenshinRuleAnalysisUtilEx.isRHS(editRuleEdge)) {
 			return HenshinRuleAnalysisUtilEx.findCorrespondingEdgeInLHS(editRuleEdge);
 		}
 		return editRuleEdge;

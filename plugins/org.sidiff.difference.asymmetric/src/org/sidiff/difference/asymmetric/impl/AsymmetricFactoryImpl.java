@@ -6,27 +6,10 @@
  */
 package org.sidiff.difference.asymmetric.impl;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.AsymmetricFactory;
-import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.asymmetric.AttributeDependency;
-import org.sidiff.difference.asymmetric.DependencyContainer;
-import org.sidiff.difference.asymmetric.DependencyKind;
-import org.sidiff.difference.asymmetric.EdgeDependency;
-import org.sidiff.difference.asymmetric.MultiParameterBinding;
-import org.sidiff.difference.asymmetric.NodeDependency;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParallelExecution;
-import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.asymmetric.SequentialExecution;
-import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.difference.asymmetric.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -124,6 +107,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricDifference createAsymmetricDifference() {
 		AsymmetricDifferenceImpl asymmetricDifference = new AsymmetricDifferenceImpl();
 		return asymmetricDifference;
@@ -134,6 +118,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationInvocation createOperationInvocation() {
 		OperationInvocationImpl operationInvocation = new OperationInvocationImpl();
 		return operationInvocation;
@@ -144,6 +129,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ObjectParameterBinding createObjectParameterBinding() {
 		ObjectParameterBindingImpl objectParameterBinding = new ObjectParameterBindingImpl();
 		return objectParameterBinding;
@@ -154,6 +140,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ValueParameterBinding createValueParameterBinding() {
 		ValueParameterBindingImpl valueParameterBinding = new ValueParameterBindingImpl();
 		return valueParameterBinding;
@@ -164,6 +151,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DependencyContainer createDependencyContainer() {
 		DependencyContainerImpl dependencyContainer = new DependencyContainerImpl();
 		return dependencyContainer;
@@ -174,6 +162,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParameterMapping createParameterMapping() {
 		ParameterMappingImpl parameterMapping = new ParameterMappingImpl();
 		return parameterMapping;
@@ -184,6 +173,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ParallelExecution createParallelExecution() {
 		ParallelExecutionImpl parallelExecution = new ParallelExecutionImpl();
 		return parallelExecution;
@@ -194,6 +184,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SequentialExecution createSequentialExecution() {
 		SequentialExecutionImpl sequentialExecution = new SequentialExecutionImpl();
 		return sequentialExecution;
@@ -204,6 +195,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MultiParameterBinding createMultiParameterBinding() {
 		MultiParameterBindingImpl multiParameterBinding = new MultiParameterBindingImpl();
 		return multiParameterBinding;
@@ -214,6 +206,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public NodeDependency createNodeDependency() {
 		NodeDependencyImpl nodeDependency = new NodeDependencyImpl();
 		return nodeDependency;
@@ -224,6 +217,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EdgeDependency createEdgeDependency() {
 		EdgeDependencyImpl edgeDependency = new EdgeDependencyImpl();
 		return edgeDependency;
@@ -234,6 +228,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AttributeDependency createAttributeDependency() {
 		AttributeDependencyImpl attributeDependency = new AttributeDependencyImpl();
 		return attributeDependency;
@@ -264,6 +259,7 @@ public class AsymmetricFactoryImpl extends EFactoryImpl implements AsymmetricFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricPackage getAsymmetricPackage() {
 		return (AsymmetricPackage)getEPackage();
 	}

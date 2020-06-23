@@ -16,7 +16,7 @@ public class AsymmetricDifferenceUtil {
 	/**
 	 * Cache: AsymmetricDifference -> (SemanticChangeSet -> OperationInvocation)
 	 */
-	private static Map<AsymmetricDifference, Map<SemanticChangeSet, OperationInvocation>> scs2operation = new HashMap<AsymmetricDifference, Map<SemanticChangeSet, OperationInvocation>>();
+	private static Map<AsymmetricDifference, Map<SemanticChangeSet, OperationInvocation>> scs2operation = new HashMap<>();
 	
 	/**
 	 * Convert semantic change sets (SCS) of the symmetric difference into
@@ -25,7 +25,7 @@ public class AsymmetricDifferenceUtil {
 	public static void deriveAsymmetricDifference(
 			SymmetricDifference symmetricDiff, AsymmetricDifference asymmetricDiff) {
 
-		Map<SemanticChangeSet, OperationInvocation> mappingSCS2operation = new HashMap<SemanticChangeSet, OperationInvocation>();
+		Map<SemanticChangeSet, OperationInvocation> mappingSCS2operation = new HashMap<>();
 		
 		for (SemanticChangeSet scs : symmetricDiff.getChangeSets()) {
 			OperationInvocation opInv = AsymmetricFactory.eINSTANCE.createOperationInvocation();
@@ -54,7 +54,7 @@ public class AsymmetricDifferenceUtil {
 			AsymmetricDifference asymmetricDiff, SemanticChangeSet scs) {
 
 		if (scs2operation.get(asymmetricDiff) == null) {
-			Map<SemanticChangeSet, OperationInvocation> mappingSCS2operation = new HashMap<SemanticChangeSet, OperationInvocation>();
+			Map<SemanticChangeSet, OperationInvocation> mappingSCS2operation = new HashMap<>();
 			
 			for (OperationInvocation opInv : asymmetricDiff.getOperationInvocations()) {
 				mappingSCS2operation.put(opInv.getChangeSet(), opInv);

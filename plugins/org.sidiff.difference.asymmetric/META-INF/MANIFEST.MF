@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.sidiff.difference.asymmetric;singleton:=true
+Automatic-Module-Name: org.sidiff.difference.asymmetric
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
@@ -11,6 +12,11 @@ Export-Package: org.sidiff.difference.asymmetric,
  org.sidiff.difference.asymmetric.impl,
  org.sidiff.difference.asymmetric.util
 Require-Bundle: org.sidiff.difference.lifting.edit2recognition;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.henshin.model;visibility:=reexport,
+ org.sidiff.matching.model;visibility:=reexport,
+ org.sidiff.editrule.rulebase;visibility:=reexport,
  org.sidiff.difference.symmetric;visibility:=reexport,
  org.sidiff.editrule.rulebase.project.runtime;visibility:=reexport,
  org.sidiff.common.emf.doctype

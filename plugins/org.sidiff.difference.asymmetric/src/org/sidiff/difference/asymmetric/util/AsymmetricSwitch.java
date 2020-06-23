@@ -9,22 +9,7 @@ package org.sidiff.difference.asymmetric.util;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.asymmetric.AttributeDependency;
-import org.sidiff.difference.asymmetric.Dependency;
-import org.sidiff.difference.asymmetric.DependencyContainer;
-import org.sidiff.difference.asymmetric.EdgeDependency;
-import org.sidiff.difference.asymmetric.Execution;
-import org.sidiff.difference.asymmetric.MultiParameterBinding;
-import org.sidiff.difference.asymmetric.NodeDependency;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParallelExecution;
-import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.asymmetric.SequentialExecution;
-import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.difference.asymmetric.*;
 
 /**
  * <!-- begin-user-doc -->

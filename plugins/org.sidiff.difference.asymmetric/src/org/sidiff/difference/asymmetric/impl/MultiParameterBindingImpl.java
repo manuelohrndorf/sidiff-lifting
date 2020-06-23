@@ -62,6 +62,7 @@ public class MultiParameterBindingImpl extends ParameterBindingImpl implements M
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ParameterBinding> getParameterBindings() {
 		if (parameterBindings == null) {
 			parameterBindings = new EObjectContainmentEList<ParameterBinding>(ParameterBinding.class, this, AsymmetricPackage.MULTI_PARAMETER_BINDING__PARAMETER_BINDINGS);

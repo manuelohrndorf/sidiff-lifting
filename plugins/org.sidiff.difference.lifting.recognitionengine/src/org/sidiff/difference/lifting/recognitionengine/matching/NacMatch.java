@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -134,17 +133,13 @@ public class NacMatch {
 		// We don't want to copy attributes of boundary nodes
 		for (Node acOriginalBoundaryNode : nac.getAcBoundaryNodes()) {
 			Node acCopyBoundaryNode = (Node) lhsCopier.get(acOriginalBoundaryNode);
-			for (Iterator<Attribute> iterator = acCopyBoundaryNode.getAttributes().iterator(); iterator.hasNext();) {
-				iterator.next();
-				iterator.remove();				
-			}
+			acCopyBoundaryNode.getAttributes().clear();
 		}
 		
 		// Create inverseMap for later access
-		Map<EObject, EObject> inverseMap = new HashMap<EObject, EObject>();
+		Map<EObject, EObject> inverseMap = new HashMap<>();
 		for (EObject original : lhsCopier.keySet()) {
-			EObject copy = lhsCopier.get(original);
-			inverseMap.put(copy, original);
+			inverseMap.put(lhsCopier.get(original), original);
 		}
 				
 		// rhs Copier (because we want to create preserved nodes in searchRule)
@@ -223,7 +218,7 @@ public class NacMatch {
 	private List<Match> getPreconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
 
 		if (EditRuleConditions.isPrecondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<Match>();		 
+			List<Match> matches = new ArrayList<>();		 
 			EGraph graph = recognitionEngine.getGraphFactory().getModelAGraph();
 			
 			for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
@@ -238,7 +233,7 @@ public class NacMatch {
 	
 	private List<Match> getPostconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
 		if (EditRuleConditions.isPostcondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<Match>();		 
+			List<Match> matches = new ArrayList<>();		 
 			EGraph graph = recognitionEngine.getGraphFactory().getModelBGraph();
 			emfEngine.findMatches(searchRule, graph, preMatch).forEach(matches::add);
 			return matches;
@@ -248,7 +243,7 @@ public class NacMatch {
 
 	private void deriveEdgeOccurrences() {
 		for (Edge edge : getAllNacEdges()) {
-			Set<Link> edgeOccurrences = new HashSet<Link>();
+			Set<Link> edgeOccurrences = new HashSet<>();
 
 			// 1. Kreuzprodukt aus getOccurenceA(src) und getOccurenceA(tgt)
 			// bilden

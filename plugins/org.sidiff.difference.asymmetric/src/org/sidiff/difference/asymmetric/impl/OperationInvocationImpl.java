@@ -173,6 +173,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getName() {
 		
 		// Try to derive the name from the semantic change set:
@@ -188,6 +189,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -200,6 +202,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public String getEditRuleName() {
 		
 		// Try to derive the edit rule name from the semantic change set:
@@ -215,6 +218,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setEditRuleName(String newEditRuleName) {
 		String oldEditRuleName = editRuleName;
 		editRuleName = newEditRuleName;
@@ -321,6 +325,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public AsymmetricDifference getAsymmetricDifference() {
 		if (eContainerFeatureID() != AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE) return null;
 		return (AsymmetricDifference)eInternalContainer();
@@ -341,6 +346,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAsymmetricDifference(AsymmetricDifference newAsymmetricDifference) {
 		if (newAsymmetricDifference != eInternalContainer() || (eContainerFeatureID() != AsymmetricPackage.OPERATION_INVOCATION__ASYMMETRIC_DIFFERENCE && newAsymmetricDifference != null)) {
 			if (EcoreUtil.isAncestor(this, newAsymmetricDifference))
@@ -547,7 +553,7 @@ public class OperationInvocationImpl extends ExecutionImpl implements OperationI
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(", editRuleName: ");

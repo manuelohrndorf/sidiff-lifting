@@ -77,6 +77,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationInvocation getSource() {
 		OperationInvocation source = basicGetSource();
 		return source != null && source.eIsProxy() ? (OperationInvocation)eResolveProxy((InternalEObject)source) : source;
@@ -96,6 +97,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setSource(OperationInvocation newSource) {
 		((DependencyContainer)eContainer()).setSource(newSource);
 	}
@@ -105,6 +107,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationInvocation getTarget() {
 		OperationInvocation target = basicGetTarget();
 		return target != null && target.eIsProxy() ? (OperationInvocation)eResolveProxy((InternalEObject)target) : target;
@@ -124,6 +127,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public void setTarget(OperationInvocation newTarget) {
 		((DependencyContainer)eContainer()).setTarget(newTarget);
 	}
@@ -133,6 +137,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DependencyKind getKind() {
 		return kind;
 	}
@@ -142,6 +147,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKind(DependencyKind newKind) {
 		DependencyKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
@@ -238,7 +244,7 @@ public abstract class DependencyImpl extends EObjectImpl implements Dependency {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (kind: ");
 		result.append(kind);
 		result.append(')');

@@ -63,6 +63,7 @@ public class SequentialExecutionImpl extends ExecutionImpl implements Sequential
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Execution> getSubExecutions() {
 		if (subExecutions == null) {
 			subExecutions = new EObjectResolvingEList<Execution>(Execution.class, this, AsymmetricPackage.SEQUENTIAL_EXECUTION__SUB_EXECUTIONS);

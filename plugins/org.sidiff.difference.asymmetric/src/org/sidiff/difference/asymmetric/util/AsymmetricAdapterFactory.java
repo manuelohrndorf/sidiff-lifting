@@ -10,22 +10,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.sidiff.difference.asymmetric.AsymmetricDifference;
-import org.sidiff.difference.asymmetric.AsymmetricPackage;
-import org.sidiff.difference.asymmetric.AttributeDependency;
-import org.sidiff.difference.asymmetric.Dependency;
-import org.sidiff.difference.asymmetric.DependencyContainer;
-import org.sidiff.difference.asymmetric.EdgeDependency;
-import org.sidiff.difference.asymmetric.Execution;
-import org.sidiff.difference.asymmetric.MultiParameterBinding;
-import org.sidiff.difference.asymmetric.NodeDependency;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParallelExecution;
-import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.difference.asymmetric.ParameterMapping;
-import org.sidiff.difference.asymmetric.SequentialExecution;
-import org.sidiff.difference.asymmetric.ValueParameterBinding;
+import org.sidiff.difference.asymmetric.*;
 
 /**
  * <!-- begin-user-doc -->
