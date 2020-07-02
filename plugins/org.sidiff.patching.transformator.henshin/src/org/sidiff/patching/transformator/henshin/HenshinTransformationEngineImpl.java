@@ -74,6 +74,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 
 	@Override
 	public void init(Resource targetResource, ExecutionMode executionMode, Scope scope) {
+		this.executedOperations.clear();
 		this.targetResource = targetResource;
 		this.executionMode = executionMode;
 		this.scope = scope;
