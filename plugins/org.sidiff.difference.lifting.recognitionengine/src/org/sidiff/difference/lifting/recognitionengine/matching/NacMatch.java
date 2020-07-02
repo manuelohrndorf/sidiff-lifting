@@ -73,7 +73,7 @@ public class NacMatch {
 
 	/**
 	 * Returns the occurrences of a forbid node in model A.
-	 * 
+	 *
 	 * @param forbidNode
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public class NacMatch {
 
 	/**
 	 * Returns the occurrences of a forbid edge in model A.
-	 * 
+	 *
 	 * @param forbidNode
 	 * @return
 	 */
@@ -94,7 +94,7 @@ public class NacMatch {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return If this NacOccurrence indeed has at least one match in Model A
 	 */
 	public boolean hasMatch() {
@@ -116,7 +116,7 @@ public class NacMatch {
 			Set<EObject> occurence = editRuleMatch.getOccurenceA(lhsContextNode);
 			if (!occurence.isEmpty()) {
 				// FIXME must be better than assertion
-				assert (occurence.size() == 1) :
+				assert occurence.size() == 1 :
 					"Multiple Occurrences of a NAC-Node (Possible in case of Amalgamation) not yet supported!";
 				lhsContextOccurrencesA.put(lhsContextNode, occurence.iterator().next());
 			}
@@ -124,8 +124,8 @@ public class NacMatch {
 	}
 
 	private void createAndApplySearchRule() {
-		
-		// Copy NAC graph 
+
+		// Copy NAC graph
 		Copier lhsCopier = new Copier();
 		Graph lhsSearchGraph = (Graph) lhsCopier.copy(nac.getNestedCondition().getConclusion());
 		lhsCopier.copyReferences();
@@ -135,13 +135,13 @@ public class NacMatch {
 			Node acCopyBoundaryNode = (Node) lhsCopier.get(acOriginalBoundaryNode);
 			acCopyBoundaryNode.getAttributes().clear();
 		}
-		
+
 		// Create inverseMap for later access
 		Map<EObject, EObject> inverseMap = new HashMap<>();
 		for (EObject original : lhsCopier.keySet()) {
 			inverseMap.put(lhsCopier.get(original), original);
 		}
-				
+
 		// rhs Copier (because we want to create preserved nodes in searchRule)
 		Copier rhsCopier = new Copier();
 		Graph rhsSearchGraph = (Graph) rhsCopier.copy(lhsSearchGraph);
@@ -153,7 +153,7 @@ public class NacMatch {
 		searchRule.setActivated(true);
 		searchRule.setLhs(lhsSearchGraph); // LHS
 		searchRule.setRhs(rhsSearchGraph); // RHS
-		
+
 		// LHS - RHS Mappings:
 		for (Node lhsNode : lhsSearchGraph.getNodes()) {
 			Node rhsNode = (Node) rhsCopier.get(lhsNode);
@@ -177,7 +177,7 @@ public class NacMatch {
 			Node nacNodeCopy = (Node) lhsCopier.get(nacNode); // the copy
 			EObject occurrence = lhsContextOccurrencesA.get(lhsNode);
 
-			assert (nacNodeCopy != null && occurrence != null);
+			assert nacNodeCopy != null && occurrence != null;
 			preMatch.setNodeTarget(nacNodeCopy, occurrence);
 		}
 
@@ -193,7 +193,7 @@ public class NacMatch {
 		Engine emfEngine = new EngineImpl();
 		List<Match> matches = new ArrayList<>();
 		matches.addAll(getPostconditionMatches(emfEngine, searchRule, preMatch));
-		matches.addAll(getPreconditionMatches(emfEngine, searchRule, preMatch));	
+		matches.addAll(getPreconditionMatches(emfEngine, searchRule, preMatch));
 
 		// Now we can capture the forbidNode occurrences
 		if (!matches.isEmpty()) {
@@ -213,27 +213,28 @@ public class NacMatch {
 				}
 			}
 		}
+		emfEngine.shutdown();
 	}
-	
+
 	private List<Match> getPreconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
 
 		if (EditRuleConditions.isPrecondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<>();		 
+			List<Match> matches = new ArrayList<>();
 			EGraph graph = recognitionEngine.getGraphFactory().getModelAGraph();
-			
+
 			for (Match m : emfEngine.findMatches(searchRule, graph, preMatch)) {
 				matches.add(m);
 			}
-			
+
 			return matches;
 		}
-		
+
 		return Collections.emptyList();
 	}
-	
+
 	private List<Match> getPostconditionMatches(Engine emfEngine, Rule searchRule, Match preMatch) {
 		if (EditRuleConditions.isPostcondition(nac.getNestedCondition().getConclusion())) {
-			List<Match> matches = new ArrayList<>();		 
+			List<Match> matches = new ArrayList<>();
 			EGraph graph = recognitionEngine.getGraphFactory().getModelBGraph();
 			emfEngine.findMatches(searchRule, graph, preMatch).forEach(matches::add);
 			return matches;
@@ -272,7 +273,7 @@ public class NacMatch {
 	/**
 	 * Derive all Nac-Edges from the nodeOccurrencesA. All edges are part of a
 	 * NAC of the edit rule.
-	 * 
+	 *
 	 * @return The set of NAC-edges
 	 */
 	private List<Edge> getAllNacEdges() {
@@ -281,7 +282,7 @@ public class NacMatch {
 
 	/**
 	 * Konvention: Wenn nur in NAC, dann NAC-node. Ansonsten LHS-Node der Regel.
-	 * 
+	 *
 	 * @param nacNode
 	 * @return
 	 */
@@ -301,7 +302,7 @@ public class NacMatch {
 	 * benötigt, die von der NAC auch verwendet werden. OBJECT-Parameter machen
 	 * eigentlich keinen Sinn in der NAC Rule, daher suchen wir nach VALUE
 	 * Parametern.
-	 * 
+	 *
 	 * @return
 	 */
 	private Set<String> getRequiredRuleParameters() {
