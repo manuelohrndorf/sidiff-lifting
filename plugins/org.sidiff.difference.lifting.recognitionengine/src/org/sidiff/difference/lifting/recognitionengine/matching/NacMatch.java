@@ -1,33 +1,16 @@
 package org.sidiff.difference.lifting.recognitionengine.matching;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.Match;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.*;
 import org.eclipse.emf.henshin.interpreter.impl.MatchImpl;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.*;
 import org.sidiff.common.collections.Pair;
 import org.sidiff.common.emf.access.EMFModelAccess;
 import org.sidiff.common.emf.access.Link;
-import org.sidiff.common.henshin.ApplicationCondition;
-import org.sidiff.common.henshin.HenshinModuleAnalysis;
+import org.sidiff.common.henshin.*;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
 import org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngine;
@@ -190,7 +173,7 @@ public class NacMatch {
 		}
 
 		// Try to find matches
-		Engine emfEngine = new EngineImpl();
+		Engine emfEngine = new SelfCleaningEngineImpl();
 		List<Match> matches = new ArrayList<>();
 		matches.addAll(getPostconditionMatches(emfEngine, searchRule, preMatch));
 		matches.addAll(getPreconditionMatches(emfEngine, searchRule, preMatch));

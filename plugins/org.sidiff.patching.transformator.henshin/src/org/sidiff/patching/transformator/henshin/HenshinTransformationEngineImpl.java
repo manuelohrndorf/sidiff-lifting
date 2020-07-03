@@ -4,27 +4,19 @@ import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.*;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.emf.EMFUtil;
 import org.sidiff.common.emf.access.Scope;
 import org.sidiff.common.extension.AbstractTypedExtension;
+import org.sidiff.common.henshin.SelfCleaningEngineImpl;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.asymmetric.ObjectParameterBinding;
-import org.sidiff.difference.asymmetric.OperationInvocation;
-import org.sidiff.difference.asymmetric.ParameterBinding;
-import org.sidiff.editrule.rulebase.EditRule;
-import org.sidiff.editrule.rulebase.Parameter;
-import org.sidiff.editrule.rulebase.ParameterDirection;
+import org.sidiff.difference.asymmetric.*;
+import org.sidiff.editrule.rulebase.*;
 import org.sidiff.patching.ExecutionMode;
-import org.sidiff.patching.exceptions.OperationNotExecutableException;
-import org.sidiff.patching.exceptions.OperationNotUndoableException;
-import org.sidiff.patching.exceptions.ParameterMissingException;
+import org.sidiff.patching.exceptions.*;
 import org.sidiff.patching.transformation.ITransformationEngine;
 
 /**
@@ -100,7 +92,7 @@ public class HenshinTransformationEngineImpl extends AbstractTypedExtension impl
 		// hard binding between operation and henshin should be splitted
 		// (see old henshin executor in repository)
 		Unit unit = editRule.getExecuteMainUnit();
-		Engine engine = new EngineImpl();
+		Engine engine = new SelfCleaningEngineImpl();
 		try {
 			UnitApplication application = new UnitApplicationImpl(engine);
 			application.setEGraph(graph);

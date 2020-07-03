@@ -3,50 +3,25 @@ package org.sidiff.difference.lifting.recognitionengine.impl;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.EXECUTION;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.RULE_SET_REDUCTION;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
+import org.eclipse.emf.henshin.interpreter.*;
+import org.eclipse.emf.henshin.model.*;
+import org.sidiff.common.henshin.SelfCleaningEngineImpl;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
-import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
-import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphDomainMap;
-import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphEngine;
-import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphFactory;
-import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphIndex;
+import org.sidiff.difference.lifting.recognitionengine.*;
+import org.sidiff.difference.lifting.recognitionengine.graph.*;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleApplicationAnalysis;
-import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
-import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleFilter;
+import org.sidiff.difference.lifting.recognitionengine.rules.*;
 import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.difference.symmetric.EObjectSet;
-import org.sidiff.difference.symmetric.EditRuleMatch;
-import org.sidiff.difference.symmetric.SemanticChangeSet;
-import org.sidiff.difference.symmetric.SymmetricDifference;
-import org.sidiff.difference.symmetric.SymmetricFactory;
+import org.sidiff.difference.symmetric.*;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.editrule.rulebase.EditRule;
 
@@ -56,7 +31,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * The Recognition-Engine setup.
 	 */
 	private RecognitionEngineSetup setup;
-	
+
 	/**
 	 * Can be used to test the performance of the recognition engine.
 	 */
@@ -66,17 +41,17 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * The corresponding difference index knowing the low-level changes per type.
 	 */
 	private LiftingGraphDomainMap liftingGraphDomainMap;
-	
+
 	/**
 	 * The corresponding difference index knowing the low-level changes per object.
 	 */
 	private LiftingGraphIndex liftingGraphIndex;
-	
+
 	/**
 	 * Factory that creates the Henshin graph for a corresponding recognition rule.
 	 */
 	private LiftingGraphFactory graphFactory;
-	
+
 	/**
 	 * The recognition rules with their corresponding change type blueprints.
 	 */
@@ -106,7 +81,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 	/**
 	 * Initialize a new Recognition-Engine.
-	 * 
+	 *
 	 * @param setup
 	 *            The Recognition-Engine setup.
 	 */
@@ -116,15 +91,15 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 	@Override
 	public void execute() {
-		
+
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "-------------- INITIALIZE RECOGNITION ENGINE ---------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		
+
 		// Create a indices:
 		this.liftingGraphDomainMap = new LiftingGraphDomainMap(setup.getDifference());
 		this.liftingGraphIndex = new LiftingGraphIndex(setup.getDifference());
-		
+
 		// Create the graph factory:
 		this.graphFactory = new LiftingGraphFactory(
 				setup.isBuildGraphPerRule(), liftingGraphDomainMap, setup.getImports(), setup.getScope());
@@ -151,7 +126,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 		// Optimize the Rulebase: Sorting Recognition-Rule nodes
 		sortRecognitionRuleNodes();
-		
+
 		// Start execution:
 		getStatistic().startTimer(EXECUTION);
 		Long startTime = System.currentTimeMillis();
@@ -161,7 +136,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		} else {
 			executeSequential();
 		}
-		
+
 		LogUtil.log(LogEvent.NOTICE, "Lifting Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
 		getStatistic().stopTimer(EXECUTION);
 
@@ -251,7 +226,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		// Apply recognition rules
 		applyRecognitionRules();
 	}
-	
+
 	/**
 	 * Filters unmatchable recognition rules by counting the atomic changes in
 	 * the difference and in the recognition rule.
@@ -285,11 +260,11 @@ public class RecognitionEngine implements IRecognitionEngine {
 		DifferenceAnalysis analysis = RecognitionRuleSorterUtil.sort(
 				setup.getRuleSorter(), recognitionRules.keySet(), filtered, setup.getDifference());
 
-		
+
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		
+
 		LogUtil.log(LogEvent.NOTICE, "Difference:");
 		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
 		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
@@ -310,11 +285,11 @@ public class RecognitionEngine implements IRecognitionEngine {
 		Collection<List<RuleApplication>> rrApplicationsByRule = RecognitionRuleApplicationAnalysis
 				.partitionByEqualRule(recognizerRuleApplications);
 		Set<RuleApplication> toBeRemoved = new HashSet<>();
-		
+
 		for (List<RuleApplication> rrApplicationsRule : rrApplicationsByRule) {
 			Collection<List<RuleApplication>> partitionsByEqual = RecognitionRuleApplicationAnalysis
 					.partitionByEqualChanges(rrApplicationsRule);
-			
+
 			for (List<RuleApplication> equalApplications : partitionsByEqual) {
 				for (int i = 1; i < equalApplications.size(); i++) {
 					toBeRemoved.add(equalApplications.get(i));
@@ -328,19 +303,19 @@ public class RecognitionEngine implements IRecognitionEngine {
 			// Internal data structures
 			RecognitionRuleMatch rrMatch = new RecognitionRuleMatch(recognitionRuleApp);
 			EngineBasedEditRuleMatch erMatch = new EngineBasedEditRuleMatch(rrMatch, this);
-			
+
 			// Check injectivity
 			if(recognitionRuleApp.getRule().isInjectiveMatching()) {
 				if (erMatch.isNonInjective()) {
 					LogUtil.log(LogEvent.DEBUG, "Skip recognition rule (non-injective matching): "
 							+ recognitionRuleApp.getRule().eResource());
 					continue;
-				}				
+				}
 			}
-			
+
 			LogUtil.log(LogEvent.DEBUG, "Execute recognition rule: " + recognitionRuleApp.getRule().eResource());
 			boolean success = recognitionRuleApp.execute(null);
-			assert (success) : "Could not apply rule " + recognitionRuleApp + ". Should never happen";
+			assert success : "Could not apply rule " + recognitionRuleApp + ". Should never happen";
 
 			if (success) {
 				addMatches(recognitionRuleApp, rrMatch, erMatch);
@@ -368,7 +343,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 		if (setup.isCalculateEditRuleMatch()) {
 			scs2rrMatch.remove(scs);
 			scs2erMatch.remove(scs);
-	
+
 			// Remove from difference (if EditRuleMatch serialization is requested)
 			scs.setEditRuleMatch(null);
 		}
@@ -376,7 +351,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 
 	/**
 	 * Adds editRuleMatch and recognitionRuleMatch for recognitionruleApp
-	 * 
+	 *
 	 * @param recognitionruleApp
 	 */
 	private void addMatches(RuleApplication recognitionruleApp, RecognitionRuleMatch rrMatch, EngineBasedEditRuleMatch erMatch) {
@@ -390,13 +365,13 @@ public class RecognitionEngine implements IRecognitionEngine {
 		if (setup.isSerializeEditRuleMatch()) {
 			EditRuleMatch editRuleMatch = SymmetricFactory.eINSTANCE.createEditRuleMatch();
 			scs.setEditRuleMatch(editRuleMatch);
-			
+
 			for (Node editRuleNode : erMatch.getMatchedNodesA()) {
 				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 				occurrences.addElements(erMatch.getOccurenceA(editRuleNode));
 				editRuleMatch.getNodeOccurrencesA().put(EcoreUtil.getURI(editRuleNode).fragment(), occurrences);
 			}
-			
+
 			for (Node editRuleNode : erMatch.getMatchedNodesB()) {
 				EObjectSet occurrences = SymmetricFactory.eINSTANCE.createEObjectSet();
 				occurrences.addElements(erMatch.getOccurenceB(editRuleNode));
@@ -404,12 +379,12 @@ public class RecognitionEngine implements IRecognitionEngine {
 			}
 		}
 	}
-	
+
 	/**
 	 * The recognizer threads call this method to add the recognition rule
 	 * applications for all recognition rule matches that can be found. Thus,
 	 * method is thread-safe!
-	 * 
+	 *
 	 * @param rrApp
 	 *            All recognition rule applications of a recognizer thread.
 	 */
@@ -418,11 +393,11 @@ public class RecognitionEngine implements IRecognitionEngine {
 			recognizerRuleApplications.addAll(rrApplications);
 		}
 	}
-	
+
 	/**
 	 * Returns the SemanticChangeSet which has been created by ruleApp (via
 	 * co-match of RecognitionRule Matching)
-	 * 
+	 *
 	 * @param recognitionRuleApp
 	 * @return SemanticChangeSet
 	 */
@@ -433,7 +408,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 				.map(SemanticChangeSet.class::cast)
 				.collect(Collectors.toList());
 
-		assert (createdChangeSets.size() == 1) : "No or multiple semantic change sets were created by ruleApp "
+		assert createdChangeSets.size() == 1 : "No or multiple semantic change sets were created by ruleApp "
 				+ recognitionRuleApp.toString();
 
 		return createdChangeSets.get(0);
@@ -445,7 +420,7 @@ public class RecognitionEngine implements IRecognitionEngine {
 				.collect(Collectors.groupingBy(e -> e.getValue().getEditRule(),
 						Collectors.mapping(e -> e.getKey(), Collectors.toSet())));
 	}
-	
+
 	/**
 	 * @return A new graph matching engine.
 	 */
@@ -453,19 +428,19 @@ public class RecognitionEngine implements IRecognitionEngine {
 		if (setup.isOptimizeMatchingEngine()) {
 			return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
 		}
-		return new EngineImpl();
+		return new SelfCleaningEngineImpl();
 	}
-	
+
 	/**
 	 * Clients that want to apply rules on a difference should use this methods
 	 * to obtain the single instance of a graph factory.
-	 * 
+	 *
 	 * @return Single instance of a graph factory
 	 */
 	public LiftingGraphFactory getGraphFactory() {
 		return graphFactory;
 	}
-	
+
 	@Override
 	public EGraph getGraphModelA() {
 		if (getGraphFactory() != null) {
@@ -481,11 +456,11 @@ public class RecognitionEngine implements IRecognitionEngine {
 		}
 		return null;
 	}
-	
+
 	public RecognitionRuleBlueprint getRecognitionRuleBlueprint(Rule rr) {
 		return recognitionRules.get(rr);
 	}
-	
+
 	/**
 	 * @return The difference this RecognitionEngine is working on.
 	 */
@@ -493,12 +468,12 @@ public class RecognitionEngine implements IRecognitionEngine {
 	public SymmetricDifference getDifference() {
 		return setup.getDifference();
 	}
-	
+
 	@Override
 	public RecognitionEngineSetup getSetup() {
 		return setup;
 	}
-	
+
 	@Override
 	public RecognitionEngineStatistics getStatistic() {
 		if (statistic == null) {
