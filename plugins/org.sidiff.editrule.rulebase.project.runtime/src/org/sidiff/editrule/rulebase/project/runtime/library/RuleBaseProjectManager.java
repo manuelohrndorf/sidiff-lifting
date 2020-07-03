@@ -28,7 +28,7 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 	public Set<? extends IBasicRuleBase> getRuleBases() {
 		return getRuleBases(IBasicRuleBase.VIEW_TYPE);
 	}
-	
+
 	/**
 	 * @param documentTypes
 	 *            The document types of the rulebases.
@@ -42,7 +42,7 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 	}
-	
+
 	/**
 	 * @param viewType
 	 *            A specific or abstract rulebase type ((sub)class of {@link IBasicRuleBase}).
@@ -54,7 +54,7 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 	}
-	
+
 	/**
 	 * @param key rulebase key
 	 * @param viewType
@@ -66,7 +66,7 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 				.map(project -> project.getRuleBaseView(viewType))
 				.filter(Objects::nonNull);
 	}
-	
+
 	/**
 	 * Clear rulebase cache.
 	 */
@@ -85,13 +85,13 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 			.filter(project -> project.supportsRuleBaseView(viewType))
 			.filter(project -> documentTypes.stream().anyMatch(project.getDocumentTypes()::contains))
 			.collect(Collectors.toSet());
-		
+
 	}
 
 	/**
 	 * Resolve an EditRule by its name. We lookup in all rulebases which are
 	 * suitable for the given document types.
-	 * 
+	 *
 	 * @param documentTypes
 	 *            The document (metamodel) types of the edit rule.
 	 * @param editRuleName
@@ -104,7 +104,9 @@ public class RuleBaseProjectManager extends TypedExtensionManager<IRuleBaseProje
 			.stream()
 			.map(rulebase -> rulebase.getEditRule(editRuleName))
 			.filter(Objects::nonNull)
-			.findFirst().orElseThrow(NoSuchElementException::new);
+			.findFirst()
+			.orElseThrow(() -> new NoSuchElementException("The edit rule " + editRuleName
+				+ " was not found in any of the rule bases for the document types " + documentTypes));
 	}
 
 	/**
