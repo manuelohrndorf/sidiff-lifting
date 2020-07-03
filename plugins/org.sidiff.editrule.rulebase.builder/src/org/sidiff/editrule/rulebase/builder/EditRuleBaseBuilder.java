@@ -50,7 +50,7 @@ import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 
 /**
  * Builds a rulebase of edit-rules.
- * 
+ *
  * @author dreuling
  * @author mohrndorf
  * @author rmueller
@@ -58,17 +58,17 @@ import org.sidiff.editrule.rulebase.project.runtime.storage.RuleBaseStorage;
 public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	public static final String RULE_ATTRIBUTE = "rule";
-	
+
 	/**
 	 * The name of the java class of the rule base project.
 	 */
 	public static final String RULE_BASE_CLASS =  "RuleBaseProject";
-	
+
 	/**
 	 * The name of the java class file of the rule base project.
 	 */
 	public static final String RULE_BASE_CLASS_FILE = RULE_BASE_CLASS + ".java";
-	
+
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private static final Pattern MANIFEST_BUNDLE_NAME_PATTERN = Pattern.compile("(\\A|\\r|\\n)+Bundle-Name: (.+)(\\Z|\\r|\\n)+");
@@ -77,9 +77,9 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * The class builders of the rulebase project for which this builder is defined.
 	 */
 	private EditRuleBaseClassBuilder classBuilder;
-	
+
 	private Collection<IEditRuleAttachmentBuilder> attachmentBuilders;
-	
+
 	/**
 	 * The rulebase manager of the rulebase project for which this builder is defined:
 	 */
@@ -143,10 +143,10 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	private void fullBuild(IProgressMonitor monitor) throws CoreException {
 		SubMonitor progress = SubMonitor.convert(monitor, 100);
-		
+
 		// Initialize:
 		refreshProject(progress.split(10));
-		
+
 		// Clean up before, to be sure to "regenerate" rulebase
 		clean(progress.split(20));
 
@@ -165,7 +165,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		buildRuleBaseProject(progress.split(40));
 		refreshProject(progress.split(10));
 	}
-	
+
 	private void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		SubMonitor progress = SubMonitor.convert(monitor, 100);
 		refreshProject(progress.split(10));
@@ -181,10 +181,10 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		// Update RuleBase accordingly
 		if(change[0]) {
 			buildRuleBaseProject(progress.split(50));
-			refreshProject(progress.split(10));			
+			refreshProject(progress.split(10));
 		}
 	}
-	
+
 	private boolean handleResourceDelta(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		// Continue only if Resource is an EditRule
 		if (isEditRule(delta.getResource())) {
@@ -221,7 +221,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		saveRuleBase(progress.split(7));
 		buildRuleBaseClass(progress.split(1));
 	}
-	
+
 	private void buildRuleBaseClass(IProgressMonitor monitor) throws CoreException {
 		try {
 			// Write class file:
@@ -229,7 +229,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 				ruleBaseWrapper.getKey(),
 				ruleBaseWrapper.getName(),
 				new Date(), // build date is now
-				new LinkedHashSet<String>(ruleBaseWrapper.getRuleBase().getDocumentTypes()), 
+				new LinkedHashSet<>(ruleBaseWrapper.getRuleBase().getDocumentTypes()),
 				attachmentBuilders.stream().map(builder -> builder.getKey()).collect(Collectors.toSet()),
 				monitor);
 		} catch (IOException e) {
@@ -239,7 +239,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	/**
 	 * Cleans all markers from given Resource and its children according two depth parameter.
-	 * 
+	 *
 	 * @param resource
 	 *            Resource to clean of markers
 	 * @param depth
@@ -249,7 +249,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 		try {
 			// Delete old markers
 			resource.deleteMarkers(EValidator.MARKER, true, depth);
-			
+
 			// Also delete project marker
 			getProject().deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
 
@@ -260,7 +260,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	/**
 	 * Deletes an already built EditRule and updates the rulebase accordingly.
-	 * 
+	 *
 	 * @param editRule
 	 *            The Edit-Rule which shall be deleted
 	 * @param monitor
@@ -276,7 +276,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			RuleBaseItem item = editRuleWrapper.getRuleBaseItem();
 			ruleBaseWrapper.removeItem(item);
 			progress.worked(1);
-			
+
 			// Remove Co-Rules:
 			for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 				attachmentBuilder.deleteAttachment(progress.split(1), item, ruleBaseWrapper);
@@ -286,7 +286,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	/**
 	 * Builds an EditRule and its corresponding Co-Rules.
-	 * 
+	 *
 	 * @param editRule
 	 *            EditRule to build
 	 * @param monitor
@@ -325,17 +325,19 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 			RuleBaseItem rulebaseItem = ruleBaseWrapper.createItem(editRuleWrapper);
 			ruleBaseWrapper.addItem(rulebaseItem);
 			subProgress.worked(1);
-			
+
 			// Build attachments:
 			for (IEditRuleAttachmentBuilder attachmentBuilder : attachmentBuilders) {
 				attachmentBuilder.buildAttachment(subProgress.split(1), rulebaseItem, ruleBaseWrapper);
 			}
-			
+
 			// Compress item:
 			rulebaseItem.shrink();
 			subProgress.worked(1);
 		} else {
-			EditRuleBaseBuilderPlugin.logWarning("EditRule is not valid and will be ignored: " + editRule);
+			EditRuleBaseBuilderPlugin.logWarning(
+				"Edit rule is not valid and will be ignored: " + editRule + ". "
+				+ "See the markers attached to the resources for details.");
 			progress.worked(1);
 		}
 	}
@@ -343,12 +345,12 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	/**
 	 * Validates an EditRule according to the @link{EditRuleValidator}. If the
 	 * given EditRule has some validation error, this will be reported as a IMarker.
-	 * 
+	 *
 	 * @param editRule
 	 *            EditRule to validate
 	 * @param monitor
 	 *            Used IProgressMonitor
-	 * 
+	 *
 	 * @see EditRuleValidation
 	 */
 	private void validateEditRule(IResource editRuleResource, Module editRule, IProgressMonitor monitor) throws CoreException {
@@ -419,7 +421,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 	 * <li>It shall be in correct folder structure, defined through static
 	 * variables (@see{EditRuleBuilder})</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param resource
 	 *            Resource to check
 	 * @return whether given Resource is classified as @link{EditRule}
@@ -456,7 +458,7 @@ public class EditRuleBaseBuilder extends IncrementalProjectBuilder {
 
 	/**
 	 * Method for building (=saving) the RuleBase file.
-	 * 
+	 *
 	 * @param monitor
 	 *            IProgressMonitor to use
 	 */
