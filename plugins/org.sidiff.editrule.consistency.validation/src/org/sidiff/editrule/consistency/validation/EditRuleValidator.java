@@ -600,6 +600,13 @@ public class EditRuleValidator {
 					return invalids;
 				}
 			}
+			for(Attribute attribute : rhsNode.getAttributes()) {
+				// FIXME: Need real parsing of attributes.
+				if (attribute.getValue().contains(ruleParameter.getName())) {
+					// Parameter is used as internal variable
+					return invalids;
+				}
+			}
 		}
 
 		// No internal variable, so the parameter must be mapped to a mainUnit
@@ -739,13 +746,15 @@ public class EditRuleValidator {
 						// => Parameter is an IN-Parameter:
 						boolean valid = false;
 
-						// Find Main-Unit IN-Parameter:
+						// Find Main-Unit IN-Parameter if not var:
 						Parameter outermostParameter = getOutermostParameter(parameter);
 						if (outermostParameter != null) {
 							if (getParameterDirection(outermostParameter) == ParameterDirection.IN) {
 								valid = true;
 								break;
 							}
+						}else if(parameter.getKind() == ParameterKind.VAR) {
+							valid = true;
 						}
 
 						// No Main-Unit IN-Parameter found:
