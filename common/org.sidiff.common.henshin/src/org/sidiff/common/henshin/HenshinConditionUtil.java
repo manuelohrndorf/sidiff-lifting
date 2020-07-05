@@ -1,9 +1,6 @@
 package org.sidiff.common.henshin;
 
-import org.eclipse.emf.henshin.model.BinaryFormula;
-import org.eclipse.emf.henshin.model.Formula;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.*;
 
 public class HenshinConditionUtil {
 
@@ -20,35 +17,13 @@ public class HenshinConditionUtil {
 	 */
 	public static void addFormula(Formula new_formula, Graph lhs, HenshinRuleAnalysisUtilEx.FormulaCombineOperator operator) {
 		Formula existingFormula = lhs.getFormula();
-		
-		if(existingFormula!=null) {
-			BinaryFormula combiningFormula = null;
-			
-			switch(operator) {
-			case AND:
-				combiningFormula = HenshinFactory.eINSTANCE.createAnd();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			case OR:
-				combiningFormula = HenshinFactory.eINSTANCE.createOr();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			case XOR:
-				combiningFormula = HenshinFactory.eINSTANCE.createXor();
-				combiningFormula.setLeft(existingFormula);
-				combiningFormula.setRight(new_formula);
-				lhs.setFormula(combiningFormula);
-				break;
-			}
-		}else{
-			
+		if(existingFormula != null) {
+			BinaryFormula combiningFormula = operator.createFormula();
+			combiningFormula.setLeft(existingFormula);
+			combiningFormula.setRight(new_formula);
+			lhs.setFormula(combiningFormula);
+		} else {
 			lhs.setFormula(new_formula);
-			
 		}
 	}
-
 }

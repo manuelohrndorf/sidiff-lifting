@@ -1,39 +1,14 @@
 package org.sidiff.common.henshin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Formula;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.GraphElement;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.*;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Unit;
-import org.sidiff.common.henshin.view.AttributePair;
-import org.sidiff.common.henshin.view.EdgePair;
-import org.sidiff.common.henshin.view.NodePair;
+import org.sidiff.common.henshin.view.*;
 
 /**
  * Utility methods for analyzing Henshin Modules, Units and Rules.
@@ -45,12 +20,22 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	public static enum FormulaCombineOperator {
-		AND, OR, XOR
+		AND(HenshinFactory.eINSTANCE::createAnd),
+		OR(HenshinFactory.eINSTANCE::createOr),
+		XOR(HenshinFactory.eINSTANCE::createXor);
+
+		private Supplier<BinaryFormula> factory;
+		private FormulaCombineOperator(Supplier<BinaryFormula> factory) {
+			this.factory = factory;
+		}
+		public BinaryFormula createFormula() {
+			return factory.get();
+		}
 	}
 
 	/**
 	 * Get all rules of the module.
-	 * 
+	 *
 	 * @param module
 	 *            the module.
 	 * @return all Rules contained by the module in an unmodifiable list.
@@ -67,18 +52,18 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return
 	 */
 	public static Node getNodeByName(Rule rule, String nodename, boolean isLhs) {
-		for (Node node : (isLhs) ? rule.getLhs().getNodes() : rule.getRhs().getNodes()) {
+		for (Node node : (isLhs ? rule.getLhs() : rule.getRhs()).getNodes()) {
 			if (nodename.equals(node.getName())) {
 				return node;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Copies a given node into the given graph.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph which will contain the node.
 	 * @param node
@@ -93,20 +78,20 @@ public class HenshinRuleAnalysisUtilEx {
 		newNode.setGraph(graph);
 		newNode.setType(node.getType());
 		newNode.setName(node.getName());
-		
+
 		// Copy attributes
 		if (attributes) {
 			for (Attribute attribute : node.getAttributes()) {
 				copyAttribute(newNode, attribute);
 			}
 		}
-		
+
 		return newNode;
 	}
-	
+
 	/**
 	 * Copies a given << preserve >> node into the given rule.
-	 * 
+	 *
 	 * @param rule
 	 *            The rule which will contain the node.
 	 * @param node
@@ -118,16 +103,16 @@ public class HenshinRuleAnalysisUtilEx {
 	public static NodePair copyPreserveNodes(Rule rule, NodePair node, boolean attributes) {
 		Node lhsNode = copyNode(rule.getLhs(), node.getLhsNode(), attributes);
 		Node rhsNode = copyNode(rule.getRhs(), node.getRhsNode(), attributes);
-		
+
 		Mapping mapping = HenshinFactory.eINSTANCE.createMapping(lhsNode, rhsNode);
 		rule.getMappings().add(mapping);
-		
-		return new NodePair(lhsNode, rhsNode); 
+
+		return new NodePair(lhsNode, rhsNode);
 	}
-	
+
 	/**
 	 * Copies a given attribute into a given node.
-	 * 
+	 *
 	 * @param node
 	 *            The node which will contain the attribute.
 	 * @param attribute
@@ -138,15 +123,15 @@ public class HenshinRuleAnalysisUtilEx {
 		Attribute newAttribute = HenshinFactory.eINSTANCE.createAttribute();
 		newAttribute.setType(attribute.getType());
 		newAttribute.setValue(attribute.getValue());
-		
+
 		node.getAttributes().add(newAttribute);
-		
+
 		return newAttribute;
 	}
-	
+
 	/**
 	 * Copies a given edge into the graph of the source/target node.
-	 * 
+	 *
 	 * @param src
 	 *            The source node of the copied edge.
 	 * @param tgt
@@ -156,23 +141,23 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return The copied edge.
 	 */
 	public static Edge copyEdge(Edge edge, Node src, Node tgt) {
-		
-		assert (src.getGraph() == tgt.getGraph()) : "Source and target node of the edge have to be in the same graph";
-		
+
+		assert src.getGraph() == tgt.getGraph() : "Source and target node of the edge have to be in the same graph";
+
 		Edge newEdge = HenshinFactory.eINSTANCE.createEdge();
 		newEdge.setIndex(edge.getIndex());
 		newEdge.setSource(src);
 		newEdge.setTarget(tgt);
 		newEdge.setType(edge.getType());
-		
+
 		src.getGraph().getEdges().add(newEdge);
-		
+
 		return edge;
 	}
-	
+
 	/**
 	 * Copies a given parameter.
-	 * 
+	 *
 	 * @param rule
 	 *            The rule which will contain the copied parameter.
 	 * @param parameter
@@ -187,10 +172,10 @@ public class HenshinRuleAnalysisUtilEx {
 		newParameter.setUnit(unit);
 		return newParameter;
 	}
-	
+
 	/**
 	 * Create a new node inside a given graph.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph which will contain the node.
 	 * @param type
@@ -205,11 +190,11 @@ public class HenshinRuleAnalysisUtilEx {
 		newNode.setName("");
 		return newNode;
 	}
-	
-	
+
+
 	/**
 	 * Creates a NAC/PAC edge between two nodes within a rule.
-	 * 
+	 *
 	 * @param from
 	 *            Source node of the new edge.
 	 * @param to
@@ -227,7 +212,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all attributes of a graph.
-	 * 
+	 *
 	 * @param rule
 	 *            The Henshin graph.
 	 * @return A list of all attributes.
@@ -241,7 +226,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return attributes;
 	}
-	
+
 	/**
 	 * Creates a << preserve >> edge for the given rule.
 	 * Expecting one source and one target NodePair
@@ -260,13 +245,13 @@ public class HenshinRuleAnalysisUtilEx {
 
 		Edge rhsEdge = HenshinFactory.eINSTANCE.createEdge(src.getRhsNode(), tgt.getRhsNode(), type);
 		rhsEdge.setGraph(rule.getRhs());
-		
+
 		return new EdgePair(lhsEdge, rhsEdge);
 	}
-	
+
 	/**
 	 * Creates a << preserve >> node with an String ("attrValue") attribute.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @param name
@@ -290,7 +275,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Creates a << preserve >> node.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @param name
@@ -319,7 +304,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Creates a << preserve >> attribute for the given node, i.e. it will
 	 * create a LHS attribute in an << preserve >> node.
-	 * 
+	 *
 	 * @param node
 	 *            the node of the new attribute.
 	 * @param type
@@ -331,9 +316,9 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static void createPreservedAttribute(NodePair node, EAttribute type, String value, boolean onlyInLHS) {
 		HenshinFactory.eINSTANCE.createAttribute(node.getLhsNode(), type, value);
-		// We do not need RHS. 
+		// We do not need RHS.
 		//HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
-		
+
 		if(!onlyInLHS) {
 			// Actually we do need RHS, otherwise the attribute will be a
 			// <<delete>>, not a <<preserved>> one.
@@ -341,10 +326,10 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 
 	}
-	
+
 	/**
 	 * Creates a << create >> node.
-	 * 
+	 *
 	 * @param graph
 	 *            the graph under which the node should be created.
 	 * @param name
@@ -360,10 +345,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return newNode;
 	}
-	
+
 	/**
 	 * Creates a << create >> node.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the new node.
 	 * @param type
@@ -383,7 +368,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Creates a << create >> edge between nodes and automatically for its
 	 * opposite EReference.
-	 * 
+	 *
 	 * @param from
 	 *            the source node.
 	 * @param to
@@ -396,7 +381,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Edge createCreateEdge(Node from, Node to, EReference eRef) {
 
 		HenshinFactory.eINSTANCE.createEdge(from, to, eRef);
-		
+
 		if(eRef.getEOpposite() != null) {
 			Edge e = HenshinFactory.eINSTANCE.createEdge(to, from, eRef.getEOpposite());
 			return e;
@@ -407,14 +392,14 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Creates a << create >> attribute under a node and sets a name for the
 	 * attribute value placeholder.
-	 * 
+	 *
 	 * @param node
 	 *            the node which should be given the attribute.
 	 * @param type
 	 *            the type of the attribute.
 	 * @param value
 	 *            the name for the attribute value placeholder.
-	 *            
+	 *
 	 * @return the created attribute
 	 */
 	public static Attribute createCreateAttribute(Node node, EAttribute type, String value) {
@@ -423,10 +408,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 	}
 
-	
+
 	/**
 	 * Creates a << delete >> node in the LHS of a given rule.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the << delete >> node.
 	 * @param type
@@ -442,12 +427,12 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return deleteNode;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Creates a << delete >> edge between two nodes within a rule.
-	 * 
+	 *
 	 * @param from
 	 * 			 	the context node.
 	 * @param to
@@ -458,19 +443,19 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the rule under which the nodes lie.
 	 */
 	public static void createDeleteEdge(Node from, Node to, EReference eRef, Rule rule) {
-		Edge edge = HenshinFactory.eINSTANCE.createEdge(from, to, eRef);		
+		Edge edge = HenshinFactory.eINSTANCE.createEdge(from, to, eRef);
 		rule.getLhs().getEdges().add(edge);
-		
+
 		if(eRef.getEOpposite()!=null) {
 			Edge eOppositeEdge = HenshinFactory.eINSTANCE.createEdge(to, from, eRef.getEOpposite());
 			rule.getLhs().getEdges().add(eOppositeEdge);
 		}
 
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Creates a << forbid >> node under a rule
 	 * @param rule
@@ -480,13 +465,13 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the created Not-Object
 	 */
 	public static Node createForbidNode(Rule rule, EClass type) {
-		
+
 		//FIXME This method requires a differentiation of Formulas like Not, And, Or, Xor..
-		
+
 		Formula formula = rule.getLhs().getFormula();
 		NestedCondition nestedCondition = null;
 		Not not = null;
-		
+
 		// check if there is already a Not and a NestedCondition
 		if(formula!=null) {
 			not = (Not) formula; // formula is a not actually
@@ -506,13 +491,13 @@ public class HenshinRuleAnalysisUtilEx {
 		if(nestedCondition == null) {
 			return null;
 		}
-		
+
 		// Now create new <<forbid>> Node
 		Node newNode = HenshinFactory.eINSTANCE.createNode();
 		newNode.setType(type);
 		newNode.setGraph(nestedCondition.getConclusion());
 		newNode.setName("");
-		
+
 		nestedCondition.getConclusion().getNodes().add(newNode);
 		not.setChild(nestedCondition);
 		rule.getLhs().setFormula(not);
@@ -522,7 +507,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Creates a << forbid >> edge between two nodes within a rule.
-	 * 
+	 *
 	 * @param from
 	 * 			 	the context node.
 	 * @param to
@@ -535,19 +520,19 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Edge createForbidEdge(Node from, Node to, EReference eRef, Rule rule) {
 
 		Edge edge = HenshinFactory.eINSTANCE.createEdge(from, to, eRef);
-		
+
 		if(rule.getLhs().getFormula() instanceof Not) {
 			Not not = (Not) rule.getLhs().getFormula();
 			NestedCondition nestedCond = (NestedCondition) not.getChild();
 			nestedCond.getConclusion().getEdges().add(edge);
 		}
-		
+
 		return edge;
 	}
 
 	/**
 	 * Creates a rule parameter if it not already exists.
-	 * 
+	 *
 	 * @param rule
 	 *            the rule of the new parameter.
 	 * @param name
@@ -572,7 +557,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Creates a rule under a given Module.
-	 * 
+	 *
 	 * @param name
 	 * 				the name of the rule.
 	 * @param description
@@ -589,14 +574,14 @@ public class HenshinRuleAnalysisUtilEx {
 		rule.setName(name);
 		rule.setDescription(description);
 		rule.setActivated(activated);
-		module.getUnits().add(rule);		
+		module.getUnits().add(rule);
 
 		return rule;
 	}
 
 	/**
 	 * Searches for a mapped unit parameter for given rule parameter.
-	 * 
+	 *
 	 * @param mapping
 	 *            the list of parameter mappings to be searched.
 	 * @param ruleParameter
@@ -612,7 +597,7 @@ public class HenshinRuleAnalysisUtilEx {
 		return null;
 	}
 
-	
+
 	/**
 	 * Finds the corresponding preserved node in LHS to a preserved Node in RHS
 	 *
@@ -630,7 +615,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the corresponding preserved node in RHS to a preserved Node in LHS
 	 *
@@ -638,7 +623,7 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the node in LHS which shall be looked up in RHS.
 	 * @return the corresponding RHS node.
 	 */
-	public static Node findCorrespondingNodeInRHS(Node lhsNode) {		
+	public static Node findCorrespondingNodeInRHS(Node lhsNode) {
 		Rule rule = (Rule) lhsNode.getGraph().eContainer();
 
 		for(Mapping mapping : rule.getMappings()) {
@@ -648,7 +633,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the corresponding preserved edge in LHS to a preserved edge in RHS
 	 *
@@ -656,10 +641,10 @@ public class HenshinRuleAnalysisUtilEx {
 	 * 				the edge in RHS which shall be looked up in LHS.
 	 * @return the corresponding LHS edge.
 	 */
-	public static Edge findCorrespondingEdgeInLHS(Edge rhsEdge) {				
+	public static Edge findCorrespondingEdgeInLHS(Edge rhsEdge) {
 		Node lhsSrc = findCorrespondingNodeInLHS(rhsEdge.getSource());
 		Node lhsTgt = findCorrespondingNodeInLHS(rhsEdge.getTarget());
-		
+
 		for (Edge lhsEdge : lhsSrc.getOutgoing()) {
 			if (lhsEdge.getTarget() == lhsTgt && lhsEdge.getType() == rhsEdge.getType()) {
 				return lhsEdge;
@@ -696,7 +681,7 @@ public class HenshinRuleAnalysisUtilEx {
 		for (Edge createEdge : getRHSMinusLHSEdges(rule)) {
 			changes.add(createEdge);
 		}
-		
+
 		// << create >> attributes (attribute value changes):
 		for (NodePair preserveNode : getPreservedNodes(rule)) {
 			changes.addAll(getChangingAttributes(preserveNode.getLhsNode(), preserveNode.getRhsNode()));
@@ -704,7 +689,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return changes;
 	}
-	
+
 	/**
 	 * @param lhs
 	 *            The LHS node of the << preserve >> node.
@@ -713,25 +698,25 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return All << create >> attributes of the << preserve >> node.
 	 */
 	public static List<Attribute> getChangingAttributes(Node lhs, Node rhs) {
-		
+
 		if (!rhs.getAttributes().isEmpty()) {
 			List<Attribute> changingAttributes = new ArrayList<>(rhs.getAttributes().size());
-			
+
 			for (Attribute rhsAttribute : rhs.getAttributes()) {
 				boolean hasRemote = false;
-				
+
 				for (Attribute lhsAttribute : lhs.getAttributes()) {
 					if (lhsAttribute.getType() == rhsAttribute.getType()) {
 						hasRemote = true;
 						break;
 					}
 				}
-				
+
 				if (!hasRemote) {
 					changingAttributes.add(rhsAttribute);
 				}
 			}
-			
+
 			return changingAttributes;
 		}
 		return Collections.emptyList();
@@ -739,7 +724,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << delete >> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the <<delete>> edges.
@@ -757,7 +742,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << delete >> nodes of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << delete >> nodes.
@@ -775,7 +760,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << create >> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << create >> edges.
@@ -793,7 +778,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << create >> nodes of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << create >> nodes.
@@ -811,7 +796,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << preserve >> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << preserve >> edges.
@@ -829,7 +814,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all LHS nodes of a rule which intersects with a RHS node. These nodes are << preserve >>.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << preserve >> nodes.
@@ -847,7 +832,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << preserve >> nodes of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << preserve >> nodes.
@@ -866,71 +851,71 @@ public class HenshinRuleAnalysisUtilEx {
 		return res;
 	}
 
-	
+
 	/**
-	 * Returns all forbid nodes (i.e. all nodes that are graphically displayed as 
+	 * Returns all forbid nodes (i.e. all nodes that are graphically displayed as
 	 * <<forbid>> node) under a rule.
-	 * 
+	 *
 	 * @param rule
 	 * 			under which to search.
 	 * @return the list of forbid nodes.
 	 */
 	public static List<Node> getForbidNodes(Rule rule) {
 		ArrayList<Node> forbidNodes = new ArrayList<>();
-		
+
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
 				// nc is a NAC
 				for(Node node : nc.getConclusion().getNodes()) {
 					// Mapped nodes are not part of the NAC.
-					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node. 
+					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node.
 					if(findMappingByImage(nc.getMappings(), node) == null) {
-						forbidNodes.add(node);	
-					}	
+						forbidNodes.add(node);
+					}
 				}
 			}
 		}
-		
+
 		return forbidNodes;
 	}
-	
+
 	/**
-	 * Returns all require nodes (i.e. all nodes that are graphically displayed as 
+	 * Returns all require nodes (i.e. all nodes that are graphically displayed as
 	 * <<require>> node) under a rule.
-	 * 
+	 *
 	 * @param rule
 	 * 			under which to search.
 	 * @return the list of require nodes.
 	 */
 	public static List<Node> getRequireNodes(Rule rule) {
 		ArrayList<Node> forbidNodes = new ArrayList<>();
-		
+
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (!(nc.eContainer() instanceof Not)){
 				// nc is a PAC
 				for(Node node : nc.getConclusion().getNodes()) {
 					// Mapped nodes are not part of the NAC.
-					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node. 
+					// Mapped nodes are needed e.g. <<forbid>> attribute in <<preserve>> node.
 					if(findMappingByImage(nc.getMappings(), node) == null) {
-						forbidNodes.add(node);	
-					}	
+						forbidNodes.add(node);
+					}
 				}
 			}
 		}
-		
+
 		return forbidNodes;
 	}
-	
+
 	/**
 	 * Returns all << preserve >> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << preserve >> edges.
 	 */
 	public static List<EdgePair> getPreservedEdges(Rule r) {
 		List<EdgePair> res = new ArrayList<>();
-		
+
 		for (Edge lhsEdge : r.getLhs().getEdges()) {
 			Edge lhsRemoteEdge = getRemoteEdge(r.getMappings(), lhsEdge);
 			if (lhsRemoteEdge != null) {
@@ -941,55 +926,55 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return res;
 	}
-	
+
 	/**
 	 * Returns all << forbid >> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 * 			the Henshin rule.
 	 * @return the << forbid >> edges.
-	 * 
+	 *
 	 */
 	public static List<Edge> getForbidEdges(Rule rule) {
 		List<Edge> res = new ArrayList<>();
-		
+
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (nc.eContainer() instanceof Not){
 				for (Edge edge : nc.getConclusion().getEdges()) {
 					// Edge must not be mapped to LHS
 					if (!isEdgeMapped(nc.getMappings(), edge)){
 						res.add(edge);
-					}		
-				}	
+					}
+				}
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Returns all <<require>> edges of a rule.
-	 * 
+	 *
 	 * @param rule
 	 * 			the Henshin rule.
 	 * @return the << require >> edges.
-	 * 
+	 *
 	 */
 	public static List<Edge> getRequireEdges(Rule rule) {
 		List<Edge> res = new ArrayList<>();
-		
+
 		for (NestedCondition nc : rule.getLhs().getNestedConditions()) {
 			if (!(nc.eContainer() instanceof Not)){
 				res.addAll(nc.getConclusion().getEdges());
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Checks if the given attribute is a << require >> attribute.
-	 * 
+	 *
 	 * @param attribute
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is a << require >> attribute; <code>false</code> otherwise.
@@ -1010,7 +995,7 @@ public class HenshinRuleAnalysisUtilEx {
 		if (!nestedCondition.isPAC()) {
 			return false;
 		}
-		
+
 		for (Mapping mapping : nestedCondition.getMappings()) {
 			if (mapping.getImage() == attribute.getNode()) {
 				// Node is a context attribute!
@@ -1027,10 +1012,10 @@ public class HenshinRuleAnalysisUtilEx {
 		return true;
 	}
 
-	
+
 	/**
 	 * Returns whether the edge is << require >> or not.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to test.
 	 * @return true if edge is << require >>; false otherwise.
@@ -1038,12 +1023,12 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isRequireEdge(Edge edge){
 		return getRequireEdges(edge.getGraph().getRule()).contains(edge);
 	}
-	
+
 	/**
 	 * Returns all << preserve >> attributes of a rule and also << delete >>
 	 * attributes in a << preserve >> node. A << delete >> attribute in a <<
 	 * preserve >> node acts like a << preserve >> attribute.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << preserve >> attributes (LHS).
@@ -1071,7 +1056,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all attributes of the form value1->value2.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the changing attributes.
@@ -1096,7 +1081,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << create >> attributes in a << preserve >> node.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << create >> attributes.
@@ -1121,7 +1106,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << delete >> attributes in a << delete >> node.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << delete >> attributes.
@@ -1140,7 +1125,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns all << create >> attributes in a << create >> node.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << create >> attributes.
@@ -1156,10 +1141,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return res;
 	}
-	
+
 	/**
 	 * Returns all << forbid >> attributes of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << forbid >> attributes.
@@ -1175,38 +1160,38 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Returns all << forbid >> attributes of a node.
-	 * 
+	 *
 	 * @param rule
 	 *            the node.
 	 * @return the << forbid >> attributes.
 	 */
 	public static Set<Attribute> getForbidAttributes(Node node) {
-		
+
 		// Collect all << forbid >> nodes:
 		List<Node> forbidNodes = new ArrayList<>();
-		
+
 		if(isForbiddenNode(node)) {
 			// Given node is a forbid node:
 			forbidNodes.add(node);
 		} else {
 			Node lhsNode;
-			
+
 			if(isLHSNode(node)) {
 				lhsNode = node;
 			} else {
 				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 			}
-			
+
 			if (lhsNode != null) {
 				for (NestedCondition nac : node.getGraph().getNACs()) {
 					Node forbidNode = getRemoteNode(nac.getMappings(), lhsNode);
-					
+
 					if (forbidNode != null) {
 						forbidNodes.add(forbidNode);
 					}
@@ -1215,45 +1200,45 @@ public class HenshinRuleAnalysisUtilEx {
 				return Collections.emptySet();
 			}
 		}
-		
+
 		// Collect all << forbid >> attributes:
 		Set<Attribute> forbidAttributes = new HashSet<>();
-		
+
 		for (Node forbidNode : forbidNodes) {
 			forbidAttributes.addAll(forbidNode.getAttributes());
 		}
-		
+
 		return forbidAttributes;
 	}
-	
+
 	/**
 	 * Returns all incident << forbid >> edges of a node.
-	 * 
+	 *
 	 * @param rule
 	 *            the node.
 	 * @return the << forbid >> edges.
 	 */
 	public static Set<Edge> getForbidEdges(Node node) {
-		
+
 		// Collect all << forbid >> nodes:
 		List<Node> forbidNodes = new ArrayList<>();
-		
+
 		if(isForbiddenNode(node)) {
 			// Given node is a forbid node:
 			forbidNodes.add(node);
 		} else {
 			Node lhsNode;
-			
+
 			if(isLHSNode(node)) {
 				lhsNode = node;
 			} else {
 				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 			}
-			
+
 			if (lhsNode != null) {
 				for (NestedCondition nac : node.getGraph().getNACs()) {
 					Node forbidNode = getRemoteNode(nac.getMappings(), lhsNode);
-					
+
 					if (forbidNode != null) {
 						forbidNodes.add(forbidNode);
 					}
@@ -1262,20 +1247,20 @@ public class HenshinRuleAnalysisUtilEx {
 				return Collections.emptySet();
 			}
 		}
-		
+
 		// Collect all << forbid >> attributes:
 		Set<Edge> forbidEdges = new HashSet<>();
-		
+
 		for (Node forbidNode : forbidNodes) {
 			forbidEdges.addAll(forbidNode.getAllEdges());
 		}
-		
+
 		return forbidEdges;
 	}
-	
+
 	/**
 	 * Returns all << require >> attributes of a rule.
-	 * 
+	 *
 	 * @param rule
 	 *            the Henshin rule.
 	 * @return the << require >> attributes.
@@ -1291,38 +1276,38 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Returns all << require >> attributes of a node.
-	 * 
+	 *
 	 * @param rule
 	 *            the node.
 	 * @return the << require >> attributes.
 	 */
 	public static Set<Attribute> getRequireAttributes(Node node) {
-		
+
 		// Collect all << forbid >> nodes:
 		List<Node> requireNodes = new ArrayList<>();
-		
+
 		if(isRequireNode(node)) {
 			// Given node is a forbid node:
 			requireNodes.add(node);
 		} else {
 			Node lhsNode;
-			
+
 			if(isLHSNode(node)) {
 				lhsNode = node;
 			} else {
 				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 			}
-			
+
 			if (lhsNode != null) {
 				for (NestedCondition nac : node.getGraph().getPACs()) {
 					Node requireNode = getRemoteNode(nac.getMappings(), lhsNode);
-					
+
 					if (requireNode != null) {
 						requireNodes.add(requireNode);
 					}
@@ -1331,45 +1316,45 @@ public class HenshinRuleAnalysisUtilEx {
 				return Collections.emptySet();
 			}
 		}
-		
+
 		// Collect all << require >> attributes:
 		Set<Attribute> requireAttributes = new HashSet<>();
-		
+
 		for (Node requireNode: requireNodes) {
 			requireAttributes.addAll(requireNode.getAttributes());
 		}
-		
+
 		return requireAttributes;
 	}
-	
+
 	/**
 	 * Returns all incident << require >> edges of a node.
-	 * 
+	 *
 	 * @param rule
 	 *            the node.
 	 * @return the << require >> edges.
 	 */
 	public static Set<Edge> getRequireEdges(Node node) {
-		
+
 		// Collect all << forbid >> nodes:
 		List<Node> requireNodes = new ArrayList<>();
-		
+
 		if(isRequireNode(node)) {
 			// Given node is a forbid node:
 			requireNodes.add(node);
 		} else {
 			Node lhsNode;
-			
+
 			if(isLHSNode(node)) {
 				lhsNode = node;
 			} else {
 				lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 			}
-			
+
 			if (lhsNode != null) {
 				for (NestedCondition nac : node.getGraph().getPACs()) {
 					Node requireNode = getRemoteNode(nac.getMappings(), lhsNode);
-					
+
 					if (requireNode != null) {
 						requireNodes.add(requireNode);
 					}
@@ -1378,20 +1363,20 @@ public class HenshinRuleAnalysisUtilEx {
 				return Collections.emptySet();
 			}
 		}
-		
+
 		// Collect all << require >> attributes:
 		Set<Edge> requireAttributes = new HashSet<>();
-		
+
 		for (Node requireNode : requireNodes) {
 			requireAttributes.addAll(requireNode.getAllEdges());
 		}
-		
+
 		return requireAttributes;
 	}
 
 	/**
 	 * Returns the LHS/RHS attribute corresponding to the RHS/LHS attribute.
-	 * 
+	 *
 	 * @param attribute
 	 *            the known attribute.
 	 * @return the corresponding remote attribute or null if it not exists.
@@ -1400,7 +1385,7 @@ public class HenshinRuleAnalysisUtilEx {
 		if (attribute.getNode().getGraph().getRule() == null) {
 			return null;
 		}
-		
+
 		Node node = attribute.getNode();
 		if(node == null) {
 			return null;
@@ -1417,10 +1402,10 @@ public class HenshinRuleAnalysisUtilEx {
 		return null;
 	}
 
-	
+
 	/**
 	 * This method searches in LHS and RHS for Nodes with given EClass and given name.
-	 * 
+	 *
 	 * @param rule
 	 * 				the rule in which to search for nodes.
 	 * @param eClass
@@ -1430,10 +1415,10 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the NodePair.
 	 */
 	public static NodePair getNodePair(Rule rule, EClass eClass, String name) {
-		
+
 		Node nodeLHS = null;
 		Node nodeRHS = null;
-		
+
 		for(Node n: rule.getLhs().getNodes()) {
 			if(n.getType() == eClass && name.equals(n.getName())) {
 				nodeLHS = n;
@@ -1445,11 +1430,11 @@ public class HenshinRuleAnalysisUtilEx {
 				nodeRHS = n;
 			}
 		}
-		
+
 		return new NodePair(nodeLHS, nodeRHS);
 	}
-	
-	
+
+
 	/**
 	 * Gets all nodes from a node list where their type equals the type argument and the eRef argument
 	 * is the reference type of one connected edge.
@@ -1486,7 +1471,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return nodeList;
 	}
-	
+
 	/**
 	 * Returns a list of (abstract) child nodes which are part of a containment edge reference.
 	 * @param allNodes
@@ -1498,16 +1483,16 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return the nodes that match.
 	 */
 	public static List<Node> getChildNodesWithinAContainmentRelation(Module module, NodeKindSelection nodeKind, boolean onlyAbstracts) {
-	
+
 		List<Node> nodeList = new ArrayList<>();
 		List<Node> resultList = new ArrayList<>();
-		
+
 		// choose the correct nodeList
 		for(Unit u: module.getUnits()) {
 			if(u instanceof Rule) {
 				Rule r = (Rule) u;
 				switch(nodeKind) {
-					case CREATE: 
+					case CREATE:
 						nodeList.addAll(getRHSMinusLHSNodes(r));
 						break;
 					case DELETE:
@@ -1516,7 +1501,7 @@ public class HenshinRuleAnalysisUtilEx {
 					case PRESERVED:
 						nodeList.addAll(getLHSIntersectRHSNodes(r));
 						break;
-					case FORBID: 
+					case FORBID:
 						nodeList.addAll(getForbidNodes(r));
 						break;
 					case ALL:
@@ -1538,17 +1523,17 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 		}
-		
-		return resultList;
-	
-	}
-	
 
-	
+		return resultList;
+
+	}
+
+
+
 	/**
 	 * Returns a parameter under a given unit if its name equals the given name.
 	 * A unit can also be a Rule.
-	 * 
+	 *
 	 * @param unit
 	 * 				the unit/rule under which the parameter is assumed
 	 * @param name
@@ -1560,28 +1545,28 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Parameter getParameterByName(Unit unit, String name) {
 		for(Parameter p: unit.getParameters()) {
 			String pName = p.getName();
-			
+
 			if(pName.equals(name)) {
 				return p;
-			}			
+			}
 		}
-		return null;	
+		return null;
 	}
-	
+
 	/**
 	 * Returns the number of parameters contained in the given rule.
 	 * @param  rulee
-	 * @return number of parameters 
+	 * @return number of parameters
 	 */
 	public static int getNumberOfParameters(Rule rule){
 		return rule.getParameters().size();
 	}
-	
+
 	/**
 	 * This function is copied from the Henshin ModelHelper but enhanced with a
 	 * type check: An edge is only mapped if the type of the remoteEdge is also
 	 * equal. Mapping of source and target node is not sufficient.
-	 * 
+	 *
 	 * @param mappings
 	 *            the node mappings of the corresponding rule.
 	 * @param edge
@@ -1605,10 +1590,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns the LHS/RHS edge corresponding to the RHS/LHS edge.
-	 * 
+	 *
 	 * @param mappings
 	 *            the node mappings of the corresponding rule.
 	 * @param edge
@@ -1636,7 +1621,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Compares two EReferences. The compare differentiate between proxy and
 	 * resolved EMF instances.
-	 * 
+	 *
 	 * @param r1
 	 *            the first EReference
 	 * @param r2
@@ -1666,7 +1651,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Returns the mapping of the image and origin node or null if no mapping
 	 * exists.
-	 * 
+	 *
 	 * @param mappings
 	 *            the mappings to search.
 	 * @param origin
@@ -1686,7 +1671,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns the mapping of the origin node or null if no mapping exists.
-	 * 
+	 *
 	 * @param mappings
 	 *            the mappings to search.
 	 * @param origin
@@ -1704,7 +1689,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns the mapping of the image node or null if no mapping exists.
-	 * 
+	 *
 	 * @param mappings
 	 *            the mappings to search.
 	 * @param image
@@ -1722,7 +1707,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns the unit with the given name.
-	 * 
+	 *
 	 * @param name
 	 *            the unit name.
 	 * @param units
@@ -1737,10 +1722,10 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns whether the node is << preserve >> or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return true if node is << preserve >>; false otherwise.
@@ -1761,7 +1746,7 @@ public class HenshinRuleAnalysisUtilEx {
 		for (Mapping mapping : rule.getMappings()) {
 
 			// Node is preserve node
-			if ((mapping.getOrigin() == node) || (mapping.getImage() == node)) {
+			if (mapping.getOrigin() == node || mapping.getImage() == node) {
 				return true;
 			}
 		}
@@ -1772,7 +1757,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the edge is << preserve >> or not.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to test.
 	 * @return true if edge is << preserve >>; false otherwise.
@@ -1780,24 +1765,24 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isPreservedEdge(Edge edge) {
 
 		// Edge must be connected and part of Rule
-		if ((edge.getSource() != null) && (edge.getTarget() != null) && (edge.getGraph() != null) && (edge.getGraph().getRule() != null)) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null && edge.getGraph().getRule() != null) {
 
 			Rule rule = edge.getGraph().getRule();
 
 			// Test if edge is mapped
-			if ((getEdgeOrigin(edge, rule.getMappings()) != null)
-					|| (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) != null)) {
+			if (getEdgeOrigin(edge, rule.getMappings()) != null
+					|| getEdgeImage(edge, rule.getRhs(), rule.getMappings()) != null) {
 				return true;
 			}
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns whether this is a << preserve / delete >> attribute in a <<
 	 * preserve >> node or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code>true</code> if this is a << preserve / delete >> attribute
@@ -1813,13 +1798,13 @@ public class HenshinRuleAnalysisUtilEx {
 			// << delete >> attribute in << preserve >> node:
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Returns whether the node is << delete >> or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return true if node is << delete >>; false otherwise.
@@ -1853,10 +1838,10 @@ public class HenshinRuleAnalysisUtilEx {
 		// Node is create node
 		return false;
 	}
-	
+
 	/**
 	 * Returns whether the node is << create >> or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return true if node is << create >>; false otherwise.
@@ -1890,11 +1875,11 @@ public class HenshinRuleAnalysisUtilEx {
 		// Node is delete node
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * Is the given attribute a << preserve >> attribute and LHS/RHS differs in value.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return <code>true</code> if the attribute is a << preserve >> attribute
@@ -1914,7 +1899,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Is the given attribute a << delete >> attribute in a << preserve >> node.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return <code>true</code> if the attribute is a << delete >> attribute in a << preserve >> node;
@@ -1933,32 +1918,32 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return false;
 	}
-	
+
 	/**
 	 * Is the given attribute a << delete >> attribute, i.e. the attribute is only in the LHS.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return <code>true</code> if the attribute is a << delete >> attribute; <code>false</code> otherwise.
 	 */
 	public static boolean isDeletionAttribute(Attribute attribute) {
-		
+
 		// Attribute on LHS
 		if (!isLHSAttribute(attribute)) {
 			return false;
 		}
-		
+
 		// Attribute has no RHS
 		if (getRemoteAttribute(attribute) == null) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Is the given attribute a << create >> attribute in a << preserve >> node.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return <code>true</code> if the attribute is a << create >> attribute in a << preserve >> node;
@@ -1977,32 +1962,32 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return false;
 	}
-	
+
 	/**
 	 * Is the given attribute a << create >> attribute, i.e. the attribute is only in the RHS.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return <code>true</code> if the attribute is a << create >> attribute; <code>false</code> otherwise.
 	 */
 	public static boolean isCreationAttribute(Attribute attribute) {
-		
+
 		// Attribute on RHS
 		if (!isRHS(attribute)) {
 			return false;
 		}
-		
+
 		// Attribute has no LHS
 		if (getRemoteAttribute(attribute) == null) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * Returns whether the node is << forbid >> or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return true if node is << forbid >>; false otherwise.
@@ -2020,10 +2005,10 @@ public class HenshinRuleAnalysisUtilEx {
 		// Nested condition that contains the node:
 		NestedCondition nestedCondition = (NestedCondition) container;
 
-		if (!(nestedCondition.isNAC())) {
+		if (!nestedCondition.isNAC()) {
 			return false;
 		}
-		
+
 		for (Mapping mapping : nestedCondition.getMappings()) {
 			if (mapping.getImage() == node) {
 				// Node is a context node!
@@ -2034,10 +2019,10 @@ public class HenshinRuleAnalysisUtilEx {
 		// Node is forbid note!
 		return true;
 	}
-	
+
 	/**
 	 * Returns whether the node is << require >> or not.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return true if node is << require >>; false otherwise.
@@ -2055,10 +2040,10 @@ public class HenshinRuleAnalysisUtilEx {
 		// Nested condition that contains the node:
 		NestedCondition nestedCondition = (NestedCondition) container;
 
-		if (!(nestedCondition.isPAC())) {
+		if (!nestedCondition.isPAC()) {
 			return false;
 		}
-		
+
 		for (Mapping mapping : nestedCondition.getMappings()) {
 			if (mapping.getImage() == node) {
 				// Node is a context node!
@@ -2069,10 +2054,10 @@ public class HenshinRuleAnalysisUtilEx {
 		// Node is require note!
 		return true;
 	}
-	
+
 	/**
 	 * Returns whether the edge is << forbid >> or not.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to test.
 	 * @return true if edge is << forbid >>; false otherwise.
@@ -2089,15 +2074,15 @@ public class HenshinRuleAnalysisUtilEx {
 				// Edge must not be mapped to LHS
 				if (!isEdgeMapped(((NestedCondition)nestedCondition).getMappings(), edge)){
 					return true;
-				}					
+				}
 			}
 		}
 
 		return false;
 	}
-	
+
 	public static boolean isForbiddenAttribute(Attribute attribute) {
-		
+
 		// Load attribute container
 		EObject nestedCondition = attribute.getNode().getGraph().eContainer();
 
@@ -2111,10 +2096,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return false;
 	}
-	
+
 	/**
 	 * Checks whether two nodes n1 and n2 have the same node identifiers (names).
-	 * 
+	 *
 	 * @param n1
 	 * @param n2
 	 * @return
@@ -2125,7 +2110,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the GraphElement is a LHS of a Rule.
-	 * 
+	 *
 	 * @param element
 	 *            the element to test.
 	 * @return whether the element is a LHS of a Rule.
@@ -2136,7 +2121,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the Node is a LHS of a Rule.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return whether the Node is a LHS of a Rule.
@@ -2145,10 +2130,10 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isLHSNode(Node node) {
 		return isLHS(node);
 	}
-	
+
 	/**
 	 * Returns whether the Edge is a LHS of a Rule.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to test.
 	 * @return whether the Edge is a LHS of a Rule.
@@ -2157,10 +2142,10 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isLHSEdge(Edge edge) {
 		return isLHS(edge);
 	}
-	
+
 	/**
 	 * Returns whether the Attribute is a LHS of a Rule.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return whether the Attribute is a LHS of a Rule.
@@ -2172,7 +2157,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the GraphElement is a RHS of a Rule.
-	 * 
+	 *
 	 * @param element
 	 *            the element to test.
 	 * @return whether the element is a RHS of a Rule.
@@ -2183,7 +2168,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the Node is a RHS of a Rule.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return whether the Node is a RHS of a Rule.
@@ -2195,19 +2180,19 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns whether the Edge is a RHS of a Rule.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to test.
 	 * @return whether the Edge is a RHS of a Rule.
 	 * @deprecated Use {@link #isRHS(GraphElement)} instead.
 	 */
 	public static boolean isRHSEdge(Edge edge) {
-		return isRHS(edge);		
+		return isRHS(edge);
 	}
-	
+
 	/**
 	 * Returns whether the Attribute is a RHS of a Rule.
-	 * 
+	 *
 	 * @param attribute
 	 *            the attribute to test.
 	 * @return whether the Attribute is a RHS of a Rule.
@@ -2216,7 +2201,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isRHSAttribute(Attribute attribute) {
 		return isRHS(attribute);
 	}
-	
+
 	/**
 	 * @param node
 	 *            The node to check.
@@ -2240,13 +2225,13 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static boolean isChangedNode(Node node) {
 		return (node.getGraph().isLhs() || node.getGraph().isRhs())
-				&& (HenshinRuleAnalysisUtilEx.getRemoteNode(node.getGraph().getRule().getMappings(), node) == null);
+				&& HenshinRuleAnalysisUtilEx.getRemoteNode(node.getGraph().getRule().getMappings(), node) == null;
 	}
-	
+
 	/**
 	 * Searches for the first incoming or outgoing << preserve >> edge of the given node. Returns
 	 * <code> true </code> if there is a << preserve >> edge; <code> false </code> otherwise.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << preserve >> edge; <code> false </code>
@@ -2259,7 +2244,7 @@ public class HenshinRuleAnalysisUtilEx {
 				return true;
 			}
 		}
-		
+
 		for (Edge edge : node.getOutgoing()) {
 			if (isPreservedEdge(edge)) {
 				return true;
@@ -2272,7 +2257,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Searches for the first incoming or outgoing << delete >> edge of the given node. Returns
 	 * <code> true </code> if there is a << delete >> edge; <code> false </code> otherwise.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << delete >> edge; <code> false </code> otherwise.
@@ -2284,7 +2269,7 @@ public class HenshinRuleAnalysisUtilEx {
 				return true;
 			}
 		}
-		
+
 		for (Edge edge : node.getOutgoing()) {
 			if (isDeletionEdge(edge)) {
 				return true;
@@ -2297,7 +2282,7 @@ public class HenshinRuleAnalysisUtilEx {
 	/**
 	 * Searches for the first incoming or outgoing << create >> edge of the given node. Returns
 	 * <code> true </code> if there is a << create >> edge; <code> false </code> otherwise.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << create >> edge; <code> false </code> otherwise.
@@ -2309,7 +2294,7 @@ public class HenshinRuleAnalysisUtilEx {
 				return true;
 			}
 		}
-		
+
 		for (Edge edge : node.getOutgoing()) {
 			if (isCreationEdge(edge)) {
 				return true;
@@ -2321,7 +2306,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Searches for << create >> attribute in a node.
-	 * 
+	 *
 	 * @param node the node to test.
 	 * @return <code> true </code> if there is a << create >> attribute;
 	 *         <code> false </code> otherwise.
@@ -2346,26 +2331,26 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return false;
 	}
-	
+
 	/**
 	 * Searches for << preserved >> attributes in a << preserve >> node.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << preserved >> attribute;
 	 *         <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithPreservedAttributes(Node node) {
-		
+
 		Node lhsNode;
-		
+
 		if(isLHSNode(node)) {
 			lhsNode = node;
 		} else {
 			lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 		}
-		
-		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
+
+		if(lhsNode != null && lhsNode.getAttributes().size() > 0) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
 				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
 				if (rhsAttribute != null && lhsAttribute.getValue().equals(rhsAttribute.getValue())) {
@@ -2373,63 +2358,63 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Searches for << delete >> attributes in a node.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a << delete >> attribute;
 	 *         <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithDeletionAttributes(Node node) {
-		
+
 		Node lhsNode;
-		
+
 		if(isLHSNode(node)) {
 			lhsNode = node;
 		} else {
 			lhsNode = getRemoteNode(node.getGraph().getRule().getMappings(), node);
 		}
-		
-		if((lhsNode != null) && (lhsNode.getAttributes().size() > 0)) {
+
+		if(lhsNode != null && lhsNode.getAttributes().size() > 0) {
 			for (Attribute lhsAttribute : lhsNode.getAttributes()) {
 				Attribute rhsAttribute = getRemoteAttribute(lhsAttribute);
-				
-				if ((rhsAttribute == null)) {
+
+				if (rhsAttribute == null) {
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Searches for (X -> Y) attributes in a << preserve >> node.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if there is a (X -> Y) attribute;
 	 *         <code> false </code> otherwise.
 	 */
 	public static boolean isNodeWithChangingAttributes(Node node) {
-		
+
 		for (Attribute attribute : node.getAttributes()) {
 			if (isChangingAttribute(attribute)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Returns <code> true </code> if the node has no attributes; <code> false </code> otherwise.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if the node has no attributes; <code> false </code> otherwise.
@@ -2440,7 +2425,7 @@ public class HenshinRuleAnalysisUtilEx {
 
 	/**
 	 * Returns <code> true </code> if the node has no edges; <code> false </code> otherwise.
-	 * 
+	 *
 	 * @param node
 	 *            the node to test.
 	 * @return <code> true </code> if the node has no edges; <code> false </code> otherwise.
@@ -2448,11 +2433,11 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isNodeWithoutEdges(Node node) {
 		return node.getAllEdges().isEmpty();
 	}
-	
+
 	/**
 	 * Apply a Henshin amalgamation unit and save the temporary generated rule
 	 * for debugging.
-	 * 
+	 *
 	 * @param ts
 	 *            the Henshin transformation system.
 	 * @param emfEngine
@@ -2495,32 +2480,32 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return success;
 	}*/
-	
+
 	/**
-	 * Returns the {@link Module} the given unit is (recursively) 
+	 * Returns the {@link Module} the given unit is (recursively)
 	 * contained in. If unit is contained in no transformation system at all, this method
 	 * does not throw an exception but simply returns <code>null</code>.
-	 * 
+	 *
 	 * @param unit
 	 * @return
 	 */
 	public Module getContainingTransformationSystem(Unit unit){
 		EObject parent = unit.eContainer();
-		while ((parent != null) && !(parent instanceof Module)){
+		while (parent != null && !(parent instanceof Module)){
 			parent = parent.eContainer();
 		}
-		
+
 		if (parent == null){
 			return null;
 		}
-		
+
 		// we can be sure that we have a trafo system here
 		return (Module) parent;
 	}
-	
+
 	/**
 	 * Checks whether the specified node is part of the mappings.
-	 * 
+	 *
 	 * @param mappings
 	 *            A list of mappings.
 	 * @param node
@@ -2531,12 +2516,12 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isNodeMapped(Collection<Mapping> mappings, Node node) {
 		return getRemoteNode(mappings, node) != null;
 	}
-	
+
 	/**
 	 * Returns the image or origin of the specified node. If the node is not
 	 * part of a mapping, null will be returned. If the node is part of multiple
 	 * mappings, only the first remote node is returned.
-	 * 
+	 *
 	 * @param mappings
 	 * @param node
 	 * @return
@@ -2550,13 +2535,13 @@ public class HenshinRuleAnalysisUtilEx {
 				return mapping.getOrigin();
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Searches the corresponding LHS node of the given RHS node.
-	 * 
+	 *
 	 * @param rhsNode
 	 *            A RHS node.
 	 * @return The corresponding LHS node or <code>null</code> if no node was found.
@@ -2569,10 +2554,10 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return getRemoteNode(rhsNode.getGraph().getRule().getMappings(), rhsNode);
 	}
-	
+
 	/**
 	 * Searches the corresponding RHS node of the given LHS node.
-	 * 
+	 *
 	 * @param rhsNode
 	 *            A LHS node.
 	 * @return The corresponding RHS node or <code>null</code> if no node was found.
@@ -2585,12 +2570,12 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return getRemoteNode(lhsNode.getGraph().getRule().getMappings(), lhsNode);
 	}
-	
+
 	/**
 	 * Checks if the given edge represents a 'deletion' edge. This is the case,
 	 * if it is contained in a LHS and if there is no corresponding image edge
 	 * in the RHS.<br>
-	 * 
+	 *
 	 * @param edge
 	 * @return true if the edge could be identified to be a 'deletion' edge. In
 	 *         every other case this method returns false.
@@ -2600,16 +2585,16 @@ public class HenshinRuleAnalysisUtilEx {
 				&& edge.getGraph().getRule() != null) {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isLhs()
-					&& (getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
+					&& getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null;
 		}
 		return false;
 	}// isDeletionEdge
-	
+
 	/**
 	 * Checks if the given edge represents a 'creation' edge. This is the case,
 	 * if it is contained in a RHS and if there is no corresponding origin edge
 	 * in the LHS.
-	 * 
+	 *
 	 * @param edge
 	 * @return true if the edge could be identified to be a 'creation' edge. In
 	 *         every other case this method returns false.
@@ -2619,11 +2604,11 @@ public class HenshinRuleAnalysisUtilEx {
 				&& edge.getGraph().getRule() != null) {
 			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isRhs()
-					&& (getEdgeOrigin(edge, rule.getMappings()) == null);
+					&& getEdgeOrigin(edge, rule.getMappings()) == null;
 		}
 		return false;
 	}// isCreationEdge
-	
+
 	/**
 	 * Find the image of an edge.
 	 * @param edge Origin edge.
@@ -2643,7 +2628,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return source.getOutgoing(edge.getType(), target);
 	}
-	
+
 	/**
 	 * Find the image of a node with respect to a target graph and a list of
 	 * mappings.
@@ -2655,9 +2640,9 @@ public class HenshinRuleAnalysisUtilEx {
 	public static Node getNodeImage(Node origin, Graph targetGraph,
 			List<Mapping> mappings) {
 		Mapping mapping = getNodeImageMapping(origin, targetGraph, mappings);
-		return (mapping != null) ? mapping.getImage() : null;
+		return mapping != null ? mapping.getImage() : null;
 	}
-	
+
 	/**
 	 * Find a corresponding mapping for a given origin nodes and target graph.
 	 * @param origin Origin node.
@@ -2675,7 +2660,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the origin of an edge.
 	 * @param edge Image edge.
@@ -2693,7 +2678,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return source.getOutgoing(edge.getType(), target);
 	}
-	
+
 	/**
 	 * Find the corresponding mapping for a given image node.
 	 * @param image Image node.
@@ -2709,7 +2694,7 @@ public class HenshinRuleAnalysisUtilEx {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Find the origin of a node with respect to a list of mappings.
 	 * @param image Image node.
@@ -2719,12 +2704,12 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Node getNodeOrigin(Node image, List<Mapping> mappings) {
 		Mapping mapping = getNodeOriginMapping(image, mappings);
-		return (mapping != null) ? mapping.getOrigin() : null;
+		return mapping != null ? mapping.getOrigin() : null;
 	}
-	
+
 	/**
 	 * Filters the list of mappings for LHS mappings.
-	 * 
+	 *
 	 * @param mappings
 	 *            LHS and RHS mappings.
 	 * @return only LHS mappings.
@@ -2740,10 +2725,10 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return lhsMappings;
 	}
-	
+
 	/**
 	 * Filters the list of mappings for RHS mappings.
-	 * 
+	 *
 	 * @param mappings
 	 *            LHS and RHS mappings.
 	 * @return only RHS mappings.
@@ -2759,27 +2744,27 @@ public class HenshinRuleAnalysisUtilEx {
 
 		return rhsMappings;
 	}
-	
+
 	/**
 	 * Tests if the rule is kernel-rule of multi-rules
-	 * 
+	 *
 	 * @param kernelRule the rule to test.
 	 * @return <code>true</code> if the rule is a kernel rule; <code>false</code> otherwise.
 	 */
 	public static boolean isKernelRule(Rule kernelRule) {
 		return !kernelRule.getMultiRules().isEmpty();
 	}
-	
+
 	/**
 	 * Tests if the unit is a amalgamation unit := unit -> kernel-rule -> multi-rules
-	 * 
+	 *
 	 * @param unit the unit to test.
 	 * @return <code>true</code> if the unit is a amalgamation unit; <code>false</code> otherwise.
 	 */
 	public static boolean isAmalgamationUnit(Unit unit) {
 		List<Unit> subUnits = unit.getSubUnits(false);
-		
-		if ((subUnits.size() == 1) && (subUnits.get(0) instanceof Rule)) {
+
+		if (subUnits.size() == 1 && subUnits.get(0) instanceof Rule) {
 			Rule kernelRule = (Rule) subUnits.get(0);
 			return isKernelRule(kernelRule);
 		}
@@ -2794,7 +2779,7 @@ public class HenshinRuleAnalysisUtilEx {
 	public static List<NestedCondition> getNestedConditions(Rule editRule) {
 		return editRule.getLhs().getNestedConditions();
 	}
-	
+
 	/**
 	 * @param mappings
 	 *            All mappings of the embedded nodes.
@@ -2802,14 +2787,14 @@ public class HenshinRuleAnalysisUtilEx {
 	 */
 	public static Set<Node> getEmbeddedNodes(Collection<Mapping> mappings) {
 		Set<Node> embeddedNodes = new HashSet<>();
-		
+
 		for (Mapping mapping : mappings) {
 			embeddedNodes.add(mapping.getImage());
 		}
-		
+
 		return embeddedNodes;
 	}
-	
+
 	/**
 	 * @param graph
 	 *            The Graph that contains the edges.
@@ -2818,20 +2803,20 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return All embedded/mapped edges as a hash set.
 	 */
 	public static Set<Edge> getEmbeddedEdges(Graph graph, Collection<Node> embeddedNodes) {
-		
+
 		// An edge is embedded if source and target nodes are embedded:
 		Set<Edge> embeddedEdges = new HashSet<>();
-		
+
 		for(Edge lhsEdge : graph.getEdges()) {
-			if(embeddedNodes.contains(lhsEdge.getSource()) 
+			if(embeddedNodes.contains(lhsEdge.getSource())
 					&& embeddedNodes.contains(lhsEdge.getTarget())) {
 				embeddedEdges.add(lhsEdge);
 			}
 		}
-		
+
 		return embeddedEdges;
 	}
-	
+
 	/**
 	 * @param graph
 	 *            The Graph that contains the attributes.
@@ -2840,11 +2825,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return All embedded/mapped attributes as a hash set.
 	 */
 	public static Set<Attribute> getEmbeddedAttributes(Graph graph, Collection<Node> embeddedNodes) {
-		
+
 		// An attribute is embedded if its corresponding node is embedded and if
 		// one of the mapped (parent) nodes contains the same attribute:
 		Set<Attribute> embeddedAttributes = new HashSet<>();
-		
+
 		for (Node node : graph.getNodes()) {
 			if (embeddedNodes.contains(node)) {
 				for (Attribute attribute : node.getAttributes()) {
@@ -2854,14 +2839,14 @@ public class HenshinRuleAnalysisUtilEx {
 				}
 			}
 		}
-		
+
 		return embeddedAttributes;
 	}
-	
+
 	/**
 	 * An attribute is embedded if its corresponding node is embedded and if one
 	 * of the mapped nodes contains the same attribute.
-	 * 
+	 *
 	 * @param attribute
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
@@ -2869,11 +2854,11 @@ public class HenshinRuleAnalysisUtilEx {
 	public static boolean isEmbeddedAttribute(Attribute attribute) {
 		return isEmbeddedAttribute(attribute.getNode(), attribute);
 	}
-	
+
 	/**
 	 * An attribute is embedded if its corresponding node is embedded and if one
 	 * of the mapped nodes contains the same attribute.
-	 * 
+	 *
 	 * @param node
 	 *            The containing node or a mapped node (recursively).
 	 * @param attribute
@@ -2881,11 +2866,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 * @return <code>true</code> if the attribute is embedded; <code>false</code> otherwise.
 	 */
 	private static boolean isEmbeddedAttribute(Node node, Attribute attribute) {
-		
+
 		// An attribute is embedded if its corresponding node is embedded and if
 		// one of the mapped (parent) nodes contains the same attribute:
 		Collection<Mapping> mappings;
-		
+
 		if (node.getGraph().isNestedCondition()) {
 			// NestedCondition:
 			mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
@@ -2893,9 +2878,9 @@ public class HenshinRuleAnalysisUtilEx {
 			// Rule:
 			mappings = node.getGraph().getRule().getMultiMappings();
 		}
-		
+
 		Node parentNode = getRemoteNode(mappings, node);
-		
+
 		if (parentNode != null) {
 			for (Attribute parentAttribute : parentNode.getAttributes()) {
 				if (attribute.getType() == parentAttribute.getType()) {
@@ -2905,13 +2890,13 @@ public class HenshinRuleAnalysisUtilEx {
 			// Find attribute recursively in the mapped parent nodes:
 			return isEmbeddedAttribute(parentNode, attribute);
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Checks if the attribute is a literal attribute.
-	 * 
+	 *
 	 * @param attribute
 	 *            The attribute to test.
 	 * @return <code>true</code> if the attribute is a literal;
@@ -2937,7 +2922,7 @@ public class HenshinRuleAnalysisUtilEx {
 				EDataType dataType = type.getEAttributeType();
 				if(dataType.getInstanceClass() != String.class) {
 					EcoreUtil.createFromString(dataType, value);
-					return true;					
+					return true;
 				}
 			}
 		} catch(Exception e) {
