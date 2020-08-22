@@ -21,20 +21,17 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 	@Override
 	public void update(ViewerCell cell) {
 		OperationInvocationWrapper wrapper = (OperationInvocationWrapper)cell.getElement();
-		Display display = PatchingUiPlugin.getDefault().getWorkbench().getDisplay();
 
 		StyleRange styleRange = new StyleRange();
 		Image image = null;
-		String text = wrapper.getText();
-		text += wrapper.getChangedArguments();
 		if (wrapper.getStatus() == OperationInvocationStatus.PASSED) {
 			image = applied;
 			styleRange.strikeout = true;
-			styleRange.foreground = new Color(display, 0, 200, 0);
+			styleRange.foreground = new Color(Display.getDefault(), 0, 200, 0);
 		} else if(wrapper.getStatus() == OperationInvocationStatus.IGNORED){
 			image = ignored;
 			styleRange.strikeout = true;
-			styleRange.foreground = new Color(display, 128, 128, 128);
+			styleRange.foreground = new Color(Display.getDefault(), 128, 128, 128);
 		} else if (wrapper.getStatus() == OperationInvocationStatus.FAILED) {
 			image = conflicting;
 		} else if (wrapper.hasUnresolvedInArguments()) {
@@ -44,12 +41,13 @@ public class OperationLabelProvider extends StyledCellLabelProvider {
 		} else {
 			image = applicable;
 		}
+		cell.setImage(image);
+
+		final String text = " " + wrapper.getText() + wrapper.getChangedArguments();
+		cell.setText(text);
 
 		styleRange.start = 1;
-		styleRange.length = text.length() + 1;
-
-		cell.setImage(image);
-		cell.setText(" " + text);
+		styleRange.length = text.length();
 		cell.setStyleRanges(new StyleRange[] { styleRange });
 	}
 
