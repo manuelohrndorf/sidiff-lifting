@@ -17,20 +17,20 @@ import org.sidiff.difference.technical.IncrementalTechnicalDifferenceBuilder;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 
-public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDifferenceBuilder> {
+public class TechnicalDifferenceBuilderWidget extends AbstractListWidget<ITechnicalDifferenceBuilder> {
 
-	private InputModels inputModels;
-	private DifferenceSettings settings;
+	private final List<ITechnicalDifferenceBuilder> selectableValues;
+	private final InputModels inputModels;
+	private final DifferenceSettings settings;
 
-	private List<ITechnicalDifferenceBuilder> builders;
-
-	public DifferenceBuilderWidget(InputModels inputModels, DifferenceSettings settings) {
+	public TechnicalDifferenceBuilderWidget(InputModels inputModels, DifferenceSettings settings) {
 		super(ITechnicalDifferenceBuilder.class);
 		setTitle("Technical Difference Builder");
 		setLabelProvider(new ExtensionLabelProvider());
+		setEqualityDelegate(ITechnicalDifferenceBuilder.MANAGER.getEquality());
 		this.inputModels = Objects.requireNonNull(inputModels, "InputModels must not be null");
 		Assert.isLegal(inputModels.getResources().size() == 2, "InputModels must contain exactly two models");
-		this.builders = ITechnicalDifferenceBuilder.MANAGER.getTechnicalDifferenceBuilders(
+		this.selectableValues = ITechnicalDifferenceBuilder.MANAGER.getTechnicalDifferenceBuilders(
 				inputModels.getResources().get(0), inputModels.getResources().get(1));
 		this.settings = Objects.requireNonNull(settings, "Settings must not be null");
 		this.settings.addSettingsChangedListener(item -> {
@@ -39,9 +39,7 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 				getWidgetCallback().requestValidation();
 			}
 		});
-		addModificationListener((oldMatchers, newMatchers) -> {
-			settings.setTechBuilder(wrapBuilders(getSelection()));
-		});
+		addModificationListener((oldMatchers, newMatchers) -> settings.setTechBuilder(wrapBuilders(getSelection())));
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 
 	protected static ITechnicalDifferenceBuilder wrapBuilders(List<ITechnicalDifferenceBuilder> selection) {
 		switch(selection.size()) {
-			case 0: return null;	
+			case 0: return null;
 			case 1: return selection.get(0);
 			default: return new IncrementalTechnicalDifferenceBuilder(selection);
 		}
@@ -99,7 +97,7 @@ public class DifferenceBuilderWidget extends AbstractListWidget<ITechnicalDiffer
 
 	@Override
 	public List<ITechnicalDifferenceBuilder> getSelectableValues() {
-		return Collections.unmodifiableList(builders);
+		return selectableValues;
 	}
 
 	@Override

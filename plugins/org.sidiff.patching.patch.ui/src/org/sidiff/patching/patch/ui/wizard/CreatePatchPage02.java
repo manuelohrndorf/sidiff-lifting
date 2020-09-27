@@ -4,7 +4,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.sidiff.common.emf.input.InputModels;
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.technical.ui.widgets.TechnicalDifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.ui.widgets.SymbolicLinkHandlerWidget;
@@ -13,7 +13,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 
 	private MatchingEngineWidget matcherWidget;
 	private SymbolicLinkHandlerWidget symbolicLinkHandlerWidget;
-	private DifferenceBuilderWidget builderWidget;
+	private TechnicalDifferenceBuilderWidget builderWidget;
 
 	private final InputModels inputModels;
 	private final PatchingSettings settings;
@@ -49,7 +49,7 @@ public class CreatePatchPage02 extends AbstractWizardPage {
 		addWidget(container, symbolicLinkHandlerWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
+		builderWidget = new TechnicalDifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(createPatchPage01.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 	}

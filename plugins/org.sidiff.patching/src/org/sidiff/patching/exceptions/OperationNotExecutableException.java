@@ -9,5 +9,4 @@ public class OperationNotExecutableException extends SiDiffException {
 	public OperationNotExecutableException(String operationName) {
 		super("Operation could not be executed: " + operationName, "Could not execute operation");
 	}
-
 }

@@ -7,11 +7,12 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.extension.IExtension.Description;
 import org.sidiff.common.extension.TypedExtensionManager;
+import org.sidiff.common.extension.storage.NoExtensionManagerStorage;
 
 public class TechnicalDifferenceBuilderManager extends TypedExtensionManager<ITechnicalDifferenceBuilder> {
 
 	public TechnicalDifferenceBuilderManager(Description<? extends ITechnicalDifferenceBuilder> description) {
-		super(description);
+		super(new NoExtensionManagerStorage<>(description));
 	}
 
 	/**

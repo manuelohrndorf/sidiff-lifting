@@ -2,7 +2,7 @@ package org.sidiff.patching.ui.wsupdate.wizard;
 
 import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
-import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.technical.ui.widgets.TechnicalDifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.ui.widgets.ReliabilityWidget;
@@ -13,7 +13,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 
 	private MatchingEngineWidget matcherWidget;
 	private ReliabilityWidget reliabilityWidget;
-	private DifferenceBuilderWidget builderWidget;
+	private TechnicalDifferenceBuilderWidget builderWidget;
 
 	private PatchingSettings settings;
 	private WSUModels mergeModels;
@@ -43,7 +43,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		addWidget(container, reliabilityWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(mergeModels.getBaseTheirsModels(), settings);
+		builderWidget = new TechnicalDifferenceBuilderWidget(mergeModels.getBaseTheirsModels(), settings);
 		builderWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 	}

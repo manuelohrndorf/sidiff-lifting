@@ -1,5 +1,6 @@
 package org.sidiff.patching;
 
 public enum ExecutionMode {
-	INTERACTIVE, BATCH
+	INTERACTIVE,
+	BATCH
 }

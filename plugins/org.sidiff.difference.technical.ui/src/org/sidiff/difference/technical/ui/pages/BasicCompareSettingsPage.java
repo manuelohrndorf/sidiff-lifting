@@ -8,7 +8,7 @@ import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.technical.api.settings.DifferenceSettings;
 import org.sidiff.difference.technical.api.settings.DifferenceSettingsItem;
 import org.sidiff.difference.technical.ui.internal.TechnicalDifferenceUiPlugin;
-import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.technical.ui.widgets.TechnicalDifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 import org.sidiff.difference.technical.ui.widgets.ScopeWidget;
 import org.sidiff.difference.technical.ui.widgets.ValidateModelsWidget;
@@ -35,7 +35,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 	/**
 	 * The {@link DifferenceBuilderWidget} for choosing a technical difference builder
 	 */
-	private DifferenceBuilderWidget builderWidget;
+	private TechnicalDifferenceBuilderWidget builderWidget;
 
 	// ---------- UI Elements ----------
 
@@ -103,7 +103,7 @@ public class BasicCompareSettingsPage extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
+		builderWidget = new TechnicalDifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(settingsSourceWidget);
 		addWidget(container, builderWidget);
 	}

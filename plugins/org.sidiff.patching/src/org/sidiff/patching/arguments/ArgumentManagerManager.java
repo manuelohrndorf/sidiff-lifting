@@ -3,13 +3,14 @@ package org.sidiff.patching.arguments;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.sidiff.common.extension.ExtensionManager;
 import org.sidiff.common.extension.IExtension.Description;
+import org.sidiff.common.extension.storage.NoExtensionManagerStorage;
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
 import org.sidiff.patching.ExecutionMode;
 
 public class ArgumentManagerManager extends ExtensionManager<IArgumentManager> {
 
 	public ArgumentManagerManager(Description<? extends IArgumentManager> description) {
-		super(description);
+		super(new NoExtensionManagerStorage<>(description));
 	}
 
 	/**
