@@ -3,6 +3,16 @@
 <plugin>
    <extension
          point="org.sidiff.common.emf.metrics.metrics_extension">
+      <metric
+            class="org.sidiff.difference.symmetric.metrics.SemanticChangeSetCountingMetric"
+            comparisonType="UNSPECIFIED"
+            description="The detected Semantic Change Sets of the Symmetric Difference and their usage count."
+            key="symmetric.NumberOfDetectedSemanticChangeSets"
+            name="Number of detected Semantic Change Sets per Edit Rule">
+         <documentType>
+            http://www.sidiff.org/difference/symmetric/1.0
+         </documentType>
+      </metric>
    </extension>
 
 </plugin>
