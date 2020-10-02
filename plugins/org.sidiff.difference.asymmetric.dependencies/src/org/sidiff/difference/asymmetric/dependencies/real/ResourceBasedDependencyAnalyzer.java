@@ -1,7 +1,7 @@
 package org.sidiff.difference.asymmetric.dependencies.real;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.sidiff.difference.asymmetric.AsymmetricDifference;
@@ -15,8 +15,14 @@ import org.sidiff.editrule.rulebase.project.runtime.library.IRuleBaseProject;
 
 public class ResourceBasedDependencyAnalyzer extends DependencyAnalyzer {
 
+	private Function<SemanticChangeSet,IEditRuleMatch> matchFactory = UriBasedEditRuleMatch::new;
+
 	public ResourceBasedDependencyAnalyzer(AsymmetricDifference asymmetricDiff) {
 		super(asymmetricDiff);
+	}
+
+	public void setEditRuleMatchFactory(Function<SemanticChangeSet,IEditRuleMatch> matchFactory) {
+		this.matchFactory = Objects.requireNonNull(matchFactory);
 	}
 
 	@Override
@@ -35,6 +41,6 @@ public class ResourceBasedDependencyAnalyzer extends DependencyAnalyzer {
 
 	@Override
 	protected IEditRuleMatch getEditRuleMatch(SemanticChangeSet scs) {
-		return new UriBasedEditRuleMatch(scs);
+		return matchFactory.apply(scs);
 	}
 }

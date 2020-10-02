@@ -5,9 +5,9 @@ import org.sidiff.common.extension.ui.widgets.ConfigurableExtensionWidget;
 import org.sidiff.common.ui.pages.AbstractWizardPage;
 import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
-import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
+import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineModeWidget;
 import org.sidiff.difference.lifting.ui.widgets.RecognitionRuleSorterWidget;
-import org.sidiff.difference.technical.ui.widgets.DifferenceBuilderWidget;
+import org.sidiff.difference.technical.ui.widgets.TechnicalDifferenceBuilderWidget;
 import org.sidiff.difference.technical.ui.widgets.MatchingEngineWidget;
 
 public class AdvancedCompareSettingsPage extends AbstractWizardPage {
@@ -32,7 +32,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 	/**
 	 * The {@link RecognitionEngineWidget} determining the recognition mode
 	 */
-	private RecognitionEngineWidget recognitionWidget;
+	private RecognitionEngineModeWidget recognitionWidget;
 
 	/**
 	 * The {@link MatchingEngineWidget} for choosing a matcher
@@ -42,7 +42,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 	/**
 	 * The {@link DifferenceBuilderWidget} for choosing a technical difference builder
 	 */
-	private DifferenceBuilderWidget builderWidget;
+	private TechnicalDifferenceBuilderWidget builderWidget;
 
 	/**
 	 * The {@link RecognitionEngineWidget} for choosing a recognition rule sorter
@@ -72,7 +72,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Technical Difference Builder:
-		builderWidget = new DifferenceBuilderWidget(inputModels, settings);
+		builderWidget = new TechnicalDifferenceBuilderWidget(inputModels, settings);
 		builderWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, builderWidget);
 
@@ -82,7 +82,7 @@ public class AdvancedCompareSettingsPage extends AbstractWizardPage {
 		addWidget(container, rrSorterWidget);
 
 		// Recognition engine:
-		recognitionWidget = new RecognitionEngineWidget(settings);
+		recognitionWidget = new RecognitionEngineModeWidget(settings);
 		recognitionWidget.setDependency(basicCompareSettingsPage.getSettingsSourceWidget());
 		addWidget(container, recognitionWidget);
 	}

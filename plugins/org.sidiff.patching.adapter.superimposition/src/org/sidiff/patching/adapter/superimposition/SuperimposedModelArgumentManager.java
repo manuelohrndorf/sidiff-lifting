@@ -81,7 +81,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 	}
 
 	private static List<EObject> getPossibleArguments(Resource resource, SuperimposedElement originObject) {
-		List<EObject> args = new ArrayList<EObject>();
+		List<EObject> args = new ArrayList<>();
 		for(EObject obj : (Iterable<EObject>)() -> resource.getAllContents()) {
 			if (EMFMetaAccess.isAssignableTo(obj.eClass(), originObject.getType())) {
 				args.add(obj);
@@ -89,7 +89,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 		}
 		return args;
 	}
-	
+
 	@Override
 	public void resetArgumentResolution(ObjectParameterBinding binding) {
 		ObjectArgumentWrapper objectArgWrapper = (ObjectArgumentWrapper) getArgumentResolutions().get(binding);
@@ -141,7 +141,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getKey() {
 		return this.getClass().getName();
@@ -167,7 +167,7 @@ public class SuperimposedModelArgumentManager extends BaseArgumentManager {
 	}
 
 	protected SuperimposedModel findSuperimposedModel(Resource resource) {
-		final AtomicReference<SuperimposedModel> superimposedModel = new AtomicReference<SuperimposedModel>();
+		final AtomicReference<SuperimposedModel> superimposedModel = new AtomicReference<>();
 		EMFModelAccess.traverse(resource, new TreeVisitor() {
 			@Override
 			public boolean preExecute(EObject object) {

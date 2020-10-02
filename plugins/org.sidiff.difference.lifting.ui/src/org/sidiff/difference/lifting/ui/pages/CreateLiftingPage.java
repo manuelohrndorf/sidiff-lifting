@@ -7,14 +7,14 @@ import org.sidiff.difference.lifting.api.settings.LiftingSettings;
 import org.sidiff.difference.lifting.api.settings.LiftingSettingsItem;
 import org.sidiff.difference.lifting.api.settings.RecognitionEngineMode;
 import org.sidiff.difference.lifting.ui.internal.DifferenceLiftingUiPlugin;
-import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineWidget;
+import org.sidiff.difference.lifting.ui.widgets.RecognitionEngineModeWidget;
 import org.sidiff.difference.lifting.ui.widgets.RulebaseWidget;
 import org.sidiff.integration.preferences.ui.widgets.SettingsSourceWidget;
 
 public class CreateLiftingPage extends AbstractWizardPage {
 
 	private SettingsSourceWidget settingsSourceWidget;
-	private RecognitionEngineWidget recognitionWidget;
+	private RecognitionEngineModeWidget recognitionWidget;
 	private RulebaseWidget rulebaseWidget;
 
 	private IFile differenceFile;
@@ -37,7 +37,7 @@ public class CreateLiftingPage extends AbstractWizardPage {
 		addWidget(container, settingsSourceWidget);
 
 		// Recognition engine:
-		recognitionWidget = new RecognitionEngineWidget(settings);
+		recognitionWidget = new RecognitionEngineModeWidget(settings);
 		recognitionWidget.setFilter(mode -> mode != RecognitionEngineMode.NO_LIFTING);
 		recognitionWidget.setDependency(settingsSourceWidget);
 		addWidget(container, recognitionWidget);

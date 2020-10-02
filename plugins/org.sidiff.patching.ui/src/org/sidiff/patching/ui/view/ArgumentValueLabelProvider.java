@@ -22,9 +22,9 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 
 	private boolean showReliabilities = false;
 	private boolean showQualifiedArgumentNames = false;
-	
+
 	private IArgumentManager argumentManager;
-	
+
 	private final Image ERROR = PatchingUiPlugin.getImageDescriptor("fatalerror_obj_16x16.gif").createImage();
 	private final Image WARNING = PatchingUiPlugin.getImageDescriptor("warning_16x16.gif").createImage();
 
@@ -38,7 +38,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 		if (element instanceof ObjectParameterBinding) {
 			ObjectParameterBinding binding = (ObjectParameterBinding) element;
 			ObjectArgumentWrapper argument = (ObjectArgumentWrapper) operationInvocationWrapper.getActualArgument(binding);
-			
+
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
 				// Already executed: Show execution args
 				EObject object = (EObject)operationInvocationWrapper.getExecutionArgument(binding);
@@ -49,7 +49,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 				}
 				return res;
 			}
-			// Not executed: Show current state of the argument selection	
+			// Not executed: Show current state of the argument selection
 			if (argument.isResolved()) {
 				EObject object = argument.getTargetObject();
 				if (isInParameter(binding)){
@@ -57,7 +57,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 					return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object))
 							+ (showReliabilities ? " (" + reliability + ")" : "");
 				}
-				return (showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object));
+				return showQualifiedArgumentNames ? NameUtil.getQualifiedArgumentName(object) : NameUtil.getName(object);
 			}
 			EObject object = argument.getProxyObject();
 			if (isInParameter(binding)) {
@@ -68,7 +68,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 		} else if (element instanceof ValueParameterBinding) {
 			ValueParameterBinding binding = (ValueParameterBinding) element;
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				Object actual = operationInvocationWrapper.getExecutionArgument(binding);				
+				Object actual = operationInvocationWrapper.getExecutionArgument(binding);
 				if (actual != null) {
 					return actual.toString();
 				}
@@ -78,7 +78,7 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 			if (actual != null) {
 				return actual;
 			}
-			return "(Unknown Value)";	
+			return "(Unknown Value)";
 		}
 
 		return null;
@@ -135,16 +135,14 @@ public class ArgumentValueLabelProvider extends ColumnLabelProvider {
 	@Override
 	public Color getForeground(Object element) {
 		if (element instanceof ParameterBinding) {
-			Display display = PatchingUiPlugin.getDefault().getWorkbench().getDisplay();
-
 			if (operationInvocationWrapper.getStatus() == OperationInvocationStatus.PASSED) {
-				return new Color(display, 150, 150, 150);
+				return new Color(Display.getDefault(), 150, 150, 150);
 			}
 			if(element instanceof ObjectParameterBinding){
 				ObjectParameterBinding objBinding = (ObjectParameterBinding) element;
 				ObjectArgumentWrapper argument = (ObjectArgumentWrapper) argumentManager.getArgument(objBinding);
 				if (isInParameter(objBinding) && !argument.isResolved()) {
-					return new Color(display, 200, 0, 0);
+					return new Color(Display.getDefault(), 200, 0, 0);
 				}
 			}
 		}
