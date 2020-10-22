@@ -24,7 +24,7 @@ public class SelfCleaningEngineImpl extends EngineImpl {
 	}
 
 	@Override
-	protected RuleInfo getRuleInfo(Rule rule) {
+	public RuleInfo getRuleInfo(Rule rule) {
 		toBeCleaned.add(rule);
 		return super.getRuleInfo(rule);
 	}
