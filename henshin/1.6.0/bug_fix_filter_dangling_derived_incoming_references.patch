@@ -1,0 +1,50 @@
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+index 6b8c9ad..765b293 100644
+--- a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+@@ -58,28 +58,45 @@
+ 	 */
+ 	@SuppressWarnings("unchecked")
+ 	public boolean check(EObject sourceValue, EGraph graph) {
+ 		// Compute the actual number of incoming edges:
+ 		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
+ 		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings, graph);
+ 		Integer expectedCount;
+ 
+ 		if (incomingEdgeCount != null) {
+ 			for (EReference ref : actualIncomingEdges.keySet()) {
++				// >>>>>>>>>>>>>>>>>>>> PATCH ORIGINAL >>>>>>>>>>>>>>>>>>>>
++				/*
+ 				if (incomingEdgeCount.containsKey(ref)) {
+ 					expectedCount = incomingEdgeCount.get(ref);
+ 				} else {
+ 					expectedCount = 0;
+ 				}
+ 				if (actualIncomingEdges.get(ref) > expectedCount) {
+ 					return false;
+ 				}
++				*/
++				// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++				// BUG: Henshin rules do not consider derived edges, hence derived incoming references should be not considered here.
++				// FIX: Filter derived references. See also outgoing references below.
++				if (!ref.isDerived()) {
++					if (incomingEdgeCount.containsKey(ref)) {
++						expectedCount = incomingEdgeCount.get(ref);
++					} else {
++						expectedCount = 0;
++					}
++					if (actualIncomingEdges.get(ref) > expectedCount) {
++						return false;
++					}
++				}
++				// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
+ 			}
+ 		} else {
+ 			if (!actualIncomingEdges.isEmpty()) {
+ 				return false;
+ 			}
+ 		}
+ 
+ 		// Outgoing references
+ 		for (EReference type : sourceValue.eClass().getEReferences()) {
+ 			if (!type.isDerived()) {

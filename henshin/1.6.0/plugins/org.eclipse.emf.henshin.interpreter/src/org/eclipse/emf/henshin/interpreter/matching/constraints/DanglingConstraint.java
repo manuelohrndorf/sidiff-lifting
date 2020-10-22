@@ -65,6 +65,8 @@ public class DanglingConstraint implements Constraint {
 
 		if (incomingEdgeCount != null) {
 			for (EReference ref : actualIncomingEdges.keySet()) {
+				// >>>>>>>>>>>>>>>>>>>> PATCH ORIGINAL >>>>>>>>>>>>>>>>>>>>
+				/*
 				if (incomingEdgeCount.containsKey(ref)) {
 					expectedCount = incomingEdgeCount.get(ref);
 				} else {
@@ -73,6 +75,21 @@ public class DanglingConstraint implements Constraint {
 				if (actualIncomingEdges.get(ref) > expectedCount) {
 					return false;
 				}
+				*/
+				// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
+				// BUG: Henshin rules do not consider derived edges, hence derived incoming references should be not considered here.
+				// FIX: Filter derived references. See also outgoing references below.
+				if (!ref.isDerived()) {
+					if (incomingEdgeCount.containsKey(ref)) {
+						expectedCount = incomingEdgeCount.get(ref);
+					} else {
+						expectedCount = 0;
+					}
+					if (actualIncomingEdges.get(ref) > expectedCount) {
+						return false;
+					}
+				}
+				// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
 			}
 		} else {
 			if (!actualIncomingEdges.isEmpty()) {
