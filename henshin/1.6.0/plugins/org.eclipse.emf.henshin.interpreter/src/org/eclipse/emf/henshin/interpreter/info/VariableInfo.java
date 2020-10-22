@@ -179,6 +179,17 @@ public class VariableInfo {
 						true);
 				var.referenceConstraints.add(constraint);
 			}
+			// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
+			// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
+			else {
+				Variable target = node2variable.get(edge.getSource());
+				ReferenceConstraint constraint = engine.createCrossReferenceConstraint(target, edge);
+				
+				if (constraint != null) {
+					var.referenceConstraints.add(constraint);
+				}
+			}
+			// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
 		}
 
 		// Attributes:

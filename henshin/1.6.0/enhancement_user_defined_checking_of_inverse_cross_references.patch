@@ -1,0 +1,190 @@
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java
+index 4e1fdb9..09fbbdc 100644
+--- a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/impl/EngineImpl.java
+@@ -57,20 +57,21 @@
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.AndFormula;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.ApplicationCondition;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.ConditionHandler;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.NotFormula;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.OrFormula;
+ import org.eclipse.emf.henshin.interpreter.matching.conditions.XorFormula;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
++import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint.PartitionThread;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint;
+ import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
+ import org.eclipse.emf.henshin.model.And;
+ import org.eclipse.emf.henshin.model.Attribute;
+ import org.eclipse.emf.henshin.model.Edge;
+ import org.eclipse.emf.henshin.model.Formula;
+ import org.eclipse.emf.henshin.model.Graph;
+@@ -1307,20 +1308,36 @@
+ 	 * @see org.eclipse.emf.henshin.interpreter.Engine#shutdown()
+ 	 */
+ 	@Override
+ 	public void shutdown() {
+ 		if (workerPool != null) {
+ 			workerPool.shutdownNow();
+ 			workerPool = null;
+ 		}
+ 	}
+ 
++	// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++	// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
++	/**
++	 * Creates a user defined cross-reference constraint.
++	 * 
++	 * @param referenceSource
++	 *            The the source variable w.r.t. the given outgoing edge.
++	 * @param edge
++	 *            An edge with no EOpposite.
++	 * @return The created constraint.
++	 */
++	public ReferenceConstraint createCrossReferenceConstraint(Variable referenceSource, Edge edge) {
++		return null;
++	}
++	// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
++
+ 	/**
+ 	 * Create user constraints for a node.
+ 	 * 
+ 	 * @param node
+ 	 *            A node.
+ 	 * @return The created user constraints.
+ 	 */
+ 	public UnaryConstraint createUserConstraints(Node node) {
+ 		return null;
+ 	}
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/info/VariableInfo.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/info/VariableInfo.java
+index 620a3ff..dc423f3 100644
+--- a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/info/VariableInfo.java
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/info/VariableInfo.java
+@@ -172,20 +172,31 @@
+ 			if (edge.getType().isContainment()) {
+ 				Variable target = node2variable.get(edge.getSource());
+ 				ContainmentConstraint constraint = new ContainmentConstraint(target);
+ 				var.containmentConstraints.add(constraint);
+ 			} else if (edge.getType().getEOpposite() != null) {
+ 				Variable target = node2variable.get(edge.getSource());
+ 				ReferenceConstraint constraint = new ReferenceConstraint(target, edge.getType().getEOpposite(), null,
+ 						true);
+ 				var.referenceConstraints.add(constraint);
+ 			}
++			// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++			// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
++			else {
++				Variable target = node2variable.get(edge.getSource());
++				ReferenceConstraint constraint = engine.createCrossReferenceConstraint(target, edge);
++				
++				if (constraint != null) {
++					var.referenceConstraints.add(constraint);
++				}
++			}
++			// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
+ 		}
+ 
+ 		// Attributes:
+ 		createAttributeConstraints(node, var);
+ 
+ 		// Path constraints:
+ 		if (node.getGraph() == rule.getLhs() && !rule.getLhs().getPACs().isEmpty()) {
+ 			for (Node target : node.getGraph().getNodes()) {
+ 				if (node == target) {
+ 					continue;
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/CrossReferenceConstraint.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/CrossReferenceConstraint.java
+new file mode 100644
+index 0000000..c55259c
+--- /dev/null
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/CrossReferenceConstraint.java
+@@ -0,0 +1,85 @@
++package org.eclipse.emf.henshin.interpreter.matching.constraints;
++
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.List;
++
++import org.eclipse.emf.ecore.EObject;
++import org.eclipse.emf.henshin.model.Edge;
++
++//>>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
++public abstract class CrossReferenceConstraint extends ReferenceConstraint {
++
++	/**
++	 * The edge that have to be check in reverse direction.
++	 */
++	private Edge incoming;
++	
++	/**
++	 * Convenience constructor.
++	 * 
++	 * @param referenceSource
++	 *            The the source variable w.r.t. the given outgoing edge.
++	 * @param incoming
++	 *            An edge with no EOpposite.
++	 */
++	public CrossReferenceConstraint(Variable referenceSource, Edge outgoing) {
++		super(referenceSource, outgoing.getType());
++		this.incoming = outgoing;
++	}
++	
++	@Override
++	public boolean check(DomainSlot referenceTarget, DomainSlot referenceSource) {
++		
++		// Inverse matching:
++		// [referenceTarget] <- [referenceSource]
++		
++		// Source variable must be locked:
++		if (!referenceTarget.locked) {
++			return false;
++		}
++		
++		// Target domain slot not locked yet?
++		if (!referenceSource.locked) {
++			
++			// Get the target objects:
++			Collection<? extends EObject> targetObjects = getCrossReferenced(referenceTarget.value, incoming);
++			
++			if (targetObjects != null) {
++				
++				// Create a domain change to restrict the target domain:
++				DomainChange change = new DomainChange(referenceSource, referenceSource.temporaryDomain);
++				referenceTarget.remoteChangeMap.put(this, change);
++				
++				// Calculated temporary domain:
++				referenceSource.temporaryDomain = new ArrayList<EObject>(targetObjects);
++				
++				if (change.originalValues!=null) {
++					referenceSource.temporaryDomain.retainAll(change.originalValues);
++				}
++				
++				// Temporary domain must not be empty:
++				return !referenceSource.temporaryDomain.isEmpty();
++			}
++		} else {
++			return true;
++		}
++		
++		return false;
++	}
++	
++	/**
++	 * Calculates all cross-references: [incoming.getTarget() / target] <-
++	 * incoming - [incoming.getSource() / ?]
++	 * 
++	 * @param target
++	 *            The target of an edge with no EOpposite.
++	 * @param incoming
++	 *            The edge that have to be check in reverse direction.
++	 * @return A fresh and modifiable list of the objects that references the
++	 *         given target object.
++	 */
++	public abstract List<EObject> getCrossReferenced(EObject target, Edge incoming);
++}
++//>>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
