@@ -227,6 +227,8 @@ public class DomainSlot {
 	public boolean unlock(Variable sender) {
 		
 		// Revert the changes to the temporary domain:
+		// >>>>>>>>>>>>>>>>>>>> PATCH ORIGINAL >>>>>>>>>>>>>>>>>>>>
+		/*
 		int refCount = sender.referenceConstraints.size();
 		int conCount = sender.containmentConstraints.size();
 		for (int i=refCount+conCount-1; i>=0; i--) {
@@ -239,6 +241,43 @@ public class DomainSlot {
 				remoteChangeMap.remove(constraint);
 			}
 		}				
+		*/
+		// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
+		// BUG: Temporary domain changes are reverted in the wrong order.
+		//      - The temporary domain is a chain of the previous values.
+		//      - The values must always be reverted in reverse order.
+		//        - instantiate(): 1. containment constraints 2. reference constraints
+		//      - The original implementation reverts containment constraints first.
+		//        - unlock(): 1. containment constraints 2. reference constraints
+		// FIX: Reference constraints must be reverted before containment constraints!
+		//      - unlock(): 1. reference constraints 2. containment constraints
+		//      - Split the loop to be more readable.
+		
+		// reference constraints:
+		int refCount = sender.referenceConstraints.size();
+		
+		for (int i=refCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.referenceConstraints.get(i);
+			DomainChange change = remoteChangeMap.get(constraint);
+			if (change != null) {
+				change.slot.temporaryDomain = change.originalValues;
+				remoteChangeMap.remove(constraint);
+			}
+		}	
+		
+		// containment constraints:
+		int conCount = sender.containmentConstraints.size();
+		
+		for (int i=conCount-1; i>=0; i--) {
+			BinaryConstraint constraint = sender.containmentConstraints.get(i);
+			DomainChange change = remoteChangeMap.get(constraint);
+			if (change != null) {
+				change.slot.temporaryDomain = change.originalValues;
+				remoteChangeMap.remove(constraint);
+			}
+		}
+		
+		// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
 		
 		// Unlock the variable:
 		if (locked && sender == owner) {

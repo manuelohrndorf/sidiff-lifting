@@ -1,0 +1,76 @@
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DomainSlot.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DomainSlot.java
+index c59b3af..0d19022 100644
+--- a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DomainSlot.java
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DomainSlot.java
+@@ -220,32 +220,71 @@
+ 	 * again.
+ 	 * @param sender
+ 	 *            The variable which uses this domain slot. Only the variable
+ 	 *            which originally initialized this domain slot is able to
+ 	 *            unlock it.
+ 	 * @return <code>true</code> if another instantiation is possible.
+ 	 */
+ 	public boolean unlock(Variable sender) {
+ 		
+ 		// Revert the changes to the temporary domain:
++		// >>>>>>>>>>>>>>>>>>>> PATCH ORIGINAL >>>>>>>>>>>>>>>>>>>>
++		/*
+ 		int refCount = sender.referenceConstraints.size();
+ 		int conCount = sender.containmentConstraints.size();
+ 		for (int i=refCount+conCount-1; i>=0; i--) {
+ 			BinaryConstraint constraint = (i>=refCount) ?
+ 					sender.containmentConstraints.get(i-refCount) :
+ 					sender.referenceConstraints.get(i);
+ 			DomainChange change = remoteChangeMap.get(constraint);
+ 			if (change != null) {
+ 				change.slot.temporaryDomain = change.originalValues;
+ 				remoteChangeMap.remove(constraint);
+ 			}
+ 		}				
++		*/
++		// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++		// BUG: Temporary domain changes are reverted in the wrong order.
++		//      - The temporary domain is a chain of the previous values.
++		//      - The values must always be reverted in reverse order.
++		//        - instantiate(): 1. containment constraints 2. reference constraints
++		//      - The original implementation reverts containment constraints first.
++		//        - unlock(): 1. containment constraints 2. reference constraints
++		// FIX: Reference constraints must be reverted before containment constraints!
++		//      - unlock(): 1. reference constraints 2. containment constraints
++		//      - Split the loop to be more readable.
++		
++		// reference constraints:
++		int refCount = sender.referenceConstraints.size();
++		
++		for (int i=refCount-1; i>=0; i--) {
++			BinaryConstraint constraint = sender.referenceConstraints.get(i);
++			DomainChange change = remoteChangeMap.get(constraint);
++			if (change != null) {
++				change.slot.temporaryDomain = change.originalValues;
++				remoteChangeMap.remove(constraint);
++			}
++		}	
++		
++		// containment constraints:
++		int conCount = sender.containmentConstraints.size();
++		
++		for (int i=conCount-1; i>=0; i--) {
++			BinaryConstraint constraint = sender.containmentConstraints.get(i);
++			DomainChange change = remoteChangeMap.get(constraint);
++			if (change != null) {
++				change.slot.temporaryDomain = change.originalValues;
++				remoteChangeMap.remove(constraint);
++			}
++		}
++		
++		// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
+ 		
+ 		// Unlock the variable:
+ 		if (locked && sender == owner) {
+ 			locked = false;
+ 			usedObjects.remove(value);
+ 			for (String parameterName : initializedParameters) {
+ 				conditionHandler.unsetParameter(parameterName);
+ 			}
+ 			initializedParameters.clear();
+ 			checkedVariables.clear();	
