@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<symmetric:SymmetricDifference xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:symmetric="http://www.sidiff.org/difference/symmetric/1.0" uriModelA="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore" uriModelB="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore">
+  <changes xsi:type="symmetric:RemoveObject">
+    <obj href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+  </changes>
+  <changes xsi:type="symmetric:RemoveReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+    <tgt href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//ETypedElement/eType"/>
+  </changes>
+  <changes xsi:type="symmetric:RemoveReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+  </changes>
+  <changes xsi:type="symmetric:RemoveReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+  </changes>
+  <changes xsi:type="symmetric:RemoveReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer/name"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+  </changes>
+  <changes xsi:type="symmetric:RemoveReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer/name"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+  </changes>
+  <changes xsi:type="symmetric:AddReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person/name"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature/eContainingClass"/>
+  </changes>
+  <changes xsi:type="symmetric:AddReference">
+    <src href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person"/>
+    <tgt href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person/name"/>
+    <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass/eStructuralFeatures"/>
+  </changes>
+  <changeSets changes="//@changes.6 //@changes.7 //@changes.0 //@changes.5 //@changes.2 //@changes.4 //@changes.3 //@changes.1" name="pull_up_eattribute" priority="1" recognitionRName="RR: pull_up_eattribute" refinementLevel="17" editRName="pull_up_eattribute" subsets="//@unusedChangeSets.0 //@unusedChangeSets.1 //@unusedChangeSets.2 //@unusedChangeSets.3" description="Moves an EAttribute of all subclasses to the superclass." numberOfParams="3">
+    <editRuleMatch>
+      <nodeOccurrencesA key="_Z-q0h9lCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesA key="_Z-q0iNlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesA key="_Z-q0qNlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesA key="_Z-q0p9lCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer/name"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesA key="_Z-q0qdlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Person"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesA key="_Z-q0qtlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </value>
+      </nodeOccurrencesA>
+      <nodeOccurrencesB key="_Z-q0h9lCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Manager"/>
+        </value>
+      </nodeOccurrencesB>
+      <nodeOccurrencesB key="_Z-q0p9lCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person/name"/>
+        </value>
+      </nodeOccurrencesB>
+      <nodeOccurrencesB key="_Z-q0qdlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person"/>
+        </value>
+      </nodeOccurrencesB>
+      <nodeOccurrencesB key="_Z-q0qNlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Developer"/>
+        </value>
+      </nodeOccurrencesB>
+      <nodeOccurrencesB key="_Z-q0qtlCEeKomu7rfXwhHg">
+        <value>
+          <elements href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </value>
+      </nodeOccurrencesB>
+    </editRuleMatch>
+  </changeSets>
+  <unusedChangeSets changes="//@changes.1" name="UNSET_REFERENCE_EAttribute_(eType)_TGT_EDataType" recognitionRName="RR: UNSET_REFERENCE_EAttribute_(eType)_TGT_EDataType" refinementLevel="9" editRName="UNSET_REFERENCE_EAttribute_(eType)_TGT_EDataType" supersets="//@changeSets.0 //@unusedChangeSets.1" description="Sets EAttribute's reference eType the target EDataType" numberOfParams="2"/>
+  <unusedChangeSets changes="//@changes.0 //@changes.2 //@changes.3 //@changes.1" name="deleteTypedAttribute" priority="1" recognitionRName="RR: deleteTypedAttribute" refinementLevel="13" editRName="deleteTypedAttribute" subsets="//@unusedChangeSets.0 //@unusedChangeSets.3" supersets="//@changeSets.0" description="Deletes one EAttribute in EClass" numberOfParams="2"/>
+  <unusedChangeSets changes="//@changes.6 //@changes.7 //@changes.5 //@changes.4" name="MOVE_EAttribute_FROM_EClass_(eStructuralFeatures)_TO_EClass_(eStructuralFeatures)" recognitionRName="RR: MOVE_EAttribute_FROM_EClass_(eStructuralFeatures)_TO_EClass_(eStructuralFeatures)" refinementLevel="13" editRName="MOVE_EAttribute_FROM_EClass_(eStructuralFeatures)_TO_EClass_(eStructuralFeatures)" supersets="//@changeSets.0" description="MOVEs EAttribute from EClass(Reference:eStructuralFeatures) to EClass(Reference:eStructuralFeatures" numberOfParams="3"/>
+  <unusedChangeSets changes="//@changes.0 //@changes.2 //@changes.3" name="DELETE_EAttribute_IN_EClass_(eStructuralFeatures)" recognitionRName="RR: DELETE_EAttribute_IN_EClass_(eStructuralFeatures)" refinementLevel="9" editRName="DELETE_EAttribute_IN_EClass_(eStructuralFeatures)" supersets="//@changeSets.0 //@unusedChangeSets.1" description="Deletes one EAttribute in EClass" numberOfParams="2"/>
+  <matching uriA="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore" uriB="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore">
+    <correspondences containerCorrespondence="//@matching/@correspondences.4" containmentCorrespondences="//@matching/@correspondences.2">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Company"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Company"/>
+    </correspondences>
+    <correspondences containerCorrespondence="//@matching/@correspondences.4">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Developer"/>
+    </correspondences>
+    <correspondences containerCorrespondence="//@matching/@correspondences.0">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Company/employees"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Company/employees"/>
+    </correspondences>
+    <correspondences containerCorrespondence="//@matching/@correspondences.4">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Manager"/>
+    </correspondences>
+    <correspondences containmentCorrespondences="//@matching/@correspondences.0 //@matching/@correspondences.3 //@matching/@correspondences.1 //@matching/@correspondences.6">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#/"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#/"/>
+    </correspondences>
+    <correspondences>
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Developer/name"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person/name"/>
+    </correspondences>
+    <correspondences containerCorrespondence="//@matching/@correspondences.4">
+      <matchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Person"/>
+      <matchedB href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelB.ecore#//Person"/>
+    </correspondences>
+    <unmatchedA href="platform:/resource/org.sidiff.examples.ecore/Lifting/Refactorings/PullUpAttribute/aird/modelA.ecore#//Manager/name"/>
+  </matching>
+</symmetric:SymmetricDifference>

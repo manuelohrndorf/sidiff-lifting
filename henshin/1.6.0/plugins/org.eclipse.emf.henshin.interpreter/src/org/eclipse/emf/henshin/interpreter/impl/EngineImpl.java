@@ -64,7 +64,6 @@ import org.eclipse.emf.henshin.interpreter.matching.conditions.XorFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint.PartitionThread;
@@ -1314,22 +1313,6 @@ public class EngineImpl implements Engine {
 			workerPool = null;
 		}
 	}
-
-	// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
-	// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
-	/**
-	 * Creates a user defined cross-reference constraint.
-	 * 
-	 * @param referenceSource
-	 *            The the source variable w.r.t. the given outgoing edge.
-	 * @param edge
-	 *            An edge with no EOpposite.
-	 * @return The created constraint.
-	 */
-	public ReferenceConstraint createCrossReferenceConstraint(Variable referenceSource, Edge edge) {
-		return null;
-	}
-	// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
 
 	/**
 	 * Create user constraints for a node.

@@ -1,15 +1,17 @@
-package org.eclipse.emf.henshin.interpreter.matching.constraints;
+package org.sidiff.difference.lifting.recognitionengine.graph;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainChange;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Edge;
 
-//>>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
-// ENHANCEMENT: Performance improvement based on user defined checking of inverse cross-references.
-public abstract class CrossReferenceConstraint extends ReferenceConstraint {
+public abstract class InverseCrossReferenceConstraint extends ReferenceConstraint {
 
 	/**
 	 * The edge that have to be check in reverse direction.
@@ -24,7 +26,7 @@ public abstract class CrossReferenceConstraint extends ReferenceConstraint {
 	 * @param incoming
 	 *            An edge with no EOpposite.
 	 */
-	public CrossReferenceConstraint(Variable referenceSource, Edge outgoing) {
+	public InverseCrossReferenceConstraint(Variable referenceSource, Edge outgoing) {
 		super(referenceSource, outgoing.getType());
 		this.incoming = outgoing;
 	}
@@ -36,31 +38,31 @@ public abstract class CrossReferenceConstraint extends ReferenceConstraint {
 		// [referenceTarget] <- [referenceSource]
 		
 		// Source variable must be locked:
-		if (!referenceTarget.locked) {
+		if (!referenceTarget.isLocked()) {
 			return false;
 		}
 		
 		// Target domain slot not locked yet?
-		if (!referenceSource.locked) {
+		if (!referenceSource.isLocked()) {
 			
 			// Get the target objects:
-			Collection<? extends EObject> targetObjects = getCrossReferenced(referenceTarget.value, incoming);
+			Collection<? extends EObject> targetObjects = getInverseCrossReferenced(referenceTarget.getValue(), incoming);
 			
 			if (targetObjects != null) {
 				
 				// Create a domain change to restrict the target domain:
-				DomainChange change = new DomainChange(referenceSource, referenceSource.temporaryDomain);
-				referenceTarget.remoteChangeMap.put(this, change);
+				DomainChange change = new DomainChange(referenceSource, referenceSource.getTemporaryDomain());
+				referenceTarget.getRemoteChangeMap().put(this, change);
 				
 				// Calculated temporary domain:
-				referenceSource.temporaryDomain = new ArrayList<EObject>(targetObjects);
+				referenceSource.setTemporaryDomain(new ArrayList<EObject>(targetObjects));
 				
-				if (change.originalValues!=null) {
-					referenceSource.temporaryDomain.retainAll(change.originalValues);
+				if (change.getOriginalValues() != null) {
+					referenceSource.getTemporaryDomain().retainAll(change.getOriginalValues());
 				}
 				
 				// Temporary domain must not be empty:
-				return !referenceSource.temporaryDomain.isEmpty();
+				return !referenceSource.getTemporaryDomain().isEmpty();
 			}
 		} else {
 			return true;
@@ -80,6 +82,5 @@ public abstract class CrossReferenceConstraint extends ReferenceConstraint {
 	 * @return A fresh and modifiable list of the objects that references the
 	 *         given target object.
 	 */
-	public abstract List<EObject> getCrossReferenced(EObject target, Edge incoming);
+	public abstract List<EObject> getInverseCrossReferenced(EObject target, Edge incoming);
 }
-//>>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
