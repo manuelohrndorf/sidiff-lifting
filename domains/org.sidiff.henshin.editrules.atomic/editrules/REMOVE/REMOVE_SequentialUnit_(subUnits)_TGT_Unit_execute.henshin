@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="REMOVE_SequentialUnit_(subUnits)_TGT_Unit" description="Removes SequentialUnit's reference subUnits the target Unit">
-  <annotations key="INVERSE" value="ADD_SequentialUnit_(subUnits)_TGT_Unit"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wUBUMBSlEeugneYcndyHJQ" name="REMOVE_SequentialUnit_(subUnits)_TGT_Unit" description="Removes SequentialUnit's reference subUnits the target Unit">
+  <annotations xmi:id="_wUBUMRSlEeugneYcndyHJQ" key="INVERSE" value="ADD_SequentialUnit_(subUnits)_TGT_Unit"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="removeFromSequentialUnit_subUnits_Unit" description="Removes from SequentialUnit's reference subUnits the target Unit">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wUBUMhSlEeugneYcndyHJQ" name="removeFromSequentialUnit_subUnits_Unit" description="Removes from SequentialUnit's reference subUnits the target Unit">
+    <parameters xmi:id="_wUBUMxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
     </parameters>
-    <parameters name="OldTarget">
+    <parameters xmi:id="_wUBUNBSlEeugneYcndyHJQ" name="OldTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
+    <lhs xmi:id="_wUBUNRSlEeugneYcndyHJQ" name="LHS">
+      <nodes xmi:id="_wUBUNhSlEeugneYcndyHJQ" name="Selected" outgoing="_wUB7QRSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
       </nodes>
-      <nodes name="OldTarget" incoming="//@units.0/@lhs/@edges.0">
+      <nodes xmi:id="_wUB7QBSlEeugneYcndyHJQ" name="OldTarget" incoming="_wUB7QRSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_wUB7QRSlEeugneYcndyHJQ" source="_wUBUNhSlEeugneYcndyHJQ" target="_wUB7QBSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit/subUnits"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
+    <rhs xmi:id="_wUB7QhSlEeugneYcndyHJQ" name="RHS">
+      <nodes xmi:id="_wUB7QxSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
       </nodes>
-      <nodes name="OldTarget">
+      <nodes xmi:id="_wUB7RBSlEeugneYcndyHJQ" name="OldTarget">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_wUB7RRSlEeugneYcndyHJQ" origin="_wUBUNhSlEeugneYcndyHJQ" image="_wUB7QxSlEeugneYcndyHJQ"/>
+    <mappings xmi:id="_wUB7RhSlEeugneYcndyHJQ" origin="_wUB7QBSlEeugneYcndyHJQ" image="_wUB7RBSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wUB7RxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wUBUMhSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wUB7SBSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_wUB7SRSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
     </parameters>
-    <parameters name="OldTarget">
+    <parameters xmi:id="_wUB7ShSlEeugneYcndyHJQ" name="OldTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wUB7SxSlEeugneYcndyHJQ" source="_wUB7SBSlEeugneYcndyHJQ" target="_wUBUMxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wUB7TBSlEeugneYcndyHJQ" source="_wUB7ShSlEeugneYcndyHJQ" target="_wUBUNBSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

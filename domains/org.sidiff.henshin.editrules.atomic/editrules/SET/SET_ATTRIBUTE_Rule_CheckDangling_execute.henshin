@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Rule_CheckDangling" description="Sets Rule CheckDangling">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wX8K4BSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_Rule_CheckDangling" description="Sets Rule CheckDangling">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setRuleCheckDangling" description="Sets the EAttribute checkDangling">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wX8K4RSlEeugneYcndyHJQ" name="setRuleCheckDangling" description="Sets the EAttribute checkDangling">
+    <parameters xmi:id="_wX8K4hSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
     </parameters>
-    <parameters name="CheckDangling">
+    <parameters xmi:id="_wX8K4xSlEeugneYcndyHJQ" name="CheckDangling">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wX8K5BSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wX8K5RSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wX8K5hSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wX8K5xSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
-        <attributes value="CheckDangling">
+        <attributes xmi:id="_wX8K6BSlEeugneYcndyHJQ" value="CheckDangling">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/checkDangling"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wX8x8BSlEeugneYcndyHJQ" origin="_wX8K5RSlEeugneYcndyHJQ" image="_wX8K5xSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wX8x8RSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wX8K4RSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wX8x8hSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
     </parameters>
-    <parameters name="CheckDangling">
+    <parameters xmi:id="_wX8x8xSlEeugneYcndyHJQ" name="CheckDangling">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wX8x9BSlEeugneYcndyHJQ" source="_wX8x8hSlEeugneYcndyHJQ" target="_wX8K4hSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wX8x9RSlEeugneYcndyHJQ" source="_wX8x8xSlEeugneYcndyHJQ" target="_wX8K4xSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

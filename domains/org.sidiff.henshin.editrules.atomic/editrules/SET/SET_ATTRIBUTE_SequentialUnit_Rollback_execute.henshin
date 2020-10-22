@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_SequentialUnit_Rollback" description="Sets SequentialUnit Rollback">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wYuOABSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_SequentialUnit_Rollback" description="Sets SequentialUnit Rollback">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setSequentialUnitRollback" description="Sets the EAttribute rollback">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wYuOARSlEeugneYcndyHJQ" name="setSequentialUnitRollback" description="Sets the EAttribute rollback">
+    <parameters xmi:id="_wYuOAhSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
     </parameters>
-    <parameters name="Rollback">
+    <parameters xmi:id="_wYuOAxSlEeugneYcndyHJQ" name="Rollback">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wYuOBBSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wYuOBRSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wYuOBhSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wYuOBxSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
-        <attributes value="Rollback">
+        <attributes xmi:id="_wYuOCBSlEeugneYcndyHJQ" value="Rollback">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit/rollback"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wYuOCRSlEeugneYcndyHJQ" origin="_wYuOBRSlEeugneYcndyHJQ" image="_wYuOBxSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wYuOChSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wYuOARSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wYuOCxSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
     </parameters>
-    <parameters name="Rollback">
+    <parameters xmi:id="_wYuODBSlEeugneYcndyHJQ" name="Rollback">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wYu1EBSlEeugneYcndyHJQ" source="_wYuOCxSlEeugneYcndyHJQ" target="_wYuOAhSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wYu1ERSlEeugneYcndyHJQ" source="_wYuODBSlEeugneYcndyHJQ" target="_wYuOAxSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

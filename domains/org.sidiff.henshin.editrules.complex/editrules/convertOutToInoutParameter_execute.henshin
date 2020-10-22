@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="convertOutToInoutParameter" description="Converts the direction of a parameter from OUT to INOUT">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_xDvg8BSlEeugneYcndyHJQ" name="convertOutToInoutParameter" description="Converts the direction of a parameter from OUT to INOUT">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="convertOutToInoutParameter" description="">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_xDvg8RSlEeugneYcndyHJQ" name="convertOutToInoutParameter" description="">
+    <parameters xmi:id="_xDvg8hSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_xDvg8xSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_xDvg9BSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-        <attributes value="&quot;OUT&quot;">
+        <attributes xmi:id="_xDvg9RSlEeugneYcndyHJQ" value="&quot;OUT&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter/kind"/>
         </attributes>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_xDvg9hSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_xDvg9xSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
-        <attributes value="&quot;INOUT&quot;">
+        <attributes xmi:id="_xDvg-BSlEeugneYcndyHJQ" value="&quot;INOUT&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter/kind"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_xDvg-RSlEeugneYcndyHJQ" origin="_xDvg9BSlEeugneYcndyHJQ" image="_xDvg9xSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_xDvg-hSlEeugneYcndyHJQ" name="mainUnit" subUnits="_xDvg8RSlEeugneYcndyHJQ">
+    <parameters xmi:id="_xDvg-xSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
+    <parameterMappings xmi:id="_xDvg_BSlEeugneYcndyHJQ" source="_xDvg-xSlEeugneYcndyHJQ" target="_xDvg8hSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Xor_IN_Or_(left)" description="Creates one Xor in Or">
-  <annotations key="INVERSE" value="DELETE_Xor_IN_Or_(left)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v9N9wBSlEeugneYcndyHJQ" name="CREATE_Xor_IN_Or_(left)" description="Creates one Xor in Or">
+  <annotations xmi:id="_v9N9wRSlEeugneYcndyHJQ" key="INVERSE" value="DELETE_Xor_IN_Or_(left)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="createXor_IN_Or" description="creates one Xor in the context: Or">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_v9N9whSlEeugneYcndyHJQ" name="createXor_IN_Or" description="creates one Xor in the context: Or">
+    <parameters xmi:id="_v9N9wxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_v9N9xBSlEeugneYcndyHJQ" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Xor"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_v9N9xRSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_v9N9xhSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_v9N9xxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_v9N9yBSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_v9N9yRSlEeugneYcndyHJQ" name="Selected" outgoing="_v9N9zRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v9N9yhSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_v9N9yxSlEeugneYcndyHJQ" name="New" incoming="_v9N9zRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v9N9zBSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Xor"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_v9N9zRSlEeugneYcndyHJQ" source="_v9N9yRSlEeugneYcndyHJQ" target="_v9N9yxSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula/left"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_v9N9zhSlEeugneYcndyHJQ" origin="_v9N9xhSlEeugneYcndyHJQ" image="_v9N9yRSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_v9N9zxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_v9N9whSlEeugneYcndyHJQ">
+    <parameters xmi:id="_v9N90BSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_v9N90RSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_v9N90hSlEeugneYcndyHJQ" name="New">
+      <annotations xmi:id="_v9N90xSlEeugneYcndyHJQ" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Xor"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings xmi:id="_v9N91BSlEeugneYcndyHJQ" source="_v9N90BSlEeugneYcndyHJQ" target="_v9N9wxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v9N91RSlEeugneYcndyHJQ" source="_v9N9xBSlEeugneYcndyHJQ" target="_v9N90hSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

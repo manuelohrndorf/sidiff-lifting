@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_Annotation_Value" description="Sets Annotation Value">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wUOvkBSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_Annotation_Value" description="Sets Annotation Value">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setAnnotationValue" description="Sets the EAttribute value">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wUOvkRSlEeugneYcndyHJQ" name="setAnnotationValue" description="Sets the EAttribute value">
+    <parameters xmi:id="_wUOvkhSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_wUOvkxSlEeugneYcndyHJQ" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wUOvlBSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wUOvlRSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wUOvlhSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wUOvlxSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
-        <attributes value="Value">
+        <attributes xmi:id="_wUOvmBSlEeugneYcndyHJQ" value="Value">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation/value"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wUOvmRSlEeugneYcndyHJQ" origin="_wUOvlRSlEeugneYcndyHJQ" image="_wUOvlxSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wUOvmhSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wUOvkRSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wUOvmxSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_wUOvnBSlEeugneYcndyHJQ" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wUOvnRSlEeugneYcndyHJQ" source="_wUOvmxSlEeugneYcndyHJQ" target="_wUOvkhSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wUOvnhSlEeugneYcndyHJQ" source="_wUOvnBSlEeugneYcndyHJQ" target="_wUOvkxSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

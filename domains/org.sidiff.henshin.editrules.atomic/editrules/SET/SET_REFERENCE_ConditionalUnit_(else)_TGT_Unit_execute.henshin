@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_REFERENCE_ConditionalUnit_(else)_TGT_Unit" description="Sets ConditionalUnit's reference else the target Unit">
-  <annotations key="INVERSE" value="UNSET_REFERENCE_ConditionalUnit_(else)_TGT_Unit"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wZtFcBSlEeugneYcndyHJQ" name="SET_REFERENCE_ConditionalUnit_(else)_TGT_Unit" description="Sets ConditionalUnit's reference else the target Unit">
+  <annotations xmi:id="_wZtFcRSlEeugneYcndyHJQ" key="INVERSE" value="UNSET_REFERENCE_ConditionalUnit_(else)_TGT_Unit"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setConditionalUnit_else_TO_Unit" description="SetConditionalUnitRefelseToUnit">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wZtFchSlEeugneYcndyHJQ" name="setConditionalUnit_else_TO_Unit" description="SetConditionalUnitRefelseToUnit">
+    <parameters xmi:id="_wZtFcxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_wZtFdBSlEeugneYcndyHJQ" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wZtFdRSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wZtFdhSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_wZtFdxSlEeugneYcndyHJQ" name="NewTarget">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_wZtFeBSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wZtFeRSlEeugneYcndyHJQ" name="Selected" outgoing="_wZtFexSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0">
+      <nodes xmi:id="_wZtFehSlEeugneYcndyHJQ" name="NewTarget" incoming="_wZtFexSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_wZtFexSlEeugneYcndyHJQ" source="_wZtFeRSlEeugneYcndyHJQ" target="_wZtFehSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit/else"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_wZtFfBSlEeugneYcndyHJQ" origin="_wZtFdhSlEeugneYcndyHJQ" image="_wZtFeRSlEeugneYcndyHJQ"/>
+    <mappings xmi:id="_wZtFfRSlEeugneYcndyHJQ" origin="_wZtFdxSlEeugneYcndyHJQ" image="_wZtFehSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wZtFfhSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wZtFchSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wZtFfxSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_wZtFgBSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ConditionalUnit"/>
     </parameters>
-    <parameters name="NewTarget">
-      <annotations key="INVERSE" value="NewTarget"/>
+    <parameters xmi:id="_wZtFgRSlEeugneYcndyHJQ" name="NewTarget">
+      <annotations xmi:id="_wZtFghSlEeugneYcndyHJQ" key="INVERSE" value="NewTarget"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Unit"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wZtFgxSlEeugneYcndyHJQ" source="_wZtFfxSlEeugneYcndyHJQ" target="_wZtFcxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wZtFhBSlEeugneYcndyHJQ" source="_wZtFgRSlEeugneYcndyHJQ" target="_wZtFdBSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

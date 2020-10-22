@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="ADD_Node_(incoming)_TGT_Edge" description="Adds to Node's reference incoming the target Edge">
-  <annotations key="INVERSE" value="REMOVE_Node_(incoming)_TGT_Edge"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v1SJwBSlEeugneYcndyHJQ" name="ADD_Node_(incoming)_TGT_Edge" description="Adds to Node's reference incoming the target Edge">
+  <annotations xmi:id="_v1SJwRSlEeugneYcndyHJQ" key="INVERSE" value="REMOVE_Node_(incoming)_TGT_Edge"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="addToNode_incoming_Edge" description="Adds to Node's reference incoming the target Edge">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_v1SJwhSlEeugneYcndyHJQ" name="addToNode_incoming_Edge" description="Adds to Node's reference incoming the target Edge">
+    <parameters xmi:id="_v1SJwxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_v1SJxBSlEeugneYcndyHJQ" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_v1SJxRSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_v1SJxhSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
       </nodes>
-      <nodes name="NewTarget">
+      <nodes xmi:id="_v1SJxxSlEeugneYcndyHJQ" name="NewTarget">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" incoming="//@units.0/@rhs/@edges.1" outgoing="//@units.0/@rhs/@edges.0">
+    <rhs xmi:id="_v1SJyBSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_v1SJyRSlEeugneYcndyHJQ" name="Selected" incoming="_v1SJzBSlEeugneYcndyHJQ" outgoing="_v1SJyxSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
       </nodes>
-      <nodes name="NewTarget" incoming="//@units.0/@rhs/@edges.0" outgoing="//@units.0/@rhs/@edges.1">
+      <nodes xmi:id="_v1SJyhSlEeugneYcndyHJQ" name="NewTarget" incoming="_v1SJyxSlEeugneYcndyHJQ" outgoing="_v1SJzBSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_v1SJyxSlEeugneYcndyHJQ" source="_v1SJyRSlEeugneYcndyHJQ" target="_v1SJyhSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/incoming"/>
       </edges>
-      <edges source="//@units.0/@rhs/@nodes.1" target="//@units.0/@rhs/@nodes.0">
+      <edges xmi:id="_v1SJzBSlEeugneYcndyHJQ" source="_v1SJyhSlEeugneYcndyHJQ" target="_v1SJyRSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge/target"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.1" image="//@units.0/@rhs/@nodes.1"/>
+    <mappings xmi:id="_v1SJzRSlEeugneYcndyHJQ" origin="_v1SJxhSlEeugneYcndyHJQ" image="_v1SJyRSlEeugneYcndyHJQ"/>
+    <mappings xmi:id="_v1SJzhSlEeugneYcndyHJQ" origin="_v1SJxxSlEeugneYcndyHJQ" image="_v1SJyhSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_v1SJzxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_v1SJwhSlEeugneYcndyHJQ">
+    <parameters xmi:id="_v1SJ0BSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_v1SJ0RSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
     </parameters>
-    <parameters name="NewTarget">
+    <parameters xmi:id="_v1SJ0hSlEeugneYcndyHJQ" name="NewTarget">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_v1SJ0xSlEeugneYcndyHJQ" source="_v1SJ0BSlEeugneYcndyHJQ" target="_v1SJwxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v1SJ1BSlEeugneYcndyHJQ" source="_v1SJ0hSlEeugneYcndyHJQ" target="_v1SJxBSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

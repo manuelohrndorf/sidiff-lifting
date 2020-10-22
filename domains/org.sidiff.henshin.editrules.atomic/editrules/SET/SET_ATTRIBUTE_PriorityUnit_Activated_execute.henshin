@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_PriorityUnit_Activated" description="Sets PriorityUnit Activated">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wXcboBSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_PriorityUnit_Activated" description="Sets PriorityUnit Activated">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setPriorityUnitActivated" description="Sets the EAttribute activated">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wXdCsBSlEeugneYcndyHJQ" name="setPriorityUnitActivated" description="Sets the EAttribute activated">
+    <parameters xmi:id="_wXdCsRSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//PriorityUnit"/>
     </parameters>
-    <parameters name="Activated">
+    <parameters xmi:id="_wXdCshSlEeugneYcndyHJQ" name="Activated">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wXdCsxSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wXdCtBSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//PriorityUnit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wXdCtRSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wXdCthSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//PriorityUnit"/>
-        <attributes value="Activated">
+        <attributes xmi:id="_wXdCtxSlEeugneYcndyHJQ" value="Activated">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit/activated"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wXdCuBSlEeugneYcndyHJQ" origin="_wXdCtBSlEeugneYcndyHJQ" image="_wXdCthSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wXdCuRSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wXdCsBSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wXdCuhSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//PriorityUnit"/>
     </parameters>
-    <parameters name="Activated">
+    <parameters xmi:id="_wXdCuxSlEeugneYcndyHJQ" name="Activated">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wXdCvBSlEeugneYcndyHJQ" source="_wXdCuhSlEeugneYcndyHJQ" target="_wXdCsRSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wXdCvRSlEeugneYcndyHJQ" source="_wXdCuxSlEeugneYcndyHJQ" target="_wXdCshSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

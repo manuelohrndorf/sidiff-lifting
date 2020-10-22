@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_NestedCondition_IN_Graph_(formula)" description="Creates one NestedCondition in Graph">
-  <annotations key="INVERSE" value="DELETE_NestedCondition_IN_Graph_(formula)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v5DPcBSlEeugneYcndyHJQ" name="CREATE_NestedCondition_IN_Graph_(formula)" description="Creates one NestedCondition in Graph">
+  <annotations xmi:id="_v5DPcRSlEeugneYcndyHJQ" key="INVERSE" value="DELETE_NestedCondition_IN_Graph_(formula)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="createNestedCondition_IN_Graph" description="creates one NestedCondition in the context: Graph">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_v5DPchSlEeugneYcndyHJQ" name="createNestedCondition_IN_Graph" description="creates one NestedCondition in the context: Graph">
+    <parameters xmi:id="_v5DPcxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_v5DPdBSlEeugneYcndyHJQ" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_v5DPdRSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_v5DPdhSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_v5DPdxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_v5DPeBSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_v5DPeRSlEeugneYcndyHJQ" name="Selected" outgoing="_v5DPfRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v5DPehSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_v5DPexSlEeugneYcndyHJQ" name="New" incoming="_v5DPfRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v5DPfBSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_v5DPfRSlEeugneYcndyHJQ" source="_v5DPeRSlEeugneYcndyHJQ" target="_v5DPexSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/formula"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_v5DPfhSlEeugneYcndyHJQ" origin="_v5DPdhSlEeugneYcndyHJQ" image="_v5DPeRSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_v5DPfxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_v5DPchSlEeugneYcndyHJQ">
+    <parameters xmi:id="_v5DPgBSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_v5DPgRSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_v5DPghSlEeugneYcndyHJQ" name="New">
+      <annotations xmi:id="_v5DPgxSlEeugneYcndyHJQ" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings xmi:id="_v5DPhBSlEeugneYcndyHJQ" source="_v5DPgBSlEeugneYcndyHJQ" target="_v5DPcxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v5DPhRSlEeugneYcndyHJQ" source="_v5DPdBSlEeugneYcndyHJQ" target="_v5DPghSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

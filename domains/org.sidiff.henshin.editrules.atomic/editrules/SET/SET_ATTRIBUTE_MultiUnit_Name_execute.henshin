@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_MultiUnit_Name" description="Sets MultiUnit Name">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wWxtQBSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_MultiUnit_Name" description="Sets MultiUnit Name">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setMultiUnitName" description="Sets the EAttribute name">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wWxtQRSlEeugneYcndyHJQ" name="setMultiUnitName" description="Sets the EAttribute name">
+    <parameters xmi:id="_wWxtQhSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_wWxtQxSlEeugneYcndyHJQ" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wWxtRBSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wWxtRRSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wWxtRhSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wWxtRxSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
-        <attributes value="Name">
+        <attributes xmi:id="_wWxtSBSlEeugneYcndyHJQ" value="Name">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wWxtSRSlEeugneYcndyHJQ" origin="_wWxtRRSlEeugneYcndyHJQ" image="_wWxtRxSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wWxtShSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wWxtQRSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wWxtSxSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
     </parameters>
-    <parameters name="Name">
+    <parameters xmi:id="_wWxtTBSlEeugneYcndyHJQ" name="Name">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wWxtTRSlEeugneYcndyHJQ" source="_wWxtSxSlEeugneYcndyHJQ" target="_wWxtQhSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wWxtThSlEeugneYcndyHJQ" source="_wWxtTBSlEeugneYcndyHJQ" target="_wWxtQxSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

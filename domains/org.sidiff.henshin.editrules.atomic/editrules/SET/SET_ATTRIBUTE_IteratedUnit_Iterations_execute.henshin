@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_IteratedUnit_Iterations" description="Sets IteratedUnit Iterations">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wV5jgBSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_IteratedUnit_Iterations" description="Sets IteratedUnit Iterations">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setIteratedUnitIterations" description="Sets the EAttribute iterations">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wV5jgRSlEeugneYcndyHJQ" name="setIteratedUnitIterations" description="Sets the EAttribute iterations">
+    <parameters xmi:id="_wV5jghSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
     </parameters>
-    <parameters name="Iterations">
+    <parameters xmi:id="_wV5jgxSlEeugneYcndyHJQ" name="Iterations">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wV5jhBSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wV5jhRSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wV5jhhSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wV5jhxSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
-        <attributes value="Iterations">
+        <attributes xmi:id="_wV5jiBSlEeugneYcndyHJQ" value="Iterations">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit/iterations"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wV5jiRSlEeugneYcndyHJQ" origin="_wV5jhRSlEeugneYcndyHJQ" image="_wV5jhxSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wV5jihSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wV5jgRSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wV5jixSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
     </parameters>
-    <parameters name="Iterations">
+    <parameters xmi:id="_wV5jjBSlEeugneYcndyHJQ" name="Iterations">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wV5jjRSlEeugneYcndyHJQ" source="_wV5jixSlEeugneYcndyHJQ" target="_wV5jghSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wV5jjhSlEeugneYcndyHJQ" source="_wV5jjBSlEeugneYcndyHJQ" target="_wV5jgxSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

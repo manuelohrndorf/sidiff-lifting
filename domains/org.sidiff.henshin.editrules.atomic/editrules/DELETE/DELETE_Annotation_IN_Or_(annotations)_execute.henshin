@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_Annotation_IN_Or_(annotations)" description="Deletes one Annotation in Or">
-  <annotations key="INVERSE" value="CREATE_Annotation_IN_Or_(annotations)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wAjloBSlEeugneYcndyHJQ" name="DELETE_Annotation_IN_Or_(annotations)" description="Deletes one Annotation in Or">
+  <annotations xmi:id="_wAjloRSlEeugneYcndyHJQ" key="INVERSE" value="CREATE_Annotation_IN_Or_(annotations)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="deleteAnnotation_IN_Or" description="deletes one Annotation in the context: Or">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wAjlohSlEeugneYcndyHJQ" name="deleteAnnotation_IN_Or" description="deletes one Annotation in the context: Or">
+    <parameters xmi:id="_wAjloxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_wAjlpBSlEeugneYcndyHJQ" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_wAjlpRSlEeugneYcndyHJQ" name="LHS">
+      <nodes xmi:id="_wAjlphSlEeugneYcndyHJQ" name="Selected" outgoing="_wAjlqhSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wAjlpxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_wAjlqBSlEeugneYcndyHJQ" name="ToBeDeleted" incoming="_wAjlqhSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wAjlqRSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_wAjlqhSlEeugneYcndyHJQ" source="_wAjlphSlEeugneYcndyHJQ" target="_wAjlqBSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ModelElement/annotations"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_wAjlqxSlEeugneYcndyHJQ" name="RHS">
+      <nodes xmi:id="_wAjlrBSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_wAjlrRSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wAjlrhSlEeugneYcndyHJQ" origin="_wAjlphSlEeugneYcndyHJQ" image="_wAjlrBSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wAjlrxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wAjlohSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wAjlsBSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_wAjlsRSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_wAjlshSlEeugneYcndyHJQ" name="ToBeDeleted">
+      <annotations xmi:id="_wAjlsxSlEeugneYcndyHJQ" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wAjltBSlEeugneYcndyHJQ" source="_wAjlsBSlEeugneYcndyHJQ" target="_wAjloxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wAjltRSlEeugneYcndyHJQ" source="_wAjlshSlEeugneYcndyHJQ" target="_wAjlpBSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

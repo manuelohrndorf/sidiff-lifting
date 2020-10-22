@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_ParameterMapping_IN_MultiUnit_(parameterMappings)" description="Deletes one ParameterMapping in MultiUnit">
-  <annotations key="INVERSE" value="CREATE_ParameterMapping_IN_MultiUnit_(parameterMappings)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wI1-8BSlEeugneYcndyHJQ" name="DELETE_ParameterMapping_IN_MultiUnit_(parameterMappings)" description="Deletes one ParameterMapping in MultiUnit">
+  <annotations xmi:id="_wI1-8RSlEeugneYcndyHJQ" key="INVERSE" value="CREATE_ParameterMapping_IN_MultiUnit_(parameterMappings)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="deleteParameterMapping_IN_MultiUnit" description="deletes one ParameterMapping in the context: MultiUnit">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wI1-8hSlEeugneYcndyHJQ" name="deleteParameterMapping_IN_MultiUnit" description="deletes one ParameterMapping in the context: MultiUnit">
+    <parameters xmi:id="_wI1-8xSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_wI1-9BSlEeugneYcndyHJQ" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping"/>
     </parameters>
-    <parameters name="Existing">
+    <parameters xmi:id="_wI1-9RSlEeugneYcndyHJQ" name="Existing">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <parameters name="Existing1">
+    <parameters xmi:id="_wI1-9hSlEeugneYcndyHJQ" name="Existing1">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_wI1-9xSlEeugneYcndyHJQ" name="LHS">
+      <nodes xmi:id="_wI1--BSlEeugneYcndyHJQ" name="Selected" outgoing="_wI1-_hSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wI1--RSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0" outgoing="//@units.0/@lhs/@edges.1 //@units.0/@lhs/@edges.2">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_wI1--hSlEeugneYcndyHJQ" name="ToBeDeleted" incoming="_wI1-_hSlEeugneYcndyHJQ" outgoing="_wI1-_xSlEeugneYcndyHJQ _wI1_ABSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wI1--xSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping"/>
       </nodes>
-      <nodes name="Existing" incoming="//@units.0/@lhs/@edges.1">
+      <nodes xmi:id="_wI1-_BSlEeugneYcndyHJQ" name="Existing" incoming="_wI1-_xSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
       </nodes>
-      <nodes name="Existing1" incoming="//@units.0/@lhs/@edges.2">
+      <nodes xmi:id="_wI1-_RSlEeugneYcndyHJQ" name="Existing1" incoming="_wI1_ABSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_wI1-_hSlEeugneYcndyHJQ" source="_wI1--BSlEeugneYcndyHJQ" target="_wI1--hSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Unit/parameterMappings"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.2">
+      <edges xmi:id="_wI1-_xSlEeugneYcndyHJQ" source="_wI1--hSlEeugneYcndyHJQ" target="_wI1-_BSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping/target"/>
       </edges>
-      <edges source="//@units.0/@lhs/@nodes.1" target="//@units.0/@lhs/@nodes.3">
+      <edges xmi:id="_wI1_ABSlEeugneYcndyHJQ" source="_wI1--hSlEeugneYcndyHJQ" target="_wI1-_RSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping/source"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_wI1_ARSlEeugneYcndyHJQ" name="RHS">
+      <nodes xmi:id="_wI1_AhSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_wI1_AxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
       </nodes>
-      <nodes name="Existing">
+      <nodes xmi:id="_wI1_BBSlEeugneYcndyHJQ" name="Existing">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
       </nodes>
-      <nodes name="Existing1">
+      <nodes xmi:id="_wI1_BRSlEeugneYcndyHJQ" name="Existing1">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
-    <mappings origin="//@units.0/@lhs/@nodes.2" image="//@units.0/@rhs/@nodes.1"/>
-    <mappings origin="//@units.0/@lhs/@nodes.3" image="//@units.0/@rhs/@nodes.2"/>
+    <mappings xmi:id="_wI1_BhSlEeugneYcndyHJQ" origin="_wI1--BSlEeugneYcndyHJQ" image="_wI1_AhSlEeugneYcndyHJQ"/>
+    <mappings xmi:id="_wI1_BxSlEeugneYcndyHJQ" origin="_wI1-_BSlEeugneYcndyHJQ" image="_wI1_BBSlEeugneYcndyHJQ"/>
+    <mappings xmi:id="_wI1_CBSlEeugneYcndyHJQ" origin="_wI1-_RSlEeugneYcndyHJQ" image="_wI1_BRSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wI1_CRSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wI1-8hSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wI1_ChSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_wI1_CxSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_wI1_DBSlEeugneYcndyHJQ" name="ToBeDeleted">
+      <annotations xmi:id="_wI1_DRSlEeugneYcndyHJQ" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//ParameterMapping"/>
     </parameters>
-    <parameters name="Existing">
-      <annotations key="INVERSE" value="Existing"/>
+    <parameters xmi:id="_wI1_DhSlEeugneYcndyHJQ" name="Existing">
+      <annotations xmi:id="_wI1_DxSlEeugneYcndyHJQ" key="INVERSE" value="Existing"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <parameters name="Existing1">
-      <annotations key="INVERSE" value="Existing1"/>
+    <parameters xmi:id="_wI1_EBSlEeugneYcndyHJQ" name="Existing1">
+      <annotations xmi:id="_wI1_ERSlEeugneYcndyHJQ" key="INVERSE" value="Existing1"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Parameter"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings xmi:id="_wI1_EhSlEeugneYcndyHJQ" source="_wI1_ChSlEeugneYcndyHJQ" target="_wI1-8xSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wI1_ExSlEeugneYcndyHJQ" source="_wI1_DBSlEeugneYcndyHJQ" target="_wI1-9BSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wI1_FBSlEeugneYcndyHJQ" source="_wI1_DhSlEeugneYcndyHJQ" target="_wI1-9RSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wI1_FRSlEeugneYcndyHJQ" source="_wI1_EBSlEeugneYcndyHJQ" target="_wI1-9hSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

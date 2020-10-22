@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="DELETE_NestedCondition_IN_UnaryFormula_(child)" description="Deletes one NestedCondition in UnaryFormula">
-  <annotations key="INVERSE" value="CREATE_NestedCondition_IN_UnaryFormula_(child)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wFizUBSlEeugneYcndyHJQ" name="DELETE_NestedCondition_IN_UnaryFormula_(child)" description="Deletes one NestedCondition in UnaryFormula">
+  <annotations xmi:id="_wFizURSlEeugneYcndyHJQ" key="INVERSE" value="CREATE_NestedCondition_IN_UnaryFormula_(child)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="deleteNestedCondition_IN_UnaryFormula" description="deletes one NestedCondition in the context: UnaryFormula">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wFizUhSlEeugneYcndyHJQ" name="deleteNestedCondition_IN_UnaryFormula" description="deletes one NestedCondition in the context: UnaryFormula">
+    <parameters xmi:id="_wFizUxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula"/>
     </parameters>
-    <parameters name="ToBeDeleted">
+    <parameters xmi:id="_wFizVBSlEeugneYcndyHJQ" name="ToBeDeleted">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
     </parameters>
-    <lhs name="LHS">
-      <nodes name="Selected" outgoing="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_wFizVRSlEeugneYcndyHJQ" name="LHS">
+      <nodes xmi:id="_wFizVhSlEeugneYcndyHJQ" name="Selected" outgoing="_wFizWhSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wFizVxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula"/>
       </nodes>
-      <nodes name="ToBeDeleted" incoming="//@units.0/@lhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_wFizWBSlEeugneYcndyHJQ" name="ToBeDeleted" incoming="_wFizWhSlEeugneYcndyHJQ">
+        <annotations xmi:id="_wFizWRSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
       </nodes>
-      <edges source="//@units.0/@lhs/@nodes.0" target="//@units.0/@lhs/@nodes.1">
+      <edges xmi:id="_wFizWhSlEeugneYcndyHJQ" source="_wFizVhSlEeugneYcndyHJQ" target="_wFizWBSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula/child"/>
       </edges>
     </lhs>
-    <rhs name="RHS">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_wFizWxSlEeugneYcndyHJQ" name="RHS">
+      <nodes xmi:id="_wFizXBSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_wFizXRSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula"/>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wFizXhSlEeugneYcndyHJQ" origin="_wFizVhSlEeugneYcndyHJQ" image="_wFizXBSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wFizXxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wFizUhSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wFizYBSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_wFizYRSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//UnaryFormula"/>
     </parameters>
-    <parameters name="ToBeDeleted">
-      <annotations key="INVERSE" value="New"/>
+    <parameters xmi:id="_wFizYhSlEeugneYcndyHJQ" name="ToBeDeleted">
+      <annotations xmi:id="_wFizYxSlEeugneYcndyHJQ" key="INVERSE" value="New"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//NestedCondition"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wFizZBSlEeugneYcndyHJQ" source="_wFizYBSlEeugneYcndyHJQ" target="_wFizUxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wFizZRSlEeugneYcndyHJQ" source="_wFizYhSlEeugneYcndyHJQ" target="_wFizVBSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

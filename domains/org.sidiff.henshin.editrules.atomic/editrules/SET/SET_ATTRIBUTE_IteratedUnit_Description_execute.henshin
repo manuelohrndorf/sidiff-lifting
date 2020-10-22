@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="SET_ATTRIBUTE_IteratedUnit_Description" description="Sets IteratedUnit Description">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_wV0D8BSlEeugneYcndyHJQ" name="SET_ATTRIBUTE_IteratedUnit_Description" description="Sets IteratedUnit Description">
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="setIteratedUnitDescription" description="Sets the EAttribute description">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_wV0D8RSlEeugneYcndyHJQ" name="setIteratedUnitDescription" description="Sets the EAttribute description">
+    <parameters xmi:id="_wV0D8hSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
     </parameters>
-    <parameters name="Description">
+    <parameters xmi:id="_wV0D8xSlEeugneYcndyHJQ" name="Description">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
+    <lhs xmi:id="_wV0D9BSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_wV0D9RSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected">
+    <rhs xmi:id="_wV0D9hSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_wV0D9xSlEeugneYcndyHJQ" name="Selected">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
-        <attributes value="Description">
+        <attributes xmi:id="_wV0D-BSlEeugneYcndyHJQ" value="Description">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
         </attributes>
       </nodes>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_wV0D-RSlEeugneYcndyHJQ" origin="_wV0D9RSlEeugneYcndyHJQ" image="_wV0D9xSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_wV0D-hSlEeugneYcndyHJQ" name="mainUnit" subUnits="_wV0D8RSlEeugneYcndyHJQ">
+    <parameters xmi:id="_wV0D-xSlEeugneYcndyHJQ" name="selectedEObject">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//IteratedUnit"/>
     </parameters>
-    <parameters name="Description">
+    <parameters xmi:id="_wV0D_BSlEeugneYcndyHJQ" name="Description">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.1/@parameters.1" target="//@units.0/@parameters.1"/>
+    <parameterMappings xmi:id="_wV0D_RSlEeugneYcndyHJQ" source="_wV0D-xSlEeugneYcndyHJQ" target="_wV0D8hSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_wV0D_hSlEeugneYcndyHJQ" source="_wV0D_BSlEeugneYcndyHJQ" target="_wV0D8xSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

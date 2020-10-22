@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Annotation_IN_Or_(annotations)" description="Creates one Annotation in Or">
-  <annotations key="INVERSE" value="DELETE_Annotation_IN_Or_(annotations)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v3fwQBSlEeugneYcndyHJQ" name="CREATE_Annotation_IN_Or_(annotations)" description="Creates one Annotation in Or">
+  <annotations xmi:id="_v3gXUBSlEeugneYcndyHJQ" key="INVERSE" value="DELETE_Annotation_IN_Or_(annotations)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="createAnnotation_IN_Or" description="creates one Annotation in the context: Or">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_v3gXURSlEeugneYcndyHJQ" name="createAnnotation_IN_Or" description="creates one Annotation in the context: Or">
+    <parameters xmi:id="_v3gXUhSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_v3gXUxSlEeugneYcndyHJQ" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <parameters name="Key">
+    <parameters xmi:id="_v3gXVBSlEeugneYcndyHJQ" name="Key">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_v3gXVRSlEeugneYcndyHJQ" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_v3gXVhSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_v3gXVxSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_v3gXWBSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_v3gXWRSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_v3gXWhSlEeugneYcndyHJQ" name="Selected" outgoing="_v3gXYBSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v3gXWxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_v3gXXBSlEeugneYcndyHJQ" name="New" incoming="_v3gXYBSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v3gXXRSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
-        <attributes value="Key">
+        <attributes xmi:id="_v3gXXhSlEeugneYcndyHJQ" value="Key">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation/key"/>
         </attributes>
-        <attributes value="Value">
+        <attributes xmi:id="_v3gXXxSlEeugneYcndyHJQ" value="Value">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Annotation/value"/>
         </attributes>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_v3gXYBSlEeugneYcndyHJQ" source="_v3gXWhSlEeugneYcndyHJQ" target="_v3gXXBSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//ModelElement/annotations"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_v3gXYRSlEeugneYcndyHJQ" origin="_v3gXVxSlEeugneYcndyHJQ" image="_v3gXWhSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_v3gXYhSlEeugneYcndyHJQ" name="mainUnit" subUnits="_v3gXURSlEeugneYcndyHJQ">
+    <parameters xmi:id="_v3gXYxSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_v3gXZBSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Or"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_v3gXZRSlEeugneYcndyHJQ" name="New">
+      <annotations xmi:id="_v3gXZhSlEeugneYcndyHJQ" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Annotation"/>
     </parameters>
-    <parameters name="Key">
+    <parameters xmi:id="_v3gXZxSlEeugneYcndyHJQ" name="Key">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameters name="Value">
+    <parameters xmi:id="_v3gXaBSlEeugneYcndyHJQ" name="Value">
       <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
-    <parameterMappings source="//@units.1/@parameters.2" target="//@units.0/@parameters.2"/>
-    <parameterMappings source="//@units.1/@parameters.3" target="//@units.0/@parameters.3"/>
+    <parameterMappings xmi:id="_v3gXaRSlEeugneYcndyHJQ" source="_v3gXYxSlEeugneYcndyHJQ" target="_v3gXUhSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v3gXahSlEeugneYcndyHJQ" source="_v3gXUxSlEeugneYcndyHJQ" target="_v3gXZRSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v3gXaxSlEeugneYcndyHJQ" source="_v3gXZxSlEeugneYcndyHJQ" target="_v3gXVBSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v3gXbBSlEeugneYcndyHJQ" source="_v3gXaBSlEeugneYcndyHJQ" target="_v3gXVRSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>

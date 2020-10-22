@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="CREATE_Not_IN_BinaryFormula_(left)" description="Creates one Not in BinaryFormula">
-  <annotations key="INVERSE" value="DELETE_Not_IN_BinaryFormula_(left)"/>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_v5q6gBSlEeugneYcndyHJQ" name="CREATE_Not_IN_BinaryFormula_(left)" description="Creates one Not in BinaryFormula">
+  <annotations xmi:id="_v5q6gRSlEeugneYcndyHJQ" key="INVERSE" value="DELETE_Not_IN_BinaryFormula_(left)"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin#/"/>
-  <units xsi:type="henshin:Rule" name="createNot_IN_BinaryFormula" description="creates one Not in the context: BinaryFormula">
-    <parameters name="Selected">
+  <units xsi:type="henshin:Rule" xmi:id="_v5q6ghSlEeugneYcndyHJQ" name="createNot_IN_BinaryFormula" description="creates one Not in the context: BinaryFormula">
+    <parameters xmi:id="_v5q6gxSlEeugneYcndyHJQ" name="Selected">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula"/>
     </parameters>
-    <parameters name="New">
+    <parameters xmi:id="_v5q6hBSlEeugneYcndyHJQ" name="New">
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
     </parameters>
-    <lhs name="Lhs">
-      <nodes name="Selected">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <lhs xmi:id="_v5q6hRSlEeugneYcndyHJQ" name="Lhs">
+      <nodes xmi:id="_v5q6hhSlEeugneYcndyHJQ" name="Selected">
+        <annotations xmi:id="_v5q6hxSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula"/>
       </nodes>
     </lhs>
-    <rhs name="Rhs">
-      <nodes name="Selected" outgoing="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="CONTEXT"/>
+    <rhs xmi:id="_v5q6iBSlEeugneYcndyHJQ" name="Rhs">
+      <nodes xmi:id="_v5q6iRSlEeugneYcndyHJQ" name="Selected" outgoing="_v5q6jRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v5q6ihSlEeugneYcndyHJQ" key="SERGE_" value="CONTEXT"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula"/>
       </nodes>
-      <nodes name="New" incoming="//@units.0/@rhs/@edges.0">
-        <annotations key="SERGE_" value="FOCUS"/>
+      <nodes xmi:id="_v5q6ixSlEeugneYcndyHJQ" name="New" incoming="_v5q6jRSlEeugneYcndyHJQ">
+        <annotations xmi:id="_v5q6jBSlEeugneYcndyHJQ" key="SERGE_" value="FOCUS"/>
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
       </nodes>
-      <edges source="//@units.0/@rhs/@nodes.0" target="//@units.0/@rhs/@nodes.1">
+      <edges xmi:id="_v5q6jRSlEeugneYcndyHJQ" source="_v5q6iRSlEeugneYcndyHJQ" target="_v5q6ixSlEeugneYcndyHJQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula/left"/>
       </edges>
     </rhs>
-    <mappings origin="//@units.0/@lhs/@nodes.0" image="//@units.0/@rhs/@nodes.0"/>
+    <mappings xmi:id="_v5q6jhSlEeugneYcndyHJQ" origin="_v5q6hhSlEeugneYcndyHJQ" image="_v5q6iRSlEeugneYcndyHJQ"/>
   </units>
-  <units xsi:type="henshin:PriorityUnit" name="mainUnit" subUnits="//@units.0">
-    <parameters name="selectedEObject">
-      <annotations key="INVERSE" value="selectedEObject"/>
+  <units xsi:type="henshin:PriorityUnit" xmi:id="_v5q6jxSlEeugneYcndyHJQ" name="mainUnit" subUnits="_v5q6ghSlEeugneYcndyHJQ">
+    <parameters xmi:id="_v5q6kBSlEeugneYcndyHJQ" name="selectedEObject">
+      <annotations xmi:id="_v5q6kRSlEeugneYcndyHJQ" key="INVERSE" value="selectedEObject"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//BinaryFormula"/>
     </parameters>
-    <parameters name="New">
-      <annotations key="INVERSE" value="ToBeDeleted"/>
+    <parameters xmi:id="_v5q6khSlEeugneYcndyHJQ" name="New">
+      <annotations xmi:id="_v5q6kxSlEeugneYcndyHJQ" key="INVERSE" value="ToBeDeleted"/>
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2011/Henshin#//Not"/>
     </parameters>
-    <parameterMappings source="//@units.1/@parameters.0" target="//@units.0/@parameters.0"/>
-    <parameterMappings source="//@units.0/@parameters.1" target="//@units.1/@parameters.1"/>
+    <parameterMappings xmi:id="_v5q6lBSlEeugneYcndyHJQ" source="_v5q6kBSlEeugneYcndyHJQ" target="_v5q6gxSlEeugneYcndyHJQ"/>
+    <parameterMappings xmi:id="_v5q6lRSlEeugneYcndyHJQ" source="_v5q6hBSlEeugneYcndyHJQ" target="_v5q6khSlEeugneYcndyHJQ"/>
   </units>
 </henshin:Module>
