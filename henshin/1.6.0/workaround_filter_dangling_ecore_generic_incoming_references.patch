@@ -1,0 +1,70 @@
+diff --git a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+index 765b293..12f1470 100644
+--- a/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
++++ b/henshin/1.6.0/plugins/org.eclipse.emf.henshin.interpreter/src/org/eclipse/emf/henshin/interpreter/matching/constraints/DanglingConstraint.java
+@@ -4,27 +4,29 @@
+  * This program and the accompanying materials are made available 
+  * under the terms of the Eclipse Public License v1.0 which 
+  * accompanies this distribution, and is available at
+  * http://www.eclipse.org/legal/epl-v10.html
+  * </copyright>
+  */
+ package org.eclipse.emf.henshin.interpreter.matching.constraints;
+ 
+ import java.util.Collection;
+ import java.util.HashMap;
++import java.util.Iterator;
+ import java.util.List;
+ import java.util.Map;
+ 
+ import org.eclipse.emf.ecore.EObject;
+ import org.eclipse.emf.ecore.EReference;
+ import org.eclipse.emf.ecore.EStructuralFeature;
+ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
++import org.eclipse.emf.ecore.EcorePackage;
+ import org.eclipse.emf.henshin.interpreter.EGraph;
+ 
+ /**
+  * This constraint checks whether the value of an EReference contains objects
+  * from the target domain.
+  * 
+  * @authot Enrico Biermann, Christian Krause
+  */
+ public class DanglingConstraint implements Constraint {
+ 
+@@ -53,20 +55,35 @@
+ 		this.postpone = postpone;
+ 	}
+ 
+ 	/*
+ 	 * 
+ 	 */
+ 	@SuppressWarnings("unchecked")
+ 	public boolean check(EObject sourceValue, EGraph graph) {
+ 		// Compute the actual number of incoming edges:
+ 		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
++		
++		// >>>>>>>>>>>>>>>>>>>> PATCH BEGIN >>>>>>>>>>>>>>>>>>>>
++		// WORKAROUND: Filter incoming references from implicitly created Ecore generics.
++		for (Iterator<Setting> iterator = settings.iterator(); iterator.hasNext();) {
++			Setting setting = iterator.next();
++			if (setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_EClassifier())   		||
++				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ERawType())  			||
++				setting.getEStructuralFeature().equals(EcorePackage.eINSTANCE.getEGenericType_ETypeParameter())     				
++			   ) 
++			{
++				iterator.remove();
++			}	
++		}
++		// >>>>>>>>>>>>>>>>>>>> PATCH END >>>>>>>>>>>>>>>>>>>>
++		
+ 		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings, graph);
+ 		Integer expectedCount;
+ 
+ 		if (incomingEdgeCount != null) {
+ 			for (EReference ref : actualIncomingEdges.keySet()) {
+ 				// >>>>>>>>>>>>>>>>>>>> PATCH ORIGINAL >>>>>>>>>>>>>>>>>>>>
+ 				/*
+ 				if (incomingEdgeCount.containsKey(ref)) {
+ 					expectedCount = incomingEdgeCount.get(ref);
+ 				} else {
