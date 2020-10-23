@@ -3,9 +3,6 @@ package org.sidiff.editrule.rulebase.util;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isAmalgamationUnit;
 import static org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx.isKernelRule;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -17,88 +14,16 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.emf.ecore.NameUtil;
 import org.sidiff.editrule.rulebase.Classification;
 import org.sidiff.editrule.rulebase.RuleBaseItem;
 
 public class EditRuleItemUtil {
-
-	private static final Map<String, String> dict;
-
-	static {
-		dict = new HashMap<>();
-		dict.put("SET", "Set");
-		dict.put("UNSET", "Unset");
-		dict.put("ADD", "Add");
-		dict.put("CREATE", "Create");
-		dict.put("DELETE", "Delete");
-		dict.put("MOVE", "Move");
-		dict.put("REMOVE", "Remove");
-		dict.put("CHANGE", "Change");
-		dict.put("NOT", "Not");
-		dict.put("REFERENCE", "Reference");
-		dict.put("MOVEs", "Moves");
-		dict.put("CHANGEs", "Changes");
-		dict.put("FROM", "From");
-		dict.put("TO", "To");
-		dict.put("IN", "In");
-		dict.put("ATTRIBUTE", "Attribute");
-		dict.put("Id", "ID");
-		dict.put("TGT", "Target");
-		dict.put("SRC", "Source");
-	}
-
-	private static String dictionary(String input) {
-		return dict.getOrDefault(input, input);
-	}
 	
 	public static String formatName(RuleBaseItem item) {
-
-		// Remove quotes:
 		String displayName = getName(item);
-
-		// Remove underscore
-		displayName = displayName.replace('_', ' ');
-
-		// Remove camel-case
-		String regex = "([a-z])([A-Z]+)";
-		String replacement = "$1 $2";
-		displayName = displayName.replaceAll(regex, replacement);
-
-		// Make first letters upper-case
-		displayName = capitalizeFirstLetter(displayName);
-
-		// Translate special words:
-		displayName = translate(displayName);
-
+		displayName = NameUtil.beautifyName(displayName);
 		return displayName;
-	}
-
-	private static String capitalizeFirstLetter(String input) {
-		StringBuilder result = new StringBuilder(input.length());
-		String[] words = input.split("\\s");
-
-		for (int i = 0, l = words.length; i < l; ++i) {
-			if (i > 0) {
-				result.append(" ");
-			}
-			result.append(Character.toUpperCase(words[i].charAt(0))).append(words[i].substring(1));
-
-		}
-		return result.toString();
-	}
-
-	private static String translate(String input) {
-		StringBuilder result = new StringBuilder(input.length());
-		String[] words = input.split("\\s");
-
-		for (int i = 0, l = words.length; i < l; ++i) {
-			if (i > 0) {
-				result.append(" ");
-			}
-			result.append(dictionary(words[i]));
-
-		}
-		return result.toString();
 	}
 
 	public static String getName(RuleBaseItem item) {
