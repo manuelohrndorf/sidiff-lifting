@@ -46,8 +46,7 @@ public class ApplyPatchPage02 extends AbstractWizardPage {
 		}
 
 		// Reliability:
-		reliabilityWidget = new ReliabilityWidget();
-		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget = new ReliabilityWidget(settings);
 		reliabilityWidget.setDependency(applyPatchPage01.getSettingsSourceWidget());
 		addWidget(container, reliabilityWidget);
 	}

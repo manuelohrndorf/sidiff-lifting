@@ -36,8 +36,7 @@ public class ApplyAsymmetricDifferencePage02 extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Reliability:
-		reliabilityWidget = new ReliabilityWidget();
-		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget = new ReliabilityWidget(settings);
 		reliabilityWidget.setDependency(applyDiffPage01.getSettingsSourceWidget());
 		addWidget(container, reliabilityWidget);
 	}

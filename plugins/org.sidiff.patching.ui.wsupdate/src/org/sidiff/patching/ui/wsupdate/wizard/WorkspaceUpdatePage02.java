@@ -37,8 +37,7 @@ public class WorkspaceUpdatePage02 extends AbstractWizardPage {
 		ConfigurableExtensionWidget.addAllForWidget(container, matcherWidget, this::addWidget);
 
 		// Reliability
-		reliabilityWidget = new ReliabilityWidget();
-		reliabilityWidget.setSettings(this.settings);
+		reliabilityWidget = new ReliabilityWidget(settings);
 		reliabilityWidget.setDependency(workbenchUpdatePage01.getSettingsSourceWidget());
 		addWidget(container, reliabilityWidget);
 
