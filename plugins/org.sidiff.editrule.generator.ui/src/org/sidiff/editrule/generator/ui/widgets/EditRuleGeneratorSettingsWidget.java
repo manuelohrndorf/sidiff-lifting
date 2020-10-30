@@ -2,20 +2,12 @@ package org.sidiff.editrule.generator.ui.widgets;
 
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 import org.sidiff.common.emf.ui.util.EcoreSelectionDialogUtil;
 import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
@@ -24,7 +16,7 @@ import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
  * @author Simon Heimes
  *
  */
-public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements IWidgetValidation {
+public class EditRuleGeneratorSettingsWidget extends AbstractWidget {
 
 	/**
 	 * Path to Configuration File
@@ -51,20 +43,20 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		group.setText("EditRule Generator Settings");
 		group.setLayout(new GridLayout(1, false));
-		
+
 		Composite composite = new Composite(group, SWT.NONE);
 		GridData gd_composite = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_composite.widthHint = 428;
 		composite.setLayoutData(gd_composite);
 		composite.setLayout(new GridLayout(3, false));
-		
+
 		rBtnRefinedConfig = new Button(composite, SWT.RADIO);
 		rBtnRefinedConfig.setText("Refined Config");
 		rBtnRefinedConfig.setSelection(true);
-		
+
 		Button btnBrowse = new Button(composite, SWT.NONE);
 		btnBrowse.setText("Browse");
-		
+
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -73,16 +65,16 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 				if(configPath != null) {
 					settings.setConfigPath(configPath);
 					settings.setUseDefaultConfig(false);
-					txtRefinedConfig.setText(settings.getConfigPath());				
+					txtRefinedConfig.setText(settings.getConfigPath());
 					getWidgetCallback().requestValidation();
 				}
 			}
 		});
-		
+
 		txtRefinedConfig = new Text(composite, SWT.BORDER);
 		txtRefinedConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		txtRefinedConfig.addModifyListener(e -> getWidgetCallback().requestValidation());
-		
+
 		rBtnDefaultConfig = new Button(composite, SWT.RADIO);
 		rBtnDefaultConfig.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		rBtnDefaultConfig.setText("Default Config");
@@ -112,7 +104,7 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 		if(this.settings.getConfigPath() != null){
 			txtRefinedConfig.setText(this.settings.getConfigPath());
 		}
-		
+
 		final Button cbtnSubfolder = new Button(composite, SWT.CHECK);
 		GridData gd_cbtnSubfolder = new GridData(SWT.LEFT, SWT.CENTER, false,
 				false, 3, 1);
@@ -122,7 +114,7 @@ public class EditRuleGeneratorSettingsWidget extends AbstractWidget implements I
 		cbtnSubfolder.setSelection(settings.isUseSubfolders());
 		cbtnSubfolder.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {			
+			public void widgetSelected(SelectionEvent e) {
 				settings.setUseSubfolders(cbtnSubfolder.getSelection());
 			}});
 		return group;

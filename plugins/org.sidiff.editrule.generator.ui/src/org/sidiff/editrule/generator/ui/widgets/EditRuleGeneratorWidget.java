@@ -10,19 +10,16 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.*;
 import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.editrule.generator.IEditRuleGenerator;
 import org.sidiff.editrule.generator.settings.EditRuleGenerationSettings;
 
-public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetValidation {
+public class EditRuleGeneratorWidget extends AbstractWidget {
 
 	//FIXME Listen to changes and adapt the chosen generator accordingly
-	
+
 	protected EditRuleGenerationSettings settings;
 
 	protected SortedMap<String, IEditRuleGenerator> generators;
@@ -59,7 +56,7 @@ public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetVa
 		list_generators.setItems(generators.keySet().toArray(new String[0]));
 
 		// Set selection:
-		if (list_generators.getItemCount() > 0) {		
+		if (list_generators.getItemCount() > 0) {
 			list_generators.setSelection(0);
 		}
 		list_generators.addSelectionListener(new SelectionAdapter() {
@@ -92,7 +89,7 @@ public class EditRuleGeneratorWidget extends AbstractWidget implements IWidgetVa
 	@Override
 	protected ValidationMessage doValidate() {
 		if(list_generators.getItemCount() == 0) {
-			return new ValidationMessage(ValidationType.ERROR, "No Edit Rule generators available!");			
+			return new ValidationMessage(ValidationType.ERROR, "No Edit Rule generators available!");
 		} else if(list_generators.getSelectionIndex() == -1) {
 			return new ValidationMessage(ValidationType.ERROR, "Please select an Edit Rule generator!");
 		}

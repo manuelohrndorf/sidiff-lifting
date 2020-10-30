@@ -3,18 +3,13 @@ package org.sidiff.patching.ui.wsupdate.widgets;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.widgets.*;
 import org.sidiff.common.ui.widgets.AbstractContainerWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.ui.wsupdate.util.WSUModels;
 
-public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetValidation {
+public class WSUModelsWidget extends AbstractContainerWidget {
 
 	private WSUModels mergeModels;
 
@@ -32,7 +27,7 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 		this.mergeModels = mergeModels;
 		this.buttons = new Button[WSUModels.NUM_ROLES][WSUModels.NUM_ROLES];
 	}
-	
+
 	@Override
 	protected Composite createContents(Composite container) {
 		Composite composite = new Composite(container, SWT.NONE);
@@ -70,7 +65,7 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 		if(buttonListener == null) {
 			buttonListener = new SelectionAdapter() {
 				private int oldSelection = -1;
-				
+
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Button button = (Button)e.widget;
@@ -87,7 +82,7 @@ public class WSUModelsWidget extends AbstractContainerWidget implements IWidgetV
 									break;
 								}
 							}
-							
+
 							oldSelection = -1;
 							getWidgetCallback().requestValidation();
 						}

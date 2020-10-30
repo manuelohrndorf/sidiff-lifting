@@ -4,14 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.*;
 import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 
-public class EditRuleGeneratorChooserWidget extends AbstractWidget implements IWidgetValidation {
+public class EditRuleGeneratorChooserWidget extends AbstractWidget {
 
 	private Group gChooser;
 	private Button rBtnManually;
@@ -40,7 +37,7 @@ public class EditRuleGeneratorChooserWidget extends AbstractWidget implements IW
 			getWidgetCallback().requestValidation();
 			propagateEnabledState();
 		}));
-		
+
 		return gChooser;
 	}
 

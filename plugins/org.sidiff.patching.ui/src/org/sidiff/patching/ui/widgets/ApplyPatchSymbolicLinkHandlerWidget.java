@@ -10,13 +10,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 import org.sidiff.common.ui.widgets.AbstractWidget;
-import org.sidiff.common.ui.widgets.IWidgetValidation;
 import org.sidiff.common.ui.widgets.IWidgetValidation.ValidationMessage.ValidationType;
 import org.sidiff.patching.api.settings.PatchingSettings;
 import org.sidiff.patching.patch.patch.Patch;
 import org.silift.difference.symboliclink.handler.ISymbolicLinkHandler;
 
-public class ApplyPatchSymbolicLinkHandlerWidget extends AbstractWidget implements IWidgetValidation {
+public class ApplyPatchSymbolicLinkHandlerWidget extends AbstractWidget {
 
 	private Map<String, ISymbolicLinkHandler> symbolicLinkHandlers;
 	private PatchingSettings settings;
