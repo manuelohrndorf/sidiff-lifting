@@ -381,13 +381,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DEPENDENCY__TRANSIENT = 3;
 
 	/**
+	 * The feature id for the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DEPENDENCY__REVERT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Potential Dependency</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 4;
+	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeDependencyImpl <em>Potential Node Dependency</em>}' class.
@@ -434,6 +443,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_NODE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
+
+	/**
+	 * The feature id for the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -518,6 +536,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
 
 	/**
+	 * The feature id for the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -588,6 +615,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_ATTRIBUTE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
+
+	/**
+	 * The feature id for the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1552,6 +1588,17 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getPotentialDependency_Transient();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialDependency#isRevert <em>Revert</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Revert</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialDependency#isRevert()
+	 * @see #getPotentialDependency()
+	 * @generated
+	 */
+	EAttribute getPotentialDependency_Revert();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialDependency#getKind <em>Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2399,6 +2446,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute POTENTIAL_DEPENDENCY__TRANSIENT = eINSTANCE.getPotentialDependency_Transient();
+
+		/**
+		 * The meta object literal for the '<em><b>Revert</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POTENTIAL_DEPENDENCY__REVERT = eINSTANCE.getPotentialDependency_Revert();
 
 		/**
 		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.

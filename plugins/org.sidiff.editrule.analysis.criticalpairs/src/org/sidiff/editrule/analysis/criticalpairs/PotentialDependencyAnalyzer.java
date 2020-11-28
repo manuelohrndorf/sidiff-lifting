@@ -361,6 +361,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(true);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -553,6 +554,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(true);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -905,6 +907,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(rhsPredecessorEdge);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(true);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1198,6 +1201,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(predecessorEdge);
 					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(true);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1773,6 +1777,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetAttribute(rhsPredecessorAttribute);
 					potDep.setKind(PotentialDependencyKind.CHANGE_USE);
 					potDep.setTransient(false);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1913,6 +1918,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetAttribute(rhsPredecessorAttribute);
 					potDep.setKind(PotentialDependencyKind.USE_CHANGE);
 					potDep.setTransient(true);
+					potDep.setRevert(true);
 					potDeps.add(potDep);
 				}
 			}

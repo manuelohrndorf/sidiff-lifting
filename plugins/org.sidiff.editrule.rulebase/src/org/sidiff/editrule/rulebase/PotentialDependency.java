@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#isTransient <em>Transient</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#isRevert <em>Revert</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDependency()
@@ -105,6 +106,28 @@ public interface PotentialDependency extends EObject {
 	 * @generated
 	 */
 	void setTransient(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Revert</em>' attribute.
+	 * @see #setRevert(boolean)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDependency_Revert()
+	 * @model
+	 * @generated
+	 */
+	boolean isRevert();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialDependency#isRevert <em>Revert</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Revert</em>' attribute.
+	 * @see #isRevert()
+	 * @generated
+	 */
+	void setRevert(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
