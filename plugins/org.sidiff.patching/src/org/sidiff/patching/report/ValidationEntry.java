@@ -12,7 +12,7 @@ public class ValidationEntry extends ReportEntry {
 
 	public ValidationEntry(Collection<IValidationError> previousDiagnostics, Collection<IValidationError> currentDiagnostics) {
 		super();
-		
+
 		this.previousErrors = previousDiagnostics;
 		this.currentErrors = currentDiagnostics;
 	}
@@ -21,9 +21,8 @@ public class ValidationEntry extends ReportEntry {
 	public String getDescription() {
 		if (previousErrors == null){
 			return "No. of validation errors: " + currentErrors.size();
-		} else {
-			return "No. of validation errors: " + previousErrors.size() + " -> " + currentErrors.size();
 		}
+		return "No. of validation errors: " + previousErrors.size() + " -> " + currentErrors.size();
 	}
 
 	public Collection<IValidationError> getCurrentValidationErrors() {
@@ -31,7 +30,7 @@ public class ValidationEntry extends ReportEntry {
 	}
 
 	public Collection<IValidationError> getNewValidationErrors() {
-		Collection<IValidationError> res = new ArrayList<IValidationError>();
+		Collection<IValidationError> res = new ArrayList<>();
 		if(currentErrors != null){
 			for (IValidationError e : currentErrors) {
 				if (previousErrors != null && !previousErrors.contains(e)) {
@@ -41,9 +40,9 @@ public class ValidationEntry extends ReportEntry {
 		}
 		return res;
 	}
-	
+
 	public Collection<IValidationError> getRemovedValidationErrors() {
-		Collection<IValidationError> res = new ArrayList<IValidationError>();
+		Collection<IValidationError> res = new ArrayList<>();
 		if(previousErrors != null){
 			for (IValidationError e : previousErrors) {
 				if (!currentErrors.contains(e)) {
@@ -51,13 +50,7 @@ public class ValidationEntry extends ReportEntry {
 				}
 			}
 		}
-		
+
 		return res;
 	}
-	
-	// @Override
-	// public String toString() {
-	// return "ValidationEntry [status=" + status + ", type=" + type +
-	// ", description=" + description + "]";
-	// }
 }

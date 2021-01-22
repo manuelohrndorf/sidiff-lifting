@@ -15,10 +15,10 @@ public class PatchReportManager {
 	private List<IPatchReportListener> listeners;
 	private List<PatchReport> reports;
 	private ValidationMode validationMode;
-	
+
 	public PatchReportManager(ValidationMode mode) {
-		reports = new ArrayList<PatchReport>();
-		listeners = new ArrayList<IPatchReportListener>();
+		reports = new ArrayList<>();
+		listeners = new ArrayList<>();
 		validationMode = mode;
 	}
 
@@ -30,14 +30,15 @@ public class PatchReportManager {
 	public void cancelPatchApplication(){
 		reports.remove(reports.size()-1);
 	}
-	
+
 	public void finishPatchApplication() {
 		int index = reports.size()-1;
-		if((validationMode == ValidationMode.NO_VALIDATION && reports.get(index).getEntries().size() > 0) 
-				|| (validationMode != ValidationMode.NO_VALIDATION && reports.get(index).getEntries().size() > 1) 
-				|| (validationMode != ValidationMode.NO_VALIDATION && reports.get(index).updateValidationEntries(reports.get(index).getLastValidationEntry().getCurrentValidationErrors()))){
-			notifyPushReport(index);	
-		}else{
+		PatchReport patchReport = reports.get(index);
+		if(validationMode == ValidationMode.NO_VALIDATION && patchReport.getEntries().size() > 0
+				|| validationMode != ValidationMode.NO_VALIDATION && patchReport.getEntries().size() > 1
+				|| validationMode != ValidationMode.NO_VALIDATION && patchReport.updateValidationEntries(patchReport.getLastValidationEntry().getCurrentValidationErrors())) {
+			notifyPushReport(index);
+		} else {
 			reports.remove(index);
 		}
 		notifyReportChanged();
@@ -54,17 +55,16 @@ public class PatchReportManager {
 	/**
 	 * Returns the patch report of the last patch application. If the patch has
 	 * not been applied yet, this method returns null.
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 */
 	public PatchReport getLastReport() {
 		if (!reports.isEmpty()) {
 			return reports.get(reports.size() - 1);
-		} else {
-			return null;
 		}
+		return null;
 	}
-	
+
 	public PatchReport get(int i){
 		return reports.get(i);
 	}
@@ -92,9 +92,9 @@ public class PatchReportManager {
 		getLastReport().operationRevertFailed(op, error);
 		notifyReportChanged();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param validationErrors
 	 *            the current validation errors.
 	 * @return true, if the number of validation errors changed.
@@ -104,7 +104,6 @@ public class PatchReportManager {
 		if (res){
 			notifyReportChanged();
 		}
-		
 		return res;
 	}
 
@@ -113,9 +112,9 @@ public class PatchReportManager {
 			listener.reportChanged();
 		}
 	}
-	
+
 	private void notifyPushReport(int index){
-		for(IPatchReportListener listener : listeners){
+		for(IPatchReportListener listener : listeners) {
 			listener.pushReport(index);
 		}
 	}
