@@ -199,13 +199,22 @@ public interface RulebasePackage extends EPackage {
 	int RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS = 11;
 
 	/**
+	 * The feature id for the '<em><b>Potential Dangling Edge Dependencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_BASE__POTENTIAL_DANGLING_EDGE_DEPENDENCIES = 12;
+
+	/**
 	 * The number of structural features of the '<em>Rule Base</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_BASE_FEATURE_COUNT = 12;
+	int RULE_BASE_FEATURE_COUNT = 13;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.EditRuleImpl <em>Edit Rule</em>}' class.
@@ -390,13 +399,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DEPENDENCY__REVERT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DEPENDENCY__CONDITION = 5;
+
+	/**
 	 * The number of structural features of the '<em>Potential Dependency</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 5;
+	int POTENTIAL_DEPENDENCY_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeDependencyImpl <em>Potential Node Dependency</em>}' class.
@@ -452,6 +470,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_NODE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_DEPENDENCY__CONDITION = POTENTIAL_DEPENDENCY__CONDITION;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -545,6 +572,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_DEPENDENCY__CONDITION = POTENTIAL_DEPENDENCY__CONDITION;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -624,6 +660,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_ATTRIBUTE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_DEPENDENCY__CONDITION = POTENTIAL_DEPENDENCY__CONDITION;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -864,13 +909,22 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_CONFLICT__DUPLICATE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_CONFLICT__CONDITION = 4;
+
+	/**
 	 * The number of structural features of the '<em>Potential Conflict</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int POTENTIAL_CONFLICT_FEATURE_COUNT = 4;
+	int POTENTIAL_CONFLICT_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl <em>Potential Node Conflict</em>}' class.
@@ -917,6 +971,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_NODE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_NODE_CONFLICT__CONDITION = POTENTIAL_CONFLICT__CONDITION;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1001,6 +1064,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_EDGE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_EDGE_CONFLICT__CONDITION = POTENTIAL_CONFLICT__CONDITION;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1081,6 +1153,15 @@ public interface RulebasePackage extends EPackage {
 	 * @ordered
 	 */
 	int POTENTIAL_ATTRIBUTE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_ATTRIBUTE_CONFLICT__CONDITION = POTENTIAL_CONFLICT__CONDITION;
 
 	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
@@ -1183,6 +1264,15 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DANGLING_EDGE_CONFLICT__DUPLICATE = POTENTIAL_CONFLICT__DUPLICATE;
 
 	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_CONFLICT__CONDITION = POTENTIAL_CONFLICT__CONDITION;
+
+	/**
 	 * The feature id for the '<em><b>Rule Base</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1219,6 +1309,97 @@ public interface RulebasePackage extends EPackage {
 	int POTENTIAL_DANGLING_EDGE_CONFLICT_FEATURE_COUNT = POTENTIAL_CONFLICT_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.impl.PotentialDanglingEdgeDependencyImpl <em>Potential Dangling Edge Dependency</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.sidiff.editrule.rulebase.impl.PotentialDanglingEdgeDependencyImpl
+	 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getPotentialDanglingEdgeDependency()
+	 * @generated
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY = 15;
+
+	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__KIND = POTENTIAL_DEPENDENCY__KIND;
+
+	/**
+	 * The feature id for the '<em><b>Source Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__SOURCE_RULE = POTENTIAL_DEPENDENCY__SOURCE_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Target Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__TARGET_RULE = POTENTIAL_DEPENDENCY__TARGET_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Transient</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__TRANSIENT = POTENTIAL_DEPENDENCY__TRANSIENT;
+
+	/**
+	 * The feature id for the '<em><b>Revert</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__REVERT = POTENTIAL_DEPENDENCY__REVERT;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__CONDITION = POTENTIAL_DEPENDENCY__CONDITION;
+
+	/**
+	 * The feature id for the '<em><b>Deletion Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_NODE = POTENTIAL_DEPENDENCY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Deletion Edge</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_EDGE = POTENTIAL_DEPENDENCY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Potential Dangling Edge Dependency</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POTENTIAL_DANGLING_EDGE_DEPENDENCY_FEATURE_COUNT = POTENTIAL_DEPENDENCY_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1226,7 +1407,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getPotentialDependencyKind()
 	 * @generated
 	 */
-	int POTENTIAL_DEPENDENCY_KIND = 15;
+	int POTENTIAL_DEPENDENCY_KIND = 16;
 
 
 	/**
@@ -1237,7 +1418,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getParameterDirection()
 	 * @generated
 	 */
-	int PARAMETER_DIRECTION = 16;
+	int PARAMETER_DIRECTION = 17;
 
 	/**
 	 * The meta object id for the '{@link org.sidiff.editrule.rulebase.ParameterKind <em>Parameter Kind</em>}' enum.
@@ -1247,7 +1428,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getParameterKind()
 	 * @generated
 	 */
-	int PARAMETER_KIND = 17;
+	int PARAMETER_KIND = 18;
 
 
 	/**
@@ -1258,7 +1439,7 @@ public interface RulebasePackage extends EPackage {
 	 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getPotentialConflictKind()
 	 * @generated
 	 */
-	int POTENTIAL_CONFLICT_KIND = 18;
+	int POTENTIAL_CONFLICT_KIND = 19;
 
 
 	/**
@@ -1347,6 +1528,17 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getRuleBase_PotentialDanglingEdgeConflicts();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeDependencies <em>Potential Dangling Edge Dependencies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Potential Dangling Edge Dependencies</em>'.
+	 * @see org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeDependencies()
+	 * @see #getRuleBase()
+	 * @generated
+	 */
+	EReference getRuleBase_PotentialDanglingEdgeDependencies();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.sidiff.editrule.rulebase.RuleBase#getItems <em>Items</em>}'.
@@ -1597,6 +1789,17 @@ public interface RulebasePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPotentialDependency_Revert();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialDependency#isCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialDependency#isCondition()
+	 * @see #getPotentialDependency()
+	 * @generated
+	 */
+	EAttribute getPotentialDependency_Condition();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialDependency#getKind <em>Kind</em>}'.
@@ -1944,6 +2147,17 @@ public interface RulebasePackage extends EPackage {
 	EAttribute getPotentialConflict_Duplicate();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.sidiff.editrule.rulebase.PotentialConflict#isCondition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Condition</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialConflict#isCondition()
+	 * @see #getPotentialConflict()
+	 * @generated
+	 */
+	EAttribute getPotentialConflict_Condition();
+
+	/**
 	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.PotentialNodeConflict <em>Potential Node Conflict</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2138,6 +2352,38 @@ public interface RulebasePackage extends EPackage {
 	EReference getPotentialDanglingEdgeConflict_CreationEdge();
 
 	/**
+	 * Returns the meta object for class '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency <em>Potential Dangling Edge Dependency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Potential Dangling Edge Dependency</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency
+	 * @generated
+	 */
+	EClass getPotentialDanglingEdgeDependency();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency#getDeletionNode <em>Deletion Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Deletion Node</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency#getDeletionNode()
+	 * @see #getPotentialDanglingEdgeDependency()
+	 * @generated
+	 */
+	EReference getPotentialDanglingEdgeDependency_DeletionNode();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency#getDeletionEdge <em>Deletion Edge</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Deletion Edge</em>'.
+	 * @see org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency#getDeletionEdge()
+	 * @see #getPotentialDanglingEdgeDependency()
+	 * @generated
+	 */
+	EReference getPotentialDanglingEdgeDependency_DeletionEdge();
+
+	/**
 	 * Returns the meta object for enum '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2264,6 +2510,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS = eINSTANCE.getRuleBase_PotentialDanglingEdgeConflicts();
+
+		/**
+		 * The meta object literal for the '<em><b>Potential Dangling Edge Dependencies</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE_BASE__POTENTIAL_DANGLING_EDGE_DEPENDENCIES = eINSTANCE.getRuleBase_PotentialDanglingEdgeDependencies();
 
 		/**
 		 * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
@@ -2454,6 +2708,14 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute POTENTIAL_DEPENDENCY__REVERT = eINSTANCE.getPotentialDependency_Revert();
+
+		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POTENTIAL_DEPENDENCY__CONDITION = eINSTANCE.getPotentialDependency_Condition();
 
 		/**
 		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
@@ -2726,6 +2988,14 @@ public interface RulebasePackage extends EPackage {
 		EAttribute POTENTIAL_CONFLICT__DUPLICATE = eINSTANCE.getPotentialConflict_Duplicate();
 
 		/**
+		 * The meta object literal for the '<em><b>Condition</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute POTENTIAL_CONFLICT__CONDITION = eINSTANCE.getPotentialConflict_Condition();
+
+		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.PotentialNodeConflictImpl <em>Potential Node Conflict</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2876,6 +3146,32 @@ public interface RulebasePackage extends EPackage {
 		 * @generated
 		 */
 		EReference POTENTIAL_DANGLING_EDGE_CONFLICT__CREATION_EDGE = eINSTANCE.getPotentialDanglingEdgeConflict_CreationEdge();
+
+		/**
+		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.impl.PotentialDanglingEdgeDependencyImpl <em>Potential Dangling Edge Dependency</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.sidiff.editrule.rulebase.impl.PotentialDanglingEdgeDependencyImpl
+		 * @see org.sidiff.editrule.rulebase.impl.RulebasePackageImpl#getPotentialDanglingEdgeDependency()
+		 * @generated
+		 */
+		EClass POTENTIAL_DANGLING_EDGE_DEPENDENCY = eINSTANCE.getPotentialDanglingEdgeDependency();
+
+		/**
+		 * The meta object literal for the '<em><b>Deletion Node</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_NODE = eINSTANCE.getPotentialDanglingEdgeDependency_DeletionNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Deletion Edge</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_EDGE = eINSTANCE.getPotentialDanglingEdgeDependency_DeletionEdge();
 
 		/**
 		 * The meta object literal for the '{@link org.sidiff.editrule.rulebase.PotentialDependencyKind <em>Potential Dependency Kind</em>}' enum.

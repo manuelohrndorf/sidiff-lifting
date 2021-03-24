@@ -27,15 +27,21 @@ import static org.sidiff.editrule.analysis.transienteffects.EditRuleTransientEff
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.sidiff.common.collections.CollectionUtil;
 import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.common.henshin.view.EdgePair;
@@ -43,6 +49,8 @@ import org.sidiff.common.henshin.view.NodePair;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleDependencies;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
@@ -74,6 +82,8 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * Delete <-> Target -> Source <-> Predecessor -> Successor
 	 */
 
+	private Map<Resource,Map<EClass,Set<EReference>>> referenceTypeIndex = new HashMap<>();
+	
 	/**
 	 * Initializes a new potential dependency analyzer.
 	 * 
@@ -236,6 +246,18 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 			}
 			potRuleDep.addAllPEDs(peds);
 		};
+		
+		/*
+		 * Search edge dependencies
+		 */
+
+		Consumer<Set<PotentialDanglingEdgeDependency>> pdedConsumer = pdeds -> {
+			for (PotentialDanglingEdgeDependency ped : pdeds) {
+				ped.setSourceRule(successorEditRule);
+				ped.setTargetRule(predecessorEditRule);
+			}
+			potRuleDep.addAllPDEDs(pdeds);
+		};
 
 		if (!predecessorCreateEdges.isEmpty()) {
 			// Create-Delete
@@ -260,6 +282,10 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 			if (!successorCreateEdges.isEmpty()) {
 				pedConsumer.accept(
 						findDeleteCreateEdgeDependencies(predecessorDeleteEdges, successorCreateEdges, potRuleDep));
+			}
+			
+			if (!successorDeleteNodes.isEmpty()) {
+				pdedConsumer.accept(findDanglingEdgeDependency(predecessorDeleteEdges, successorDeleteNodes));
 			}
 
 			// Delete-Forbid
@@ -501,6 +527,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -591,7 +618,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 	 * Checks all nodes for Delete-Forbid dependencies.
 	 * 
 	 * @param deletePredecessors Nodes on LHS only (<< delete >>).
-	 * @param forbidSuccessors   Edges from NACs (<< forbid >>).
+	 * @param forbidSuccessors   Nodes from NACs (<< forbid >>).
 	 * @return All potential Delete-Forbid node dependencies.
 	 */
 	protected Set<PotentialNodeDependency> findDeleteForbidNodeDependencies(Collection<Node> deletePredecessors,
@@ -626,6 +653,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -773,7 +801,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.USE_DELETE);
 					potDep.setTransient(isTransient);
-
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -846,6 +874,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetNode(predecessorNode);
 					potDep.setKind(PotentialDependencyKind.FORBID_CREATE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1114,6 +1143,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(rhsPredecessorEdge);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1308,6 +1338,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(predecessorEdge);
 					potDep.setKind(PotentialDependencyKind.DELETE_FORBID);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1315,6 +1346,69 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 		return potDeps;
 	}
 
+	/**
+	 * Checks all potential dangling edge dependencies (special kind of Delete-Forbid
+	 * dependency).
+	 * 
+	 * @param deletePredecessors Edge is on LHS only (<<delete>>)
+	 * @param deleteSuccessors   Node is on LHS only (<<delete>>)
+	 * @return All potential dangling edge dependencies.
+	 */
+	protected Set<PotentialDanglingEdgeDependency> findDanglingEdgeDependency(Collection<Edge> deletePredecessors,
+			Collection<Node> deleteSuccessors) {
+		Set<PotentialDanglingEdgeDependency> potDeps = new HashSet<>();
+		for (Node deleteSuccessor : deleteSuccessors) {
+			for (Edge predecessorEdge : deletePredecessors) {
+				if (isDanglingEdgeDependency(predecessorEdge, deleteSuccessor)) {
+					// Create-Forbid conflict found
+					PotentialDanglingEdgeDependency potCon = rbFactory.createPotentialDanglingEdgeDependency();
+					potCon.setDeletionEdge(predecessorEdge);
+					potCon.setDeletionNode(deleteSuccessor);
+					potCon.setKind(PotentialDependencyKind.DELETE_FORBID);
+					potDeps.add(potCon);
+				}
+			}
+		}
+		return potDeps;
+	}
+	
+	/**
+	 * Checks if a creation edge leads to a dangling edge of a deletion node
+	 * (special kind of Create-Forbid conflict).
+	 * 
+	 * @param createPredecessor Edge is on RHS only (<<create>>)
+	 * @param deleteSuccessor   Node is on LHS only (<<delete>>)
+	 * @return <code>true</code> if there is a conflict; <code>false</code>
+	 *         otherwise.
+	 */
+	protected boolean isDanglingEdgeDependency(Edge deletePredecessor, Node deleteSuccessor) {
+		assert isDeletionEdge(deletePredecessor) : "Input Assertion failed: deletion edge expected!";
+		assert isDeletionNode(deleteSuccessor) : "Input Assertion failed: deletion node expected!";
+
+		EReference predecessorType = deletePredecessor.getType();
+		EClass successorType = deleteSuccessor.getType();
+
+		Node srcNode = deletePredecessor.getSource();
+		Node tgtNode = deletePredecessor.getTarget();
+		if (assignable(srcNode.getType(), deleteSuccessor.getType()) && successorType.getEAllReferences().contains(predecessorType)
+				&& deleteSuccessor.getOutgoing(predecessorType).isEmpty()) {
+			return true;
+		}
+//		if (!deleteSuccessor.getIncoming(predecessorType).isEmpty()) {
+//			return false;
+//		}
+
+		if(assignable(tgtNode.getType(), deleteSuccessor.getType())){
+			return referenceTypeIndex
+					.computeIfAbsent(successorType.eResource(),
+							resource -> CollectionUtil.asStream(resource.getAllContents())
+									.filter(EReference.class::isInstance).map(EReference.class::cast)
+									.collect(Collectors.groupingBy(EReference::getEReferenceType, Collectors.toSet())))
+					.getOrDefault(successorType, Collections.emptySet()).contains(predecessorType);
+		}
+		return false;
+	}
+	
 	/**
 	 * Checks two edges for a Delete-Forbid dependency.
 	 * 
@@ -1516,6 +1610,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(predecessorEdge);
 					potDep.setKind(PotentialDependencyKind.USE_DELETE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1620,6 +1715,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetEdge(predecessorEdge);
 					potDep.setKind(PotentialDependencyKind.FORBID_CREATE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1713,6 +1809,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetAttribute(createPredecessor);
 					potDep.setKind(PotentialDependencyKind.CREATE_USE);
 					potDep.setTransient(false);
+					potDep.setCondition(HenshinRuleAnalysisUtilEx.isRequireAttribute(useSuccessor));
 					potDeps.add(potDep);
 				}
 			}
@@ -1778,6 +1875,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setKind(PotentialDependencyKind.CHANGE_USE);
 					potDep.setTransient(false);
 					potDep.setRevert(true);
+					potDep.setCondition(HenshinRuleAnalysisUtilEx.isRequireAttribute(lhsSuccessorAttribute));
 					potDeps.add(potDep);
 				}
 			}
@@ -1855,6 +1953,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetAttribute(predecessorAttribute);
 					potDep.setKind(PotentialDependencyKind.CHANGE_FORBID);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}
@@ -1919,6 +2018,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setKind(PotentialDependencyKind.USE_CHANGE);
 					potDep.setTransient(true);
 					potDep.setRevert(true);
+					potDep.setCondition(HenshinRuleAnalysisUtilEx.isRequireAttribute(rhsPredecessorAttribute));
 					potDeps.add(potDep);
 				}
 			}
@@ -1994,6 +2094,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					potDep.setTargetAttribute(predecessorAttribute);
 					potDep.setKind(PotentialDependencyKind.FORBID_CHANGE);
 					potDep.setTransient(isTransient);
+					potDep.setCondition(true);
 					potDeps.add(potDep);
 				}
 			}

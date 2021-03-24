@@ -62,6 +62,8 @@ public class PotentialDependencyItemProvider
 			addSourceRulePropertyDescriptor(object);
 			addTargetRulePropertyDescriptor(object);
 			addTransientPropertyDescriptor(object);
+			addRevertPropertyDescriptor(object);
+			addConditionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -155,6 +157,50 @@ public class PotentialDependencyItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Revert feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRevertPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialDependency_revert_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDependency_revert_feature", "_UI_PotentialDependency_type"),
+				 RulebasePackage.Literals.POTENTIAL_DEPENDENCY__REVERT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Condition feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addConditionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_PotentialDependency_condition_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_PotentialDependency_condition_feature", "_UI_PotentialDependency_type"),
+				 RulebasePackage.Literals.POTENTIAL_DEPENDENCY__CONDITION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -184,6 +230,8 @@ public class PotentialDependencyItemProvider
 		switch (notification.getFeatureID(PotentialDependency.class)) {
 			case RulebasePackage.POTENTIAL_DEPENDENCY__KIND:
 			case RulebasePackage.POTENTIAL_DEPENDENCY__TRANSIENT:
+			case RulebasePackage.POTENTIAL_DEPENDENCY__REVERT:
+			case RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

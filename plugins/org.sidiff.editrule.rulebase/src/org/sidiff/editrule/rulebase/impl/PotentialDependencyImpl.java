@@ -29,6 +29,7 @@ import org.sidiff.editrule.rulebase.RulebasePackage;
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialDependencyImpl#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialDependencyImpl#isTransient <em>Transient</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialDependencyImpl#isRevert <em>Revert</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.impl.PotentialDependencyImpl#isCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @generated
@@ -113,6 +114,26 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * @ordered
 	 */
 	protected boolean revert = REVERT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isCondition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CONDITION_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isCondition() <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isCondition()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean condition = CONDITION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -288,6 +309,29 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 	 * @generated
 	 */
 	@Override
+	public boolean isCondition() {
+		return condition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setCondition(boolean newCondition) {
+		boolean oldCondition = condition;
+		condition = newCondition;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION, oldCondition, condition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case RulebasePackage.POTENTIAL_DEPENDENCY__KIND:
@@ -302,6 +346,8 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 				return isTransient();
 			case RulebasePackage.POTENTIAL_DEPENDENCY__REVERT:
 				return isRevert();
+			case RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION:
+				return isCondition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -328,6 +374,9 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 				return;
 			case RulebasePackage.POTENTIAL_DEPENDENCY__REVERT:
 				setRevert((Boolean)newValue);
+				return;
+			case RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION:
+				setCondition((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -356,6 +405,9 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 			case RulebasePackage.POTENTIAL_DEPENDENCY__REVERT:
 				setRevert(REVERT_EDEFAULT);
 				return;
+			case RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION:
+				setCondition(CONDITION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -378,6 +430,8 @@ public abstract class PotentialDependencyImpl extends EObjectImpl implements Pot
 				return transient_ != TRANSIENT_EDEFAULT;
 			case RulebasePackage.POTENTIAL_DEPENDENCY__REVERT:
 				return revert != REVERT_EDEFAULT;
+			case RulebasePackage.POTENTIAL_DEPENDENCY__CONDITION:
+				return condition != CONDITION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

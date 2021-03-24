@@ -27,6 +27,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="potentialDanglingEdgeConflicts"
         upperBound="-1" eType="#//PotentialDanglingEdgeConflict" containment="true"
         eOpposite="#//PotentialDanglingEdgeConflict/ruleBase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="potentialDanglingEdgeDependencies"
+        upperBound="-1" eType="#//PotentialDanglingEdgeDependency" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EditRule">
     <eOperations name="getParameterByName" eType="#//Parameter">
@@ -74,6 +76,7 @@
         eType="#//EditRule"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transient" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="revert" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PotentialNodeDependency" eSuperTypes="#//PotentialDependency">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ruleBase" eType="#//RuleBase"
@@ -131,6 +134,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="targetRule" lowerBound="1"
         eType="#//EditRule"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="duplicate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PotentialConflictKind">
     <eLiterals name="DeleteUse"/>
@@ -168,5 +172,9 @@
         eOpposite="#//RuleBase/potentialDanglingEdgeConflicts"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="deletionNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="creationEdge" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Edge"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PotentialDanglingEdgeDependency" eSuperTypes="#//PotentialDependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deletionNode" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deletionEdge" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Edge"/>
   </eClassifiers>
 </ecore:EPackage>

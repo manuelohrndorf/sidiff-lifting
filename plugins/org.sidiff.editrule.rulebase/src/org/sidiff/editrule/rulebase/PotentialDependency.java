@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#isTransient <em>Transient</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#isRevert <em>Revert</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialDependency#isCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDependency()
@@ -128,6 +129,28 @@ public interface PotentialDependency extends EObject {
 	 * @generated
 	 */
 	void setRevert(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Condition</em>' attribute.
+	 * @see #setCondition(boolean)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialDependency_Condition()
+	 * @model
+	 * @generated
+	 */
+	boolean isCondition();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialDependency#isCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Condition</em>' attribute.
+	 * @see #isCondition()
+	 * @generated
+	 */
+	void setCondition(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.

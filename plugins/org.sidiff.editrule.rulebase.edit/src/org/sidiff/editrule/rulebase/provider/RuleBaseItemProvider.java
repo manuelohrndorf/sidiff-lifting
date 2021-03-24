@@ -67,6 +67,7 @@ public class RuleBaseItemProvider
 			addPotentialEdgeConflictsPropertyDescriptor(object);
 			addPotentialAttributeConflictsPropertyDescriptor(object);
 			addPotentialDanglingEdgeConflictsPropertyDescriptor(object);
+			addPotentialDanglingEdgeDependenciesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -239,6 +240,28 @@ public class RuleBaseItemProvider
 				 getString("_UI_RuleBase_potentialDanglingEdgeConflicts_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_potentialDanglingEdgeConflicts_feature", "_UI_RuleBase_type"),
 				 RulebasePackage.Literals.RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Potential Dangling Edge Dependencies feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPotentialDanglingEdgeDependenciesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_RuleBase_potentialDanglingEdgeDependencies_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_RuleBase_potentialDanglingEdgeDependencies_feature", "_UI_RuleBase_type"),
+				 RulebasePackage.Literals.RULE_BASE__POTENTIAL_DANGLING_EDGE_DEPENDENCIES,
 				 true,
 				 false,
 				 true,

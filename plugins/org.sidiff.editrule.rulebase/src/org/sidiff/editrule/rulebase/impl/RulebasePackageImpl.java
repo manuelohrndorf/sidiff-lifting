@@ -25,6 +25,7 @@ import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
 import org.sidiff.editrule.rulebase.PotentialConflict;
 import org.sidiff.editrule.rulebase.PotentialConflictKind;
 import org.sidiff.editrule.rulebase.PotentialDanglingEdgeConflict;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeConflict;
@@ -147,6 +148,13 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	private EClass potentialDanglingEdgeConflictEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass potentialDanglingEdgeDependencyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -318,6 +326,16 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	@Override
 	public EReference getRuleBase_PotentialDanglingEdgeConflicts() {
 		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getRuleBase_PotentialDanglingEdgeDependencies() {
+		return (EReference)ruleBaseEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -548,6 +566,16 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	@Override
 	public EAttribute getPotentialDependency_Revert() {
 		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getPotentialDependency_Condition() {
+		return (EAttribute)potentialDependencyEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -876,6 +904,16 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
+	public EAttribute getPotentialConflict_Condition() {
+		return (EAttribute)potentialConflictEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getPotentialNodeConflict() {
 		return potentialNodeConflictEClass;
 	}
@@ -1056,6 +1094,36 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 	 * @generated
 	 */
 	@Override
+	public EClass getPotentialDanglingEdgeDependency() {
+		return potentialDanglingEdgeDependencyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getPotentialDanglingEdgeDependency_DeletionNode() {
+		return (EReference)potentialDanglingEdgeDependencyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getPotentialDanglingEdgeDependency_DeletionEdge() {
+		return (EReference)potentialDanglingEdgeDependencyEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getPotentialDependencyKind() {
 		return potentialDependencyKindEEnum;
 	}
@@ -1132,6 +1200,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_EDGE_CONFLICTS);
 		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_ATTRIBUTE_CONFLICTS);
 		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_DANGLING_EDGE_CONFLICTS);
+		createEReference(ruleBaseEClass, RULE_BASE__POTENTIAL_DANGLING_EDGE_DEPENDENCIES);
 
 		editRuleEClass = createEClass(EDIT_RULE);
 		createEReference(editRuleEClass, EDIT_RULE__EXECUTE_MAIN_UNIT);
@@ -1154,6 +1223,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(potentialDependencyEClass, POTENTIAL_DEPENDENCY__TARGET_RULE);
 		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__TRANSIENT);
 		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__REVERT);
+		createEAttribute(potentialDependencyEClass, POTENTIAL_DEPENDENCY__CONDITION);
 
 		potentialNodeDependencyEClass = createEClass(POTENTIAL_NODE_DEPENDENCY);
 		createEReference(potentialNodeDependencyEClass, POTENTIAL_NODE_DEPENDENCY__RULE_BASE);
@@ -1192,6 +1262,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__SOURCE_RULE);
 		createEReference(potentialConflictEClass, POTENTIAL_CONFLICT__TARGET_RULE);
 		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__DUPLICATE);
+		createEAttribute(potentialConflictEClass, POTENTIAL_CONFLICT__CONDITION);
 
 		potentialNodeConflictEClass = createEClass(POTENTIAL_NODE_CONFLICT);
 		createEReference(potentialNodeConflictEClass, POTENTIAL_NODE_CONFLICT__RULE_BASE);
@@ -1214,6 +1285,10 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		createEReference(potentialDanglingEdgeConflictEClass, POTENTIAL_DANGLING_EDGE_CONFLICT__RULE_BASE);
 		createEReference(potentialDanglingEdgeConflictEClass, POTENTIAL_DANGLING_EDGE_CONFLICT__DELETION_NODE);
 		createEReference(potentialDanglingEdgeConflictEClass, POTENTIAL_DANGLING_EDGE_CONFLICT__CREATION_EDGE);
+
+		potentialDanglingEdgeDependencyEClass = createEClass(POTENTIAL_DANGLING_EDGE_DEPENDENCY);
+		createEReference(potentialDanglingEdgeDependencyEClass, POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_NODE);
+		createEReference(potentialDanglingEdgeDependencyEClass, POTENTIAL_DANGLING_EDGE_DEPENDENCY__DELETION_EDGE);
 
 		// Create enums
 		potentialDependencyKindEEnum = createEEnum(POTENTIAL_DEPENDENCY_KIND);
@@ -1260,6 +1335,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		potentialEdgeConflictEClass.getESuperTypes().add(this.getPotentialConflict());
 		potentialAttributeConflictEClass.getESuperTypes().add(this.getPotentialConflict());
 		potentialDanglingEdgeConflictEClass.getESuperTypes().add(this.getPotentialConflict());
+		potentialDanglingEdgeDependencyEClass.getESuperTypes().add(this.getPotentialDependency());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ruleBaseEClass, RuleBase.class, "RuleBase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1275,6 +1351,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getRuleBase_PotentialEdgeConflicts(), this.getPotentialEdgeConflict(), this.getPotentialEdgeConflict_RuleBase(), "potentialEdgeConflicts", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_PotentialAttributeConflicts(), this.getPotentialAttributeConflict(), this.getPotentialAttributeConflict_RuleBase(), "potentialAttributeConflicts", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleBase_PotentialDanglingEdgeConflicts(), this.getPotentialDanglingEdgeConflict(), this.getPotentialDanglingEdgeConflict_RuleBase(), "potentialDanglingEdgeConflicts", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRuleBase_PotentialDanglingEdgeDependencies(), this.getPotentialDanglingEdgeDependency(), null, "potentialDanglingEdgeDependencies", null, 0, -1, RuleBase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(editRuleEClass, EditRule.class, "EditRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEditRule_ExecuteMainUnit(), theHenshinPackage.getUnit(), null, "executeMainUnit", null, 1, 1, EditRule.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1300,6 +1377,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getPotentialDependency_TargetRule(), this.getEditRule(), null, "targetRule", null, 1, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPotentialDependency_Transient(), ecorePackage.getEBoolean(), "transient", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPotentialDependency_Revert(), ecorePackage.getEBoolean(), "revert", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPotentialDependency_Condition(), ecorePackage.getEBoolean(), "condition", null, 0, 1, PotentialDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialNodeDependencyEClass, PotentialNodeDependency.class, "PotentialNodeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialNodeDependency_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialNodeDependencies(), "ruleBase", null, 0, 1, PotentialNodeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1338,6 +1416,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getPotentialConflict_SourceRule(), this.getEditRule(), null, "sourceRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialConflict_TargetRule(), this.getEditRule(), null, "targetRule", null, 1, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPotentialConflict_Duplicate(), ecorePackage.getEBoolean(), "duplicate", null, 0, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPotentialConflict_Condition(), ecorePackage.getEBoolean(), "condition", null, 0, 1, PotentialConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(potentialNodeConflictEClass, PotentialNodeConflict.class, "PotentialNodeConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPotentialNodeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialNodeConflicts(), "ruleBase", null, 0, 1, PotentialNodeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1360,6 +1439,10 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		initEReference(getPotentialDanglingEdgeConflict_RuleBase(), this.getRuleBase(), this.getRuleBase_PotentialDanglingEdgeConflicts(), "ruleBase", null, 0, 1, PotentialDanglingEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialDanglingEdgeConflict_DeletionNode(), theHenshinPackage.getNode(), null, "deletionNode", null, 0, 1, PotentialDanglingEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPotentialDanglingEdgeConflict_CreationEdge(), theHenshinPackage.getEdge(), null, "creationEdge", null, 0, 1, PotentialDanglingEdgeConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(potentialDanglingEdgeDependencyEClass, PotentialDanglingEdgeDependency.class, "PotentialDanglingEdgeDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPotentialDanglingEdgeDependency_DeletionNode(), theHenshinPackage.getNode(), null, "deletionNode", null, 0, 1, PotentialDanglingEdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPotentialDanglingEdgeDependency_DeletionEdge(), theHenshinPackage.getEdge(), null, "deletionEdge", null, 0, 1, PotentialDanglingEdgeDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(potentialDependencyKindEEnum, PotentialDependencyKind.class, "PotentialDependencyKind");

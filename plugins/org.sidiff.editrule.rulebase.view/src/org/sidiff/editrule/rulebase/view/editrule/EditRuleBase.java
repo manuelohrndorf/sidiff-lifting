@@ -93,6 +93,7 @@ public class EditRuleBase extends BasicRuleBase implements IEditRuleBase {
 			potDepIndex =
 				Stream.of(getRuleBase().getPotentialNodeDependencies(),
 						getRuleBase().getPotentialEdgeDependencies(),
+						getRuleBase().getPotentialDanglingEdgeDependencies(),
 						getRuleBase().getPotentialAttributeDependencies())
 					.flatMap(Collection::stream)
 					.collect(Collectors.groupingBy(PotentialDependency::getSourceRule, Collectors.toSet()));
