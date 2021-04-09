@@ -1454,6 +1454,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CREATE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.USE_CHANGE);
 		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.FORBID_CHANGE);
+		addEEnumLiteral(potentialDependencyKindEEnum, PotentialDependencyKind.DANGLING_DEPENDENCY);
 
 		initEEnum(parameterDirectionEEnum, ParameterDirection.class, "ParameterDirection");
 		addEEnumLiteral(parameterDirectionEEnum, ParameterDirection.IN);
@@ -1469,6 +1470,7 @@ public class RulebasePackageImpl extends EPackageImpl implements RulebasePackage
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_USE);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_FORBID);
 		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.CHANGE_CHANGE);
+		addEEnumLiteral(potentialConflictKindEEnum, PotentialConflictKind.DANGLING_CONFLICT);
 
 		// Create resource
 		createResource(eNS_URI);
