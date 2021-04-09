@@ -82,6 +82,7 @@ public class AsymmetricDifferenceUtil {
 			case FORBID_CREATE: return DependencyKind.FORBID_CREATE;
 			case USE_CHANGE: return DependencyKind.USE_CHANGE;
 			case USE_DELETE: return DependencyKind.USE_DELETE;
+			case DANGLING_DEPENDENCY: return DependencyKind.DANGLING_DEPENDENCY;
 		}
 		throw new IllegalArgumentException("Invalid PotentialDependencyKind: " + potDepKind);
 	}

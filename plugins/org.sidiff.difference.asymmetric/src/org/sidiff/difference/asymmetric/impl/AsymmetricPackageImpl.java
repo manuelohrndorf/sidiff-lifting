@@ -1028,6 +1028,7 @@ public class AsymmetricPackageImpl extends EPackageImpl implements AsymmetricPac
 		addEEnumLiteral(dependencyKindEEnum, DependencyKind.USE_CHANGE);
 		addEEnumLiteral(dependencyKindEEnum, DependencyKind.CHANGE_FORBID);
 		addEEnumLiteral(dependencyKindEEnum, DependencyKind.FORBID_CHANGE);
+		addEEnumLiteral(dependencyKindEEnum, DependencyKind.DANGLING_DEPENDENCY);
 
 		// Create resource
 		createResource(eNS_URI);
