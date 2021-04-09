@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Edge;
 import org.sidiff.common.emf.access.Link;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
@@ -34,6 +35,7 @@ import org.sidiff.difference.symmetric.SemanticChangeSet;
 import org.sidiff.editrule.analysis.criticalpairs.InterRuleBasePotentialDependencyAnalyzer;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialNodeDependency;
@@ -122,7 +124,9 @@ public abstract class DependencyAnalyzer {
 						} else if (potDep instanceof PotentialAttributeDependency) {
 							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialAttributeDependency)potDep, scsTgt)
 											.map(i -> createAttributeDependency((PotentialAttributeDependency)potDep, i)).orElse(null);
-						} else {
+						} else if (potDep instanceof PotentialDanglingEdgeDependency) { 
+							dependency = intersects(erSrcMatch, erTgtMatch, (PotentialDanglingEdgeDependency) potDep).map(DependencyAnalyzer::createEdgeDependency).orElse(null);
+						}else {
 							throw new AssertionError();
 						}
 						if(dependency == null) {
@@ -215,6 +219,31 @@ public abstract class DependencyAnalyzer {
 			case FORBID_CREATE: return intersectsForbidCreate(pnd);
 			default: throw new AssertionError("Unknown dependency kind: " + pnd.getKind());
 		}
+	}
+	
+	private Optional<Link> intersects(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch, PotentialDanglingEdgeDependency pded) {
+		// check A intersection
+		Set<EObject> srcOccurence = erSrcMatch.getOccurenceA(pded.getDeletionNode());
+		Set<Link> srcEdgeOccurrences = new HashSet<Link>();
+		for(Edge edge : pded.getDeletionNode().getOutgoing(pded.getDeletionEdge().getType())) {
+			srcEdgeOccurrences.addAll(erSrcMatch.getOccurenceA(edge));
+		}
+		
+		for(Edge edge : pded.getDeletionNode().getIncoming(pded.getDeletionEdge().getType())) {
+			srcEdgeOccurrences.addAll(erSrcMatch.getOccurenceA(edge));
+		}
+		
+		Set<Link> tgtOccurence = new HashSet<Link>(erTgtMatch.getOccurenceA(pded.getDeletionEdge()));
+		Set<EObject> referencedElements = new HashSet<EObject>();
+		referencedElements.addAll(erTgtMatch.getOccurenceA(pded.getDeletionEdge().getSource()));
+		referencedElements.addAll(erTgtMatch.getOccurenceA(pded.getDeletionEdge().getTarget()));
+		
+		tgtOccurence.removeAll(srcEdgeOccurrences);
+		
+		if(!tgtOccurence.isEmpty() && !Collections.disjoint(referencedElements, srcOccurence)) {
+			return tgtOccurence.stream().findFirst();
+		}
+		return Optional.empty();
 	}
 
 	private Optional<EObject> intersectsUseDelete(IEditRuleMatch erSrcMatch, IEditRuleMatch erTgtMatch,
