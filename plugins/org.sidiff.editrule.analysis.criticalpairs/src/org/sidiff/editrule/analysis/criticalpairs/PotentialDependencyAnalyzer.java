@@ -1364,7 +1364,7 @@ public abstract class PotentialDependencyAnalyzer extends AbstractAnalyzer {
 					PotentialDanglingEdgeDependency potCon = rbFactory.createPotentialDanglingEdgeDependency();
 					potCon.setDeletionEdge(predecessorEdge);
 					potCon.setDeletionNode(deleteSuccessor);
-					potCon.setKind(PotentialDependencyKind.DELETE_FORBID);
+					potCon.setKind(PotentialDependencyKind.DANGLING_DEPENDENCY);
 					potDeps.add(potCon);
 				}
 			}

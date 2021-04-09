@@ -943,7 +943,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialDanglingEdgeConflict potCon = rbFactory.createPotentialDanglingEdgeConflict();
 					potCon.setCreationEdge(predecessorEdge);
 					potCon.setDeletionNode(deleteSuccessor);
-					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setKind(PotentialConflictKind.DANGLING_CONFLICT);
 					potCons.add(potCon);
 				}
 			}
