@@ -1060,6 +1060,7 @@ public class EditRuleValidator {
 									"Only << preserved >> nodes may serve as boundary nodes of a postcondition!",
 									editModule, ValidationType.acBoundaries, lhsBoundaryNode.getGraph().getRule(),
 									lhsBoundaryNode);
+							info.severity = Diagnostic.WARNING;
 							invalids.add(info);
 							break;
 						}
