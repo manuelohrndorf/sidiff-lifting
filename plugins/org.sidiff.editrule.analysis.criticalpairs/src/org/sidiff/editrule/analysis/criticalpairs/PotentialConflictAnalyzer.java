@@ -384,6 +384,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				for (Edge predecessorEdge : predecessorEdges) {
 					if (successorEdge.getType().equals(predecessorEdge.getType())) {
 						iterator.remove();
+						break;
 					}
 				}
 			}
@@ -460,6 +461,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 				for(Edge predecessorEdge : predecessorEdges) {
 					if(successorEdge.getType().equals(predecessorEdge.getType())) {
 						iterator.remove();
+						break;
 					}
 				}
 			}
