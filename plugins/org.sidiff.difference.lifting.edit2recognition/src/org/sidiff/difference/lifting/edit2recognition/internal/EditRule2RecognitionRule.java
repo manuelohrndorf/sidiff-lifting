@@ -854,7 +854,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			// Create EAttribute node if it not exists
 			typeNode = createPreservedNodeWithAttribute(recognitionRule,
 					"", EcorePackage.eINSTANCE.getEAttribute(),
-					EcorePackage.eINSTANCE.getENamedElement_Name(), eAttributeType.getName(), true);
+					EcorePackage.eINSTANCE.getENamedElement_Name(), eAttributeType.getName());
 			
 			eAttributeTypeNodes.put(eAttributeType, typeNode);
 		}
@@ -946,7 +946,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			if (typeNode == null) {
 				typeNode = createPreservedNodeWithAttribute(recognitionRule, "",
 						EcorePackage.eINSTANCE.getEReference(),
-						EcorePackage.eINSTANCE.getENamedElement_Name(), edge.getType().getName(), true);
+						EcorePackage.eINSTANCE.getENamedElement_Name(), edge.getType().getName());
 				eReferenceTypeNodes.put(edge.getType(), typeNode);
 			}
 			
@@ -1022,7 +1022,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 			if (typeNode == null) {
 				typeNode = createPreservedNodeWithAttribute(recognitionRule, "",
 						EcorePackage.eINSTANCE.getEReference(),
-						EcorePackage.eINSTANCE.getENamedElement_Name(), edge.getType().getName(), true);
+						EcorePackage.eINSTANCE.getENamedElement_Name(), edge.getType().getName());
 				eReferenceTypeNodes.put(edge.getType(), typeNode);
 			}
 			
@@ -1261,7 +1261,7 @@ public class EditRule2RecognitionRule implements EditPattern2RecognitionPattern 
 		}
 		
 		// Node attribute
-		createPreservedAttribute(node, type, value, true);
+		createPreservedAttribute(node, type, value);
 	}
 	
 	/**

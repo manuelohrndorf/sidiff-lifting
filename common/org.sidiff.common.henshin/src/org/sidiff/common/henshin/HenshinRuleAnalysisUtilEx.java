@@ -1,14 +1,41 @@
 package org.sidiff.common.henshin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.*;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.BinaryFormula;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Formula;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Module;
-import org.sidiff.common.henshin.view.*;
+import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
+import org.sidiff.common.henshin.view.AttributePair;
+import org.sidiff.common.henshin.view.EdgePair;
+import org.sidiff.common.henshin.view.NodePair;
 
 /**
  * Utility methods for analyzing Henshin Modules, Units and Rules.
@@ -262,14 +289,11 @@ public class HenshinRuleAnalysisUtilEx {
 	 *            the type of the new attribute.
 	 * @param attrValue
 	 *            the attribute value.
-	 * @param attributeOnlyInLHS
-	 * 			  set this to true if the attribute shall only be created in LHS.
 	 * @return
 	 */
-	public static NodePair createPreservedNodeWithAttribute(Rule rule, String name, EClass nodeType, EAttribute attrType, String attrValue, boolean attributeOnlyInLHS) {
+	public static NodePair createPreservedNodeWithAttribute(Rule rule, String name, EClass nodeType, EAttribute attrType, String attrValue) {
 		NodePair res = createPreservedNode(rule, name, nodeType);
-		createPreservedAttribute(res, attrType, "\"" + attrValue + "\"", attributeOnlyInLHS);
-
+		createPreservedAttribute(res, attrType, "\"" + attrValue + "\"");
 		return res;
 	}
 
@@ -302,29 +326,16 @@ public class HenshinRuleAnalysisUtilEx {
 	}
 
 	/**
-	 * Creates a << preserve >> attribute for the given node, i.e. it will
-	 * create a LHS attribute in an << preserve >> node.
+	 * Creates a << preserve >> attribute for the given node, i.e. it will create a
+	 * LHS attribute in an << preserve >> node.
 	 *
-	 * @param node
-	 *            the node of the new attribute.
-	 * @param type
-	 *            the type of the new attribute.
-	 * @param value
-	 *            the value of the new attribute.
-	 * @param onlyInLHS
-	 * 			  set this to true if the attribute shall only be created in LHS
+	 * @param node  the node of the new attribute.
+	 * @param type  the type of the new attribute.
+	 * @param value the value of the new attribute.
 	 */
-	public static void createPreservedAttribute(NodePair node, EAttribute type, String value, boolean onlyInLHS) {
+	public static void createPreservedAttribute(NodePair node, EAttribute type, String value) {
 		HenshinFactory.eINSTANCE.createAttribute(node.getLhsNode(), type, value);
-		// We do not need RHS.
-		//HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
-
-		if(!onlyInLHS) {
-			// Actually we do need RHS, otherwise the attribute will be a
-			// <<delete>>, not a <<preserved>> one.
-			HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
-		}
-
+		HenshinFactory.eINSTANCE.createAttribute(node.getRhsNode(), type, value);
 	}
 
 	/**

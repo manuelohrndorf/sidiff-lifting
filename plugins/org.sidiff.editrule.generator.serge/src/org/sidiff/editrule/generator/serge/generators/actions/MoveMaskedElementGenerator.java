@@ -107,7 +107,7 @@ public class MoveMaskedElementGenerator {
 		Rule rule = HenshinModuleAnalysis.getAllRules(MOVE_Module).get(0);
 		rule.setName(rule.getName().replace(mask.getOriginalEClassifier().getName(), mask.getName()));
 		NodePair np = HenshinRuleAnalysisUtilEx.getNodePair(rule, (EClass)mask.getOriginalEClassifier(), GlobalConstants.SEL);
-		HenshinRuleAnalysisUtilEx.createPreservedAttribute(np, mask.getEAttributeContainingFakeType(), "\""+mask.getTypeExtension().getName()+"\"", false);
+		HenshinRuleAnalysisUtilEx.createPreservedAttribute(np, mask.getEAttributeContainingFakeType(), "\""+mask.getTypeExtension().getName()+"\"");
 
 		return MOVE_Module;
 	}

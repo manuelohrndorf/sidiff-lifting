@@ -88,7 +88,7 @@ public class ChangeLiteralGenerator {
 
 		NodePair containerNodePair = HenshinRuleAnalysisUtilEx.createPreservedNode(rule, GlobalConstants.SEL, (EClass) eAttribute.eContainer());
 
-		HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, eAttribute, "\""+oldEENumliteral.getName()+"\"", false);
+		HenshinRuleAnalysisUtilEx.createPreservedAttribute(containerNodePair, eAttribute, "\""+oldEENumliteral.getName()+"\"");
 		containerNodePair.getRhsNode().getAttribute(eAttribute).setValue("\""+newEENumliteral.getName()+"\"");
 
 		// set outputFilename, Module name and description
