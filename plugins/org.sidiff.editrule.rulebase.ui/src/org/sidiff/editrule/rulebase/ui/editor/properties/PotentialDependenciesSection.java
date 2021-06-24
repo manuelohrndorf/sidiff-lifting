@@ -31,6 +31,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.sidiff.editrule.rulebase.EditRule;
 import org.sidiff.editrule.rulebase.PotentialAttributeDependency;
+import org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency;
 import org.sidiff.editrule.rulebase.PotentialDependency;
 import org.sidiff.editrule.rulebase.PotentialDependencyKind;
 import org.sidiff.editrule.rulebase.PotentialEdgeDependency;
@@ -74,6 +75,7 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 			treeViewer.setInput(
 				Stream.of(ruleBase.getPotentialNodeDependencies(),
 						ruleBase.getPotentialEdgeDependencies(),
+						ruleBase.getPotentialDanglingEdgeDependencies(),
 						ruleBase.getPotentialAttributeDependencies())
 					.flatMap(Collection::stream)
 					.filter(dependency -> selectedRules.contains(dependency.getSourceRule()))
@@ -215,6 +217,9 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 			} else if(element instanceof PotentialAttributeDependency) {
 				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
 				return attributeDependency.getSourceAttribute().toString();
+			}else if(element instanceof PotentialDanglingEdgeDependency) {
+				PotentialDanglingEdgeDependency danglingEdgeDependency = (PotentialDanglingEdgeDependency)element;
+				return danglingEdgeDependency.getDeletionEdge().toString();
 			}
 			return null;
 		}
@@ -265,6 +270,9 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 			} else if(element instanceof PotentialAttributeDependency) {
 				PotentialAttributeDependency attributeDependency = (PotentialAttributeDependency)element;
 				return attributeDependency.getTargetAttribute().toString();
+			}else if(element instanceof PotentialDanglingEdgeDependency) {
+				PotentialDanglingEdgeDependency danglingEdgeDependency = (PotentialDanglingEdgeDependency)element;
+				return danglingEdgeDependency.getDeletionNode().toString();
 			}
 			return null;
 		}
@@ -285,7 +293,9 @@ public class PotentialDependenciesSection extends AbstractPropertySection {
 				return "Edge";
 			} else if(dependency instanceof PotentialAttributeDependency) {
 				return "Attribute";
-			}
+			} else if(dependency instanceof PotentialDanglingEdgeDependency) {
+				return "Dangling-Edge";
+			} 
 			throw new AssertionError();
 		}
 	}

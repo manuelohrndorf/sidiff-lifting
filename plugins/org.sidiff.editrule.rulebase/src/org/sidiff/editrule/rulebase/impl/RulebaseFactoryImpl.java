@@ -83,6 +83,7 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 			case RulebasePackage.POTENTIAL_EDGE_CONFLICT: return createPotentialEdgeConflict();
 			case RulebasePackage.POTENTIAL_ATTRIBUTE_CONFLICT: return createPotentialAttributeConflict();
 			case RulebasePackage.POTENTIAL_DANGLING_EDGE_CONFLICT: return createPotentialDanglingEdgeConflict();
+			case RulebasePackage.POTENTIAL_DANGLING_EDGE_DEPENDENCY: return createPotentialDanglingEdgeDependency();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -260,6 +261,17 @@ public class RulebaseFactoryImpl extends EFactoryImpl implements RulebaseFactory
 	public PotentialDanglingEdgeConflict createPotentialDanglingEdgeConflict() {
 		PotentialDanglingEdgeConflictImpl potentialDanglingEdgeConflict = new PotentialDanglingEdgeConflictImpl();
 		return potentialDanglingEdgeConflict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public PotentialDanglingEdgeDependency createPotentialDanglingEdgeDependency() {
+		PotentialDanglingEdgeDependencyImpl potentialDanglingEdgeDependency = new PotentialDanglingEdgeDependencyImpl();
+		return potentialDanglingEdgeDependency;
 	}
 
 	/**

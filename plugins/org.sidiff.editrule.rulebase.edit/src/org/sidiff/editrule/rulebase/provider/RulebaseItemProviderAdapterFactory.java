@@ -346,6 +346,29 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PotentialDanglingEdgeDependencyItemProvider potentialDanglingEdgeDependencyItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPotentialDanglingEdgeDependencyAdapter() {
+		if (potentialDanglingEdgeDependencyItemProvider == null) {
+			potentialDanglingEdgeDependencyItemProvider = new PotentialDanglingEdgeDependencyItemProvider(this);
+		}
+
+		return potentialDanglingEdgeDependencyItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -462,6 +485,7 @@ public class RulebaseItemProviderAdapterFactory extends RulebaseAdapterFactory i
 		if (potentialEdgeConflictItemProvider != null) potentialEdgeConflictItemProvider.dispose();
 		if (potentialAttributeConflictItemProvider != null) potentialAttributeConflictItemProvider.dispose();
 		if (potentialDanglingEdgeConflictItemProvider != null) potentialDanglingEdgeConflictItemProvider.dispose();
+		if (potentialDanglingEdgeDependencyItemProvider != null) potentialDanglingEdgeDependencyItemProvider.dispose();
 	}
 
 }

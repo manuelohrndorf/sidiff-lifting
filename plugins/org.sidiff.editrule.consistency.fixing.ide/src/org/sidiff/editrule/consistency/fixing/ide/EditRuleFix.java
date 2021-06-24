@@ -134,7 +134,7 @@ public class EditRuleFix extends WorkbenchMarkerResolution {
 		}
 
 		// Has the marker the same @link{ValidationType} ?
-		if(!(marker.getAttribute("rule", null).equals(validationType))){
+		if(!(marker.getAttribute("rule", "").equals(validationType))){
 			return false;
 		}
 

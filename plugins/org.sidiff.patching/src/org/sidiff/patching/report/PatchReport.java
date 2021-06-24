@@ -1,9 +1,6 @@
 package org.sidiff.patching.report;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.sidiff.difference.asymmetric.OperationInvocation;
 import org.sidiff.difference.asymmetric.ParameterBinding;
@@ -11,21 +8,14 @@ import org.sidiff.patching.validation.IValidationError;
 
 /**
  * Basically a list of patch report entries.
- * 
+ *
  */
 public class PatchReport {
 
 	/**
 	 * Total set of report entries.
 	 */
-	private List<ReportEntry> entries;
-
-	/**
-	 * 
-	 */
-	PatchReport() {
-		entries = new ArrayList<ReportEntry>();
-	}
+	private List<ReportEntry> entries = new ArrayList<>();
 
 	void operationPassed(OperationInvocation op, Map<ParameterBinding, Object> inArgs, Map<ParameterBinding, Object> outArgs) {
 		entries.add(new OperationExecutionEntry(op, OperationExecutionKind.PASSED, inArgs, outArgs));
@@ -45,7 +35,7 @@ public class PatchReport {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param validationErrors
 	 *            the current validation errors.
 	 * @return true, if the number of validation errors changed.
@@ -62,33 +52,30 @@ public class PatchReport {
 			entries.add(new ValidationEntry(null, validationErrors));
 			return true;
 		}
-
 		return false;
 	}
 
 	public List<ReportEntry> getEntries() {
-		return entries;
+		return Collections.unmodifiableList(entries);
 	}
 
 	public List<OperationExecutionEntry> getExecutionEntries() {
-		ArrayList<OperationExecutionEntry> res = new ArrayList<OperationExecutionEntry>();
+		List<OperationExecutionEntry> res = new ArrayList<>();
 		for (ReportEntry entry : entries) {
 			if (entry instanceof OperationExecutionEntry) {
 				res.add((OperationExecutionEntry) entry);
 			}
 		}
-
 		return res;
 	}
 
 	public List<ValidationEntry> getValidationEntries() {
-		ArrayList<ValidationEntry> res = new ArrayList<ValidationEntry>();
+		List<ValidationEntry> res = new ArrayList<>();
 		for (ReportEntry entry : entries) {
 			if (entry instanceof ValidationEntry) {
 				res.add((ValidationEntry) entry);
 			}
 		}
-
 		return res;
 	}
 
@@ -97,17 +84,15 @@ public class PatchReport {
 		if (!validationEntries.isEmpty()) {
 			return validationEntries.get(validationEntries.size() - 1);
 		}
-
 		return null;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer stringBuffer = new StringBuffer();
-		for (ReportEntry report : getEntries()) {
-			stringBuffer.append(report + "\n");
+		StringBuilder builder = new StringBuilder();
+		for (ReportEntry report : entries) {
+			builder.append(report).append("\n");
 		}
-		return stringBuffer.toString();
+		return builder.toString();
 	}
-
 }

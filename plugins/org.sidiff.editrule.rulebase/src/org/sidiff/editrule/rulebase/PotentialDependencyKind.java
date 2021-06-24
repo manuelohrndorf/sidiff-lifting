@@ -86,7 +86,15 @@ public enum PotentialDependencyKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FORBID_CHANGE(7, "ForbidChange", "ForbidChange");
+	FORBID_CHANGE(7, "ForbidChange", "ForbidChange"), /**
+	 * The '<em><b>Dangling Dependency</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DANGLING_DEPENDENCY_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DANGLING_DEPENDENCY(8, "DanglingDependency", "DanglingDependency");
 
 	/**
 	 * The '<em><b>Create Use</b></em>' literal value.
@@ -209,6 +217,17 @@ public enum PotentialDependencyKind implements Enumerator {
 	public static final int FORBID_CHANGE_VALUE = 7;
 
 	/**
+	 * The '<em><b>Dangling Dependency</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DANGLING_DEPENDENCY
+	 * @model name="DanglingDependency"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DANGLING_DEPENDENCY_VALUE = 8;
+
+	/**
 	 * An array of all the '<em><b>Potential Dependency Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -224,6 +243,7 @@ public enum PotentialDependencyKind implements Enumerator {
 			FORBID_CREATE,
 			USE_CHANGE,
 			FORBID_CHANGE,
+			DANGLING_DEPENDENCY,
 		};
 
 	/**
@@ -288,6 +308,7 @@ public enum PotentialDependencyKind implements Enumerator {
 			case FORBID_CREATE_VALUE: return FORBID_CREATE;
 			case USE_CHANGE_VALUE: return USE_CHANGE;
 			case FORBID_CHANGE_VALUE: return FORBID_CHANGE;
+			case DANGLING_DEPENDENCY_VALUE: return DANGLING_DEPENDENCY;
 		}
 		return null;
 	}

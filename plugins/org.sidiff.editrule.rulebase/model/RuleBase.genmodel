@@ -18,6 +18,7 @@
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidCreate"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/UseChange"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/ForbidChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialDependencyKind/DanglingDependency"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="RuleBase.ecore#//ParameterDirection">
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//ParameterDirection/IN"/>
@@ -33,6 +34,7 @@
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeUse"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeForbid"/>
       <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/ChangeChange"/>
+      <genEnumLiterals ecoreEnumLiteral="RuleBase.ecore#//PotentialConflictKind/DanglingConflict"/>
     </genEnums>
     <genClasses ecoreClass="RuleBase.ecore#//RuleBase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//RuleBase/key"/>
@@ -47,6 +49,7 @@
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialEdgeConflicts"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialAttributeConflicts"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialDanglingEdgeConflicts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//RuleBase/potentialDanglingEdgeDependencies"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//EditRule">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//EditRule/executeMainUnit"/>
@@ -71,6 +74,8 @@
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/sourceRule"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDependency/targetRule"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/transient"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/revert"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialDependency/condition"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeDependency">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeDependency/ruleBase"/>
@@ -109,6 +114,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/sourceRule"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialConflict/targetRule"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/duplicate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RuleBase.ecore#//PotentialConflict/condition"/>
     </genClasses>
     <genClasses ecoreClass="RuleBase.ecore#//PotentialNodeConflict">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialNodeConflict/ruleBase"/>
@@ -131,6 +137,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/ruleBase"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/deletionNode"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeConflict/creationEdge"/>
+    </genClasses>
+    <genClasses ecoreClass="RuleBase.ecore#//PotentialDanglingEdgeDependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeDependency/deletionNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference RuleBase.ecore#//PotentialDanglingEdgeDependency/deletionEdge"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

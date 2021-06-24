@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getSourceRule <em>Source Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#getTargetRule <em>Target Rule</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#isDuplicate <em>Duplicate</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.PotentialConflict#isCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict()
@@ -122,5 +123,27 @@ public interface PotentialConflict extends EObject {
 	 * @generated
 	 */
 	void setDuplicate(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Condition</em>' attribute.
+	 * @see #setCondition(boolean)
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getPotentialConflict_Condition()
+	 * @model
+	 * @generated
+	 */
+	boolean isCondition();
+
+	/**
+	 * Sets the value of the '{@link org.sidiff.editrule.rulebase.PotentialConflict#isCondition <em>Condition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Condition</em>' attribute.
+	 * @see #isCondition()
+	 * @generated
+	 */
+	void setCondition(boolean value);
 
 } // PotentialConflict

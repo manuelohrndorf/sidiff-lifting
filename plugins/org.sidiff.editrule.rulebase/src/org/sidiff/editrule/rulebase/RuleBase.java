@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialEdgeConflicts <em>Potential Edge Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialAttributeConflicts <em>Potential Attribute Conflicts</em>}</li>
  *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeConflicts <em>Potential Dangling Edge Conflicts</em>}</li>
+ *   <li>{@link org.sidiff.editrule.rulebase.RuleBase#getPotentialDanglingEdgeDependencies <em>Potential Dangling Edge Dependencies</em>}</li>
  * </ul>
  *
  * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase()
@@ -182,6 +183,18 @@ public interface RuleBase extends EObject {
 	 * @generated
 	 */
 	EList<PotentialDanglingEdgeConflict> getPotentialDanglingEdgeConflicts();
+
+	/**
+	 * Returns the value of the '<em><b>Potential Dangling Edge Dependencies</b></em>' containment reference list.
+	 * The list contents are of type {@link org.sidiff.editrule.rulebase.PotentialDanglingEdgeDependency}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Potential Dangling Edge Dependencies</em>' containment reference list.
+	 * @see org.sidiff.editrule.rulebase.RulebasePackage#getRuleBase_PotentialDanglingEdgeDependencies()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<PotentialDanglingEdgeDependency> getPotentialDanglingEdgeDependencies();
 
 	/**
 	 * Returns the value of the '<em><b>Items</b></em>' containment reference list.

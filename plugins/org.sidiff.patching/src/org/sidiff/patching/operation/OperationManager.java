@@ -18,8 +18,8 @@ import org.sidiff.patching.arguments.IArgumentManager;
 /**
  * The operation manager is the central entity for the patch engine in order to
  * get information about operation invocations or their current execution state.
- * 
- * 
+ *
+ *
  * @author kehrer
  */
 public class OperationManager {
@@ -46,9 +46,9 @@ public class OperationManager {
 
 	public OperationManager(AsymmetricDifference editScript, IArgumentManager argumentManager) {
 		stage = 0;
-		operation2Wrapper = new HashMap<OperationInvocation, OperationInvocationWrapper>();
+		operation2Wrapper = new HashMap<>();
 
-		List<OperationInvocation> unorderedOperations = new ArrayList<OperationInvocation>(editScript
+		List<OperationInvocation> unorderedOperations = new ArrayList<>(editScript
 				.getOperationInvocations().size());
 		unorderedOperations.addAll(editScript.getOperationInvocations());
 
@@ -64,7 +64,7 @@ public class OperationManager {
 		orderedOperations = getOrderdOperationInvocations(unorderedOperations);
 
 		// Create Operation Wrappers
-		orderedOperationWrappers = new LinkedList<OperationInvocationWrapper>();
+		orderedOperationWrappers = new LinkedList<>();
 		for (OperationInvocation op : orderedOperations) {
 			OperationInvocationWrapper wrapper = new OperationInvocationWrapper(op, this, argumentManager);
 			operation2Wrapper.put(op, wrapper);
@@ -77,7 +77,7 @@ public class OperationManager {
 
 	/**
 	 * Get the status wrapper for the given operation invocation.
-	 * 
+	 *
 	 * @param op
 	 * @return
 	 */
@@ -87,12 +87,12 @@ public class OperationManager {
 
 	/**
 	 * Return all operation invocations that have the given status.
-	 * 
+	 *
 	 * @param status
 	 * @return
 	 */
 	public List<OperationInvocation> getOperationInvocations(OperationInvocationStatus status) {
-		List<OperationInvocation> res = new ArrayList<OperationInvocation>();
+		List<OperationInvocation> res = new ArrayList<>();
 		for (OperationInvocation op : operation2Wrapper.keySet()) {
 			OperationInvocationWrapper opWrapper = operation2Wrapper.get(op);
 			if (opWrapper.getStatus() == status) {
@@ -127,12 +127,12 @@ public class OperationManager {
 	 * Sorts OperationInvocations in a processable order (i.e. an order that is
 	 * consistent with the partial order given by the sequential dependencies
 	 * between operation invocations) and returns a flat list.
-	 * 
+	 *
 	 * @return sorted list of OperationInvocation
 	 */
 	private List<OperationInvocation> getOrderdOperationInvocations(
 			List<OperationInvocation> unorderdOperationInvocations) {
-		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
+		List<OperationInvocation> operationInvocations = new ArrayList<>();
 		operationInvocations = sortDFS(unorderdOperationInvocations);
 		return Collections.unmodifiableList(operationInvocations);
 	}
@@ -140,11 +140,11 @@ public class OperationManager {
 	/**
 	 * Sorts the OperationInvocations in dependency order using the depth-first
 	 * search algorithm
-	 * 
+	 *
 	 * @param unorderdOperationInvocations
 	 */
 	private List<OperationInvocation> sortDFS(List<OperationInvocation> unorderdOperationInvocations) {
-		List<OperationInvocation> operationInvocations = new ArrayList<OperationInvocation>();
+		List<OperationInvocation> operationInvocations = new ArrayList<>();
 		for (OperationInvocation operationInvocation : unorderdOperationInvocations) {
 			if (operationInvocation.getOutgoing().isEmpty()) {
 				addIncomingOperations(operationInvocations, operationInvocation);
@@ -166,7 +166,7 @@ public class OperationManager {
 
 	/**
 	 * Internal utility method for sorting operation invocations
-	 * 
+	 *
 	 * @param operationInvocations
 	 * @param invocation
 	 */

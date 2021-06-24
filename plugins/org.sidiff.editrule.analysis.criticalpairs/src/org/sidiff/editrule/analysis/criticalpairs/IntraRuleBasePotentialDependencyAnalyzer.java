@@ -113,6 +113,7 @@ public class IntraRuleBasePotentialDependencyAnalyzer extends PotentialDependenc
 
 		rulebase.getPotentialNodeDependencies().addAll(potDeps.getPotentialNodeDependencies());
 		rulebase.getPotentialEdgeDependencies().addAll(potDeps.getPotentialEdgeDependencies());
+		rulebase.getPotentialDanglingEdgeDependencies().addAll(potDeps.getPotentialDanglingEdgeDependencies());
 		rulebase.getPotentialAttributeDependencies().addAll(potDeps.getPotentialAttributeDependencies());
 
 		return potDeps;

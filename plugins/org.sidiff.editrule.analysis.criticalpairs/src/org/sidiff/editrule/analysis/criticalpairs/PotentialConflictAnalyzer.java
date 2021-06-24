@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.sidiff.common.collections.CollectionUtil;
+import org.sidiff.common.henshin.HenshinRuleAnalysisUtilEx;
 import org.sidiff.common.henshin.view.ActionGraph;
 import org.sidiff.editrule.analysis.criticalpairs.util.PotentialRuleConflicts;
 import org.sidiff.editrule.rulebase.EditRule;
@@ -367,7 +369,30 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		boolean directType = deletePredecessor.getType() == deleteSuccessor.getType();
 		boolean subType = getSubTypeIndex().getSubTypes(deletePredecessor.getType())
 				.contains(deleteSuccessor.getType());
-		return directType || superType || subType;
+//		return directType || superType || subType;
+		
+		if(directType || superType|| subType) {
+			// check dangling condition
+			//
+			Set<Edge> successorEdges = new HashSet<Edge>(deleteSuccessor.getOutgoing());
+			successorEdges.addAll(deleteSuccessor.getIncoming());
+			Set<Edge> predecessorEdges = new HashSet<Edge>(deletePredecessor.getOutgoing());
+			predecessorEdges.addAll(deletePredecessor.getIncoming());
+			
+			for(Iterator<Edge> iterator= successorEdges.iterator(); iterator.hasNext();) {
+				Edge successorEdge = iterator.next();
+				for (Edge predecessorEdge : predecessorEdges) {
+					if (successorEdge.getType().equals(predecessorEdge.getType())) {
+						iterator.remove();
+						break;
+					}
+				}
+			}
+			
+			return successorEdges.isEmpty();
+		}
+		
+		return false;
 	}
 
 	/**
@@ -392,6 +417,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					potCon.setSourceNode(predecessorNode);
 					potCon.setTargetNode(successorNode);
 					potCon.setKind(PotentialConflictKind.DELETE_USE);
+					potCon.setCondition(HenshinRuleAnalysisUtilEx.isRequireNode(successorNode));
 					potCons.add(potCon);
 				}
 			}
@@ -419,11 +445,31 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 		 * Delete-Node-Type + Delete-Node-Sub-Types + Delete-Node-Super-Types ==
 		 * Delete-Node-Type
 		 */
-
 		boolean superType = deletePredecessor.getType().getEAllSuperTypes().contains(useSuccessor.getType());
 		boolean directType = deletePredecessor.getType() == useSuccessor.getType();
 		boolean subType = getSubTypeIndex().getSubTypes(deletePredecessor.getType()).contains(useSuccessor.getType());
-		return directType || superType || subType;
+		if(directType || superType|| subType) {
+			// check dangling condition
+			//
+			Set<Edge> successorEdges = new HashSet<Edge>(useSuccessor.getOutgoing());
+			successorEdges.addAll(useSuccessor.getIncoming());
+			Set<Edge> predecessorEdges = new HashSet<Edge>(deletePredecessor.getOutgoing());
+			predecessorEdges.addAll(deletePredecessor.getIncoming());
+			
+			for(Iterator<Edge> iterator= successorEdges.iterator(); iterator.hasNext();) {
+				Edge successorEdge = iterator.next();
+				for(Edge predecessorEdge : predecessorEdges) {
+					if(successorEdge.getType().equals(predecessorEdge.getType())) {
+						iterator.remove();
+						break;
+					}
+				}
+			}
+			
+			return successorEdges.isEmpty();
+		}
+		
+		return false;
 	}
 
 	/**
@@ -499,13 +545,13 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 				if (isCreateForbidConflict(predecessorNode, successorNode)) {
 					// create-forbid conflict found
-					PotentialNodeConflict potDep = rbFactory.createPotentialNodeConflict();
+					PotentialNodeConflict potCon = rbFactory.createPotentialNodeConflict();
 
-					potDep.setSourceNode(predecessorNode);
-					potDep.setTargetNode(successorNode);
-					potDep.setKind(PotentialConflictKind.CREATE_FORBID);
-
-					potCons.add(potDep);
+					potCon.setSourceNode(predecessorNode);
+					potCon.setTargetNode(successorNode);
+					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setCondition(true);
+					potCons.add(potCon);
 				}
 			}
 		}
@@ -650,6 +696,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					potCon.setSourceEdge(successorEdge);
 					potCon.setTargetEdge(predecessorEdge);
 					potCon.setKind(PotentialConflictKind.DELETE_USE);
+					potCon.setCondition(HenshinRuleAnalysisUtilEx.isRequireEdge(successorEdge));
 					potCons.add(potCon);
 				}
 			}
@@ -819,6 +866,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					potCon.setSourceEdge(predecessorEdge);
 					potCon.setTargetEdge(successorEdge);
 					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setCondition(true);
 					potCons.add(potCon);
 				}
 			}
@@ -897,7 +945,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					PotentialDanglingEdgeConflict potCon = rbFactory.createPotentialDanglingEdgeConflict();
 					potCon.setCreationEdge(predecessorEdge);
 					potCon.setDeletionNode(deleteSuccessor);
-					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setKind(PotentialConflictKind.DANGLING_CONFLICT);
 					potCons.add(potCon);
 				}
 			}
@@ -923,7 +971,9 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 
 		Node srcNode = createPredecessor.getSource();
 		Node tgtNode = createPredecessor.getTarget();
-		if (assignable(srcNode.getType(), deleteSuccessor.getType()) && successorType.getEAllReferences().contains(predecessorType)
+		
+		if (assignable(srcNode.getType(), deleteSuccessor.getType()) 
+				&& successorType.getEAllReferences().contains(predecessorType)
 				&& deleteSuccessor.getOutgoing(predecessorType).isEmpty()) {
 			return true;
 		}
@@ -931,7 +981,8 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 //			return false;
 //		}
 
-		if(assignable(tgtNode.getType(), deleteSuccessor.getType())){
+		if(assignable(tgtNode.getType(), deleteSuccessor.getType())
+				&& deleteSuccessor.getIncoming(predecessorType).isEmpty()){
 			return referenceTypeIndex
 					.computeIfAbsent(successorType.eResource(),
 							resource -> CollectionUtil.asStream(resource.getAllContents())
@@ -974,11 +1025,12 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 			for (Attribute forbidSuccessor : successorForbidAttributes) {
 				if (isCreateForbidConflict(createPredecessor, forbidSuccessor, potRuleCon)) {
 					// Create-Forbid conflict found
-					PotentialAttributeConflict potcon = rbFactory.createPotentialAttributeConflict();
-					potcon.setSourceAttribute(createPredecessor);
-					potcon.setTargetAttribute(forbidSuccessor);
-					potcon.setKind(PotentialConflictKind.CREATE_FORBID);
-					potCons.add(potcon);
+					PotentialAttributeConflict potCon = rbFactory.createPotentialAttributeConflict();
+					potCon.setSourceAttribute(createPredecessor);
+					potCon.setTargetAttribute(forbidSuccessor);
+					potCon.setKind(PotentialConflictKind.CREATE_FORBID);
+					potCon.setCondition(true);
+					potCons.add(potCon);
 				}
 			}
 		}
@@ -1038,6 +1090,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					potcon.setSourceAttribute(rhsPredecessorAttribute);
 					potcon.setTargetAttribute(lhsSuccessorAttribute);
 					potcon.setKind(PotentialConflictKind.CHANGE_USE);
+					potcon.setCondition(HenshinRuleAnalysisUtilEx.isRequireAttribute(lhsSuccessorAttribute));
 					potConss.add(potcon);
 				}
 			}
@@ -1106,6 +1159,7 @@ public abstract class PotentialConflictAnalyzer extends AbstractAnalyzer {
 					potcon.setSourceAttribute(setPredecessor);
 					potcon.setTargetAttribute(forbidSuccessor);
 					potcon.setKind(PotentialConflictKind.CHANGE_FORBID);
+					potcon.setCondition(true);
 					potCons.add(potcon);
 				}
 			}

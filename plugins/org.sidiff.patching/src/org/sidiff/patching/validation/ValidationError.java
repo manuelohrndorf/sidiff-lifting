@@ -2,15 +2,13 @@ package org.sidiff.patching.validation;
 
 /**
  * Simple container class that implements {@link IValidationError}.
- * 
+ *
  * @author kehrer
  */
 public class ValidationError implements IValidationError {
-	
+
 	private Throwable exception;
-
 	private String message;
-
 	private String source;
 
 	public ValidationError(Throwable exception, String message, String source) {
@@ -34,6 +32,4 @@ public class ValidationError implements IValidationError {
 	public String getSource() {
 		return source;
 	}
-	
-	
 }
