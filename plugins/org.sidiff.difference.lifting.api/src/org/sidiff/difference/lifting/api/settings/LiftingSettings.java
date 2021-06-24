@@ -66,6 +66,11 @@ public class LiftingSettings extends DifferenceSettings {
 	 * Recognition-Rules per recognizer thread.
 	 */
 	private int rulesPerThread = 10;
+	
+	/**
+	 * Use SiLift specific CSP optimizations in Henshin's matching engine.
+	 */
+	private boolean optimizeMatchingEngine = true;
 
 	/**
 	 * Optimizes the (matching) order of the nodes in the Recognition-Rules.
@@ -367,6 +372,24 @@ public class LiftingSettings extends DifferenceSettings {
 		if (this.rulesPerThread != rulesPerThread) {
 			this.rulesPerThread = rulesPerThread;
 			notifyListeners(LiftingSettingsItem.RULES_PER_THREAD);
+		}
+	}
+	
+
+	/**
+	 * @return Use SiLift specific CSP optimizations in Henshin's matching engine.
+	 */
+	public boolean isOptimizeMatchingEngine() {
+		return optimizeMatchingEngine;
+	}
+
+	/**
+	 * @param optimizeMatchingEngine Use SiLift specific CSP optimizations in Henshin's matching engine.
+	 */
+	public void setOptimizeMatchingEngine(boolean optimizeMatchingEngine) {
+		if (this.optimizeMatchingEngine != optimizeMatchingEngine) {
+			this.optimizeMatchingEngine = optimizeMatchingEngine;
+			notifyListeners(LiftingSettingsItem.OPTIMIZE_MATCHING_ENGINE);
 		}
 	}
 

@@ -2,6 +2,7 @@ package org.sidiff.difference.lifting.recognitionengine.impl;
 
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.CREATE_GRAPH;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.MATCH_RR;
+import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.SORT_RR;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,8 @@ import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
+import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
+import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 
 /**
  * Starts the recognition procedure. The thread will execute all recognition
@@ -36,6 +39,21 @@ public class RecognizerThread extends Thread {
 	 * Can be used to test the performance of the recognition engine.
 	 */
 	protected RecognitionEngineStatistics statistic;
+	
+	/**
+	 * Enable recognition rule node sorting.
+	 */
+	private boolean sortRecognitionRuleNodes;
+	
+	/**
+	 * Sorting of nodes in the Henshin recognition rule.
+	 */
+	private IRecognitionRuleSorter sorter;
+	
+	/**
+	 * Some difference statistics for recognition rule node sorting. 
+	 */
+	private DifferenceAnalysis analysis;
 
 	/**
 	 * The recognition rules to execute.
@@ -60,10 +78,15 @@ public class RecognizerThread extends Thread {
 	 * @param recognitionEngine
 	 *            the RecognitionEngine
 	 */
-	public RecognizerThread(Set<Rule> recognitionRules, RecognitionEngine recognitionEngine) {
+	public RecognizerThread(Set<Rule> recognitionRules, RecognitionEngine recognitionEngine, 
+			boolean sortRecognitionRuleNodes, IRecognitionRuleSorter sorter, DifferenceAnalysis analysis) {
 		super("RecognizerThread");
 		this.recognitionRules = recognitionRules;
 		this.recognitionEngine = recognitionEngine;
+		
+		this.sortRecognitionRuleNodes = sortRecognitionRuleNodes;
+		this.sorter = sorter;
+		this.analysis = analysis;
 
 		enableStatistic = recognitionEngine.getStatistic().isEnabled();
 		statistic = recognitionEngine.getStatistic();
@@ -92,6 +115,19 @@ public class RecognizerThread extends Thread {
 				// Get working graph
 				EGraph graph = recognitionEngine.getGraphFactory().createLiftingGraph(
 						rr, recognitionEngine.getRecognitionRuleBlueprint(rr));
+				
+				// Sort recognition rule nodes for matching:
+				if (sortRecognitionRuleNodes) {
+					if (enableStatistic) {
+						statistic.startSplitTimer(SORT_RR, "" + rr.hashCode(), rr.getName());
+					}
+					
+					sorter.sort(rr, graph, analysis);
+					
+					if (enableStatistic) {
+						statistic.stopSplitTimer(SORT_RR, "" + rr.hashCode());
+					}
+				}
 
 				if (enableStatistic) {
 					statistic.stopSplitTimer(CREATE_GRAPH, "" + rr.hashCode());

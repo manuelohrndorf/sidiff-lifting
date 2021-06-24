@@ -3,25 +3,49 @@ package org.sidiff.difference.lifting.recognitionengine.impl;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.EXECUTION;
 import static org.sidiff.difference.lifting.recognitionengine.impl.RecognitionEngineStatistics.RULE_SET_REDUCTION;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.interpreter.*;
-import org.eclipse.emf.henshin.model.*;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.sidiff.common.henshin.SelfCleaningEngineImpl;
 import org.sidiff.common.logging.LogEvent;
 import org.sidiff.common.logging.LogUtil;
-import org.sidiff.difference.lifting.recognitionengine.*;
-import org.sidiff.difference.lifting.recognitionengine.graph.*;
+import org.sidiff.difference.lifting.recognitionengine.IEditRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionEngine;
+import org.sidiff.difference.lifting.recognitionengine.IRecognitionRuleMatch;
+import org.sidiff.difference.lifting.recognitionengine.RecognitionEngineSetup;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphDomainMap;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphEngine;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphFactory;
+import org.sidiff.difference.lifting.recognitionengine.graph.LiftingGraphIndex;
 import org.sidiff.difference.lifting.recognitionengine.matching.EngineBasedEditRuleMatch;
 import org.sidiff.difference.lifting.recognitionengine.matching.RecognitionRuleMatch;
-import org.sidiff.difference.lifting.recognitionengine.rules.*;
-import org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleApplicationAnalysis;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleBlueprint;
+import org.sidiff.difference.lifting.recognitionengine.rules.RecognitionRuleFilter;
 import org.sidiff.difference.rulebase.view.ILiftingRuleBase;
-import org.sidiff.difference.symmetric.*;
+import org.sidiff.difference.symmetric.EObjectSet;
+import org.sidiff.difference.symmetric.EditRuleMatch;
+import org.sidiff.difference.symmetric.SemanticChangeSet;
+import org.sidiff.difference.symmetric.SymmetricDifference;
+import org.sidiff.difference.symmetric.SymmetricFactory;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.editrule.rulebase.EditRule;
 
@@ -124,9 +148,6 @@ public class RecognitionEngine implements IRecognitionEngine {
 			getStatistic().stopTimer(RULE_SET_REDUCTION);
 		}
 
-		// Optimize the Rulebase: Sorting Recognition-Rule nodes
-		sortRecognitionRuleNodes();
-
 		// Start execution:
 		getStatistic().startTimer(EXECUTION);
 		Long startTime = System.currentTimeMillis();
@@ -148,6 +169,21 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * Sequential execution of all Recognition-Rules.
 	 */
 	private void executeSequential() {
+		
+		// Analyze the difference:
+		DifferenceAnalysis analysis = new DifferenceAnalysis(setup.getDifference());
+
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+
+		LogUtil.log(LogEvent.NOTICE, "Difference:");
+		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
+		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
+		LogUtil.log(LogEvent.NOTICE, " Total AddReferences: " + analysis.getAddReferenceCount());
+		LogUtil.log(LogEvent.NOTICE, " Total RemoveReferences: " + analysis.getRemoveReferenceCount());
+		LogUtil.log(LogEvent.NOTICE, " Total AttributeValueChanges: " + analysis.getAttributeValueChangeCount());
+		LogUtil.log(LogEvent.NOTICE, " Total Correspondences: " + analysis.getCorrespondenceCount());
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "--------- SEQUENTIALLY MATCHING RECOGNITION RULES ----------");
@@ -159,7 +195,8 @@ public class RecognitionEngine implements IRecognitionEngine {
 		units.removeAll(filtered);
 
 		// Start Recognizer-Thread in "sequential mode":
-		RecognizerThread recognizer = new RecognizerThread(units, this);
+		RecognizerThread recognizer = new RecognizerThread(units, this, 
+				setup.isSortRecognitionRuleNodes(), setup.getRuleSorter(), analysis);
 		recognizer.recognize();
 
 		// Apply recognition rules
@@ -171,6 +208,21 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 * operation detection (Lifting). (Default: <code>true</code>)
 	 */
 	private void executeParallel() {
+		
+		// Analyze the difference:
+		DifferenceAnalysis analysis = new DifferenceAnalysis(setup.getDifference());
+
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
+		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
+
+		LogUtil.log(LogEvent.NOTICE, "Difference:");
+		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
+		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
+		LogUtil.log(LogEvent.NOTICE, " Total AddReferences: " + analysis.getAddReferenceCount());
+		LogUtil.log(LogEvent.NOTICE, " Total RemoveReferences: " + analysis.getRemoveReferenceCount());
+		LogUtil.log(LogEvent.NOTICE, " Total AttributeValueChanges: " + analysis.getAttributeValueChangeCount());
+		LogUtil.log(LogEvent.NOTICE, " Total Correspondences: " + analysis.getCorrespondenceCount());
 
 		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
 		LogUtil.log(LogEvent.NOTICE, "----------- PARALLEL MATCHING RECOGNITION RULES ------------");
@@ -189,7 +241,8 @@ public class RecognitionEngine implements IRecognitionEngine {
 			if (!filtered.contains(transformationUnit)) {
 				if (units.size() == setup.getRulesPerThread()) {
 					// Start new recognizer thread
-					RecognizerThread recognizerThread = new RecognizerThread(units, this);
+					RecognizerThread recognizerThread = new RecognizerThread(units, this,
+							setup.isSortRecognitionRuleNodes(), setup.getRuleSorter(), analysis);
 
 					// Do all the hard work in one {@link RecognizerThread}
 					executor.execute(recognizerThread);
@@ -206,7 +259,8 @@ public class RecognitionEngine implements IRecognitionEngine {
 		// Units left?
 		if (units.size() > 0) {
 			// Create one last thread
-			RecognizerThread recognizerThread = new RecognizerThread(units, this);
+			RecognizerThread recognizerThread = new RecognizerThread(units, this, 
+					setup.isSortRecognitionRuleNodes(), setup.getRuleSorter(), analysis);
 
 			// Do all the hard work in one {@link RecognizerThread}
 			executor.execute(recognizerThread);
@@ -246,32 +300,6 @@ public class RecognitionEngine implements IRecognitionEngine {
 		for (Unit unit : filtered) {
 			LogUtil.log(LogEvent.DEBUG, unit.getModule().getName());
 		}
-	}
-
-	/**
-	 * Optimizes the (matching) order of the nodes in the Recognition-Rules.
-	 */
-	private void sortRecognitionRuleNodes() {
-
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------ SORT RECOGNITION RULES ------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
-		DifferenceAnalysis analysis = RecognitionRuleSorterUtil.sort(
-				setup.getRuleSorter(), recognitionRules.keySet(), filtered, setup.getDifference());
-
-
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------- Difference Analysis --------------------");
-		LogUtil.log(LogEvent.NOTICE, "------------------------------------------------------------");
-
-		LogUtil.log(LogEvent.NOTICE, "Difference:");
-		LogUtil.log(LogEvent.NOTICE, " Total AddObjects: " + analysis.getAddObjectCount());
-		LogUtil.log(LogEvent.NOTICE, " Total RemoveObjects: " + analysis.getRemoveObjectCount());
-		LogUtil.log(LogEvent.NOTICE, " Total AddReferences: " + analysis.getAddReferenceCount());
-		LogUtil.log(LogEvent.NOTICE, " Total RemoveReferences: " + analysis.getRemoveReferenceCount());
-		LogUtil.log(LogEvent.NOTICE, " Total AttributeValueChanges: " + analysis.getAttributeValueChangeCount());
-		LogUtil.log(LogEvent.NOTICE, " Total Correspondences: " + analysis.getCorrespondenceCount());
 	}
 
 	private void applyRecognitionRules() {
@@ -426,7 +454,10 @@ public class RecognitionEngine implements IRecognitionEngine {
 	 */
 	public Engine createGraphMatchingEngine() {
 		if (setup.isOptimizeMatchingEngine()) {
-			return new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
+			LiftingGraphEngine matchingEngine = new LiftingGraphEngine(liftingGraphDomainMap, liftingGraphIndex);
+			matchingEngine.setReverseCheckMatching(setup.isOptimizeMatchingEngine_reverseCheckMatching());
+			matchingEngine.setReverseCheckMetaTypes(setup.isOptimizeMatchingEngine_reverseCheckMetaTypes());
+			matchingEngine.setReverseCheckDifference(setup.isOptimizeMatchingEngine_reverseCheckDifference());
 		}
 		return new SelfCleaningEngineImpl();
 	}

@@ -271,10 +271,16 @@ public class PipelineUtils extends TechnicalDifferenceUtils {
 	 */
 	public static RecognitionEngineSetup createRecognitionEngineSetup(LiftingSettings settings) {
 		return new RecognitionEngineSetup(
-				settings.getScope(), settings.getRuleBases(), 
-				settings.isRuleSetReduction(), settings.isBuildGraphPerRule(), true,
-				settings.getRrSorter(), settings.isUseThreadPool(),
-				settings.getNumberOfThreads(), settings.getRulesPerThread(), 
-				settings.isCalculateEditRuleMatch(), settings.isSerializeEditRuleMatch());
+				settings.getScope(), 
+				settings.getRuleBases(), 
+				settings.isRuleSetReduction(), 
+				settings.isBuildGraphPerRule(), 
+				settings.isOptimizeMatchingEngine(),
+				settings.getRrSorter(), 
+				settings.isUseThreadPool(),
+				settings.getNumberOfThreads(), 
+				settings.getRulesPerThread(), 
+				settings.isCalculateEditRuleMatch(), 
+				settings.isSerializeEditRuleMatch());
 	}
 }

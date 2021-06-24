@@ -16,6 +16,11 @@ public enum LiftingSettingsItem implements ISettingsItem {
 	 * {@link LiftingSettings#setRuleBases(Set)}
 	 */
 	RULEBASES,
+	
+	/**
+	 * {@link LiftingSettings#setOptimizeMatchingEngine(boolean)}
+	 */
+	OPTIMIZE_MATCHING_ENGINE,
 
 	/**
 	 * {@link LiftingSettings#setSortRecognitionRuleNodes(boolean)}

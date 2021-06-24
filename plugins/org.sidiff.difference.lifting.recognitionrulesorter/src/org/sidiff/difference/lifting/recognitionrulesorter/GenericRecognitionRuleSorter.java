@@ -3,7 +3,8 @@ package org.sidiff.difference.lifting.recognitionrulesorter;
 import java.util.Collections;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 
 public class GenericRecognitionRuleSorter extends AbstractRecognitionRuleSorter {
 
@@ -23,7 +24,7 @@ public class GenericRecognitionRuleSorter extends AbstractRecognitionRuleSorter 
 	}
 
 	@Override
-	protected int compareModelNodes(Node n1, Node n2) {
-		return 0;
+	public RecognitionNodeComparator createComparator(EGraph eGraph, DifferenceAnalysis analysis) {
+		return new RecognitionNodeComparator(eGraph, analysis);
 	}
 }

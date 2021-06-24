@@ -1,15 +1,10 @@
 package org.sidiff.difference.lifting.recognitionrulesorter;
 
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isAddObject;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isAddReference;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isAttributeValueChange;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isCorrespondence;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isDifference;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isRemoveObject;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isRemoveReference;
-import static org.sidiff.difference.lifting.recognitionrulesorter.util.RecognitionRuleSorterUtil.isTypeNode;
-
-import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Rule;
+import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
 import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 
 /**
@@ -23,106 +18,52 @@ import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
  * to get a "good" execution time.
  */
 public abstract class AbstractRecognitionRuleSorter implements IRecognitionRuleSorter {
-
-	/**
-	 * The corresponding difference analysis knowing the count of changes.
-	 */
-	private DifferenceAnalysis analysis;
+	
+	protected RecognitionRuleStructureSorting structureSorting;
 
 	@Override
-	public int compare(Node n1, Node n2) {
+	public void sort(Rule recognitionRule, EGraph eGraph, DifferenceAnalysis analysis) {
+		
+		// Domain-Size sorting:
+		RecognitionNodeComparator sorter = createComparator(eGraph, analysis);
 
-		// Move Difference always to the top
-		if (isDifference(n1)) {
-			return -1;
-		} else if (isDifference(n2)) {
-			return 1;
+		// Sort kernel rule:
+		ECollections.sort(recognitionRule.getLhs().getNodes(), sorter);
+		
+		// Sort application conditions:
+		for (NestedCondition ac : recognitionRule.getLhs().getNestedConditions()) {
+			ECollections.sort(ac.getConclusion().getNodes(), sorter);
 		}
 
-		// Move Correspondences always to the bottom
-		if (isCorrespondence(n1) && isCorrespondence(n2)) {
-			return 0;
-		} else if (isCorrespondence(n1)) {
-			return 1;
-		} else if (isCorrespondence(n2)) {
-			return -1;
+		// Sort all multi-rules:
+		for (Rule multiRule : recognitionRule.getAllMultiRules()) {
+			ECollections.sort(multiRule.getLhs().getNodes(), sorter);
+			
+			// Sort application conditions:
+			for (NestedCondition ac : multiRule.getLhs().getNestedConditions()) {
+				ECollections.sort(ac.getConclusion().getNodes(), sorter);
+			}
 		}
 
-		// Move Type-Nodes always to the top
-		if (isTypeNode(n1) && isTypeNode(n2)) {
-			return 0;
-		} else if (isTypeNode(n1)) {
-			return -1;
-		} else if (isTypeNode(n2)) {
-			return 1;
-		}
-
-		// Set values for Change-Nodes
-		int value1 = getChangeNodeValue(n1);
-		int value2 = getChangeNodeValue(n2);
-
-		if (value1 == -1 && value2 == -1) {
-			// Two model nodes: delegate their comparison to domain
-			// configuration
-			return compareModelNodes(n1, n2);
-		}
-		// Sort Model-Nodes between Change-Nodes and Correspondences
-		else if (value1 == -1) {
-			return 1;
-		} else if (value2 == -1) {
-			return -1;
-		}
-		return value1 - value2;
+		// Structural sorting:
+		RecognitionRuleStructureSorting structureSorting = createStructureSorting(eGraph, analysis);
+		structureSorting.sort(recognitionRule);
 	}
 	
+	public RecognitionRuleStructureSorting createStructureSorting(EGraph eGraph, DifferenceAnalysis analysis) {
+		if (structureSorting == null) {
+			this.structureSorting = new RecognitionRuleStructureSorting();
+		}
+		return structureSorting;
+	}
+
 	/**
-	 * Get the object of the Change-Node count in the difference.
+	 * Can be implemented by domain-specific plug-ins.
 	 * 
-	 * @param node
-	 *            the Change-Node.
-	 * @return the object count of the Change-Node count in the difference.
+	 * @param eGraph The current working graph (for the rule to be sorted).
+	 * @param analysis Some statistics of the model difference.
+	 * @return A node comparator for sorting the graph to be matched.
 	 */
-	protected int getChangeNodeValue(Node node) {
-		if (isAddObject(node)) {
-			return analysis.getAddObjectCount();
-		} else if (isRemoveObject(node)) {
-			return analysis.getRemoveObjectCount();
-		} else if (isAttributeValueChange(node)) {
-			return analysis.getAttributeValueChangeCount();
-		} else if (isAddReference(node)) {
-			return analysis.getAddReferenceCount();
-		} else if (isRemoveReference(node)) {
-			return analysis.getRemoveReferenceCount();
-		}
-		return -1;
-	}
-	
-	// Order of type nodes should be declared by an (optional) domain Plug-In
-	protected abstract int compareModelNodes(Node n1, Node n2);
+	public abstract RecognitionNodeComparator createComparator(EGraph eGraph, DifferenceAnalysis analysis);
 
-	// Same types: Give node with more attributes the higher priority
-	protected int compareNodesOfSameType(Node n1, Node n2){
-		return n2.getAttributes().size() - n1.getAttributes().size();
-	}
-	
-	protected boolean is_EStringToStringMapEntry(Node n){
-		return n.getType().getName().equals("EStringToStringMapEntry");
-	}
-	
-	/**
-	 * @param analysis
-	 * 			The corresponding difference analysis knowing the count of changes
-	 */
-	@Override
-	public void setDifferenceAnalysis(DifferenceAnalysis analysis){
-		this.analysis = analysis;
-	}
-	
-	/**
-	 * @return The corresponding difference analysis knowing the count of changes
-	 */
-	@Override
-	public DifferenceAnalysis getDifferenceAnalysis(){
-		return analysis;
-	}
 }

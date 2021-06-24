@@ -1,63 +1,13 @@
 package org.sidiff.difference.lifting.recognitionrulesorter.util;
 
-import java.util.Collection;
-import java.util.Set;
-
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.sidiff.difference.lifting.recognitionrulesorter.IRecognitionRuleSorter;
-import org.sidiff.difference.lifting.recognitionrulesorter.structural.RecognitionRuleStructureSorting;
-import org.sidiff.difference.symmetric.SymmetricDifference;
 import org.sidiff.difference.symmetric.SymmetricPackage;
-import org.sidiff.difference.symmetric.util.DifferenceAnalysis;
 import org.sidiff.matching.model.MatchingModelPackage;
 
 public class RecognitionRuleSorterUtil {
-
-	/**
-	 * Setup the sorting algorithm and perform the sort of the recognition rule
-	 * nodes, i.e. the algorithm optimizes the (matching) order of the nodes for
-	 * the graph matching engine.
-	 * 
-	 * @param sorter
-	 *            The domain specific or generic sorting algorithm.
-	 * @param difference
-	 *            The difference on which the rules should be applied.
-	 * @param recognitionRules
-	 *            The recognition rules to sort.
-	 * @param filtered
-	 *            Contains all the rules which should not be sorted.
-	 * @return A statistic of the given difference.
-	 */
-	public static DifferenceAnalysis sort(IRecognitionRuleSorter sorter, 
-			Collection<Rule> recognitionRules, Set<Rule> filtered, SymmetricDifference difference) {
-		
-		// Analyze the difference:
-		DifferenceAnalysis analysis = new DifferenceAnalysis(difference);
-		
-		// Domain-Size sorting:
-		sorter.setDifferenceAnalysis(analysis);
-
-		for (Rule recognitionRule : recognitionRules) {
-			if (!filtered.contains(recognitionRule)) {
-				// Sort kernel rule
-				ECollections.sort(recognitionRule.getLhs().getNodes(), sorter);
-
-				// Sort all multi-rules (if there are any)
-				for (Rule multiRule : recognitionRule.getAllMultiRules()) {
-					ECollections.sort(multiRule.getLhs().getNodes(), sorter);
-				}
-			}
-		}
-		
-		// Structural sorting:
-		RecognitionRuleStructureSorting.sort(recognitionRules);
-		
-		return analysis;
-	}
 	
 	/**
 	 * Test node type.

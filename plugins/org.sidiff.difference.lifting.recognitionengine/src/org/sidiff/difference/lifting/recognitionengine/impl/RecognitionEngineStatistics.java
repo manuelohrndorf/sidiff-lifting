@@ -123,6 +123,11 @@ public class RecognitionEngineStatistics implements IRecognitionEngineStatistics
 	public static final String MATCH_RR = COMMON_PREFIX + "Matching:RecognitionRule";
 	
 	/**
+	 * The sum/minimum/maximum/average execution time to sorting a Recognition-Rule.
+	 */
+	public static final String SORT_RR = COMMON_PREFIX + "Sorting:RecognitionRule";
+	
+	/**
 	 * The sum/minimum/maximum/average creation time of minimal/full EGraphs.
 	 */
 	public static final String CREATE_GRAPH = COMMON_PREFIX + "CreateGraph";
