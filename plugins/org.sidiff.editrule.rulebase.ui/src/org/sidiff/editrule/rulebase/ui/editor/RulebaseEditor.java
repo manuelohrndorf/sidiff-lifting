@@ -100,6 +100,7 @@ import org.sidiff.editrule.rulebase.builder.EditRuleBaseBuilder;
 import org.sidiff.editrule.rulebase.builder.EditRuleBaseWrapper;
 import org.sidiff.editrule.rulebase.provider.RulebaseItemProviderAdapterFactory;
 import org.sidiff.editrule.rulebase.ui.editor.columns.RuleBaseColumnLibrary;
+import org.sidiff.editrule.rulebase.ui.editor.util.RuntimeRulebaseEditorInput;
 import org.sidiff.editrule.rulebase.ui.internal.EditruleRulebaseUiPlugin;
 import org.sidiff.editrule.rulebase.util.EditRuleItemUtil;
 
@@ -570,10 +571,12 @@ public class RulebaseEditor extends EditorPart implements IEditingDomainProvider
 
 		setClean();
 
-		try {
-			((IFileEditorInput) getEditorInput()).getFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		} catch (CoreException e) {
-			StatusManager.getManager().handle(e, EditruleRulebaseUiPlugin.PLUGIN_ID);
+		if (getEditorInput() instanceof IFileEditorInput) {
+			try {
+				((IFileEditorInput) getEditorInput()).getFile().getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			} catch (CoreException e) {
+				StatusManager.getManager().handle(e, EditruleRulebaseUiPlugin.PLUGIN_ID);
+			}
 		}
 	}
 
@@ -613,38 +616,42 @@ public class RulebaseEditor extends EditorPart implements IEditingDomainProvider
 
 		// Get workspace URI:
 		final URI resourceURI = EditUIUtil.getURI(getEditorInput());
-		IProject project = EMFStorage.toIFile(resourceURI).getProject();
 		
 		// Rulebase wrapper:
-		rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
-
-		// Update editor:
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		
-		changeListener = new IResourceChangeListener() {
-			@Override
-			public void resourceChanged(IResourceChangeEvent event) {
-				int needsUpdate = needsUpdate(event, resourceURI);
-				
-				// Reload if rulebase file has changed:
-				if (needsUpdate == IResourceDelta.ADDED || needsUpdate == IResourceDelta.CHANGED) {
-					Display.getDefault().asyncExec(() -> {
-						rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
-						ruleViewer.setInput(rbManager.getItems());
-						update();
-					});	
-				} 
-				
-				// Clear view:
-				else if (needsUpdate == IResourceDelta.REMOVED) {
-					Display.getDefault().asyncExec(() -> {
-						ruleViewer.setInput(null);
-						update();
-					});
+		if (input instanceof RuntimeRulebaseEditorInput) {
+			rbManager = ((RuntimeRulebaseEditorInput) input).getEditRuleBaseWrapper();
+		} else {
+			IProject project = EMFStorage.toIFile(resourceURI).getProject();
+			rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
+			
+			// Update editor:
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			
+			changeListener = new IResourceChangeListener() {
+				@Override
+				public void resourceChanged(IResourceChangeEvent event) {
+					int needsUpdate = needsUpdate(event, resourceURI);
+					
+					// Reload if rulebase file has changed:
+					if (needsUpdate == IResourceDelta.ADDED || needsUpdate == IResourceDelta.CHANGED) {
+						Display.getDefault().asyncExec(() -> {
+							rbManager = new EditRuleBaseWrapper(EditRuleBaseBuilder.createResourceSet(), project, resourceURI, false);
+							ruleViewer.setInput(rbManager.getItems());
+							update();
+						});	
+					} 
+					
+					// Clear view:
+					else if (needsUpdate == IResourceDelta.REMOVED) {
+						Display.getDefault().asyncExec(() -> {
+							ruleViewer.setInput(null);
+							update();
+						});
+					}
 				}
-			}
-		};
-		workspace.addResourceChangeListener(changeListener);
+			};
+			workspace.addResourceChangeListener(changeListener);
+		}
 	}
 
 	private static int needsUpdate(IResourceChangeEvent event, URI resourceURI) {

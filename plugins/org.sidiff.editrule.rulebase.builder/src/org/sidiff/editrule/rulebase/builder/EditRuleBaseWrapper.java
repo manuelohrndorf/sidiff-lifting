@@ -47,26 +47,29 @@ public class EditRuleBaseWrapper {
 	/**
 	 * The path of the *.rulebase file. 
 	 */
-	private URI rulebaseURI;
+	protected URI rulebaseURI;
 	
 	/**
 	 * The (Ecore model) rulebase root element. 
 	 */
-	private RuleBase rulebase;
+	protected RuleBase rulebase;
 	
 	/**
 	 * Internal {@link IntraRuleBasePotentialDependencyAnalyzer} 
 	 */
-	private IntraRuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
+	protected IntraRuleBasePotentialDependencyAnalyzer ruleBasePotentialDependencyAnalyzer;
 	
 	/**
 	 * Internal {@link IntraRuleBasePotentialConflictAnalyzer} 
 	 */
-	private IntraRuleBasePotentialConflictAnalyzer ruleBasePotentialConflictAnalyzer;
+	protected IntraRuleBasePotentialConflictAnalyzer ruleBasePotentialConflictAnalyzer;
 
-	private SiDiffResourceSet resourceSet;
+	protected SiDiffResourceSet resourceSet;
 
-	private IProject project;
+	protected IProject project;
+	
+	protected EditRuleBaseWrapper() {
+	}
 	
 	/**
 	 * Initializes a (new or existing) rulebase.
