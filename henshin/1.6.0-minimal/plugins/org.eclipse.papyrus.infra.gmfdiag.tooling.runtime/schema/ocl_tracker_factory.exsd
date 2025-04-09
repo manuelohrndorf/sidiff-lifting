@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.papyrus.infra.gmfdiag.tooling.runtime" id="ocl_tracker_factory" name="Papyrus GMF-Tooling OCL Tracker Factory"/>
+      </appInfo>
+      <documentation>
+         Defines implementation org.eclipse.gmf.tooling.runtime.ocl.tracker.OclTrackerFactory responsible for creation of instances of org.eclipse.gmf.tooling.runtime.ocl.tracker.OclTracker for given type. This is internal extension point, allowing to conditionally use implementation based on OCL ImpactAnalyzer (not included into MDT OCL distribution as of Eclipse Juno).
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="oclTrackerFactory"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="oclTrackerFactory">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gmf.tooling.runtime.ocl.tracker.OclTrackerFactory"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         3.0.0
+      </documentation>
+   </annotation>
+
+
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         GMF Tooling includes 2 implementations of this extension points: 
+- the default one (in the org.eclipse.gmf.tooling.runtime plugin) is based on the in-house ActiveOcl analyzer 
+- and the optional one (in the org.eclipse.gmf.tooling.runtime.ocl.impactanalyzer fragment) which is based on Eclipse MDT OCL ImpactAnalyzer
+      </documentation>
+   </annotation>
+
+
+</schema>
