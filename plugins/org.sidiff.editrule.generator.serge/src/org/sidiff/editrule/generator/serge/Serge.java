@@ -271,7 +271,7 @@ public class Serge implements IEditRuleGenerator {
 		SubMonitor progress = SubMonitor.convert(monitor, 40);
 		
 		// Load config's DTD
-		try (InputStream inStream = IOUtil.openInputStream(PLUGIN_NAME, "/config/Editrulesgeneratorconfig.dtdmap.xml")) {
+		try (InputStream inStream = IOUtil.openInputStream(PLUGIN_NAME, "/resources/Editrulesgeneratorconfig.dtdmap.xml")) {
 			XMLResolver.getInstance().includeMapping(inStream);
 		} catch (IOException e) {
 			throw new EditRuleGenerationException(
@@ -285,7 +285,7 @@ public class Serge implements IEditRuleGenerator {
 		if (settings.getConfigPath() == null) {
 			progress.subTask("Setting up default configuration..");
 			try {
-				settings.setConfigPath(IOUtil.getAbsolutePath(PLUGIN_NAME, "/config/DefaultConfigTemplate.xml").toString());
+				settings.setConfigPath(IOUtil.getAbsolutePath(PLUGIN_NAME, "/resources/DefaultConfigTemplate.xml").toString());
 				ConfigurationParser parser = new ConfigurationParser();
 				parser.setupDefaultConfig(settings.getMetaModelNsUri(), Paths.get(settings.getConfigPath()));
 				progress.worked(20);
